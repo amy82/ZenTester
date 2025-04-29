@@ -95,7 +95,7 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
             Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 3500, 500 , 3500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
 
-            Globalo.visionManager.aoiTester
+            Globalo.visionManager.aoiTester.CirCleFind(0);
 
         }
 
