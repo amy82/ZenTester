@@ -17,8 +17,8 @@ namespace ZenHandler.VisionClass
 
         private Dictionary<int, IntPtr> _cameraDisplayHandles = new Dictionary<int, IntPtr>();
 
-        public MilLibrary milLibrary;
-
+        public MilLibraryUtil milLibrary;
+        public AoiTester aoiTester;
         public Action<Bitmap> OnCamera1Frame;
         public Action<Bitmap> OnCamera2Frame;
 
@@ -41,18 +41,19 @@ namespace ZenHandler.VisionClass
 
         public VisionManager(int camWidth , int camHeight)
         {
+            Event.EventManager.PgExitCall += OnPgExit;
             CamControlWidth = camWidth;
             CamControlHeight = camHeight;
 
         }
-
+        
         public void MilSet()
         {
             int i = 0;
             
 
-            milLibrary = new MilLibrary();
-            
+            milLibrary = new MilLibraryUtil();
+            aoiTester = new AoiTester();
 
             milLibrary.AllocMilApplication(CamControlWidth, CamControlHeight);
 
@@ -73,7 +74,13 @@ namespace ZenHandler.VisionClass
 
             StartCameras();
         }
-        
+        private void OnPgExit(object sender, EventArgs e)
+        {
+            StopCamera1();
+            StopCamera2();
+
+            milLibrary.MilClose();
+        }
         private Bitmap GetCamera1Frame()    // TODO: 실제 카메라 SDK에서 프레임 얻는 메서드로 바꿔야 함
         {
             // 예시: 카메라 SDK에서 프레임 가져오기
@@ -119,24 +126,34 @@ namespace ZenHandler.VisionClass
             {
                 Console.WriteLine("ThreadInterruptedException StartCamera1 :" + err);
             }
+
+            Console.WriteLine("StartCamera1 end");
         }
 
         private void StartCamera2()
         {
             camera2TokenSource = new CancellationTokenSource();
             CancellationToken token = camera2TokenSource.Token;
-
-            Task.Run(() =>
+            try
             {
-                while (!token.IsCancellationRequested)
+                Task.Run(() =>
                 {
-                    //Bitmap frame = GetCamera2Frame(); // 여기도 카메라 SDK
-                    //OnCamera2Frame?.Invoke(frame);
+                    while (!token.IsCancellationRequested)
+                    {
+                        //Bitmap frame = GetCamera2Frame(); // 여기도 카메라 SDK
+                        //OnCamera2Frame?.Invoke(frame);
 
-                    milLibrary.MilGrabRun(1);
-                    Thread.Sleep(10);
-                }
-            }, token);
+                        milLibrary.MilGrabRun(1);
+                        Thread.Sleep(10);
+                    }
+                }, token);
+            }
+            catch (ThreadInterruptedException err)
+            {
+                Console.WriteLine("ThreadInterruptedException StartCamera1 :" + err);
+            }
+
+            Console.WriteLine("StartCamera1 end");
         }
         private void StopCamera1()
         {

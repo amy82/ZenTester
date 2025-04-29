@@ -91,8 +91,12 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.ClearOverlay(0);
             Globalo.visionManager.milLibrary.DrawOverlayText(0, new Point(100,100), "overlay test", Color.Yellow, 30);
 
-            Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
-            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, m_clRect, Color.Blue, 20, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 3500, 500 , 3500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+
+            Globalo.visionManager.aoiTester
+
         }
 
         private void btn_TopCam_Image_Load_Click(object sender, EventArgs e)
@@ -107,6 +111,7 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(0, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Globalo.visionManager.milLibrary.ClearOverlay(0);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(0, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -149,6 +154,7 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(1, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Globalo.visionManager.milLibrary.ClearOverlay(1);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(1, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);

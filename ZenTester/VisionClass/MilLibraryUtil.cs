@@ -10,12 +10,12 @@ using Matrox.MatroxImagingLibrary;
 
 namespace ZenHandler.VisionClass
 {
-    public class MilLibrary
+    public class MilLibraryUtil
     {
         public MIL_ID MilApplication = MIL.M_NULL;         // Application identifier.
-        
-        public List<MIL_ID> MilDigitizerList { get; set; } = new List<MIL_ID>();
 
+        //public List<MIL_ID> MilDigitizerList { get; set; } = new List<MIL_ID>();
+        public MIL_ID[] MilDigitizerList;
         public MIL_ID MilSystem = MIL.M_NULL;              // System identifier.
         public MIL_ID[] MilCamDisplay;                        // Display identifier.
         public int TotalCamCount = 0;
@@ -35,7 +35,7 @@ namespace ZenHandler.VisionClass
         public MIL_ID[] MilCamOverlayImage;
 
 
-        public byte[][][] m_pImgBuff = new byte[1][][];
+        ///public byte[][][] m_pImgBuff = new byte[1][][];
 
 
 
@@ -51,10 +51,46 @@ namespace ZenHandler.VisionClass
         private double yReduce = 0.0;
 
 
-        public MilLibrary()
+        public MilLibraryUtil()
         {
-            MilDigitizerList.Clear();
+            MilDigitizerList = new MIL_ID[CamFixCount];
+            MilDigitizerList[0] = MIL.M_NULL;
+            MilDigitizerList[1] = MIL.M_NULL;
         }
+
+        public void MilClose()
+        {
+            int i = 0;
+
+            // Stop continuous grab.
+
+            for (i = 0; i < CamFixCount; i++)
+            {
+                MIL.MdigHalt(MilDigitizerList[i]);
+                
+                MIL.MdispSelect(MilCamDisplay[i], MIL.M_NULL);
+                MIL.MbufFree(MilCamGrabImage[i]);
+                MIL.MbufFree(MilCamGrabImageChild[i]);
+                MIL.MbufFree(MilCamGrabImageChild[i]);
+                MIL.MbufFree(MilCamSmallImage[i]);
+                MIL.MbufFree(MilCamSmallImageChild[i]);
+                MIL.MbufFree(MilCamOverlay[i]);
+                MIL.MbufFree(MilCamOverlayImage[i]);
+
+                MIL.MdigFree(MilDigitizerList[i]);
+
+            }
+
+            MIL.MdispFree(MilCamDisplay[0]);
+            MIL.MdispFree(MilCamDisplay[1]);
+
+            MIL.MsysFree(MilSystem);
+            if (MilApplication != MIL.M_NULL)
+            {
+                MIL.MappFree(MilApplication);
+            }
+        }
+        
         public void setCamSize(double _rx , double _ry)
         {
             
@@ -80,7 +116,7 @@ namespace ZenHandler.VisionClass
         }
         public void MilGrabRun(int index)
         {
-            if (bGrabOnFlag[index] == true)
+            if (bGrabOnFlag[index] == true && MilDigitizerList[index] != MIL.M_NULL)
             {
                 MIL.MdigGrab(MilDigitizerList[index], MilCamGrabImage[index]);
                 MIL.MdigGrabWait(MilDigitizerList[index], MIL.M_GRAB_END);
@@ -178,10 +214,8 @@ namespace ZenHandler.VisionClass
                 MIL.MgraControl(MIL.M_DEFAULT, MIL.M_BACKGROUND_MODE, MIL.M_TRANSPARENT);
             }
         }
-        public void DrawOverlayArrow(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
+        public void DrawOverlayArrow(int index, int x1 , int y1 , int x2 , int y2, Color color, int nWid, DashStyle nStyles)
         {
-            
-
             IntPtr hOverlayDC = IntPtr.Zero;
 
             MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
@@ -195,12 +229,19 @@ namespace ZenHandler.VisionClass
                     {
                         arrowPen.DashStyle = nStyles;
 
-                        arrowPen.CustomEndCap = new AdjustableArrowCap(6, 6, true);  // 크기 조절 가능
+                        // 양쪽 화살촉을 설정
+                        AdjustableArrowCap arrowCap = new AdjustableArrowCap(6, 6, true);
+                        arrowPen.StartCap = LineCap.Custom;
+                        arrowPen.EndCap = LineCap.Custom;
+                        arrowPen.CustomStartCap = arrowCap;
+                        arrowPen.CustomEndCap = arrowCap;
 
-                        int startX = (int)(100 * xReduce + 0.5);
-                        int startY = (int)(100 * yReduce + 0.5);
-                        int endX = (int)(3000 * xReduce + 0.5);
-                        int endY = (int)(1500 * yReduce + 0.5);
+                        //arrowPen.CustomEndCap = new AdjustableArrowCap(6, 6, true);  // 크기 조절 가능
+
+                        int startX = (int)(x1 * xReduce + 0.5);
+                        int startY = (int)(y1 * yReduce + 0.5);
+                        int endX = (int)(x2 * xReduce + 0.5);
+                        int endY = (int)(y2 * yReduce + 0.5);
 
                         DrawingGraphics.DrawLine(arrowPen, startX, startY, endX, endY);
                     }
@@ -355,14 +396,11 @@ namespace ZenHandler.VisionClass
             {
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    MIL_ID digitizer = MIL.M_NULL;
-                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref digitizer);
-                    MilDigitizerList.Add(digitizer);
-
+                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
                     bGrabOnFlag[i] = true;
                 }
 
-                for (i = 0; i < MilDigitizerList.Count; i++)
+                for (i = 0; i < TotalCamCount; i++)
                 {
                     MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_ASYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
                     MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 1000);
@@ -389,6 +427,7 @@ namespace ZenHandler.VisionClass
 
 
             //카메라 2개라서 고정 : 2
+            
             MilCamDisplay = new MIL_ID[CamFixCount];
             MilCamGrabImage = new MIL_ID[CamFixCount];
             MilCamGrabImageChild = new MIL_ID[CamFixCount];
