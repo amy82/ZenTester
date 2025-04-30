@@ -29,6 +29,227 @@ namespace ZenHandler.VisionClass
 
             MIL.MbufExport("D:\\TEST.BMP", MIL.M_BMP, MilSubImage01);
         }
+        public void MmetTest(int index)
+        {
+            // Region parameters
+            const int TOP_RING_POSITION_X = 2038;
+            const int TOP_RING_POSITION_Y = 1448;
+            const int TOP_RING_START_RADIUS = 320;
+            const int TOP_RING_END_RADIUS = 390;
+
+            const int MIDDLE_RING_POSITION_X = 2038;
+            const int MIDDLE_RING_POSITION_Y = 1448;
+            const int MIDDLE_RING_START_RADIUS = 800;
+            const int MIDDLE_RING_END_RADIUS = 850;
+
+            const int BOTTOM_RECT_POSITION_X = 320;
+            const int BOTTOM_RECT_POSITION_Y = 265;
+            const int BOTTOM_RECT_WIDTH = 170;
+            const int BOTTOM_RECT_HEIGHT = 20;
+            const int BOTTOM_RECT_ANGLE = 180;
+
+            // Tolerance parameters
+            const double PERPENDICULARITY_MIN = 0.5;
+            const double PERPENDICULARITY_MAX = 0.5;
+
+            // Color definitions
+            double FAIL_COLOR = MIL.M_RGB888(255, 0, 0);
+            double PASS_COLOR = MIL.M_RGB888(0, 255, 0);
+            double REGION_COLOR = MIL.M_RGB888(0, 100, 255);
+            double FEATURE_COLOR = MIL.M_RGB888(255, 0, 255);
+
+            MIL_ID MilImage = MIL.M_NULL;                    // Image buffer identifier.
+            MIL_ID GraphicList = MIL.M_NULL;                 // Graphic list identifier.
+            MIL_ID MilMetrolContext = MIL.M_NULL;            // Metrology Context
+            MIL_ID MilMetrolResult = MIL.M_NULL;             // Metrology Result
+
+            double Status = 0.0;
+            double Value = 0.0;
+            MIL_INT FeatureIndexForTopConstructedPoint = MIL.M_FEATURE_INDEX(1);
+            MIL_INT FeatureIndexForMiddleConstructedPoint = MIL.M_FEATURE_INDEX(2);
+            MIL_INT[] FeatureIndexForConstructedSegment = new MIL_INT[2];
+            MIL_INT[] FeatureIndexForTolerance = new MIL_INT[2];
+            FeatureIndexForConstructedSegment[0] = MIL.M_FEATURE_INDEX(3);
+            FeatureIndexForConstructedSegment[1] = MIL.M_FEATURE_INDEX(4);
+            FeatureIndexForTolerance[0] = MIL.M_FEATURE_INDEX(5);
+            FeatureIndexForTolerance[1] = MIL.M_FEATURE_INDEX(6);
+
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilImage);
+            // Restore and display the source image.
+            //MIL.MbufRestore(METROL_SIMPLE_IMAGE_FILE, MilSystem, ref MilImage);
+            //MIL.MdispSelect(MilDisplay, MilImage);
+
+            // Allocate a graphic list to hold the subpixel annotations to draw.
+            //MIL.MgraAllocList(MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            // Allocate a graphic list to hold the subpixel annotations to draw.
+            //MIL.MgraAllocList(MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            // Associate the graphic list to the display for annotations.
+            //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            // Allocate metrology context and result.
+            MIL.MmetAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilMetrolContext);
+            MIL.MmetAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilMetrolResult);
+            
+            
+
+            int setFineCircleCount = 5;
+            int[] RingPositionX = { 2033, 2033, 2033,  0, 0};
+            int[] RingPositionY = { 1436, 1437, 1437,  0, 0}; 
+            int[] RingStartRadius = { 0, 320, 800,  0, 0};
+            int[] RingEndRadius = { 21, 390, 850,  0, 0};
+
+            for (int i = 0; i < setFineCircleCount; i++)
+            {
+                MIL.MmetAddFeature(MilMetrolContext, MIL.M_MEASURED, MIL.M_CIRCLE, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_NULL, MIL.M_NULL, 0, MIL.M_DEFAULT);
+                MIL.MmetSetRegion(MilMetrolContext, MIL.M_FEATURE_INDEX(1 + i), MIL.M_DEFAULT, MIL.M_RING,
+                          RingPositionX[i], RingPositionY[i], RingStartRadius[i], RingEndRadius[i], 
+                          MIL.M_NULL, MIL.M_NULL);
+            }
+
+            //// Add a first measured circle feature to context and set its search region
+            //MIL.MmetAddFeature(MilMetrolContext, MIL.M_MEASURED, MIL.M_CIRCLE, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_NULL, MIL.M_NULL, 0, MIL.M_DEFAULT);
+
+
+            //MIL.MmetSetRegion(MilMetrolContext, MIL.M_FEATURE_INDEX(1), MIL.M_DEFAULT, MIL.M_RING,
+            //              TOP_RING_POSITION_X, TOP_RING_POSITION_Y, TOP_RING_START_RADIUS,
+            //              TOP_RING_END_RADIUS, MIL.M_NULL, MIL.M_NULL);
+
+            //// Add a second measured circle feature to context and set its search region
+            //MIL.MmetAddFeature(MilMetrolContext, MIL.M_MEASURED, MIL.M_CIRCLE, MIL.M_DEFAULT,MIL.M_DEFAULT, MIL.M_NULL, MIL.M_NULL, 0, MIL.M_DEFAULT);
+
+            //MIL.MmetSetRegion(MilMetrolContext, MIL.M_FEATURE_INDEX(2), MIL.M_DEFAULT, MIL.M_RING,
+            //              MIDDLE_RING_POSITION_X, MIDDLE_RING_POSITION_Y, MIDDLE_RING_START_RADIUS,
+            //              MIDDLE_RING_END_RADIUS, MIL.M_NULL, MIL.M_NULL);
+
+            // Add a first constructed point feature to context
+            MIL.MmetAddFeature(MilMetrolContext, MIL.M_CONSTRUCTED, MIL.M_POINT, MIL.M_DEFAULT,MIL.M_CENTER, ref FeatureIndexForTopConstructedPoint, MIL.M_NULL, 1, MIL.M_DEFAULT);
+
+            // Add a second constructed point feature to context
+            MIL.MmetAddFeature(MilMetrolContext, MIL.M_CONSTRUCTED, MIL.M_POINT, MIL.M_DEFAULT,
+                           MIL.M_CENTER, ref FeatureIndexForMiddleConstructedPoint, MIL.M_NULL, 1, MIL.M_DEFAULT);
+
+            // Add a constructed segment feature to context passing through the two points
+            MIL.MmetAddFeature(MilMetrolContext, MIL.M_CONSTRUCTED, MIL.M_SEGMENT, MIL.M_DEFAULT,
+                           MIL.M_CONSTRUCTION, FeatureIndexForConstructedSegment, MIL.M_NULL, 2, MIL.M_DEFAULT);
+
+            // Add a first segment feature to context and set its search region
+            MIL.MmetAddFeature(MilMetrolContext, MIL.M_MEASURED, MIL.M_SEGMENT, MIL.M_DEFAULT,
+                           MIL.M_DEFAULT, MIL.M_NULL, MIL.M_NULL, 0, MIL.M_DEFAULT);
+
+            MIL.MmetSetRegion(MilMetrolContext, MIL.M_FEATURE_INDEX(6), MIL.M_DEFAULT, MIL.M_RECTANGLE,
+                          BOTTOM_RECT_POSITION_X, BOTTOM_RECT_POSITION_Y, BOTTOM_RECT_WIDTH,
+                          BOTTOM_RECT_HEIGHT, BOTTOM_RECT_ANGLE, MIL.M_NULL);
+
+            // Add perpendicularity tolerance
+            MIL.MmetAddTolerance(MilMetrolContext, MIL.M_PERPENDICULARITY, MIL.M_DEFAULT, PERPENDICULARITY_MIN,
+                             PERPENDICULARITY_MAX, FeatureIndexForTolerance, MIL.M_NULL, 2, MIL.M_DEFAULT);
+
+            // Calculate
+            MIL.MmetCalculate(MilMetrolContext, MilImage, MilMetrolResult, MIL.M_DEFAULT);
+
+            // Draw region
+            MIL.MgraColor(MIL.M_DEFAULT, REGION_COLOR);
+            MIL.MmetDraw(MIL.M_DEFAULT, MilMetrolResult, GraphicList, MIL.M_DRAW_REGION, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            Console.Write("Regions used to calculate measured features:\n");
+            Console.Write("- two measured circles\n");
+            Console.Write("- one measured segment\n");
+            Console.Write("Press <Enter> to continue.\n\n");
+            //Console.ReadKey();
+
+
+            // Clear annotations.
+            MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
+
+            MIL.MgraColor(MIL.M_DEFAULT, FEATURE_COLOR);
+            MIL.MmetDraw(MIL.M_DEFAULT, MilMetrolResult, GraphicList, MIL.M_DRAW_FEATURE, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            Console.Write("Calculated features:\n");
+
+            double centerX = 0.0;
+            double centerY = 0.0;
+
+            MIL_INT valid = 0;
+            MIL.MmetGetResult(MilMetrolResult, MIL.M_DEFAULT, MIL.M_NUMBER + MIL.M_TYPE_MIL_INT, ref valid);
+            Console.WriteLine($"측정된 피처 수: {valid}");
+
+
+
+            Globalo.visionManager.milLibrary.ClearOverlay(1);
+            for (int i = 0; i < setFineCircleCount; i++)
+            {
+                MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1 + i), MIL.M_RADIUS, ref Value);
+                MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1+i), MIL.M_POSITION_X, ref centerX);
+                MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1+i), MIL.M_POSITION_Y, ref centerY);
+
+                Console.Write("[{0:0}] measured circle: radius={0:0.00}\n", i+1, Value);
+                Console.Write("[{0:0}] measured circle: x = {1:0.00}, y = {2:0.00}\n", i + 1, centerX, centerY);
+                if (Value > 0.0)
+                {
+                    Rectangle m_clRect = new Rectangle((int)(centerX - (Value)), (int)(centerY - (Value)), (int)(Value * 2), (int)(Value * 2));
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                }
+                
+            }
+
+
+            //MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1), MIL.M_RADIUS, ref Value);
+            //Console.Write("- first measured circle:  radius={0:0.00}\n", Value);
+
+            //MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1), MIL.M_POSITION_X, ref centerX);
+            //MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1), MIL.M_POSITION_Y, ref centerY); 
+            //Console.Write("- first measured circle:  x = {0:0.00}, y = {0:0.00}\n", centerX, centerY);
+
+            //Rectangle m_clRect = new Rectangle((int)(centerX - (Value)), (int)(centerY - (Value)), (int)(Value * 2), (int)(Value * 2));
+            //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+
+            //MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(2), MIL.M_RADIUS, ref Value);
+            //Console.Write("- second measured circle: radius={0:0.00}\n", Value);
+            //MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(2), MIL.M_POSITION_X, ref centerX);
+            //MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(2), MIL.M_POSITION_Y, ref centerY);
+            //m_clRect = new Rectangle((int)(centerX - (Value)), (int)(centerY - (Value)), (int)(Value * 2), (int)(Value * 2));
+            //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+
+
+
+
+
+            MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(5), MIL.M_LENGTH, ref Value);
+            Console.Write("- constructed segment between the two circle centers: length={0:0.00}\n", Value);
+
+            MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(6), MIL.M_LENGTH, ref Value);
+            Console.Write("- measured segment: length={0:0.00}\n", Value);
+
+            Console.Write("Press <Enter> to continue.\n\n");
+            //Console.ReadKey();
+
+
+            // Get angularity tolerance status and value
+            MIL.MmetGetResult(MilMetrolResult, MIL.M_TOLERANCE_INDEX(0), MIL.M_STATUS, ref Status);
+            MIL.MmetGetResult(MilMetrolResult, MIL.M_TOLERANCE_INDEX(0), MIL.M_TOLERANCE_VALUE, ref Value);
+
+            if (Status == MIL.M_PASS)
+            {
+                MIL.MgraColor(MIL.M_DEFAULT, PASS_COLOR);
+                Console.Write("Perpendicularity between the two segments: {0:0.00} degrees.\n", Value);
+            }
+            else
+            {
+                MIL.MgraColor(MIL.M_DEFAULT, FAIL_COLOR);
+                Console.Write("Perpendicularity between the two segments - Fail.\n");
+            }
+            //MIL.MmetDraw(MIL.M_DEFAULT, MilMetrolResult, GraphicList, MIL.M_DRAW_TOLERANCE, MIL.M_TOLERANCE_INDEX(0), MIL.M_DEFAULT);
+
+            Console.Write("Press <Enter> to continue.\n\n");
+            //Console.ReadKey();
+
+            // Free all allocations.
+            MIL.MgraFree(GraphicList);
+            MIL.MmetFree(MilMetrolResult);
+            MIL.MmetFree(MilMetrolContext);
+            MIL.MbufFree(MilImage);
+
+
+        }
         public void SimpleCircleSearchExample(int index)
         {
             MIL_ID MilImage = MIL.M_NULL;
@@ -44,7 +265,7 @@ namespace ZenHandler.VisionClass
             MIL_INT NumResults = 0L;                  /* Number of results found.    */
 
             MIL_ID NUMBER_OF_MODELS = 18L;
-            double MODEL_RADIUS = 1045.0;
+            double MODEL_RADIUS = 400.0; 
             double Time = 0.0;
             int i;                                /* Loop variable.              */
 
@@ -114,7 +335,7 @@ namespace ZenHandler.VisionClass
             //MIL.MosPrintf(MIL_TEXT("a nominal radius of %-3.1f%.\n\n"), MODEL_RADIUS);
 
             Console.WriteLine($"fine circle : {NumResults}");
-
+            Globalo.visionManager.milLibrary.ClearOverlay(1);
             //If a model was found above the acceptance threshold.
             if ((NumResults >= 1) && (NumResults <= MODEL_MAX_OCCURRENCES))
             {
@@ -131,6 +352,7 @@ namespace ZenHandler.VisionClass
                 for (i = 0; i < NumResults; i++)
                 {
                     //MIL.MosPrintf(MIL_TEXT("%-9d%-13.2f%-13.2f%-8.2f%-5.2f%%\n"), i, XPosition[i],YPosition[i], Radius[i], Score[i]);
+                    Console.Write("[{0:0}] circle: x = {1:0.00}, y = {2:0.00}, radius = {3:0.00}, score = {4:0.00}\n", i + 1, XPosition[i], YPosition[i], Radius[i], Score[i]);
                     Rectangle m_clRect = new Rectangle((int)(XPosition[i] - (Radius[i])), (int)(YPosition[i] - (Radius[i])), (int)(Radius[i] * 2), (int)(Radius[i] * 2));
                     Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
@@ -356,10 +578,10 @@ namespace ZenHandler.VisionClass
             double CIRCLE_CENTER_X = 2030.0;
             double CIRCLE_CENTER_Y = 1434.0;
             double CIRCLE_RADIUS = 780.0;
-            double EDGE_THRESHOLD_VALUE = 20.0;
+            double EDGE_THRESHOLD_VALUE = 30.0;
 
-            double MAX_CONTOUR_DEVIATION_OFFSET = 5.0;
-            double MAX_CONTOUR_FOUND_OFFSET = 20.0;
+            double MAX_CONTOUR_DEVIATION_OFFSET = 30.0;
+            double MAX_CONTOUR_FOUND_OFFSET = 500.0;
             double MaximumOffset = 0.0;     // Maximum offset result value.
 
 
@@ -506,8 +728,8 @@ namespace ZenHandler.VisionClass
             Console.Write(" -The maximum offset value is {0:0.00} pixels.\n\n", MaximumOffset);
 
             // Pause to show the result.
-            Console.Write("Press <Enter> to terminate.\n");
-            Console.ReadKey();
+            //Console.Write("Press <Enter> to terminate.\n");
+            //Console.ReadKey();
 
             // Free all allocations.
             MIL.MbeadFree(MilBeadContext);

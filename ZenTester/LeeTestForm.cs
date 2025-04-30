@@ -15,6 +15,8 @@ namespace ZenHandler
         public LeeTestForm()
         {
             InitializeComponent();
+            this.TopMost = true;
+            this.CenterToScreen();
         }
 
         private void button_Con1_Test_Click(object sender, EventArgs e)
@@ -29,12 +31,17 @@ namespace ZenHandler
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            Globalo.visionManager.aoiTester.SimpleCircleSearchExample(0);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.aoiTester.SimpleCircleSearchExample(1);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.MmetTest(1);
         }
     }
 }

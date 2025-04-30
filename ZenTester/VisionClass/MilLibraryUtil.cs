@@ -197,10 +197,10 @@ namespace ZenHandler.VisionClass
                 using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
                 {
                     // Draw a blue cross.
-                    using (Pen DrawingPen = new Pen(Color.Blue))
+                    using (Pen DrawingPen = new Pen(color))
                     {
                         DrawingPen.DashStyle = nStyles;
-                        DrawingPen.Width = nWid;
+                        DrawingPen.Width = nWid; 
 
                         int x1 = (int)((clRect.X * xReduce) + 0.5);
                         int y1 = (int)((clRect.Y * yReduce) + 0.5);
