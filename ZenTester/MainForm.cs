@@ -583,5 +583,12 @@ namespace ZenHandler  //ApsMotionControl
         {
             Application.RemoveMessageFilter(keyMessageFilter);  // 메시지 필터 제거
         }
+
+        private void BTN_TOP_CLIENT_Click(object sender, EventArgs e)
+        {
+            LeeTestForm popupForm = new LeeTestForm();
+
+            popupForm.ShowDialog();
+        }
     }
 }

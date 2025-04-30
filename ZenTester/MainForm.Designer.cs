@@ -31,19 +31,19 @@ namespace ZenHandler
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.RightPanel = new System.Windows.Forms.Panel();
-            this.MainTitleLabel = new System.Windows.Forms.Label();
-            this.MainTitlepictureBox = new System.Windows.Forms.PictureBox();
-            this.BTN_TOP_MES = new System.Windows.Forms.Button();
-            this.BTN_TOP_CLIENT = new System.Windows.Forms.Button();
-            this.BTN_TOP_CCD = new System.Windows.Forms.Button();
-            this.BTN_TOP_LOG = new System.Windows.Forms.Button();
-            this.TopPanel = new System.Windows.Forms.Panel();
             this.BottomPanel = new System.Windows.Forms.Panel();
+            this.RightPanel = new System.Windows.Forms.Panel();
+            this.TopPanel = new System.Windows.Forms.Panel();
+            this.BTN_TOP_LOG = new System.Windows.Forms.Button();
+            this.BTN_TOP_CCD = new System.Windows.Forms.Button();
+            this.BTN_TOP_CLIENT = new System.Windows.Forms.Button();
+            this.BTN_TOP_MES = new System.Windows.Forms.Button();
+            this.MainTitlepictureBox = new System.Windows.Forms.PictureBox();
+            this.MainTitleLabel = new System.Windows.Forms.Label();
             this.LeftPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).BeginInit();
             this.TopPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -67,6 +67,16 @@ namespace ZenHandler
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1481, 800);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // BottomPanel
+            // 
+            this.BottomPanel.BackColor = System.Drawing.Color.Gainsboro;
+            this.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BottomPanel.Location = new System.Drawing.Point(0, 775);
+            this.BottomPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.BottomPanel.Name = "BottomPanel";
+            this.BottomPanel.Size = new System.Drawing.Size(1331, 25);
+            this.BottomPanel.TabIndex = 4;
+            // 
             // RightPanel
             // 
             this.RightPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(71)))), ((int)(((byte)(67)))));
@@ -77,83 +87,6 @@ namespace ZenHandler
             this.tableLayoutPanel1.SetRowSpan(this.RightPanel, 2);
             this.RightPanel.Size = new System.Drawing.Size(150, 740);
             this.RightPanel.TabIndex = 3;
-            // 
-            // MainTitleLabel
-            // 
-            this.MainTitleLabel.AutoSize = true;
-            this.MainTitleLabel.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 17.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.MainTitleLabel.ForeColor = System.Drawing.Color.DarkGray;
-            this.MainTitleLabel.Location = new System.Drawing.Point(74, 14);
-            this.MainTitleLabel.Name = "MainTitleLabel";
-            this.MainTitleLabel.Size = new System.Drawing.Size(175, 26);
-            this.MainTitleLabel.TabIndex = 0;
-            this.MainTitleLabel.Text = "ZEN TESTER V1";
-            // 
-            // MainTitlepictureBox
-            // 
-            this.MainTitlepictureBox.Image = global::ZenHandler.Properties.Resources.mainTitle;
-            this.MainTitlepictureBox.Location = new System.Drawing.Point(19, 10);
-            this.MainTitlepictureBox.Name = "MainTitlepictureBox";
-            this.MainTitlepictureBox.Size = new System.Drawing.Size(43, 36);
-            this.MainTitlepictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.MainTitlepictureBox.TabIndex = 10;
-            this.MainTitlepictureBox.TabStop = false;
-            // 
-            // BTN_TOP_MES
-            // 
-            this.BTN_TOP_MES.BackColor = System.Drawing.Color.Transparent;
-            this.BTN_TOP_MES.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.BTN_TOP_MES.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_TOP_MES.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_TOP_MES.Location = new System.Drawing.Point(700, 2);
-            this.BTN_TOP_MES.Name = "BTN_TOP_MES";
-            this.BTN_TOP_MES.Size = new System.Drawing.Size(101, 27);
-            this.BTN_TOP_MES.TabIndex = 11;
-            this.BTN_TOP_MES.Text = "MES";
-            this.BTN_TOP_MES.UseVisualStyleBackColor = false;
-            this.BTN_TOP_MES.Click += new System.EventHandler(this.BTN_TOP_MES_Click);
-            // 
-            // BTN_TOP_CLIENT
-            // 
-            this.BTN_TOP_CLIENT.BackColor = System.Drawing.Color.Transparent;
-            this.BTN_TOP_CLIENT.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.BTN_TOP_CLIENT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_TOP_CLIENT.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_TOP_CLIENT.Location = new System.Drawing.Point(700, 31);
-            this.BTN_TOP_CLIENT.Name = "BTN_TOP_CLIENT";
-            this.BTN_TOP_CLIENT.Size = new System.Drawing.Size(101, 27);
-            this.BTN_TOP_CLIENT.TabIndex = 12;
-            this.BTN_TOP_CLIENT.Text = "CLIENT";
-            this.BTN_TOP_CLIENT.UseVisualStyleBackColor = false;
-            // 
-            // BTN_TOP_CCD
-            // 
-            this.BTN_TOP_CCD.BackColor = System.Drawing.Color.Transparent;
-            this.BTN_TOP_CCD.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.BTN_TOP_CCD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_TOP_CCD.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_TOP_CCD.Location = new System.Drawing.Point(1094, 28);
-            this.BTN_TOP_CCD.Name = "BTN_TOP_CCD";
-            this.BTN_TOP_CCD.Size = new System.Drawing.Size(75, 29);
-            this.BTN_TOP_CCD.TabIndex = 13;
-            this.BTN_TOP_CCD.Text = "CCD";
-            this.BTN_TOP_CCD.UseVisualStyleBackColor = false;
-            this.BTN_TOP_CCD.Visible = false;
-            this.BTN_TOP_CCD.Click += new System.EventHandler(this.BTN_TOP_CCD_Click);
-            // 
-            // BTN_TOP_LOG
-            // 
-            this.BTN_TOP_LOG.BackColor = System.Drawing.Color.LightPink;
-            this.BTN_TOP_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_TOP_LOG.Font = new System.Drawing.Font("Nirmala UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_TOP_LOG.ForeColor = System.Drawing.Color.White;
-            this.BTN_TOP_LOG.Image = global::ZenHandler.Properties.Resources.RightTop_logo;
-            this.BTN_TOP_LOG.Location = new System.Drawing.Point(300, 4);
-            this.BTN_TOP_LOG.Margin = new System.Windows.Forms.Padding(0);
-            this.BTN_TOP_LOG.Name = "BTN_TOP_LOG";
-            this.BTN_TOP_LOG.Size = new System.Drawing.Size(150, 56);
-            this.BTN_TOP_LOG.TabIndex = 14;
-            this.BTN_TOP_LOG.UseVisualStyleBackColor = false;
             // 
             // TopPanel
             // 
@@ -172,15 +105,83 @@ namespace ZenHandler
             this.TopPanel.Size = new System.Drawing.Size(1481, 60);
             this.TopPanel.TabIndex = 0;
             // 
-            // BottomPanel
+            // BTN_TOP_LOG
             // 
-            this.BottomPanel.BackColor = System.Drawing.Color.Gainsboro;
-            this.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BottomPanel.Location = new System.Drawing.Point(0, 775);
-            this.BottomPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.BottomPanel.Name = "BottomPanel";
-            this.BottomPanel.Size = new System.Drawing.Size(1331, 25);
-            this.BottomPanel.TabIndex = 4;
+            this.BTN_TOP_LOG.BackColor = System.Drawing.Color.LightPink;
+            this.BTN_TOP_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_TOP_LOG.Font = new System.Drawing.Font("Nirmala UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_TOP_LOG.ForeColor = System.Drawing.Color.White;
+            this.BTN_TOP_LOG.Image = global::ZenHandler.Properties.Resources.RightTop_logo;
+            this.BTN_TOP_LOG.Location = new System.Drawing.Point(300, 4);
+            this.BTN_TOP_LOG.Margin = new System.Windows.Forms.Padding(0);
+            this.BTN_TOP_LOG.Name = "BTN_TOP_LOG";
+            this.BTN_TOP_LOG.Size = new System.Drawing.Size(150, 56);
+            this.BTN_TOP_LOG.TabIndex = 14;
+            this.BTN_TOP_LOG.UseVisualStyleBackColor = false;
+            // 
+            // BTN_TOP_CCD
+            // 
+            this.BTN_TOP_CCD.BackColor = System.Drawing.Color.Transparent;
+            this.BTN_TOP_CCD.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.BTN_TOP_CCD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_TOP_CCD.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_TOP_CCD.Location = new System.Drawing.Point(1094, 28);
+            this.BTN_TOP_CCD.Name = "BTN_TOP_CCD";
+            this.BTN_TOP_CCD.Size = new System.Drawing.Size(75, 29);
+            this.BTN_TOP_CCD.TabIndex = 13;
+            this.BTN_TOP_CCD.Text = "CCD";
+            this.BTN_TOP_CCD.UseVisualStyleBackColor = false;
+            this.BTN_TOP_CCD.Visible = false;
+            this.BTN_TOP_CCD.Click += new System.EventHandler(this.BTN_TOP_CCD_Click);
+            // 
+            // BTN_TOP_CLIENT
+            // 
+            this.BTN_TOP_CLIENT.BackColor = System.Drawing.Color.Transparent;
+            this.BTN_TOP_CLIENT.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.BTN_TOP_CLIENT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_TOP_CLIENT.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_TOP_CLIENT.Location = new System.Drawing.Point(700, 31);
+            this.BTN_TOP_CLIENT.Name = "BTN_TOP_CLIENT";
+            this.BTN_TOP_CLIENT.Size = new System.Drawing.Size(101, 27);
+            this.BTN_TOP_CLIENT.TabIndex = 12;
+            this.BTN_TOP_CLIENT.Text = "CLIENT";
+            this.BTN_TOP_CLIENT.UseVisualStyleBackColor = false;
+            this.BTN_TOP_CLIENT.Click += new System.EventHandler(this.BTN_TOP_CLIENT_Click);
+            // 
+            // BTN_TOP_MES
+            // 
+            this.BTN_TOP_MES.BackColor = System.Drawing.Color.Transparent;
+            this.BTN_TOP_MES.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.BTN_TOP_MES.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_TOP_MES.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BTN_TOP_MES.Location = new System.Drawing.Point(700, 2);
+            this.BTN_TOP_MES.Name = "BTN_TOP_MES";
+            this.BTN_TOP_MES.Size = new System.Drawing.Size(101, 27);
+            this.BTN_TOP_MES.TabIndex = 11;
+            this.BTN_TOP_MES.Text = "MES";
+            this.BTN_TOP_MES.UseVisualStyleBackColor = false;
+            this.BTN_TOP_MES.Click += new System.EventHandler(this.BTN_TOP_MES_Click);
+            // 
+            // MainTitlepictureBox
+            // 
+            this.MainTitlepictureBox.Image = global::ZenHandler.Properties.Resources.mainTitle;
+            this.MainTitlepictureBox.Location = new System.Drawing.Point(19, 10);
+            this.MainTitlepictureBox.Name = "MainTitlepictureBox";
+            this.MainTitlepictureBox.Size = new System.Drawing.Size(43, 36);
+            this.MainTitlepictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MainTitlepictureBox.TabIndex = 10;
+            this.MainTitlepictureBox.TabStop = false;
+            // 
+            // MainTitleLabel
+            // 
+            this.MainTitleLabel.AutoSize = true;
+            this.MainTitleLabel.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 17.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.MainTitleLabel.ForeColor = System.Drawing.Color.DarkGray;
+            this.MainTitleLabel.Location = new System.Drawing.Point(74, 14);
+            this.MainTitleLabel.Name = "MainTitleLabel";
+            this.MainTitleLabel.Size = new System.Drawing.Size(175, 26);
+            this.MainTitleLabel.TabIndex = 0;
+            this.MainTitleLabel.Text = "ZEN TESTER V1";
             // 
             // LeftPanel
             // 
@@ -205,9 +206,9 @@ namespace ZenHandler
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).EndInit();
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainTitlepictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
