@@ -65,6 +65,9 @@ namespace ZenHandler.Dlg
 
             Globalo.visionManager.MilSet();
 
+
+
+            
         }
         public void UpdateImage(Bitmap image)
         {

@@ -187,6 +187,10 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.pickerInfo.SetPickerInfo();
 
             Program.SetLanguage(Globalo.yamlManager.configData.DrivingSettings.Language);
+
+            LeeTestForm popupForm = new LeeTestForm();
+
+            popupForm.Show();
         }
         
         private void OnLanguageChanged(object sender, EventArgs e)
@@ -586,9 +590,7 @@ namespace ZenHandler  //ApsMotionControl
 
         private void BTN_TOP_CLIENT_Click(object sender, EventArgs e)
         {
-            LeeTestForm popupForm = new LeeTestForm();
-
-            popupForm.ShowDialog();
+            
         }
     }
 }

@@ -19,7 +19,22 @@ namespace ZenHandler
 
         private void button_Con1_Test_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.aoiTester.Con1Test(1);
+            Globalo.visionManager.aoiTester.Con1Test(0);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.Con2Test(1);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.SimpleCircleSearchExample(1);
         }
     }
 }

@@ -124,81 +124,6 @@ namespace ZenHandler.VisionClass
             }
             
         }
-        public void DrawOverlay(int index)
-        {
-            IntPtr hCustomDC = IntPtr.Zero;
-            // Draw MIL overlay annotations.
-            //*********************************
-
-            // Print a white string in the overlay image buffer.
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_WHITE);
-            MIL.MgraText(MIL.M_DEFAULT, MilCamOverlay[index], CAM_SIZE_X / 9, CAM_SIZE_Y / 5, " -------------------- ");
-            MIL.MgraText(MIL.M_DEFAULT, MilCamOverlay[index], CAM_SIZE_X / 9, CAM_SIZE_Y / 5 + 25, " - MIL Overlay Text - ");
-            MIL.MgraText(MIL.M_DEFAULT, MilCamOverlay[index], CAM_SIZE_X / 9, CAM_SIZE_Y / 5 + 50, " -------------------- ");
-
-            // Print a green string in the overlay image buffer.
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
-            MIL.MgraText(MIL.M_DEFAULT, MilCamOverlay[index], CAM_SIZE_X * 11 / 18, CAM_SIZE_Y / 5, " ---------------------");
-            MIL.MgraText(MIL.M_DEFAULT, MilCamOverlay[index], CAM_SIZE_X * 11 / 18, CAM_SIZE_Y / 5 + 25, " - MIL Overlay Text - ");
-            MIL.MgraText(MIL.M_DEFAULT, MilCamOverlay[index], CAM_SIZE_X * 11 / 18, CAM_SIZE_Y / 5 + 50, " ---------------------");
-
-            // Re-enable the overlay display after all annotations are done.
-            //MIL.MdispControl(MilCamDisplay, MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
-
-            // Draw GDI color overlay annotation.
-            //***********************************
-
-            // Set the graphic text background to transparent.
-            //MIL.MgraControl(MIL.M_DEFAULT, MIL.M_BACKGROUND_MODE, MIL.M_TRANSPARENT);
-
-            // Create a device context to draw in the overlay buffer with GDI.
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
-
-            // Inquire the device context.
-            hCustomDC = (IntPtr)MIL.MbufInquire(MilCamOverlay[index], MIL.M_DC_HANDLE, MIL.M_NULL);
-
-            MIL.MappControl(MIL.M_DEFAULT, MIL.M_ERROR, MIL.M_PRINT_ENABLE);
-
-            // Perform operation if GDI drawing is supported.
-            if (!hCustomDC.Equals(IntPtr.Zero))
-            {
-                // NOTE : The using blocks will automatically call the Dipose method on the GDI objects.
-                //        This ensures that resources are freed even if an exception occurs.
-
-                // Create a System.Drawing.Graphics object from the Device context
-                using (Graphics DrawingGraphics = Graphics.FromHdc(hCustomDC))
-                {
-                    // Draw a blue cross.
-                    using (Pen DrawingPen = new Pen(Color.Blue))
-                    {
-                        // Draw a blue cross in the overlay image
-                        DrawingGraphics.DrawLine(DrawingPen, 0, (int)(CAM_SIZE_Y / 2), CAM_SIZE_X, (int)(CAM_SIZE_Y / 2));
-                        DrawingGraphics.DrawLine(DrawingPen, (int)(CAM_SIZE_X / 2), 0, (int)(CAM_SIZE_X / 2), CAM_SIZE_Y);
-
-                        // Prepare transparent text annotations.
-                        // Define the Brushes and fonts used to draw text
-                        using (SolidBrush LeftBrush = new SolidBrush(Color.Red))
-                        {
-                            using (SolidBrush RightBrush = new SolidBrush(Color.Yellow))
-                            {
-                                using (Font OverlayFont = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold))
-                                {
-                                    // Write text in the overlay image
-                                    SizeF GDITextSize = DrawingGraphics.MeasureString("GDI Overlay Text", OverlayFont);
-                                    DrawingGraphics.DrawString("GDI Overlay Text", OverlayFont, LeftBrush, System.Convert.ToInt32(CAM_SIZE_X / 4 - GDITextSize.Width / 2), System.Convert.ToInt32(CAM_SIZE_Y * 3 / 4 - GDITextSize.Height / 2));
-                                    DrawingGraphics.DrawString("GDI Overlay Text", OverlayFont, RightBrush, System.Convert.ToInt32(CAM_SIZE_X * 3 / 4 - GDITextSize.Width / 2), System.Convert.ToInt32(CAM_SIZE_Y * 3 / 4 - GDITextSize.Height / 2));
-                                }
-                            }
-                        }
-                    }
-                }
-                //   // Delete device context.
-                MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
-
-                //   // Signal MIL that the overlay buffer was modified.
-                MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
-            }
-        }
         public void EnableCamOverlay(int index)
         {
             MIL_INT DisplayType = MIL.MdispInquire(MilCamDisplay[index], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
@@ -206,13 +131,22 @@ namespace ZenHandler.VisionClass
             if (DisplayType == (MIL.M_WINDOWED | MIL.M_USER_WINDOW))
             {
                 MIL.MdispControl(MilCamDisplay[index], MIL.M_OVERLAY, MIL.M_ENABLE);
+                MIL.MdispControl(MilCamDisplay[index], MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
                 MIL.MdispInquire(MilCamDisplay[index], MIL.M_OVERLAY_ID, ref MilCamOverlay[index]);
                 MIL.MdispControl(MilCamDisplay[index], MIL.M_OVERLAY_CLEAR, MIL.M_DEFAULT);
-                MIL.MdispControl(MilCamDisplay[index], MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
-                MIL.MdispInquire(MilCamDisplay[index], MIL.M_TRANSPARENT_COLOR, ref MilCamTransparent[index]);
 
+                MilCamTransparent[index] = MIL.MdispInquire(MilCamDisplay[index], MIL.M_TRANSPARENT_COLOR, MIL.M_NULL);
+                //MIL.MdispInquire(MilCamDisplay[index], MIL.M_TRANSPARENT_COLOR, ref MilCamTransparent[index]);
+                MIL.MbufClear(MilCamOverlay[index], MilCamTransparent[index]);
                 MIL.MgraControl(MIL.M_DEFAULT, MIL.M_BACKGROUND_MODE, MIL.M_TRANSPARENT);
             }
+        }
+        public void drawTest(MIL_ID display, int index)
+        {
+            //display
+            MIL.MmodControl(display, MIL.M_DEFAULT, 3203L, xReduce);//M_DRAW_SCALE_X
+            MIL.MmodControl(display, MIL.M_DEFAULT, 3204L, yReduce);//M_DRAW_SCALE_Y
+            MIL.MmodDraw(MIL.M_DEFAULT, display, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_BOX, MIL.M_DEFAULT, MIL.M_DEFAULT);
         }
         public void DrawOverlayArrow(int index, int x1 , int y1 , int x2 , int y2, Color color, int nWid, DashStyle nStyles)
         {
@@ -247,6 +181,37 @@ namespace ZenHandler.VisionClass
                     }
                 }
                 
+            }
+            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
+        }
+        public void DrawOverlayCircle(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
+        {
+            IntPtr hOverlayDC = IntPtr.Zero;
+
+            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(MilCamOverlay[index], MIL.M_DC_HANDLE, MIL.M_NULL);
+
+            if (!hOverlayDC.Equals(IntPtr.Zero))
+            {
+                using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
+                {
+                    // Draw a blue cross.
+                    using (Pen DrawingPen = new Pen(Color.Blue))
+                    {
+                        DrawingPen.DashStyle = nStyles;
+                        DrawingPen.Width = nWid;
+
+                        int x1 = (int)((clRect.X * xReduce) + 0.5);
+                        int y1 = (int)((clRect.Y * yReduce) + 0.5);
+
+                        int x2 = (int)((clRect.Width * xReduce) + 0.5);
+                        int y2 = (int)((clRect.Height * yReduce) + 0.5);
+
+                        DrawingGraphics.DrawEllipse(DrawingPen, x1, y1, x2, y2);
+
+                    }
+                }
             }
             MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
