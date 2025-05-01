@@ -16,6 +16,57 @@ namespace ZenHandler.VisionClass
         {
 
         }
+        public void KeyFine(int index)
+        {
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+            byte[] buffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], buffer);
+            Mat srcImage = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(buffer, 0, srcImage.Data, dataSize);
+
+
+            // 1. 블러 + 이진화
+            Mat blurred = new Mat();
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(7, 7), 0);
+
+            // 예: 중심에서 100x100 크기의 영역 평균을 구함
+            int centerX = blurred.Cols / 2;
+            int centerY = blurred.Rows / 2;
+            int roiSize = 150;
+
+            // ROI 영역 지정 (x, y, width, height)
+            Rect roi = new Rect(centerX - roiSize / 2, centerY - roiSize / 2, roiSize, roiSize);
+            Mat roiMat = new Mat(blurred, roi);
+
+            // 평균 밝기 계산
+            Scalar mean = Cv2.Mean(roiMat);
+
+            // 결과 출력
+            Console.WriteLine($"중앙 영역 평균 밝기: {mean.Val0:F2} / {255-mean.Val0:F2}");
+            int blockSize = 31;// 21; // 반드시 홀수
+            int C = 3;
+            Mat binary = new Mat();
+            //Cv2.Threshold(blurred, binary, 130, 255, ThresholdTypes.Binary); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            //Cv2.Threshold(blurred, binary, (mean.Val0 / 2.5), 255, ThresholdTypes.Binary); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            //Cv2.Threshold(blurred, binary, (255 - mean.Val0), 255, ThresholdTypes.BinaryInv); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.Binary, blockSize, C);
+            ////Cv2.BitwiseNot(binary, binary);  // 밝은 부분만 검정으로 반전
+
+            // 2. 커널 생성 (원형 커널 추천)
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3)); 
+            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Ellipse, new OpenCvSharp.Size(3, 3));
+            Cv2.Dilate(binary, binary, kernel);
+            // 3. 모폴로지 클로징 → 선 연결
+            //Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);
+            Cv2.MorphologyEx(binary, binary, MorphTypes.Open, kernel); 
+
+            Cv2.NamedWindow("Detected binary", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            Cv2.ImShow("Detected binary", binary);
+            Cv2.WaitKey(0);
+        }
         public void ContoursCircleFine(int index)
         {
 
@@ -31,33 +82,57 @@ namespace ZenHandler.VisionClass
 
             // 1. 블러 + 이진화
             Mat blurred = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);
+
+            // 예: 중심에서 100x100 크기의 영역 평균을 구함
+            int centerX = blurred.Cols / 2;
+            int centerY = blurred.Rows / 2;
+            int roiSize = 150;
+
+            // ROI 영역 지정 (x, y, width, height)
+            Rect roi = new Rect(centerX - roiSize / 2, centerY - roiSize / 2, roiSize, roiSize);
+            Mat roiMat = new Mat(blurred, roi);
+
+            // 평균 밝기 계산
+            Scalar mean = Cv2.Mean(roiMat);
+
+            // 결과 출력
+            Console.WriteLine($"중앙 영역 평균 밝기: {mean.Val0:F2}");
 
             Mat binary = new Mat();
-            Cv2.Threshold(blurred, binary, 130, 255, ThresholdTypes.Binary); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            int blockSize = 51; // 반드시 홀수
+            int C = 3;
+            //Cv2.Threshold(blurred, binary, 130, 255, ThresholdTypes.Binary); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            Cv2.Threshold(blurred, binary, mean.Val0 / 1.1, 255, ThresholdTypes.BinaryInv); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            //Cv2.Threshold(blurred, binary, 0, 255, ThresholdTypes.BinaryInv | ThresholdTypes.Otsu);
+            //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.BinaryInv, blockSize, C);  // blockSize = 15, C = 4
+                                                                                                                                    //MEMO: Inv가 더 잘 잡힘
 
 
-            
 
             // 3. 모폴로지 팁: 얇은 선을 조금 두껍게
             //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(2, 2));
+
             
 
-
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(2, 2)); 
+            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(2, 2)); 
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Ellipse, new OpenCvSharp.Size(3, 3)); 
             Cv2.Dilate(binary, binary, kernel);
             // 3. 모폴로지 클로징 → 선 연결
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);
+            //Cv2.MorphologyEx(binary, binary, MorphTypes.Open, kernel);
+            Cv2.MorphologyEx(binary, binary, MorphTypes.Dilate, kernel); // 약한 선 확장
 
             Cv2.NamedWindow("Detected binary", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
             Cv2.ImShow("Detected binary", binary);
             Cv2.WaitKey(0);
+
             // 2. 윤곽선 찾기
             //RetrievalModes.External
             //RetrievalModes.List
             //RetrievalModes.External
-            Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.List, ContourApproximationModes.ApproxSimple);
+            Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.List, ContourApproximationModes.ApproxSimple);//ApproxSimple
 
             // 3. 원형성 조건으로 필터링
             Mat result = new Mat();
@@ -78,7 +153,7 @@ namespace ZenHandler.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                if (circularity > 0.45 && radius > 200) // 원형이고 일정 크기 이상
+                if (circularity > 0.05 && radius > 200 && area >100 && radius < 1200) // 원형이고 일정 크기 이상
                 {
                     
 
@@ -88,7 +163,14 @@ namespace ZenHandler.VisionClass
                     Console.Write("[{0:0}] measured circle: x = {1:0.00}, y = {2:0.00}, radius = {3:0.00}\n", i, center.X, center.Y, radius);
 
                     Rectangle m_clRect = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+
+                    if (contour.Length >= 5)
+                    {
+                        RotatedRect ellipse = Cv2.FitEllipse(contour);
+                        double axisRatio = Math.Min(ellipse.Size.Width, ellipse.Size.Height) / Math.Max(ellipse.Size.Width, ellipse.Size.Height);
+                        Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                        Console.WriteLine($"Axis ratio (타원 비율): {axisRatio:F2}");
+                    }
                 }
             }
             Cv2.NamedWindow("Detected Circles", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성

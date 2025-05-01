@@ -82,5 +82,10 @@ namespace ZenHandler
         {
             Globalo.visionManager.opencvTester.ContoursCircleFine(0);
         }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.KeyFine(0);
+        }
     }
 }
