@@ -38,10 +38,33 @@ namespace ZenHandler
         {
             Globalo.visionManager.aoiTester.SimpleCircleSearchExample(1);
         }
-
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.MmetTest(0);
+        }
         private void button4_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.aoiTester.MmetTest(1);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.ChangeBinary1(0);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.ChangeBinary1(1);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.RunMeasCase(0);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.RunMeasCase(1);
         }
     }
 }

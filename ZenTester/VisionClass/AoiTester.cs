@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Matrox.MatroxImagingLibrary;
 
@@ -29,20 +30,37 @@ namespace ZenHandler.VisionClass
 
             MIL.MbufExport("D:\\TEST.BMP", MIL.M_BMP, MilSubImage01);
         }
+        public void RunMeasCase(int index)
+        {
+
+        }
+        public void ChangeBinary1(int index)
+        {
+            Globalo.visionManager.milLibrary.bGrabOnFlag[index] = false;
+
+            MIL_ID MilSubImage01 = MIL.M_NULL;
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilSubImage01);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImage[index], MilSubImage01);
+            //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilSubImage01);
+            MIL.MimBinarize(MilSubImage01, MilSubImage01, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
+            MIL.MimRank(MilSubImage01, MilSubImage01, MIL.M_3X3_RECT, MIL.M_MEDIAN, MIL.M_BINARY); 
+            
+            //BINARY END
+
+            // Display the image buffer. 
+            //MIL.MdispSelect(MilDisplay, MilSubImage01);
+
+            string path = $"D:\\ChangeBinary1_{index}.BMP";
+            MIL.MbufExport(path, MIL.M_BMP, MilSubImage01);
+
+
+            Globalo.visionManager.milLibrary.bGrabOnFlag[index] = true;
+        }
         public void MmetTest(int index)
         {
             // Region parameters
-            const int TOP_RING_POSITION_X = 2038;
-            const int TOP_RING_POSITION_Y = 1448;
-            const int TOP_RING_START_RADIUS = 320;
-            const int TOP_RING_END_RADIUS = 390;
-
-            const int MIDDLE_RING_POSITION_X = 2038;
-            const int MIDDLE_RING_POSITION_Y = 1448;
-            const int MIDDLE_RING_START_RADIUS = 800;
-            const int MIDDLE_RING_END_RADIUS = 850;
-
-            const int BOTTOM_RECT_POSITION_X = 320;
+            const int BOTTOM_RECT_POSITION_X = 320; 
             const int BOTTOM_RECT_POSITION_Y = 265;
             const int BOTTOM_RECT_WIDTH = 170;
             const int BOTTOM_RECT_HEIGHT = 20;
@@ -74,7 +92,10 @@ namespace ZenHandler.VisionClass
             FeatureIndexForTolerance[0] = MIL.M_FEATURE_INDEX(5);
             FeatureIndexForTolerance[1] = MIL.M_FEATURE_INDEX(6);
 
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilImage);
+            ///MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilImage);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImage[index], MilImage);
             // Restore and display the source image.
             //MIL.MbufRestore(METROL_SIMPLE_IMAGE_FILE, MilSystem, ref MilImage);
             //MIL.MdispSelect(MilDisplay, MilImage);
@@ -94,15 +115,15 @@ namespace ZenHandler.VisionClass
             
 
             int setFineCircleCount = 5;
-            int[] RingPositionX = { 2033, 2033, 2033,  0, 0};
-            int[] RingPositionY = { 1436, 1437, 1437,  0, 0}; 
-            int[] RingStartRadius = { 0, 320, 800,  0, 0};
-            int[] RingEndRadius = { 21, 390, 850,  0, 0};
+            int[] RingPositionX = { 1899, 1899, 1899,  0, 0};
+            int[] RingPositionY = { 1363, 1363, 1363,  0, 0}; 
+            int[] RingStartRadius = { 0, 405, 773,  0, 0}; 
+            int[] RingEndRadius = { 21, 407, 840,  0, 0};
 
             for (int i = 0; i < setFineCircleCount; i++)
             {
                 MIL.MmetAddFeature(MilMetrolContext, MIL.M_MEASURED, MIL.M_CIRCLE, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_NULL, MIL.M_NULL, 0, MIL.M_DEFAULT);
-                MIL.MmetSetRegion(MilMetrolContext, MIL.M_FEATURE_INDEX(1 + i), MIL.M_DEFAULT, MIL.M_RING,
+                MIL.MmetSetRegion(MilMetrolContext, MIL.M_FEATURE_INDEX(1 + i), MIL.M_DEFAULT, MIL.M_RING_SECTOR,
                           RingPositionX[i], RingPositionY[i], RingStartRadius[i], RingEndRadius[i], 
                           MIL.M_NULL, MIL.M_NULL);
             }
@@ -174,14 +195,14 @@ namespace ZenHandler.VisionClass
 
 
 
-            Globalo.visionManager.milLibrary.ClearOverlay(1);
+            Globalo.visionManager.milLibrary.ClearOverlay(index); 
             for (int i = 0; i < setFineCircleCount; i++)
             {
                 MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1 + i), MIL.M_RADIUS, ref Value);
                 MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1+i), MIL.M_POSITION_X, ref centerX);
                 MIL.MmetGetResult(MilMetrolResult, MIL.M_FEATURE_INDEX(1+i), MIL.M_POSITION_Y, ref centerY);
 
-                Console.Write("[{0:0}] measured circle: radius={0:0.00}\n", i+1, Value);
+                Console.Write("[{0:0}] measured circle: radius={1:0.00}\n", i+1, Value);
                 Console.Write("[{0:0}] measured circle: x = {1:0.00}, y = {2:0.00}\n", i + 1, centerX, centerY);
                 if (Value > 0.0)
                 {
@@ -276,8 +297,11 @@ namespace ZenHandler.VisionClass
 
             //MIL.MbufRestore(SIMPLE_CIRCLE_SEARCH_TARGET_IMAGE, Globalo.visionManager.milLibrary.MilSystem, &tempMilImage);
 
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref tempMilImage);
-            
+           // MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref tempMilImage);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref tempMilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImage[index], tempMilImage);
+
             MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
             MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
 
@@ -335,7 +359,7 @@ namespace ZenHandler.VisionClass
             //MIL.MosPrintf(MIL_TEXT("a nominal radius of %-3.1f%.\n\n"), MODEL_RADIUS);
 
             Console.WriteLine($"fine circle : {NumResults}");
-            Globalo.visionManager.milLibrary.ClearOverlay(1);
+            Globalo.visionManager.milLibrary.ClearOverlay(index);
             //If a model was found above the acceptance threshold.
             if ((NumResults >= 1) && (NumResults <= MODEL_MAX_OCCURRENCES))
             {
