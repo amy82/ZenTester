@@ -87,5 +87,15 @@ namespace ZenHandler
         {
             Globalo.visionManager.opencvTester.KeyFine(0);
         }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.CenterFineTopCamera(0);
+        }
     }
 }
