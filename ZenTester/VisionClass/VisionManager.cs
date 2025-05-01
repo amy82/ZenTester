@@ -19,6 +19,7 @@ namespace ZenHandler.VisionClass
 
         public MilLibraryUtil milLibrary;
         public AoiTester aoiTester;
+        public OpencvAoiTest opencvTester;
         public Action<Bitmap> OnCamera1Frame;
         public Action<Bitmap> OnCamera2Frame;
 
@@ -54,6 +55,7 @@ namespace ZenHandler.VisionClass
 
             milLibrary = new MilLibraryUtil();
             aoiTester = new AoiTester();
+            opencvTester = new OpencvAoiTest();
 
             milLibrary.AllocMilApplication(CamControlWidth, CamControlHeight);
 

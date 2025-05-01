@@ -32,7 +32,64 @@ namespace ZenHandler.VisionClass
         }
         public void RunMeasCase(int index)
         {
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilImage);
+            
+            // Allocate a marker and set its region.
+            MIL_ID MilMeasMarker = MIL.MmeasAllocMarker(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CIRCLE, MIL.M_DEFAULT, MIL.M_NULL);
+            int[] CIRCLE_REGION = { 1907, 1369, 10, 1000, 360 }; //CenterX, CenterY, InnerRadius, OuterRadius, ChordAngle
+            MIL.MmeasSetMarker(MilMeasMarker, MIL.M_RING_CENTER, CIRCLE_REGION[0], CIRCLE_REGION[1]);
+            MIL.MmeasSetMarker(MilMeasMarker, MIL.M_RING_RADII, CIRCLE_REGION[2], CIRCLE_REGION[3]);
+            MIL.MmeasSetMarker(MilMeasMarker, MIL.M_SUB_REGIONS_CHORD_ANGLE, CIRCLE_REGION[4], MIL.M_NULL);
+            MIL.MmeasSetMarker(MilMeasMarker, MIL.M_SEARCH_REGION_INPUT_UNITS, MIL.M_WORLD, MIL.M_NULL);
 
+            // Set up the marker.
+            MIL.MmeasSetMarker(MilMeasMarker, MIL.M_CIRCLE_ACCURACY, MIL.M_LOW, MIL.M_NULL);
+            MIL.MmeasSetScore(MilMeasMarker, MIL.M_STRENGTH_SCORE, 0, 0, MIL.M_MAX_POSSIBLE_VALUE, MIL.M_MAX_POSSIBLE_VALUE, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MmeasSetScore(MilMeasMarker, MIL.M_RADIUS_SCORE, 0, 0, 0, MIL.M_MAX_POSSIBLE_VALUE, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+
+            //MIL.McalUniform(MilImage, 0.0, 0.0, 1.0, 1.0, 0.0, MIL.M_DEFAULT);
+
+            // Set up the drawing.
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_INPUT_UNITS, MIL.M_WORLD);
+
+           
+
+
+            // Find the marker.
+            MIL.MmeasFindMarker(MIL.M_DEFAULT, MilImage, MilMeasMarker, MIL.M_DEFAULT);
+
+            // Check the status.
+            MIL_INT ValidFlag = MIL.M_NULL;
+            MIL.MmeasGetResult(MilMeasMarker, MIL.M_VALID_FLAG + MIL.M_TYPE_MIL_INT, ref ValidFlag, MIL.M_NULL);
+            if (ValidFlag == MIL.M_TRUE)
+            {
+                // Allocate a child of the image to avoid modifying the calibration of the original image.
+                MIL_ID MilImageChild = MIL.MbufChildColor(MilImage, 0, MIL.M_NULL);
+
+                // Retrieve information about the found search region box.
+                double[] Corners = new double[8];
+                double FoundBoxAngle = 0.0;
+                MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_ANGLE_FOUND, ref FoundBoxAngle, MIL.M_NULL);
+                if (MIL.MmeasInquire(MilMeasMarker, MIL.M_ORIENTATION, MIL.M_NULL, MIL.M_NULL) == MIL.M_VERTICAL)
+                {
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_TOP_LEFT, ref Corners[0], ref Corners[1]);
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_TOP_RIGHT, ref Corners[2], ref Corners[3]);
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_BOTTOM_RIGHT, ref Corners[4], ref Corners[5]);
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_BOTTOM_LEFT, ref Corners[6], ref Corners[7]);
+                }
+                else
+                {
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_TOP_LEFT, ref Corners[6], ref Corners[7]);
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_TOP_RIGHT, ref Corners[0], ref Corners[1]);
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_BOTTOM_RIGHT, ref Corners[2], ref Corners[3]);
+                    MIL.MmeasGetResult(MilMeasMarker, MIL.M_BOX_CORNER_BOTTOM_LEFT, ref Corners[4], ref Corners[5]);
+                    FoundBoxAngle -= 90;
+                }
+            }
         }
         public void ChangeBinary1(int index)
         {
@@ -41,7 +98,7 @@ namespace ZenHandler.VisionClass
             MIL_ID MilSubImage01 = MIL.M_NULL;
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilSubImage01);
-            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImage[index], MilSubImage01);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilSubImage01);
             //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilSubImage01);
             MIL.MimBinarize(MilSubImage01, MilSubImage01, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             MIL.MimRank(MilSubImage01, MilSubImage01, MIL.M_3X3_RECT, MIL.M_MEDIAN, MIL.M_BINARY); 
@@ -95,7 +152,7 @@ namespace ZenHandler.VisionClass
             ///MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilImage);
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
-            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImage[index], MilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilImage);
             // Restore and display the source image.
             //MIL.MbufRestore(METROL_SIMPLE_IMAGE_FILE, MilSystem, ref MilImage);
             //MIL.MdispSelect(MilDisplay, MilImage);
@@ -286,7 +343,7 @@ namespace ZenHandler.VisionClass
             MIL_INT NumResults = 0L;                  /* Number of results found.    */
 
             MIL_ID NUMBER_OF_MODELS = 18L;
-            double MODEL_RADIUS = 400.0; 
+            double MODEL_RADIUS = 840.0; 
             double Time = 0.0;
             int i;                                /* Loop variable.              */
 
@@ -300,7 +357,10 @@ namespace ZenHandler.VisionClass
            // MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref tempMilImage);
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref tempMilImage);
-            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImage[index], tempMilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+
+            MIL.MimBinarize(Globalo.visionManager.milLibrary.MilCamGrabImage[index], tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
+            MIL.MimRank(tempMilImage, tempMilImage, MIL.M_3X3_RECT, MIL.M_MEDIAN, MIL.M_BINARY);
 
             MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
             MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
@@ -378,7 +438,7 @@ namespace ZenHandler.VisionClass
                     //MIL.MosPrintf(MIL_TEXT("%-9d%-13.2f%-13.2f%-8.2f%-5.2f%%\n"), i, XPosition[i],YPosition[i], Radius[i], Score[i]);
                     Console.Write("[{0:0}] circle: x = {1:0.00}, y = {2:0.00}, radius = {3:0.00}, score = {4:0.00}\n", i + 1, XPosition[i], YPosition[i], Radius[i], Score[i]);
                     Rectangle m_clRect = new Rectangle((int)(XPosition[i] - (Radius[i])), (int)(YPosition[i] - (Radius[i])), (int)(Radius[i] * 2), (int)(Radius[i] * 2));
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
 
                 //MIL.MosPrintf(MIL_TEXT("\nThe search time was %.1f ms.\n\n"), Time * 1000.0);

@@ -66,5 +66,21 @@ namespace ZenHandler
         {
             Globalo.visionManager.aoiTester.RunMeasCase(1);
         }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.houghCircleFine(0);
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.houghCircleFine(1);
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.ContoursCircleFine(0);
+        }
     }
 }
