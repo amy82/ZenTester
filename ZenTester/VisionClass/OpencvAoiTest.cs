@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Matrox.MatroxImagingLibrary;
 using OpenCvSharp;
 
@@ -146,15 +147,102 @@ namespace ZenHandler.VisionClass
             //Cv2.WaitKey(0);
             // MIL.Mbuf
             MIL_ID MilImage = MIL.M_NULL;
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, roiImage.Width, roiImage.Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
+            MIL_ID MilEdgeContext = MIL.M_NULL;
+            MIL_ID MilEdgeResult = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_INT NumEdgeFound = 0;
+            MIL_INT NumResults = 0;
+            int CONTOUR_MAX_RESULTS = 100;
+            double[] MeanFeretDiameter = new double[CONTOUR_MAX_RESULTS];
+            // Allocate a graphic list to hold the subpixel annotations to draw.
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
 
+            // Associate the graphic list to the display for annotations.
+            //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            // Allocate a graphic list to hold the subpixel annotations to draw.
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
 
-            byte[] bytes = new byte[roiImage.Width * roiImage.Height];
+            // Associate the graphic list to the display for annotations.
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+
+            int SizeX = roiImage.Width;
+            int SizeY = roiImage.Height;
+
+            // Allocate defaults.
+            //MIL.MappAllocDefault(MIL.M_DEFAULT, ref Globalo.visionManager.milLibrary.MilApplication, ref Globalo.visionManager.milLibrary.MilSystem, ref MilDisplay, MIL.M_NULL, MIL.M_NULL);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, SizeX, SizeY, 8 + MIL.M_UNSIGNED, MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
+
+            if (MilImage == MIL.M_NULL)
+                throw new Exception("MIL 버퍼 생성 실패");
+
+            if (!roiImage.IsContinuous())
+            {
+                roiImage = roiImage.Clone();  // 메모리 정렬 보장
+            }
+            int kk = roiImage.Channels();
+            byte[] bytes = new byte[SizeY * SizeX];
+            Console.WriteLine($"Mat Type: {roiImage.Type()}");
+
 
             Marshal.Copy(roiImage.Data, bytes, 0, bytes.Length); // Mat 데이터를 바이트 배열로 복사
-
             MIL.MbufPut(MilImage, bytes);
 
+            MIL.MdispSelect(MilDisplay, MilImage);
+            // Allocate a Edge Finder context.
+            MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
+
+            // Allocate a result buffer.
+            MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
+
+            // Enable features to compute.
+            MIL.MedgeControl(MilEdgeContext, MIL.M_MOMENT_ELONGATION, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FERET_MEAN_DIAMETER + MIL.M_SORT1_DOWN, MIL.M_ENABLE);
+
+            // Calculate edges and features.
+            MIL.MedgeCalculate(MilEdgeContext, MilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
+
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
+
+            // Draw edges in the source image to show the result.
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            //
+            double CONTOUR_MAXIMUM_ELONGATION = 0.8;
+            // Exclude elongated edges.
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_MOMENT_ELONGATION, MIL.M_LESS, CONTOUR_MAXIMUM_ELONGATION, MIL.M_NULL);
+
+            // Exclude inner chains.
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
+
+            // Draw remaining edges and their index to show the result.
+            MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+            // If the right number of edges were found.
+            if ((NumResults >= 1) && (NumResults <= CONTOUR_MAX_RESULTS))
+            {
+                // Draw the index of each edge.
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+                // Get the mean Feret diameters.
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_FERET_MEAN_DIAMETER, MeanFeretDiameter);
+
+            }
+            //
+            MIL.MbufExport("D:\\MilEdgeResult.BMP", MIL.M_BMP, MilEdgeResult);
+            MIL.MbufExport("D:\\MilImage.BMP", MIL.M_BMP, MilImage);
+
+            /* Free all allocations. */
+            //MIL.MblobFree(MilBlobResult);
+            //MIL.MblobFree(MilBlobFeatureList);
+            MIL.MbufFree(MilImage);
             return rtn;
         }
         public void KeyFine(int index)
