@@ -95,7 +95,7 @@ namespace ZenHandler
 
         private void button15_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.opencvTester.CenterFineTopCamera(0);
+            
         }
 
         private void button16_Click(object sender, EventArgs e)
@@ -106,6 +106,11 @@ namespace ZenHandler
         private void button17_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.opencvTester.OpencvKeyCheck(0);
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTopTester.Run(0);
         }
     }
 }
