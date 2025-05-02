@@ -97,5 +97,10 @@ namespace ZenHandler
         {
             Globalo.visionManager.opencvTester.CenterFineTopCamera(0);
         }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.MilPopup(0);
+        }
     }
 }

@@ -17,6 +17,26 @@ namespace ZenHandler.VisionClass
         {
 
         }
+        public void MilPopup(int index)
+        {
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID MilDisplayNew = MIL.M_NULL;
+            // Allocate defaults.
+            //MIL.MappAllocDefault(MIL.M_DEFAULT, ref MilApplication, ref MilSystem, ref MilDisplay, MIL.M_NULL, MIL.M_NULL);
+            string CONTOUR_IMAGE = MIL.M_IMAGE_PATH + "Seals.mim";
+            // Restore the image and display it.
+            //MIL.MbufRestore(CONTOUR_IMAGE, Globalo.visionManager.milLibrary.MilSystem, ref MilImage);
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, 1000, 1000,(8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_DISP + MIL.M_PROC, ref MilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilImage);
+
+
+            // 기존 MilSystem을 사용
+            MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+
+            MIL.MdispSelect(MilDisplay, MilImage);
+        }
         public OpenCvSharp.Point CenterFineTopCamera(int index)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(index);
@@ -151,12 +171,12 @@ namespace ZenHandler.VisionClass
             MIL_ID MilEdgeResult = MIL.M_NULL;
             MIL_ID GraphicList = MIL.M_NULL;
             MIL_ID MilDisplay = MIL.M_NULL;
+
             MIL_INT NumEdgeFound = 0;
             MIL_INT NumResults = 0;
             int CONTOUR_MAX_RESULTS = 100;
             double[] MeanFeretDiameter = new double[CONTOUR_MAX_RESULTS];
             // Allocate a graphic list to hold the subpixel annotations to draw.
-            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
 
             // Associate the graphic list to the display for annotations.
             //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
@@ -164,14 +184,14 @@ namespace ZenHandler.VisionClass
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
 
             // Associate the graphic list to the display for annotations.
-            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
 
             int SizeX = roiImage.Width;
             int SizeY = roiImage.Height;
 
             // Allocate defaults.
             //MIL.MappAllocDefault(MIL.M_DEFAULT, ref Globalo.visionManager.milLibrary.MilApplication, ref Globalo.visionManager.milLibrary.MilSystem, ref MilDisplay, MIL.M_NULL, MIL.M_NULL);
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, SizeX, SizeY, 8 + MIL.M_UNSIGNED, MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, SizeX, SizeY, 8 + MIL.M_UNSIGNED, MIL.M_IMAGE + MIL.M_DISP + MIL.M_PROC, ref MilImage);
 
             if (MilImage == MIL.M_NULL)
                 throw new Exception("MIL 버퍼 생성 실패");
@@ -187,8 +207,11 @@ namespace ZenHandler.VisionClass
 
             Marshal.Copy(roiImage.Data, bytes, 0, bytes.Length); // Mat 데이터를 바이트 배열로 복사
             MIL.MbufPut(MilImage, bytes);
-
+            MIL.MbufExport("D:\\rawMilImage.BMP", MIL.M_BMP, MilImage);
+            // 5. 디스플레이 윈도우에 이미지 연결
+            MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
             MIL.MdispSelect(MilDisplay, MilImage);
+
             // Allocate a Edge Finder context.
             MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
 
@@ -207,8 +230,11 @@ namespace ZenHandler.VisionClass
 
             // Draw edges in the source image to show the result.
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce);//M_DRAW_SCALE_X
+            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce);//M_DRAW_SCALE_Y
+            MIL.MmodControl(MilEdgeResult, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, 90.0);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, MilImage, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
-
             //
             double CONTOUR_MAXIMUM_ELONGATION = 0.8;
             // Exclude elongated edges.
@@ -220,7 +246,10 @@ namespace ZenHandler.VisionClass
             // Draw remaining edges and their index to show the result.
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce);//M_DRAW_SCALE_X
+            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce);//M_DRAW_SCALE_Y
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, MilImage, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             // Get the number of edges found.
             MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
 
@@ -230,19 +259,23 @@ namespace ZenHandler.VisionClass
                 // Draw the index of each edge.
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce);//M_DRAW_SCALE_X
+                MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce);//M_DRAW_SCALE_Y
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, MilImage, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 // Get the mean Feret diameters.
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_FERET_MEAN_DIAMETER, MeanFeretDiameter);
 
             }
             //
-            MIL.MbufExport("D:\\MilEdgeResult.BMP", MIL.M_BMP, MilEdgeResult);
             MIL.MbufExport("D:\\MilImage.BMP", MIL.M_BMP, MilImage);
 
             /* Free all allocations. */
             //MIL.MblobFree(MilBlobResult);
             //MIL.MblobFree(MilBlobFeatureList);
-            MIL.MbufFree(MilImage);
+            //MIL.MbufFree(MilImage);
+
+            
             return rtn;
         }
         public void KeyFine(int index)

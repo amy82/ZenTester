@@ -47,8 +47,8 @@ namespace ZenHandler.VisionClass
         private int CamControlWidth = 100;      //픽처 컨트롤 가로 사이즈
         private int CamControlHeight = 100;     //픽처 컨트롤 세로 사이즈
 
-        private double xReduce = 0.0;
-        private double yReduce = 0.0;
+        public double xReduce = 0.0;
+        public double yReduce = 0.0;
 
 
         public MilLibraryUtil()
