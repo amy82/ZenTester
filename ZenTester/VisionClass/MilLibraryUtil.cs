@@ -216,6 +216,44 @@ namespace ZenHandler.VisionClass
             MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
+        public void DrawOverlayPolygon(int index, List<System.Drawing.Point> points, Color color, int nWid, DashStyle nStyles)
+        {
+            IntPtr hOverlayDC = IntPtr.Zero;
+
+            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(MilCamOverlay[index], MIL.M_DC_HANDLE, MIL.M_NULL);
+
+            if (!hOverlayDC.Equals(IntPtr.Zero))
+            {
+                using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
+                {
+                    // Draw a blue cross.
+                    using (Pen DrawingPen = new Pen(Color.Blue))
+                    {
+                        DrawingPen.DashStyle = nStyles;
+                        DrawingPen.Width = nWid;
+  
+                        DrawingGraphics.DrawPolygon(DrawingPen, points.ToArray());
+
+                        using (SolidBrush LeftBrush = new SolidBrush(Color.Red))
+                        {
+                            using (SolidBrush RightBrush = new SolidBrush(Color.Yellow))
+                            {
+                                using (Font OverlayFont = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold))
+                                {
+                                    // Write text in the overlay image
+                                    //SizeF GDITextSize = DrawingGraphics.MeasureString("GDI Overlay Text", OverlayFont);
+                                    //DrawingGraphics.DrawString("GDI Overlay Text", OverlayFont, LeftBrush, System.Convert.ToInt32(CAM_SIZE_X / 4 - GDITextSize.Width / 2), System.Convert.ToInt32(CAM_SIZE_Y * 3 / 4 - GDITextSize.Height / 2));
+                                    //DrawingGraphics.DrawString("GDI Overlay Text", OverlayFont, RightBrush, System.Convert.ToInt32(CAM_SIZE_X * 3 / 4 - GDITextSize.Width / 2), System.Convert.ToInt32(CAM_SIZE_Y * 3 / 4 - GDITextSize.Height / 2));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
+        }
         public void DrawOverlayBox(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
         {
             IntPtr hOverlayDC = IntPtr.Zero;

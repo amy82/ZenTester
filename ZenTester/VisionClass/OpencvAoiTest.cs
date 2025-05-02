@@ -103,7 +103,7 @@ namespace ZenHandler.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                if (circularity > 0.6 && radius > 300 && area > 100000 && radius < 1200 ) // 원형이고 일정 크기 이상
+                if (circularity > 0.15 && radius > 300 && area > 100000 && radius < 1300 ) // 원형이고 일정 크기 이상
                 {
                     Cv2.Circle(gray, (OpenCvSharp.Point)center, (int)radius, Scalar.Blue, 2);
                     centers.Add(new Point2d(center.X , center.Y));
@@ -118,13 +118,10 @@ namespace ZenHandler.VisionClass
                 double sumY = centers.Sum(c => c.Y);
                 Point2d avgCenter = new Point2d(sumX / centers.Count, sumY / centers.Count);
 
-                Rect keyRoi = new Rect((int)avgCenter.X + 250, (int)avgCenter.Y + 250, 650, 650);
+                
 
-                Mat roiKeyMat = gray[keyRoi];
-                Cv2.NamedWindow("Detected roiKeyMat ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-                Cv2.ImShow("Detected roiKeyMat ", roiKeyMat);
-                Cv2.WaitKey(0);
-                bool keyRtn = KeyCheck(roiKeyMat);
+                
+                
 
 
                 Rectangle m_clRect = new Rectangle((int)(avgCenter.X - (50)), (int)(avgCenter.Y - (50)), (int)(50 * 2), (int)(50 * 2));
@@ -134,7 +131,12 @@ namespace ZenHandler.VisionClass
                 Cv2.ImShow("Detected gray ", gray);
                 Cv2.WaitKey(0);
             }
-
+            Rect keyRoi = new Rect((int)2190 + 250, (int)1429 + 250, 650, 650);
+            Mat roiKeyMat = gray[keyRoi];
+            Cv2.NamedWindow("Detected roiKeyMat ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            Cv2.ImShow("Detected roiKeyMat ", roiKeyMat);
+            Cv2.WaitKey(0);
+            bool keyRtn = MilKeyCheck(roiKeyMat);
 
             int centerX = gray.Cols / 2;
             int centerY = gray.Rows / 2;
@@ -153,12 +155,81 @@ namespace ZenHandler.VisionClass
             return centerPos;
         }
 
-        public bool KeyCheck(Mat roiImage)
+        public bool OpencvKeyCheck(int index)
+        {
+            bool rtn = false;
+            double minArea = 45.0;
+            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+            byte[] buffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], buffer);
+            Mat gray = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(buffer, 0, gray.Data, dataSize);
+
+            Rect keyRoi = new Rect((int)2190 + 250, (int)1429 + 250, 650, 650);
+            Mat roiKeyMat = gray[keyRoi];
+            
+
+
+            int SizeX = roiKeyMat.Width;
+            int SizeY = roiKeyMat.Height;
+
+            // 블러 후 이진화
+            var blurred = new Mat();
+            Cv2.GaussianBlur(roiKeyMat, blurred, new OpenCvSharp.Size(1, 1), 0);
+            var binary = new Mat();
+            //Cv2.Threshold(blurred, binary, 0, 255, ThresholdTypes.BinaryInv | ThresholdTypes.Otsu);
+            int blockSize = 13;// 21; // 반드시 홀수
+            int C = 19;
+            //Cv2.Threshold(blurred, binary, 130, 255, ThresholdTypes.Binary); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            //Cv2.Threshold(blurred, binary, (mean.Val0 / 2.5), 255, ThresholdTypes.Binary); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            //Cv2.Threshold(blurred, binary, (255 - mean.Val0), 255, ThresholdTypes.BinaryInv); // 배경 밝기에 따라 Binary 또는 BinaryInv
+            Cv2.AdaptiveThreshold(roiKeyMat, binary, 200, AdaptiveThresholdTypes.MeanC, ThresholdTypes.Binary, blockSize, C);
+
+            // 윤곽선 찾기
+            Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out HierarchyIndex[] hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
+            int i = 0;
+            
+            for (i = 0; i < contours.Length; i++)
+            {
+                double area = Cv2.ContourArea(contours[i]);
+                double perimeter = Cv2.ArcLength(contours[i], true);
+
+                if (hierarchy[i].Parent != -1 && area > 10 && area < 1000) // 조건: 면적이 100 이상
+                {
+                    Cv2.DrawContours(roiKeyMat, contours, i, new Scalar(0, 255, 255), 2);
+
+                    // 윤곽선 그리기 (노란색)
+
+                    Console.WriteLine($"Contour with area {area} detected.");
+                    List<System.Drawing.Point> points = new List<System.Drawing.Point>();
+                    // contour는 List<Point> 형식이므로, 이를 Graphics.DrawPolygon에 맞게 사용
+                    //points = contours[i].Select(p => new System.Drawing.Point(p.X, p.Y)).ToList();
+                    foreach (var p in contours[i])
+                    {
+                        points.Add(new System.Drawing.Point((int)((p.X + 2190 + 250) * Globalo.visionManager.milLibrary.xReduce) , (int)((p.Y + 1429 + 250) * Globalo.visionManager.milLibrary.yReduce)));
+                    }
+                    Globalo.visionManager.milLibrary.DrawOverlayPolygon(index, points, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                }
+            }
+
+            //
+            Cv2.NamedWindow("Detected binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            Cv2.ImShow("Detected binary ", roiKeyMat);
+            Cv2.WaitKey(0);
+            
+            return rtn;
+        }
+        public bool MilKeyCheck(Mat roiImage)
         {
             bool rtn = false;
             //Mat gray = new Mat();
             //Cv2.CvtColor(roiImage, gray, ColorConversionCodes.BGR2GRAY);
-            Cv2.GaussianBlur(roiImage, roiImage, new OpenCvSharp.Size(5, 5), 1.5);
+            //Cv2.GaussianBlur(roiImage, roiImage, new OpenCvSharp.Size(5, 5), 1.5);
 
             //Mat roiEdges = new Mat();
             //Cv2.Canny(roiImage, roiEdges, 200, 50); // 임계값 조절 가능
@@ -212,15 +283,24 @@ namespace ZenHandler.VisionClass
             MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
             MIL.MdispSelect(MilDisplay, MilImage);
 
+            
+            // Enable features to compute.
+            //MIL.MedgeControl(MilEdgeContext, MIL.M_MOMENT_ELONGATION, MIL.M_ENABLE);
+            //MIL.MedgeControl(MilEdgeContext, MIL.M_FERET_MEAN_DIAMETER + MIL.M_SORT1_DOWN, MIL.M_ENABLE);
+
             // Allocate a Edge Finder context.
             MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
 
             // Allocate a result buffer.
             MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
 
-            // Enable features to compute.
-            MIL.MedgeControl(MilEdgeContext, MIL.M_MOMENT_ELONGATION, MIL.M_ENABLE);
-            MIL.MedgeControl(MilEdgeContext, MIL.M_FERET_MEAN_DIAMETER + MIL.M_SORT1_DOWN, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeResult, MIL.M_FILTER_TYPE, MIL.M_SHEN);
+            MIL.MedgeControl(MilEdgeResult, MIL.M_ACCURACY, MIL.M_HIGH);
+            MIL.MedgeControl(MilEdgeResult, MIL.M_ANGLE, MIL.M_HIGH);
+            MIL.MedgeControl(MilEdgeResult, MIL.M_MAGNITUDE_TYPE, MIL.M_SQR_NORM);
+            MIL.MedgeControl(MilEdgeResult, MIL.M_THRESHOLD_MODE, MIL.M_HIGH); 
+            MIL.MedgeControl(MilEdgeResult, MIL.M_THRESHOLD_TYPE, MIL.M_HYSTERESIS);
+            MIL.MedgeControl(MilEdgeResult, MIL.M_SMOOTH, 90.0);
 
             // Calculate edges and features.
             MIL.MedgeCalculate(MilEdgeContext, MilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
@@ -230,9 +310,7 @@ namespace ZenHandler.VisionClass
 
             // Draw edges in the source image to show the result.
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
-            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce);//M_DRAW_SCALE_X
-            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce);//M_DRAW_SCALE_Y
-            MIL.MmodControl(MilEdgeResult, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, 90.0);
+            
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, MilImage, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             //

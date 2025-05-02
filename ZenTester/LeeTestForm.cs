@@ -102,5 +102,10 @@ namespace ZenHandler
         {
             Globalo.visionManager.opencvTester.MilPopup(0);
         }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.opencvTester.OpencvKeyCheck(0);
+        }
     }
 }
