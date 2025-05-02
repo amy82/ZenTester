@@ -442,6 +442,7 @@
     <Compile Include="Ubisam\DriverHelper.cs" />
     <Compile Include="Vision.cs" />
     <Compile Include="VisionClass\AoiTester.cs" />
+    <Compile Include="VisionClass\AoiTopTester.cs" />
     <Compile Include="VisionClass\MilLibraryUtil.cs" />
     <Compile Include="VisionClass\OpencvAoiTest.cs" />
     <Compile Include="VisionClass\VisionManager.cs" />
