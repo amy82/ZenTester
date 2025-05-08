@@ -49,7 +49,7 @@ namespace ZenHandler.Dlg
             Globalo.setTestControl.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
-            //Globalo.mlogControl.Visible = false;
+            Globalo.mlogControl.Visible = false;
             switch (index)
             {
                 case TABFORM.MAIN_FORM:
@@ -72,7 +72,7 @@ namespace ZenHandler.Dlg
                     Globalo.mAlarmPanel.Visible = true;
                     break;
                 case TABFORM.LOG_FORM:
-                    //Globalo.mlogControl.Visible = true;
+                    Globalo.mlogControl.Visible = true;
                     break;
                 default:
                     break;

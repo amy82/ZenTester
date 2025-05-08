@@ -113,8 +113,15 @@ namespace ZenHandler.VisionClass
             //m_clMilDrawBox[nUnit].RemoveAll();
             //m_clMilDrawText[nUnit].RemoveAll();
             //m_clMilDrawCross[nUnit].RemoveAll();
-
-            MIL.MbufClear(MilCamOverlay[index], MilCamTransparent[index]);
+            if (AutoRunMode)
+            {
+                MIL.MbufClear(MilCamOverlay[index], MilCamTransparent[index]);
+            }
+            else
+            {
+                MIL.MbufClear(MilSetCamOverlay[index], MilSetCamTransparent[index]);
+            }
+                
         }
         public void MilGrabRun(int index)
         {
@@ -220,8 +227,15 @@ namespace ZenHandler.VisionClass
         public void DrawOverlayCircle(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
-            MIL_ID tempOverlay = MilCamOverlay[index];//MilSetCamOverlay[index];
-
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
 
@@ -251,17 +265,26 @@ namespace ZenHandler.VisionClass
         }
         public void DrawOverlayPolygon(int index, List<System.Drawing.Point> points, Color color, int nWid, DashStyle nStyles)
         {
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
             IntPtr hOverlayDC = IntPtr.Zero;
 
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
-            hOverlayDC = (IntPtr)MIL.MbufInquire(MilCamOverlay[index], MIL.M_DC_HANDLE, MIL.M_NULL);
+            MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
 
             if (!hOverlayDC.Equals(IntPtr.Zero))
             {
                 using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
                 {
                     // Draw a blue cross.
-                    using (Pen DrawingPen = new Pen(Color.Blue))
+                    using (Pen DrawingPen = new Pen(color))
                     {
                         DrawingPen.DashStyle = nStyles;
                         DrawingPen.Width = nWid;
@@ -284,8 +307,8 @@ namespace ZenHandler.VisionClass
                     }
                 }
             }
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
         public void DrawOverlayBox(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
         {
@@ -338,9 +361,17 @@ namespace ZenHandler.VisionClass
             IntPtr hOverlayDC = IntPtr.Zero;
             int x = (int)((clPoint.X * xReduce) + 0.5);
             int y = (int)((clPoint.Y * yReduce) + 0.5);
-
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
-            hOverlayDC = (IntPtr)MIL.MbufInquire(MilCamOverlay[index], MIL.M_DC_HANDLE, MIL.M_NULL);
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
+            MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
 
             if (!hOverlayDC.Equals(IntPtr.Zero))
             {
@@ -365,8 +396,8 @@ namespace ZenHandler.VisionClass
                     }
                 }
             }
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
 
         }
         #endregion

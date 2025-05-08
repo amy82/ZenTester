@@ -179,7 +179,7 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.mCCdPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mConfigPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mAlarmPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
-            //Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
+            Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
 
             //Globalo.mIoPanel.eLogSender += eLogPrint;
             //Globalo.mCCdPanel.SetSensorIni();
@@ -334,6 +334,7 @@ namespace ZenHandler  //ApsMotionControl
             Globalo.mConfigPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mAlarmPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.setTestControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mlogControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             
             //Globalo.pickerInfo.Location = new System.Drawing.Point(0, Globalo.operationPanel.Location.Y + MainBtnHGap);
             //Globalo.socketStateInfo.Location = new System.Drawing.Point(0, Globalo.pickerInfo.Location.Y + Globalo.pickerInfo.Height + MainBtnHGap);
@@ -342,7 +343,7 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.mCCdPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
-            //Globalo.mlogControl.Visible = false;
+            Globalo.mlogControl.Visible = false;
 
             //CenterPanel.Controls.Add(Globalo.mMainPanel);
             //CenterPanel.Controls.Add(Globalo.mManualPanel);
@@ -351,7 +352,7 @@ namespace ZenHandler  //ApsMotionControl
             //CenterPanel.Controls.Add(Globalo.mCCdPanel);
             LeftPanel.Controls.Add(Globalo.mConfigPanel);
             LeftPanel.Controls.Add(Globalo.mAlarmPanel);
-            //CenterPanel.Controls.Add(Globalo.mlogControl);
+            LeftPanel.Controls.Add(Globalo.mlogControl);
 
 
 

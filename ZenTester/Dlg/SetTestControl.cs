@@ -19,6 +19,7 @@ namespace ZenHandler.Dlg
         private Controls.DefaultGridView ResultGridView1;
         private Controls.DefaultGridView ResultGridView2;
 
+        private OpenCvSharp.Point centerPos;
         private int GridCol = 2;                                //picker , bcr , state
         private int GridRow = 10;                                //picker , bcr , state
         private int[] StartPos = new int[] { 1450, 10 };          //Grid Pos
@@ -28,27 +29,19 @@ namespace ZenHandler.Dlg
         public SetTestControl()
         {
             InitializeComponent();
-            initNewCameraSet();
-            //initResultGrid();
-            
+
+
+            centerPos.X = (int)(3840 / 2);
+            centerPos.Y = (int)(2748 / 2);
+
+
         }
         public void initResultGrid()
         {
             int i = 0;
 
         }
-        public void initNewCameraSet()
-        {
-            //Globalo.visionManager = new VisionClass.VisionManager(getWidth(), getHeight());
-            //Globalo.visionManager.RegisterDisplayHandle(0, Set_panelCam.Handle);
-            //Globalo.visionManager.RegisterDisplayHandle(1, panelCam2.Handle);
 
-            //Globalo.visionManager.MilSet();
-
-
-
-            
-        }
         public void UpdateImage(Bitmap image)
         {
             if (CurrentImage != null) CurrentImage.Dispose();
@@ -195,7 +188,23 @@ namespace ZenHandler.Dlg
         #region [TOP CAMERA MANUAL TEST]
         private void button_Set_Key_Test_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.aoiTopTester.Run(0);
+            bool rtn = true;
+
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+
+            Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos);        //키검사
         }
 
         private void button_Set_Housing_Test_Click(object sender, EventArgs e)
@@ -217,12 +226,25 @@ namespace ZenHandler.Dlg
 
 
 
-            OpenCvSharp.Point centerPos = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            centerPos = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
         }
 
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, centerPos, centerPos);     //가스켓 검사
         }
 
         private void button_Set_Dent_Test_Click(object sender, EventArgs e)
