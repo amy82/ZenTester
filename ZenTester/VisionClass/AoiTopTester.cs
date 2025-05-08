@@ -44,7 +44,7 @@ namespace ZenHandler.VisionClass
         {
             int radius = 520;
 
-            Rect keyRoi = new Rect((int)circle1.X + 250, (int)circle1.Y + 250, 650, 650);
+            Rect keyRoi = new Rect((int)circle1.X - 250, (int)circle1.Y + 250, 650, 650);
             Mat roiKeyMat = srcImage[keyRoi];
             //Cv2.NamedWindow("Keytest roiKeyMat ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
            // Cv2.ImShow("Keytest roiKeyMat ", roiKeyMat);
@@ -63,9 +63,9 @@ namespace ZenHandler.VisionClass
             Mat result = new Mat();
             roiKeyMat.CopyTo(result, invertedMask);  // 반전된 마스크를 이용해 src의 특정 영역 복사
 
-            //Cv2.NamedWindow("Keytest result ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-            //Cv2.ImShow("Keytest result ", result);
-            //Cv2.WaitKey(0);
+            Cv2.NamedWindow("Keytest roiKeyMat ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            Cv2.ImShow("Keytest roiKeyMat ", roiKeyMat);
+            Cv2.WaitKey(0);
 
             var binary = new Mat();
             int blockSize = 21;// 21; // 반드시 홀수

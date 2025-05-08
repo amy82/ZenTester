@@ -197,6 +197,12 @@
     <Compile Include="Data\YamlTeachingData.cs" />
     <Compile Include="DIoControl.cs" />
     <Compile Include="DioDefine.cs" />
+    <Compile Include="Dlg\SetTestControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\SetTestControl.designer.cs">
+      <DependentUpon>SetTestControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\CameraControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -446,6 +452,9 @@
     <Compile Include="VisionClass\MilLibraryUtil.cs" />
     <Compile Include="VisionClass\OpencvAoiTest.cs" />
     <Compile Include="VisionClass\VisionManager.cs" />
+    <EmbeddedResource Include="Dlg\SetTestControl.resx">
+      <DependentUpon>SetTestControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\CameraControl.resx">
       <DependentUpon>CameraControl.cs</DependentUpon>
     </EmbeddedResource>

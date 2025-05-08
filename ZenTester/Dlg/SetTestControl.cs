@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ZenHandler.Dlg
 {
-    public partial class CameraControl : UserControl
+    public partial class SetTestControl : UserControl
     {
         public Bitmap CurrentImage { get; set; }
         private Controls.DefaultGridView ResultGridView1;
@@ -21,12 +21,11 @@ namespace ZenHandler.Dlg
         private int[] StartPos = new int[] { 1450, 10 };          //Grid Pos
         private int[] inGridWid = new int[] { 150, 100 };    //Grid Width
 
-        public CameraControl()
+        public SetTestControl()
         {
             InitializeComponent();
-
-            //initNewCameraSet();
-            initResultGrid();
+            initNewCameraSet();
+            //initResultGrid();
             
         }
         public void initResultGrid()
@@ -34,8 +33,8 @@ namespace ZenHandler.Dlg
             int i = 0;
             ResultGridView1 = new Controls.DefaultGridView(GridCol, GridRow, inGridWid);
             ResultGridView2 = new Controls.DefaultGridView(GridCol, GridRow, inGridWid);
-            ResultGridView1.Location = new Point(label_Socket_Result1.Location.X, label_Socket_Result1.Location.Y + label_Socket_Result1.Height + 1);
-            ResultGridView2.Location = new Point(label_Socket_Result2.Location.X, label_Socket_Result2.Location.Y + label_Socket_Result2.Height + 1);
+            //ResultGridView1.Location = new Point(label_Socket_Result1.Location.X, label_Socket_Result1.Location.Y + label_Socket_Result1.Height + 1);
+            //ResultGridView2.Location = new Point(label_Socket_Result2.Location.X, label_Socket_Result2.Location.Y + label_Socket_Result2.Height + 1);
 
             string[] title = new string[] { "Item", "Result" };         //Grid Width
             for (i = 0; i < ResultGridView1.ColumnCount; i++)
@@ -53,16 +52,18 @@ namespace ZenHandler.Dlg
                 ResultGridView2.Rows[i].SetValues(posName);
             }
 
-            label_Socket_Result1.Width = ResultGridView1.Width;
-            label_Socket_Result2.Width = ResultGridView2.Width;
-            this.Controls.Add(ResultGridView1);
-            this.Controls.Add(ResultGridView2);
+            //label_Socket_Result1.Width = ResultGridView1.Width;
+            //label_Socket_Result2.Width = ResultGridView2.Width;
+            //this.Controls.Add(ResultGridView1);
+            //this.Controls.Add(ResultGridView2);
         }
         public void initNewCameraSet()
         {
-            //Globalo.visionManager = new VisionClass.VisionManager(getWidth(), getHeight() , Globalo.setTestControl.Set_panelCam.Width, Globalo.setTestControl.Set_panelCam.Height);
+            //Globalo.visionManager = new VisionClass.VisionManager(getWidth(), getHeight());
+            //Globalo.visionManager.RegisterDisplayHandle(0, Set_panelCam.Handle);
+            //Globalo.visionManager.RegisterDisplayHandle(1, panelCam2.Handle);
 
-           
+            //Globalo.visionManager.MilSet();
 
 
 
@@ -79,11 +80,11 @@ namespace ZenHandler.Dlg
 
         public int getWidth()
         {
-            return this.panelCam1.Width;
+            return this.Set_panelCam.Width;
         }
         public int getHeight()
         {
-            return this.panelCam1.Height;
+            return this.Set_panelCam.Height;
         }
         
         private void btn_TopCam_Image_Save_Click(object sender, EventArgs e)
@@ -114,24 +115,6 @@ namespace ZenHandler.Dlg
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
                 }
             }
-
-            //using (OpenFileDialog openFileDialog = new OpenFileDialog()) 
-           // {
-                //openFileDialog.Title = "이미지 파일 선택";
-                ////openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
-                //openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
-                //openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\Image"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                
-                //if (openFileDialog.ShowDialog() == DialogResult.OK)
-                //{
-                //    string selectedFilePath = openFileDialog.FileName;
-
-                //    GrabImageSave(0, selectedFilePath);
-
-                //    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
-                //}
-           // }
-
 
             
         }
@@ -205,11 +188,22 @@ namespace ZenHandler.Dlg
 
         }
 
-        private void CameraControl_VisibleChanged(object sender, EventArgs e)
+        private void button_SetTest_TopCam_Click(object sender, EventArgs e)
+        {
+            //Set_panelCam.Handle
+            Globalo.visionManager.ChangeDisplayHandle(2, Set_panelCam);
+        }
+
+        private void button_SetTest_SideCam_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.ChangeDisplayHandle(3, Set_panelCam);
+        }
+
+        private void SetTestControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
             {
-                
+                Globalo.visionManager.ChangeDisplayHandle(0, Set_panelCam);
             }
         }
     }

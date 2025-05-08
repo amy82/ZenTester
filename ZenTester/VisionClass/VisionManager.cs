@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Matrox.MatroxImagingLibrary;
 
 
@@ -26,46 +27,56 @@ namespace ZenHandler.VisionClass
 
         public int CamControlWidth = 0;
         public int CamControlHeight = 0;
+        public int SetCamControlWidth = 0;
+        public int SetCamControlHeight = 0;
 
         public int CameraResolutionWidth = 600;
         public int CameraResolutionHeight = 480;
 
-        public double m_CamReduceFactorX = 0.0;
-        public double m_CamReduceFactorY = 0.0;
+        //public double m_CamReduceFactorX = 0.0;
+        //public double m_CamReduceFactorY = 0.0;
 
-        public double m_CamExpandFactorX = 0.0;
-        public double m_CamExpandFactorY = 0.0;
+        //public double m_CamExpandFactorX = 0.0;
+        //public double m_CamExpandFactorY = 0.0;
 
         
 
         //카메라 연결,해제
         //Get Frame
 
-        public VisionManager(int camWidth , int camHeight)
+        public VisionManager()
         {
             Event.EventManager.PgExitCall += OnPgExit;
+
+            
+        }
+        public void SetPanelSize(int camWidth, int camHeight, int setcamWidth, int setcamHeight)
+        {
             CamControlWidth = camWidth;
             CamControlHeight = camHeight;
-
+            SetCamControlWidth = setcamWidth;
+            SetCamControlHeight = setcamHeight;
         }
-        
         public void MilSet()
         {
             int i = 0;
-            
-
             milLibrary = new MilLibraryUtil();
             aoiTester = new AoiTester();
             opencvTester = new OpencvAoiTest();
             aoiTopTester = new AoiTopTester();
-            milLibrary.AllocMilApplication(CamControlWidth, CamControlHeight);
 
-            m_CamReduceFactorX = ((double)CamControlWidth / (double)milLibrary.CAM_SIZE_X);
-            m_CamReduceFactorY = ((double)CamControlHeight / (double)milLibrary.CAM_SIZE_Y);
+            milLibrary.AllocMilApplication();
+            milLibrary.AllocMilCamBuffer(0, CamControlWidth, CamControlHeight);    //Top Camera
+            milLibrary.AllocMilCamBuffer(1, CamControlWidth, CamControlHeight);    //Side Camera
 
-            m_CamExpandFactorX = ((double)milLibrary.CAM_SIZE_X / (double)CamControlWidth);
-            m_CamExpandFactorY = ((double)milLibrary.CAM_SIZE_Y / (double)CamControlHeight);
-            
+            milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
+
+            //m_CamReduceFactorX = ((double)CamControlWidth / (double)milLibrary.CAM_SIZE_X);
+            //m_CamReduceFactorY = ((double)CamControlHeight / (double)milLibrary.CAM_SIZE_Y);
+
+            //m_CamExpandFactorX = ((double)milLibrary.CAM_SIZE_X / (double)CamControlWidth);
+            //m_CamExpandFactorY = ((double)milLibrary.CAM_SIZE_Y / (double)CamControlHeight);
+
             for (i = 0; i < milLibrary.CamFixCount; i++)
             {
                 milLibrary.AllocMilCamDisplay(_cameraDisplayHandles[i], i);
@@ -100,7 +111,16 @@ namespace ZenHandler.VisionClass
             milLibrary.setCamImage(index, filePath);
             
         }
-        
+        public void ChangeDisplayHandle(int camIndex, Panel panel)
+        {
+            milLibrary.SelectDisplay(camIndex, panel.Handle, panel.Width , panel.Height);
+        }
+        public void RecoverDisplayHandle()
+        {
+            milLibrary.SelectDisplay(0, _cameraDisplayHandles[0], CamControlWidth, CamControlHeight);
+            milLibrary.SelectDisplay(1, _cameraDisplayHandles[1], CamControlWidth, CamControlHeight);
+        }
+
         public void RegisterDisplayHandle(int cameraIndex, IntPtr handle)
         {
             _cameraDisplayHandles[cameraIndex] = handle;
@@ -116,12 +136,10 @@ namespace ZenHandler.VisionClass
                 {
                     while (!token.IsCancellationRequested)
                     {
-                        //Bitmap frame = GetCamera1Frame(); // 여기는 네 카메라 SDK로!
-                        //OnCamera1Frame?.Invoke(frame);
                         milLibrary.MilGrabRun(0);
 
 
-                        Thread.Sleep(10); // 혹은 FPS에 맞춰 조절
+                        Thread.Sleep(1); // 혹은 FPS에 맞춰 조절
                     }
                 }, token);
             }
@@ -143,11 +161,8 @@ namespace ZenHandler.VisionClass
                 {
                     while (!token.IsCancellationRequested)
                     {
-                        //Bitmap frame = GetCamera2Frame(); // 여기도 카메라 SDK
-                        //OnCamera2Frame?.Invoke(frame);
-
                         milLibrary.MilGrabRun(1);
-                        Thread.Sleep(10);
+                        Thread.Sleep(1);
                     }
                 }, token);
             }
