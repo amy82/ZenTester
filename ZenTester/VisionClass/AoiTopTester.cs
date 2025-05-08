@@ -51,9 +51,11 @@ namespace ZenHandler.VisionClass
         }
         public void Keytest(int index, Mat srcImage, OpenCvSharp.Point circle1)
         {
+            bool IMG_VIEW = false;
+            int startTime = Environment.TickCount;
             int radius = 700;
 
-            Rect keyRoi = new Rect((int)circle1.X - 920, (int)circle1.Y + 200, 650, 650);
+            Rect keyRoi = new Rect((int)circle1.X - 920, (int)circle1.Y + 160, 650, 650);
             Mat roiKeyMat = srcImage[keyRoi];
 
             // 이미지 크기에 맞는 빈 마스크
@@ -64,13 +66,13 @@ namespace ZenHandler.VisionClass
             // 원의 중심은 모서리(0,0)
              
             OpenCvSharp.Point center = new OpenCvSharp.Point(roiKeyMat.Width, 0);
-            OpenCvSharp.Size axes = new OpenCvSharp.Size(500, 500); // 원형이면 x=y
+            OpenCvSharp.Size axes = new OpenCvSharp.Size(450, 450); // 원형이면 x=y
             // 0도에서 90도까지의 부채꼴 (시계방향)
 
             // 타원 회전 각도
             // 시작 각
             // 끝 각
-            Cv2.Ellipse(mask, center, axes, 0, 90, 180,Scalar.White, -1 );
+            Cv2.Ellipse(mask, center, axes, 0, 180, 90,Scalar.White, -1 );
             Mat invertedMask = new Mat();
 
             //Cv2.BitwiseXor(mask, mask, invertedMask);
@@ -79,10 +81,13 @@ namespace ZenHandler.VisionClass
 
             Mat result = new Mat();
             roiKeyMat.CopyTo(result, invertedMask);  // 반전된 마스크를 이용해 src의 특정 영역 복사
-
-            Cv2.NamedWindow("Keytest result ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-            Cv2.ImShow("Keytest result ", result);
-            Cv2.WaitKey(0);
+            if (IMG_VIEW)
+            {
+                Cv2.NamedWindow("Keytest result ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Keytest result ", result);
+                Cv2.WaitKey(0);
+            }
+            
 
             var binary = new Mat();
             int blockSize = 21;// 21; // 반드시 홀수
@@ -90,34 +95,62 @@ namespace ZenHandler.VisionClass
             Cv2.AdaptiveThreshold(result, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out HierarchyIndex[] hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
             int i = 0;
-
+            //List<System.Drawing.Point> points = new List<System.Drawing.Point>();
             for (i = 0; i < contours.Length; i++)
             {
                 double area = Cv2.ContourArea(contours[i]);
                 double perimeter = Cv2.ArcLength(contours[i], true);
 
-                if (hierarchy[i].Parent != -1 && area > 10 && area < 1000) // 조건: 면적이 100 이상
+                // if (hierarchy[i].Parent != -1 && area > 0.01 && area < 10000) // 조건: 면적이 100 이상
+                if (area > 150 && area < 1100) // 조건: 면적이 100 이상
                 {
                     Cv2.DrawContours(binary, contours, i, new Scalar(0, 255, 255), 2);
 
                     // 윤곽선 그리기 (노란색)
 
                     Console.WriteLine($"Contour with area {area} detected.");
-                    List<System.Drawing.Point> points = new List<System.Drawing.Point>();
+
                     // contour는 List<Point> 형식이므로, 이를 Graphics.DrawPolygon에 맞게 사용
                     //points = contours[i].Select(p => new System.Drawing.Point(p.X, p.Y)).ToList();
+                    List<System.Drawing.Point> points = new List<System.Drawing.Point>();
                     foreach (var p in contours[i])
                     {
                         points.Add(new System.Drawing.Point((int)((p.X + circle1.X - 920) * Globalo.visionManager.milLibrary.xReduce), (int)((p.Y + circle1.Y + 200) * Globalo.visionManager.milLibrary.yReduce)));
                     }
-                    Globalo.visionManager.milLibrary.DrawOverlayPolygon(index, points, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    if (points.Count >= 3) // 다각형이 되려면 꼭지점 3개 이상
+                    {
+                        Globalo.visionManager.milLibrary.DrawOverlayPolygon(index, points, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    }
                 }
+                
             }
 
             //
-            Cv2.NamedWindow("Detected result2 ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-            Cv2.ImShow("Detected result2 ", binary);
-            Cv2.WaitKey(0);
+            if (IMG_VIEW)
+            {
+                Cv2.NamedWindow("Detected result2 ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Detected result2 ", binary);
+                Cv2.WaitKey(0);
+            }
+                
+
+
+            long elapsedMs = Environment.TickCount - startTime;
+            // 시간 출력
+            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
+
+            string str = "";
+            str = $"Key Test Time: {elapsedMs} ms";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            str = $"Key Test Time: {elapsedMs / 1000.0:F3} s";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            System.Drawing.Point textPoint = new System.Drawing.Point(100, 100);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
         }
         public void GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1, OpenCvSharp.Point circle2)
         {
