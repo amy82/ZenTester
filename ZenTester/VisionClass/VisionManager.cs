@@ -66,8 +66,10 @@ namespace ZenHandler.VisionClass
             aoiTopTester = new AoiTopTester();
 
             milLibrary.AllocMilApplication();
+
             milLibrary.AllocMilCamBuffer(0, CamControlWidth, CamControlHeight);    //Top Camera
             milLibrary.AllocMilCamBuffer(1, CamControlWidth, CamControlHeight);    //Side Camera
+
             milLibrary.setCamSize(CamControlWidth, CamControlHeight);
 
             milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
@@ -81,8 +83,12 @@ namespace ZenHandler.VisionClass
             for (i = 0; i < milLibrary.CamFixCount; i++)
             {
                 milLibrary.AllocMilCamDisplay(_cameraDisplayHandles[i], i);
+                milLibrary.AllocMilSetCamDisplay(_cameraDisplayHandles[2], i);
                 milLibrary.EnableCamOverlay(i);
+                milLibrary.EnableSetCamOverlay(i);
+
             }
+            
 
             //milLibrary.DrawOverlay(0);
             //milLibrary.DrawOverlay(1);

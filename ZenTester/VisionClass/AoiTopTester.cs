@@ -13,6 +13,7 @@ namespace ZenHandler.VisionClass
 {
     public class AoiTopTester
     {
+        private byte[] ImageBuffer;// = new byte[dataSize];
         public AoiTopTester()
         {
 
@@ -26,13 +27,19 @@ namespace ZenHandler.VisionClass
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
             int dataSize = sizeX * sizeY;
-            byte[] buffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], buffer);
+
+            ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(buffer, 0, src.Data, dataSize);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            OpenCvSharp.Point centerPos = ConTest(index , src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
+
+            OpenCvSharp.Point centerPos = Housing_Dent_Test(index , src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
+
             GasketTest(index, src, centerPos, centerPos);     //가스켓 검사
             //
             Keytest(index, src, centerPos);        //키검사
@@ -150,7 +157,7 @@ namespace ZenHandler.VisionClass
 
             Console.WriteLine($"가스켓 영역 평균 밝기: {avg.Val0:F2}");
         }
-        public OpenCvSharp.Point ConTest(int index, Mat srcImage)
+        public OpenCvSharp.Point Housing_Dent_Test(int index, Mat srcImage)
         {
             
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();

@@ -123,6 +123,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Key_Test.TabIndex = 54;
             this.button_Set_Key_Test.Text = "KEY TEST";
             this.button_Set_Key_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Key_Test.Click += new System.EventHandler(this.button_Set_Key_Test_Click);
             // 
             // button_Set_Housing_Test
             // 
@@ -135,6 +136,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Housing_Test.TabIndex = 55;
             this.button_Set_Housing_Test.Text = "HOUSING TEST";
             this.button_Set_Housing_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Housing_Test.Click += new System.EventHandler(this.button_Set_Housing_Test_Click);
             // 
             // button_Set_Gasket_Test
             // 
@@ -147,6 +149,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Gasket_Test.TabIndex = 56;
             this.button_Set_Gasket_Test.Text = "GASKET TEST";
             this.button_Set_Gasket_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Gasket_Test.Click += new System.EventHandler(this.button_Set_Gasket_Test_Click);
             // 
             // button_Set_Dent_Test
             // 
@@ -159,6 +162,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Dent_Test.TabIndex = 57;
             this.button_Set_Dent_Test.Text = "DENT TEST";
             this.button_Set_Dent_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Dent_Test.Click += new System.EventHandler(this.button_Set_Dent_Test_Click);
             // 
             // button_Set_Oring_Test
             // 
@@ -171,6 +175,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Oring_Test.TabIndex = 58;
             this.button_Set_Oring_Test.Text = "ORING TEST";
             this.button_Set_Oring_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Oring_Test.Click += new System.EventHandler(this.button_Set_Oring_Test_Click);
             // 
             // button_Set_Cone_Test
             // 
@@ -183,6 +188,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Cone_Test.TabIndex = 59;
             this.button_Set_Cone_Test.Text = "CONE TEST";
             this.button_Set_Cone_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Cone_Test.Click += new System.EventHandler(this.button_Set_Cone_Test_Click);
             // 
             // button_Set_Height_Test
             // 
@@ -195,6 +201,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Height_Test.TabIndex = 60;
             this.button_Set_Height_Test.Text = "HEIGHT TEST";
             this.button_Set_Height_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Height_Test.Click += new System.EventHandler(this.button_Set_Height_Test_Click);
             // 
             // SetTestControl
             // 

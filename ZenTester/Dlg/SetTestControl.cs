@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Matrox.MatroxImagingLibrary;
+using OpenCvSharp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,6 +24,7 @@ namespace ZenHandler.Dlg
         private int[] StartPos = new int[] { 1450, 10 };          //Grid Pos
         private int[] inGridWid = new int[] { 150, 100 };    //Grid Width
 
+        int CamIndex = 0;
         public SetTestControl()
         {
             InitializeComponent();
@@ -31,31 +35,7 @@ namespace ZenHandler.Dlg
         public void initResultGrid()
         {
             int i = 0;
-            ResultGridView1 = new Controls.DefaultGridView(GridCol, GridRow, inGridWid);
-            ResultGridView2 = new Controls.DefaultGridView(GridCol, GridRow, inGridWid);
-            //ResultGridView1.Location = new Point(label_Socket_Result1.Location.X, label_Socket_Result1.Location.Y + label_Socket_Result1.Height + 1);
-            //ResultGridView2.Location = new Point(label_Socket_Result2.Location.X, label_Socket_Result2.Location.Y + label_Socket_Result2.Height + 1);
 
-            string[] title = new string[] { "Item", "Result" };         //Grid Width
-            for (i = 0; i < ResultGridView1.ColumnCount; i++)
-            {
-                ResultGridView1.Columns[i].Name = title[i];
-                ResultGridView2.Columns[i].Name = title[i];
-            }
-
-            string posName = "";
-            string[] ItemList = new string[] { "LH ", "MH", "RH", "O Ring", "CONE", "CON1", "CON2", "GASKET", "DENT", "KEY" };         //Grid Width
-            for (i = 0; i < GridRow; i++)
-            {
-                posName = ItemList[i];
-                ResultGridView1.Rows[i].SetValues(posName);
-                ResultGridView2.Rows[i].SetValues(posName);
-            }
-
-            //label_Socket_Result1.Width = ResultGridView1.Width;
-            //label_Socket_Result2.Width = ResultGridView2.Width;
-            //this.Controls.Add(ResultGridView1);
-            //this.Controls.Add(ResultGridView2);
         }
         public void initNewCameraSet()
         {
@@ -92,7 +72,7 @@ namespace ZenHandler.Dlg
             //TOP CAMERA SAVE
             //
             Globalo.visionManager.milLibrary.ClearOverlay(0);
-            Globalo.visionManager.milLibrary.DrawOverlayText(0, new Point(100,100), "overlay test", Color.Yellow, 30);
+            Globalo.visionManager.milLibrary.DrawOverlayText(0, new System.Drawing.Point(100,100), "overlay test", Color.Yellow, 30);
 
             Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
             Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
@@ -152,12 +132,12 @@ namespace ZenHandler.Dlg
         private void btn_SideCam_Image_Save_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(1);  
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new Point(1500, 200), "overlay test1", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new Point(1500, 400), "overlay test2", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new Point(1500, 600), "overlay test3", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new Point(1500, 800), "overlay test4", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new Point(1500, 1000), "overlay test5", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new Point(1500, 1200), "overlay test6", Color.Yellow, 30);
+            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 200), "overlay test1", Color.Yellow, 30); 
+            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 400), "overlay test2", Color.Yellow, 30); 
+            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 600), "overlay test3", Color.Yellow, 30); 
+            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 800), "overlay test4", Color.Yellow, 30); 
+            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1000), "overlay test5", Color.Yellow, 30); 
+            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1200), "overlay test6", Color.Yellow, 30);
 
             Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
             Globalo.visionManager.milLibrary.DrawOverlayBox(1, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Dot);
@@ -191,12 +171,14 @@ namespace ZenHandler.Dlg
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
             //Set_panelCam.Handle
-            Globalo.visionManager.ChangeDisplayHandle(2, Set_panelCam);
+            CamIndex = 0;
+            Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.ChangeDisplayHandle(3, Set_panelCam);
+            CamIndex = 1;
+            Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }
 
         private void SetTestControl_VisibleChanged(object sender, EventArgs e)
@@ -207,5 +189,63 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
             }
         }
+
+
+
+        #region [TOP CAMERA MANUAL TEST]
+        private void button_Set_Key_Test_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTopTester.Run(0);
+        }
+
+        private void button_Set_Housing_Test_Click(object sender, EventArgs e)
+        {
+            bool rtn = true;
+
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+
+
+            OpenCvSharp.Point centerPos = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+        }
+
+        private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Set_Dent_Test_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region [SIDE CAMERA MANUAL TEST]
+        private void button_Set_Oring_Test_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Set_Cone_Test_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Set_Height_Test_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
