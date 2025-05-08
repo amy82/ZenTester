@@ -21,7 +21,7 @@ namespace ZenHandler.VisionClass
         public int TotalCamCount = 0;
         public int CamFixCount = 2;
 
-
+        private bool AutoRunMode = true;
         public bool[] bGrabOnFlag = new bool[2];
 
         //CAMERA
@@ -40,20 +40,15 @@ namespace ZenHandler.VisionClass
         //Overlay
         public MIL_ID[] MilCamOverlayImage;
 
-
-        ///public byte[][][] m_pImgBuff = new byte[1][][];
-
-
-
         public int CAM_SIZE_X = 2000;
         public int CAM_SIZE_Y = 1500;
         private MIL_INT m_nMilSizeX = 0;
         private MIL_INT m_nMilSizeY = 0;
 
-        private int CamControlWidth = 100;      //픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
-        private int CamControlHeight = 100;     //픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
-        private int SetCamControlWidth = 100;      //세팅용 픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
-        private int SetCamControlHeight = 100;     //세팅용 픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
+        private int CamControlWidth = 100;          //픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
+        private int CamControlHeight = 100;         //픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
+        private int SetCamControlWidth = 100;       //세팅용 픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
+        private int SetCamControlHeight = 100;      //세팅용 픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
 
         public double xReduce = 0.0;
         public double yReduce = 0.0;
@@ -66,49 +61,15 @@ namespace ZenHandler.VisionClass
             MilDigitizerList[1] = MIL.M_NULL;
         }
 
-        public void MilClose()
+
+        public void RunModeChange(bool flag)
         {
-            int i = 0;
-
-            // Stop continuous grab.
-
-            for (i = 0; i < CamFixCount; i++)
-            {
-                MIL.MdigHalt(MilDigitizerList[i]);
-                
-                MIL.MdispSelect(MilCamDisplay[i], MIL.M_NULL);
-                MIL.MbufFree(MilCamGrabImage[i]);
-                MIL.MbufFree(MilCamGrabImageChild[i]);
-                MIL.MbufFree(MilCamGrabImageChild[i]);
-                //
-                MIL.MbufFree(MilCamSmallImage[i]);
-                MIL.MbufFree(MilCamSmallImageChild[i]);
-                //
-                MIL.MbufFree(MilSetCamSmallImage[i]);
-                MIL.MbufFree(MilSetCamSmallImageChild[i]);
-                MIL.MbufFree(MilCamOverlay[i]);
-                MIL.MbufFree(MilCamOverlayImage[i]);
-
-                MIL.MdigFree(MilDigitizerList[i]);
-
-            }
-
-            MIL.MdispFree(MilCamDisplay[0]);
-            MIL.MdispFree(MilCamDisplay[1]);
-
-            MIL.MsysFree(MilSystem);
-            if (MilApplication != MIL.M_NULL)
-            {
-                MIL.MappFree(MilApplication);
-            }
+            AutoRunMode = flag;
         }
-        
         public void setCamSize(int PanelW , int PanelH)
         {
-
             xReduce = ((double)PanelW / (double)CAM_SIZE_X);
             yReduce = ((double)PanelH / (double)CAM_SIZE_Y);
-
         }
 
         //자동운전시 Cam1 , Cam2
@@ -116,22 +77,19 @@ namespace ZenHandler.VisionClass
         public void SelectDisplay(int index, IntPtr handle, int _w, int _h)
         {
             setCamSize(_w, _h);
-            if (index == 0 || index == 1)
-            {
-                MIL.MdispSelectWindow(MilCamDisplay[index], MilCamSmallImageChild[index], handle);
-            }
-            else
-            {
-                MIL.MdispSelectWindow(MilCamDisplay[index], MilSetCamSmallImageChild[index], handle);
-            }
+            MIL.MdispSelectWindow(MilCamDisplay[index], MilCamSmallImageChild[index], handle);
         }
+
+        public void SelectSetDisplay(int index, IntPtr handle, int _w, int _h)
+        {
+            setCamSize(_w, _h);
+            MIL.MdispSelectWindow(MilCamDisplay[index], MilSetCamSmallImageChild[index], handle);
+        }
+
         public void GrabImageSave(int index, string path)
         {
             MIL.MbufExport(path, MIL.M_BMP, Globalo.visionManager.milLibrary.MilCamGrabImageChild[index]);
         }
-
-
-
         public void SetGrabOn(int index, bool bGrab)
         {
             bGrabOnFlag[index] = bGrab;
@@ -155,8 +113,15 @@ namespace ZenHandler.VisionClass
             {
                 MIL.MdigGrab(MilDigitizerList[index], MilCamGrabImage[index]);
                 MIL.MdigGrabWait(MilDigitizerList[index], MIL.M_GRAB_END);
-
-                MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce, yReduce, MIL.M_DEFAULT);
+                if (AutoRunMode)
+                {
+                    MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce, yReduce, MIL.M_DEFAULT);
+                }
+                else
+                {
+                    MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce, yReduce, MIL.M_DEFAULT);
+                }
+                
             }
             
         }
@@ -400,9 +365,6 @@ namespace ZenHandler.VisionClass
         {
             CamControlWidth = _CamW;
             CamControlHeight = _CamH;
-
-            setCamSize(_CamW, _CamH);
-
             int i = 0;
             long lBufferAttributes = 0;
             if (index < TotalCamCount)
@@ -438,13 +400,11 @@ namespace ZenHandler.VisionClass
             MIL.MbufChild2d(MilSetCamSmallImage[index], 0, 0, SetCamControlWidth, SetCamControlHeight, ref MilSetCamSmallImageChild[index]);
             MIL.MbufClear(MilSetCamSmallImageChild[index], MIL.M_COLOR_BLACK);
         }
+#region [MIL INIT]
+        
         public void AllocMilApplication()
         {
             int i = 0;
-            
-            
-
-
             MIL.MappAlloc(MIL.M_NULL, MIL.M_DEFAULT, ref MilApplication);//MIL.MappAlloc(MIL.M_DEFAULT, ref MilApplication);
             // Allocate defaults.
             MIL.MappControl(MIL.M_ERROR, MIL.M_PRINT_DISABLE);
@@ -520,5 +480,43 @@ namespace ZenHandler.VisionClass
             
 
         }
+
+        public void MilClose()
+        {
+            int i = 0;
+
+            // Stop continuous grab.
+
+            for (i = 0; i < CamFixCount; i++)
+            {
+                MIL.MdigHalt(MilDigitizerList[i]);
+
+                MIL.MdispSelect(MilCamDisplay[i], MIL.M_NULL);
+                MIL.MbufFree(MilCamGrabImage[i]);
+                MIL.MbufFree(MilCamGrabImageChild[i]);
+                MIL.MbufFree(MilCamGrabImageChild[i]);
+                //
+                MIL.MbufFree(MilCamSmallImage[i]);
+                MIL.MbufFree(MilCamSmallImageChild[i]);
+                //
+                MIL.MbufFree(MilSetCamSmallImage[i]);
+                MIL.MbufFree(MilSetCamSmallImageChild[i]);
+                MIL.MbufFree(MilCamOverlay[i]);
+                MIL.MbufFree(MilCamOverlayImage[i]);
+
+                MIL.MdigFree(MilDigitizerList[i]);
+
+            }
+
+            MIL.MdispFree(MilCamDisplay[0]);
+            MIL.MdispFree(MilCamDisplay[1]);
+
+            MIL.MsysFree(MilSystem);
+            if (MilApplication != MIL.M_NULL)
+            {
+                MIL.MappFree(MilApplication);
+            }
+        }
+        #endregion
     }
 }

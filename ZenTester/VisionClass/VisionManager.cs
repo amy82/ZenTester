@@ -68,6 +68,7 @@ namespace ZenHandler.VisionClass
             milLibrary.AllocMilApplication();
             milLibrary.AllocMilCamBuffer(0, CamControlWidth, CamControlHeight);    //Top Camera
             milLibrary.AllocMilCamBuffer(1, CamControlWidth, CamControlHeight);    //Side Camera
+            milLibrary.setCamSize(CamControlWidth, CamControlHeight);
 
             milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
 
@@ -115,6 +116,10 @@ namespace ZenHandler.VisionClass
         {
             milLibrary.SelectDisplay(camIndex, panel.Handle, panel.Width , panel.Height);
         }
+        public void ChangeSettingDisplayHandle(int camIndex, Panel panel)
+        {
+            milLibrary.SelectSetDisplay(camIndex, panel.Handle, panel.Width , panel.Height);
+        }
         public void RecoverDisplayHandle()
         {
             milLibrary.SelectDisplay(0, _cameraDisplayHandles[0], CamControlWidth, CamControlHeight);
@@ -139,7 +144,7 @@ namespace ZenHandler.VisionClass
                         milLibrary.MilGrabRun(0);
 
 
-                        Thread.Sleep(1); // 혹은 FPS에 맞춰 조절
+                        Thread.Sleep(10); // 혹은 FPS에 맞춰 조절
                     }
                 }, token);
             }

@@ -296,14 +296,14 @@ namespace ZenHandler  //ApsMotionControl
             TopPanel.BackColor = ColorTranslator.FromHtml("#FAFAFA");
             MainTitleLabel.ForeColor = ColorTranslator.FromHtml("#8F949F");
             MainTitleLabel.BackColor = Color.Transparent;
-            MainTitleLabel.Text = "Zen Handler V1";
+            MainTitleLabel.Text = "Zen Tester V1";
 
             //-----------------------------------------------
             int MidPanelHeight = LeftPanel.Height;          //Left Middle 패널 높이
             //int ViewPanelHeight =  LeftPanel.Height - CamHeight - MainBtnHGap - RunButtonHeight - MainBtnHGap;      // 전체 높이에서 -카메라높이 - 버튼 높이 - 생상정보       //로그창 높이
             int nBottomPanelY = RightPanel.Location.Y;     //Bottom 패널 Position Y
 
-
+            Console.WriteLine($"LeftPanel W:{LeftPanel.Width}, H:{LeftPanel.Height}");
             //-----------------------------------------------
             //우측 패널
             //-----------------------------------------------

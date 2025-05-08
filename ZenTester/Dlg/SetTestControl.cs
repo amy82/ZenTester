@@ -203,7 +203,8 @@ namespace ZenHandler.Dlg
         {
             if (this.Visible)
             {
-                Globalo.visionManager.ChangeDisplayHandle(0, Set_panelCam);
+                Globalo.visionManager.milLibrary.RunModeChange(false);
+                Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
             }
         }
     }

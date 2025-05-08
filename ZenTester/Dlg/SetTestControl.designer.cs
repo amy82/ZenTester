@@ -33,18 +33,27 @@ namespace ZenHandler.Dlg
             this.Set_panelCam = new System.Windows.Forms.Panel();
             this.button_SetTest_TopCam = new System.Windows.Forms.Button();
             this.button_SetTest_SideCam = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Top_Test = new System.Windows.Forms.Label();
+            this.label_SetTest_Manual_Side_Test = new System.Windows.Forms.Label();
+            this.button_Set_Key_Test = new System.Windows.Forms.Button();
+            this.button_Set_Housing_Test = new System.Windows.Forms.Button();
+            this.button_Set_Gasket_Test = new System.Windows.Forms.Button();
+            this.button_Set_Dent_Test = new System.Windows.Forms.Button();
+            this.button_Set_Oring_Test = new System.Windows.Forms.Button();
+            this.button_Set_Cone_Test = new System.Windows.Forms.Button();
+            this.button_Set_Height_Test = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
             // 
-            this.label_SetTest_Title.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label_SetTest_Title.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Title.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.label_SetTest_Title.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Title.ForeColor = System.Drawing.Color.White;
             this.label_SetTest_Title.Location = new System.Drawing.Point(3, 10);
             this.label_SetTest_Title.Name = "label_SetTest_Title";
-            this.label_SetTest_Title.Size = new System.Drawing.Size(1003, 23);
+            this.label_SetTest_Title.Size = new System.Drawing.Size(1020, 23);
             this.label_SetTest_Title.TabIndex = 2;
-            this.label_SetTest_Title.Text = "Cameara";
+            this.label_SetTest_Title.Text = "Setting Cameara";
             this.label_SetTest_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Set_panelCam
@@ -52,7 +61,7 @@ namespace ZenHandler.Dlg
             this.Set_panelCam.BackColor = System.Drawing.Color.DarkKhaki;
             this.Set_panelCam.Location = new System.Drawing.Point(3, 35);
             this.Set_panelCam.Name = "Set_panelCam";
-            this.Set_panelCam.Size = new System.Drawing.Size(1003, 718);
+            this.Set_panelCam.Size = new System.Drawing.Size(1020, 730);
             this.Set_panelCam.TabIndex = 4;
             // 
             // button_SetTest_TopCam
@@ -75,16 +84,138 @@ namespace ZenHandler.Dlg
             this.button_SetTest_SideCam.UseVisualStyleBackColor = true;
             this.button_SetTest_SideCam.Click += new System.EventHandler(this.button_SetTest_SideCam_Click);
             // 
+            // label_SetTest_Manual_Top_Test
+            // 
+            this.label_SetTest_Manual_Top_Test.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Top_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_SetTest_Manual_Top_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Top_Test.ForeColor = System.Drawing.Color.Black;
+            this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(1049, 92);
+            this.label_SetTest_Manual_Top_Test.Name = "label_SetTest_Manual_Top_Test";
+            this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(302, 29);
+            this.label_SetTest_Manual_Top_Test.TabIndex = 52;
+            this.label_SetTest_Manual_Top_Test.Text = "Top Cam Manual Test";
+            this.label_SetTest_Manual_Top_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_SetTest_Manual_Side_Test
+            // 
+            this.label_SetTest_Manual_Side_Test.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Side_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
+            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(1049, 371);
+            this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
+            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(302, 29);
+            this.label_SetTest_Manual_Side_Test.TabIndex = 53;
+            this.label_SetTest_Manual_Side_Test.Text = "Side Cam Manual Test";
+            this.label_SetTest_Manual_Side_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button_Set_Key_Test
+            // 
+            this.button_Set_Key_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Key_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Key_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Key_Test.Location = new System.Drawing.Point(1049, 123);
+            this.button_Set_Key_Test.Name = "button_Set_Key_Test";
+            this.button_Set_Key_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Key_Test.TabIndex = 54;
+            this.button_Set_Key_Test.Text = "KEY TEST";
+            this.button_Set_Key_Test.UseVisualStyleBackColor = false;
+            // 
+            // button_Set_Housing_Test
+            // 
+            this.button_Set_Housing_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Housing_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Housing_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Housing_Test.Location = new System.Drawing.Point(1049, 178);
+            this.button_Set_Housing_Test.Name = "button_Set_Housing_Test";
+            this.button_Set_Housing_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Housing_Test.TabIndex = 55;
+            this.button_Set_Housing_Test.Text = "HOUSING TEST";
+            this.button_Set_Housing_Test.UseVisualStyleBackColor = false;
+            // 
+            // button_Set_Gasket_Test
+            // 
+            this.button_Set_Gasket_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Gasket_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Gasket_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(1049, 233);
+            this.button_Set_Gasket_Test.Name = "button_Set_Gasket_Test";
+            this.button_Set_Gasket_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Gasket_Test.TabIndex = 56;
+            this.button_Set_Gasket_Test.Text = "GASKET TEST";
+            this.button_Set_Gasket_Test.UseVisualStyleBackColor = false;
+            // 
+            // button_Set_Dent_Test
+            // 
+            this.button_Set_Dent_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Dent_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Dent_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Dent_Test.Location = new System.Drawing.Point(1049, 288);
+            this.button_Set_Dent_Test.Name = "button_Set_Dent_Test";
+            this.button_Set_Dent_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Dent_Test.TabIndex = 57;
+            this.button_Set_Dent_Test.Text = "DENT TEST";
+            this.button_Set_Dent_Test.UseVisualStyleBackColor = false;
+            // 
+            // button_Set_Oring_Test
+            // 
+            this.button_Set_Oring_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Oring_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Oring_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Oring_Test.Location = new System.Drawing.Point(1049, 403);
+            this.button_Set_Oring_Test.Name = "button_Set_Oring_Test";
+            this.button_Set_Oring_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Oring_Test.TabIndex = 58;
+            this.button_Set_Oring_Test.Text = "ORING TEST";
+            this.button_Set_Oring_Test.UseVisualStyleBackColor = false;
+            // 
+            // button_Set_Cone_Test
+            // 
+            this.button_Set_Cone_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Cone_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Cone_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Cone_Test.Location = new System.Drawing.Point(1049, 458);
+            this.button_Set_Cone_Test.Name = "button_Set_Cone_Test";
+            this.button_Set_Cone_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Cone_Test.TabIndex = 59;
+            this.button_Set_Cone_Test.Text = "CONE TEST";
+            this.button_Set_Cone_Test.UseVisualStyleBackColor = false;
+            // 
+            // button_Set_Height_Test
+            // 
+            this.button_Set_Height_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Height_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Height_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Height_Test.Location = new System.Drawing.Point(1049, 513);
+            this.button_Set_Height_Test.Name = "button_Set_Height_Test";
+            this.button_Set_Height_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Set_Height_Test.TabIndex = 60;
+            this.button_Set_Height_Test.Text = "HEIGHT TEST";
+            this.button_Set_Height_Test.UseVisualStyleBackColor = false;
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Set_Height_Test);
+            this.Controls.Add(this.button_Set_Cone_Test);
+            this.Controls.Add(this.button_Set_Oring_Test);
+            this.Controls.Add(this.button_Set_Dent_Test);
+            this.Controls.Add(this.button_Set_Gasket_Test);
+            this.Controls.Add(this.button_Set_Housing_Test);
+            this.Controls.Add(this.button_Set_Key_Test);
+            this.Controls.Add(this.label_SetTest_Manual_Side_Test);
+            this.Controls.Add(this.label_SetTest_Manual_Top_Test);
             this.Controls.Add(this.button_SetTest_SideCam);
             this.Controls.Add(this.button_SetTest_TopCam);
             this.Controls.Add(this.Set_panelCam);
             this.Controls.Add(this.label_SetTest_Title);
             this.Name = "SetTestControl";
-            this.Size = new System.Drawing.Size(1770, 756);
+            this.Size = new System.Drawing.Size(1770, 800);
             this.VisibleChanged += new System.EventHandler(this.SetTestControl_VisibleChanged);
             this.ResumeLayout(false);
 
@@ -95,5 +226,14 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Button button_SetTest_TopCam;
         private System.Windows.Forms.Button button_SetTest_SideCam;
         public System.Windows.Forms.Panel Set_panelCam;
+        public System.Windows.Forms.Label label_SetTest_Manual_Top_Test;
+        public System.Windows.Forms.Label label_SetTest_Manual_Side_Test;
+        private System.Windows.Forms.Button button_Set_Key_Test;
+        private System.Windows.Forms.Button button_Set_Housing_Test;
+        private System.Windows.Forms.Button button_Set_Gasket_Test;
+        private System.Windows.Forms.Button button_Set_Dent_Test;
+        private System.Windows.Forms.Button button_Set_Oring_Test;
+        private System.Windows.Forms.Button button_Set_Cone_Test;
+        private System.Windows.Forms.Button button_Set_Height_Test;
     }
 }

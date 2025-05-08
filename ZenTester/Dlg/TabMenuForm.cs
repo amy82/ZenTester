@@ -186,6 +186,7 @@ namespace ZenHandler.Dlg
 
         private void BTN_BOTTOM_MAIN_Click_1(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.RunModeChange(true);
             Globalo.visionManager.RecoverDisplayHandle();
             MenuButtonSet(TABFORM.MAIN_FORM);
         }
