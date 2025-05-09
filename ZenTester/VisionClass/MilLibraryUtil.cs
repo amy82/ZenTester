@@ -184,9 +184,42 @@ namespace ZenHandler.VisionClass
             MIL.MmodDraw(MIL.M_DEFAULT, display, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_BOX, MIL.M_DEFAULT, MIL.M_DEFAULT);
         }
 
-    #region [OVERLAY DRAW]
+        #region [OVERLAY DRAW]
+        public void DrawOverlayLine(int index, int x1, int y1, int x2, int y2, Color color, int nWid, DashStyle nStyles)
+        {
+            IntPtr hOverlayDC = IntPtr.Zero;
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
+            MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
 
-        
+            if (!hOverlayDC.Equals(IntPtr.Zero))
+            {
+                using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
+                {
+                    using (Pen arrowPen = new Pen(color, nWid))
+                    {
+                        int startX = (int)(x1 * xReduce + 0.5);
+                        int startY = (int)(y1 * yReduce + 0.5);
+                        int endX = (int)(x2 * xReduce + 0.5);
+                        int endY = (int)(y2 * yReduce + 0.5);
+
+                        DrawingGraphics.DrawLine(arrowPen, startX, startY, endX, endY);
+                    }
+                }
+
+            }
+            MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
+        }
+
         public void DrawOverlayArrow(int index, int x1 , int y1 , int x2 , int y2, Color color, int nWid, DashStyle nStyles)
         {
             IntPtr hOverlayDC = IntPtr.Zero;

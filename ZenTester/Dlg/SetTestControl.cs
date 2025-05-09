@@ -244,7 +244,7 @@ namespace ZenHandler.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, centerPos, centerPos);     //가스켓 검사
+            Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, centerPos);     //가스켓 검사
         }
 
         private void button_Set_Dent_Test_Click(object sender, EventArgs e)
@@ -269,5 +269,23 @@ namespace ZenHandler.Dlg
 
         }
         #endregion
+
+        private void button_Pogo_Find_Test_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+
+            Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);     //가스켓 검사
+        }
     }
 }

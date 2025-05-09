@@ -42,6 +42,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Oring_Test = new System.Windows.Forms.Button();
             this.button_Set_Cone_Test = new System.Windows.Forms.Button();
             this.button_Set_Height_Test = new System.Windows.Forms.Button();
+            this.button_Pogo_Find_Test = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -203,11 +204,25 @@ namespace ZenHandler.Dlg
             this.button_Set_Height_Test.UseVisualStyleBackColor = false;
             this.button_Set_Height_Test.Click += new System.EventHandler(this.button_Set_Height_Test_Click);
             // 
+            // button_Pogo_Find_Test
+            // 
+            this.button_Pogo_Find_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_Pogo_Find_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Pogo_Find_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(1211, 124);
+            this.button_Pogo_Find_Test.Name = "button_Pogo_Find_Test";
+            this.button_Pogo_Find_Test.Size = new System.Drawing.Size(140, 56);
+            this.button_Pogo_Find_Test.TabIndex = 61;
+            this.button_Pogo_Find_Test.Text = "POGO FIND TEST";
+            this.button_Pogo_Find_Test.UseVisualStyleBackColor = false;
+            this.button_Pogo_Find_Test.Click += new System.EventHandler(this.button_Pogo_Find_Test_Click);
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Pogo_Find_Test);
             this.Controls.Add(this.button_Set_Height_Test);
             this.Controls.Add(this.button_Set_Cone_Test);
             this.Controls.Add(this.button_Set_Oring_Test);
@@ -242,5 +257,6 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Button button_Set_Oring_Test;
         private System.Windows.Forms.Button button_Set_Cone_Test;
         private System.Windows.Forms.Button button_Set_Height_Test;
+        private System.Windows.Forms.Button button_Pogo_Find_Test;
     }
 }
