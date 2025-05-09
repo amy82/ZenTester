@@ -15,6 +15,26 @@ namespace ZenHandler.Dlg
 {
     public partial class SetTestControl : UserControl
     {
+        public enum MOUSE_CLICK_TYPE
+        {
+            MOUSE_DRAG = 0, TRACK_DRAG, DISP_MOVE, MEASURE, DIST_CHECK
+        };
+        public enum SQUARE_TYPE
+        {
+            SQUARE_RESET = 0, SQUARE_CREATE, SQUARE_RESIZE, SQUARE_MOVE
+        };
+
+        public enum SQUARE_DIR
+        {
+            STANDARD = -1, CENTER, LEFT, TOP, RIGHT, BOTTOM, LEFTTOP, LEFTBOTTOM, RIGHTTOP, RIGHTBOTTOM
+        };
+
+        public enum MOUSE_CURSOR
+        {
+            MOVE_ALL, MOVE_WIDTH_LEFT, MOVE_WIDTH_RIGHT, MOVE_HEIGHT_TOP, MOVE_HEIGHT_BOTTOM,
+            MOVE_NW, MOVE_NE, MOVE_SW, MOVE_SE
+        };
+
         public Bitmap CurrentImage { get; set; }
         private Controls.DefaultGridView ResultGridView1;
         private Controls.DefaultGridView ResultGridView2;
@@ -24,6 +44,14 @@ namespace ZenHandler.Dlg
         private int GridRow = 10;                                //picker , bcr , state
         private int[] StartPos = new int[] { 1450, 10 };          //Grid Pos
         private int[] inGridWid = new int[] { 150, 100 };    //Grid Width
+
+        private MOUSE_CLICK_TYPE m_nDragFlag = MOUSE_CLICK_TYPE.MEASURE;
+        private SQUARE_TYPE m_nType = SQUARE_TYPE.SQUARE_RESET;
+        public System.Drawing.Point m_clClickPoint = new System.Drawing.Point();
+        public Rectangle m_rSetCamBox = new Rectangle();
+        public bool m_bDrawFlag = false;
+        public bool m_bBoxMoveFlag = false;
+        public MOUSE_CURSOR m_iMoveType;
 
         int CamIndex = 0;
         public SetTestControl()
@@ -180,6 +208,11 @@ namespace ZenHandler.Dlg
             {
                 Globalo.visionManager.milLibrary.RunModeChange(false);
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
+
+                Globalo.visionManager.milLibrary.ClearOverlay(0);
+                int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+                int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+                Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
         }
 
@@ -287,5 +320,133 @@ namespace ZenHandler.Dlg
 
             Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);     //가스켓 검사
         }
+        #region [MOUSE DRAW]
+        private void Set_panelCam_MouseDown(object sender, MouseEventArgs e)
+        {
+            int iGap = 20;
+            switch (m_nDragFlag)
+            {
+                case MOUSE_CLICK_TYPE.MOUSE_DRAG:
+                    m_clClickPoint = new System.Drawing.Point(e.X, e.Y);
+
+                    if (m_clClickPoint.X > Set_panelCam.Left && m_clClickPoint.X < Set_panelCam.Right &&
+                        m_clClickPoint.Y > Set_panelCam.Top && m_clClickPoint.Y < Set_panelCam.Bottom)
+                    {
+                        iGap = 20;
+
+                        m_bDrawFlag = true;
+
+                        if (m_clClickPoint.X > m_rSetCamBox.Left - iGap && m_clClickPoint.Y > m_rSetCamBox.Top - iGap &&
+                            m_clClickPoint.X < m_rSetCamBox.Right + iGap && m_clClickPoint.Y < m_rSetCamBox.Bottom + iGap)
+                        {
+                            m_bBoxMoveFlag = true;
+                        }
+
+                        m_iMoveType = checkMousePos(m_clClickPoint, m_rSetCamBox, 0);
+                    }
+                    break;
+                case MOUSE_CLICK_TYPE.DIST_CHECK:
+
+                    break;
+                case MOUSE_CLICK_TYPE.DISP_MOVE:
+
+                    break;
+                case MOUSE_CLICK_TYPE.MEASURE:
+                    m_clClickPoint = new System.Drawing.Point(e.X, e.Y);
+                    Globalo.visionManager.milLibrary.DrawRgbValue(CamIndex, m_clClickPoint);
+                    
+                    break;
+            }
+        }
+
+        private void Set_panelCam_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Set_panelCam_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_bDrawFlag = false;
+            m_bBoxMoveFlag = false;
+        }
+
+        //--------------------------------------------------------------------------------------
+        //
+        //ALIGN CAM
+        //
+        //--------------------------------------------------------------------------------------
+        private MOUSE_CURSOR checkMousePos(System.Drawing.Point p, Rectangle rcTemp, int DisplayMode)
+        {
+            int iGap = 0;
+            MOUSE_CURSOR iRtn = MOUSE_CURSOR.MOVE_ALL;
+
+            double dExpandFactorX = 0.0;
+            double dExpandFactorY = 0.0;
+            dExpandFactorX = Globalo.visionManager.milLibrary.xExpand;
+            dExpandFactorY = Globalo.visionManager.milLibrary.yExpand;
+
+            iGap = 20;// (int)(dExpandFactorX * 3);
+
+            System.Drawing.Point point = p;
+
+            point.X = (int)(point.X * dExpandFactorX + 0.5);
+            point.Y = (int)(point.Y * dExpandFactorY + 0.5);
+
+
+            //박스 이동
+            if (point.X > rcTemp.Left + iGap &&
+                point.X < rcTemp.Right - iGap &&
+                point.Y > rcTemp.Top + iGap &&
+                point.Y < rcTemp.Bottom - iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_ALL;
+            }
+            // 좌 크기
+            else if (point.Y > rcTemp.Top + iGap && point.Y < rcTemp.Bottom - iGap && point.X > rcTemp.Left - iGap && point.X < rcTemp.Left + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_WIDTH_LEFT;
+            }
+            // 우 크기
+            else if (point.Y > rcTemp.Top + iGap && point.Y < rcTemp.Bottom - iGap && point.X > rcTemp.Right - iGap && point.X < rcTemp.Right + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_WIDTH_RIGHT;
+            }
+            // 상 크기
+            else if (point.X > rcTemp.Left + iGap && point.X < rcTemp.Right - iGap && point.Y > rcTemp.Top - iGap && point.Y < rcTemp.Top + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_HEIGHT_TOP;
+            }
+            // 하 크기
+            else if (point.X > rcTemp.Left + iGap && point.X < rcTemp.Right - iGap && point.Y > rcTemp.Bottom - iGap && point.Y < rcTemp.Bottom + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_HEIGHT_BOTTOM;
+            }
+            // 좌상 크기
+            else if (point.X > rcTemp.Left - iGap && point.X < rcTemp.Left + iGap && point.Y > rcTemp.Top - iGap && point.Y < rcTemp.Top + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_NW;
+            }
+            // 우상 크기
+            else if (point.X > rcTemp.Right - iGap && point.X < rcTemp.Right + iGap && point.Y > rcTemp.Top - iGap && point.Y < rcTemp.Top + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_NE;
+            }
+            // 좌하 크기
+            else if (point.X > rcTemp.Left - iGap && point.X < rcTemp.Left + iGap && point.Y > rcTemp.Bottom - iGap && point.Y < rcTemp.Bottom + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_SW;
+            }
+            // 우하 크기
+            else if (point.X > rcTemp.Right - iGap && point.X < rcTemp.Right + iGap && point.Y > rcTemp.Bottom - iGap && point.Y < rcTemp.Bottom + iGap)
+            {
+                iRtn = MOUSE_CURSOR.MOVE_SE;
+            }
+            else
+            {
+            }
+
+            return iRtn;
+        }
+        #endregion
     }
 }

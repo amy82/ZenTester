@@ -57,8 +57,10 @@ namespace ZenHandler.VisionClass
 
         public double xReduce = 0.0;
         public double yReduce = 0.0;
+        public double xExpand = 0.0;
+        public double yExpand = 0.0;
 
-        
+
 
         public MilLibraryUtil()
         {
@@ -85,7 +87,10 @@ namespace ZenHandler.VisionClass
         {
             xReduce = ((double)PanelW / (double)CAM_SIZE_X);
             yReduce = ((double)PanelH / (double)CAM_SIZE_Y);
-        }
+
+            xExpand = ((double)CAM_SIZE_X / (double)PanelW);
+            yExpand = ((double)CAM_SIZE_Y / (double)PanelH);
+    }
 
         //자동운전시 Cam1 , Cam2
         //세팅 화면 - Cam 1 - 2
@@ -129,6 +134,27 @@ namespace ZenHandler.VisionClass
                 MIL.MbufClear(MilSetCamOverlay[index], MilSetCamTransparent[index]);
             }
                 
+        }
+        public void DrawRgbValue(int index, Point clickP)
+        {
+            int width = (int)MIL.MbufInquire(MilCamGrabImageChild[index], MIL.M_PITCH, MIL.M_NULL);
+            int pos = clickP.Y * width + clickP.X;
+            int pixelValue = 0;
+            byte[] pixelRGB = new byte[3];
+            MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand), (int)(clickP.Y * yExpand), 1, 1, pixelRGB);
+            /*
+                     p.x = (int)(m_ClickP.x * CAM_EXPAND_FACTOR_X + 0.5);
+			        p.y = (int)(m_ClickP.y * CAM_EXPAND_FACTOR_Y + 0.5);
+
+			        vision.crosslist[m_iCurCamNo].addList(p, 30, M_COLOR_RED);
+			        MbufCopy(vision.MilGrabImageChild[m_iCurCamNo], vision.MilProcImageChild[m_iCurCamNo]);
+			        width = MbufInquire(vision.MilProcImageChild[m_iCurCamNo], M_PITCH, M_NULL);
+			        pos = p.y * width + p.x;
+			        val = vision.MilImageBuffer[m_iCurCamNo][pos];
+
+			        sprintf_s(szTmp, "(%d, %d) %d", p.x, p.y, val);
+			        vision.textlist[m_iCurCamNo].addList(50, 700, szTmp, M_COLOR_RED, 17, 7, "Arial"); 
+                     */
         }
         public void MilGrabRun(int index)
         {
@@ -214,6 +240,41 @@ namespace ZenHandler.VisionClass
             m_clMilDrawText[index].Draw(hOverlayDC, xReduce, yReduce);
             m_clMilDrawCross[index].Draw(hOverlayDC, xReduce, yReduce);
 
+            MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
+        }
+        public void DrawOverlayCross(int index, int x, int y,  int lineWid , Color color, int nWid, DashStyle nStyles)
+        {
+            IntPtr hOverlayDC = IntPtr.Zero;
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
+            MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
+
+            if (!hOverlayDC.Equals(IntPtr.Zero))
+            {
+                using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
+                {
+                    using (Pen arrowPen = new Pen(color, nWid))
+                    {
+                        int _wid = (int)(lineWid * xReduce + 0.5); 
+
+                        int startX = (int)(x * xReduce + 0.5);
+                        int startY = (int)(y * yReduce + 0.5);
+
+                        DrawingGraphics.DrawLine(arrowPen, startX - _wid, startY, startX + _wid, startY);
+                        DrawingGraphics.DrawLine(arrowPen, startX, startY - _wid, startX, startY + _wid);
+                    }
+                }
+
+            }
             MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
