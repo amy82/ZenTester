@@ -451,6 +451,7 @@
     <Compile Include="VisionClass\AoiTopTester.cs" />
     <Compile Include="VisionClass\MilLibraryUtil.cs" />
     <Compile Include="VisionClass\OpencvAoiTest.cs" />
+    <Compile Include="VisionClass\OverlayDrawUtil.cs" />
     <Compile Include="VisionClass\VisionManager.cs" />
     <EmbeddedResource Include="Dlg\SetTestControl.resx">
       <DependentUpon>SetTestControl.cs</DependentUpon>

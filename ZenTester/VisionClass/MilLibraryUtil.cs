@@ -13,23 +13,16 @@ namespace ZenHandler.VisionClass
     public class MilLibraryUtil
     {
         public MIL_ID MilApplication = MIL.M_NULL;         // Application identifier.
-
-        //public List<MIL_ID> MilDigitizerList { get; set; } = new List<MIL_ID>();
         public MIL_ID[] MilDigitizerList;
         public MIL_ID MilSystem = MIL.M_NULL;              // System identifier.
-
-        
-        
         public int TotalCamCount = 0;
         public int CamFixCount = 2;
-
         private bool AutoRunMode = true;
         public bool[] bGrabOnFlag = new bool[2];
-
+        
         //GRAB IMAGE
         public MIL_ID[] MilCamGrabImage;
         public MIL_ID[] MilCamGrabImageChild;
-
         //AUTO CAMERA
         public MIL_ID[] MilCamDisplay;                        // Display identifier.
         public MIL_ID[] MilCamSmallImage;
@@ -45,7 +38,10 @@ namespace ZenHandler.VisionClass
         public MIL_ID[] MilSetCamOverlay;
         public MIL_INT[] MilSetCamTransparent;
 
-
+        public CMilDrawBox[] m_clMilDrawBox = new CMilDrawBox[2];
+        public CMilDrawCircle[] m_clMilDrawCircle = new CMilDrawCircle[2];
+        public CMilDrawText[] m_clMilDrawText = new CMilDrawText[2];
+        public CMilDrawCross[] m_clMilDrawCross = new CMilDrawCross[2];
         //Overlay
         public MIL_ID[] MilCamOverlayImage;
 
@@ -62,14 +58,24 @@ namespace ZenHandler.VisionClass
         public double xReduce = 0.0;
         public double yReduce = 0.0;
 
+        
 
         public MilLibraryUtil()
         {
+            int i = 0;
             MilDigitizerList = new MIL_ID[CamFixCount];
             MilDigitizerList[0] = MIL.M_NULL;
             MilDigitizerList[1] = MIL.M_NULL;
-        }
 
+            for (i = 0; i < 2; i++)
+            {
+                m_clMilDrawBox[i] = new CMilDrawBox();
+                m_clMilDrawCircle[i] = new CMilDrawCircle();
+                m_clMilDrawText[i] = new CMilDrawText();
+                m_clMilDrawCross[i] = new CMilDrawCross();
+            }
+            
+        }
 
         public void RunModeChange(bool flag)
         {
@@ -110,9 +116,10 @@ namespace ZenHandler.VisionClass
         }
         public void ClearOverlay(int index)
         {
-            //m_clMilDrawBox[nUnit].RemoveAll();
-            //m_clMilDrawText[nUnit].RemoveAll();
-            //m_clMilDrawCross[nUnit].RemoveAll();
+            m_clMilDrawBox[index].RemoveAll();
+            m_clMilDrawCircle[index].RemoveAll();
+            m_clMilDrawText[index].RemoveAll();
+            m_clMilDrawCross[index].RemoveAll();
             if (AutoRunMode)
             {
                 MIL.MbufClear(MilCamOverlay[index], MilCamTransparent[index]);
@@ -185,6 +192,31 @@ namespace ZenHandler.VisionClass
         }
 
         #region [OVERLAY DRAW]
+        public void DrawOverlayAll(int index, int DisplayMode)
+        {
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
+            IntPtr hOverlayDC = IntPtr.Zero;
+
+            MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
+
+
+            m_clMilDrawBox[index].Draw(hOverlayDC, xReduce, yReduce);
+            m_clMilDrawCircle[index].Draw(hOverlayDC, xReduce, yReduce);
+            m_clMilDrawText[index].Draw(hOverlayDC, xReduce, yReduce);
+            m_clMilDrawCross[index].Draw(hOverlayDC, xReduce, yReduce);
+
+            MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
+        }
         public void DrawOverlayLine(int index, int x1, int y1, int x2, int y2, Color color, int nWid, DashStyle nStyles)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
@@ -343,22 +375,32 @@ namespace ZenHandler.VisionClass
             MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
+
         public void DrawOverlayBox(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
-
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_ALLOC, MIL.M_DEFAULT);
-            hOverlayDC = (IntPtr)MIL.MbufInquire(MilCamOverlay[index], MIL.M_DC_HANDLE, MIL.M_NULL);
+            MIL_ID tempOverlay = MIL.M_NULL;
+            if (AutoRunMode)
+            {
+                tempOverlay = MilCamOverlay[index];
+            }
+            else
+            {
+                tempOverlay = MilSetCamOverlay[index];
+            }
+            MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
+            hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
 
             if (!hOverlayDC.Equals(IntPtr.Zero))
             {
                 using (Graphics DrawingGraphics = Graphics.FromHdc(hOverlayDC))
                 {
                     // Draw a blue cross.
-                    using (Pen DrawingPen = new Pen(Color.Blue))
+                    using (Pen DrawingPen = new Pen(color))
                     {
                         DrawingPen.DashStyle = nStyles;
                         DrawingPen.Width = nWid;
+
                         int x1 = (int)((clRect.X * xReduce) + 0.5);
                         int x2 = (int)((clRect.Width * xReduce) + 0.5);
                         int y1 = (int)((clRect.Y * yReduce) + 0.5);
@@ -386,8 +428,8 @@ namespace ZenHandler.VisionClass
                     }
                 }
             }
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
-            MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
+            MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
         public void DrawOverlayText(int index, System.Drawing.Point clPoint, string szText, Color color, int nSize)
         {

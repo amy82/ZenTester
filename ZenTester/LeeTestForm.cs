@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -91,6 +92,8 @@ namespace ZenHandler
         private void button14_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(0);
+
+            
         }
 
         private void button15_Click(object sender, EventArgs e)
@@ -116,6 +119,18 @@ namespace ZenHandler
         private void button19_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.aoiTester.ComplexCircleSearchExample1(0);
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            Rectangle clRect = new Rectangle();
+            clRect.X = 100;
+            clRect.Y = 100;
+            clRect.Width = 300;
+            clRect.Height = 300;
+            Globalo.visionManager.milLibrary.m_clMilDrawBox[0].AddList(clRect, 2, System.Drawing.Drawing2D.DashStyle.Dot, Color.Blue);
+            Globalo.visionManager.milLibrary.m_clMilDrawCircle[0].AddList(500, 500, 100, 1, DashStyle.Solid, Color.Red);
+            Globalo.visionManager.milLibrary.DrawOverlayAll(0,0);
         }
     }
 }
