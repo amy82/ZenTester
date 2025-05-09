@@ -257,7 +257,7 @@ namespace ZenHandler.VisionClass
             MIL.MbufControl(MilCamOverlay[index], MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(MilCamOverlay[index], MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
-        public void DrawOverlayCircle(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
+        public void DrawOverlayCircle(int index, System.Drawing.Point clPoint, int radius , Color color, int nWid, DashStyle nStyles)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
             MIL_ID tempOverlay = MIL.M_NULL;
@@ -282,11 +282,11 @@ namespace ZenHandler.VisionClass
                         DrawingPen.DashStyle = nStyles;
                         DrawingPen.Width = nWid; 
 
-                        int x1 = (int)((clRect.X * xReduce) + 0.5);
-                        int y1 = (int)((clRect.Y * yReduce) + 0.5);
+                        int x1 = (int)((clPoint.X * xReduce) + 0.5);
+                        int y1 = (int)((clPoint.Y * yReduce) + 0.5);
 
-                        int x2 = (int)((clRect.Width * xReduce) + 0.5);
-                        int y2 = (int)((clRect.Height * yReduce) + 0.5);
+                        int x2 = (int)((radius * xReduce) + 0.5);
+                        int y2 = (int)((radius * yReduce) + 0.5);
 
                         DrawingGraphics.DrawEllipse(DrawingPen, x1, y1, x2, y2);
 

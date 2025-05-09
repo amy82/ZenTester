@@ -264,8 +264,11 @@ namespace ZenHandler.VisionClass
                 Console.Write("[{0:0}] measured circle: x = {1:0.00}, y = {2:0.00}\n", i + 1, centerX, centerY);
                 if (Value > 0.0)
                 {
-                    Rectangle m_clRect = new Rectangle((int)(centerX - (Value)), (int)(centerY - (Value)), (int)(Value * 2), (int)(Value * 2));
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    //Rectangle m_clRect = new Rectangle((int)(centerX - (Value)), (int)(centerY - (Value)), (int)(Value * 2), (int)(Value * 2));
+
+                    System.Drawing.Point clPoint = new System.Drawing.Point((int)(centerX - Value), (int)(centerY - Value));
+
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)Value * 2, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
                 
             }
@@ -438,8 +441,9 @@ namespace ZenHandler.VisionClass
                 {
                     //MIL.MosPrintf(MIL_TEXT("%-9d%-13.2f%-13.2f%-8.2f%-5.2f%%\n"), i, XPosition[i],YPosition[i], Radius[i], Score[i]);
                     Console.Write("[{0:0}] circle: x = {1:0.00}, y = {2:0.00}, radius = {3:0.00}, score = {4:0.00}\n", i + 1, XPosition[i], YPosition[i], Radius[i], Score[i]);
-                    Rectangle m_clRect = new Rectangle((int)(XPosition[i] - (Radius[i])), (int)(YPosition[i] - (Radius[i])), (int)(Radius[i] * 2), (int)(Radius[i] * 2));
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                    //Rectangle m_clRect = new Rectangle((int)(XPosition[i] - (Radius[i])), (int)(YPosition[i] - (Radius[i])), (int)(Radius[i] * 2), (int)(Radius[i] * 2));
+                    System.Drawing.Point clPoint = new System.Drawing.Point((int)(XPosition[i] - Radius[i]), (int)(YPosition[i] - Radius[i]));
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)Radius[i]*2, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
 
                 //MIL.MosPrintf(MIL_TEXT("\nThe search time was %.1f ms.\n\n"), Time * 1000.0);

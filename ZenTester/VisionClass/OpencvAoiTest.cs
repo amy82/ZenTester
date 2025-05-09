@@ -399,13 +399,17 @@ namespace ZenHandler.VisionClass
                     i++;
                     Console.Write("[{0:0}] measured circle: x = {1:0.00}, y = {2:0.00}, radius = {3:0.00}\n", i, center.X, center.Y, radius);
 
-                    Rectangle m_clRect = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
+                    //Rectangle m_clRect = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
 
                     if (contour.Length >= 5)
                     {
                         RotatedRect ellipse = Cv2.FitEllipse(contour);
                         double axisRatio = Math.Min(ellipse.Size.Width, ellipse.Size.Height) / Math.Max(ellipse.Size.Width, ellipse.Size.Height);
-                        Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+
+                        System.Drawing.Point clPoint = new System.Drawing.Point((int)(centerX - radius), (int)(centerY - radius));
+
+                        Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)radius * 2, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+
                         Console.WriteLine($"Axis ratio (타원 비율): {axisRatio:F2} {circularity}");
                     }
                     if (i == 1)
