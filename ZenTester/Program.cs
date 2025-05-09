@@ -53,3 +53,4 @@ namespace ZenHandler
     }
 }
 //250429 in aps first 21:03
+//MEMO: 250509  조명 컨트롤러 100일때 가스켓 있는 제품 , 없는 제품 CON1,2 잘 찾아진다.

@@ -51,7 +51,7 @@ namespace ZenHandler.VisionClass
         }
         public bool FindPogoPinCenter(int index, Mat srcImage)
         {
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
 
             //
@@ -377,14 +377,14 @@ namespace ZenHandler.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);//1.2);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0.7);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
-            int weakedge = 40;      //<-- 이값보다 작으면 무시
-            int strongedge = 150;// 170;   //<---이값보다 크면 엣지 강화
+            int weakedge = 40;//40;      //<-- 이값보다 작으면 무시
+            int strongedge = 150;// 150;   //<---이값보다 크면 엣지 강화
 
             Cv2.Canny(blurred, edges, weakedge, strongedge);  // 윤곽 강화
-            if (true)
+            if (IMG_VIEW)
             {
                 Cv2.NamedWindow("Detected edges ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
                 Cv2.ImShow("Detected edges ", edges);
@@ -392,22 +392,20 @@ namespace ZenHandler.VisionClass
             }
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 21;// 21; // 반드시 홀수
-            int C = 10;
+            int blockSize = 19;// 19; // 반드시 홀수
+            int C = 3;
 
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
             Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Ellipse, new OpenCvSharp.Size(3, 3));
             Cv2.Dilate(binary, binary, kernel);
-            if (true)//IMG_VIEW)
+
+            if (IMG_VIEW)
             {
-                //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(7, 7));
-                
                 Cv2.NamedWindow("Detected binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
                 Cv2.ImShow("Detected binary ", binary);
                 Cv2.WaitKey(0);
@@ -419,7 +417,6 @@ namespace ZenHandler.VisionClass
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
             // 4. 이미지 중심 계산
-            ///OpenCvSharp.Point center = new OpenCvSharp.Point(srcImage.Width / 2, srcImage.Height / 2);
             double minDist = double.MaxValue;
             OpenCvSharp.Point bestPoint = new OpenCvSharp.Point();
             OpenCvSharp.Point2d imageCenter = new OpenCvSharp.Point2d(srcImage.Width / 2, srcImage.Height / 2);
@@ -525,8 +522,8 @@ namespace ZenHandler.VisionClass
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
                 Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 2);  // 외경
 
-                Console.Write($"[minCircle] radius: {minCircle.radius}\n");
-                Console.Write($"[maxCircle] radius: {maxCircle.radius}\n");
+                Console.Write($"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n");
+                Console.Write($"[maxCircle] {maxCircle.center.X},{maxCircle.center.Y}, radius: {maxCircle.radius}\n");
                 System.Drawing.Point clPoint;
 
                 //Rectangle m_clRect2 = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));

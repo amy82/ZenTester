@@ -334,10 +334,13 @@ namespace ZenHandler.VisionClass
         }
         public void ComplexCircleSearchExample1(int index)
         {
-            double SMOOTHNESS_VALUE_1 = 75.0;
+            double SMOOTHNESS_VALUE_1 = 50.0;
             double MIN_SCALE_FACTOR_VALUE_1 = 0.01;
-            double NUMBER_OF_MODELS_1 = 4.0;
-
+            double NUMBER_OF_MODELS_1 = 10.0;
+            double MODEL_RADIUS_1 = 740.0;//
+            double MODEL_RADIUS_2 = 1.0;//
+            double ACCEPTANCE_VALUE_2 = 50.0;
+            MIL_ID MilDisplay = MIL.M_NULL;
             MIL_ID tempMilImage = MIL.M_NULL;
             MIL_ID MilImage = MIL.M_NULL;
             MIL_ID GraphicList = MIL.M_NULL;
@@ -345,7 +348,7 @@ namespace ZenHandler.VisionClass
             MIL_ID MilResult = MIL.M_NULL;
 
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
-                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref tempMilImage);
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
             MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
             MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
 
@@ -353,6 +356,17 @@ namespace ZenHandler.VisionClass
             MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
 
             MilImage = tempMilImage;
+            // 기존 MilSystem을 사용
+            MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+
+            MIL.MdispSelect(MilDisplay, MilImage);
+
+            /* Allocate a graphic list to hold the subpixel annotations to draw. */
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            /* Associate the graphic list to the display for annotations. */
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+
 
             /* Allocate a Circle Finder context. */
             MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_SHAPE_CIRCLE, MIL.M_DEFAULT, ref MilSearchContext);
@@ -360,15 +374,33 @@ namespace ZenHandler.VisionClass
             MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_SHAPE_CIRCLE, ref MilResult);
 
             /* Define the model. */
-            //MmodDefine(MilSearchContext, M_DEFAULT, M_DEFAULT, MODEL_RADIUS_1,M_DEFAULT, M_DEFAULT, M_DEFAULT);
-            MIL.MmodDefine(MilSearchContext, MIL.M_DEFAULT, MIL.M_DEFAULT, 810.0, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MmodDefine(MilSearchContext, MIL.M_DEFAULT, MIL.M_DEFAULT, MODEL_RADIUS_2, 
+                MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             /* Increase the detail level and smoothness for the edge extraction in the search context. */
             MIL.MmodControl(MilSearchContext, MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_VERY_HIGH);
             MIL.MmodControl(MilSearchContext, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, SMOOTHNESS_VALUE_1);
 
+            /* Modify the acceptance for all the model that was defined. */
+            MIL.MmodControl(MilSearchContext, MIL.M_DEFAULT, MIL.M_ACCEPTANCE, ACCEPTANCE_VALUE_2);
             /* Enable Large search scale range*/
-            MIL.MmodControl(MilSearchContext, 0, MIL.M_SCALE_MIN_FACTOR, MIN_SCALE_FACTOR_VALUE_1);
+            //MIL.MmodControl(MilSearchContext, 0, MIL.M_SCALE_MIN_FACTOR, MIN_SCALE_FACTOR_VALUE_1);
+
+           
+
+            
+
+            /* Minimum separation scale value. */
+            double MIN_SEPARATION_SCALE_VALUE_2 = 1.5;
+            double MIN_SEPARATION_XY_VALUE_2 = 30.0;
+
+            /* Set minimum separation between occurrences constraints. */
+            MIL.MmodControl(MilSearchContext, 0, MIL.M_MIN_SEPARATION_SCALE, MIN_SEPARATION_SCALE_VALUE_2);
+            MIL.MmodControl(MilSearchContext, 0, MIL.M_MIN_SEPARATION_X, MIN_SEPARATION_XY_VALUE_2);
+            MIL.MmodControl(MilSearchContext, 0, MIL.M_MIN_SEPARATION_Y, MIN_SEPARATION_XY_VALUE_2);
+
+            /* Set The Polarity Constraints. */
+            MIL.MmodControl(MilSearchContext, 0, MIL.M_POLARITY, MIL.M_REVERSE);
 
             /* Set the number of occurrences to 4. */
             MIL.MmodControl(MilSearchContext, MIL.M_DEFAULT, MIL.M_NUMBER, NUMBER_OF_MODELS_1);
@@ -402,7 +434,16 @@ namespace ZenHandler.VisionClass
                 MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_POSITION_Y, YPosition);
                 MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_RADIUS, Radius);
                 MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_SCORE, Score);
+
+
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MmodDraw(MIL.M_DEFAULT, MilResult, GraphicList, MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                MIL.MmodDraw(MIL.M_DEFAULT, MilResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             }
+
+
+            
         }
         public void SimpleCircleSearchExample(int index)
         {

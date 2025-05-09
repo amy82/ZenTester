@@ -457,6 +457,39 @@ namespace ZenHandler.VisionClass
             Cv2.WaitKey(0);
         }
 
+        public (int innerRadius, int outerRadius) DetectRingsByIntensity(Mat gray, OpenCvSharp.Point center, int maxRadius)
+        {
+            List<double> profile = new List<double>();
+
+            // 수평선의 밝기 프로파일(center.y 기준)
+            for (int r = 1; r <= maxRadius; r++)
+            {
+                int x = center.X + r;
+                if (x >= gray.Cols) break;
+
+                byte intensity = gray.At<byte>(center.Y, x);
+                profile.Add(intensity);
+            }
+
+            // 1차 미분: 밝기 변화량
+            List<double> diff = new List<double>();
+            for (int i = 1; i < profile.Count; i++)
+            {
+                diff.Add(Math.Abs(profile[i] - profile[i - 1]));
+            }
+
+            // 임계값 이상으로 밝기 변화 큰 위치를 경계로 간주
+            double threshold = 80.0; // 조정 가능
+            List<int> edgeIndices = diff.Select((d, i) => new { d, i })
+                                        .Where(x => x.d > threshold)
+                                        .Select(x => x.i)
+                                        .ToList();
+
+            int inner = edgeIndices.FirstOrDefault();
+            int outer = edgeIndices.LastOrDefault();
+
+            return (inner, outer);
+        }
         public void houghCircleFine(int index)
         {
 
@@ -469,21 +502,36 @@ namespace ZenHandler.VisionClass
             Mat srcImage = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(buffer, 0, srcImage.Data, dataSize);
 
+            // Mat gray = new Mat();
+            OpenCvSharp.Point center22 = new OpenCvSharp.Point(srcImage.Cols / 2, srcImage.Rows / 2); // 또는 알고 있는 중심
+            var (inner, outer) = DetectRingsByIntensity(srcImage, center22, 900);
+            Console.WriteLine($"내경: {inner}, 외경: {outer}");
+
+            Cv2.Circle(srcImage, center22, inner, Scalar.Gray, 1);
+            Cv2.Circle(srcImage, center22, outer, Scalar.White, 1);
+            Cv2.NamedWindow("srcImage", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            Cv2.ImShow("srcImage", srcImage);
+            Cv2.WaitKey(0);
 
             // 블러 처리 (노이즈 제거에 매우 중요!)
             Mat blurred = new Mat();
-            Cv2.MedianBlur(srcImage, blurred, 5);
+            //Cv2.MedianBlur(srcImage, blurred, 1);
 
+            // 강한 블러 (Bilateral or MedianBlur)
+            Cv2.BilateralFilter(srcImage, blurred, 10, 75, 75);
+            Cv2.NamedWindow("blurred", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            Cv2.ImShow("blurred", blurred);
+            Cv2.WaitKey(0);
             // 원 검출
             CircleSegment[] circles = Cv2.HoughCircles(
                 blurred,
                 HoughModes.Gradient,
-                dp: 1.5,           // 누적기 해상도 비율
-                minDist: 200,       // 원 간 최소 거리
-                param1: 10,       // Canny 상한값
-                param2: 100,        // 투표 임계값 (작을수록 더 많이 잡힘)
-                minRadius: 280,
-                maxRadius: 1100
+                dp: 1.0,           // 누적기 해상도 비율
+                minDist: 50,       // 원 간 최소 거리
+                param1: 100,       // Canny 상한값
+                param2: 50,        // 투표 임계값 (작을수록 더 많이 잡힘)
+                minRadius: 600,
+                maxRadius: 1000
             );
 
             // 컬러로 그리기 위해 BGR 이미지 생성
@@ -496,16 +544,14 @@ namespace ZenHandler.VisionClass
                 OpenCvSharp.Point center = new OpenCvSharp.Point((int)circle.Center.X, (int)circle.Center.Y);
                 int radius = (int)circle.Radius;
 
-                Cv2.Circle(colorImage, center, radius, Scalar.Red, 2);
-                Cv2.Circle(colorImage, center, 2, Scalar.Blue, 3);  // 중심점
+                Cv2.Circle(colorImage, center, radius, Scalar.Yellow, 3);
+                Cv2.Circle(colorImage, center, 3, Scalar.Blue, 4);  // 중심점
                 
             }
 
             Cv2.ImWrite("d:\\srcImage.jpg", colorImage);
 
             Cv2.NamedWindow("Result", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-
-
             Cv2.ImShow("Result", colorImage);
             Cv2.WaitKey(0);
         }
