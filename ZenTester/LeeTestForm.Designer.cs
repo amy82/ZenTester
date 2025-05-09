@@ -50,6 +50,7 @@ namespace ZenHandler
             this.button17 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button18 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -317,11 +318,25 @@ namespace ZenHandler
             this.button18.UseVisualStyleBackColor = false;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
+            // button19
+            // 
+            this.button19.BackColor = System.Drawing.Color.IndianRed;
+            this.button19.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button19.ForeColor = System.Drawing.Color.White;
+            this.button19.Location = new System.Drawing.Point(21, 275);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(125, 34);
+            this.button19.TabIndex = 21;
+            this.button19.Text = "#1 Circle Shape";
+            this.button19.UseVisualStyleBackColor = false;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 482);
+            this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button17);
@@ -373,5 +388,6 @@ namespace ZenHandler
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
     }
 }

@@ -332,6 +332,78 @@ namespace ZenHandler.VisionClass
 
 
         }
+        public void ComplexCircleSearchExample1(int index)
+        {
+            double SMOOTHNESS_VALUE_1 = 75.0;
+            double MIN_SCALE_FACTOR_VALUE_1 = 0.01;
+            double NUMBER_OF_MODELS_1 = 4.0;
+
+            MIL_ID tempMilImage = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilSearchContext = MIL.M_NULL;
+            MIL_ID MilResult = MIL.M_NULL;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref tempMilImage);
+            MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
+            MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, ImageSizeX, ImageSizeY, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+
+            MilImage = tempMilImage;
+
+            /* Allocate a Circle Finder context. */
+            MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_SHAPE_CIRCLE, MIL.M_DEFAULT, ref MilSearchContext);
+            /* Allocate a Circle Finder result buffer. */
+            MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_SHAPE_CIRCLE, ref MilResult);
+
+            /* Define the model. */
+            //MmodDefine(MilSearchContext, M_DEFAULT, M_DEFAULT, MODEL_RADIUS_1,M_DEFAULT, M_DEFAULT, M_DEFAULT);
+            MIL.MmodDefine(MilSearchContext, MIL.M_DEFAULT, MIL.M_DEFAULT, 810.0, MIL.M_DEFAULT, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            /* Increase the detail level and smoothness for the edge extraction in the search context. */
+            MIL.MmodControl(MilSearchContext, MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_VERY_HIGH);
+            MIL.MmodControl(MilSearchContext, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, SMOOTHNESS_VALUE_1);
+
+            /* Enable Large search scale range*/
+            MIL.MmodControl(MilSearchContext, 0, MIL.M_SCALE_MIN_FACTOR, MIN_SCALE_FACTOR_VALUE_1);
+
+            /* Set the number of occurrences to 4. */
+            MIL.MmodControl(MilSearchContext, MIL.M_DEFAULT, MIL.M_NUMBER, NUMBER_OF_MODELS_1);
+
+            /* Preprocess the search context. */
+            MIL.MmodPreprocess(MilSearchContext, MIL.M_DEFAULT);
+
+            /* Reset the timer. */
+            MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_RESET + MIL.M_SYNCHRONOUS, MIL.M_NULL);
+
+            /* Find the models. */
+            MIL.MmodFind(MilSearchContext, MilImage, MilResult);
+
+            /* Read the find time. */
+            double Time = 0.0;
+            MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_READ + MIL.M_SYNCHRONOUS, ref Time);
+
+            MIL_INT NumResults = MIL.M_NULL;
+            /* Get the number of models found. */
+            MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_NUMBER + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+            const int MODEL_MAX_OCCURRENCES = 23;
+            double[] Score = new double[MODEL_MAX_OCCURRENCES];
+            double[] XPosition = new double[MODEL_MAX_OCCURRENCES];
+            double[] YPosition = new double[MODEL_MAX_OCCURRENCES];
+            double[] Radius = new double[MODEL_MAX_OCCURRENCES];
+
+            if ((NumResults >= 1) && (NumResults <= MODEL_MAX_OCCURRENCES))
+            {
+                MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_POSITION_X, XPosition);
+                MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_POSITION_Y, YPosition);
+                MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_RADIUS, Radius);
+                MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_SCORE, Score);
+            }
+        }
         public void SimpleCircleSearchExample(int index)
         {
             MIL_ID MilImage = MIL.M_NULL;
@@ -380,16 +452,6 @@ namespace ZenHandler.VisionClass
                 MilImage = tempMilImage;
             }
 
-            /* Restore the target image and display it. */
-            //MbufRestore(SIMPLE_CIRCLE_SEARCH_TARGET_IMAGE, MilSystem, &MilImage);
-           // MIL.MdispSelect(Globalo.visionManager.milLibrary.MilCamDisplay[index], MilImage);
-
-            /* Allocate a graphic list to hold the subpixel annotations to draw. */
-            //MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
-
-            /* Associate the graphic list to the display for annotations. */
-           // MIL.MdispControl(Globalo.visionManager.milLibrary.MilCamDisplay[index], MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
-
             /* Allocate a Circle Finder context. */
             MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_SHAPE_CIRCLE, MIL.M_DEFAULT, ref MilSearchContext);
 
@@ -425,6 +487,7 @@ namespace ZenHandler.VisionClass
             Console.WriteLine($"fine circle : {NumResults}");
             Globalo.visionManager.milLibrary.ClearOverlay(index);
             //If a model was found above the acceptance threshold.
+            
             if ((NumResults >= 1) && (NumResults <= MODEL_MAX_OCCURRENCES))
             {
                 /* Get the results of the circle search. */

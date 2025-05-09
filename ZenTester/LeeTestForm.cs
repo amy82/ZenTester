@@ -112,5 +112,10 @@ namespace ZenHandler
         {
             Globalo.visionManager.aoiTopTester.Run(0);
         }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.aoiTester.ComplexCircleSearchExample1(0);
+        }
     }
 }

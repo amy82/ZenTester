@@ -377,10 +377,12 @@ namespace ZenHandler.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0);//1.2);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);//1.2);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
-            int weakedge = 10;      //<-- 이값보다 작으면 무시
-            int strongedge = 170;   //<---이값보다 크면 엣지 강화
+
+            int weakedge = 40;      //<-- 이값보다 작으면 무시
+            int strongedge = 150;// 170;   //<---이값보다 크면 엣지 강화
+
             Cv2.Canny(blurred, edges, weakedge, strongedge);  // 윤곽 강화
             if (true)
             {
@@ -390,12 +392,12 @@ namespace ZenHandler.VisionClass
             }
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 13;// 21; // 반드시 홀수
-            int C = 13;
+            int blockSize = 21;// 21; // 반드시 홀수
+            int C = 10;
 
-            int minThresh = 70;
-            Cv2.AdaptiveThreshold(edges, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
+            Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
             Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));
@@ -454,7 +456,7 @@ namespace ZenHandler.VisionClass
                 Point2f center;
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
-                if (radius < 600)
+                if (radius < 600 || radius > 890)
                 {
                     continue;
                 }
@@ -522,6 +524,9 @@ namespace ZenHandler.VisionClass
                 // 그리기 예시
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
                 Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 2);  // 외경
+
+                Console.Write($"[minCircle] radius: {minCircle.radius}\n");
+                Console.Write($"[maxCircle] radius: {maxCircle.radius}\n");
                 System.Drawing.Point clPoint;
 
                 //Rectangle m_clRect2 = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
