@@ -51,11 +51,11 @@ namespace ZenHandler.VisionClass
         }
         public bool FindPogoPinCenter(int index, Mat srcImage)
         {
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             int startTime = Environment.TickCount;
 
             //
-            int radiusOuter = 250;      //이미지 중심에서 pogoPin을 찾을 영역 
+            int radiusOuter = 250;      //이미지 중심에서 pogoPin을 찾을 원 크기
 
             OpenCvSharp.Point ImageCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X / 2, Globalo.visionManager.milLibrary.CAM_SIZE_Y / 2);
 
@@ -102,6 +102,8 @@ namespace ZenHandler.VisionClass
             {
                 return false;     //찾은 개수 포고핀 1개 일때만 ok
             }
+
+
             bool pogoFindFlag = false;
             foreach (var contour in contours)
             {
@@ -139,14 +141,13 @@ namespace ZenHandler.VisionClass
                         double axisRatio = Math.Min(ellipse.Size.Width, ellipse.Size.Height) / Math.Max(ellipse.Size.Width, ellipse.Size.Height);
                         //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
 
-                        Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(center.X - crossLength), (int)center.Y, (int)(center.X + crossLength), (int)center.Y, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-                        Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)center.X, (int)(center.Y - crossLength), (int)center.X, (int)(center.Y + crossLength), Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                        Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(center.X - crossLength), (int)center.Y, (int)(center.X + crossLength), (int)center.Y, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                        Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)center.X, (int)(center.Y - crossLength), (int)center.X, (int)(center.Y + crossLength), Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                         Console.WriteLine($"Axis ratio (타원 비율): {axisRatio:F2} {circularity}");
-                    }
-                    if (i == 1)
-                    {
+
                         Circlecenter = new OpenCvSharp.Point(center.X, center.Y);
                     }
+                    
 
                 }
             }
@@ -169,14 +170,18 @@ namespace ZenHandler.VisionClass
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
             string str = "";
-            str = $"FindPogoPinCenter Test Time: {elapsedMs} ms";
+            str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            str = $"FindPogoPinCenter Test Time: {elapsedMs / 1000.0:F3} s";
+            str = $"Test Time: {elapsedMs / 1000.0:F3} (s)";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
-
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y -150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+            textPoint = new System.Drawing.Point(100, 100);
+            str = $"Center : ({Circlecenter.X},{Circlecenter.Y})";
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
         public void Keytest(int index, Mat srcImage, OpenCvSharp.Point circle1)
@@ -271,16 +276,16 @@ namespace ZenHandler.VisionClass
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
             string str = "";
-            str = $"Key Test Time: {elapsedMs} ms";
+            str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            str = $"Key Test Time: {elapsedMs / 1000.0:F3} s";
+            str = $"Test Time: {elapsedMs / 1000.0:F3} (s)";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(100, 100);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
         }
         public void GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1)
         {
@@ -344,16 +349,16 @@ namespace ZenHandler.VisionClass
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
             string str = "";
-            str = $"Gasket Test Time: {elapsedMs} ms";
+            str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            str = $"Gasket Test Time: {elapsedMs / 1000.0:F3} s";
+            str = $"Test Time: {elapsedMs / 1000.0:F3} s";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(100, 100);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
         }
         public OpenCvSharp.Point Housing_Dent_Test(int index, Mat srcImage)
         {
@@ -528,16 +533,16 @@ namespace ZenHandler.VisionClass
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
             string str = "";
-            str = $"Housing_Dent_Test Test Time: {elapsedMs} ms";
+            str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            str = $"Housing_Dent_Test Test Time: {elapsedMs / 1000.0:F3} s";
+            str = $"Test Time: {elapsedMs / 1000.0:F3} (s)";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(100, 100);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 25);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
 
             return centerPos;
         }

@@ -54,7 +54,7 @@ namespace ZenHandler.Dlg
             this.label_SetTest_Title.Name = "label_SetTest_Title";
             this.label_SetTest_Title.Size = new System.Drawing.Size(1020, 23);
             this.label_SetTest_Title.TabIndex = 2;
-            this.label_SetTest_Title.Text = "Setting Cameara";
+            this.label_SetTest_Title.Text = "Setting Camera";
             this.label_SetTest_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Set_panelCam
