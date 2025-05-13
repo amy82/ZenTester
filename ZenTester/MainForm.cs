@@ -206,6 +206,7 @@ namespace ZenHandler  //ApsMotionControl
             LeeTestForm popupForm = new LeeTestForm();
 
             popupForm.Show();
+            popupForm.WindowState = FormWindowState.Minimized;
         }
         
         private void OnLanguageChanged(object sender, EventArgs e)

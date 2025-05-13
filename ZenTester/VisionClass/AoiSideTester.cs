@@ -19,9 +19,85 @@ namespace ZenHandler.VisionClass
         {
             bool rtn = false;
 
+            double SMOOTHNESS_VALUE_1 = 50.0;
+            double MIN_SCALE_FACTOR_VALUE_1 = 0.01;
+            double NUMBER_OF_MODELS_1 = 10.0;
+            double MODEL_RADIUS_1 = 740.0;//
+            double MODEL_RADIUS_2 = 1.0;//
+            double ACCEPTANCE_VALUE_2 = 50.0;
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_ID tempMilImage = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilSearchContext = MIL.M_NULL;
+            MIL_ID MilResult = MIL.M_NULL;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
+            MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
+            MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
+
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+            //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, ImageSizeX, ImageSizeY, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+            MIL.MbufChild2d(tempMilImage, 800, 700, 250, 900, ref MilImage);
 
 
-            return rtn;
+            //MilImage = tempMilImage;
+            // 기존 MilSystem을 사용
+            MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+
+            MIL.MdispSelect(MilDisplay, MilImage);
+
+            /* Allocate a graphic list to hold the subpixel annotations to draw. */
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            /* Associate the graphic list to the display for annotations. */
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+
+
+
+            // 마커 생성
+            //MIL.MilMeasMarker = MIL.MmeasAllocMarker(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, MIL.M_NULL);
+            // Allocate the measurement marker.
+           // MIL_ID MilStripeMarker = MIL.MmeasAllocMarker(Globalo.visionManager.milLibrary.MilSystem, MIL.M_STRIPE, MIL.M_DEFAULT, MIL.M_NULL);
+
+            MIL_ID MilEdgeMarker = MIL.MmeasAllocMarker(Globalo.visionManager.milLibrary.MilSystem, MIL.M_EDGE, MIL.M_DEFAULT, MIL.M_NULL);
+
+            // Y축 방향 두 엣지 측정용 마커 설정
+
+            MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_BOX_CENTER, 170, 510);//ROUGH_BOX_CENTER_X, ROUGH_BOX_CENTER_Y);
+            MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_BOX_SIZE, 250, 900);//ROUGH_BOX_WIDTH, ROUGH_BOX_HEIGHT);
+            MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_BOX_ANGLE, 180, MIL.M_NULL);    //ROUGH_BOX_ANGLE
+            MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_SEARCH_REGION_INPUT_UNITS, MIL.M_WORLD, MIL.M_NULL);
+            /// MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_EDGE, MIL.M_ORIENTATION, MIL.M_VERTICAL);
+            //
+            //MIL.MmeasSetMarker(MilStripeMarker, MIL.M_FILTER_SMOOTHNESS, 90, MIL.M_NULL);
+            MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_FILTER_TYPE, MIL.M_SHEN, MIL.M_NULL);
+
+            MIL.McalUniform(MilImage, 0.0, 0.0, 1.0, 1.0, 0.0, MIL.M_DEFAULT);
+            // Set up the drawing.
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_INPUT_UNITS, MIL.M_WORLD);
+            MIL.MmeasSetMarker(MilEdgeMarker, MIL.M_DRAW_PROFILE_SCALE_OFFSET, MIL.M_AUTO_SCALE_PROFILE, MIL.M_DEFAULT);
+            // Find the marker.
+            MIL.MmeasFindMarker(MIL.M_DEFAULT, MilImage, MilEdgeMarker, MIL.M_POSITION);
+            // Get the status.
+            MIL_INT ValidFlag = MIL.M_NULL;
+            //MIL.MmeasGetResult(MilEdgeMarker, MIL.M_VALID_FLAG + MIL.M_TYPE_MIL_INT, ref ValidFlag, MIL.M_NULL);
+            if (ValidFlag == MIL.M_TRUE)
+            {
+                // Draw the edge annotation in the image.
+                //MIL.EDGE_DRAW_LIST.DrawList(MilEdgeMarker, MilGraList);
+
+                // Get the position and angle of the marker.
+                MIL_INT FinePosX = MIL.M_NULL;
+                MIL_INT FinePosY = MIL.M_NULL;
+                MIL_INT FineAngle = MIL.M_NULL;
+                MIL.MmeasGetResult(MilEdgeMarker, MIL.M_POSITION, ref FinePosX, ref FinePosY);
+                MIL.MmeasGetResult(MilEdgeMarker, MIL.M_ANGLE, ref FineAngle, MIL.M_NULL);
+            }
+
+
+                return rtn;
         }
         public bool HeightTest(int index, Mat srcImage)
         {
