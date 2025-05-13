@@ -43,6 +43,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Cone_Test = new System.Windows.Forms.Button();
             this.button_Set_Height_Test = new System.Windows.Forms.Button();
             this.button_Pogo_Find_Test = new System.Windows.Forms.Button();
+            this.checkBox_Measure = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -64,6 +65,7 @@ namespace ZenHandler.Dlg
             this.Set_panelCam.Name = "Set_panelCam";
             this.Set_panelCam.Size = new System.Drawing.Size(1020, 730);
             this.Set_panelCam.TabIndex = 4;
+            this.Set_panelCam.Paint += new System.Windows.Forms.PaintEventHandler(this.Set_panelCam_Paint);
             this.Set_panelCam.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseDown);
             this.Set_panelCam.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseMove);
             this.Set_panelCam.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseUp);
@@ -220,11 +222,27 @@ namespace ZenHandler.Dlg
             this.button_Pogo_Find_Test.UseVisualStyleBackColor = false;
             this.button_Pogo_Find_Test.Click += new System.EventHandler(this.button_Pogo_Find_Test_Click);
             // 
+            // checkBox_Measure
+            // 
+            this.checkBox_Measure.AutoSize = true;
+            this.checkBox_Measure.BackColor = System.Drawing.Color.Cornsilk;
+            this.checkBox_Measure.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Measure.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_Measure.Location = new System.Drawing.Point(1049, 50);
+            this.checkBox_Measure.Name = "checkBox_Measure";
+            this.checkBox_Measure.Size = new System.Drawing.Size(200, 28);
+            this.checkBox_Measure.TabIndex = 62;
+            this.checkBox_Measure.Text = "Measure Distance";
+            this.checkBox_Measure.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_Measure.UseVisualStyleBackColor = false;
+            this.checkBox_Measure.CheckedChanged += new System.EventHandler(this.checkBox_Measure_CheckedChanged);
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.checkBox_Measure);
             this.Controls.Add(this.button_Pogo_Find_Test);
             this.Controls.Add(this.button_Set_Height_Test);
             this.Controls.Add(this.button_Set_Cone_Test);
@@ -243,6 +261,7 @@ namespace ZenHandler.Dlg
             this.Size = new System.Drawing.Size(1770, 800);
             this.VisibleChanged += new System.EventHandler(this.SetTestControl_VisibleChanged);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -261,5 +280,6 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Button button_Set_Cone_Test;
         private System.Windows.Forms.Button button_Set_Height_Test;
         private System.Windows.Forms.Button button_Pogo_Find_Test;
+        private System.Windows.Forms.CheckBox checkBox_Measure;
     }
 }

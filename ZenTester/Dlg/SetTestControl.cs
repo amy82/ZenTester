@@ -49,8 +49,20 @@ namespace ZenHandler.Dlg
         private SQUARE_TYPE m_nType = SQUARE_TYPE.SQUARE_RESET;
         public System.Drawing.Point m_clClickPoint = new System.Drawing.Point();
         public Rectangle m_rSetCamBox = new Rectangle();
-        public bool m_bDrawFlag = false;
-        public bool m_bBoxMoveFlag = false;
+
+        private System.Drawing.Point roiStart;
+        private System.Drawing.Point roiEnd;
+        private bool isDragging = false;
+        private bool isMovingRoi= false;
+
+        private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
+        private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
+
+        private bool m_bDrawFlag = false;
+        private bool m_bBoxMoveFlag = false;
+        private bool m_bDrawMeasureLine = false;
+
+        private Rectangle DrawRoiBox;
         public MOUSE_CURSOR m_iMoveType;
 
         int CamIndex = 0;
@@ -321,9 +333,43 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);     //가스켓 검사
         }
         #region [MOUSE DRAW]
+
+        private void Set_panelCam_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                isDragging = false;
+                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
+                
+                roiEnd = e.Location;
+
+                Console.WriteLine($"Drag Roid = w:{DrawRoiBox.Width},h:{DrawRoiBox.Height}");
+            }
+
+            isMovingRoi = false;
+        }
         private void Set_panelCam_MouseDown(object sender, MouseEventArgs e)
         {
             int iGap = 20;
+            if (e.Button == MouseButtons.Left)
+            {
+                if (DrawRoiBox != null && DrawRoiBox.Contains(e.Location))
+                {
+                    isMovingRoi = true;
+                    moveStartMousePos = e.Location;
+                    moveStartRoiPos = DrawRoiBox.Location;
+                }
+                else
+                {
+                    isDragging = true;
+                    roiStart = e.Location;
+                    roiEnd = e.Location;
+
+                    m_clClickPoint = new System.Drawing.Point(e.X, e.Y);
+
+                    Globalo.visionManager.milLibrary.DrawRgbValue(CamIndex, m_clClickPoint);
+                }
+            }
             switch (m_nDragFlag)
             {
                 case MOUSE_CLICK_TYPE.MOUSE_DRAG:
@@ -352,8 +398,7 @@ namespace ZenHandler.Dlg
 
                     break;
                 case MOUSE_CLICK_TYPE.MEASURE:
-                    m_clClickPoint = new System.Drawing.Point(e.X, e.Y);
-                    Globalo.visionManager.milLibrary.DrawRgbValue(CamIndex, m_clClickPoint);
+                    
                     
                     break;
             }
@@ -361,14 +406,42 @@ namespace ZenHandler.Dlg
 
         private void Set_panelCam_MouseMove(object sender, MouseEventArgs e)
         {
+            if (isDragging)
+            {
+                roiEnd = e.Location;
+                Rectangle roi = GetRoiRect(roiStart, roiEnd);
+                Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
+                    (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
 
+                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+
+                //Set_panelCam.Invalidate();
+                // 마우스 왼쪽 버튼이 눌린 상태에서 이동 중
+                Console.WriteLine($"드래그 중: X={e.X}, Y={e.Y}");
+                // ROI 박스 그리기 등 처리
+            }
+            else if (isMovingRoi)
+            {
+                // 마우스 이동량 계산
+                int dx = e.X - moveStartMousePos.X;
+                int dy = e.Y - moveStartMousePos.Y;
+
+                Console.WriteLine($"드래그 중: dx={dx}, dy={dy}");
+                //DrawRoiBox.Location = new System.Drawing.Point(moveStartRoiPos.X + dx, moveStartRoiPos.Y + dy);
+
+                DrawRoiBox.X = DrawRoiBox.X + dx;
+                DrawRoiBox.Y = DrawRoiBox.Y + dx;
+
+
+                Rectangle m_clRect = new Rectangle((int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
+                    (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
+                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+            }
         }
 
-        private void Set_panelCam_MouseUp(object sender, MouseEventArgs e)
-        {
-            m_bDrawFlag = false;
-            m_bBoxMoveFlag = false;
-        }
+        
 
         //--------------------------------------------------------------------------------------
         //
@@ -448,5 +521,34 @@ namespace ZenHandler.Dlg
             return iRtn;
         }
         #endregion
+
+        private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Measure.Checked)
+            {
+                m_bDrawMeasureLine = true;
+            }
+            else
+            {
+                m_bDrawMeasureLine = true;
+            }
+        }
+        private Rectangle GetRoiRect(System.Drawing.Point p1, System.Drawing.Point p2)
+        {
+            return new Rectangle(
+                Math.Min(p1.X, p2.X),
+                Math.Min(p1.Y, p2.Y),
+                Math.Abs(p2.X - p1.X),
+                Math.Abs(p2.Y - p1.Y)
+            );
+        }
+        private void Set_panelCam_Paint(object sender, PaintEventArgs e)
+        {
+            //if (isDragging)
+            //{
+            //    Rectangle roi = GetRoiRect(roiStart, roiEnd);
+            //    e.Graphics.DrawRectangle(Pens.Red, roi);
+            //}
+        }
     }
 }

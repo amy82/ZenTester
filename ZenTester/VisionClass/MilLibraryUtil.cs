@@ -90,7 +90,7 @@ namespace ZenHandler.VisionClass
 
             xExpand = ((double)CAM_SIZE_X / (double)PanelW);
             yExpand = ((double)CAM_SIZE_Y / (double)PanelH);
-    }
+        }
 
         //자동운전시 Cam1 , Cam2
         //세팅 화면 - Cam 1 - 2
