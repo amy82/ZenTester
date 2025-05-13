@@ -428,21 +428,16 @@ namespace ZenHandler.Dlg
                 int dy = e.Y - moveStartMousePos.Y;
 
                 Console.WriteLine($"드래그 중: dx={dx}, dy={dy}");
-                //DrawRoiBox.Location = new System.Drawing.Point(moveStartRoiPos.X + dx, moveStartRoiPos.Y + dy);
-
-                DrawRoiBox.X = DrawRoiBox.X + dx;
-                DrawRoiBox.Y = DrawRoiBox.Y + dx;
+                DrawRoiBox.Location = new System.Drawing.Point(moveStartRoiPos.X + dx, moveStartRoiPos.Y + dy);
 
 
-                Rectangle m_clRect = new Rectangle((int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
+                Rectangle m_clRect = new Rectangle(
+                    (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
                     (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
         }
-
-        
-
         //--------------------------------------------------------------------------------------
         //
         //ALIGN CAM
