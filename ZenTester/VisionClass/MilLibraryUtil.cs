@@ -295,7 +295,7 @@ namespace ZenHandler.VisionClass
             MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
-        public void DrawOverlayLine(int index, int x1, int y1, int x2, int y2, Color color, int nWid, DashStyle nStyles)
+        public void DrawOverlayLine(int index, int x1, int y1, int x2, int y2, Color color, int nWid, DashStyle nStyles = System.Drawing.Drawing2D.DashStyle.Solid)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
             MIL_ID tempOverlay = MIL.M_NULL;

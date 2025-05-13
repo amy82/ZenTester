@@ -148,6 +148,8 @@ namespace ZenHandler  //ApsMotionControl
 
             Globalo.visionManager.MilSet();
 
+
+            Globalo.setTestControl.setCamCenter();
             //if (ProgramState.ON_LINE_MIL)
             //{
             //    InitMilLib();

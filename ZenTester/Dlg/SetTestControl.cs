@@ -37,13 +37,13 @@ namespace ZenHandler.Dlg
         public enum ResizeDirection
         {
             None,
-            TopLeft, Top, TopRight,
-            Right,
-            BottomRight, Bottom, BottomLeft,
-            Left,
+            TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left,
             Move
         }
         const int HANDLE_SIZE = 10;
+        const int LINE_THICKNESS = 2;
+        const int LINE_HIT_MARGIN = 10;
+
         public Bitmap CurrentImage { get; set; }
         private Controls.DefaultGridView ResultGridView1;
         private Controls.DefaultGridView ResultGridView2;
@@ -62,7 +62,6 @@ namespace ZenHandler.Dlg
         private System.Drawing.Point roiStart;
         private System.Drawing.Point roiEnd;
         private bool isDragging = false;
-        private bool hasFinalRoi = false;
         private bool isMovingRoi= false;
         private ResizeDirection resizeDir = ResizeDirection.None;
         private bool isResizing = false;
@@ -71,6 +70,9 @@ namespace ZenHandler.Dlg
         private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
         private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
 
+        private System.Drawing.Point[] DistLineX = new System.Drawing.Point[2];
+
+
         private bool m_bDrawFlag = false;
         private bool m_bBoxMoveFlag = false;
         private bool m_bDrawMeasureLine = false;
@@ -78,16 +80,28 @@ namespace ZenHandler.Dlg
         private Rectangle DrawRoiBox;
         public MOUSE_CURSOR m_iMoveType;
 
+        private int CamW;
+        private int CamH;
         int CamIndex = 0;
         public SetTestControl()
         {
             InitializeComponent();
 
 
-            centerPos.X = (int)(3840 / 2);
-            centerPos.Y = (int)(2748 / 2);
+            
 
+            
+        }
+        public void setCamCenter()
+        {
+            CamW = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            CamH = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
 
+            DistLineX[0] = new System.Drawing.Point(500, 500);
+            DistLineX[1] = new System.Drawing.Point(CamW - 500, CamH - 500);
+
+            centerPos.X = (int)(CamW / 2);
+            centerPos.Y = (int)(CamH / 2);
         }
         public void initResultGrid()
         {
@@ -353,10 +367,16 @@ namespace ZenHandler.Dlg
             int iGap = 20;
             if (e.Button == MouseButtons.Left)
             {
+                if (m_bDrawMeasureLine == true)
+                {
+                    moveStartMousePos = e.Location;
+                    return;
+                }
                 if (DrawRoiBox != null)
                 {
-                    resizeDir = GetResizeDirection(e.Location);
+                    resizeDir = GetResizeDirection(0, e.Location);
                 }
+                
                 if (resizeDir != ResizeDirection.None && resizeDir != ResizeDirection.Move)// 
                 {
                     isResizing = true;
@@ -386,10 +406,21 @@ namespace ZenHandler.Dlg
 
         private void Set_panelCam_MouseMove(object sender, MouseEventArgs e)
         {
-            if (DrawRoiBox != null && isDragging == false)// && isResizing == false)
+            if (DrawRoiBox != null)// && isResizing == false)
             {
-                ResizeDirection hoverDir = GetResizeDirection(e.Location);
-                Cursor.Current = GetCursorByResizeDirection(hoverDir);
+                if (m_bDrawMeasureLine == true)
+                {
+                    ResizeDirection hoverDir = GetResizeDirection(1, e.Location);
+                    Cursor.Current = GetCursorByResizeDirection(hoverDir);
+                }
+                else if (isDragging == false)
+                {
+                    ResizeDirection hoverDir = GetResizeDirection(0, e.Location);
+                    Cursor.Current = GetCursorByResizeDirection(hoverDir);
+                }
+                
+
+
             }
 
             if (isResizing)
@@ -587,14 +618,30 @@ namespace ZenHandler.Dlg
 
         private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
         {
+            m_bDrawMeasureLine = false;
             if (checkBox_Measure.Checked)
             {
                 m_bDrawMeasureLine = true;
+                DrawDistnace();
             }
-            else
-            {
-                m_bDrawMeasureLine = true;
-            }
+
+            
+        }
+        private void DrawDistnace()
+        {
+
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+
+            //DistLineX[0] = new System.Drawing.Point(500, 500);
+            //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
+
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[0].X), 0, (int)(DistLineX[0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 2);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[1].X), 0, (int)(DistLineX[1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 2);
+
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[0].Y), Color.Blue, 2);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[1].Y), Color.Blue, 2);
+
         }
         private Rectangle GetRoiRect(System.Drawing.Point p1, System.Drawing.Point p2)
         {
@@ -605,32 +652,52 @@ namespace ZenHandler.Dlg
                 Math.Abs(p2.Y - p1.Y)
             );
         }
-        private ResizeDirection GetResizeDirection(System.Drawing.Point mousePos)
+        private ResizeDirection GetResizeDirection(int Mode, System.Drawing.Point mousePos)
         {
-            Rectangle r = DrawRoiBox;
+            Rectangle r;
+            if (Mode == 0)
+            {
+                r = DrawRoiBox;
+                // 9개 위치
+                Rectangle left = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
+                Rectangle right = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
+                Rectangle top = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
+                Rectangle bottom = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
+                //
+                Rectangle topLeft = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+                Rectangle topRight = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+                Rectangle bottomRight = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+                Rectangle bottomLeft = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
 
-            // 9개 위치
-            Rectangle left = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
-            Rectangle right = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
-            Rectangle top = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
-            Rectangle bottom = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
-            //
-            Rectangle topLeft = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2,  HANDLE_SIZE,  HANDLE_SIZE);
-            Rectangle topRight = new Rectangle(r.Right - HANDLE_SIZE / 2,r.Top - HANDLE_SIZE / 2,HANDLE_SIZE,HANDLE_SIZE);
-            Rectangle bottomRight = new Rectangle(r.Right - HANDLE_SIZE / 2,r.Bottom - HANDLE_SIZE / 2,HANDLE_SIZE,HANDLE_SIZE);
-            Rectangle bottomLeft = new Rectangle(r.Left - HANDLE_SIZE / 2,r.Bottom - HANDLE_SIZE / 2,HANDLE_SIZE,HANDLE_SIZE);
+                Rectangle MoveRect = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top + HANDLE_SIZE / 2, r.Width - HANDLE_SIZE, r.Height - HANDLE_SIZE);
 
-            Rectangle MoveRect = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top + HANDLE_SIZE / 2, r.Width - HANDLE_SIZE, r.Height - HANDLE_SIZE);
+                if (topLeft.Contains(mousePos)) return ResizeDirection.TopLeft;
+                if (topRight.Contains(mousePos)) return ResizeDirection.TopRight;
+                if (bottomRight.Contains(mousePos)) return ResizeDirection.BottomRight;
+                if (bottomLeft.Contains(mousePos)) return ResizeDirection.BottomLeft;
+                if (top.Contains(mousePos)) return ResizeDirection.Top;
+                if (right.Contains(mousePos)) return ResizeDirection.Right;
+                if (bottom.Contains(mousePos)) return ResizeDirection.Bottom;
+                if (left.Contains(mousePos)) return ResizeDirection.Left;
+                if (MoveRect.Contains(mousePos)) return ResizeDirection.Move;
+            }
+            else
+            {
+                //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5)
+                Rectangle x1Line = new Rectangle((int)(DistLineX[0].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN /2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce +0.5));
+                Rectangle x2Line = new Rectangle((int)(DistLineX[1].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce + 0.5));
 
-            if (topLeft.Contains(mousePos)) return ResizeDirection.TopLeft;
-            if (topRight.Contains(mousePos)) return ResizeDirection.TopRight;
-            if (bottomRight.Contains(mousePos)) return ResizeDirection.BottomRight;
-            if (bottomLeft.Contains(mousePos)) return ResizeDirection.BottomLeft; 
-            if (top.Contains(mousePos)) return ResizeDirection.Top;
-            if (right.Contains(mousePos)) return ResizeDirection.Right;
-            if (bottom.Contains(mousePos)) return ResizeDirection.Bottom;
-            if (left.Contains(mousePos)) return ResizeDirection.Left;
-            if (MoveRect.Contains(mousePos)) return ResizeDirection.Move;
+                Rectangle y1Line = new Rectangle(0, (int)(DistLineX[0].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
+                Rectangle y2Line = new Rectangle(0, (int)(DistLineX[1].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
+
+                if (y1Line.Contains(mousePos)) return ResizeDirection.Top;
+                if (y2Line.Contains(mousePos)) return ResizeDirection.Top;
+
+                if (x1Line.Contains(mousePos)) return ResizeDirection.Left;
+                if (x2Line.Contains(mousePos)) return ResizeDirection.Left;
+
+            }
+            
 
             return ResizeDirection.None;
         }
