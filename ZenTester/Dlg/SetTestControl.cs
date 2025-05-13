@@ -254,9 +254,6 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
         }
-
-
-
         #region [TOP CAMERA MANUAL TEST]
         private void button_Set_Key_Test_Click(object sender, EventArgs e)
         {
@@ -338,7 +335,20 @@ namespace ZenHandler.Dlg
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);     //가스켓 검사
         }
         #endregion
 
@@ -370,6 +380,7 @@ namespace ZenHandler.Dlg
                 if (m_bDrawMeasureLine == true)
                 {
                     moveStartMousePos = e.Location;
+                    resizeDir = GetResizeDirection(1, e.Location);
                     return;
                 }
                 if (DrawRoiBox != null)
@@ -377,11 +388,14 @@ namespace ZenHandler.Dlg
                     resizeDir = GetResizeDirection(0, e.Location);
                 }
                 
-                if (resizeDir != ResizeDirection.None && resizeDir != ResizeDirection.Move)// 
+                if (resizeDir != ResizeDirection.None && resizeDir != ResizeDirection.Move)
                 {
-                    isResizing = true;
-                    moveStartMousePos = e.Location;
-                    moveStartRoiPos = DrawRoiBox.Location;
+                    if (DrawRoiBox.Width > 10 || DrawRoiBox.Height > 10)
+                    {
+                        isResizing = true;
+                        moveStartMousePos = e.Location;
+                        moveStartRoiPos = DrawRoiBox.Location;
+                    }
                     return;
                 }
                 else if (DrawRoiBox != null && DrawRoiBox.Contains(e.Location))
@@ -403,7 +417,6 @@ namespace ZenHandler.Dlg
                 }
             }
         }
-
         private void Set_panelCam_MouseMove(object sender, MouseEventArgs e)
         {
             if (DrawRoiBox != null)// && isResizing == false)
@@ -418,12 +431,34 @@ namespace ZenHandler.Dlg
                     ResizeDirection hoverDir = GetResizeDirection(0, e.Location);
                     Cursor.Current = GetCursorByResizeDirection(hoverDir);
                 }
-                
-
-
             }
+            if (m_bDrawMeasureLine && e.Button == MouseButtons.Left)
+            {
+                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand + 0.5);
+                int dy = (int)((e.Y - moveStartMousePos.Y) * Globalo.visionManager.milLibrary.yExpand + 0.5);
 
-            if (isResizing)
+                switch (resizeDir)
+                {
+                    case ResizeDirection.Top:
+                        DistLineX[0].Y += dy;
+                        break;
+                    case ResizeDirection.Left:
+                        DistLineX[0].X += dx;
+                        break;
+                    case ResizeDirection.Right:
+                        DistLineX[1].X += dx;
+                        break;
+
+                    case ResizeDirection.Bottom:
+                        DistLineX[1].Y += dy;
+                        break;
+
+
+                }
+                moveStartMousePos = e.Location;
+                DrawDistnace();
+            }
+            else if (isResizing)
             {
                 int dx = e.X - moveStartMousePos.X;
                 int dy = e.Y - moveStartMousePos.Y;
@@ -488,8 +523,7 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
-
-            if (isDragging)
+            else if (isDragging)
             {
                 roiEnd = e.Location;
                 Rectangle roi = GetRoiRect(roiStart, roiEnd);
@@ -532,7 +566,9 @@ namespace ZenHandler.Dlg
 
                 roiEnd = e.Location;
 
-                Console.WriteLine($"Drag Roid = w:{DrawRoiBox.Width},h:{DrawRoiBox.Height}");
+                int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5);
+                int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                Console.WriteLine($"Drag Roi = w:{dragw},h:{dragh}");
             }
 
             isMovingRoi = false;
@@ -624,8 +660,10 @@ namespace ZenHandler.Dlg
                 m_bDrawMeasureLine = true;
                 DrawDistnace();
             }
-
-            
+            else
+            {
+                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+            }
         }
         private void DrawDistnace()
         {
@@ -636,11 +674,24 @@ namespace ZenHandler.Dlg
             //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
 
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[0].X), 0, (int)(DistLineX[0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 2);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[1].X), 0, (int)(DistLineX[1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 2);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[0].X), 0, (int)(DistLineX[0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[1].X), 0, (int)(DistLineX[1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 1);
 
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[0].Y), Color.Blue, 2);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[1].Y), Color.Blue, 2);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[0].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[1].Y), Color.Blue, 1);
+
+            Globalo.visionManager.CamResol.X = 0.02026f;
+            Globalo.visionManager.CamResol.Y = 0.02026f;//0.0288f;
+
+            System.Drawing.Point textPoint;
+
+            string str = $"[Distance x: = {Math.Abs(DistLineX[0].X - DistLineX[1].X) * Globalo.visionManager.CamResol.X}";
+            textPoint = new System.Drawing.Point(10, CamH - 250);
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
+
+            str = $"[Distance y: = {Math.Abs(DistLineX[0].Y - DistLineX[1].Y) * Globalo.visionManager.CamResol.Y}";
+            textPoint = new System.Drawing.Point(10, CamH - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
 
         }
         private Rectangle GetRoiRect(System.Drawing.Point p1, System.Drawing.Point p2)
@@ -691,10 +742,10 @@ namespace ZenHandler.Dlg
                 Rectangle y2Line = new Rectangle(0, (int)(DistLineX[1].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
 
                 if (y1Line.Contains(mousePos)) return ResizeDirection.Top;
-                if (y2Line.Contains(mousePos)) return ResizeDirection.Top;
+                if (y2Line.Contains(mousePos)) return ResizeDirection.Bottom;
 
                 if (x1Line.Contains(mousePos)) return ResizeDirection.Left;
-                if (x2Line.Contains(mousePos)) return ResizeDirection.Left;
+                if (x2Line.Contains(mousePos)) return ResizeDirection.Right;
 
             }
             

@@ -144,14 +144,17 @@ namespace ZenHandler.VisionClass
             byte[] pixelRGB = new byte[3];
             MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand), (int)(clickP.Y * yExpand), 1, 1, pixelRGB);
 
-            string str = $"[X={clickP.X}, Y={clickP.Y}] Gray Value: {pixelRGB[0]}";
-            Console.WriteLine($"[X,Y={clickP.X},{clickP.Y}] Gray Value: {pixelRGB[0]}");
+            int cx = (int)(clickP.X * xExpand + 0.5);
+            int cy = (int)(clickP.Y * yExpand + 0.5);
+
+            string str = $"[X={cx}, Y={cy}] Gray Value: {pixelRGB[0]}";
+            Console.WriteLine($"[X,Y={cx},{cy}] Gray Value: {pixelRGB[0]}");
+
             System.Drawing.Point textPoint = new System.Drawing.Point(10, 10);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Green, 15);
 
 
-            int cx =(int) (clickP.X * xExpand + 0.5);
-            int cy =(int) (clickP.Y * yExpand + 0.5);
+            
 
             Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
 
