@@ -137,11 +137,24 @@ namespace ZenHandler.VisionClass
         }
         public void DrawRgbValue(int index, Point clickP)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay(index);
             int width = (int)MIL.MbufInquire(MilCamGrabImageChild[index], MIL.M_PITCH, MIL.M_NULL);
             int pos = clickP.Y * width + clickP.X;
             int pixelValue = 0;
             byte[] pixelRGB = new byte[3];
             MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand), (int)(clickP.Y * yExpand), 1, 1, pixelRGB);
+
+            string str = $"[X={clickP.X}, Y={clickP.Y}] Gray Value: {pixelRGB[0]}";
+            Console.WriteLine($"[X,Y={clickP.X},{clickP.Y}] Gray Value: {pixelRGB[0]}");
+            System.Drawing.Point textPoint = new System.Drawing.Point(10, 10);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Green, 15);
+
+
+            int cx =(int) (clickP.X * xExpand + 0.5);
+            int cy =(int) (clickP.Y * yExpand + 0.5);
+
+            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+
             /*
                      p.x = (int)(m_ClickP.x * CAM_EXPAND_FACTOR_X + 0.5);
 			        p.y = (int)(m_ClickP.y * CAM_EXPAND_FACTOR_Y + 0.5);
@@ -264,10 +277,14 @@ namespace ZenHandler.VisionClass
                 {
                     using (Pen arrowPen = new Pen(color, nWid))
                     {
-                        int _wid = (int)(lineWid * xReduce + 0.5); 
+                        double xResoul = xReduce;
+                        double yResoul = yReduce;
 
-                        int startX = (int)(x * xReduce + 0.5);
-                        int startY = (int)(y * yReduce + 0.5);
+                        int _wid = (int)(lineWid * xResoul + 0.5);
+                        int _hei = (int)(lineWid * yResoul + 0.5);
+
+                        int startX = (int)(x * xResoul + 0.5);
+                        int startY = (int)(y * yResoul + 0.5);
 
                         DrawingGraphics.DrawLine(arrowPen, startX - _wid, startY, startX + _wid, startY);
                         DrawingGraphics.DrawLine(arrowPen, startX, startY - _wid, startX, startY + _wid);
@@ -518,7 +535,7 @@ namespace ZenHandler.VisionClass
                     {
                         // Prepare transparent text annotations.
                         // Define the Brushes and fonts used to draw text
-                        using (SolidBrush LeftBrush = new SolidBrush(Color.Red))
+                        using (SolidBrush LeftBrush = new SolidBrush(color))
                         {
                             using (SolidBrush RightBrush = new SolidBrush(Color.Yellow))
                             {
