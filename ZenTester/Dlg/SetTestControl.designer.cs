@@ -65,7 +65,6 @@ namespace ZenHandler.Dlg
             this.Set_panelCam.Name = "Set_panelCam";
             this.Set_panelCam.Size = new System.Drawing.Size(1020, 730);
             this.Set_panelCam.TabIndex = 4;
-            this.Set_panelCam.Paint += new System.Windows.Forms.PaintEventHandler(this.Set_panelCam_Paint);
             this.Set_panelCam.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseDown);
             this.Set_panelCam.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseMove);
             this.Set_panelCam.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseUp);

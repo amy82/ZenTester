@@ -34,7 +34,16 @@ namespace ZenHandler.Dlg
             MOVE_ALL, MOVE_WIDTH_LEFT, MOVE_WIDTH_RIGHT, MOVE_HEIGHT_TOP, MOVE_HEIGHT_BOTTOM,
             MOVE_NW, MOVE_NE, MOVE_SW, MOVE_SE
         };
-
+        public enum ResizeDirection
+        {
+            None,
+            TopLeft, Top, TopRight,
+            Right,
+            BottomRight, Bottom, BottomLeft,
+            Left,
+            Move
+        }
+        const int HANDLE_SIZE = 10;
         public Bitmap CurrentImage { get; set; }
         private Controls.DefaultGridView ResultGridView1;
         private Controls.DefaultGridView ResultGridView2;
@@ -53,7 +62,11 @@ namespace ZenHandler.Dlg
         private System.Drawing.Point roiStart;
         private System.Drawing.Point roiEnd;
         private bool isDragging = false;
+        private bool hasFinalRoi = false;
         private bool isMovingRoi= false;
+        private ResizeDirection resizeDir = ResizeDirection.None;
+        private bool isResizing = false;
+
 
         private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
         private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
@@ -334,26 +347,24 @@ namespace ZenHandler.Dlg
         }
         #region [MOUSE DRAW]
 
-        private void Set_panelCam_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (isDragging)
-            {
-                isDragging = false;
-                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
-                
-                roiEnd = e.Location;
-
-                Console.WriteLine($"Drag Roid = w:{DrawRoiBox.Width},h:{DrawRoiBox.Height}");
-            }
-
-            isMovingRoi = false;
-        }
+        
         private void Set_panelCam_MouseDown(object sender, MouseEventArgs e)
         {
             int iGap = 20;
             if (e.Button == MouseButtons.Left)
             {
-                if (DrawRoiBox != null && DrawRoiBox.Contains(e.Location))
+                if (DrawRoiBox != null)
+                {
+                    resizeDir = GetResizeDirection(e.Location);
+                }
+                if (resizeDir != ResizeDirection.None && resizeDir != ResizeDirection.Move)// 
+                {
+                    isResizing = true;
+                    moveStartMousePos = e.Location;
+                    moveStartRoiPos = DrawRoiBox.Location;
+                    return;
+                }
+                else if (DrawRoiBox != null && DrawRoiBox.Contains(e.Location))
                 {
                     isMovingRoi = true;
                     moveStartMousePos = e.Location;
@@ -361,6 +372,7 @@ namespace ZenHandler.Dlg
                 }
                 else
                 {
+
                     isDragging = true;
                     roiStart = e.Location;
                     roiEnd = e.Location;
@@ -370,42 +382,82 @@ namespace ZenHandler.Dlg
                     Globalo.visionManager.milLibrary.DrawRgbValue(CamIndex, m_clClickPoint);
                 }
             }
-            switch (m_nDragFlag)
-            {
-                case MOUSE_CLICK_TYPE.MOUSE_DRAG:
-                    m_clClickPoint = new System.Drawing.Point(e.X, e.Y);
-
-                    if (m_clClickPoint.X > Set_panelCam.Left && m_clClickPoint.X < Set_panelCam.Right &&
-                        m_clClickPoint.Y > Set_panelCam.Top && m_clClickPoint.Y < Set_panelCam.Bottom)
-                    {
-                        iGap = 20;
-
-                        m_bDrawFlag = true;
-
-                        if (m_clClickPoint.X > m_rSetCamBox.Left - iGap && m_clClickPoint.Y > m_rSetCamBox.Top - iGap &&
-                            m_clClickPoint.X < m_rSetCamBox.Right + iGap && m_clClickPoint.Y < m_rSetCamBox.Bottom + iGap)
-                        {
-                            m_bBoxMoveFlag = true;
-                        }
-
-                        m_iMoveType = checkMousePos(m_clClickPoint, m_rSetCamBox, 0);
-                    }
-                    break;
-                case MOUSE_CLICK_TYPE.DIST_CHECK:
-
-                    break;
-                case MOUSE_CLICK_TYPE.DISP_MOVE:
-
-                    break;
-                case MOUSE_CLICK_TYPE.MEASURE:
-                    
-                    
-                    break;
-            }
         }
 
         private void Set_panelCam_MouseMove(object sender, MouseEventArgs e)
         {
+            if (DrawRoiBox != null && isDragging == false)// && isResizing == false)
+            {
+                ResizeDirection hoverDir = GetResizeDirection(e.Location);
+                Cursor.Current = GetCursorByResizeDirection(hoverDir);
+            }
+
+            if (isResizing)
+            {
+                int dx = e.X - moveStartMousePos.X;
+                int dy = e.Y - moveStartMousePos.Y;
+
+                Rectangle r = DrawRoiBox;
+
+                switch (resizeDir)
+                {
+                    case ResizeDirection.TopLeft:
+                        r.X += dx;
+                        r.Y += dy;
+                        r.Width -= dx;
+                        r.Height -= dy;
+                        break;
+
+                    case ResizeDirection.Top:
+                        r.Y += dy;
+                        r.Height -= dy;
+                        break;
+
+                    case ResizeDirection.TopRight:
+                        r.Y += dy;
+                        r.Width += dx;
+                        r.Height -= dy;
+                        break;
+
+                    case ResizeDirection.Right:
+                        r.Width += dx;
+                        break;
+
+                    case ResizeDirection.BottomRight:
+                        r.Width += dx;
+                        r.Height += dy;
+                        break;
+
+                    case ResizeDirection.Bottom:
+                        r.Height += dy;
+                        break;
+
+                    case ResizeDirection.BottomLeft:
+                        r.X += dx;
+                        r.Width -= dx;
+                        r.Height += dy;
+                        break;
+
+                    case ResizeDirection.Left:
+                        r.X += dx;
+                        r.Width -= dx;
+                        break;
+                }
+
+                // 최소 크기 보정
+                if (r.Width < 5) r.Width = 5;
+                if (r.Height < 5) r.Height = 5;
+
+                DrawRoiBox = r;
+                moveStartMousePos = e.Location;
+
+                Rectangle m_clRect = new Rectangle(
+                    (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
+                    (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
+                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+            }
+
             if (isDragging)
             {
                 roiEnd = e.Location;
@@ -437,6 +489,22 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
+        }
+        private void Set_panelCam_MouseUp(object sender, MouseEventArgs e)
+        {
+            isResizing = false;
+            if (isDragging)
+            {
+                isDragging = false;
+                resizeDir = ResizeDirection.None;
+                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
+
+                roiEnd = e.Location;
+
+                Console.WriteLine($"Drag Roid = w:{DrawRoiBox.Width},h:{DrawRoiBox.Height}");
+            }
+
+            isMovingRoi = false;
         }
         //--------------------------------------------------------------------------------------
         //
@@ -537,13 +605,59 @@ namespace ZenHandler.Dlg
                 Math.Abs(p2.Y - p1.Y)
             );
         }
-        private void Set_panelCam_Paint(object sender, PaintEventArgs e)
+        private ResizeDirection GetResizeDirection(System.Drawing.Point mousePos)
         {
-            //if (isDragging)
-            //{
-            //    Rectangle roi = GetRoiRect(roiStart, roiEnd);
-            //    e.Graphics.DrawRectangle(Pens.Red, roi);
-            //}
+            Rectangle r = DrawRoiBox;
+
+            // 9개 위치
+            Rectangle left = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
+            Rectangle right = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
+            Rectangle top = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
+            Rectangle bottom = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
+            //
+            Rectangle topLeft = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2,  HANDLE_SIZE,  HANDLE_SIZE);
+            Rectangle topRight = new Rectangle(r.Right - HANDLE_SIZE / 2,r.Top - HANDLE_SIZE / 2,HANDLE_SIZE,HANDLE_SIZE);
+            Rectangle bottomRight = new Rectangle(r.Right - HANDLE_SIZE / 2,r.Bottom - HANDLE_SIZE / 2,HANDLE_SIZE,HANDLE_SIZE);
+            Rectangle bottomLeft = new Rectangle(r.Left - HANDLE_SIZE / 2,r.Bottom - HANDLE_SIZE / 2,HANDLE_SIZE,HANDLE_SIZE);
+
+            Rectangle MoveRect = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top + HANDLE_SIZE / 2, r.Width - HANDLE_SIZE, r.Height - HANDLE_SIZE);
+
+            if (topLeft.Contains(mousePos)) return ResizeDirection.TopLeft;
+            if (topRight.Contains(mousePos)) return ResizeDirection.TopRight;
+            if (bottomRight.Contains(mousePos)) return ResizeDirection.BottomRight;
+            if (bottomLeft.Contains(mousePos)) return ResizeDirection.BottomLeft; 
+            if (top.Contains(mousePos)) return ResizeDirection.Top;
+            if (right.Contains(mousePos)) return ResizeDirection.Right;
+            if (bottom.Contains(mousePos)) return ResizeDirection.Bottom;
+            if (left.Contains(mousePos)) return ResizeDirection.Left;
+            if (MoveRect.Contains(mousePos)) return ResizeDirection.Move;
+
+            return ResizeDirection.None;
+        }
+        private Cursor GetCursorByResizeDirection(ResizeDirection dir)
+        {
+            switch (dir)
+            {
+                case ResizeDirection.TopLeft:
+                case ResizeDirection.BottomRight:
+                    return Cursors.SizeNWSE;
+
+                case ResizeDirection.TopRight:
+                case ResizeDirection.BottomLeft:
+                    return Cursors.SizeNESW;
+
+                case ResizeDirection.Top:
+                case ResizeDirection.Bottom:
+                    return Cursors.SizeNS;
+
+                case ResizeDirection.Left:
+                case ResizeDirection.Right:
+                    return Cursors.SizeWE;
+                case ResizeDirection.Move:
+                    return Cursors.SizeAll;
+                default:
+                    return Cursors.Default;
+            }
         }
     }
 }
