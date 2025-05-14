@@ -348,8 +348,9 @@ namespace ZenHandler.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);     //가스켓 검사
-            Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);     //가스켓 검사
+            //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);     //
+            //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);     //
+            Globalo.visionManager.aoiSideTester.MilEdgeHeightTest(CamIndex, src);     //
         }
         #endregion
 

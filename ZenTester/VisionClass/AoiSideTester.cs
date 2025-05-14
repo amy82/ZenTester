@@ -15,6 +15,144 @@ namespace ZenHandler.VisionClass
         {
 
         }
+
+        public bool MilEdgeHeightTest(int index, Mat srcImage)
+        {
+            const int CONTOUR_MAX_RESULTS = 100;
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_ID tempMilImage = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilSearchContext = MIL.M_NULL;
+            MIL_ID MilResult = MIL.M_NULL;
+            MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
+            MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
+
+            double[] MeanFeretDiameter = new double[CONTOUR_MAX_RESULTS];   // Edge mean Feret diameter.
+            double[] EdgeBoxMinY = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeBoxMaxY = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgePositionY = new double[CONTOUR_MAX_RESULTS];
+            int i = 0;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+                (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
+
+            MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
+            MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
+
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+            //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, ImageSizeX, ImageSizeY, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+            MIL.MbufChild2d(tempMilImage, 800, 700, 250, 900, ref MilImage);
+
+            //MilImage = tempMilImage;
+            // 기존 MilSystem을 사용
+            MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+
+            MIL.MimBinarize(MilImage, MilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
+
+            MIL.MbufExport("d:\\MilImage.BMP", MIL.M_BMP, MilImage);
+            MIL.MdispSelect(MilDisplay, MilImage);
+
+            /* Allocate a graphic list to hold the subpixel annotations to draw. */
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            /* Associate the graphic list to the display for annotations. */
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+
+            ///
+            //
+            //
+            //
+            // Allocate a Edge Finder context.
+            MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
+
+            // Allocate a result buffer.
+            MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
+
+            // Enable features to compute.
+            MIL.MedgeControl(MilEdgeContext, MIL.M_MOMENT_ELONGATION, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FERET_MEAN_DIAMETER + MIL.M_SORT1_DOWN, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_BOX_Y_MIN, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_BOX_Y_MAX, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_POSITION_Y, MIL.M_ENABLE);
+
+
+            // Calculate edges and features.
+            MIL.MedgeCalculate(MilEdgeContext, MilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
+
+            MIL_INT NumEdgeFound = 0;                                       // Number of edges found.
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
+
+            // Draw edges in the source image to show the result.
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //불필요한 edge 제거하기
+            //
+            //
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //double CONTOUR_MAXIMUM_ELONGATION = 0.8;
+
+
+            // Exclude elongated edges.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_MOMENT_ELONGATION, MIL.M_LESS, CONTOUR_MAXIMUM_ELONGATION, MIL.M_NULL);
+
+            // Exclude inner chains.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
+
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MAX, MIL.M_LESS, 580.0, MIL.M_NULL);
+            // Draw remaining edges and their index to show the result.
+            MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            // Pause to show the results.
+            //Console.Write("Elongated edges and inner edges of each seal were removed.\n");
+            //Console.Write("Press <Enter> to continue.\n\n");
+            //Console.ReadKey();
+
+            MIL_INT NumResults = 0;                                         // Number of results found.
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+            // If the right number of edges were found.
+            if ((NumResults >= 1) && (NumResults <= CONTOUR_MAX_RESULTS)) 
+            {
+                // Draw the index of each edge.
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+                // Get the mean Feret diameters.
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_FERET_MEAN_DIAMETER, MeanFeretDiameter);
+
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_BOX_Y_MIN, EdgeBoxMinY);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_BOX_Y_MAX, EdgeBoxMaxY);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_POSITION_Y, EdgePositionY);
+
+                // Print the results.
+                Console.Write("Mean diameter of the {0} outer edges are:\n\n", NumResults);
+                Console.Write("Index   Mean diameter \n");
+                for (i = 0; i < NumResults; i++)
+                {
+                    Console.Write("{0,-11}{1,-13:0.00}\n", i, MeanFeretDiameter[i]);
+                    Console.Write("{0,-11} Box Min Y : {1,-13:0.00}\n", i, EdgeBoxMinY[i]);
+                    Console.Write("{0,-11} Box Max Y : {1,-13:0.00}\n", i, EdgeBoxMaxY[i]);
+                    Console.Write("{0,-11} Position Y : {1,-13:0.00}\n", i, EdgePositionY[i]);
+                }
+            }
+            else
+            {
+                Console.Write("Edges have not been found or the number of found edges is greater than\n");
+                Console.Write("the specified maximum number of edges !\n\n");
+            }
+
+            return false;
+        }
         public bool MilHeightTest(int index, Mat srcImage)
         {
             bool rtn = false;
