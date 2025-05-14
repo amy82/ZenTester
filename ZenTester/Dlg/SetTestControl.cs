@@ -539,6 +539,12 @@ namespace ZenHandler.Dlg
                     roiMousePos.Y = (int)(e.Location.Y * Globalo.visionManager.milLibrary.yExpand + 0.5);
                     resizeDir = GetResizeDirection(roiMousePos, DrawRoiBox);
 
+                    if (resizeDir == ResizeDirection.Move)
+                    {
+                        moveStartRoiPos = DrawRoiBox.Location;
+                        roiStart = e.Location;
+                        roiEnd = e.Location;
+                    }
                     Console.WriteLine($"resizeDir : {resizeDir} {DrawRoiBox.X},{DrawRoiBox.Y}");
                     return;
                 }
@@ -631,7 +637,8 @@ namespace ZenHandler.Dlg
             }
             else if (isRoiChecked >= 0 && isRoiNo >= 0)
             {
-                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand + 0.5);
+                roiEnd = e.Location;
+                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand + 0.5); 
                 int dy = (int)((e.Y - moveStartMousePos.Y) * Globalo.visionManager.milLibrary.yExpand + 0.5);
 
                 Rectangle r = DrawRoiBox;
@@ -679,18 +686,31 @@ namespace ZenHandler.Dlg
                         r.X += dx;
                         r.Width -= dx;
                         break;
-                }
 
+                    case ResizeDirection.Move: 
+
+                        r.Location = new System.Drawing.Point(moveStartRoiPos.X + dx, moveStartRoiPos.Y + dy);
+                        DrawRoiBox.X = r.X;
+                        DrawRoiBox.Y = r.Y;
+                        break;
+                }
+                if(resizeDir != ResizeDirection.None && resizeDir != ResizeDirection.Move)
+                {
+                    DrawRoiBox = r;
+                    moveStartMousePos = e.Location;
+
+                }
+                
                 // 최소 크기 보정
                 if (r.Width < 5) r.Width = 5;
                 if (r.Height < 5) r.Height = 5;
 
                 if (isRoiChecked == 0)      //Height
                 {
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x = r.X;
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].y = r.Y;
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].width = r.Width;
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].height = r.Height;
+                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x = DrawRoiBox.X;
+                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].y = DrawRoiBox.Y;
+                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].width = DrawRoiBox.Width;
+                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].height = DrawRoiBox.Height;
                 }
                 else if (isRoiChecked == 1)      //Cone
                 {
@@ -800,6 +820,7 @@ namespace ZenHandler.Dlg
                 Rectangle m_clRect = new Rectangle(
                     (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
                     (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
+
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
@@ -807,11 +828,12 @@ namespace ZenHandler.Dlg
         private void Set_panelCam_MouseUp(object sender, MouseEventArgs e)
         {
             isResizing = false;
-            isRoiNo = -1;
+            resizeDir = ResizeDirection.None;
+            isMovingRoi = false; 
             if (isDragging)
             {
                 isDragging = false;
-                resizeDir = ResizeDirection.None;
+                
                 DrawRoiBox = GetRoiRect(roiStart, roiEnd);
 
                 roiEnd = e.Location;
@@ -820,8 +842,8 @@ namespace ZenHandler.Dlg
                 int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5);
                 Console.WriteLine($"Drag Roi = w:{dragw},h:{dragh}");
             }
-
-            isMovingRoi = false;
+            
+            
         }
         //--------------------------------------------------------------------------------------
         //
@@ -962,7 +984,7 @@ namespace ZenHandler.Dlg
             isRoiChecked = -1;
             if (changed.Checked)
             {
-                
+
                 // 모든 체크박스를 순회하면서
                 foreach (var ctrl in this.Controls)
                 {
@@ -972,7 +994,7 @@ namespace ZenHandler.Dlg
                     }
                 }
                 Console.WriteLine($"{changed.Name} Checked");
-                
+
                 if (changed.Text == "ROI HEIGHT")
                 {
                     isRoiChecked = 0;
@@ -994,6 +1016,10 @@ namespace ZenHandler.Dlg
                     View_Roi(isRoiChecked);
                 }
 
+            }
+            if(isRoiChecked  < 0) 
+            {
+                Globalo.visionManager.milLibrary.ClearOverlay(0); 
             }
         }
         public void View_Roi(int index)
