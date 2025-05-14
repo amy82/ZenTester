@@ -126,7 +126,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Key_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Key_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Key_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Key_Test.Location = new System.Drawing.Point(1049, 123);
+            this.button_Set_Key_Test.Location = new System.Drawing.Point(1049, 289);
             this.button_Set_Key_Test.Name = "button_Set_Key_Test";
             this.button_Set_Key_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Key_Test.TabIndex = 54;
@@ -139,7 +139,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Housing_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Housing_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Housing_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Housing_Test.Location = new System.Drawing.Point(1049, 178);
+            this.button_Set_Housing_Test.Location = new System.Drawing.Point(1049, 124);
             this.button_Set_Housing_Test.Name = "button_Set_Housing_Test";
             this.button_Set_Housing_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Housing_Test.TabIndex = 55;
@@ -152,7 +152,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Gasket_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Gasket_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Gasket_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(1049, 233);
+            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(1049, 179);
             this.button_Set_Gasket_Test.Name = "button_Set_Gasket_Test";
             this.button_Set_Gasket_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Gasket_Test.TabIndex = 56;
@@ -165,7 +165,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Dent_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Dent_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Dent_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Dent_Test.Location = new System.Drawing.Point(1049, 288);
+            this.button_Set_Dent_Test.Location = new System.Drawing.Point(1049, 234);
             this.button_Set_Dent_Test.Name = "button_Set_Dent_Test";
             this.button_Set_Dent_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Dent_Test.TabIndex = 57;
@@ -288,7 +288,7 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1195, 137);
+            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1195, 303);
             this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
             this.checkBox_Roi_Key.Size = new System.Drawing.Size(109, 28);
             this.checkBox_Roi_Key.TabIndex = 69;

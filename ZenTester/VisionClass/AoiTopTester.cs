@@ -86,8 +86,8 @@ namespace ZenHandler.VisionClass
                 Cv2.NamedWindow("Detected binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
                 Cv2.ImShow("Detected binary ", binary);
                 Cv2.WaitKey(0);
-
             }
+
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.List, ContourApproximationModes.ApproxSimple);
             OpenCvSharp.Point Circlecenter = new OpenCvSharp.Point();
             // 3. 원형성 조건으로 필터링

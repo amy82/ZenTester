@@ -8,7 +8,7 @@ namespace ZenHandler.Data
 {
     public enum NO_ROI
     {
-        L_HEIGHT = 0, C_HEIGHT, R_HEIGHT, CONE, ORING, KEY1, KEY2
+        LH = 0, CH, RH, CONE, ORING, KEY1, KEY2
     };
     public class Roi
     {
@@ -22,7 +22,10 @@ namespace ZenHandler.Data
 
     public class AoiRoiConfig
     {
-        public List<Roi> AOI_ROI { get; set; }
+        public List<Roi> HEIGHT_ROI { get; set; }
+        public List<Roi> KEY_ROI { get; set; }
+        public List<Roi> CONE_ROI { get; set; }
+        public List<Roi> ORING_ROI { get; set; }
     }
 
 

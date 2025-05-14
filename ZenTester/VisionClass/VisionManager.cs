@@ -41,9 +41,6 @@ namespace ZenHandler.VisionClass
 
             CamResol.X = 0.0f;
             CamResol.Y = 0.0f;
-
-
-
         }
         public void SetPanelSize(int camWidth, int camHeight, int setcamWidth, int setcamHeight)
         {

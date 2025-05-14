@@ -15,25 +15,6 @@ namespace ZenHandler.Dlg
 {
     public partial class SetTestControl : UserControl
     {
-        public enum MOUSE_CLICK_TYPE
-        {
-            MOUSE_DRAG = 0, TRACK_DRAG, DISP_MOVE, MEASURE, DIST_CHECK
-        };
-        public enum SQUARE_TYPE
-        {
-            SQUARE_RESET = 0, SQUARE_CREATE, SQUARE_RESIZE, SQUARE_MOVE
-        };
-
-        public enum SQUARE_DIR
-        {
-            STANDARD = -1, CENTER, LEFT, TOP, RIGHT, BOTTOM, LEFTTOP, LEFTBOTTOM, RIGHTTOP, RIGHTBOTTOM
-        };
-
-        public enum MOUSE_CURSOR
-        {
-            MOVE_ALL, MOVE_WIDTH_LEFT, MOVE_WIDTH_RIGHT, MOVE_HEIGHT_TOP, MOVE_HEIGHT_BOTTOM,
-            MOVE_NW, MOVE_NE, MOVE_SW, MOVE_SE
-        };
         public enum ResizeDirection
         {
             None,
@@ -45,17 +26,8 @@ namespace ZenHandler.Dlg
         const int LINE_HIT_MARGIN = 10;
 
         public Bitmap CurrentImage { get; set; }
-        private Controls.DefaultGridView ResultGridView1;
-        private Controls.DefaultGridView ResultGridView2;
 
         private OpenCvSharp.Point centerPos;
-        private int GridCol = 2;                                //picker , bcr , state
-        private int GridRow = 10;                                //picker , bcr , state
-        private int[] StartPos = new int[] { 1450, 10 };          //Grid Pos
-        private int[] inGridWid = new int[] { 150, 100 };    //Grid Width
-
-        private MOUSE_CLICK_TYPE m_nDragFlag = MOUSE_CLICK_TYPE.MEASURE;
-        private SQUARE_TYPE m_nType = SQUARE_TYPE.SQUARE_RESET;
         public System.Drawing.Point m_clClickPoint = new System.Drawing.Point();
         public Rectangle m_rSetCamBox = new Rectangle();
 
@@ -65,7 +37,7 @@ namespace ZenHandler.Dlg
         private bool isMovingRoi= false;
         private ResizeDirection resizeDir = ResizeDirection.None;
         private bool isResizing = false;
-
+        private int isRoiChecked = -1;
 
         private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
         private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
@@ -78,7 +50,7 @@ namespace ZenHandler.Dlg
         private bool m_bDrawMeasureLine = false;
 
         private Rectangle DrawRoiBox;
-        public MOUSE_CURSOR m_iMoveType;
+        
 
         private int CamW;
         private int CamH;
@@ -87,13 +59,10 @@ namespace ZenHandler.Dlg
         {
             InitializeComponent();
 
-
-
             checkBox_Roi_Key.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_ORing.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_Cone.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_Height.CheckedChanged += checkBox_CheckedChanged;
-
         }
         public void setCamCenter()
         {
@@ -409,15 +378,66 @@ namespace ZenHandler.Dlg
             int iGap = 20;
             if (e.Button == MouseButtons.Left)
             {
+                if (isRoiChecked > -1)   //roi 영역 클릭했는지 판단
+                {
+                    moveStartMousePos = e.Location;
+                    Rectangle RoiBox = new Rectangle();
+                    if (isRoiChecked == 0)      //Height
+                    {
+                        foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI)
+                        {
+                            RoiBox.X = roiItem.x;
+                            RoiBox.Y = roiItem.y;
+                            RoiBox.Width = roiItem.width;
+                            RoiBox.Height = roiItem.height;
+                        }
+
+                    }
+                    if (isRoiChecked == 1)      //cone
+                    {
+                        foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.CONE_ROI)
+                        {
+                            RoiBox.X = roiItem.x;
+                            RoiBox.Y = roiItem.y;
+                            RoiBox.Width = roiItem.width;
+                            RoiBox.Height = roiItem.height;
+                        }
+
+                    }
+                    if (isRoiChecked == 2)      //Oring
+                    {
+                        foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.ORING_ROI)
+                        {
+                            RoiBox.X = roiItem.x;
+                            RoiBox.Y = roiItem.y;
+                            RoiBox.Width = roiItem.width;
+                            RoiBox.Height = roiItem.height;
+                        }
+
+                    }
+                    if (isRoiChecked == 3)      //Key
+                    {
+                        foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.KEY_ROI)
+                        {
+                            RoiBox.X = roiItem.x;
+                            RoiBox.Y = roiItem.y;
+                            RoiBox.Width = roiItem.width;
+                            RoiBox.Height = roiItem.height;
+                        }
+
+                    }
+                    resizeDir = GetResizeDirection(e.Location, RoiBox);
+                    return;
+                }
                 if (m_bDrawMeasureLine == true)
                 {
                     moveStartMousePos = e.Location;
-                    resizeDir = GetResizeDirection(1, e.Location);
+                    resizeDir = GetDistDirection(e.Location);
                     return;
                 }
                 if (DrawRoiBox != null)
                 {
-                    resizeDir = GetResizeDirection(0, e.Location);
+                    resizeDir = GetResizeDirection(e.Location, DrawRoiBox);
                 }
                 
                 if (resizeDir != ResizeDirection.None && resizeDir != ResizeDirection.Move)
@@ -455,12 +475,12 @@ namespace ZenHandler.Dlg
             {
                 if (m_bDrawMeasureLine == true)
                 {
-                    ResizeDirection hoverDir = GetResizeDirection(1, e.Location);
+                    ResizeDirection hoverDir = GetDistDirection(e.Location);
                     Cursor.Current = GetCursorByResizeDirection(hoverDir);
                 }
                 else if (isDragging == false)
                 {
-                    ResizeDirection hoverDir = GetResizeDirection(0, e.Location);
+                    ResizeDirection hoverDir = GetResizeDirection(e.Location, DrawRoiBox);
                     Cursor.Current = GetCursorByResizeDirection(hoverDir);
                 }
             }
@@ -480,13 +500,11 @@ namespace ZenHandler.Dlg
                     case ResizeDirection.Right:
                         DistLineX[1].X += dx;
                         break;
-
                     case ResizeDirection.Bottom:
                         DistLineX[1].Y += dy;
                         break;
-
-
                 }
+
                 moveStartMousePos = e.Location;
                 DrawDistnace();
             }
@@ -610,78 +628,7 @@ namespace ZenHandler.Dlg
         //ALIGN CAM
         //
         //--------------------------------------------------------------------------------------
-        private MOUSE_CURSOR checkMousePos(System.Drawing.Point p, Rectangle rcTemp, int DisplayMode)
-        {
-            int iGap = 0;
-            MOUSE_CURSOR iRtn = MOUSE_CURSOR.MOVE_ALL;
-
-            double dExpandFactorX = 0.0;
-            double dExpandFactorY = 0.0;
-            dExpandFactorX = Globalo.visionManager.milLibrary.xExpand;
-            dExpandFactorY = Globalo.visionManager.milLibrary.yExpand;
-
-            iGap = 20;// (int)(dExpandFactorX * 3);
-
-            System.Drawing.Point point = p;
-
-            point.X = (int)(point.X * dExpandFactorX + 0.5);
-            point.Y = (int)(point.Y * dExpandFactorY + 0.5);
-
-
-            //박스 이동
-            if (point.X > rcTemp.Left + iGap &&
-                point.X < rcTemp.Right - iGap &&
-                point.Y > rcTemp.Top + iGap &&
-                point.Y < rcTemp.Bottom - iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_ALL;
-            }
-            // 좌 크기
-            else if (point.Y > rcTemp.Top + iGap && point.Y < rcTemp.Bottom - iGap && point.X > rcTemp.Left - iGap && point.X < rcTemp.Left + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_WIDTH_LEFT;
-            }
-            // 우 크기
-            else if (point.Y > rcTemp.Top + iGap && point.Y < rcTemp.Bottom - iGap && point.X > rcTemp.Right - iGap && point.X < rcTemp.Right + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_WIDTH_RIGHT;
-            }
-            // 상 크기
-            else if (point.X > rcTemp.Left + iGap && point.X < rcTemp.Right - iGap && point.Y > rcTemp.Top - iGap && point.Y < rcTemp.Top + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_HEIGHT_TOP;
-            }
-            // 하 크기
-            else if (point.X > rcTemp.Left + iGap && point.X < rcTemp.Right - iGap && point.Y > rcTemp.Bottom - iGap && point.Y < rcTemp.Bottom + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_HEIGHT_BOTTOM;
-            }
-            // 좌상 크기
-            else if (point.X > rcTemp.Left - iGap && point.X < rcTemp.Left + iGap && point.Y > rcTemp.Top - iGap && point.Y < rcTemp.Top + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_NW;
-            }
-            // 우상 크기
-            else if (point.X > rcTemp.Right - iGap && point.X < rcTemp.Right + iGap && point.Y > rcTemp.Top - iGap && point.Y < rcTemp.Top + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_NE;
-            }
-            // 좌하 크기
-            else if (point.X > rcTemp.Left - iGap && point.X < rcTemp.Left + iGap && point.Y > rcTemp.Bottom - iGap && point.Y < rcTemp.Bottom + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_SW;
-            }
-            // 우하 크기
-            else if (point.X > rcTemp.Right - iGap && point.X < rcTemp.Right + iGap && point.Y > rcTemp.Bottom - iGap && point.Y < rcTemp.Bottom + iGap)
-            {
-                iRtn = MOUSE_CURSOR.MOVE_SE;
-            }
-            else
-            {
-            }
-
-            return iRtn;
-        }
+        
         #endregion
 
         private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
@@ -735,52 +682,97 @@ namespace ZenHandler.Dlg
                 Math.Abs(p2.Y - p1.Y)
             );
         }
-        private ResizeDirection GetResizeDirection(int Mode, System.Drawing.Point mousePos)
+        private ResizeDirection GetDistDirection(System.Drawing.Point mousePos)
         {
-            Rectangle r;
-            if (Mode == 0)
-            {
-                r = DrawRoiBox;
-                // 9개 위치
-                Rectangle left = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
-                Rectangle right = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Top + HANDLE_SIZE, HANDLE_SIZE, r.Height - HANDLE_SIZE / 2);
-                Rectangle top = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
-                Rectangle bottom = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, r.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
-                //
-                Rectangle topLeft = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
-                Rectangle topRight = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Top - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
-                Rectangle bottomRight = new Rectangle(r.Right - HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
-                Rectangle bottomLeft = new Rectangle(r.Left - HANDLE_SIZE / 2, r.Bottom - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+            //거리측정
+            //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5)
+            Rectangle x1Line = new Rectangle((int)(DistLineX[0].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce + 0.5));
+            Rectangle x2Line = new Rectangle((int)(DistLineX[1].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce + 0.5));
 
-                Rectangle MoveRect = new Rectangle(r.Left + HANDLE_SIZE / 2, r.Top + HANDLE_SIZE / 2, r.Width - HANDLE_SIZE, r.Height - HANDLE_SIZE);
+            Rectangle y1Line = new Rectangle(0, (int)(DistLineX[0].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
+            Rectangle y2Line = new Rectangle(0, (int)(DistLineX[1].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
 
-                if (topLeft.Contains(mousePos)) return ResizeDirection.TopLeft;
-                if (topRight.Contains(mousePos)) return ResizeDirection.TopRight;
-                if (bottomRight.Contains(mousePos)) return ResizeDirection.BottomRight;
-                if (bottomLeft.Contains(mousePos)) return ResizeDirection.BottomLeft;
-                if (top.Contains(mousePos)) return ResizeDirection.Top;
-                if (right.Contains(mousePos)) return ResizeDirection.Right;
-                if (bottom.Contains(mousePos)) return ResizeDirection.Bottom;
-                if (left.Contains(mousePos)) return ResizeDirection.Left;
-                if (MoveRect.Contains(mousePos)) return ResizeDirection.Move;
-            }
-            else
-            {
-                //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5)
-                Rectangle x1Line = new Rectangle((int)(DistLineX[0].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN /2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce +0.5));
-                Rectangle x2Line = new Rectangle((int)(DistLineX[1].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce + 0.5));
+            if (y1Line.Contains(mousePos)) return ResizeDirection.Top;
+            if (y2Line.Contains(mousePos)) return ResizeDirection.Bottom;
 
-                Rectangle y1Line = new Rectangle(0, (int)(DistLineX[0].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
-                Rectangle y2Line = new Rectangle(0, (int)(DistLineX[1].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
+            if (x1Line.Contains(mousePos)) return ResizeDirection.Left;
+            if (x2Line.Contains(mousePos)) return ResizeDirection.Right;
 
-                if (y1Line.Contains(mousePos)) return ResizeDirection.Top;
-                if (y2Line.Contains(mousePos)) return ResizeDirection.Bottom;
+            return ResizeDirection.None;
 
-                if (x1Line.Contains(mousePos)) return ResizeDirection.Left;
-                if (x2Line.Contains(mousePos)) return ResizeDirection.Right;
+        }
+        private ResizeDirection GetResizeDirection(System.Drawing.Point mousePos, Rectangle roibox)
+        {
+            //if ()//Mode == 2)      //roi 설정
+            //{
+                //isRoiChecked
+                //if (isRoiChecked == 0)      //Height
+                //{
+                //    foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI)
+                //    {
+                //        r.X = roiItem.x;
+                //        r.Y = roiItem.y;
+                //        r.Width = roiItem.width;
+                //        r.Height = roiItem.height;
+                //    }
+                    
+                //}
+                //if (isRoiChecked == 1)      //cone
+                //{
+                //    foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.CONE_ROI)
+                //    {
+                //        r.X = roiItem.x;
+                //        r.Y = roiItem.y;
+                //        r.Width = roiItem.width;
+                //        r.Height = roiItem.height;
+                //    }
+                //}
+                //if (isRoiChecked == 2)      //oring
+                //{
+                //    foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.ORING_ROI)
+                //    {
+                //        r.X = roiItem.x;
+                //        r.Y = roiItem.y;
+                //        r.Width = roiItem.width;
+                //        r.Height = roiItem.height;
+                //    }
+                //}
+                //if (isRoiChecked == 3)      //key
+                //{
+                //    foreach (var roiItem in Globalo.yamlManager.aoiRoiConfig.KEY_ROI)
+                //    {
+                //        r.X = roiItem.x;
+                //        r.Y = roiItem.y;
+                //        r.Width = roiItem.width;
+                //        r.Height = roiItem.height;
+                //    }
+                //}
+           // }
 
-            }
-            
+            //r = DrawRoiBox;
+            // 9개 위치
+            Rectangle left = new Rectangle(roibox.Left - HANDLE_SIZE / 2, roibox.Top + HANDLE_SIZE, HANDLE_SIZE, roibox.Height - HANDLE_SIZE / 2);
+            Rectangle right = new Rectangle(roibox.Right - HANDLE_SIZE / 2, roibox.Top + HANDLE_SIZE, HANDLE_SIZE, roibox.Height - HANDLE_SIZE / 2);
+            Rectangle top = new Rectangle(roibox.Left + HANDLE_SIZE / 2, roibox.Top - HANDLE_SIZE / 2, roibox.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
+            Rectangle bottom = new Rectangle(roibox.Left + HANDLE_SIZE / 2, roibox.Bottom - HANDLE_SIZE / 2, roibox.Width - HANDLE_SIZE / 2, HANDLE_SIZE);
+            //
+            Rectangle topLeft = new Rectangle(roibox.Left - HANDLE_SIZE / 2, roibox.Top - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+            Rectangle topRight = new Rectangle(roibox.Right - HANDLE_SIZE / 2, roibox.Top - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+            Rectangle bottomRight = new Rectangle(roibox.Right - HANDLE_SIZE / 2, roibox.Bottom - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+            Rectangle bottomLeft = new Rectangle(roibox.Left - HANDLE_SIZE / 2, roibox.Bottom - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
+
+            Rectangle MoveRect = new Rectangle(roibox.Left + HANDLE_SIZE / 2, roibox.Top + HANDLE_SIZE / 2, roibox.Width - HANDLE_SIZE, roibox.Height - HANDLE_SIZE);
+
+            if (topLeft.Contains(mousePos)) return ResizeDirection.TopLeft;
+            if (topRight.Contains(mousePos)) return ResizeDirection.TopRight;
+            if (bottomRight.Contains(mousePos)) return ResizeDirection.BottomRight;
+            if (bottomLeft.Contains(mousePos)) return ResizeDirection.BottomLeft;
+            if (top.Contains(mousePos)) return ResizeDirection.Top;
+            if (right.Contains(mousePos)) return ResizeDirection.Right;
+            if (bottom.Contains(mousePos)) return ResizeDirection.Bottom;
+            if (left.Contains(mousePos)) return ResizeDirection.Left;
+            if (MoveRect.Contains(mousePos)) return ResizeDirection.Move;
+
 
             return ResizeDirection.None;
         }
@@ -813,9 +805,10 @@ namespace ZenHandler.Dlg
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox changed = sender as CheckBox;
-
+            isRoiChecked = -1;
             if (changed.Checked)
             {
+                
                 // 모든 체크박스를 순회하면서
                 foreach (var ctrl in this.Controls)
                 {
@@ -826,23 +819,25 @@ namespace ZenHandler.Dlg
                 }
                 Console.WriteLine($"{changed.Name} Checked");
                 
-                
-                
                 if (changed.Text == "ROI HEIGHT")
                 {
-                    View_Roi(0);
+                    isRoiChecked = 0;
+                    View_Roi(isRoiChecked);
                 }
                 if (changed.Text == "ROI CONE")
                 {
-                    View_Roi(1);
+                    isRoiChecked = 1;
+                    View_Roi(isRoiChecked);
                 }
                 if (changed.Text == "ROI ORING")
                 {
-                    View_Roi(2);
+                    isRoiChecked = 2;
+                    View_Roi(isRoiChecked);
                 }
                 if (changed.Text == "ROI KEY")
                 {
-                    View_Roi(3);
+                    isRoiChecked = 3;
+                    View_Roi(isRoiChecked);
                 }
 
             }
@@ -857,19 +852,19 @@ namespace ZenHandler.Dlg
 
             if (index == 0)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.L_HEIGHT.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.LH.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
 
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.C_HEIGHT.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CH.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
 
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.R_HEIGHT.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.RH.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
@@ -877,7 +872,7 @@ namespace ZenHandler.Dlg
             }
             if (index == 1)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
@@ -885,7 +880,7 @@ namespace ZenHandler.Dlg
             }
             if (index == 2)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
@@ -893,14 +888,14 @@ namespace ZenHandler.Dlg
             }
             if (index == 3)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
 
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
 
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
