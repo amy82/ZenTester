@@ -179,6 +179,7 @@
     <Compile Include="Controls\TeachingGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Data\AoiSetData.cs" />
     <Compile Include="Data\CEEpromData.cs" />
     <Compile Include="Data\CMesData.cs" />
     <Compile Include="Data\csvData.cs" />

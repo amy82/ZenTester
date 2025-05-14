@@ -64,7 +64,9 @@ namespace ZenHandler  //ApsMotionControl
 
 
             Globalo.yamlManager.configDataLoad();
-            Globalo.yamlManager.taskDataYaml.TaskDataLoad();
+
+            Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig("AoiConfig.yaml");
+
 
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();

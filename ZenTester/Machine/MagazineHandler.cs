@@ -74,14 +74,14 @@ namespace ZenHandler.Machine
                 MotorAxes[i].setMotorParameter(10.0, 0.1, 0.1, 1000.0);//(double vel , double acc , double dec , double resol)
             }
 
-            magazineTray = Data.TaskDataYaml.TaskLoad_Magazine(taskPath);
+            //magazineTray = Data.TaskDataYaml.TaskLoad_Magazine(taskPath);
             
 
         }
         public override bool TaskSave()
         {
-            bool rtn = Data.TaskDataYaml.TaskSave_Magazine(magazineTray, taskPath);
-            return rtn;
+            //bool rtn = Data.TaskDataYaml.TaskSave_Magazine(magazineTray, taskPath);
+            return false;
         }
         public override bool IsMoving()
         {

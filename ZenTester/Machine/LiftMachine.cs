@@ -73,15 +73,15 @@ namespace ZenHandler.Machine
                 MotorAxes[i].setMotorParameter(10.0, 0.1, 0.1, 1000.0);//(double vel , double acc , double dec , double resol)
             }
 
-            trayProduct = Data.TaskDataYaml.TaskLoad_Lift(taskPath);
+            //trayProduct = Data.TaskDataYaml.TaskLoad_Lift(taskPath);
 
 
         }
 
         public override bool TaskSave()
         {
-            bool rtn = Data.TaskDataYaml.TaskSave_Lift(trayProduct, taskPath);
-            return rtn;
+            //bool rtn = Data.TaskDataYaml.TaskSave_Lift(trayProduct, taskPath);
+            return false;
         }
         public override void MotorDataSet()
         {

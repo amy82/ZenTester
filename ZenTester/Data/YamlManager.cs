@@ -32,7 +32,7 @@ namespace ZenHandler.Data
 
         public TeachingDataYaml teachData { get; set; }
 
-
+        public AoiRoiConfig aoiRoiConfig { get; set; }
         public YamlManager()
         {
             // YAML Serializer & Deserializer 설정

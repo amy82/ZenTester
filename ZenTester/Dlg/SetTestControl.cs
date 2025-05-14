@@ -325,12 +325,38 @@ namespace ZenHandler.Dlg
         #region [SIDE CAMERA MANUAL TEST]
         private void button_Set_Oring_Test_Click(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, src);     //
         }
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, src);
         }
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)

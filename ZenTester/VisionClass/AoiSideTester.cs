@@ -15,7 +15,18 @@ namespace ZenHandler.VisionClass
         {
 
         }
+        public bool MilEdgeOringTest(int index, Mat srcImage)
+        {
 
+
+            return false;
+        }
+        public bool MilEdgeConeTest(int index, Mat srcImage)
+        {
+
+
+            return false;
+        }
         public bool MilEdgeHeightTest(int index, Mat srcImage)
         {
             const int CONTOUR_MAX_RESULTS = 100;
@@ -28,6 +39,11 @@ namespace ZenHandler.VisionClass
             MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
             MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
 
+            int OffsetX = 800;
+            int OffsetY = 700;
+
+            int OffsetWidth = 250;
+            int OffsetHeight = 900;
             double[] MeanFeretDiameter = new double[CONTOUR_MAX_RESULTS];   // Edge mean Feret diameter.
             double[] EdgeBoxMinY = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeBoxMaxY = new double[CONTOUR_MAX_RESULTS];
@@ -42,7 +58,7 @@ namespace ZenHandler.VisionClass
 
             MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
             //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, ImageSizeX, ImageSizeY, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
-            MIL.MbufChild2d(tempMilImage, 800, 700, 250, 900, ref MilImage);
+            MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
             //MilImage = tempMilImage;
             // 기존 MilSystem을 사용
@@ -120,6 +136,10 @@ namespace ZenHandler.VisionClass
             // Get the number of edges found.
             MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
 
+            int minIndex = 0;
+            int maxIndex = 0;
+            double minValue = 0.0;
+            double maxValue = 0.0;
             // If the right number of edges were found.
             if ((NumResults >= 1) && (NumResults <= CONTOUR_MAX_RESULTS)) 
             {
@@ -137,13 +157,38 @@ namespace ZenHandler.VisionClass
                 // Print the results.
                 Console.Write("Mean diameter of the {0} outer edges are:\n\n", NumResults);
                 Console.Write("Index   Mean diameter \n");
+
+                minValue = EdgeBoxMinY[0];
+                maxValue = EdgeBoxMaxY[0];
                 for (i = 0; i < NumResults; i++)
                 {
                     Console.Write("{0,-11}{1,-13:0.00}\n", i, MeanFeretDiameter[i]);
                     Console.Write("{0,-11} Box Min Y : {1,-13:0.00}\n", i, EdgeBoxMinY[i]);
                     Console.Write("{0,-11} Box Max Y : {1,-13:0.00}\n", i, EdgeBoxMaxY[i]);
                     Console.Write("{0,-11} Position Y : {1,-13:0.00}\n", i, EdgePositionY[i]);
+
+                    if (EdgeBoxMinY[i] < minValue)
+                    {
+                        minValue = EdgeBoxMinY[i];
+                        minIndex = i;
+                    }
+                    if (EdgeBoxMaxY[i] > maxValue)
+                    {
+                        maxValue = EdgeBoxMaxY[i];
+                        maxIndex = i;
+                    }
                 }
+
+                Console.WriteLine($"Min Index: {minIndex}, Min Value: {minValue}, Min Y: {minValue}");
+                Console.WriteLine($"Max Index: {maxIndex}, Max Value: {maxValue}, Max Y: {maxValue}");
+
+
+                //int OffsetX = 800;
+                //int OffsetY = 700; 
+                Globalo.visionManager.milLibrary.ClearOverlay(0);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+
             }
             else
             {
