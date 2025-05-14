@@ -60,6 +60,7 @@ namespace ZenHandler.Dlg
         {
             InitializeComponent();
 
+            //this.Set_panelCam.
             checkBox_Roi_Key.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_ORing.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_Cone.CheckedChanged += checkBox_CheckedChanged;
@@ -377,23 +378,28 @@ namespace ZenHandler.Dlg
             Rectangle m_clRect;
             System.Drawing.Point textPoint;
             Globalo.visionManager.milLibrary.ClearOverlay(0);
+
+            int boxLine = 1;
             if (index == 0)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.LH.ToString());
+                //targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.LH.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
 
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CH.ToString());
+                //targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CH.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
 
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.RH.ToString());
+                // targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.RH.ToString());
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "RH ROI", Color.BlueViolet, 15);
             }
@@ -401,7 +407,7 @@ namespace ZenHandler.Dlg
             {
                 targetRoi = Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CONE ROI", Color.BlueViolet, 15);
             }
@@ -409,7 +415,7 @@ namespace ZenHandler.Dlg
             {
                 targetRoi = Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "ORING ROI", Color.BlueViolet, 15);
             }
@@ -418,13 +424,13 @@ namespace ZenHandler.Dlg
                 targetRoi = Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
 
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
 
                 targetRoi = Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
                 textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
             }
@@ -439,10 +445,10 @@ namespace ZenHandler.Dlg
             {
                 for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.Count; i++)
                 {
-                    RoiBox.X = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].x;
-                    RoiBox.Y = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].y;
-                    RoiBox.Width = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].width;
-                    RoiBox.Height = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].height;
+                    RoiBox.X = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].x - HANDLE_SIZE/ 2;
+                    RoiBox.Y = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].y - HANDLE_SIZE / 2;
+                    RoiBox.Width = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].width + HANDLE_SIZE;
+                    RoiBox.Height = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].height + HANDLE_SIZE;
                     if (RoiBox.Contains(mousePos))
                     {
                         return i;
@@ -503,7 +509,6 @@ namespace ZenHandler.Dlg
         
         private void Set_panelCam_MouseDown(object sender, MouseEventArgs e)
         {
-            int iGap = 20;
             if (e.Button == MouseButtons.Left)
             {
                 if (isRoiChecked >= 0)   //roi 영역 클릭했는지 판단
@@ -512,6 +517,7 @@ namespace ZenHandler.Dlg
                     Console.WriteLine($"{e.Location.X} , {e.Location.Y}");
                     
                     isRoiNo = checkNoRoi(isRoiChecked, e.Location);
+
                     if (isRoiChecked == 0 && isRoiNo >= 0)      //Height
                     {
                         DrawRoiBox.X = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x;
@@ -537,15 +543,16 @@ namespace ZenHandler.Dlg
                     System.Drawing.Point roiMousePos = new System.Drawing.Point();
                     roiMousePos.X = (int)(e.Location.X * Globalo.visionManager.milLibrary.xExpand + 0.5);
                     roiMousePos.Y = (int)(e.Location.Y * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                    
                     resizeDir = GetResizeDirection(roiMousePos, DrawRoiBox);
 
+                    Console.WriteLine($"resizeDir : {resizeDir} {DrawRoiBox.X},{DrawRoiBox.Y}");
                     if (resizeDir == ResizeDirection.Move)
                     {
                         moveStartRoiPos = DrawRoiBox.Location;
                         roiStart = e.Location;
                         roiEnd = e.Location;
                     }
-                    Console.WriteLine($"resizeDir : {resizeDir} {DrawRoiBox.X},{DrawRoiBox.Y}");
                     return;
                 }
                 if (m_bDrawMeasureLine == true)
@@ -597,7 +604,7 @@ namespace ZenHandler.Dlg
                     ResizeDirection hoverDir = GetDistDirection(e.Location);
                     Cursor.Current = GetCursorByResizeDirection(hoverDir);
                 }
-                else if (isRoiChecked >= 0)
+                else if (isRoiChecked >= 0 && isRoiNo >= 0)
                 {
                     System.Drawing.Point roiMousePos = new System.Drawing.Point();
                     roiMousePos.X = (int)(e.Location.X * Globalo.visionManager.milLibrary.xExpand + 0.5);
@@ -635,7 +642,7 @@ namespace ZenHandler.Dlg
                 moveStartMousePos = e.Location;
                 DrawDistnace();
             }
-            else if (isRoiChecked >= 0 && isRoiNo >= 0)
+            else if (isRoiChecked >= 0 && isRoiNo >= 0 && resizeDir != ResizeDirection.None)
             {
                 roiEnd = e.Location;
                 int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand + 0.5); 
@@ -829,7 +836,7 @@ namespace ZenHandler.Dlg
         {
             isResizing = false;
             resizeDir = ResizeDirection.None;
-            isMovingRoi = false; 
+            isMovingRoi = false;
             if (isDragging)
             {
                 isDragging = false;
@@ -858,6 +865,8 @@ namespace ZenHandler.Dlg
             m_bDrawMeasureLine = false;
             if (checkBox_Measure.Checked)
             {
+                isRoiChecked = -1;
+                isRoiNo = -1;
                 m_bDrawMeasureLine = true;
                 DrawDistnace();
             }
