@@ -44,6 +44,10 @@ namespace ZenHandler.Dlg
             this.button_Set_Height_Test = new System.Windows.Forms.Button();
             this.button_Pogo_Find_Test = new System.Windows.Forms.Button();
             this.checkBox_Measure = new System.Windows.Forms.CheckBox();
+            this.checkBox_Roi_Height = new System.Windows.Forms.CheckBox();
+            this.checkBox_Roi_Cone = new System.Windows.Forms.CheckBox();
+            this.checkBox_Roi_ORing = new System.Windows.Forms.CheckBox();
+            this.checkBox_Roi_Key = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -213,7 +217,7 @@ namespace ZenHandler.Dlg
             this.button_Pogo_Find_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Pogo_Find_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Pogo_Find_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(1211, 124);
+            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(1304, 33);
             this.button_Pogo_Find_Test.Name = "button_Pogo_Find_Test";
             this.button_Pogo_Find_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Pogo_Find_Test.TabIndex = 61;
@@ -236,11 +240,71 @@ namespace ZenHandler.Dlg
             this.checkBox_Measure.UseVisualStyleBackColor = false;
             this.checkBox_Measure.CheckedChanged += new System.EventHandler(this.checkBox_Measure_CheckedChanged);
             // 
+            // checkBox_Roi_Height
+            // 
+            this.checkBox_Roi_Height.AutoSize = true;
+            this.checkBox_Roi_Height.BackColor = System.Drawing.Color.Cornsilk;
+            this.checkBox_Roi_Height.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Height.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_Roi_Height.Location = new System.Drawing.Point(1195, 527);
+            this.checkBox_Roi_Height.Name = "checkBox_Roi_Height";
+            this.checkBox_Roi_Height.Size = new System.Drawing.Size(145, 28);
+            this.checkBox_Roi_Height.TabIndex = 63;
+            this.checkBox_Roi_Height.Text = "ROI HEIGHT";
+            this.checkBox_Roi_Height.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_Roi_Height.UseVisualStyleBackColor = false;
+            // 
+            // checkBox_Roi_Cone
+            // 
+            this.checkBox_Roi_Cone.AutoSize = true;
+            this.checkBox_Roi_Cone.BackColor = System.Drawing.Color.Cornsilk;
+            this.checkBox_Roi_Cone.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Cone.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(1195, 472);
+            this.checkBox_Roi_Cone.Name = "checkBox_Roi_Cone";
+            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(128, 28);
+            this.checkBox_Roi_Cone.TabIndex = 64;
+            this.checkBox_Roi_Cone.Text = "ROI CONE";
+            this.checkBox_Roi_Cone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_Roi_Cone.UseVisualStyleBackColor = false;
+            // 
+            // checkBox_Roi_ORing
+            // 
+            this.checkBox_Roi_ORing.AutoSize = true;
+            this.checkBox_Roi_ORing.BackColor = System.Drawing.Color.Cornsilk;
+            this.checkBox_Roi_ORing.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_ORing.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(1195, 417);
+            this.checkBox_Roi_ORing.Name = "checkBox_Roi_ORing";
+            this.checkBox_Roi_ORing.Size = new System.Drawing.Size(137, 28);
+            this.checkBox_Roi_ORing.TabIndex = 65;
+            this.checkBox_Roi_ORing.Text = "ROI ORING";
+            this.checkBox_Roi_ORing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_Roi_ORing.UseVisualStyleBackColor = false;
+            // 
+            // checkBox_Roi_Key
+            // 
+            this.checkBox_Roi_Key.AutoSize = true;
+            this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
+            this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1195, 137);
+            this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
+            this.checkBox_Roi_Key.Size = new System.Drawing.Size(109, 28);
+            this.checkBox_Roi_Key.TabIndex = 69;
+            this.checkBox_Roi_Key.Text = "ROI KEY";
+            this.checkBox_Roi_Key.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_Roi_Key.UseVisualStyleBackColor = false;
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.checkBox_Roi_Key);
+            this.Controls.Add(this.checkBox_Roi_ORing);
+            this.Controls.Add(this.checkBox_Roi_Cone);
+            this.Controls.Add(this.checkBox_Roi_Height);
             this.Controls.Add(this.checkBox_Measure);
             this.Controls.Add(this.button_Pogo_Find_Test);
             this.Controls.Add(this.button_Set_Height_Test);
@@ -280,5 +344,9 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Button button_Set_Height_Test;
         private System.Windows.Forms.Button button_Pogo_Find_Test;
         private System.Windows.Forms.CheckBox checkBox_Measure;
+        private System.Windows.Forms.CheckBox checkBox_Roi_Height;
+        private System.Windows.Forms.CheckBox checkBox_Roi_Cone;
+        private System.Windows.Forms.CheckBox checkBox_Roi_ORing;
+        private System.Windows.Forms.CheckBox checkBox_Roi_Key;
     }
 }

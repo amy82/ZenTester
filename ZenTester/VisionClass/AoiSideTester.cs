@@ -182,7 +182,9 @@ namespace ZenHandler.VisionClass
                 Console.WriteLine($"Min Index: {minIndex}, Min Value: {minValue}, Min Y: {minValue}");
                 Console.WriteLine($"Max Index: {maxIndex}, Max Value: {maxValue}, Max Y: {maxValue}");
 
-
+                Globalo.visionManager.CamResol.X = 0.02026f;
+                Globalo.visionManager.CamResol.Y = 0.02026f;//0.0288f;
+                Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * Globalo.visionManager.CamResol.Y}");
                 //int OffsetX = 800;
                 //int OffsetY = 700; 
                 Globalo.visionManager.milLibrary.ClearOverlay(0);

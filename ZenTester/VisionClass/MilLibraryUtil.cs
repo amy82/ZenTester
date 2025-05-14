@@ -542,7 +542,7 @@ namespace ZenHandler.VisionClass
                         {
                             using (SolidBrush RightBrush = new SolidBrush(Color.Yellow))
                             {
-                                using (Font OverlayFont = new Font(FontFamily.GenericSansSerif, nSize, FontStyle.Bold))
+                                using (Font OverlayFont = new Font("Courier New", nSize, FontStyle.Bold))
                                 {
                                     // Write text in the overlay image
                                     DrawingGraphics.DrawString(szText, OverlayFont, LeftBrush, x, y);

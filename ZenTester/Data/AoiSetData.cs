@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ZenHandler.Data
 {
+    public enum NO_ROI
+    {
+        L_HEIGHT = 0, C_HEIGHT, R_HEIGHT, CONE, ORING, KEY1, KEY2
+    };
     public class Roi
     {
         public string name { get; set; }

@@ -88,9 +88,12 @@ namespace ZenHandler.Dlg
             InitializeComponent();
 
 
-            
 
-            
+            checkBox_Roi_Key.CheckedChanged += checkBox_CheckedChanged;
+            checkBox_Roi_ORing.CheckedChanged += checkBox_CheckedChanged;
+            checkBox_Roi_Cone.CheckedChanged += checkBox_CheckedChanged;
+            checkBox_Roi_Height.CheckedChanged += checkBox_CheckedChanged;
+
         }
         public void setCamCenter()
         {
@@ -103,6 +106,7 @@ namespace ZenHandler.Dlg
             centerPos.X = (int)(CamW / 2);
             centerPos.Y = (int)(CamH / 2);
         }
+        
         public void initResultGrid()
         {
             int i = 0;
@@ -803,6 +807,104 @@ namespace ZenHandler.Dlg
                     return Cursors.SizeAll;
                 default:
                     return Cursors.Default;
+            }
+        }
+
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox changed = sender as CheckBox;
+
+            if (changed.Checked)
+            {
+                // 모든 체크박스를 순회하면서
+                foreach (var ctrl in this.Controls)
+                {
+                    if (ctrl is CheckBox cb && cb != changed)
+                    {
+                        cb.Checked = false;
+                    }
+                }
+                Console.WriteLine($"{changed.Name} Checked");
+                
+                
+                
+                if (changed.Text == "ROI HEIGHT")
+                {
+                    View_Roi(0);
+                }
+                if (changed.Text == "ROI CONE")
+                {
+                    View_Roi(1);
+                }
+                if (changed.Text == "ROI ORING")
+                {
+                    View_Roi(2);
+                }
+                if (changed.Text == "ROI KEY")
+                {
+                    View_Roi(3);
+                }
+
+            }
+        }
+        public void View_Roi(int index)
+        {
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            string roiName = "";
+            Data.Roi targetRoi;
+            Rectangle m_clRect;
+            System.Drawing.Point textPoint;
+
+            if (index == 0)
+            {
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.L_HEIGHT.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
+
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.C_HEIGHT.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
+
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.R_HEIGHT.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "RH ROI", Color.BlueViolet, 15);
+            }
+            if (index == 1)
+            {
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CONE ROI", Color.BlueViolet, 15);
+            }
+            if (index == 2)
+            {
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "ORING ROI", Color.BlueViolet, 15);
+            }
+            if (index == 3)
+            {
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
+
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
+
+                targetRoi = Globalo.yamlManager.aoiRoiConfig.AOI_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
             }
         }
     }
