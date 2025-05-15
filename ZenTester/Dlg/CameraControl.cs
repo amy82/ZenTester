@@ -24,7 +24,8 @@ namespace ZenHandler.Dlg
         public CameraControl()
         {
             InitializeComponent();
-            initNewCameraSet();
+
+            //initNewCameraSet();
             initResultGrid();
             
         }
@@ -59,12 +60,13 @@ namespace ZenHandler.Dlg
         }
         public void initNewCameraSet()
         {
-            Globalo.visionManager = new VisionClass.VisionManager(getWidth(), getHeight());
-            Globalo.visionManager.RegisterDisplayHandle(0, panelCam1.Handle);
-            Globalo.visionManager.RegisterDisplayHandle(1, panelCam2.Handle);
+            //Globalo.visionManager = new VisionClass.VisionManager(getWidth(), getHeight() , Globalo.setTestControl.Set_panelCam.Width, Globalo.setTestControl.Set_panelCam.Height);
 
-            Globalo.visionManager.MilSet();
+           
 
+
+
+            
         }
         public void UpdateImage(Bitmap image)
         {
@@ -83,16 +85,55 @@ namespace ZenHandler.Dlg
         {
             return this.panelCam1.Height;
         }
-
+        
         private void btn_TopCam_Image_Save_Click(object sender, EventArgs e)
         {
             //TOP CAMERA SAVE
-            //MbufExport(sPath, M_BMP, g_clVision.m_MilGrabImage[0][0]);
+            //
             Globalo.visionManager.milLibrary.ClearOverlay(0);
             Globalo.visionManager.milLibrary.DrawOverlayText(0, new Point(100,100), "overlay test", Color.Yellow, 30);
 
-            Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
-            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, m_clRect, Color.Blue, 20, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 3500, 500 , 3500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+
+            Globalo.visionManager.aoiTester.CirCleFind(0);
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Bitmap Image (*.bmp)|*.bmp";
+                saveFileDialog.Title = "이미지 저장";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = saveFileDialog.FileName;
+                    //grabbedImage.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    Globalo.visionManager.milLibrary.GrabImageSave(0, selectedFilePath);
+
+
+                    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
+                }
+            }
+
+            //using (OpenFileDialog openFileDialog = new OpenFileDialog()) 
+           // {
+                //openFileDialog.Title = "이미지 파일 선택";
+                ////openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
+                //openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
+                //openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\Image"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                
+                //if (openFileDialog.ShowDialog() == DialogResult.OK)
+                //{
+                //    string selectedFilePath = openFileDialog.FileName;
+
+                //    GrabImageSave(0, selectedFilePath);
+
+                //    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
+                //}
+           // }
+
+
+            
         }
 
         private void btn_TopCam_Image_Load_Click(object sender, EventArgs e)
@@ -107,6 +148,7 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(0, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Globalo.visionManager.milLibrary.ClearOverlay(0);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(0, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -149,6 +191,7 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(1, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Globalo.visionManager.milLibrary.ClearOverlay(1);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(1, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -160,6 +203,14 @@ namespace ZenHandler.Dlg
                 }
             }
 
+        }
+
+        private void CameraControl_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                
+            }
         }
     }
 }

@@ -54,6 +54,7 @@ namespace ZenHandler
         public static Dlg.LogControl mlogControl;
         public static Dlg.CamControl camControl;
         public static Dlg.CameraControl cameraControl;
+        public static Dlg.SetTestControl setTestControl;
 
 
         //In Left Panel

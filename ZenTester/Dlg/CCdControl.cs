@@ -637,6 +637,7 @@ namespace ZenHandler.Dlg
 
             Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[2].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
             MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 0], bytes2);
+
             Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[1].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
             MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 1], bytes2);
             Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[0].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사

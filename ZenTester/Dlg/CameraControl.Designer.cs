@@ -159,6 +159,7 @@ namespace ZenHandler.Dlg
             this.Controls.Add(this.label1);
             this.Name = "CameraControl";
             this.Size = new System.Drawing.Size(1770, 700);
+            this.VisibleChanged += new System.EventHandler(this.CameraControl_VisibleChanged);
             this.ResumeLayout(false);
 
         }
@@ -166,13 +167,13 @@ namespace ZenHandler.Dlg
         #endregion
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panelCam1;
         private System.Windows.Forms.Label label_Socket_Result1;
         private System.Windows.Forms.Label label_Socket_Result2;
         private System.Windows.Forms.Button btn_TopCam_Image_Load;
         private System.Windows.Forms.Button btn_TopCam_Image_Save;
         private System.Windows.Forms.Button btn_SideCam_Image_Save;
         private System.Windows.Forms.Button btn_SideCam_Image_Load;
-        private System.Windows.Forms.Panel panelCam2;
+        public System.Windows.Forms.Panel panelCam1;
+        public System.Windows.Forms.Panel panelCam2;
     }
 }

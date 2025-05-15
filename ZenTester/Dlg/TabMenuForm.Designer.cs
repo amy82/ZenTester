@@ -263,7 +263,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_TEACH.Name = "BTN_BOTTOM_TEACH";
             this.BTN_BOTTOM_TEACH.Size = new System.Drawing.Size(133, 36);
             this.BTN_BOTTOM_TEACH.TabIndex = 19;
-            this.BTN_BOTTOM_TEACH.Text = "  TEACHING";
+            this.BTN_BOTTOM_TEACH.Text = "  SET-TEST";
             this.BTN_BOTTOM_TEACH.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BTN_BOTTOM_TEACH.UseVisualStyleBackColor = false;
             this.BTN_BOTTOM_TEACH.Click += new System.EventHandler(this.BTN_BOTTOM_TEACH_Click_1);

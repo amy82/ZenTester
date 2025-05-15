@@ -44,16 +44,20 @@ namespace ZenHandler.Dlg
             //Globalo.mManualPanel.Visible = false;
             //Globalo.mioPanel.Visible = false;
             //Globalo.mCCdPanel.Visible = false;
+
+            Globalo.cameraControl.Visible = false;
+            Globalo.setTestControl.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
-            //Globalo.mlogControl.Visible = false;
+            Globalo.mlogControl.Visible = false;
             switch (index)
             {
                 case TABFORM.MAIN_FORM:
+                    Globalo.cameraControl.Visible = true;
                     //Globalo.mMainPanel.Visible = true;
                     break;
                 case TABFORM.TEACH_FORM:
-                    //Globalo.mTeachPanel.Visible = true;
+                    Globalo.setTestControl.Visible = true;
                     break;
                 case TABFORM.CONFIG_FORM:
                     Globalo.mConfigPanel.Visible = true;
@@ -68,7 +72,7 @@ namespace ZenHandler.Dlg
                     Globalo.mAlarmPanel.Visible = true;
                     break;
                 case TABFORM.LOG_FORM:
-                    //Globalo.mlogControl.Visible = true;
+                    Globalo.mlogControl.Visible = true;
                     break;
                 default:
                     break;
@@ -182,6 +186,8 @@ namespace ZenHandler.Dlg
 
         private void BTN_BOTTOM_MAIN_Click_1(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.RunModeChange(true);
+            Globalo.visionManager.RecoverDisplayHandle();
             MenuButtonSet(TABFORM.MAIN_FORM);
         }
 

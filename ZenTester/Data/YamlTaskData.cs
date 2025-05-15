@@ -81,6 +81,52 @@ namespace ZenHandler.Data
         }
         //--------------------------------------------------------------------------------------------------------------
         //
+        // AOI TEST
+        //
+        //
+        //--------------------------------------------------------------------------------------------------------------
+        public static bool Save_AoiConfig(Data.AoiRoiConfig data, string fileName)
+        {
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //LOT DATA
+            try
+            {
+                Data.YamlManager.SaveYaml(filePath, data);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error TaskDataSave: {ex.Message}");
+                return false;
+            }
+
+        }
+        public static Data.AoiRoiConfig Load_AoiConfig(string fileName)
+        {
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //TRAY DATA
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    return new Data.AoiRoiConfig();
+                }
+
+
+                Data.AoiRoiConfig data = Data.YamlManager.LoadYaml<Data.AoiRoiConfig>(filePath);
+                if (data == null)
+                {
+
+                    return new Data.AoiRoiConfig();
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading TaskLoad Transfer: {ex.Message}");
+                return new Data.AoiRoiConfig();
+            }
+        }
+        //--------------------------------------------------------------------------------------------------------------
+        //
         // Transfer
         //
         //
@@ -167,100 +213,6 @@ namespace ZenHandler.Data
             }
         }
         
-
-        //--------------------------------------------------------------------------------------------------------------
-        //
-        // Lift
-        //
-        //
-        //--------------------------------------------------------------------------------------------------------------
-        public static bool TaskSave_Lift(Machine.TrayProduct data, string fileName)
-        {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //LOT DATA
-            try
-            {
-                Data.YamlManager.SaveYaml(filePath, data);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error TrayDataSave: {ex.Message}");
-                return false;
-            }
-
-        }
-        public static Machine.TrayProduct TaskLoad_Lift(string fileName)
-        {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //TRAY DATA
-            try
-            {
-                if (!File.Exists(filePath))
-                {
-                    return new Machine.TrayProduct();
-                }
-
-
-                Machine.TrayProduct data = Data.YamlManager.LoadYaml<Machine.TrayProduct>(filePath);
-                if (data == null)
-                {
-
-                    return new Machine.TrayProduct();
-                }
-                return data;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading TaskLoad Transfer: {ex.Message}");
-                return new Machine.TrayProduct();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-        //
-        // Magazine 
-        //
-        //
-        //--------------------------------------------------------------------------------------------------------------
-        public static bool TaskSave_Magazine(Machine.MagazineTray data, string fileName)
-        {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //LOT DATA
-            try
-            {
-                Data.YamlManager.SaveYaml(filePath, data);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error MagazineDataSave: {ex.Message}");
-                return false;
-            }
-
-        }
-        public static Machine.MagazineTray TaskLoad_Magazine(string fileName)
-        {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //TRAY DATA
-            try
-            {
-                if (!File.Exists(filePath))
-                {
-                    return new Machine.MagazineTray();
-                }
-
-
-                Machine.MagazineTray data = Data.YamlManager.LoadYaml<Machine.MagazineTray>(filePath);
-                if (data == null)
-                {
-
-                    return new Machine.MagazineTray();
-                }
-                return data;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading TaskLoad Magazine: {ex.Message}");
-                return new Machine.MagazineTray();
-            }
-        }
 
 
         //--------------------------------------------------------------------------------------------------------------

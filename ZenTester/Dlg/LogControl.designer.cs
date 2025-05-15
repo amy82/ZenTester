@@ -66,7 +66,7 @@
             this.groupBox3.Controls.Add(this.textBox_SensorIni);
             this.groupBox3.Controls.Add(this.button_SensorIni);
             this.groupBox3.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.groupBox3.Location = new System.Drawing.Point(40, 476);
+            this.groupBox3.Location = new System.Drawing.Point(40, 303);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(495, 96);
             this.groupBox3.TabIndex = 38;
@@ -116,7 +116,7 @@
             this.groupBox2.Controls.Add(this.textBox_EquipLog);
             this.groupBox2.Controls.Add(this.BTN_LOG_EQUIP_OPEN);
             this.groupBox2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.groupBox2.Location = new System.Drawing.Point(40, 365);
+            this.groupBox2.Location = new System.Drawing.Point(40, 192);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(495, 96);
             this.groupBox2.TabIndex = 37;
@@ -166,7 +166,7 @@
             this.groupBox1.Controls.Add(this.textBox_DumpFile);
             this.groupBox1.Controls.Add(this.BTN_LOG_DUMP_OPEN);
             this.groupBox1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.groupBox1.Location = new System.Drawing.Point(40, 251);
+            this.groupBox1.Location = new System.Drawing.Point(40, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(495, 93);
             this.groupBox1.TabIndex = 36;
@@ -212,7 +212,7 @@
             // 
             this.label_LogTitle.AutoSize = true;
             this.label_LogTitle.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_LogTitle.Location = new System.Drawing.Point(37, 636);
+            this.label_LogTitle.Location = new System.Drawing.Point(37, 433);
             this.label_LogTitle.Name = "label_LogTitle";
             this.label_LogTitle.Size = new System.Drawing.Size(68, 14);
             this.label_LogTitle.TabIndex = 39;
@@ -225,7 +225,7 @@
             this.listBox_Log.FormattingEnabled = true;
             this.listBox_Log.HorizontalScrollbar = true;
             this.listBox_Log.ItemHeight = 15;
-            this.listBox_Log.Location = new System.Drawing.Point(40, 659);
+            this.listBox_Log.Location = new System.Drawing.Point(40, 456);
             this.listBox_Log.Margin = new System.Windows.Forms.Padding(0);
             this.listBox_Log.Name = "listBox_Log";
             this.listBox_Log.Size = new System.Drawing.Size(692, 289);

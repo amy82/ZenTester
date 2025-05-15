@@ -179,6 +179,7 @@
     <Compile Include="Controls\TeachingGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Data\AoiSetData.cs" />
     <Compile Include="Data\CEEpromData.cs" />
     <Compile Include="Data\CMesData.cs" />
     <Compile Include="Data\csvData.cs" />
@@ -197,6 +198,12 @@
     <Compile Include="Data\YamlTeachingData.cs" />
     <Compile Include="DIoControl.cs" />
     <Compile Include="DioDefine.cs" />
+    <Compile Include="Dlg\SetTestControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\SetTestControl.designer.cs">
+      <DependentUpon>SetTestControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\CameraControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -356,6 +363,12 @@
     </Compile>
     <Compile Include="KeyMessageFilter.cs" />
     <Compile Include="Laon\CLaonGrabberClass.cs" />
+    <Compile Include="LeeTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LeeTestForm.Designer.cs">
+      <DependentUpon>LeeTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lgit\ACMISCommon.cs" />
     <Compile Include="Machine\ProductLayout.cs" />
     <Compile Include="Machine\ProductState.cs" />
@@ -435,8 +448,16 @@
     <Compile Include="Ubisam\Constants.cs" />
     <Compile Include="Ubisam\DriverHelper.cs" />
     <Compile Include="Vision.cs" />
-    <Compile Include="VisionClass\MilLibrary.cs" />
+    <Compile Include="VisionClass\AoiSideTester.cs" />
+    <Compile Include="VisionClass\AoiTester.cs" />
+    <Compile Include="VisionClass\AoiTopTester.cs" />
+    <Compile Include="VisionClass\MilLibraryUtil.cs" />
+    <Compile Include="VisionClass\OpencvAoiTest.cs" />
+    <Compile Include="VisionClass\OverlayDrawUtil.cs" />
     <Compile Include="VisionClass\VisionManager.cs" />
+    <EmbeddedResource Include="Dlg\SetTestControl.resx">
+      <DependentUpon>SetTestControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\CameraControl.resx">
       <DependentUpon>CameraControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -505,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KeyBoardForm.resx">
       <DependentUpon>KeyBoardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LeeTestForm.resx">
+      <DependentUpon>LeeTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

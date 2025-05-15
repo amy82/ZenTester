@@ -65,6 +65,8 @@ namespace ZenHandler  //ApsMotionControl
 
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
+            Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig("AoiConfig.yaml");
+
 
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
@@ -98,7 +100,9 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.mTeachPanel = new Dlg.TeachingControl(dRightPanelW, dRightPanelH);
             //Globalo.mCCdPanel = new Dlg.CCdControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
+            Globalo.setTestControl = new Dlg.SetTestControl();
             Globalo.cameraControl = new Dlg.CameraControl();
+
             //Globalo.mioPanel = new Dlg.IoControl(dRightPanelW, dRightPanelH);
 
             //Globalo.operationPanel = new Dlg.OperationPanel();
@@ -120,7 +124,7 @@ namespace ZenHandler  //ApsMotionControl
 
             Globalo.threadControl.AllThreadStart();     //< - Log , Time Thread
 
-            
+
             //Globalo.yamlManager.vPPRecipeSpecEquip = Globalo.yamlManager.RecipeLoad(Globalo.dataManage.mesData.m_sMesPPID);         //init
 
             //if (Globalo.yamlManager.vPPRecipeSpecEquip == null)
@@ -131,10 +135,23 @@ namespace ZenHandler  //ApsMotionControl
 
 
 
-            
+            Globalo.visionManager = new VisionClass.VisionManager();
+
+            Globalo.visionManager.SetPanelSize(
+                Globalo.cameraControl.getWidth(),  Globalo.cameraControl.getHeight(), 
+                Globalo.setTestControl.getWidth(),  Globalo.setTestControl.getHeight());
 
 
-            
+
+            Globalo.visionManager.RegisterDisplayHandle(0, Globalo.cameraControl.panelCam1.Handle);
+            Globalo.visionManager.RegisterDisplayHandle(1, Globalo.cameraControl.panelCam2.Handle);
+
+            Globalo.visionManager.RegisterDisplayHandle(2, Globalo.setTestControl.Set_panelCam.Handle);
+
+            Globalo.visionManager.MilSet();
+
+
+            Globalo.setTestControl.setCamCenter();
             //if (ProgramState.ON_LINE_MIL)
             //{
             //    InitMilLib();
@@ -166,7 +183,7 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.mCCdPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mConfigPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mAlarmPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
-            //Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
+            Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
 
             //Globalo.mIoPanel.eLogSender += eLogPrint;
             //Globalo.mCCdPanel.SetSensorIni();
@@ -187,6 +204,11 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.pickerInfo.SetPickerInfo();
 
             Program.SetLanguage(Globalo.yamlManager.configData.DrivingSettings.Language);
+
+            LeeTestForm popupForm = new LeeTestForm();
+
+            popupForm.Show();
+            popupForm.WindowState = FormWindowState.Minimized;
         }
         
         private void OnLanguageChanged(object sender, EventArgs e)
@@ -203,16 +225,16 @@ namespace ZenHandler  //ApsMotionControl
         {
             
             //
-            Globalo.vision.AllocMilApplication();
-            Globalo.vision.AllocMilCamBuffer();
-            Globalo.vision.AllocMilCCdBuffer(0, Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight);
+            //Globalo.vision.AllocMilApplication();
+            //Globalo.vision.AllocMilCamBuffer();
+            //Globalo.vision.AllocMilCCdBuffer(0, Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight);
 
-            Globalo.vision.AllocMilCcdDisplay(Globalo.camControl.CcdPanel.Handle);
-            Globalo.vision.AllocMilCamDisplay(Globalo.camControl.CamPanel.Handle);
+            //Globalo.vision.AllocMilCcdDisplay(Globalo.camControl.CcdPanel.Handle);
+            //Globalo.vision.AllocMilCamDisplay(Globalo.camControl.CamPanel.Handle);
 
-            Globalo.vision.EnableCamOverlay();
-            Globalo.vision.EnableCcdOverlay();
-            Globalo.vision.DrawOverlay();
+            //Globalo.vision.EnableCamOverlay();
+            //Globalo.vision.EnableCcdOverlay();
+            //Globalo.vision.DrawOverlay();
 
 
             ///Globalo.vision.GrabRun();        //기존 cam grab thread
@@ -279,14 +301,14 @@ namespace ZenHandler  //ApsMotionControl
             TopPanel.BackColor = ColorTranslator.FromHtml("#FAFAFA");
             MainTitleLabel.ForeColor = ColorTranslator.FromHtml("#8F949F");
             MainTitleLabel.BackColor = Color.Transparent;
-            MainTitleLabel.Text = "Zen Handler V1";
+            MainTitleLabel.Text = "Zen Tester V1";
 
             //-----------------------------------------------
             int MidPanelHeight = LeftPanel.Height;          //Left Middle 패널 높이
             //int ViewPanelHeight =  LeftPanel.Height - CamHeight - MainBtnHGap - RunButtonHeight - MainBtnHGap;      // 전체 높이에서 -카메라높이 - 버튼 높이 - 생상정보       //로그창 높이
             int nBottomPanelY = RightPanel.Location.Y;     //Bottom 패널 Position Y
 
-
+            Console.WriteLine($"LeftPanel W:{LeftPanel.Width}, H:{LeftPanel.Height}");
             //-----------------------------------------------
             //우측 패널
             //-----------------------------------------------
@@ -305,6 +327,7 @@ namespace ZenHandler  //ApsMotionControl
             //-----------------------------------------------
             LeftPanel.Controls.Add(Globalo.productionInfo);
             LeftPanel.Controls.Add(Globalo.cameraControl);
+            LeftPanel.Controls.Add(Globalo.setTestControl);
 
             //LeftPanel.Controls.Add(Globalo.operationPanel);
             //LeftPanel.Controls.Add(Globalo.trayStateInfo);
@@ -313,6 +336,10 @@ namespace ZenHandler  //ApsMotionControl
 
             Globalo.productionInfo.Location = new System.Drawing.Point(0, 0);
             Globalo.cameraControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mConfigPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mAlarmPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.setTestControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mlogControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             
             //Globalo.pickerInfo.Location = new System.Drawing.Point(0, Globalo.operationPanel.Location.Y + MainBtnHGap);
             //Globalo.socketStateInfo.Location = new System.Drawing.Point(0, Globalo.pickerInfo.Location.Y + Globalo.pickerInfo.Height + MainBtnHGap);
@@ -321,7 +348,7 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.mCCdPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
-            //Globalo.mlogControl.Visible = false;
+            Globalo.mlogControl.Visible = false;
 
             //CenterPanel.Controls.Add(Globalo.mMainPanel);
             //CenterPanel.Controls.Add(Globalo.mManualPanel);
@@ -330,7 +357,7 @@ namespace ZenHandler  //ApsMotionControl
             //CenterPanel.Controls.Add(Globalo.mCCdPanel);
             LeftPanel.Controls.Add(Globalo.mConfigPanel);
             LeftPanel.Controls.Add(Globalo.mAlarmPanel);
-            //CenterPanel.Controls.Add(Globalo.mlogControl);
+            LeftPanel.Controls.Add(Globalo.mlogControl);
 
 
 
@@ -582,6 +609,11 @@ namespace ZenHandler  //ApsMotionControl
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.RemoveMessageFilter(keyMessageFilter);  // 메시지 필터 제거
+        }
+
+        private void BTN_TOP_CLIENT_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
