@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Matrox.MatroxImagingLibrary;
 
@@ -195,25 +196,23 @@ namespace ZenHandler.VisionClass
                 {
                     MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
                 }
-                MIL.MbufExport($"d:\\grab{index}.BMP", MIL.M_BMP, MilCamGrabImageChild[index]);
+                Thread.Sleep(1);
+                //MIL.MbufExport($"d:\\grab{index}.BMP", MIL.M_BMP, MilCamGrabImage[index]);
 
             }
-            
+
         }
 
         public void MilNewGrabRun(int index)
         {
-            if (bGrabOnFlag[index] == true && MilDigitizerList[index] != MIL.M_NULL)
+            if (bGrabOnFlag[1] == true && MilDigitizerList[1] != MIL.M_NULL)
             {
-                MIL.MdigGrab(MilDigitizerList[0], MilCamGrabImage[0]);
                 MIL.MdigGrab(MilDigitizerList[1], MilCamGrabImage[1]);
 
-                MIL.MdigGrabWait(MilDigitizerList[0], MIL.M_GRAB_END);
                 MIL.MdigGrabWait(MilDigitizerList[1], MIL.M_GRAB_END);
 
-                MIL.MimResize(MilCamGrabImageChild[0], MilCamSmallImageChild[0], xReduce[0], yReduce[0], MIL.M_DEFAULT);
                 MIL.MimResize(MilCamGrabImageChild[1], MilCamSmallImageChild[1], xReduce[1], yReduce[1], MIL.M_DEFAULT);
-
+                Thread.Sleep(1);
             }
 
         }
@@ -594,8 +593,8 @@ namespace ZenHandler.VisionClass
         #endregion
         public void AllocMilCamDisplay(IntPtr myPicHandler, int index)
         {
-            MIL.MdispAlloc(MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_DEFAULT, ref MilCamDisplay[index]);
-            //MIL.MdispAlloc(MilSystem, MIL.M_DEV0 + index, "M_DEFAULT", MIL.M_DEFAULT, ref MilCamDisplay[index]);
+            //MIL.MdispAlloc(MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_DEFAULT, ref MilCamDisplay[index]);
+            MIL.MdispAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref MilCamDisplay[index]);
             if (MilCamDisplay[index] != MIL.M_NULL)
             {
                 MIL_INT DisplayType = MIL.MdispInquire(MilCamDisplay[index], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
@@ -694,8 +693,8 @@ namespace ZenHandler.VisionClass
 
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_ASYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
-                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 1000);
+                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_SYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
+                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 3000);
 
                     MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX[i]);
                     MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY[i]);

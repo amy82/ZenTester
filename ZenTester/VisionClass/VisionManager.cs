@@ -69,12 +69,6 @@ namespace ZenHandler.VisionClass
             milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
             milLibrary.AllocMilSetCamBuffer(1, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
 
-            //m_CamReduceFactorX = ((double)CamControlWidth / (double)milLibrary.CAM_SIZE_X);
-            //m_CamReduceFactorY = ((double)CamControlHeight / (double)milLibrary.CAM_SIZE_Y);
-
-            //m_CamExpandFactorX = ((double)milLibrary.CAM_SIZE_X / (double)CamControlWidth);
-            //m_CamExpandFactorY = ((double)milLibrary.CAM_SIZE_Y / (double)CamControlHeight);
-
             for (i = 0; i < milLibrary.CamFixCount; i++)
             {
                 milLibrary.AllocMilCamDisplay(_cameraDisplayHandles[i], i);
@@ -98,17 +92,7 @@ namespace ZenHandler.VisionClass
 
             milLibrary.MilClose();
         }
-        private Bitmap GetCamera1Frame()    // TODO: 실제 카메라 SDK에서 프레임 얻는 메서드로 바꿔야 함
-        {
-            // 예시: 카메라 SDK에서 프레임 가져오기
-            return new Bitmap(640, 480); // 임시
-        }
 
-        private Bitmap GetCamera2Frame()
-        {
-            return new Bitmap(640, 480); // 임시
-        }
-        
         public void SetLoadBmp(int index, string filePath)
         {
             milLibrary.setCamImage(index, filePath);
@@ -132,7 +116,29 @@ namespace ZenHandler.VisionClass
         {
             _cameraDisplayHandles[cameraIndex] = handle;
         }
+        private void StartGrabCamera()
+        {
+            camera1TokenSource = new CancellationTokenSource();
+            CancellationToken token = camera1TokenSource.Token;
+            try
+            {
+                Task.Run(() =>
+                {
+                    while (!token.IsCancellationRequested)
+                    {
+                        milLibrary.MilGrabRun(0);
+                        
+                        Thread.Sleep(10); // 혹은 FPS에 맞춰 조절
+                    }
+                }, token);
+            }
+            catch (ThreadInterruptedException err)
+            {
+                Console.WriteLine("ThreadInterruptedException StartCamera1 :" + err);
+            }
 
+            Console.WriteLine("StartCamera1 end");
+        }
         private void StartCamera1()
         {
             camera1TokenSource = new CancellationTokenSource();
@@ -192,6 +198,7 @@ namespace ZenHandler.VisionClass
 
         public void StartCameras()
         {
+            ////StartGrabCamera();
             StartCamera1();
             StartCamera2();
         }

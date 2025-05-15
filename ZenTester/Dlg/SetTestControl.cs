@@ -237,7 +237,7 @@ namespace ZenHandler.Dlg
             if (this.Visible)
             {
                 Globalo.visionManager.milLibrary.RunModeChange(false);
-                Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
+                Globalo.visionManager.ChangeSettingDisplayHandle(1, Set_panelCam);
 
                 Globalo.visionManager.milLibrary.ClearOverlay(0);
                 int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
