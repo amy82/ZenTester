@@ -51,7 +51,9 @@ namespace ZenHandler.Dlg
         private bool m_bDrawMeasureLine = false;
 
         private Rectangle DrawRoiBox;
-        
+
+        public List<Data.Roi> tempRoi = new List<Data.Roi>();
+
 
         private int CamW;
         private int CamH;
@@ -59,6 +61,8 @@ namespace ZenHandler.Dlg
         public SetTestControl()
         {
             InitializeComponent();
+
+            tempRoi.Clear();
 
             //this.Set_panelCam.
             checkBox_Roi_Key.CheckedChanged += checkBox_CheckedChanged;
@@ -78,9 +82,12 @@ namespace ZenHandler.Dlg
             centerPos.Y = (int)(CamH / 2);
         }
         
-        public void initResultGrid()
+        public void ClearCheckbox()
         {
-            int i = 0;
+            checkBox_Roi_Key.Checked = false;
+            checkBox_Roi_ORing.Checked = false;
+            checkBox_Roi_Cone.Checked = false;
+            checkBox_Roi_Height.Checked = false;
 
         }
 
@@ -228,7 +235,14 @@ namespace ZenHandler.Dlg
                 int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
                 Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
+            else
+            {
+                isRoiChecked = -1;
+                isRoiNo = -1;
+                ClearCheckbox();
+            }
         }
+
         #region [TOP CAMERA MANUAL TEST]
         private void button_Set_Key_Test_Click(object sender, EventArgs e)
         {
@@ -382,124 +396,73 @@ namespace ZenHandler.Dlg
             int boxLine = 1;
             if (index == 0)
             {
-                //targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.LH.ToString());
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                targetRoi = tempRoi[0];// Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
 
-                //targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CH.ToString());
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                targetRoi = tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
 
-                // targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.RH.ToString());
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                targetRoi = tempRoi[2];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "RH ROI", Color.BlueViolet, 15);
             }
             if (index == 1)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CONE ROI", Color.BlueViolet, 15);
             }
             if (index == 2)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "ORING ROI", Color.BlueViolet, 15);
             }
             if (index == 3)
             {
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
+                targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
 
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
 
-                targetRoi = Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
-                m_clRect = new Rectangle((int)(targetRoi.x), (int)(targetRoi.y), targetRoi.width, targetRoi.height);
+                targetRoi = tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
+                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
-                textPoint = new System.Drawing.Point(targetRoi.x, targetRoi.y - 100);
+                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
             }
         }
         private int checkNoRoi(int index, System.Drawing.Point mousePos)
         {
-            Rectangle RoiBox = new Rectangle();
             int i = 0;
+            Rectangle RoiBox = new Rectangle();
             mousePos.X = (int)(mousePos.X * Globalo.visionManager.milLibrary.xExpand + 0.5);
             mousePos.Y = (int)(mousePos.Y * Globalo.visionManager.milLibrary.yExpand + 0.5);
-            if (isRoiChecked == 0)      //Height
+            //
+            //
+            for (i = 0; i < tempRoi.Count; i++)
             {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.Count; i++)
+                RoiBox.X = tempRoi[i].X - HANDLE_SIZE / 2;
+                RoiBox.Y = tempRoi[i].Y - HANDLE_SIZE / 2;
+                RoiBox.Width = tempRoi[i].Width + HANDLE_SIZE;
+                RoiBox.Height = tempRoi[i].Height + HANDLE_SIZE;
+                if (RoiBox.Contains(mousePos))
                 {
-                    RoiBox.X = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].x - HANDLE_SIZE/ 2;
-                    RoiBox.Y = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].y - HANDLE_SIZE / 2;
-                    RoiBox.Width = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].width + HANDLE_SIZE;
-                    RoiBox.Height = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i].height + HANDLE_SIZE;
-                    if (RoiBox.Contains(mousePos))
-                    {
-                        return i;
-                    }
-
-                }
-
-            }
-            else if (isRoiChecked == 1)      //Cone
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.CONE_ROI.Count; i++)
-                {
-                    RoiBox.X = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i].x;
-                    RoiBox.Y = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i].y;
-                    RoiBox.Width = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i].width;
-                    RoiBox.Height = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i].height;
-                    if (RoiBox.Contains(mousePos))
-                    {
-                        return i;
-                    }
-
-                }
-            }
-            else if (isRoiChecked == 2)      //Oring
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.ORING_ROI.Count; i++)
-                {
-                    RoiBox.X = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i].x;
-                    RoiBox.Y = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i].y;
-                    RoiBox.Width = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i].width;
-                    RoiBox.Height = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i].height;
-                    if (RoiBox.Contains(mousePos))
-                    {
-                        return i;
-                    }
-
-                }
-            }
-            else if (isRoiChecked == 3)      //Key
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.KEY_ROI.Count; i++)
-                {
-                    RoiBox.X = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i].x;
-                    RoiBox.Y = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i].y;
-                    RoiBox.Width = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i].width;
-                    RoiBox.Height = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i].height;
-                    if (RoiBox.Contains(mousePos))
-                    {
-                        return i;
-                    }
-
+                    return i;
                 }
             }
             return -1;
@@ -518,24 +481,12 @@ namespace ZenHandler.Dlg
                     
                     isRoiNo = checkNoRoi(isRoiChecked, e.Location);
 
-                    if (isRoiChecked == 0 && isRoiNo >= 0)      //Height
+                    if (isRoiNo >= 0)      //Height//if (isRoiChecked == 0 && isRoiNo >= 0)      //Height
                     {
-                        DrawRoiBox.X = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x;
-                        DrawRoiBox.Y = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].y;
-                        DrawRoiBox.Width = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].width;
-                        DrawRoiBox.Height = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].height;
-                    }
-                    else if (isRoiChecked == 1)      //Cone
-                    {
-
-                    }
-                    else if (isRoiChecked == 2)      //Oring
-                    {
-
-                    }
-                    else if (isRoiChecked == 3)      //Key
-                    {
-
+                        DrawRoiBox.X = tempRoi[isRoiNo].X;
+                        DrawRoiBox.Y = tempRoi[isRoiNo].Y;
+                        DrawRoiBox.Width = tempRoi[isRoiNo].Width;
+                        DrawRoiBox.Height = tempRoi[isRoiNo].Height;
                     }
 
                     Console.WriteLine($"[{isRoiChecked}] Click : {isRoiNo}");
@@ -712,12 +663,17 @@ namespace ZenHandler.Dlg
                 if (r.Width < 5) r.Width = 5;
                 if (r.Height < 5) r.Height = 5;
 
+                tempRoi[isRoiNo].X = DrawRoiBox.X;
+                tempRoi[isRoiNo].Y = DrawRoiBox.Y;
+                tempRoi[isRoiNo].Width = DrawRoiBox.Width;
+                tempRoi[isRoiNo].Height = DrawRoiBox.Height;
+
                 if (isRoiChecked == 0)      //Height
                 {
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x = DrawRoiBox.X;
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].y = DrawRoiBox.Y;
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].width = DrawRoiBox.Width;
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].height = DrawRoiBox.Height;
+                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x = DrawRoiBox.X;
+                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].y = DrawRoiBox.Y;
+                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].width = DrawRoiBox.Width;
+                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].height = DrawRoiBox.Height;
                 }
                 else if (isRoiChecked == 1)      //Cone
                 {
@@ -993,7 +949,7 @@ namespace ZenHandler.Dlg
             isRoiChecked = -1;
             if (changed.Checked)
             {
-
+                tempRoi.Clear();
                 // 모든 체크박스를 순회하면서
                 foreach (var ctrl in this.Controls)
                 {
@@ -1002,27 +958,37 @@ namespace ZenHandler.Dlg
                         cb.Checked = false;
                     }
                 }
+
                 Console.WriteLine($"{changed.Name} Checked");
 
                 if (changed.Text == "ROI HEIGHT")
                 {
                     isRoiChecked = 0;
-                    View_Roi(isRoiChecked);
+
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Clone());
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Clone());
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2].Clone());
+                    drawTestRoi(isRoiChecked);
                 }
                 if (changed.Text == "ROI CONE")
                 {
                     isRoiChecked = 1;
-                    View_Roi(isRoiChecked);
+
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Clone());
+                    drawTestRoi(isRoiChecked);
                 }
                 if (changed.Text == "ROI ORING")
                 {
                     isRoiChecked = 2;
-                    View_Roi(isRoiChecked);
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Clone());
+                    drawTestRoi(isRoiChecked);
                 }
                 if (changed.Text == "ROI KEY")
                 {
                     isRoiChecked = 3;
-                    View_Roi(isRoiChecked);
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Clone());
+                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[1].Clone());
+                    drawTestRoi(isRoiChecked);
                 }
 
             }
@@ -1030,15 +996,6 @@ namespace ZenHandler.Dlg
             {
                 Globalo.visionManager.milLibrary.ClearOverlay(0); 
             }
-        }
-        public void View_Roi(int index)
-        {
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
-            string roiName = "";
-            
-
-            drawTestRoi(index);
-
         }
     }
 }
