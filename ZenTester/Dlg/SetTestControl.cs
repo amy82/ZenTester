@@ -356,16 +356,16 @@ namespace ZenHandler.Dlg
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
             int dataSize = sizeX * sizeY;
 
-
             byte[] ImageBuffer = new byte[dataSize];
 
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);     //
-            //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);     //
-            Globalo.visionManager.aoiSideTester.MilEdgeHeightTest(CamIndex, src);     //
+            //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
+            //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
+
+            Globalo.visionManager.aoiSideTester.MilEdgeHeightTest(CamIndex, src);
         }
         #endregion
 
@@ -961,7 +961,7 @@ namespace ZenHandler.Dlg
 
                 Console.WriteLine($"{changed.Name} Checked");
 
-                if (changed.Text == "ROI HEIGHT")
+                if (changed.Name == "checkBox_Roi_Height") 
                 {
                     isRoiChecked = 0;
 
@@ -970,20 +970,20 @@ namespace ZenHandler.Dlg
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2].Clone());
                     drawTestRoi(isRoiChecked);
                 }
-                if (changed.Text == "ROI CONE")
+                if (changed.Name == "checkBox_Roi_Cone") 
                 {
                     isRoiChecked = 1;
 
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Clone());
                     drawTestRoi(isRoiChecked);
                 }
-                if (changed.Text == "ROI ORING")
+                if (changed.Name == "checkBox_Roi_ORing")
                 {
                     isRoiChecked = 2;
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Clone());
                     drawTestRoi(isRoiChecked);
                 }
-                if (changed.Text == "ROI KEY")
+                if (changed.Name == "checkBox_Roi_Key")
                 {
                     isRoiChecked = 3;
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Clone());
@@ -996,6 +996,40 @@ namespace ZenHandler.Dlg
             {
                 Globalo.visionManager.milLibrary.ClearOverlay(0); 
             }
+        }
+
+        private void button_Set_Roi_Save_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            if (isRoiChecked == 0)      //Height
+            {
+                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.Count; i++)
+                {
+                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i] = tempRoi[i].Clone();
+                }
+            }
+            else if (isRoiChecked == 1)      //Cone
+            {
+                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.CONE_ROI.Count; i++)
+                {
+                    Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i] = tempRoi[i].Clone();
+                }
+            }
+            else if (isRoiChecked == 2)      //Oring
+            {
+                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.ORING_ROI.Count; i++)
+                {
+                    Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i] = tempRoi[i].Clone();
+                }
+            }
+            else if (isRoiChecked == 3)      //Key
+            {
+                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.KEY_ROI.Count; i++)
+                {
+                    Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i] = tempRoi[i].Clone();
+                }
+            }
+            Data.TaskDataYaml.Save_AoiConfig(Globalo.yamlManager.aoiRoiConfig, "AoiConfig.yaml");
         }
     }
 }

@@ -39,11 +39,13 @@ namespace ZenHandler.VisionClass
             MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
             MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
 
-            int OffsetX = 800;
-            int OffsetY = 700;
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].X;// 800;
+            int OffsetY = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Y;//700;
 
-            int OffsetWidth = 250;
-            int OffsetHeight = 900;
+            int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Width;//250;
+            int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Height;//900;
+
+
             double[] MeanFeretDiameter = new double[CONTOUR_MAX_RESULTS];   // Edge mean Feret diameter.
             double[] EdgeBoxMinY = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeBoxMaxY = new double[CONTOUR_MAX_RESULTS];
@@ -188,8 +190,18 @@ namespace ZenHandler.VisionClass
                 //int OffsetX = 800;
                 //int OffsetY = 700; 
                 Globalo.visionManager.milLibrary.ClearOverlay(0);
-                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
-                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
+
+                Globalo.visionManager.milLibrary.DrawOverlayArrow(0, OffsetX, (int)(OffsetY + minValue), OffsetX, (int)(OffsetY + maxValue), Color.Yellow, 1);
+
+
+                int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue))/2);
+
+                System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX, textCenterY);
+                double dis = (maxValue - minValue) * Globalo.visionManager.CamResol.Y;
+                string str = $"{dis.ToString("0.0##")} [mm]";
+                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Yellow, 15);
 
             }
             else

@@ -48,6 +48,8 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Cone = new System.Windows.Forms.CheckBox();
             this.checkBox_Roi_ORing = new System.Windows.Forms.CheckBox();
             this.checkBox_Roi_Key = new System.Windows.Forms.CheckBox();
+            this.label_SetTest_Manual_Roi = new System.Windows.Forms.Label();
+            this.button_Set_Roi_Save = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -246,7 +248,7 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Height.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Height.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Height.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Height.Location = new System.Drawing.Point(1195, 527);
+            this.checkBox_Roi_Height.Location = new System.Drawing.Point(1049, 735);
             this.checkBox_Roi_Height.Name = "checkBox_Roi_Height";
             this.checkBox_Roi_Height.Size = new System.Drawing.Size(145, 28);
             this.checkBox_Roi_Height.TabIndex = 63;
@@ -260,11 +262,11 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Cone.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Cone.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Cone.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(1195, 472);
+            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(1049, 701);
             this.checkBox_Roi_Cone.Name = "checkBox_Roi_Cone";
-            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(128, 28);
+            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(140, 28);
             this.checkBox_Roi_Cone.TabIndex = 64;
-            this.checkBox_Roi_Cone.Text = "ROI CONE";
+            this.checkBox_Roi_Cone.Text = "ROI CONE  ";
             this.checkBox_Roi_Cone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox_Roi_Cone.UseVisualStyleBackColor = false;
             // 
@@ -274,7 +276,7 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_ORing.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_ORing.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_ORing.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(1195, 417);
+            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(1049, 667);
             this.checkBox_Roi_ORing.Name = "checkBox_Roi_ORing";
             this.checkBox_Roi_ORing.Size = new System.Drawing.Size(137, 28);
             this.checkBox_Roi_ORing.TabIndex = 65;
@@ -288,19 +290,48 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1195, 303);
+            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1049, 633);
             this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
-            this.checkBox_Roi_Key.Size = new System.Drawing.Size(109, 28);
+            this.checkBox_Roi_Key.Size = new System.Drawing.Size(139, 28);
             this.checkBox_Roi_Key.TabIndex = 69;
-            this.checkBox_Roi_Key.Text = "ROI KEY";
+            this.checkBox_Roi_Key.Text = "ROI KEY     ";
             this.checkBox_Roi_Key.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBox_Roi_Key.UseVisualStyleBackColor = false;
+            // 
+            // label_SetTest_Manual_Roi
+            // 
+            this.label_SetTest_Manual_Roi.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Roi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_SetTest_Manual_Roi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Roi.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Roi.ForeColor = System.Drawing.Color.Black;
+            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(1049, 601);
+            this.label_SetTest_Manual_Roi.Name = "label_SetTest_Manual_Roi";
+            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(302, 29);
+            this.label_SetTest_Manual_Roi.TabIndex = 70;
+            this.label_SetTest_Manual_Roi.Text = "Roi Set";
+            this.label_SetTest_Manual_Roi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button_Set_Roi_Save
+            // 
+            this.button_Set_Roi_Save.BackColor = System.Drawing.Color.YellowGreen;
+            this.button_Set_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Roi_Save.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Roi_Save.Location = new System.Drawing.Point(1230, 632);
+            this.button_Set_Roi_Save.Name = "button_Set_Roi_Save";
+            this.button_Set_Roi_Save.Size = new System.Drawing.Size(121, 63);
+            this.button_Set_Roi_Save.TabIndex = 71;
+            this.button_Set_Roi_Save.Text = "ROI SAVE";
+            this.button_Set_Roi_Save.UseVisualStyleBackColor = false;
+            this.button_Set_Roi_Save.Click += new System.EventHandler(this.button_Set_Roi_Save_Click);
             // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Set_Roi_Save);
+            this.Controls.Add(this.label_SetTest_Manual_Roi);
             this.Controls.Add(this.checkBox_Roi_Key);
             this.Controls.Add(this.checkBox_Roi_ORing);
             this.Controls.Add(this.checkBox_Roi_Cone);
@@ -348,5 +379,7 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.CheckBox checkBox_Roi_Cone;
         private System.Windows.Forms.CheckBox checkBox_Roi_ORing;
         private System.Windows.Forms.CheckBox checkBox_Roi_Key;
+        public System.Windows.Forms.Label label_SetTest_Manual_Roi;
+        private System.Windows.Forms.Button button_Set_Roi_Save;
     }
 }
