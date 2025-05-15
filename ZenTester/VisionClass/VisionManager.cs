@@ -67,6 +67,7 @@ namespace ZenHandler.VisionClass
             milLibrary.setCamSize(1, CamControlWidth, CamControlHeight);
 
             milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
+            milLibrary.AllocMilSetCamBuffer(1, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
 
             //m_CamReduceFactorX = ((double)CamControlWidth / (double)milLibrary.CAM_SIZE_X);
             //m_CamReduceFactorY = ((double)CamControlHeight / (double)milLibrary.CAM_SIZE_Y);
@@ -77,6 +78,7 @@ namespace ZenHandler.VisionClass
             for (i = 0; i < milLibrary.CamFixCount; i++)
             {
                 milLibrary.AllocMilCamDisplay(_cameraDisplayHandles[i], i);
+
                 milLibrary.AllocMilSetCamDisplay(_cameraDisplayHandles[2], i);
                 milLibrary.EnableCamOverlay(i);
                 milLibrary.EnableSetCamOverlay(i);
@@ -142,8 +144,6 @@ namespace ZenHandler.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(0);
-
-
                         Thread.Sleep(10); // 혹은 FPS에 맞춰 조절
                     }
                 }, token);
@@ -167,7 +167,7 @@ namespace ZenHandler.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(1);
-                        Thread.Sleep(1);
+                        Thread.Sleep(10);
                     }
                 }, token);
             }

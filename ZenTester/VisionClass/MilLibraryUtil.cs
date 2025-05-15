@@ -195,9 +195,27 @@ namespace ZenHandler.VisionClass
                 {
                     MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
                 }
-                
+                MIL.MbufExport($"d:\\grab{index}.BMP", MIL.M_BMP, MilCamGrabImageChild[index]);
+
             }
             
+        }
+
+        public void MilNewGrabRun(int index)
+        {
+            if (bGrabOnFlag[index] == true && MilDigitizerList[index] != MIL.M_NULL)
+            {
+                MIL.MdigGrab(MilDigitizerList[0], MilCamGrabImage[0]);
+                MIL.MdigGrab(MilDigitizerList[1], MilCamGrabImage[1]);
+
+                MIL.MdigGrabWait(MilDigitizerList[0], MIL.M_GRAB_END);
+                MIL.MdigGrabWait(MilDigitizerList[1], MIL.M_GRAB_END);
+
+                MIL.MimResize(MilCamGrabImageChild[0], MilCamSmallImageChild[0], xReduce[0], yReduce[0], MIL.M_DEFAULT);
+                MIL.MimResize(MilCamGrabImageChild[1], MilCamSmallImageChild[1], xReduce[1], yReduce[1], MIL.M_DEFAULT);
+
+            }
+
         }
         public void EnableCamOverlay(int index)
         {
@@ -668,7 +686,9 @@ namespace ZenHandler.VisionClass
             {
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
+                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
+
+
                     bGrabOnFlag[i] = true;
                 }
 
