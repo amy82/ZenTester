@@ -63,7 +63,8 @@ namespace ZenHandler.VisionClass
             milLibrary.AllocMilCamBuffer(0, CamControlWidth, CamControlHeight);    //Top Camera
             milLibrary.AllocMilCamBuffer(1, CamControlWidth, CamControlHeight);    //Side Camera
 
-            milLibrary.setCamSize(CamControlWidth, CamControlHeight);
+            milLibrary.setCamSize(0, CamControlWidth, CamControlHeight);
+            milLibrary.setCamSize(1, CamControlWidth, CamControlHeight);
 
             milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
 

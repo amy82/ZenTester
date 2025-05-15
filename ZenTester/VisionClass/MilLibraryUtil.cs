@@ -45,20 +45,20 @@ namespace ZenHandler.VisionClass
         //Overlay
         public MIL_ID[] MilCamOverlayImage;
 
-        public int CAM_SIZE_X = 2000;
-        public int CAM_SIZE_Y = 1500;
-        private MIL_INT m_nMilSizeX = 0;
-        private MIL_INT m_nMilSizeY = 0;
+        public int[] CAM_SIZE_X = new int[2];
+        public int[] CAM_SIZE_Y = new int[2];
+        private MIL_INT[] m_nMilSizeX = new MIL_INT[2];
+        private MIL_INT[] m_nMilSizeY = new MIL_INT[2];
 
         private int CamControlWidth = 100;          //픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
         private int CamControlHeight = 100;         //픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
         private int SetCamControlWidth = 100;       //세팅용 픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
         private int SetCamControlHeight = 100;      //세팅용 픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
 
-        public double xReduce = 0.0;
-        public double yReduce = 0.0;
-        public double xExpand = 0.0;
-        public double yExpand = 0.0;
+        public double[] xReduce = new double[2];
+        public double[] yReduce = new double[2];
+        public double[] xExpand = new double[2];
+        public double[] yExpand = new double[2];
 
 
 
@@ -75,6 +75,15 @@ namespace ZenHandler.VisionClass
                 m_clMilDrawCircle[i] = new CMilDrawCircle();
                 m_clMilDrawText[i] = new CMilDrawText();
                 m_clMilDrawCross[i] = new CMilDrawCross();
+
+                CAM_SIZE_X[i] = 1024;
+                CAM_SIZE_Y[i] = 768;
+
+                xReduce[i] = 0.0;
+                yReduce[i] = 0.0;
+                xExpand[i] = 0.0;
+                yExpand[i] = 0.0;
+
             }
             
         }
@@ -83,26 +92,26 @@ namespace ZenHandler.VisionClass
         {
             AutoRunMode = flag;
         }
-        public void setCamSize(int PanelW , int PanelH)
+        public void setCamSize(int index, int PanelW , int PanelH)
         {
-            xReduce = ((double)PanelW / (double)CAM_SIZE_X);
-            yReduce = ((double)PanelH / (double)CAM_SIZE_Y);
+            xReduce[index] = ((double)PanelW / (double)CAM_SIZE_X[index]);
+            yReduce[index] = ((double)PanelH / (double)CAM_SIZE_Y[index]);
 
-            xExpand = ((double)CAM_SIZE_X / (double)PanelW);
-            yExpand = ((double)CAM_SIZE_Y / (double)PanelH);
+            xExpand[index] = ((double)CAM_SIZE_X[index] / (double)PanelW);
+            yExpand[index] = ((double)CAM_SIZE_Y[index] / (double)PanelH);
         }
 
         //자동운전시 Cam1 , Cam2
         //세팅 화면 - Cam 1 - 2
         public void SelectDisplay(int index, IntPtr handle, int _w, int _h)
         {
-            setCamSize(_w, _h);
+            setCamSize(index, _w, _h);
             MIL.MdispSelectWindow(MilCamDisplay[index], MilCamSmallImageChild[index], handle);
         }
 
         public void SelectSetDisplay(int index, IntPtr handle, int _w, int _h)
         {
-            setCamSize(_w, _h);
+            setCamSize(index, _w, _h);
             MIL.MdispSelectWindow(MilSetCamDisplay[index], MilSetCamSmallImageChild[index], handle);
         }
 
@@ -117,7 +126,7 @@ namespace ZenHandler.VisionClass
         public void setCamImage(int index, string filePath)
         {
             MIL.MbufLoad(filePath, MilCamGrabImage[index]);
-            MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce, yReduce, MIL.M_DEFAULT);
+            MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
         }
         public void ClearOverlay(int index)
         {
@@ -142,10 +151,10 @@ namespace ZenHandler.VisionClass
             int pos = clickP.Y * width + clickP.X;
             int pixelValue = 0;
             byte[] pixelRGB = new byte[3];
-            MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand), (int)(clickP.Y * yExpand), 1, 1, pixelRGB);
+            MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand[index]), (int)(clickP.Y * yExpand[index]), 1, 1, pixelRGB);
 
-            int cx = (int)(clickP.X * xExpand + 0.5);
-            int cy = (int)(clickP.Y * yExpand + 0.5);
+            int cx = (int)(clickP.X * xExpand[index] + 0.5);
+            int cy = (int)(clickP.Y * yExpand[index] + 0.5);
 
             string str = $"[X={cx}, Y={cy}] Gray Value: {pixelRGB[0]}";
             Console.WriteLine($"[X,Y={cx},{cy}] Gray Value: {pixelRGB[0]}");
@@ -180,11 +189,11 @@ namespace ZenHandler.VisionClass
                 MIL.MdigGrabWait(MilDigitizerList[index], MIL.M_GRAB_END);
                 if (AutoRunMode)
                 {
-                    MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce, yReduce, MIL.M_DEFAULT);
+                    MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
                 }
                 else
                 {
-                    MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce, yReduce, MIL.M_DEFAULT);
+                    MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
                 }
                 
             }
@@ -228,8 +237,8 @@ namespace ZenHandler.VisionClass
         public void drawTest(MIL_ID display, int index)
         {
             //display
-            MIL.MmodControl(display, MIL.M_DEFAULT, 3203L, xReduce);//M_DRAW_SCALE_X
-            MIL.MmodControl(display, MIL.M_DEFAULT, 3204L, yReduce);//M_DRAW_SCALE_Y
+            MIL.MmodControl(display, MIL.M_DEFAULT, 3203L, xReduce[index]);//M_DRAW_SCALE_X
+            MIL.MmodControl(display, MIL.M_DEFAULT, 3204L, yReduce[index]);//M_DRAW_SCALE_Y
             MIL.MmodDraw(MIL.M_DEFAULT, display, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_BOX, MIL.M_DEFAULT, MIL.M_DEFAULT);
         }
 
@@ -251,10 +260,10 @@ namespace ZenHandler.VisionClass
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
 
 
-            m_clMilDrawBox[index].Draw(hOverlayDC, xReduce, yReduce);
-            m_clMilDrawCircle[index].Draw(hOverlayDC, xReduce, yReduce);
-            m_clMilDrawText[index].Draw(hOverlayDC, xReduce, yReduce);
-            m_clMilDrawCross[index].Draw(hOverlayDC, xReduce, yReduce);
+            m_clMilDrawBox[index].Draw(hOverlayDC, xReduce[index], yReduce[index]);
+            m_clMilDrawCircle[index].Draw(hOverlayDC, xReduce[index], yReduce[index]);
+            m_clMilDrawText[index].Draw(hOverlayDC, xReduce[index], yReduce[index]);
+            m_clMilDrawCross[index].Draw(hOverlayDC, xReduce[index], yReduce[index]);
 
             MIL.MbufControl(tempOverlay, MIL.M_DC_FREE, MIL.M_DEFAULT);
             MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
@@ -280,8 +289,8 @@ namespace ZenHandler.VisionClass
                 {
                     using (Pen arrowPen = new Pen(color, nWid))
                     {
-                        double xResoul = xReduce;
-                        double yResoul = yReduce;
+                        double xResoul = xReduce[index];
+                        double yResoul = yReduce[index];
 
                         int _wid = (int)(lineWid * xResoul + 0.5);
                         int _hei = (int)(lineWid * yResoul + 0.5);
@@ -319,10 +328,10 @@ namespace ZenHandler.VisionClass
                 {
                     using (Pen arrowPen = new Pen(color, nWid))
                     {
-                        int startX = (int)(x1 * xReduce + 0.5);
-                        int startY = (int)(y1 * yReduce + 0.5);
-                        int endX = (int)(x2 * xReduce + 0.5);
-                        int endY = (int)(y2 * yReduce + 0.5);
+                        int startX = (int)(x1 * xReduce[index] + 0.5);
+                        int startY = (int)(y1 * yReduce[index] + 0.5);
+                        int endX = (int)(x2 * xReduce[index] + 0.5);
+                        int endY = (int)(y2 * yReduce[index] + 0.5);
 
                         DrawingGraphics.DrawLine(arrowPen, startX, startY, endX, endY);
                     }
@@ -365,10 +374,10 @@ namespace ZenHandler.VisionClass
 
                         //arrowPen.CustomEndCap = new AdjustableArrowCap(6, 6, true);  // 크기 조절 가능
 
-                        int startX = (int)(x1 * xReduce + 0.5);
-                        int startY = (int)(y1 * yReduce + 0.5);
-                        int endX = (int)(x2 * xReduce + 0.5);
-                        int endY = (int)(y2 * yReduce + 0.5);
+                        int startX = (int)(x1 * xReduce[index] + 0.5);
+                        int startY = (int)(y1 * yReduce[index] + 0.5);
+                        int endX = (int)(x2 * xReduce[index] + 0.5);
+                        int endY = (int)(y2 * yReduce[index] + 0.5);
 
                         DrawingGraphics.DrawLine(arrowPen, startX, startY, endX, endY);
                     }
@@ -403,11 +412,11 @@ namespace ZenHandler.VisionClass
                         DrawingPen.DashStyle = nStyles;
                         DrawingPen.Width = nWid; 
 
-                        int x1 = (int)((clPoint.X * xReduce) + 0.5);
-                        int y1 = (int)((clPoint.Y * yReduce) + 0.5);
+                        int x1 = (int)((clPoint.X * xReduce[index]) + 0.5);
+                        int y1 = (int)((clPoint.Y * yReduce[index]) + 0.5);
 
-                        int x2 = (int)((radius * xReduce) + 0.5);
-                        int y2 = (int)((radius * yReduce) + 0.5);
+                        int x2 = (int)((radius * xReduce[index]) + 0.5);
+                        int y2 = (int)((radius * yReduce[index]) + 0.5);
 
                         DrawingGraphics.DrawEllipse(DrawingPen, x1, y1, x2, y2);
 
@@ -465,7 +474,7 @@ namespace ZenHandler.VisionClass
             MIL.MbufControl(tempOverlay, MIL.M_MODIFIED, MIL.M_DEFAULT);
         }
 
-        public void DrawOverlayBox(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles)
+        public void DrawOverlayBox(int index, Rectangle clRect, Color color, int nWid, DashStyle nStyles = DashStyle.Solid)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
             MIL_ID tempOverlay = MIL.M_NULL;
@@ -490,10 +499,10 @@ namespace ZenHandler.VisionClass
                         DrawingPen.DashStyle = nStyles;
                         DrawingPen.Width = nWid;
 
-                        int x1 = (int)((clRect.X * xReduce) + 0.5);
-                        int x2 = (int)((clRect.Width * xReduce) + 0.5);
-                        int y1 = (int)((clRect.Y * yReduce) + 0.5);
-                        int y2 = (int)((clRect.Height * yReduce) + 0.5);
+                        int x1 = (int)((clRect.X * xReduce[index]) + 0.5);
+                        int x2 = (int)((clRect.Width * xReduce[index]) + 0.5);
+                        int y1 = (int)((clRect.Y * yReduce[index]) + 0.5);
+                        int y2 = (int)((clRect.Height * yReduce[index]) + 0.5);
 
                         DrawingGraphics.DrawRectangle(DrawingPen, new Rectangle(x1, y1, x2, y2));
 
@@ -523,8 +532,8 @@ namespace ZenHandler.VisionClass
         public void DrawOverlayText(int index, System.Drawing.Point clPoint, string szText, Color color, int nSize)
         {
             IntPtr hOverlayDC = IntPtr.Zero;
-            int x = (int)((clPoint.X * xReduce) + 0.5);
-            int y = (int)((clPoint.Y * yReduce) + 0.5);
+            int x = (int)((clPoint.X * xReduce[index]) + 0.5);
+            int y = (int)((clPoint.Y * yReduce[index]) + 0.5);
             MIL_ID tempOverlay = MIL.M_NULL;
             if (AutoRunMode)
             {
@@ -618,10 +627,10 @@ namespace ZenHandler.VisionClass
             {
                 lBufferAttributes = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
             }
-            MIL.MbufAlloc2d(MilSystem, CAM_SIZE_X, CAM_SIZE_Y, (8 + MIL.M_UNSIGNED), lBufferAttributes, ref MilCamGrabImage[index]);
+            MIL.MbufAlloc2d(MilSystem, CAM_SIZE_X[index], CAM_SIZE_Y[index], (8 + MIL.M_UNSIGNED), lBufferAttributes, ref MilCamGrabImage[index]);
             MIL.MbufClear(MilCamGrabImage[index], MIL.M_COLOR_BLACK);
             //
-            MIL.MbufChild2d(MilCamGrabImage[index], 0, 0, CAM_SIZE_X, CAM_SIZE_Y, ref MilCamGrabImageChild[index]);
+            MIL.MbufChild2d(MilCamGrabImage[index], 0, 0, CAM_SIZE_X[index], CAM_SIZE_Y[index], ref MilCamGrabImageChild[index]);
             MIL.MbufClear(MilCamGrabImageChild[index], MIL.M_COLOR_BLACK);
             //
             MIL.MbufAllocColor(MilSystem, 3, CamControlWidth, CamControlHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilCamSmallImage[index]);
@@ -668,20 +677,24 @@ namespace ZenHandler.VisionClass
                     MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_ASYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
                     MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 1000);
 
-                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX);
-                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY);
+                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX[i]);
+                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY[i]);
 
-                    Console.WriteLine("Cam Width: " + m_nMilSizeX);
-                    Console.WriteLine("Cam Height: " + m_nMilSizeY);
+                    Console.WriteLine("Cam Width: " + m_nMilSizeX[i]);
+                    Console.WriteLine("Cam Height: " + m_nMilSizeY[i]);
 
-                    CAM_SIZE_X = (int)m_nMilSizeX;
-                    CAM_SIZE_Y = (int)m_nMilSizeY;
+                    CAM_SIZE_X[i] = (int)m_nMilSizeX[i];
+                    CAM_SIZE_Y[i] = (int)m_nMilSizeY[i];
                 }
             }
             else
             {
-                m_nMilSizeX = CAM_SIZE_X;
-                m_nMilSizeY = CAM_SIZE_Y;
+                for (i = 0; i < 2; i++)
+                {
+                    m_nMilSizeX[i] = CAM_SIZE_X[i];
+                    m_nMilSizeY[i] = CAM_SIZE_Y[i];
+                }
+                    
             }
 
 

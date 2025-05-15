@@ -45,8 +45,8 @@ namespace ZenHandler.VisionClass
             double minArea = 45.0;
             Globalo.visionManager.milLibrary.ClearOverlay(index);
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
             int dataSize = sizeX * sizeY;
             byte[] buffer = new byte[dataSize];
 
@@ -95,7 +95,7 @@ namespace ZenHandler.VisionClass
                     //points = contours[i].Select(p => new System.Drawing.Point(p.X, p.Y)).ToList();
                     foreach (var p in contours[i])
                     {
-                        points.Add(new System.Drawing.Point((int)((p.X + 2190 + 250) * Globalo.visionManager.milLibrary.xReduce) , (int)((p.Y + 1429 + 250) * Globalo.visionManager.milLibrary.yReduce)));
+                        points.Add(new System.Drawing.Point((int)((p.X + 2190 + 250) * Globalo.visionManager.milLibrary.xReduce[index]) , (int)((p.Y + 1429 + 250) * Globalo.visionManager.milLibrary.yReduce[index])));
                     }
                     Globalo.visionManager.milLibrary.DrawOverlayPolygon(index, points, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
@@ -208,8 +208,8 @@ namespace ZenHandler.VisionClass
             // Draw remaining edges and their index to show the result.
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
-            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce);//M_DRAW_SCALE_X
-            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce);//M_DRAW_SCALE_Y
+            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[0]);//M_DRAW_SCALE_X
+            MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[0]);//M_DRAW_SCALE_Y
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, MilImage, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             // Get the number of edges found.
@@ -221,8 +221,8 @@ namespace ZenHandler.VisionClass
                 // Draw the index of each edge.
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
-                MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce);//M_DRAW_SCALE_X
-                MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce);//M_DRAW_SCALE_Y
+                MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[0]);//M_DRAW_SCALE_X
+                MIL.MmodControl(MilEdgeResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[0]);//M_DRAW_SCALE_Y
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, MilImage, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 // Get the mean Feret diameters.
@@ -242,8 +242,8 @@ namespace ZenHandler.VisionClass
         }
         public void KeyFine(int index)
         {
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
             int dataSize = sizeX * sizeY;
             byte[] buffer = new byte[dataSize];
 
@@ -299,8 +299,8 @@ namespace ZenHandler.VisionClass
         public void ContoursCircleFine(int index)
         {
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
             int dataSize = sizeX * sizeY;
             byte[] buffer = new byte[dataSize];
 
@@ -493,8 +493,8 @@ namespace ZenHandler.VisionClass
         public void houghCircleFine(int index)
         {
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
             int dataSize = sizeX * sizeY;
             byte[] buffer = new byte[dataSize];
 

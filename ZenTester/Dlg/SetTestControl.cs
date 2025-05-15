@@ -43,8 +43,8 @@ namespace ZenHandler.Dlg
         private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
         private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
 
-        private System.Drawing.Point[] DistLineX = new System.Drawing.Point[2];
-
+        //private System.Drawing.Point[] DistLineX = new System.Drawing.Point[2];
+        private System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
 
         private bool m_bDrawFlag = false;
         private bool m_bBoxMoveFlag = false;
@@ -55,8 +55,8 @@ namespace ZenHandler.Dlg
         public List<Data.Roi> tempRoi = new List<Data.Roi>();
 
 
-        private int CamW;
-        private int CamH;
+        private int[] CamW = new int[2];
+        private int[] CamH = new int[2];
         int CamIndex = 0;
         public SetTestControl()
         {
@@ -72,14 +72,23 @@ namespace ZenHandler.Dlg
         }
         public void setCamCenter()
         {
-            CamW = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            CamH = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int i = 0;
+            for (i = 0; i < 2; i++)
+            {
+                CamW[i] = Globalo.visionManager.milLibrary.CAM_SIZE_X[i];
+                CamH[i] = Globalo.visionManager.milLibrary.CAM_SIZE_Y[i];
 
-            DistLineX[0] = new System.Drawing.Point(500, 500);
-            DistLineX[1] = new System.Drawing.Point(CamW - 500, CamH - 500);
+                centerPos.X = (int)(CamW[i] / 2);
+                centerPos.Y = (int)(CamH[i] / 2);
 
-            centerPos.X = (int)(CamW / 2);
-            centerPos.Y = (int)(CamH / 2);
+                DistLineX[i,0] = new System.Drawing.Point(500, 500);
+                DistLineX[i,1] = new System.Drawing.Point(CamW[i] - 500, CamH[i] - 500);
+            }
+            
+
+            
+
+            
         }
         
         public void ClearCheckbox()
@@ -231,8 +240,8 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
 
                 Globalo.visionManager.milLibrary.ClearOverlay(0);
-                int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-                int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+                int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+                int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
                 Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
             else
@@ -250,8 +259,8 @@ namespace ZenHandler.Dlg
 
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
 
@@ -271,8 +280,8 @@ namespace ZenHandler.Dlg
 
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
 
@@ -291,8 +300,8 @@ namespace ZenHandler.Dlg
         {
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
 
@@ -316,8 +325,8 @@ namespace ZenHandler.Dlg
         {
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
 
@@ -327,15 +336,15 @@ namespace ZenHandler.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, src);     //
+            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, 0, src);
         }
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
 
@@ -345,15 +354,15 @@ namespace ZenHandler.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, src);
+            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, 0, src);
         }
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
             byte[] ImageBuffer = new byte[dataSize];
@@ -365,7 +374,7 @@ namespace ZenHandler.Dlg
             //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
             //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeHeightTest(CamIndex, src);
+            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
         }
         #endregion
 
@@ -373,8 +382,8 @@ namespace ZenHandler.Dlg
         {
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
             byte[] ImageBuffer = new byte[dataSize];
@@ -398,19 +407,19 @@ namespace ZenHandler.Dlg
             {
                 targetRoi = tempRoi[0];// Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
 
                 targetRoi = tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
 
                 targetRoi = tempRoi[2];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "RH ROI", Color.BlueViolet, 15);
             }
@@ -418,7 +427,7 @@ namespace ZenHandler.Dlg
             {
                 targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CONE ROI", Color.BlueViolet, 15);
             }
@@ -426,7 +435,7 @@ namespace ZenHandler.Dlg
             {
                 targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "ORING ROI", Color.BlueViolet, 15);
             }
@@ -435,13 +444,13 @@ namespace ZenHandler.Dlg
                 targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
 
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
 
                 targetRoi = tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
             }
@@ -450,8 +459,8 @@ namespace ZenHandler.Dlg
         {
             int i = 0;
             Rectangle RoiBox = new Rectangle();
-            mousePos.X = (int)(mousePos.X * Globalo.visionManager.milLibrary.xExpand + 0.5);
-            mousePos.Y = (int)(mousePos.Y * Globalo.visionManager.milLibrary.yExpand + 0.5);
+            mousePos.X = (int)(mousePos.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+            mousePos.Y = (int)(mousePos.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
             //
             //
             for (i = 0; i < tempRoi.Count; i++)
@@ -492,8 +501,8 @@ namespace ZenHandler.Dlg
                     Console.WriteLine($"[{isRoiChecked}] Click : {isRoiNo}");
 
                     System.Drawing.Point roiMousePos = new System.Drawing.Point();
-                    roiMousePos.X = (int)(e.Location.X * Globalo.visionManager.milLibrary.xExpand + 0.5);
-                    roiMousePos.Y = (int)(e.Location.Y * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                    roiMousePos.X = (int)(e.Location.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                    roiMousePos.Y = (int)(e.Location.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                     
                     resizeDir = GetResizeDirection(roiMousePos, DrawRoiBox);
 
@@ -558,8 +567,8 @@ namespace ZenHandler.Dlg
                 else if (isRoiChecked >= 0 && isRoiNo >= 0)
                 {
                     System.Drawing.Point roiMousePos = new System.Drawing.Point();
-                    roiMousePos.X = (int)(e.Location.X * Globalo.visionManager.milLibrary.xExpand + 0.5);
-                    roiMousePos.Y = (int)(e.Location.Y * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                    roiMousePos.X = (int)(e.Location.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                    roiMousePos.Y = (int)(e.Location.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                     ResizeDirection hoverDir = GetResizeDirection(roiMousePos, DrawRoiBox);
                     Cursor.Current = GetCursorByResizeDirection(hoverDir);
                 }
@@ -571,22 +580,22 @@ namespace ZenHandler.Dlg
             }
             if (m_bDrawMeasureLine && e.Button == MouseButtons.Left)
             {
-                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand + 0.5);
-                int dy = (int)((e.Y - moveStartMousePos.Y) * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                int dy = (int)((e.Y - moveStartMousePos.Y) * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
 
                 switch (resizeDir)
                 {
                     case ResizeDirection.Top:
-                        DistLineX[0].Y += dy;
+                        DistLineX[CamIndex,0].Y += dy;
                         break;
                     case ResizeDirection.Left:
-                        DistLineX[0].X += dx;
+                        DistLineX[CamIndex, 0].X += dx;
                         break;
                     case ResizeDirection.Right:
-                        DistLineX[1].X += dx;
+                        DistLineX[CamIndex, 1].X += dx;
                         break;
                     case ResizeDirection.Bottom:
-                        DistLineX[1].Y += dy;
+                        DistLineX[CamIndex, 1].Y += dy;
                         break;
                 }
 
@@ -596,8 +605,8 @@ namespace ZenHandler.Dlg
             else if (isRoiChecked >= 0 && isRoiNo >= 0 && resizeDir != ResizeDirection.None)
             {
                 roiEnd = e.Location;
-                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand + 0.5); 
-                int dy = (int)((e.Y - moveStartMousePos.Y) * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                int dx = (int)((e.X - moveStartMousePos.X) * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5); 
+                int dy = (int)((e.Y - moveStartMousePos.Y) * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
 
                 Rectangle r = DrawRoiBox;
 
@@ -750,8 +759,8 @@ namespace ZenHandler.Dlg
                 moveStartMousePos = e.Location;
 
                 Rectangle m_clRect = new Rectangle(
-                    (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
-                    (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
+                    (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
+                    (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
@@ -759,8 +768,8 @@ namespace ZenHandler.Dlg
             {
                 roiEnd = e.Location;
                 Rectangle roi = GetRoiRect(roiStart, roiEnd);
-                Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
-                    (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
+                Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
+                    (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
@@ -781,8 +790,8 @@ namespace ZenHandler.Dlg
 
 
                 Rectangle m_clRect = new Rectangle(
-                    (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand + 0.5),
-                    (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5));
+                    (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
+                    (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
                 Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
@@ -801,8 +810,8 @@ namespace ZenHandler.Dlg
 
                 roiEnd = e.Location;
 
-                int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand + 0.5);
-                int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand + 0.5);
+                int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                 Console.WriteLine($"Drag Roi = w:{dragw},h:{dragh}");
             }
             
@@ -840,23 +849,23 @@ namespace ZenHandler.Dlg
             //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
 
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[0].X), 0, (int)(DistLineX[0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[1].X), 0, (int)(DistLineX[1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y, Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[CamIndex,0].X), 0, (int)(DistLineX[CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[CamIndex, 1].X), 0, (int)(DistLineX[CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
 
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[0].Y), Color.Blue, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X, (int)(DistLineX[1].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 0].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 1].Y), Color.Blue, 1);
 
             Globalo.visionManager.CamResol.X = 0.02026f;
             Globalo.visionManager.CamResol.Y = 0.02026f;//0.0288f;
 
             System.Drawing.Point textPoint;
 
-            string str = $"[Distance x: = {Math.Abs(DistLineX[0].X - DistLineX[1].X) * Globalo.visionManager.CamResol.X}";
-            textPoint = new System.Drawing.Point(10, CamH - 250);
+            string str = $"[Distance x: = {Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * Globalo.visionManager.CamResol.X}";
+            textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 250);
             Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
 
-            str = $"[Distance y: = {Math.Abs(DistLineX[0].Y - DistLineX[1].Y) * Globalo.visionManager.CamResol.Y}";
-            textPoint = new System.Drawing.Point(10, CamH - 150);
+            str = $"[Distance y: = {Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * Globalo.visionManager.CamResol.Y}";
+            textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
 
         }
@@ -873,11 +882,11 @@ namespace ZenHandler.Dlg
         {
             //거리측정
             //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5)
-            Rectangle x1Line = new Rectangle((int)(DistLineX[0].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce + 0.5));
-            Rectangle x2Line = new Rectangle((int)(DistLineX[1].X * Globalo.visionManager.milLibrary.xReduce + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH * Globalo.visionManager.milLibrary.yReduce + 0.5));
+            Rectangle x1Line = new Rectangle((int)(DistLineX[CamIndex,0].X * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH[CamIndex] * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5));
+            Rectangle x2Line = new Rectangle((int)(DistLineX[CamIndex, 1].X * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH[CamIndex] * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5));
 
-            Rectangle y1Line = new Rectangle(0, (int)(DistLineX[0].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
-            Rectangle y2Line = new Rectangle(0, (int)(DistLineX[1].Y * Globalo.visionManager.milLibrary.yReduce + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW * Globalo.visionManager.milLibrary.xReduce + 0.5), LINE_HIT_MARGIN);
+            Rectangle y1Line = new Rectangle(0, (int)(DistLineX[CamIndex, 0].Y * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW[CamIndex] * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5), LINE_HIT_MARGIN);
+            Rectangle y2Line = new Rectangle(0, (int)(DistLineX[CamIndex, 1].Y * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW[CamIndex] * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5), LINE_HIT_MARGIN);
 
             if (y1Line.Contains(mousePos)) return ResizeDirection.Top;
             if (y2Line.Contains(mousePos)) return ResizeDirection.Bottom;

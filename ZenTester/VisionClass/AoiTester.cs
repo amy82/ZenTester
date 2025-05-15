@@ -23,7 +23,7 @@ namespace ZenHandler.VisionClass
 
             //BINARY START
             MIL_ID MilSubImage01 = MIL.M_NULL;
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilSubImage01);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index], ref MilSubImage01);
             MIL.MimBinarize(Globalo.visionManager.milLibrary.MilCamGrabImage[index], MilSubImage01, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             MIL.MimRank(MilSubImage01, MilSubImage01, MIL.M_3X3_RECT, MIL.M_MEDIAN, MIL.M_BINARY);
             //BINARY END
@@ -33,7 +33,7 @@ namespace ZenHandler.VisionClass
         public void RunMeasCase(int index)
         {
             MIL_ID MilImage = MIL.M_NULL;
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index],
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
             MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilImage);
             
@@ -96,7 +96,7 @@ namespace ZenHandler.VisionClass
             Globalo.visionManager.milLibrary.bGrabOnFlag[index] = false;
 
             MIL_ID MilSubImage01 = MIL.M_NULL;
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index],
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilSubImage01);
             MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilSubImage01);
             //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilSubImage01);
@@ -150,7 +150,7 @@ namespace ZenHandler.VisionClass
             FeatureIndexForTolerance[1] = MIL.M_FEATURE_INDEX(6);
 
             ///MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilImage);
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index],
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref MilImage);
 
             MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], MilImage);
@@ -347,7 +347,7 @@ namespace ZenHandler.VisionClass
             MIL_ID MilSearchContext = MIL.M_NULL;
             MIL_ID MilResult = MIL.M_NULL;
 
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index],
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
             MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
             MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
@@ -472,7 +472,7 @@ namespace ZenHandler.VisionClass
             //MIL.MbufRestore(SIMPLE_CIRCLE_SEARCH_TARGET_IMAGE, Globalo.visionManager.milLibrary.MilSystem, &tempMilImage);
 
            // MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref tempMilImage);
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y,
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index],
                 (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC, ref tempMilImage);
             MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
 
@@ -598,7 +598,7 @@ namespace ZenHandler.VisionClass
 
             MIL_ID MilBinary = MIL.M_NULL;
             MIL_ID MilSubImage01 = MIL.M_NULL;
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilSubImage01);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index], ref MilSubImage01);
            // MIL.MimBinarize(MilBinary, MilBinary, MIL.M_GREATER_OR_EQUAL, mThreshold, MIL.M_NULL);	//! 이진화 반전 140 M_GREATER_OR_EQUAL	M_LESS_OR_EQUAL
             //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilCamGrabImage[index], MilBinary, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             //MIL.MimRank(MilBinary, MilBinary, MIL.M_3X3_RECT, MIL.M_MEDIAN, MIL.M_BINARY);
@@ -785,7 +785,7 @@ namespace ZenHandler.VisionClass
 
             MIL_ID MilBinary = MIL.M_NULL;
             MIL_ID MilSubImage01 = MIL.M_NULL;
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X, Globalo.visionManager.milLibrary.CAM_SIZE_Y, ref MilSubImage01);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImage[index], 0L, 0L, Globalo.visionManager.milLibrary.CAM_SIZE_X[index], Globalo.visionManager.milLibrary.CAM_SIZE_Y[index], ref MilSubImage01);
 
             MIL_ID MilDisplay = MIL.M_NULL;             // Display identifier.
             MIL_ID MilOverlayImage = MIL.M_NULL;       // Overlay buffer identifier.

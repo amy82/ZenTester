@@ -26,8 +26,8 @@ namespace ZenHandler.VisionClass
 
             Globalo.visionManager.milLibrary.ClearOverlay(index);
             
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X;
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y;
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
             int dataSize = sizeX * sizeY;
 
 
@@ -57,7 +57,7 @@ namespace ZenHandler.VisionClass
             //
             int radiusOuter = 250;      //이미지 중심에서 pogoPin을 찾을 원 크기
 
-            OpenCvSharp.Point ImageCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X / 2, Globalo.visionManager.milLibrary.CAM_SIZE_Y / 2);
+            OpenCvSharp.Point ImageCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] / 2);
 
             // 이미지 크기에 맞는 빈 마스크
             Mat mask = Mat.Zeros(srcImage.Size(), MatType.CV_8UC1);
@@ -177,7 +177,7 @@ namespace ZenHandler.VisionClass
             str = $"Test Time: {elapsedMs / 1000.0:F3} (s)";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y -150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
             textPoint = new System.Drawing.Point(100, 100);
             str = $"Center : ({Circlecenter.X},{Circlecenter.Y})";
@@ -250,7 +250,7 @@ namespace ZenHandler.VisionClass
                     List<System.Drawing.Point> points = new List<System.Drawing.Point>();
                     foreach (var p in contours[i])
                     {
-                        points.Add(new System.Drawing.Point((int)((p.X + circle1.X - 920) * Globalo.visionManager.milLibrary.xReduce), (int)((p.Y + circle1.Y + 200) * Globalo.visionManager.milLibrary.yReduce)));
+                        points.Add(new System.Drawing.Point((int)((p.X + circle1.X - 920) * Globalo.visionManager.milLibrary.xReduce[index]), (int)((p.Y + circle1.Y + 200) * Globalo.visionManager.milLibrary.yReduce[index])));
                     }
                     if (points.Count >= 3) // 다각형이 되려면 꼭지점 3개 이상
                     {
@@ -284,7 +284,7 @@ namespace ZenHandler.VisionClass
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y - 150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
         }
         public void GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1)
@@ -357,7 +357,7 @@ namespace ZenHandler.VisionClass
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y - 150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
         }
         public OpenCvSharp.Point Housing_Dent_Test(int index, Mat srcImage)
@@ -582,7 +582,7 @@ namespace ZenHandler.VisionClass
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X - 820, Globalo.visionManager.milLibrary.CAM_SIZE_Y - 150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 820, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
 
             return centerPos;
