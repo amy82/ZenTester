@@ -81,7 +81,7 @@ namespace ZenHandler.VisionClass
             MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
             MIL.MedgeControl(MilEdgeResult, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);
 
-            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay[index], MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
             //M_DRAW_BOX + M_DRAW_POSITION + M_DRAW_EDGES + M_DRAW_AXIS
             //-----------------------------------------------------------------------------------------------------------------------------
             //
@@ -274,7 +274,7 @@ namespace ZenHandler.VisionClass
             MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
             MIL.MedgeControl(MilEdgeResult, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);
 
-            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay[index], MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
             //M_DRAW_BOX + M_DRAW_POSITION + M_DRAW_EDGES + M_DRAW_AXIS
 
             MIL_INT NumResults = 0;                                         // Number of results found.

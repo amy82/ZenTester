@@ -77,22 +77,28 @@ namespace ZenHandler.Dlg
             // 
             // button_SetTest_TopCam
             // 
+            this.button_SetTest_TopCam.BackColor = System.Drawing.Color.Black;
+            this.button_SetTest_TopCam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SetTest_TopCam.ForeColor = System.Drawing.Color.White;
             this.button_SetTest_TopCam.Location = new System.Drawing.Point(1033, 12);
             this.button_SetTest_TopCam.Name = "button_SetTest_TopCam";
             this.button_SetTest_TopCam.Size = new System.Drawing.Size(75, 23);
             this.button_SetTest_TopCam.TabIndex = 5;
             this.button_SetTest_TopCam.Text = "Top Cam";
-            this.button_SetTest_TopCam.UseVisualStyleBackColor = true;
+            this.button_SetTest_TopCam.UseVisualStyleBackColor = false;
             this.button_SetTest_TopCam.Click += new System.EventHandler(this.button_SetTest_TopCam_Click);
             // 
             // button_SetTest_SideCam
             // 
+            this.button_SetTest_SideCam.BackColor = System.Drawing.Color.Black;
+            this.button_SetTest_SideCam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SetTest_SideCam.ForeColor = System.Drawing.Color.White;
             this.button_SetTest_SideCam.Location = new System.Drawing.Point(1114, 12);
             this.button_SetTest_SideCam.Name = "button_SetTest_SideCam";
             this.button_SetTest_SideCam.Size = new System.Drawing.Size(75, 23);
             this.button_SetTest_SideCam.TabIndex = 6;
             this.button_SetTest_SideCam.Text = "Side Cam";
-            this.button_SetTest_SideCam.UseVisualStyleBackColor = true;
+            this.button_SetTest_SideCam.UseVisualStyleBackColor = false;
             this.button_SetTest_SideCam.Click += new System.EventHandler(this.button_SetTest_SideCam_Click);
             // 
             // label_SetTest_Manual_Top_Test

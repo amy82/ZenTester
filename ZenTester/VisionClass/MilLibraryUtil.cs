@@ -33,11 +33,12 @@ namespace ZenHandler.VisionClass
 
 
         //MANUAL SET CAMERA     Set Panel Buffer
-        public MIL_ID[] MilSetCamDisplay;                        // Display identifier.
+        public MIL_ID MilSetCamDisplay;                        // Display identifier.
         public MIL_ID[] MilSetCamSmallImage;
         public MIL_ID[] MilSetCamSmallImageChild;
-        public MIL_ID[] MilSetCamOverlay;
-        public MIL_INT[] MilSetCamTransparent;
+
+        public MIL_ID MilSetCamOverlay;
+        public MIL_INT MilSetCamTransparent;
 
         public CMilDrawBox[] m_clMilDrawBox = new CMilDrawBox[2];
         public CMilDrawCircle[] m_clMilDrawCircle = new CMilDrawCircle[2];
@@ -113,7 +114,8 @@ namespace ZenHandler.VisionClass
         public void SelectSetDisplay(int index, IntPtr handle, int _w, int _h)
         {
             setCamSize(index, _w, _h);
-            MIL.MdispSelectWindow(MilSetCamDisplay[index], MilSetCamSmallImageChild[index], handle);
+            MIL.MdispSelectWindow(MilSetCamDisplay, MilSetCamSmallImageChild[index], handle);
+            //MIL.MdispSelect(MilSetCamDisplay, MilSetCamSmallImageChild[index]);        //여기에 하면 mil display로 나온다.
         }
 
         public void GrabImageSave(int index, string path)
@@ -141,7 +143,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                MIL.MbufClear(MilSetCamOverlay[index], MilSetCamTransparent[index]);
+                MIL.MbufClear(MilSetCamOverlay, MilSetCamTransparent);
             }
                 
         }
@@ -196,7 +198,6 @@ namespace ZenHandler.VisionClass
                 {
                     MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
                 }
-                Thread.Sleep(1);
                 //MIL.MbufExport($"d:\\grab{index}.BMP", MIL.M_BMP, MilCamGrabImage[index]);
 
             }
@@ -234,19 +235,19 @@ namespace ZenHandler.VisionClass
             }
         }
 
-        public void EnableSetCamOverlay(int index)
+        public void EnableSetCamOverlay()
         {
-            MIL_INT DisplayType = MIL.MdispInquire(MilSetCamDisplay[index], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
+            MIL_INT DisplayType = MIL.MdispInquire(MilSetCamDisplay, MIL.M_DISPLAY_TYPE, MIL.M_NULL);
 
             if (DisplayType == (MIL.M_WINDOWED | MIL.M_USER_WINDOW))
             {
-                MIL.MdispControl(MilSetCamDisplay[index], MIL.M_OVERLAY, MIL.M_ENABLE);
-                MIL.MdispControl(MilSetCamDisplay[index], MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
-                MIL.MdispInquire(MilSetCamDisplay[index], MIL.M_OVERLAY_ID, ref MilSetCamOverlay[index]);
-                MIL.MdispControl(MilSetCamDisplay[index], MIL.M_OVERLAY_CLEAR, MIL.M_DEFAULT);
+                MIL.MdispControl(MilSetCamDisplay, MIL.M_OVERLAY, MIL.M_ENABLE);
+                MIL.MdispControl(MilSetCamDisplay, MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
+                MIL.MdispInquire(MilSetCamDisplay, MIL.M_OVERLAY_ID, ref MilSetCamOverlay);
+                MIL.MdispControl(MilSetCamDisplay, MIL.M_OVERLAY_CLEAR, MIL.M_DEFAULT);
 
-                MilSetCamTransparent[index] = MIL.MdispInquire(MilSetCamDisplay[index], MIL.M_TRANSPARENT_COLOR, MIL.M_NULL);
-                MIL.MbufClear(MilSetCamOverlay[index], MilSetCamTransparent[index]);
+                MilSetCamTransparent = MIL.MdispInquire(MilSetCamDisplay, MIL.M_TRANSPARENT_COLOR, MIL.M_NULL);
+                MIL.MbufClear(MilSetCamOverlay, MilSetCamTransparent);
                 MIL.MgraControl(MIL.M_DEFAULT, MIL.M_BACKGROUND_MODE, MIL.M_TRANSPARENT);
             }
         }
@@ -269,7 +270,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             IntPtr hOverlayDC = IntPtr.Zero;
 
@@ -295,7 +296,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
@@ -334,7 +335,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
@@ -369,7 +370,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
@@ -414,7 +415,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
@@ -452,7 +453,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             IntPtr hOverlayDC = IntPtr.Zero;
 
@@ -501,7 +502,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
@@ -558,7 +559,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                tempOverlay = MilSetCamOverlay[index];
+                tempOverlay = MilSetCamOverlay;
             }
             MIL.MbufControl(tempOverlay, MIL.M_DC_ALLOC, MIL.M_DEFAULT);
             hOverlayDC = (IntPtr)MIL.MbufInquire(tempOverlay, MIL.M_DC_HANDLE, MIL.M_NULL);
@@ -611,23 +612,22 @@ namespace ZenHandler.VisionClass
             }
         }
 
-        public void AllocMilSetCamDisplay(IntPtr myPicHandler, int index)
+        public void AllocMilSetCamDisplay(IntPtr myPicHandler)
         {
-            MIL.MdispAlloc(MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_DEFAULT, ref MilSetCamDisplay[index]);
-            //MIL.MdispAlloc(MilSystem, MIL.M_DEV0 + index, "M_DEFAULT", MIL.M_DEFAULT, ref MilSetCamDisplay[index]);
-            if (MilSetCamDisplay[index] != MIL.M_NULL)
+            MIL.MdispAlloc(MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_DEFAULT, ref MilSetCamDisplay);
+            if (MilSetCamDisplay != MIL.M_NULL)
             {
-                MIL_INT DisplayType = MIL.MdispInquire(MilSetCamDisplay[index], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
+                MIL_INT DisplayType = MIL.MdispInquire(MilSetCamDisplay, MIL.M_DISPLAY_TYPE, MIL.M_NULL);
 
                 if (DisplayType != MIL.M_WINDOWED)
                 {
-                    MIL.MdispFree(MilSetCamDisplay[index]);
-                    MilSetCamDisplay[index] = MIL.M_NULL;
+                    MIL.MdispFree(MilSetCamDisplay);
+                    MilSetCamDisplay = MIL.M_NULL;
 
                     return;
                 }
 
-                MIL.MdispSelectWindow(MilSetCamDisplay[index], MilSetCamSmallImageChild[index], myPicHandler);
+                MIL.MdispSelectWindow(MilSetCamDisplay, MilSetCamSmallImageChild[0], myPicHandler);
             }
         }
         public void AllocMilCamBuffer(int index, int _CamW, int _CamH)
@@ -727,13 +727,13 @@ namespace ZenHandler.VisionClass
             MilCamSmallImage = new MIL_ID[CamFixCount];
             MilCamSmallImageChild = new MIL_ID[CamFixCount];
             //
-            MilSetCamDisplay = new MIL_ID[CamFixCount];
+            MilSetCamDisplay = new MIL_ID();
             MilSetCamSmallImage = new MIL_ID[CamFixCount];
             MilSetCamSmallImageChild = new MIL_ID[CamFixCount];
             MilCamOverlay = new MIL_ID[CamFixCount];
-            MilSetCamOverlay = new MIL_ID[CamFixCount];
+            MilSetCamOverlay = new MIL_ID();
             MilCamTransparent = new MIL_INT[CamFixCount];
-            MilSetCamTransparent = new MIL_INT[CamFixCount];
+            MilSetCamTransparent = new MIL_ID();
             MilCamOverlayImage = new MIL_ID[CamFixCount];
             
 
@@ -746,18 +746,20 @@ namespace ZenHandler.VisionClass
                 MilCamSmallImage[i] = MIL.M_NULL;
                 MilCamSmallImageChild[i] = MIL.M_NULL;
                 //
-                MilSetCamDisplay[i] = MIL.M_NULL;
+                
                 MilSetCamSmallImage[i] = MIL.M_NULL;
                 MilSetCamSmallImageChild[i] = MIL.M_NULL;
                 MilCamOverlay[i] = MIL.M_NULL;
-                MilSetCamOverlay[i] = MIL.M_NULL;
                 MilCamTransparent[i] = MIL.M_NULL;
-                MilSetCamTransparent[i] = MIL.M_NULL;
                 MilCamOverlayImage[i] = MIL.M_NULL;
             }
 
 
-            
+            MilSetCamDisplay = MIL.M_NULL;
+            MilSetCamOverlay = MIL.M_NULL;
+            MilSetCamTransparent = MIL.M_NULL;
+
+
 
         }
 
@@ -779,21 +781,22 @@ namespace ZenHandler.VisionClass
                 MIL.MbufFree(MilCamSmallImage[i]);
                 MIL.MbufFree(MilCamSmallImageChild[i]);
                 //
-                MIL.MdispSelect(MilSetCamDisplay[i], MIL.M_NULL);
+                
                 MIL.MbufFree(MilSetCamSmallImage[i]);
                 MIL.MbufFree(MilSetCamSmallImageChild[i]);
                 MIL.MbufFree(MilCamOverlay[i]);
-                MIL.MbufFree(MilSetCamOverlay[i]);
+                
                 MIL.MbufFree(MilCamOverlayImage[i]);
 
                 MIL.MdigFree(MilDigitizerList[i]);
 
             }
+            MIL.MbufFree(MilSetCamOverlay);
+            MIL.MdispSelect(MilSetCamDisplay, MIL.M_NULL);
 
             MIL.MdispFree(MilCamDisplay[0]);
             MIL.MdispFree(MilCamDisplay[1]);
-            MIL.MdispFree(MilSetCamDisplay[0]);
-            MIL.MdispFree(MilSetCamDisplay[1]);
+            MIL.MdispFree(MilSetCamDisplay);
 
             MIL.MsysFree(MilSystem);
 

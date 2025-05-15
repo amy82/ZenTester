@@ -73,13 +73,13 @@ namespace ZenHandler.VisionClass
             {
                 milLibrary.AllocMilCamDisplay(_cameraDisplayHandles[i], i);
 
-                milLibrary.AllocMilSetCamDisplay(_cameraDisplayHandles[2], i);
+                
                 milLibrary.EnableCamOverlay(i);
-                milLibrary.EnableSetCamOverlay(i);
+                
 
             }
-            
-
+            milLibrary.AllocMilSetCamDisplay(_cameraDisplayHandles[2]);
+            milLibrary.EnableSetCamOverlay();
             //milLibrary.DrawOverlay(0);
             //milLibrary.DrawOverlay(1);
 
