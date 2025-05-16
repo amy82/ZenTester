@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -396,11 +397,10 @@ namespace ZenHandler.VisionClass
 
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
-            //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
             MIL.MimBinarize(MilImage, MilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
 
-            MIL.MbufExport("d:\\MilImage2.BMP", MIL.M_BMP, MilImage);
+            //MIL.MbufExport("d:\\MilImage2.BMP", MIL.M_BMP, MilImage);
             /* Allocate a graphic list to hold the subpixel annotations to draw. */
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
             /* Associate the graphic list to the display for annotations. */
@@ -537,11 +537,29 @@ namespace ZenHandler.VisionClass
         {
 
             Globalo.visionManager.milLibrary.ClearOverlay(0);
-            MilEdgeHeight(0, 0, srcImage);
-            MilEdgeHeight(0, 1, srcImage);
-            MilEdgeHeight(0, 2, srcImage);
+            double[] heightData = new double[3];
+
+            heightData[0] = MilEdgeHeight(0, 0, srcImage);
+            heightData[1] = MilEdgeHeight(0, 1, srcImage);
+            heightData[2] = MilEdgeHeight(0, 2, srcImage);
 
 
+
+            string csvLine = $"{heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
+
+            string filePath = "data.csv";
+            // 파일이 없으면 헤더 추가
+            if (!File.Exists(filePath))
+            {
+                File.AppendAllText(filePath, "LH,MH,RH" + Environment.NewLine);
+            }
+            try
+            {
+                File.AppendAllText(filePath, csvLine + Environment.NewLine);
+            }
+            catch (IOException)
+            {
+            }
             return true;
 
             const int CONTOUR_MAX_RESULTS = 10;
