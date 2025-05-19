@@ -84,11 +84,18 @@ namespace ZenHandler.Dlg
                 DistLineX[i,0] = new System.Drawing.Point(500, 500);
                 DistLineX[i,1] = new System.Drawing.Point(CamW[i] - 500, CamH[i] - 500);
             }
-            
 
-            
 
-            
+            label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.X.ToString();
+            label_Set_TopCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y.ToString();
+
+            label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.X.ToString();
+            label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y.ToString();
+
+
+
+
+
         }
         
         public void ClearCheckbox()
@@ -231,7 +238,13 @@ namespace ZenHandler.Dlg
             CamIndex = 1;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }
-
+        private void drawCenterCross()
+        {
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
+            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+        }
         private void SetTestControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
@@ -239,13 +252,12 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.RunModeChange(false);
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
 
-                Globalo.visionManager.milLibrary.ClearOverlay(0);
-                int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-                int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-                Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                drawCenterCross();
             }
             else
             {
+                checkBox_Measure.Checked = false;
+                m_bDrawMeasureLine = false;
                 isRoiChecked = -1;
                 isRoiNo = -1;
                 ClearCheckbox();
@@ -837,7 +849,7 @@ namespace ZenHandler.Dlg
             }
             else
             {
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                drawCenterCross();
             }
         }
         private void DrawDistnace()
@@ -855,20 +867,26 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 0].Y), Color.Blue, 1);
             Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 1].Y), Color.Blue, 1);
 
-            Globalo.visionManager.CamResol.X = 0.02026f;
-            Globalo.visionManager.CamResol.Y = 0.02026f;//0.0288f;
+            double CamResolX = 0.0;
+            double CamResolY = 0.0;
+            CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
+            CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
 
+            Console.WriteLine($"CamResolX:{CamResolX}");
+            Console.WriteLine($"CamResolY:{CamResolY}");
+            //
             System.Drawing.Point textPoint;
 
-            string str = $"[Distance x: = {Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * Globalo.visionManager.CamResol.X}";
+            string str = $"[Distance x:{Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * CamResolX}";
             textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 250);
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
 
-            str = $"[Distance y: = {Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * Globalo.visionManager.CamResol.Y}";
+            str = $"[Distance y:{Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * CamResolY}";
             textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
 
         }
+
         private Rectangle GetRoiRect(System.Drawing.Point p1, System.Drawing.Point p2)
         {
             return new Rectangle(
@@ -1039,6 +1057,60 @@ namespace ZenHandler.Dlg
                 }
             }
             Data.TaskDataYaml.Save_AoiConfig(Globalo.yamlManager.aoiRoiConfig, "AoiConfig.yaml");
+        }
+
+        private void CamResolutionInput(Label OffsetLabel)
+        {
+            string labelValue = OffsetLabel.Text;
+            decimal decimalValue = 0;
+
+
+            if (decimal.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString("0.000###");
+                NumPadForm popupForm = new NumPadForm(formattedValue, false);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    double dNumData = Double.Parse(popupForm.NumPadResult);
+
+                    OffsetLabel.Text = dNumData.ToString("0.000###");
+
+
+                    if (checkBox_Measure.Checked)
+                    {
+                        DrawDistnace();
+                    }
+                }
+            }
+        }
+
+        private void label_Set_TopCam_ResolX_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void label_Set_TopCam_ResolY_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void label_Set_SideCam_ResolX_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void label_Set_SideCam_ResolY_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
         }
     }
 }

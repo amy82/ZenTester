@@ -31,7 +31,7 @@ namespace ZenHandler.VisionClass
         public int SetCamControlWidth = 0;
         public int SetCamControlHeight = 0;
 
-        public PointF CamResol;
+        //public PointF CamResol;
         //카메라 연결,해제
         //Get Frame
 
@@ -39,8 +39,6 @@ namespace ZenHandler.VisionClass
         {
             Event.EventManager.PgExitCall += OnPgExit;
 
-            CamResol.X = 0.0f;
-            CamResol.Y = 0.0f;
         }
         public void SetPanelSize(int camWidth, int camHeight, int setcamWidth, int setcamHeight)
         {

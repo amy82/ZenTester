@@ -50,6 +50,14 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Key = new System.Windows.Forms.CheckBox();
             this.label_SetTest_Manual_Roi = new System.Windows.Forms.Label();
             this.button_Set_Roi_Save = new System.Windows.Forms.Button();
+            this.label_Set_TopCam_ResolX_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_ResolX = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_ResolY_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_ResolY = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolY_Val = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolX_Val = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolY = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolX = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -331,11 +339,131 @@ namespace ZenHandler.Dlg
             this.button_Set_Roi_Save.UseVisualStyleBackColor = false;
             this.button_Set_Roi_Save.Click += new System.EventHandler(this.button_Set_Roi_Save_Click);
             // 
+            // label_Set_TopCam_ResolX_Val
+            // 
+            this.label_Set_TopCam_ResolX_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_ResolX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_ResolX_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolX_Val.Location = new System.Drawing.Point(1230, 151);
+            this.label_Set_TopCam_ResolX_Val.Name = "label_Set_TopCam_ResolX_Val";
+            this.label_Set_TopCam_ResolX_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_ResolX_Val.TabIndex = 73;
+            this.label_Set_TopCam_ResolX_Val.Text = "0.0";
+            this.label_Set_TopCam_ResolX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_ResolX_Val.Click += new System.EventHandler(this.label_Set_TopCam_ResolX_Val_Click);
+            // 
+            // label_Set_TopCam_ResolX
+            // 
+            this.label_Set_TopCam_ResolX.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_TopCam_ResolX.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolX.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolX.Location = new System.Drawing.Point(1230, 124);
+            this.label_Set_TopCam_ResolX.Name = "label_Set_TopCam_ResolX";
+            this.label_Set_TopCam_ResolX.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_ResolX.TabIndex = 72;
+            this.label_Set_TopCam_ResolX.Text = "Resoltion x";
+            this.label_Set_TopCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_TopCam_ResolY_Val
+            // 
+            this.label_Set_TopCam_ResolY_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_ResolY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_ResolY_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(1230, 208);
+            this.label_Set_TopCam_ResolY_Val.Name = "label_Set_TopCam_ResolY_Val";
+            this.label_Set_TopCam_ResolY_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_ResolY_Val.TabIndex = 75;
+            this.label_Set_TopCam_ResolY_Val.Text = "0.0";
+            this.label_Set_TopCam_ResolY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_ResolY_Val.Click += new System.EventHandler(this.label_Set_TopCam_ResolY_Val_Click);
+            // 
+            // label_Set_TopCam_ResolY
+            // 
+            this.label_Set_TopCam_ResolY.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_TopCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolY.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(1230, 181);
+            this.label_Set_TopCam_ResolY.Name = "label_Set_TopCam_ResolY";
+            this.label_Set_TopCam_ResolY.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_ResolY.TabIndex = 74;
+            this.label_Set_TopCam_ResolY.Text = "Resoltion y";
+            this.label_Set_TopCam_ResolY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_SideCam_ResolY_Val
+            // 
+            this.label_Set_SideCam_ResolY_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_SideCam_ResolY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_SideCam_ResolY_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_SideCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(1230, 487);
+            this.label_Set_SideCam_ResolY_Val.Name = "label_Set_SideCam_ResolY_Val";
+            this.label_Set_SideCam_ResolY_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_SideCam_ResolY_Val.TabIndex = 79;
+            this.label_Set_SideCam_ResolY_Val.Text = "0.0";
+            this.label_Set_SideCam_ResolY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_SideCam_ResolY_Val.Click += new System.EventHandler(this.label_Set_SideCam_ResolY_Val_Click);
+            // 
+            // label_Set_SideCam_ResolX_Val
+            // 
+            this.label_Set_SideCam_ResolX_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_SideCam_ResolX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_SideCam_ResolX_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(1230, 430);
+            this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
+            this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_SideCam_ResolX_Val.TabIndex = 77;
+            this.label_Set_SideCam_ResolX_Val.Text = "0.0";
+            this.label_Set_SideCam_ResolX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_SideCam_ResolX_Val.Click += new System.EventHandler(this.label_Set_SideCam_ResolX_Val_Click);
+            // 
+            // label_Set_SideCam_ResolY
+            // 
+            this.label_Set_SideCam_ResolY.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolY.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(1230, 460);
+            this.label_Set_SideCam_ResolY.Name = "label_Set_SideCam_ResolY";
+            this.label_Set_SideCam_ResolY.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_SideCam_ResolY.TabIndex = 78;
+            this.label_Set_SideCam_ResolY.Text = "Resoltion y";
+            this.label_Set_SideCam_ResolY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_SideCam_ResolX
+            // 
+            this.label_Set_SideCam_ResolX.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_SideCam_ResolX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolX.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(1230, 403);
+            this.label_Set_SideCam_ResolX.Name = "label_Set_SideCam_ResolX";
+            this.label_Set_SideCam_ResolX.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_SideCam_ResolX.TabIndex = 76;
+            this.label_Set_SideCam_ResolX.Text = "Resoltion x";
+            this.label_Set_SideCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_Set_SideCam_ResolY_Val);
+            this.Controls.Add(this.label_Set_SideCam_ResolX_Val);
+            this.Controls.Add(this.label_Set_SideCam_ResolY);
+            this.Controls.Add(this.label_Set_SideCam_ResolX);
+            this.Controls.Add(this.label_Set_TopCam_ResolY_Val);
+            this.Controls.Add(this.label_Set_TopCam_ResolX_Val);
+            this.Controls.Add(this.label_Set_TopCam_ResolY);
+            this.Controls.Add(this.label_Set_TopCam_ResolX);
             this.Controls.Add(this.button_Set_Roi_Save);
             this.Controls.Add(this.label_SetTest_Manual_Roi);
             this.Controls.Add(this.checkBox_Roi_Key);
@@ -387,5 +515,13 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.CheckBox checkBox_Roi_Key;
         public System.Windows.Forms.Label label_SetTest_Manual_Roi;
         private System.Windows.Forms.Button button_Set_Roi_Save;
+        public System.Windows.Forms.Label label_Set_TopCam_ResolX_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_ResolX;
+        public System.Windows.Forms.Label label_Set_TopCam_ResolY_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_ResolY;
+        public System.Windows.Forms.Label label_Set_SideCam_ResolY_Val;
+        public System.Windows.Forms.Label label_Set_SideCam_ResolX_Val;
+        private System.Windows.Forms.Label label_Set_SideCam_ResolY;
+        private System.Windows.Forms.Label label_Set_SideCam_ResolX;
     }
 }

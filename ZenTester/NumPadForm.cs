@@ -22,7 +22,7 @@ namespace ZenHandler
 
         //public double EnteredNumber { get; private set; }
 
-        public NumPadForm(string initValue) //Dlg.TeachingControl teachingControl, 
+        public NumPadForm(string initValue, bool bCelar = true) //Dlg.TeachingControl teachingControl, 
         {
             InitializeComponent();
             this.CenterToScreen();
@@ -48,7 +48,10 @@ namespace ZenHandler
                     btn.TabStop = false;        //넘패드에 있는 버튼의 포커스 안받게 , 엔터키 누르면 눌려지는 문제
                 }
             }
-            m_sVal = "";
+            if (bCelar == true)
+            {
+                m_sVal = "";        //처음 입력된 값 모두 지워지는 타입
+            }
             m_sCalcVal = "";
     }
         private void Num_Button_Click(object sender, EventArgs e)

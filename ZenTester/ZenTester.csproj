@@ -190,7 +190,6 @@
     <Compile Include="Data\WorkData.cs" />
     <Compile Include="Data\YamlAlarmData.cs" />
     <Compile Include="Data\YamlConfigData.cs" />
-    <Compile Include="Data\YamlImageData.cs" />
     <Compile Include="Data\YamlManager.cs" />
     <Compile Include="Data\YamlRecipe.cs" />
     <Compile Include="Data\YamlSecGemData.cs" />

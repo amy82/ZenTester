@@ -500,9 +500,15 @@ namespace ZenHandler.VisionClass
                 Console.WriteLine($"Min Index: {minIndex}, Min Value: {minValue}, Min Y: {minValue}");
                 Console.WriteLine($"Max Index: {maxIndex}, Max Value: {maxValue}, Max Y: {maxValue}");
 
-                Globalo.visionManager.CamResol.X = 0.0186f;//0.0196f;
-                Globalo.visionManager.CamResol.Y = 0.0186f;//0.0288f;   //0.0196f;
-                Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * Globalo.visionManager.CamResol.Y}");
+                double CamResolX = 0.0;
+                double CamResolY = 0.0;
+                CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.0186f;
+                CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.0186f;
+
+                Console.WriteLine($"CamResolX:{CamResolX}");
+                Console.WriteLine($"CamResolY:{CamResolY}");
+
+                Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * CamResolY}");
                 //int OffsetX = 800;
                 //int OffsetY = 700; 
                 
@@ -520,7 +526,7 @@ namespace ZenHandler.VisionClass
                     txtOffsetX = 530;
                 }
                 System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY);
-                dHeight = (maxValue - minValue) * Globalo.visionManager.CamResol.Y;
+                dHeight = (maxValue - minValue) * CamResolY;
                 string str = $"{dHeight.ToString("0.0##")}(mm)";
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Blue, 15);
 
@@ -703,9 +709,15 @@ namespace ZenHandler.VisionClass
                 Console.WriteLine($"Min Index: {minIndex}, Min Value: {minValue}, Min Y: {minValue}");
                 Console.WriteLine($"Max Index: {maxIndex}, Max Value: {maxValue}, Max Y: {maxValue}");
 
-                Globalo.visionManager.CamResol.X = 0.02026f;
-                Globalo.visionManager.CamResol.Y = 0.02026f;//0.0288f;
-                Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * Globalo.visionManager.CamResol.Y}");
+                double CamResolX = 0.0;
+                double CamResolY = 0.0;
+                CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f; 
+                CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
+
+                Console.WriteLine($"CamResolX:{CamResolX}");
+                Console.WriteLine($"CamResolY:{CamResolY}");
+
+                Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * CamResolY}");
                 //int OffsetX = 800;
                 //int OffsetY = 700; 
                 Globalo.visionManager.milLibrary.ClearOverlay(0);
@@ -718,7 +730,7 @@ namespace ZenHandler.VisionClass
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue))/2);
 
                 System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX, textCenterY);
-                double dis = (maxValue - minValue) * Globalo.visionManager.CamResol.Y;
+                double dis = (maxValue - minValue) * CamResolY;
                 string str = $"{dis.ToString("0.0##")} [mm]";
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Yellow, 15);
 
