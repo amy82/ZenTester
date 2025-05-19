@@ -343,11 +343,7 @@ namespace ZenHandler.VisionClass
         {
 
         }
-        private bool SaveMark()
-        {
-
-            return false;
-        }
+        
         private bool SaveData()
         {
             return false;
@@ -365,8 +361,8 @@ namespace ZenHandler.VisionClass
 
             MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);  //210707		<---여기서 작은 화면에 마스크 그린다
             MIL.MmodPreprocess(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT);
-            
-            //g_clModelFinder.SaveMark(g_clSysData.m_szModelName, m_nUnit, m_nMarkNo);
+
+            Globalo.visionManager.markUtil.SaveMark("", 0);
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
 

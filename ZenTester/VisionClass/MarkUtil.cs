@@ -88,7 +88,7 @@ namespace ZenHandler.VisionClass
 
             string szPath = "";
             //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.bmp"), BASE_MODEL_PATH, g_clSysData.m_szModelName, nMarkNo + 1);
-
+            szPath = "d:\\MARK.bmp";
             MIL.MbufClear(m_MilMarkOverlay, m_lTransparentColor);
             MIL.MbufClear(m_MilMarkImage[0], 192);
 
@@ -247,7 +247,23 @@ namespace ZenHandler.VisionClass
         {
             
         }
+        public bool SaveMark(string markName, int nNo)
+        {
+            string szPath = "";
+            //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s"), BASE_MODEL_PATH, (TCHAR*)(LPCTSTR)sModelName);
 
+            //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.mod"), BASE_MODEL_PATH, (TCHAR*)(LPCTSTR)sModelName, nNo + 1);
+            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
+            //m_bMarkState[nUnit][nNo] = true;
+
+            MIL.MmodSave(szPath, m_MilModModel, MIL.M_DEFAULT);
+
+
+            // BMP 
+            //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.bmp"), BASE_MODEL_PATH, (TCHAR*)(LPCTSTR)sModelName, nNo + 1);
+            MIL.MbufExport(szPath, MIL.M_BMP, m_MilMarkImage[1]);
+            return false;
+        }
         public void MarkEnableOverlay()
         {
             if (m_MilMarkDisplay[0] != MIL.M_NULL)
