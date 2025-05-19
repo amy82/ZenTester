@@ -16,11 +16,11 @@ namespace ZenHandler.VisionClass
         {
 
         }
-        public bool MilEdgeOringTest(int index, int roiIndex, Mat srcImage)
+        public bool MilEdgeOringTest(int index, int roiIndex)//, Mat srcImage)
         {
             bool bRtn = true;
 
-            const int CONTOUR_MAX_RESULTS = 1;
+            const int CONTOUR_MAX_RESULTS = 10;
             MIL_ID MilDisplay = MIL.M_NULL;
             MIL_ID tempMilImage = MIL.M_NULL;
             MIL_ID MilImage = MIL.M_NULL;
@@ -28,8 +28,10 @@ namespace ZenHandler.VisionClass
             MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
             MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
 
+            double[] EdgeSize = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeCircleFitCx = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeCircleFitErr = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleRadius = new double[CONTOUR_MAX_RESULTS];
 
             int OffsetX = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[roiIndex].X;
             int OffsetY = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[roiIndex].Y;
@@ -40,7 +42,7 @@ namespace ZenHandler.VisionClass
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
 
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
             //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
             MIL.MimBinarize(MilImage, MilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
@@ -60,12 +62,16 @@ namespace ZenHandler.VisionClass
             MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
 
             // Enable features to compute.
+            MIL.MedgeControl(MilEdgeContext, MIL.M_SIZE, MIL.M_ENABLE);
             MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_CENTER_X, MIL.M_ENABLE);
             MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_ERROR, MIL.M_ENABLE);
 
 
             // Calculate edges and features.
             MIL.MedgeCalculate(MilEdgeContext, MilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
+
+
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
 
             MIL_INT NumEdgeFound = 0;                                       // Number of edges found.
             // Get the number of edges found.
@@ -95,6 +101,8 @@ namespace ZenHandler.VisionClass
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            
+
 
             MIL_INT NumResults = 0;                                         // Number of results found.
             // Get the number of edges found.
@@ -104,7 +112,9 @@ namespace ZenHandler.VisionClass
             int maxIndex = 0;
             double CircleCx = 0.0;
             double CircleErr = 0.0;
+            double circleSpec = 350.0;
 
+            Color OringColor;
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
             if (NumResults <= CONTOUR_MAX_RESULTS)
@@ -114,17 +124,24 @@ namespace ZenHandler.VisionClass
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 // Get the mean Feret diameters.
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_SIZE, EdgeSize);
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_X, EdgeCircleFitCx);
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_ERROR, EdgeCircleFitErr);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_RADIUS, EdgeCircleRadius);
+
+                Console.WriteLine($"M_SIZE : {EdgeSize[0]}");
+                Console.WriteLine($"M_CIRCLE_FIT_CENTER_X : {EdgeCircleFitCx[0]}");
+                Console.WriteLine($"M_CIRCLE_FIT_ERROR : {EdgeCircleFitErr[0]}");
+                Console.WriteLine($"M_CIRCLE_FIT_RADIUS : {EdgeCircleRadius[0]}");
 
                 // Print the results.
                 Console.Write("Mean diameter of the {0} outer edges are:\n\n", NumResults);
-                Console.Write("Index   Mean diameter \n");
+                //Console.Write("Index   Mean diameter \n");
 
                 CircleCx = EdgeCircleFitCx[0];
                 CircleErr = EdgeCircleFitErr[0];
 
-                if (CircleCx < 50.0 || CircleErr < 500.0)
+                if (CircleErr < circleSpec)//CircleCx < circleSpec || 
                 {
                     //오링 없음
                     bRtn = false;
@@ -159,20 +176,43 @@ namespace ZenHandler.VisionClass
                 //Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Blue, 15);
 
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Green, 2);
+
+                System.Drawing.Point textPoint;
+
+                string str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+
+                textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
                 
+                if (bRtn)
+                {
+                    str = $"O-RING Detected!";
+                    OringColor = Color.Green;
+                }
+                else
+                {
+                    str = $"O-RING Not Detected!";
+                    OringColor = Color.Red;
+                }
+
+
+                int leng = str.Length; 
+                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/(leng-11)), 250);
+
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, OringColor, 50);
             }
             else
             {
                 Console.Write("Edges have not been found or the number of found edges is greater than\n");
                 Console.Write("the specified maximum number of edges !\n\n");
 
-                
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
+                OringColor = Color.Red;
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, OringColor, 2);
                 bRtn = false;
             }
             return bRtn;
         }
-        public bool MilEdgeConeTest(int index, int roiIndex, Mat srcImage)
+        public bool MilEdgeConeTest(int index, int roiIndex)
         {
 
             bool bRtn = true;
@@ -201,20 +241,22 @@ namespace ZenHandler.VisionClass
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[roiIndex].Width;
             int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[roiIndex].Height;
 
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
 
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
             //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
 
             MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
 
-            MIL.MimBinarize(MilImage, MilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
 
-            MIL.MbufExport("d:\\cone.BMP", MIL.M_BMP, MilImage);
+            MIL.MbufExport("d:\\cone.BMP", MIL.M_BMP, tempMilImage);
 
-            MIL.MdispSelect(MilDisplay, MilImage);
+
+            MilImage = tempMilImage;
+            //MIL.MdispSelect(MilDisplay, MilImage);
 
             /* Allocate a graphic list to hold the subpixel annotations to draw. */
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
@@ -262,7 +304,7 @@ namespace ZenHandler.VisionClass
             // Exclude inner chains.
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 500.0, MIL.M_NULL);
 
             // Draw edges in the source image to show the result.
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
@@ -289,6 +331,8 @@ namespace ZenHandler.VisionClass
 
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
+            double circleSpec = 900.0;
+            Color ConeColor;
             if (NumResults <= CONTOUR_MAX_RESULTS)
             {
                 // Draw the index of each edge.
@@ -298,6 +342,7 @@ namespace ZenHandler.VisionClass
                 // Get the mean Feret diameters.
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_X, EdgeCircleFitCx);
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_ERROR, EdgeCircleFitErr);
+                
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CONVEX_PERIMETER, EdgeConvex);
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_FAST_LENGTH, EdgeFastLength);
                 MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_LENGTH, EdgeLength);
@@ -322,7 +367,7 @@ namespace ZenHandler.VisionClass
                 CircleCx = EdgeCircleFitCx[0];
                 CircleErr = EdgeCircleFitErr[0];
 
-                if (CircleCx < 50.0 || CircleErr < 500.0)
+                if (CircleErr < circleSpec)      //CircleCx < circleSpec || 
                 {
                     //오링 없음
                     bRtn = false;
@@ -357,6 +402,39 @@ namespace ZenHandler.VisionClass
 
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Green, 2);
 
+
+
+                //System.Drawing.Point textPoint;
+
+                //string str = $"CircleCx :{CircleCx.ToString("0.000")} / {circleSpec}";
+
+                //textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+
+
+                System.Drawing.Point textPoint;
+
+                string str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+
+                textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
+
+                if (bRtn)
+                {
+                    str = $"CONE Detected!";
+                    ConeColor = Color.Green;
+                }
+                else
+                {
+                    str = $"CONE Not Detected!";
+                    ConeColor = Color.Red;
+                }
+
+
+                int leng = str.Length;
+                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
+
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
             }
             else
             {
@@ -370,7 +448,7 @@ namespace ZenHandler.VisionClass
             return bRtn;
         }
 
-        public double MilEdgeHeight(int index, int roiIndex, Mat srcImage)
+        public double MilEdgeHeight(int index, int roiIndex)
         {
             double dHeight = 0.0;
 
@@ -395,7 +473,6 @@ namespace ZenHandler.VisionClass
 
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
 
-            //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
 
 
@@ -544,15 +621,15 @@ namespace ZenHandler.VisionClass
 
             return dHeight;
         }
-        public bool HeightTest(int index, Mat srcImage)
+        public bool HeightTest(int index)
         {
 
             Globalo.visionManager.milLibrary.ClearOverlay(0);
             double[] heightData = new double[3];
 
-            heightData[0] = MilEdgeHeight(0, 0, srcImage);
-            heightData[1] = MilEdgeHeight(0, 1, srcImage);
-            heightData[2] = MilEdgeHeight(0, 2, srcImage);
+            heightData[0] = MilEdgeHeight(0, 0);
+            heightData[1] = MilEdgeHeight(0, 1);
+            heightData[2] = MilEdgeHeight(0, 2);
 
 
 

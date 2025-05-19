@@ -85,19 +85,17 @@ namespace ZenHandler.Dlg
                 DistLineX[i,1] = new System.Drawing.Point(CamW[i] - 500, CamH[i] - 500);
             }
 
-
+            showCamResol();
+            
+        }
+        private void showCamResol()
+        {
             label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.X.ToString();
             label_Set_TopCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y.ToString();
 
             label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.X.ToString();
             label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y.ToString();
-
-
-
-
-
         }
-        
         public void ClearCheckbox()
         {
             checkBox_Roi_Key.Checked = false;
@@ -253,6 +251,7 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
 
                 drawCenterCross();
+                showCamResol();
             }
             else
             {
@@ -342,13 +341,17 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, 0, src);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, 0);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
@@ -360,13 +363,16 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, 0, src);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, 0);//, src);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)
@@ -377,18 +383,20 @@ namespace ZenHandler.Dlg
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
-            byte[] ImageBuffer = new byte[dataSize];
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+            //byte[] ImageBuffer = new byte[dataSize];
+
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
             //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
             //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
 
-            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
-
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            //
+            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex);
+            //
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
         #endregion
