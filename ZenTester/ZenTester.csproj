@@ -450,6 +450,13 @@
     <Compile Include="VisionClass\AoiSideTester.cs" />
     <Compile Include="VisionClass\AoiTester.cs" />
     <Compile Include="VisionClass\AoiTopTester.cs" />
+    <Compile Include="VisionClass\MarkUtil.cs" />
+    <Compile Include="VisionClass\MarkViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisionClass\MarkViewerForm.Designer.cs">
+      <DependentUpon>MarkViewerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VisionClass\MilLibraryUtil.cs" />
     <Compile Include="VisionClass\OpencvAoiTest.cs" />
     <Compile Include="VisionClass\OverlayDrawUtil.cs" />
@@ -558,6 +565,9 @@
     <EmbeddedResource Include="Resource\Strings.ko.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.ko.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisionClass\MarkViewerForm.resx">
+      <DependentUpon>MarkViewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

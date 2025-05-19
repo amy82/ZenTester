@@ -23,6 +23,9 @@ namespace ZenHandler.VisionClass
         public OpencvAoiTest opencvTester;
         public AoiTopTester aoiTopTester;
         public AoiSideTester aoiSideTester;
+        public MarkUtil markUtil;
+
+
         public Action<Bitmap> OnCamera1Frame;
         public Action<Bitmap> OnCamera2Frame;
 
@@ -51,10 +54,12 @@ namespace ZenHandler.VisionClass
         {
             int i = 0;
             milLibrary = new MilLibraryUtil();
+
             aoiTester = new AoiTester();
             opencvTester = new OpencvAoiTest();
             aoiTopTester = new AoiTopTester();
             aoiSideTester = new AoiSideTester();
+            markUtil = new MarkUtil();
 
             milLibrary.AllocMilApplication();
 

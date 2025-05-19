@@ -829,9 +829,8 @@ namespace ZenHandler.Dlg
             {
                 isDragging = false;
                 
-                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
-
                 roiEnd = e.Location;
+                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
 
                 int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
                 int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
@@ -1140,6 +1139,35 @@ namespace ZenHandler.Dlg
             {
                 DrawDistnace();
             }
+        }
+
+        private void label_SetTest_Manual_Mark_Regist_Click(object sender, EventArgs e)
+        {
+
+            //double dSizeX, double dSizeY, double dCenterX, double dCenterY
+            Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
+
+            double dSizeX = DrawRoiBox.Width;
+            double dSizeY = DrawRoiBox.Height;
+            double dCenterX = DrawRoiBox.X + (DrawRoiBox.Width / 2);
+            double dCenterY = DrawRoiBox.Y + (DrawRoiBox.Height / 2);
+
+            Console.WriteLine($"Mark Roi = Center X:{dCenterX},Center Y:{dCenterY},w:{dSizeX},h:{dSizeY}");
+
+            if (dSizeX > 1024 || dSizeY > 1024)
+            {
+                return;
+            }
+            if (dSizeX < 10 || dSizeY < 10)
+            {
+                return;
+            }
+            Globalo.visionManager.markUtil.RegisterMark(CamIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
+        }
+
+        private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.markUtil.ViewMarkMask();
         }
     }
 }
