@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Matrox.MatroxImagingLibrary;
 using OpenCvSharp;
 
@@ -12,6 +13,7 @@ namespace ZenHandler.VisionClass
 {
     public class AoiSideTester
     {
+        private Stopwatch TeststopWatch = new Stopwatch();
         public AoiSideTester()
         {
 
@@ -623,7 +625,7 @@ namespace ZenHandler.VisionClass
         }
         public bool HeightTest(int index)
         {
-
+            int startTime = Environment.TickCount;
             Globalo.visionManager.milLibrary.ClearOverlay(0);
             double[] heightData = new double[3];
 
@@ -632,7 +634,7 @@ namespace ZenHandler.VisionClass
             heightData[2] = MilEdgeHeight(0, 2);
 
 
-
+            string str = "";
             string csvLine = $"{heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
 
             string filePath = "data.csv";
@@ -648,6 +650,24 @@ namespace ZenHandler.VisionClass
             catch (IOException)
             {
             }
+
+
+            int elapsedMs = Environment.TickCount - startTime;
+            // 시간 출력
+            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
+
+
+            str = $"Test Time: {elapsedMs} ms";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
             return true;
 
             const int CONTOUR_MAX_RESULTS = 10;
@@ -745,6 +765,7 @@ namespace ZenHandler.VisionClass
             // Get the number of edges found.
             MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
 
+            
             int minIndex = 0;
             int maxIndex = 0;
             double minValue = 0.0;
@@ -813,7 +834,7 @@ namespace ZenHandler.VisionClass
 
                 System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX, textCenterY);
                 double dis = (maxValue - minValue) * CamResolY;
-                string str = $"{dis.ToString("0.0##")} [mm]";
+                str = $"{dis.ToString("0.0##")} [mm]";
                 Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Yellow, 15);
 
             }
@@ -822,6 +843,7 @@ namespace ZenHandler.VisionClass
                 Console.Write("Edges have not been found or the number of found edges is greater than\n");
                 Console.Write("the specified maximum number of edges !\n\n");
             }
+
 
             return false;
         }

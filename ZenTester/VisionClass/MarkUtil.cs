@@ -105,7 +105,7 @@ namespace ZenHandler.VisionClass
                 MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
                 MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
 
-                //m_clPtMarkCenterPos.X = (int)dCenterX;
+                //m_clPtMarkCenterPos.X = (int)dCenterX;        //필요없는듯
                 //m_clPtMarkCenterPos.Y = (int)dCenterY;
 
                 dZoomX = smallDispSize.X / dZoomMarkWidth;
