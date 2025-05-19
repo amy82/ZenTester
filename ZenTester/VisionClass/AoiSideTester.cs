@@ -396,12 +396,12 @@ namespace ZenHandler.VisionClass
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
 
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
 
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 128, MIL.M_NULL);
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
 
             MilImage = tempMilImage;
 
@@ -410,7 +410,6 @@ namespace ZenHandler.VisionClass
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
             /* Associate the graphic list to the display for annotations. */
             MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
-            MIL.MdispControl(MilDisplay, MIL.M_DISPLAY_OVERLAY, MIL.M_DISABLE); // Overlay 비활성화
             // Allocate a Edge Finder context.
             MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
 

@@ -378,8 +378,9 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
             byte[] ImageBuffer = new byte[dataSize];
-
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
@@ -387,6 +388,8 @@ namespace ZenHandler.Dlg
             //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
 
             Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
         #endregion
 
