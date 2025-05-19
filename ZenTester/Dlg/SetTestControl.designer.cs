@@ -58,6 +58,8 @@ namespace ZenHandler.Dlg
             this.label_Set_SideCam_ResolX_Val = new System.Windows.Forms.Label();
             this.label_Set_SideCam_ResolY = new System.Windows.Forms.Label();
             this.label_Set_SideCam_ResolX = new System.Windows.Forms.Label();
+            this.button_Set_Top_Resol_Save = new System.Windows.Forms.Button();
+            this.button_Set_Side_Resol_Save = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -333,7 +335,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Roi_Save.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Roi_Save.Location = new System.Drawing.Point(1230, 632);
             this.button_Set_Roi_Save.Name = "button_Set_Roi_Save";
-            this.button_Set_Roi_Save.Size = new System.Drawing.Size(121, 63);
+            this.button_Set_Roi_Save.Size = new System.Drawing.Size(121, 43);
             this.button_Set_Roi_Save.TabIndex = 71;
             this.button_Set_Roi_Save.Text = "ROI SAVE";
             this.button_Set_Roi_Save.UseVisualStyleBackColor = false;
@@ -451,11 +453,39 @@ namespace ZenHandler.Dlg
             this.label_Set_SideCam_ResolX.Text = "Resoltion x";
             this.label_Set_SideCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // button_Set_Top_Resol_Save
+            // 
+            this.button_Set_Top_Resol_Save.BackColor = System.Drawing.Color.YellowGreen;
+            this.button_Set_Top_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Top_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(1230, 236);
+            this.button_Set_Top_Resol_Save.Name = "button_Set_Top_Resol_Save";
+            this.button_Set_Top_Resol_Save.Size = new System.Drawing.Size(121, 43);
+            this.button_Set_Top_Resol_Save.TabIndex = 80;
+            this.button_Set_Top_Resol_Save.Text = "RESOL SAVE";
+            this.button_Set_Top_Resol_Save.UseVisualStyleBackColor = false;
+            this.button_Set_Top_Resol_Save.Click += new System.EventHandler(this.button_Set_Top_Resol_Save_Click);
+            // 
+            // button_Set_Side_Resol_Save
+            // 
+            this.button_Set_Side_Resol_Save.BackColor = System.Drawing.Color.YellowGreen;
+            this.button_Set_Side_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(1230, 515);
+            this.button_Set_Side_Resol_Save.Name = "button_Set_Side_Resol_Save";
+            this.button_Set_Side_Resol_Save.Size = new System.Drawing.Size(121, 43);
+            this.button_Set_Side_Resol_Save.TabIndex = 81;
+            this.button_Set_Side_Resol_Save.Text = "RESOL SAVE";
+            this.button_Set_Side_Resol_Save.UseVisualStyleBackColor = false;
+            this.button_Set_Side_Resol_Save.Click += new System.EventHandler(this.button_Set_Side_Resol_Save_Click);
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Set_Side_Resol_Save);
+            this.Controls.Add(this.button_Set_Top_Resol_Save);
             this.Controls.Add(this.label_Set_SideCam_ResolY_Val);
             this.Controls.Add(this.label_Set_SideCam_ResolX_Val);
             this.Controls.Add(this.label_Set_SideCam_ResolY);
@@ -523,5 +553,7 @@ namespace ZenHandler.Dlg
         public System.Windows.Forms.Label label_Set_SideCam_ResolX_Val;
         private System.Windows.Forms.Label label_Set_SideCam_ResolY;
         private System.Windows.Forms.Label label_Set_SideCam_ResolX;
+        private System.Windows.Forms.Button button_Set_Top_Resol_Save;
+        private System.Windows.Forms.Button button_Set_Side_Resol_Save;
     }
 }

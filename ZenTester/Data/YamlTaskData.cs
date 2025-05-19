@@ -85,12 +85,12 @@ namespace ZenHandler.Data
         //
         //
         //--------------------------------------------------------------------------------------------------------------
-        public static bool Save_AoiConfig(Data.AoiRoiConfig data, string fileName)
+        public static bool Save_AoiConfig(string fileName)
         {
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //LOT DATA
             try
             {
-                Data.YamlManager.SaveYaml(filePath, data);
+                Data.YamlManager.SaveYaml(filePath, Globalo.yamlManager.aoiRoiConfig);// data);
                 return true;
             }
             catch (Exception ex)

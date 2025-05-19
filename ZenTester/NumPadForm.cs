@@ -51,8 +51,9 @@ namespace ZenHandler
             if (bCelar == true)
             {
                 m_sVal = "";        //처음 입력된 값 모두 지워지는 타입
+                m_sCalcVal = "";
             }
-            m_sCalcVal = "";
+            
     }
         private void Num_Button_Click(object sender, EventArgs e)
         {
@@ -92,28 +93,7 @@ namespace ZenHandler
                 this.ActiveControl = null;
             }
         }
-        private void InsertText(string text)
-        {
-            if (m_bInit == true)
-            {
-                m_sVal = "";
-                m_bInit = false;
-            }
-            if (m_sVal.Length > 0)
-            {
-                int rtn = m_sVal.IndexOf("0", 0, 1);
-                if (rtn > -1)
-                {
-                    rtn = m_sVal.IndexOf('.');
-                    if (rtn < 0)
-                    {
-                        return;
-                    }
-                }
-            }
-            m_sVal += text;
-            NumberTextBox.Text = m_sVal;
-        }
+        
         private void NumPadForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             
@@ -263,7 +243,42 @@ namespace ZenHandler
             if (!string.IsNullOrEmpty(NumberTextBox.Text))
             {
                 NumberTextBox.Text = NumberTextBox.Text.Substring(0, NumberTextBox.Text.Length - 1);
+                m_sVal = NumberTextBox.Text;
             }
+        }
+        private void InsertText(string text)
+        {
+            if (m_bInit == true)
+            {
+                m_sVal = "";
+                m_bInit = false;
+            }
+            if (m_sVal.Length > 0)
+            {
+                int rtn = m_sVal.IndexOf("0", 0, 1);
+
+                if (rtn > -1)
+                {
+                    rtn = m_sVal.IndexOf('.');
+                    if (text == ".")
+                    {
+                        if (rtn > -1)
+                        {
+                            return;
+                        }
+                        if (m_sVal.Length < 1)
+                        {
+                            return;
+                        }
+                    }
+                    //if (rtn < 0)
+                    //{
+                    //    return;
+                    //}
+                }
+            }
+            m_sVal += text;
+            NumberTextBox.Text = m_sVal;
         }
         private void NumPadForm_KeyDown(object sender, KeyEventArgs e)
         {

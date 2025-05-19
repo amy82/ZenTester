@@ -393,18 +393,24 @@ namespace ZenHandler.VisionClass
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].Width;
             int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].Height;
 
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
 
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
 
-            MIL.MimBinarize(MilImage, MilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
 
-            //MIL.MbufExport("d:\\MilImage2.BMP", MIL.M_BMP, MilImage);
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
+            // 1. 고정 임계값 128 이상만 흰색
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 128, MIL.M_NULL);
+
+            MilImage = tempMilImage;
+
+            MIL.MbufExport($"d:\\MimBinarize{roiIndex}.BMP", MIL.M_BMP, MilImage);
             /* Allocate a graphic list to hold the subpixel annotations to draw. */
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
             /* Associate the graphic list to the display for annotations. */
             MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            MIL.MdispControl(MilDisplay, MIL.M_DISPLAY_OVERLAY, MIL.M_DISABLE); // Overlay 비활성화
             // Allocate a Edge Finder context.
             MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
 

@@ -1056,7 +1056,7 @@ namespace ZenHandler.Dlg
                     Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i] = tempRoi[i].Clone();
                 }
             }
-            Data.TaskDataYaml.Save_AoiConfig(Globalo.yamlManager.aoiRoiConfig, "AoiConfig.yaml");
+            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
         }
 
         private void CamResolutionInput(Label OffsetLabel)
@@ -1079,12 +1079,6 @@ namespace ZenHandler.Dlg
                     double dNumData = Double.Parse(popupForm.NumPadResult);
 
                     OffsetLabel.Text = dNumData.ToString("0.000###");
-
-
-                    if (checkBox_Measure.Checked)
-                    {
-                        DrawDistnace();
-                    }
                 }
             }
         }
@@ -1111,6 +1105,30 @@ namespace ZenHandler.Dlg
         {
             Label clickedLabel = sender as Label;
             CamResolutionInput(clickedLabel);
+        }
+
+        private void button_Set_Top_Resol_Save_Click(object sender, EventArgs e)
+        {
+            Globalo.yamlManager.aoiRoiConfig.TopResolution.X = double.Parse(label_Set_TopCam_ResolX_Val.Text);
+            Globalo.yamlManager.aoiRoiConfig.TopResolution.Y = double.Parse(label_Set_TopCam_ResolY_Val.Text);
+            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+
+            if (checkBox_Measure.Checked)
+            {
+                DrawDistnace();
+            }
+        }
+
+        private void button_Set_Side_Resol_Save_Click(object sender, EventArgs e)
+        {
+            Globalo.yamlManager.aoiRoiConfig.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
+            Globalo.yamlManager.aoiRoiConfig.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
+
+            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+            if (checkBox_Measure.Checked)
+            {
+                DrawDistnace();
+            }
         }
     }
 }
