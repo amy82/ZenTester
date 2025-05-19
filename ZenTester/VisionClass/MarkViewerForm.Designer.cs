@@ -34,6 +34,7 @@ namespace ZenHandler.VisionClass
             // 
             // panel_MarkZoomImage
             // 
+            this.panel_MarkZoomImage.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.panel_MarkZoomImage.Location = new System.Drawing.Point(12, 12);
             this.panel_MarkZoomImage.Name = "panel_MarkZoomImage";
             this.panel_MarkZoomImage.Size = new System.Drawing.Size(574, 426);

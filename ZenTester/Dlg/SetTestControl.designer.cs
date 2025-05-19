@@ -612,8 +612,8 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Button button_Set_Top_Resol_Save;
         private System.Windows.Forms.Button button_Set_Side_Resol_Save;
         public System.Windows.Forms.Label label_SetTest_Manual_Mark_Image;
-        private System.Windows.Forms.Panel panel_Mark;
         private System.Windows.Forms.Button label_SetTest_Manual_Mark_Regist;
         private System.Windows.Forms.Button label_SetTest_Manual_Mark_View;
+        public System.Windows.Forms.Panel panel_Mark;
     }
 }
