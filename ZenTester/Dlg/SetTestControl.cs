@@ -321,8 +321,44 @@ namespace ZenHandler.Dlg
 
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
 
-            //
-            centerPos = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            List<OpenCvSharp.Point> FakraCenter;
+            List<OpenCvSharp.Point> HousingCenter;
+            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
+
+            double CamResolX = 0.0;
+            double CamResolY = 0.0;
+            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.0186f;
+            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.0186f;
+
+
+            OpenCvSharp.Point c1 = FakraCenter[1];
+            OpenCvSharp.Point c2 = HousingCenter[0];
+            OpenCvSharp.Point c3 = HousingCenter[1];
+
+            float dx = c1.X - c2.X;
+            float dy = c1.Y - c2.Y;
+            float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+            System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
+            string str = $"Con1:{(dist * CamResolX).ToString("0.00#")}";
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+            Console.WriteLine($"Con1:{dist* CamResolX}");
+
+            dx = c1.X - c3.X;
+            dy = c1.Y - c3.Y;
+            dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+            Console.WriteLine($"Con2:{dist* CamResolX}");
+
+
+            
+
+            ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 590);
+            str = $"Con2:{(dist * CamResolX).ToString("0.00#")}";
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+
         }
 
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
