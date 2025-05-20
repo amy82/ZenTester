@@ -184,12 +184,12 @@ namespace ZenHandler.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
-        public bool MilEdgeKeytest(int index, int roiIndex)
+        public bool MilEdgeKeytest(int index, int roiIndex, string keyType)
         {
             int startTime = Environment.TickCount;
             bool bRtn = true;
 
-            const int CONTOUR_MAX_RESULTS = 100;
+            const int CONTOUR_MAX_RESULTS = 300;
             MIL_ID MilDisplay = MIL.M_NULL;
             MIL_ID tempMilImage = MIL.M_NULL;
             MIL_ID MilImage = MIL.M_NULL;
@@ -226,8 +226,67 @@ namespace ZenHandler.VisionClass
             //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
 
-            MIL.MgraColor(MIL.M_DEFAULT, 0);
-            MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth-1, OffsetHeight-1, OffsetWidth/1.6, OffsetWidth / 1.5, 90, 180);
+            MIL.MgraColor(MIL.M_DEFAULT, 50);
+            if (keyType == "A")
+            {
+                if (roiIndex == 0)
+                {
+                    //A타입의 왼쪽 아래
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                }
+                else
+                {
+                    //A타입의 우측 아래
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                }
+            }
+            if (keyType == "B")
+            {
+                if (roiIndex == 0)
+                {
+                    //좌측 아래
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                }
+                else
+                {
+                    //우측 아래
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                }
+            }
+            if (keyType == "C")
+            {
+                if (roiIndex == 0)
+                {
+                    //좌측 위
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, OffsetHeight - 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 90, 180); //C의 왼쪽 위(1/2)
+                }
+                else
+                {
+                    //우측 아래
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                }
+            }
+            if (keyType == "D")
+            {
+                if (roiIndex == 0) 
+                {
+                    //우측 위
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, OffsetHeight - 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 0, 90);
+                }
+                else
+                {
+                    //우측아래
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                }
+            }
+
+            if (keyType == "E")
+            {
+                //Key 1개
+                MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);//E타입의 왼쪽 아래 (1개)
+            }
+            
+            
             MIL.MbufExport($"d:\\OrgKey{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL); 
@@ -286,8 +345,8 @@ namespace ZenHandler.VisionClass
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
-            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 20.0, MIL.M_NULL);
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_GREATER, 25.0, MIL.M_NULL);
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 5.0, MIL.M_NULL);
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_GREATER, 30.0, MIL.M_NULL);
 
             // Draw edges in the source image to show the result.
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
@@ -314,8 +373,9 @@ namespace ZenHandler.VisionClass
             string str = "";
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
-            double circleSpec = 900.0;
+            int KeyEdgeSpec = 30;
             Color ConeColor;
+            System.Drawing.Point textPoint;
             Console.Write($"Key Edge Count:{NumResults}\n");
             if (NumResults <= CONTOUR_MAX_RESULTS)
             {
@@ -350,41 +410,26 @@ namespace ZenHandler.VisionClass
 
                 CircleCx = EdgeCircleFitCx[0];
                 CircleErr = EdgeCircleFitErr[0];
-
-                if (CircleErr < circleSpec)      //CircleCx < circleSpec || 
+                str = $"Key{roiIndex + 1}";
+                textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
+                if (NumResults < KeyEdgeSpec)
                 {
                     //오링 없음
                     bRtn = false;
-                }
+                    Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
+                    
+
+                    
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+                } 
                 else
                 {
                     bRtn = true;
+                    Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Yellow, 2);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
                 }
-
-
-                //Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * Globalo.visionManager.CamResol.Y}");
-                //int OffsetX = 800;
-                //int OffsetY = 700; 
-
-                //Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
-                //Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
-
-                //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, OffsetX + (OffsetWidth / 2), (int)(OffsetY + minValue), OffsetX + (OffsetWidth / 2), (int)(OffsetY + maxValue), Color.Yellow, 1);
-
-
-                //int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
-
-                //int txtOffsetX = 0;
-                //if (roiIndex == 2)
-                //{
-                //    txtOffsetX = 530;
-                //}
-                //System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY);
-                //dHeight = (maxValue - minValue) * Globalo.visionManager.CamResol.Y;
-                //string str = $"{dHeight.ToString("0.0##")}(mm)";
-                //Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Blue, 15);
-
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Green, 2);
+                
+                
 
 
 
@@ -396,21 +441,21 @@ namespace ZenHandler.VisionClass
                 //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
 
 
-                System.Drawing.Point textPoint;
+                
 
-                str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+                str = $"[CONE] Edge Count:{NumResults}/{KeyEdgeSpec}";
 
                 textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
 
                 if (bRtn)
                 {
-                    str = $"CONE Detected!";
+                    str = $"{keyType} Key Detected!";
                     ConeColor = Color.Green;
                 }
                 else
                 {
-                    str = $"CONE Not Detected!";
+                    str = $"{keyType} Key Not Detected!";
                     ConeColor = Color.Red;
                 }
 
@@ -639,10 +684,10 @@ namespace ZenHandler.VisionClass
         {
             // 측정 시작
             bool IMG_VIEW = true;
-            //TeststopWatch.Start();
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            string str = "";
             //
             //
             //
@@ -685,11 +730,16 @@ namespace ZenHandler.VisionClass
                 Cv2.ImShow("Detected binary ", binary);
                 Cv2.WaitKey(0);
             }
-
-
-
             // 3. Contours 찾기
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
+
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //결과
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------------------------------------
 
             // 4. 이미지 중심 계산
             double minDist = double.MaxValue;
@@ -697,12 +747,16 @@ namespace ZenHandler.VisionClass
             OpenCvSharp.Point2d imageCenter = new OpenCvSharp.Point2d(srcImage.Width / 2, srcImage.Height / 2);
 
             // 3. 각 컨투어 중심을 평균
-            List<Point2d> centers = new List<Point2d>();
+            ///List<Point2d> centers = new List<Point2d>();
 
             Mat colorView = new Mat();
             Cv2.CvtColor(srcImage, colorView, ColorConversionCodes.GRAY2BGR);
 
             List<(OpenCvSharp.Point2f center, float radius)> circles = new List<(Point2f center, float radius)>();
+
+            OpenCvSharp.Point2f maxCenter = new Point2f();
+            OpenCvSharp.Point[] maxContour = null;
+            float maxRadius = 0f;
 
             foreach (var contour in contours)
             {
@@ -714,6 +768,7 @@ namespace ZenHandler.VisionClass
                 double perimeter = Cv2.ArcLength(contour, true);
 
                 //if (perimeter == 0) continue; // 나누기 에러 방지
+
                 double minArea = 1841053.5;
                 double maxArea = 2136083.5;
 
@@ -721,13 +776,16 @@ namespace ZenHandler.VisionClass
                 {
                     //continue;
                 }
-                    
+                
 
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter); 
                 // 외접 원 그리기
                 Point2f center;
-                float radius;
+                float radius = 0.0f;
+
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
+
+                
                 if (radius < 600 || radius > 890)
                 {
                     continue;
@@ -737,57 +795,28 @@ namespace ZenHandler.VisionClass
                 {
                     continue;
                 }
-                
-                if (radius > 760 && radius < 848)       //외경 in , out 안의 원 제거
+
+                if (radius > maxRadius)
                 {
-                    //continue;
+                    maxRadius = radius;
+                    maxCenter = center;
+                    maxContour = contour;
                 }
                 circles.Add((center, radius));
-                //circularity > 0.0 && 
-                // if (((radius > 650 && radius < 801) || radius > 848)) // 원형이고 일정 크기 이상 && area > 1000 
-
-
-                //Cv2.Circle(srcImage, (OpenCvSharp.Point)center, (int)radius, Scalar.Blue, 3);
-                // 컬러 이미지에 원을 그림
-                //Cv2.Circle(colorView, (OpenCvSharp.Point)center, (int)radius, Scalar.Blue, 5);
-                
-                if (radius > 800)
-                {
-                    //foreach (var point in contour)
-                    for (int i = 0; i < contour.Length; i += 15)
-                    {
-                        // 중심으로부터 거리 계산
-                        float dx = contour[i].X - center.X;
-                        float dy = contour[i].Y - center.Y;
-                        float dist = (float)Math.Sqrt(dx * dx + dy * dy);
-                        //Console.Write("[CenterFind] dist - radius: x = {0:0.00}\n", (dist - radius));
-                        // 기준 반지름과 비교
-                        if (Math.Abs(dist - radius) <= 10.0) 
-                        {
-                            Cv2.Circle(colorView, new OpenCvSharp.Point(contour[i].X, contour[i].Y), 11, Scalar.Yellow, 3);
-                            Rectangle m_clRect = new Rectangle((int)(contour[i].X - (10)), (int)(contour[i].Y - (10)), (int)(10 * 2), (int)(10 * 2));
-                            if (IMG_VIEW)
-                            {
-                                //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-                            }
-                        }
-                        else
-                        {
-                            Cv2.Circle(colorView, new OpenCvSharp.Point(contour[i].X, contour[i].Y), 11, Scalar.Red, 3);
-                            Rectangle m_clRect = new Rectangle((int)(contour[i].X - (10)), (int)(contour[i].Y - (10)), (int)(10 * 2), (int)(10 * 2));
-                            if (IMG_VIEW)
-                            {
-                                //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Red, 1, System.Drawing.Drawing2D.DashStyle.Solid); 
-                            }
-                        }
-                    }
-                }
-                centers.Add(new Point2d(center.X, center.Y));
+                ///centers.Add(new Point2d(center.X, center.Y));
                 //Console.Write("[CenterFind] measured circle: x = {0:0.00}, y = {1:0.00}, circularity = {2:0.00}, radius = {3:0.00}, area = {4:0.00}\n", center.X, center.Y, circularity, radius, area);
-                
             }
-            
-            // 가장 작은 원과 큰 원 찾기
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            // 내경,외경 원찾기
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            double CamResolX = 0.0;
+            double CamResolY = 0.0;
+            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.0186f;
+            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.0186f;
             if (circles.Count > 0)
             {
                 var minCircle = circles.OrderBy(c => c.radius).First();
@@ -811,7 +840,66 @@ namespace ZenHandler.VisionClass
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
                 Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
 
+                System.Drawing.Point HousingPoint = new System.Drawing.Point();
+
+
+                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 490);
+                str = $"Housing In Center:{(minCircle.center.X * CamResolX).ToString("0.00#")},{(minCircle.center.Y * CamResolY).ToString("0.00#")}";
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.Blue, 15);
+                str = $"Housing In Radius:{(minCircle.radius * CamResolX).ToString("0.00#")}";
+                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 410);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.Blue, 15);
+
+                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 330);
+                str = $"Housing Out Center:{(maxCircle.center.X * CamResolX).ToString("0.00#")},{(maxCircle.center.Y * CamResolY).ToString("0.00#")}";
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.Blue, 15);
+                str = $"Housing Out Radius:{(maxCircle.radius * CamResolX).ToString("0.00#")}";
+                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.Blue, 15);
+
                 
+
+            }
+
+
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //Dent 찌그러짐 검사 결과
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            
+            if (maxRadius > 1)
+            {
+                for (int i = 0; i < maxContour.Length; i += 10)
+                {
+                    // 중심으로부터 거리 계산
+                    float dx = maxContour[i].X - maxCenter.X;
+                    float dy = maxContour[i].Y - maxCenter.Y;
+                    float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+                    //Console.Write("[CenterFind] dist - radius: x = {0:0.00}\n", (dist - radius));
+                    // 기준 반지름과 비교
+                   
+                    if (Math.Abs(dist - maxRadius) <= 10.0)
+                    {
+                        Cv2.Circle(colorView, new OpenCvSharp.Point(maxContour[i].X, maxContour[i].Y), 11, Scalar.Yellow, 3);
+                        Rectangle m_clRect = new Rectangle((int)(maxContour[i].X - (10)), (int)(maxContour[i].Y - (10)), (int)(10 * 2), (int)(10 * 2));
+                        if (IMG_VIEW)
+                        {
+                            //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                        }
+                    }
+                    else
+                    {
+                        Cv2.Circle(colorView, new OpenCvSharp.Point(maxContour[i].X, maxContour[i].Y), 11, Scalar.Red, 3);
+                        Rectangle m_clRect = new Rectangle((int)(maxContour[i].X - (10)), (int)(maxContour[i].Y - (10)), (int)(10 * 2), (int)(10 * 2));
+                        if (IMG_VIEW)
+                        {
+                            //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Red, 1, System.Drawing.Drawing2D.DashStyle.Solid); 
+                        }
+                    }
+                }
             }
 
             if (IMG_VIEW)
@@ -820,6 +908,7 @@ namespace ZenHandler.VisionClass
                 Cv2.ImShow("Detected colorView ", colorView);
                 Cv2.WaitKey(0);
             }
+
             //// 평균 좌표 계산
             //if (centers.Count > 0)
             //{
@@ -834,35 +923,45 @@ namespace ZenHandler.VisionClass
             //    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
             //}
 
-            int centerX = srcImage.Cols / 2;
-            int centerY = srcImage.Rows / 2;
-            int roiSize = 150;
-            // ROI 영역 지정 (x, y, width, height)
-            Rect roi = new Rect(centerX - roiSize / 2, centerY - roiSize / 2, roiSize, roiSize);
-            Mat roiMat = new Mat(srcImage, roi);
+            ////int centerX = srcImage.Cols / 2;
+            ////int centerY = srcImage.Rows / 2;
+            ////int roiSize = 150;
+            ////// ROI 영역 지정 (x, y, width, height)
+            ////Rect roi = new Rect(centerX - roiSize / 2, centerY - roiSize / 2, roiSize, roiSize);
+            ////Mat roiMat = new Mat(srcImage, roi);
 
-            // 평균 밝기 계산
-            Scalar mean = Cv2.Mean(roiMat);
+            ////// 평균 밝기 계산
+            ////Scalar mean = Cv2.Mean(roiMat);
 
-            // 결과 출력
-            Console.WriteLine($"[CenterFind] 중앙 영역 평균 밝기: {mean.Val0:F2}");
+            ////// 결과 출력
+            ////Console.WriteLine($"[CenterFind] 중앙 영역 평균 밝기: {mean.Val0:F2}");
 
-            // 측정 종료
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            // Result Display
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+            //--------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            // 측정 시간 출력
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------------------------------------
             long elapsedMs = Environment.TickCount - startTime;
-            // 시간 출력
             double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
-            string str = "";
             str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
-            Globalo.LogPrint("", str);
-
-            str = $"Test Time: {elapsedMs / 1000.0:F3} (s)";
+            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
             Console.WriteLine(str);
-            Globalo.LogPrint("", str);
-
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 820, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 920, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
 
             return centerPos;

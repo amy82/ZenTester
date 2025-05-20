@@ -284,10 +284,12 @@ namespace ZenHandler.Dlg
 
             //Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos, 0);        //키검사
 
-
+            //A ~ D: 2개씩
+            //E 타입만 1개
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0);        //키검사
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, "C");        //키검사
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, "C");        //키검사
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
             
         }
@@ -305,12 +307,21 @@ namespace ZenHandler.Dlg
 
             byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            
+
+
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
 
-
+            //
             centerPos = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
         }
 
@@ -886,8 +897,10 @@ namespace ZenHandler.Dlg
 
             double CamResolX = 0.0;
             double CamResolY = 0.0;
-            CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
-            CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
+            //CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
+            //CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
+            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.02026f;
+            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.02026f;//0.0288f;
 
             Console.WriteLine($"CamResolX:{CamResolX}");
             Console.WriteLine($"CamResolY:{CamResolY}");
