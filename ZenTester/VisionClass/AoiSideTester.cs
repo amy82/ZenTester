@@ -20,6 +20,7 @@ namespace ZenHandler.VisionClass
         }
         public bool MilEdgeOringTest(int index, int roiIndex)//, Mat srcImage)
         {
+            int startTime = Environment.TickCount;
             bool bRtn = true;
 
             const int CONTOUR_MAX_RESULTS = 10;
@@ -115,7 +116,7 @@ namespace ZenHandler.VisionClass
             double CircleCx = 0.0;
             double CircleErr = 0.0;
             double circleSpec = 350.0;
-
+            string str = ""; 
             Color OringColor;
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
@@ -181,7 +182,7 @@ namespace ZenHandler.VisionClass
 
                 System.Drawing.Point textPoint;
 
-                string str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+                str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
 
                 textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
@@ -212,11 +213,28 @@ namespace ZenHandler.VisionClass
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, OringColor, 2);
                 bRtn = false;
             }
+
+            int elapsedMs = Environment.TickCount - startTime;
+            // 시간 출력
+            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
+
+
+            str = $"Test Time: {elapsedMs} ms";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
             return bRtn;
         }
         public bool MilEdgeConeTest(int index, int roiIndex)
         {
-
+            int startTime = Environment.TickCount;
             bool bRtn = true;
 
             const int CONTOUR_MAX_RESULTS = 100;
@@ -306,7 +324,7 @@ namespace ZenHandler.VisionClass
             // Exclude inner chains.
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 500.0, MIL.M_NULL);
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 300.0, MIL.M_NULL);
 
             // Draw edges in the source image to show the result.
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
@@ -330,7 +348,7 @@ namespace ZenHandler.VisionClass
             int maxIndex = 0;
             double CircleCx = 0.0;
             double CircleErr = 0.0;
-
+            string str = "";
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
             double circleSpec = 900.0;
@@ -416,7 +434,7 @@ namespace ZenHandler.VisionClass
 
                 System.Drawing.Point textPoint;
 
-                string str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+                str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
 
                 textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
@@ -447,6 +465,26 @@ namespace ZenHandler.VisionClass
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
                 bRtn = false;
             }
+
+
+
+
+            int elapsedMs = Environment.TickCount - startTime;
+            // 시간 출력
+            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
+
+
+            str = $"Test Time: {elapsedMs} ms";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+            Console.WriteLine(str);
+            Globalo.LogPrint("", str);
+
+            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
             return bRtn;
         }
 

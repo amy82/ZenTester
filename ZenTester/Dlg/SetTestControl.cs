@@ -275,14 +275,21 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
 
-            Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos);        //키검사
+            //Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos, 0);        //키검사
+
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0);        //키검사
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            
         }
 
         private void button_Set_Housing_Test_Click(object sender, EventArgs e)

@@ -44,7 +44,7 @@ namespace ZenHandler.VisionClass
 
             GasketTest(index, src, centerPos);     //가스켓 검사
             //
-            Keytest(index, src, centerPos);        //키검사
+            Keytest(index, src, centerPos, 0);        //키검사
 
 
             return rtn;
@@ -184,13 +184,288 @@ namespace ZenHandler.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
-        public void Keytest(int index, Mat srcImage, OpenCvSharp.Point circle1)
+        public bool MilEdgeKeytest(int index, int roiIndex)
         {
-            bool IMG_VIEW = false;
+            int startTime = Environment.TickCount;
+            bool bRtn = true;
+
+            const int CONTOUR_MAX_RESULTS = 100;
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_ID tempMilImage = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
+            MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
+
+            double[] EdgeCircleFitCx = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitErr = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeConvex = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeFastLength = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeLength = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgePositionY = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeSize = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeStrength = new double[CONTOUR_MAX_RESULTS];
+
+
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X;
+            int OffsetY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y;
+
+            int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Width;
+            int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Height;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
+
+            //MIL_INT ImageSizeX = MIL.MbufInquire(Globalo.visionManager.milLibrary.MilProcImageChild[index], MIL.M_SIZE_X, MIL.M_NULL);
+            //MIL_INT ImageSizeY = MIL.MbufInquire(Globalo.visionManager.milLibrary.MilProcImageChild[index], MIL.M_SIZE_Y, MIL.M_NULL);
+            
+            //MIL.MgraArcFill(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[index], ImageSizeX/2, ImageSizeY/2, 1200, 800, 0, 360);
+
+
+            //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
+            //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+
+
+            MIL.MgraColor(MIL.M_DEFAULT, 0);
+            MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth-1, OffsetHeight-1, OffsetWidth/1.6, OffsetWidth / 1.5, 90, 180);
+            MIL.MbufExport($"d:\\OrgKey{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
+
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL); 
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 50, MIL.M_NULL);
+            MIL.MbufExport($"d:\\Key{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
+
+
+            MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+            MilImage = tempMilImage;
+            MIL.MdispSelect(MilDisplay, MilImage);
+
+            /* Allocate a graphic list to hold the subpixel annotations to draw. */
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+            /* Associate the graphic list to the display for annotations. */
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            // Allocate a Edge Finder context.
+            MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
+
+            // Allocate a result buffer.
+            MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
+
+            // Enable features to compute.
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_CENTER_X, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_ERROR, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CONVEX_PERIMETER, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FAST_LENGTH, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_LENGTH, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_POSITION_Y, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_SIZE, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_STRENGTH, MIL.M_ENABLE);
+
+            // Calculate edges and features.
+            MIL.MedgeCalculate(MilEdgeContext, MilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
+
+
+
+
+
+            MIL_INT NumEdgeFound = 0;// Number of edges found.
+
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
+
+
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //불필요한 edge 제거하기
+            //
+            //
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //double CONTOUR_MAXIMUM_ELONGATION = 0.8;
+            // Exclude elongated edges.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_MOMENT_ELONGATION, MIL.M_LESS, CONTOUR_MAXIMUM_ELONGATION, MIL.M_NULL);
+            // Exclude inner chains.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 20.0, MIL.M_NULL);
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_GREATER, 25.0, MIL.M_NULL);
+
+            // Draw edges in the source image to show the result.
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            MIL.MedgeControl(MilEdgeResult, 319L, (double)-OffsetX);
+            MIL.MedgeControl(MilEdgeResult, 320L, (double)-OffsetY);
+
+
+            MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
+            MIL.MedgeControl(MilEdgeResult, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);
+
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            //M_DRAW_BOX + M_DRAW_POSITION + M_DRAW_EDGES + M_DRAW_AXIS
+
+            MIL_INT NumResults = 0;                                         // Number of results found.
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+            int minIndex = 0;
+            int maxIndex = 0;
+            double CircleCx = 0.0;
+            double CircleErr = 0.0;
+            string str = "";
+            Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
+            // If the right number of edges were found.
+            double circleSpec = 900.0;
+            Color ConeColor;
+            Console.Write($"Key Edge Count:{NumResults}\n");
+            if (NumResults <= CONTOUR_MAX_RESULTS)
+            {
+                // Draw the index of each edge.
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+                // Get the mean Feret diameters.
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_X, EdgeCircleFitCx);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_ERROR, EdgeCircleFitErr);
+
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CONVEX_PERIMETER, EdgeConvex);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_FAST_LENGTH, EdgeFastLength);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_LENGTH, EdgeLength);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_POSITION_Y, EdgePositionY);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_SIZE, EdgeSize);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_STRENGTH, EdgeStrength);
+
+                // Print the results.
+                
+
+                Console.WriteLine($"M_CIRCLE_FIT_CENTER_X : {EdgeCircleFitCx[0]}");
+                Console.WriteLine($"M_CIRCLE_FIT_ERROR : {EdgeCircleFitErr[0]}");
+                Console.WriteLine($"M_CONVEX_PERIMETER : {EdgeConvex[0]}");
+                Console.WriteLine($"M_FAST_LENGTH : {EdgeFastLength[0]}");
+                Console.WriteLine($"M_LENGTH : {EdgeLength[0]}");
+                Console.WriteLine($"M_POSITION_Y : {EdgePositionY[0]}");
+                Console.WriteLine($"M_SIZE : {EdgeSize[0]}");
+                Console.WriteLine($"M_STRENGTH : {EdgeStrength[0]}");
+
+
+
+                CircleCx = EdgeCircleFitCx[0];
+                CircleErr = EdgeCircleFitErr[0];
+
+                if (CircleErr < circleSpec)      //CircleCx < circleSpec || 
+                {
+                    //오링 없음
+                    bRtn = false;
+                }
+                else
+                {
+                    bRtn = true;
+                }
+
+
+                //Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * Globalo.visionManager.CamResol.Y}");
+                //int OffsetX = 800;
+                //int OffsetY = 700; 
+
+                //Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
+                //Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
+
+                //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, OffsetX + (OffsetWidth / 2), (int)(OffsetY + minValue), OffsetX + (OffsetWidth / 2), (int)(OffsetY + maxValue), Color.Yellow, 1);
+
+
+                //int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
+
+                //int txtOffsetX = 0;
+                //if (roiIndex == 2)
+                //{
+                //    txtOffsetX = 530;
+                //}
+                //System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY);
+                //dHeight = (maxValue - minValue) * Globalo.visionManager.CamResol.Y;
+                //string str = $"{dHeight.ToString("0.0##")}(mm)";
+                //Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Blue, 15);
+
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Green, 2);
+
+
+
+                //System.Drawing.Point textPoint;
+
+                //string str = $"CircleCx :{CircleCx.ToString("0.000")} / {circleSpec}";
+
+                //textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+
+
+                System.Drawing.Point textPoint;
+
+                str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+
+                textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
+
+                if (bRtn)
+                {
+                    str = $"CONE Detected!";
+                    ConeColor = Color.Green;
+                }
+                else
+                {
+                    str = $"CONE Not Detected!";
+                    ConeColor = Color.Red;
+                }
+
+
+                int leng = str.Length;
+                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
+
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
+            }
+            else
+            {
+                Console.Write("Edges have not been found or the number of found edges is greater than\n");
+                Console.Write("the specified maximum number of edges !\n\n");
+
+
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
+                bRtn = false;
+            }
+
+
+
+
+            int elapsedMs = Environment.TickCount - startTime;
+            // 시간 출력
+            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
+
+
+            str = $"Test Time: {elapsedMs} ms";
+            //Console.WriteLine(str);
+            //Globalo.LogPrint("", str);
+
+            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+            //Console.WriteLine(str);
+            //Globalo.LogPrint("", str);
+
+            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
+            return bRtn;
+        }
+        public void Keytest(int index, Mat srcImage, OpenCvSharp.Point circle1, int roiIndex)
+        {
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             int radius = 700;
 
-            Rect keyRoi = new Rect((int)circle1.X - 920, (int)circle1.Y + 160, 650, 650);
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X;
+            int OffsetY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y;
+
+            int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Width;
+            int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Height;
+
+
+            //Rect keyRoi = new Rect((int)circle1.X - 920, (int)circle1.Y + 160, 650, 650);
+            Rect keyRoi = new Rect((int)OffsetX, (int)OffsetY, OffsetWidth, OffsetHeight);
             Mat roiKeyMat = srcImage[keyRoi];
 
             // 이미지 크기에 맞는 빈 마스크
@@ -280,17 +555,17 @@ namespace ZenHandler.VisionClass
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            str = $"Test Time: {elapsedMs / 1000.0:F3} (s)";
+            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
         }
         public void GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1)
         {
             //가스켓 밝기 계산
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
 
             //Mat binary = new Mat();
@@ -303,7 +578,7 @@ namespace ZenHandler.VisionClass
             //Cv2.ImShow("GasketTest binary ", binary);
             //Cv2.WaitKey(0);
             int radiusOuter = 700;
-            int radiusInner = 410;
+            int radiusInner = 430;
                 
 
             // 이미지 크기에 맞는 빈 마스크
@@ -363,7 +638,7 @@ namespace ZenHandler.VisionClass
         public OpenCvSharp.Point Housing_Dent_Test(int index, Mat srcImage)
         {
             // 측정 시작
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             //TeststopWatch.Start();
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
@@ -518,6 +793,9 @@ namespace ZenHandler.VisionClass
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
 
+                centerPos.X = (int)maxCircle.center.X;
+                centerPos.Y = (int)maxCircle.center.Y;
+
                 // 그리기 예시
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
                 Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 2);  // 외경
@@ -532,6 +810,8 @@ namespace ZenHandler.VisionClass
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
                 Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+
+                
             }
 
             if (IMG_VIEW)
