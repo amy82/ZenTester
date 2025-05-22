@@ -1225,5 +1225,19 @@ namespace ZenHandler.Dlg
         {
             Globalo.visionManager.markUtil.ViewMarkMask();
         }
+
+        private void label_SetTest_Manual_Mark_Find_Click(object sender, EventArgs e)
+        {
+            VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
+
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
+            Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, 0, ref dAlign);
+
+            Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
+        }
     }
 }

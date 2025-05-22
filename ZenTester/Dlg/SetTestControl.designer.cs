@@ -64,6 +64,9 @@ namespace ZenHandler.Dlg
             this.panel_Mark = new System.Windows.Forms.Panel();
             this.label_SetTest_Manual_Mark_Regist = new System.Windows.Forms.Button();
             this.label_SetTest_Manual_Mark_View = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Mark_Find = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Image_Save = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Image_Load = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -509,8 +512,8 @@ namespace ZenHandler.Dlg
             // 
             this.label_SetTest_Manual_Mark_Regist.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Mark_Regist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Mark_Regist.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(1290, 416);
+            this.label_SetTest_Manual_Mark_Regist.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(1290, 413);
             this.label_SetTest_Manual_Mark_Regist.Name = "label_SetTest_Manual_Mark_Regist";
             this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(104, 39);
             this.label_SetTest_Manual_Mark_Regist.TabIndex = 84;
@@ -522,8 +525,8 @@ namespace ZenHandler.Dlg
             // 
             this.label_SetTest_Manual_Mark_View.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Mark_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(1290, 456);
+            this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(1290, 453);
             this.label_SetTest_Manual_Mark_View.Name = "label_SetTest_Manual_Mark_View";
             this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(104, 39);
             this.label_SetTest_Manual_Mark_View.TabIndex = 85;
@@ -531,11 +534,51 @@ namespace ZenHandler.Dlg
             this.label_SetTest_Manual_Mark_View.UseVisualStyleBackColor = false;
             this.label_SetTest_Manual_Mark_View.Click += new System.EventHandler(this.label_SetTest_Manual_Mark_View_Click);
             // 
+            // label_SetTest_Manual_Mark_Find
+            // 
+            this.label_SetTest_Manual_Mark_Find.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Mark_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Mark_Find.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Find.Location = new System.Drawing.Point(1290, 493);
+            this.label_SetTest_Manual_Mark_Find.Name = "label_SetTest_Manual_Mark_Find";
+            this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Mark_Find.TabIndex = 86;
+            this.label_SetTest_Manual_Mark_Find.Text = "MARK FIND";
+            this.label_SetTest_Manual_Mark_Find.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Mark_Find.Click += new System.EventHandler(this.label_SetTest_Manual_Mark_Find_Click);
+            // 
+            // label_SetTest_Manual_Image_Save
+            // 
+            this.label_SetTest_Manual_Image_Save.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Image_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(1290, 533);
+            this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
+            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Image_Save.TabIndex = 87;
+            this.label_SetTest_Manual_Image_Save.Text = "IMAGE SAVE";
+            this.label_SetTest_Manual_Image_Save.UseVisualStyleBackColor = false;
+            // 
+            // label_SetTest_Manual_Image_Load
+            // 
+            this.label_SetTest_Manual_Image_Load.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Image_Load.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(1290, 573);
+            this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
+            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Image_Load.TabIndex = 88;
+            this.label_SetTest_Manual_Image_Load.Text = "IMAGE LOAD";
+            this.label_SetTest_Manual_Image_Load.UseVisualStyleBackColor = false;
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_SetTest_Manual_Image_Load);
+            this.Controls.Add(this.label_SetTest_Manual_Image_Save);
+            this.Controls.Add(this.label_SetTest_Manual_Mark_Find);
             this.Controls.Add(this.label_SetTest_Manual_Mark_View);
             this.Controls.Add(this.label_SetTest_Manual_Mark_Regist);
             this.Controls.Add(this.panel_Mark);
@@ -615,5 +658,8 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Button label_SetTest_Manual_Mark_Regist;
         private System.Windows.Forms.Button label_SetTest_Manual_Mark_View;
         public System.Windows.Forms.Panel panel_Mark;
+        private System.Windows.Forms.Button label_SetTest_Manual_Mark_Find;
+        private System.Windows.Forms.Button label_SetTest_Manual_Image_Save;
+        private System.Windows.Forms.Button label_SetTest_Manual_Image_Load;
     }
 }

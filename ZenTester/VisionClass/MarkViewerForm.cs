@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Matrox.MatroxImagingLibrary;
-
+using OpenCvSharp;
 namespace ZenHandler.VisionClass
 {
     public partial class MarkViewerForm : Form
     {
-        private System.Drawing.Point DispSize = new System.Drawing.Point();
+        private OpenCvSharp.Point2d DispSize = new OpenCvSharp.Point2d();
         private System.Drawing.Point m_clPtMarkSize = new System.Drawing.Point();
         private System.Drawing.Point m_clCdCenter = new System.Drawing.Point();
         private MIL_ID m_MilMaskOverlay;
@@ -40,8 +40,8 @@ namespace ZenHandler.VisionClass
             m_MilMaskOverlay = MIL.M_NULL;
             m_MilTransparentColor = MIL.M_NULL;
 
-            DispSize.X = panel_MarkZoomImage.Width;
-            DispSize.Y = panel_MarkZoomImage.Height;
+            DispSize.X = (double)panel_MarkZoomImage.Width;
+            DispSize.Y = (double)panel_MarkZoomImage.Height;
 
             trackBar_Mask_Brush_Size.Value = m_nBrushSize;
             label_Mask_Brush_Size_Val.Text = m_nBrushSize.ToString();
@@ -71,14 +71,14 @@ namespace ZenHandler.VisionClass
         {
             //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.bmp"), BASE_MODEL_PATH, g_clSysData.m_szModelName, nMarkNo + 1);
 
-            MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkOverlay, Globalo.visionManager.markUtil.m_lTransparentColor);
+            MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkOverlay[0], Globalo.visionManager.markUtil.m_lTransparentColor);
             MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkImage[1], 192);
         }
         public void InitMaskViewDlg(int nMarkNo, int m_iSizeX , int m_iSizeY)
         {
             //panel_MarkZoomImage
             
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, DispSize.X, DispSize.Y, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, (int)DispSize.X, (int)DispSize.Y, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
 
             if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
             {
@@ -107,8 +107,8 @@ namespace ZenHandler.VisionClass
             m_pMaskBuff = null;
             //m_nEdgeSmooth = g_clMarkData[nUnit].m_nSmooth[nMarkNo];
 
-            m_dZoomX = (double)DispSize.X / (double)m_iSizeX;      //마크 이미지 축소 OR 확대
-            m_dZoomY = (double)DispSize.Y / (double)m_iSizeY;
+            m_dZoomX = DispSize.X / (double)m_iSizeX;      //마크 이미지 축소 OR 확대
+            m_dZoomY = DispSize.Y / (double)m_iSizeY;
 
             MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, 3203L, m_dZoomX);//M_DRAW_SCALE_X
             MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, 3204L, m_dZoomY);//M_DRAW_SCALE_Y
@@ -118,12 +118,14 @@ namespace ZenHandler.VisionClass
 
             MIL_INT m_clCdCenterX = MIL.M_NULL;
             MIL_INT m_clCdCenterY = MIL.M_NULL;
+            double dCenterX = 0.0;
+            double dCenterY = 0.0;
 
-            MIL.MmodInquire(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X + MIL.M_TYPE_DOUBLE, ref m_clCdCenterX);  //드래그된 영역에서 중심 X
-            MIL.MmodInquire(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y + MIL.M_TYPE_DOUBLE, ref m_clCdCenterX); //드래그된 영역에서 중심 Y
+            MIL.MmodInquire(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X + MIL.M_TYPE_DOUBLE, ref dCenterX);  //드래그된 영역에서 중심 X
+            MIL.MmodInquire(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y + MIL.M_TYPE_DOUBLE, ref dCenterY); //드래그된 영역에서 중심 Y
 
-            m_clCdCenter.X = (int)m_clCdCenterX;
-            m_clCdCenter.Y = (int)m_clCdCenterY;
+            m_clCdCenter.X = (int)dCenterX;
+            m_clCdCenter.Y = (int)dCenterY;
 
             m_clPtMarkSize.X = (int)(m_iSizeX + 0.5);
             m_clPtMarkSize.Y = (int)(m_iSizeY + 0.5);
@@ -172,10 +174,10 @@ namespace ZenHandler.VisionClass
             MIL.MbufClear(m_MilMask, 0);
             if (Globalo.visionManager.markUtil.m_MilModModel != MIL.M_NULL)
             {
-                double m_dZoomX = (double)DispSize.X / (double)Globalo.visionManager.markUtil.m_clPtMarkSize.X;      //마크 이미지 축소 OR 확대 
-                double m_dZoomY = (double)DispSize.Y / (double)Globalo.visionManager.markUtil.m_clPtMarkSize.Y;
-                double m_dSmallX = (double)Globalo.visionManager.markUtil.m_clPtMarkSize.X / (double)DispSize.X;      //마크 이미지 축소 OR 확대 
-                double m_dSmallY = (double)Globalo.visionManager.markUtil.m_clPtMarkSize.Y / (double)DispSize.Y;
+                double m_dZoomX = DispSize.X / (double)Globalo.visionManager.markUtil.m_clPtMarkSize.X;      //마크 이미지 축소 OR 확대 
+                double m_dZoomY = DispSize.Y / (double)Globalo.visionManager.markUtil.m_clPtMarkSize.Y;
+                double m_dSmallX = (double)Globalo.visionManager.markUtil.m_clPtMarkSize.X / DispSize.X;      //마크 이미지 축소 OR 확대 
+                double m_dSmallY = (double)Globalo.visionManager.markUtil.m_clPtMarkSize.Y / DispSize.Y;
 
                 MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, 3203L, 1.0);//M_DRAW_SCALE_X
                 MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, 3204L, 1.0);//M_DRAW_SCALE_Y 
@@ -205,6 +207,10 @@ namespace ZenHandler.VisionClass
                 int nEx = 0;
                 int nSy = 0;
                 int nEy = 0;
+                System.Drawing.Point clPoint = new System.Drawing.Point();
+
+                clPoint.X = e.X;
+                clPoint.Y = e.Y;
 
                 Rectangle rMask = new Rectangle();
                 rMask.X = (int)(e.X - m_nBrushSize/2);
@@ -217,6 +223,18 @@ namespace ZenHandler.VisionClass
 
                 if (m_pMaskBuff != null)
                 {
+
+                    nSx = (int)(((clPoint.X - m_nBrushSize) / m_dZoomX) + 0.5);
+                    nEx = (int)(((clPoint.X + m_nBrushSize) / m_dZoomX) + 0.5);
+                    nSy = (int)(((clPoint.Y - m_nBrushSize) / m_dZoomY) + 0.5);
+                    nEy = (int)(((clPoint.Y + m_nBrushSize) / m_dZoomY) + 0.5);
+
+                    if (nSx < 0) nSx = 0;
+                    if (nSy < 0) nSy = 0;
+                    if (nEx > m_clPtMarkSize.X) nEx = m_clPtMarkSize.X;
+                    if (nEy > m_clPtMarkSize.Y) nEy = m_clPtMarkSize.Y;
+
+
                     int i = 0;
                     int j = 0;
                     for (i = nSy; i < nEy; i++)
@@ -252,7 +270,10 @@ namespace ZenHandler.VisionClass
                 int nEx = 0;
                 int nSy = 0;
                 int nEy = 0;
+                System.Drawing.Point clPoint = new System.Drawing.Point();
 
+                clPoint.X = e.X;
+                clPoint.Y = e.Y;
                 Rectangle rMask = new Rectangle();
                 rMask.X = (int)(e.X - m_nBrushSize / 2);
                 rMask.Y = (int)(e.Y - m_nBrushSize / 2);
@@ -270,6 +291,19 @@ namespace ZenHandler.VisionClass
 
                 if (m_pMaskBuff != null)
                 {
+                    nSx = (int)((clPoint.X - m_nBrushSize) / m_dZoomX);
+                    nEx = (int)((clPoint.X + m_nBrushSize) / m_dZoomX);
+                    nSy = (int)((clPoint.Y - m_nBrushSize) / m_dZoomY);
+                    nEy = (int)((clPoint.Y + m_nBrushSize) / m_dZoomY);
+
+                    if (nSx < 0) nSx = 0;
+                    if (nSy < 0) nSy = 0;
+
+                    if (nEx > m_clPtMarkSize.X) nEx = m_clPtMarkSize.X;
+                    if (nEy > m_clPtMarkSize.Y) nEy = m_clPtMarkSize.Y;
+
+                    //if ((nSx > m_clPtMarkSize.x) || (nSy > m_clPtMarkSize.y))
+
                     int i = 0;
                     int j = 0;
                     for (i = nSy; i < nEy; i++)
@@ -362,7 +396,9 @@ namespace ZenHandler.VisionClass
             MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);  //210707		<---여기서 작은 화면에 마스크 그린다
             MIL.MmodPreprocess(Globalo.visionManager.markUtil.m_MilModModel, MIL.M_DEFAULT);
 
-            Globalo.visionManager.markUtil.SaveMark("", 0);
+
+
+            Globalo.visionManager.markUtil.SaveMark("A_MODEL", 0);
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
 
@@ -370,7 +406,7 @@ namespace ZenHandler.VisionClass
 
             Globalo.visionManager.markUtil.SettingFindMark(0);
             //
-            Globalo.visionManager.markUtil.DisplayMarkView(0, DispSize.X, DispSize.Y); 
+            Globalo.visionManager.markUtil.DisplayMarkView("A_MODEL",0, DispSize.X, DispSize.Y); 
 
             this.Close();
         }
