@@ -48,7 +48,8 @@ namespace ZenHandler.Data
         //LOG
         public const string BASE_LOG_PATH = "D:\\EVMS\\TP\\LOG";
 
-
+        //AOI
+        public const string BASE_AOI_DATA_PATH = "D:\\EVMS\\TP\\ENV\\AoiData";
 
 
 

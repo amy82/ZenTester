@@ -84,13 +84,18 @@ namespace ZenHandler.Dlg
                 DistLineX[i,0] = new System.Drawing.Point(500, 500);
                 DistLineX[i,1] = new System.Drawing.Point(CamW[i] - 500, CamH[i] - 500);
             }
-            
 
-            
-
+            showCamResol();
             
         }
-        
+        private void showCamResol()
+        {
+            label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.X.ToString();
+            label_Set_TopCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y.ToString();
+
+            label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.X.ToString();
+            label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y.ToString();
+        }
         public void ClearCheckbox()
         {
             checkBox_Roi_Key.Checked = false;
@@ -231,7 +236,13 @@ namespace ZenHandler.Dlg
             CamIndex = 1;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }
-
+        private void drawCenterCross()
+        {
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
+            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+        }
         private void SetTestControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
@@ -239,13 +250,13 @@ namespace ZenHandler.Dlg
                 Globalo.visionManager.milLibrary.RunModeChange(false);
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
 
-                Globalo.visionManager.milLibrary.ClearOverlay(0);
-                int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-                int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-                Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                drawCenterCross();
+                showCamResol();
             }
             else
             {
+                checkBox_Measure.Checked = false;
+                m_bDrawMeasureLine = false;
                 isRoiChecked = -1;
                 isRoiNo = -1;
                 ClearCheckbox();
@@ -264,14 +275,23 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
 
-            Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos);        //키검사
+            //Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos, 0);        //키검사
+
+            //A ~ D: 2개씩
+            //E 타입만 1개
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, "C");        //키검사
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, "C");        //키검사
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            
         }
 
         private void button_Set_Housing_Test_Click(object sender, EventArgs e)
@@ -287,13 +307,58 @@ namespace ZenHandler.Dlg
 
             byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            
+
+
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
+            List<OpenCvSharp.Point> FakraCenter;
+            List<OpenCvSharp.Point> HousingCenter;
+            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
 
-            centerPos = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            double CamResolX = 0.0;
+            double CamResolY = 0.0;
+            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.0186f;
+            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.0186f;
+
+
+            OpenCvSharp.Point c1 = FakraCenter[1];
+            OpenCvSharp.Point c2 = HousingCenter[0];
+            OpenCvSharp.Point c3 = HousingCenter[1];
+
+            float dx = c1.X - c2.X;
+            float dy = c1.Y - c2.Y;
+            float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+            System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
+            string str = $"Con1:{(dist * CamResolX).ToString("0.00#")}";
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+            Console.WriteLine($"Con1:{dist* CamResolX}");
+
+            dx = c1.X - c3.X;
+            dy = c1.Y - c3.Y;
+            dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+            Console.WriteLine($"Con2:{dist* CamResolX}");
+
+
+            
+
+            ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 590);
+            str = $"Con2:{(dist * CamResolX).ToString("0.00#")}";
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+
         }
 
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
@@ -330,13 +395,17 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, 0, src);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, 0);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
@@ -348,13 +417,16 @@ namespace ZenHandler.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, 0, src);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, 0);//, src);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)
@@ -365,16 +437,21 @@ namespace ZenHandler.Dlg
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             int dataSize = sizeX * sizeY;
 
-            byte[] ImageBuffer = new byte[dataSize];
+            //byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
+            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
             //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
             //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
 
-            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            //
+            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex);
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
         #endregion
 
@@ -806,9 +883,8 @@ namespace ZenHandler.Dlg
             {
                 isDragging = false;
                 
-                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
-
                 roiEnd = e.Location;
+                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
 
                 int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
                 int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
@@ -837,7 +913,7 @@ namespace ZenHandler.Dlg
             }
             else
             {
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                drawCenterCross();
             }
         }
         private void DrawDistnace()
@@ -855,20 +931,28 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 0].Y), Color.Blue, 1);
             Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 1].Y), Color.Blue, 1);
 
-            Globalo.visionManager.CamResol.X = 0.02026f;
-            Globalo.visionManager.CamResol.Y = 0.02026f;//0.0288f;
+            double CamResolX = 0.0;
+            double CamResolY = 0.0;
+            //CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
+            //CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
+            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.02026f;
+            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.02026f;//0.0288f;
 
+            Console.WriteLine($"CamResolX:{CamResolX}");
+            Console.WriteLine($"CamResolY:{CamResolY}");
+            //
             System.Drawing.Point textPoint;
 
-            string str = $"[Distance x: = {Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * Globalo.visionManager.CamResol.X}";
+            string str = $"[Distance x:{Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * CamResolX}";
             textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 250);
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
 
-            str = $"[Distance y: = {Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * Globalo.visionManager.CamResol.Y}";
+            str = $"[Distance y:{Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * CamResolY}";
             textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Green, 15);
+            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
 
         }
+
         private Rectangle GetRoiRect(System.Drawing.Point p1, System.Drawing.Point p2)
         {
             return new Rectangle(
@@ -1038,7 +1122,122 @@ namespace ZenHandler.Dlg
                     Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i] = tempRoi[i].Clone();
                 }
             }
-            Data.TaskDataYaml.Save_AoiConfig(Globalo.yamlManager.aoiRoiConfig, "AoiConfig.yaml");
+            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+        }
+
+        private void CamResolutionInput(Label OffsetLabel)
+        {
+            string labelValue = OffsetLabel.Text;
+            decimal decimalValue = 0;
+
+
+            if (decimal.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString("0.000###");
+                NumPadForm popupForm = new NumPadForm(formattedValue, false);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    double dNumData = Double.Parse(popupForm.NumPadResult);
+
+                    OffsetLabel.Text = dNumData.ToString("0.000###");
+                }
+            }
+        }
+
+        private void label_Set_TopCam_ResolX_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void label_Set_TopCam_ResolY_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void label_Set_SideCam_ResolX_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void label_Set_SideCam_ResolY_Val_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            CamResolutionInput(clickedLabel);
+        }
+
+        private void button_Set_Top_Resol_Save_Click(object sender, EventArgs e)
+        {
+            Globalo.yamlManager.aoiRoiConfig.TopResolution.X = double.Parse(label_Set_TopCam_ResolX_Val.Text);
+            Globalo.yamlManager.aoiRoiConfig.TopResolution.Y = double.Parse(label_Set_TopCam_ResolY_Val.Text);
+            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+
+            if (checkBox_Measure.Checked)
+            {
+                DrawDistnace();
+            }
+        }
+
+        private void button_Set_Side_Resol_Save_Click(object sender, EventArgs e)
+        {
+            Globalo.yamlManager.aoiRoiConfig.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
+            Globalo.yamlManager.aoiRoiConfig.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
+
+            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+            if (checkBox_Measure.Checked)
+            {
+                DrawDistnace();
+            }
+        }
+
+        private void label_SetTest_Manual_Mark_Regist_Click(object sender, EventArgs e)
+        {
+
+            //double dSizeX, double dSizeY, double dCenterX, double dCenterY
+            Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
+
+            double dSizeX = DrawRoiBox.Width;
+            double dSizeY = DrawRoiBox.Height;
+            double dCenterX = DrawRoiBox.X + (DrawRoiBox.Width / 2);
+            double dCenterY = DrawRoiBox.Y + (DrawRoiBox.Height / 2);
+
+            Console.WriteLine($"Mark Roi = Center X:{dCenterX},Center Y:{dCenterY},w:{dSizeX},h:{dSizeY}");
+
+            if (dSizeX > 1024 || dSizeY > 1024)
+            {
+                return;
+            }
+            if (dSizeX < 10 || dSizeY < 10)
+            {
+                return;
+            }
+            Globalo.visionManager.markUtil.RegisterMark(CamIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
+        }
+
+        private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)
+        {
+            Globalo.visionManager.markUtil.ViewMarkMask();
+        }
+
+        private void label_SetTest_Manual_Mark_Find_Click(object sender, EventArgs e)
+        {
+            VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
+
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
+            Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, 0, ref dAlign);
+
+            Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
         }
     }
 }

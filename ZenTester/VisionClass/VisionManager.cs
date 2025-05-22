@@ -23,6 +23,9 @@ namespace ZenHandler.VisionClass
         public OpencvAoiTest opencvTester;
         public AoiTopTester aoiTopTester;
         public AoiSideTester aoiSideTester;
+        public MarkUtil markUtil;
+        public MarkViewerForm markViewer;
+
         public Action<Bitmap> OnCamera1Frame;
         public Action<Bitmap> OnCamera2Frame;
 
@@ -31,7 +34,7 @@ namespace ZenHandler.VisionClass
         public int SetCamControlWidth = 0;
         public int SetCamControlHeight = 0;
 
-        public PointF CamResol;
+        //public PointF CamResol;
         //카메라 연결,해제
         //Get Frame
 
@@ -39,8 +42,6 @@ namespace ZenHandler.VisionClass
         {
             Event.EventManager.PgExitCall += OnPgExit;
 
-            CamResol.X = 0.0f;
-            CamResol.Y = 0.0f;
         }
         public void SetPanelSize(int camWidth, int camHeight, int setcamWidth, int setcamHeight)
         {
@@ -53,10 +54,12 @@ namespace ZenHandler.VisionClass
         {
             int i = 0;
             milLibrary = new MilLibraryUtil();
+
             aoiTester = new AoiTester();
             opencvTester = new OpencvAoiTest();
             aoiTopTester = new AoiTopTester();
             aoiSideTester = new AoiSideTester();
+            
 
             milLibrary.AllocMilApplication();
 
@@ -82,6 +85,9 @@ namespace ZenHandler.VisionClass
             milLibrary.EnableSetCamOverlay();
             //milLibrary.DrawOverlay(0);
             //milLibrary.DrawOverlay(1);
+
+            markUtil = new MarkUtil();
+            markViewer = new MarkViewerForm();
 
             StartCameras();
         }

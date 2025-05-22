@@ -20,10 +20,12 @@ namespace ZenHandler.VisionClass
         public int CamFixCount = 2;
         private bool AutoRunMode = true;
         public bool[] bGrabOnFlag = new bool[2];
-        
+
         //GRAB IMAGE
         public MIL_ID[] MilCamGrabImage;
         public MIL_ID[] MilCamGrabImageChild;
+        public MIL_ID[] MilProcImage;
+        public MIL_ID[] MilProcImageChild;
         //AUTO CAMERA
         public MIL_ID[] MilCamDisplay;                        // Display identifier.
         public MIL_ID[] MilCamSmallImage;
@@ -126,6 +128,12 @@ namespace ZenHandler.VisionClass
         {
             bGrabOnFlag[index] = bGrab;
         }
+
+        public void GetSnapImage(int index)
+        {
+            MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], Globalo.visionManager.milLibrary.MilProcImageChild[index]);
+        }
+
         public void setCamImage(int index, string filePath)
         {
             MIL.MbufLoad(filePath, MilCamGrabImage[index]);
@@ -646,9 +654,14 @@ namespace ZenHandler.VisionClass
             }
             MIL.MbufAlloc2d(MilSystem, CAM_SIZE_X[index], CAM_SIZE_Y[index], (8 + MIL.M_UNSIGNED), lBufferAttributes, ref MilCamGrabImage[index]);
             MIL.MbufClear(MilCamGrabImage[index], MIL.M_COLOR_BLACK);
-            //
             MIL.MbufChild2d(MilCamGrabImage[index], 0, 0, CAM_SIZE_X[index], CAM_SIZE_Y[index], ref MilCamGrabImageChild[index]);
             MIL.MbufClear(MilCamGrabImageChild[index], MIL.M_COLOR_BLACK);
+            //
+            //
+            MIL.MbufAlloc2d(MilSystem, CAM_SIZE_X[index], CAM_SIZE_Y[index], (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilProcImage[index]);
+            MIL.MbufClear(MilProcImage[index], MIL.M_COLOR_BLACK);
+            MIL.MbufChild2d(MilProcImage[index], 0, 0, CAM_SIZE_X[index], CAM_SIZE_Y[index], ref MilProcImageChild[index]);
+            MIL.MbufClear(MilProcImageChild[index], MIL.M_COLOR_BLACK);
             //
             MIL.MbufAllocColor(MilSystem, 3, CamControlWidth, CamControlHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilCamSmallImage[index]);
             MIL.MbufClear(MilCamSmallImage[index], MIL.M_COLOR_BLACK);
@@ -719,9 +732,11 @@ namespace ZenHandler.VisionClass
 
 
             //카메라 2개라서 고정 : 2
-            
+
             MilCamGrabImage = new MIL_ID[CamFixCount];
             MilCamGrabImageChild = new MIL_ID[CamFixCount];
+            MilProcImage = new MIL_ID[CamFixCount];
+            MilProcImageChild = new MIL_ID[CamFixCount];
             //
             MilCamDisplay = new MIL_ID[CamFixCount];
             MilCamSmallImage = new MIL_ID[CamFixCount];
@@ -741,6 +756,8 @@ namespace ZenHandler.VisionClass
             {
                 MilCamGrabImage[i] = MIL.M_NULL;
                 MilCamGrabImageChild[i] = MIL.M_NULL;
+                MilProcImage[i] = MIL.M_NULL;
+                MilProcImageChild[i] = MIL.M_NULL;
                 //
                 MilCamDisplay[i] = MIL.M_NULL;
                 MilCamSmallImage[i] = MIL.M_NULL;
@@ -775,7 +792,8 @@ namespace ZenHandler.VisionClass
 
                 MIL.MbufFree(MilCamGrabImage[i]);
                 MIL.MbufFree(MilCamGrabImageChild[i]);
-                MIL.MbufFree(MilCamGrabImageChild[i]);
+                MIL.MbufFree(MilProcImage[i]);
+                MIL.MbufFree(MilProcImageChild[i]);
                 //
                 MIL.MdispSelect(MilCamDisplay[i], MIL.M_NULL);
                 MIL.MbufFree(MilCamSmallImage[i]);

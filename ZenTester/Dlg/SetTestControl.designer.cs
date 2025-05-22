@@ -50,6 +50,23 @@ namespace ZenHandler.Dlg
             this.checkBox_Roi_Key = new System.Windows.Forms.CheckBox();
             this.label_SetTest_Manual_Roi = new System.Windows.Forms.Label();
             this.button_Set_Roi_Save = new System.Windows.Forms.Button();
+            this.label_Set_TopCam_ResolX_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_ResolX = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_ResolY_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_ResolY = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolY_Val = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolX_Val = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolY = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_ResolX = new System.Windows.Forms.Label();
+            this.button_Set_Top_Resol_Save = new System.Windows.Forms.Button();
+            this.button_Set_Side_Resol_Save = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Mark_Image = new System.Windows.Forms.Label();
+            this.panel_Mark = new System.Windows.Forms.Panel();
+            this.label_SetTest_Manual_Mark_Regist = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Mark_View = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Mark_Find = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Image_Save = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Image_Load = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -80,9 +97,9 @@ namespace ZenHandler.Dlg
             this.button_SetTest_TopCam.BackColor = System.Drawing.Color.Black;
             this.button_SetTest_TopCam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_SetTest_TopCam.ForeColor = System.Drawing.Color.White;
-            this.button_SetTest_TopCam.Location = new System.Drawing.Point(1033, 12);
+            this.button_SetTest_TopCam.Location = new System.Drawing.Point(1049, 8);
             this.button_SetTest_TopCam.Name = "button_SetTest_TopCam";
-            this.button_SetTest_TopCam.Size = new System.Drawing.Size(75, 23);
+            this.button_SetTest_TopCam.Size = new System.Drawing.Size(73, 30);
             this.button_SetTest_TopCam.TabIndex = 5;
             this.button_SetTest_TopCam.Text = "Top Cam";
             this.button_SetTest_TopCam.UseVisualStyleBackColor = false;
@@ -93,9 +110,9 @@ namespace ZenHandler.Dlg
             this.button_SetTest_SideCam.BackColor = System.Drawing.Color.Black;
             this.button_SetTest_SideCam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_SetTest_SideCam.ForeColor = System.Drawing.Color.White;
-            this.button_SetTest_SideCam.Location = new System.Drawing.Point(1114, 12);
+            this.button_SetTest_SideCam.Location = new System.Drawing.Point(1129, 8);
             this.button_SetTest_SideCam.Name = "button_SetTest_SideCam";
-            this.button_SetTest_SideCam.Size = new System.Drawing.Size(75, 23);
+            this.button_SetTest_SideCam.Size = new System.Drawing.Size(73, 30);
             this.button_SetTest_SideCam.TabIndex = 6;
             this.button_SetTest_SideCam.Text = "Side Cam";
             this.button_SetTest_SideCam.UseVisualStyleBackColor = false;
@@ -122,7 +139,7 @@ namespace ZenHandler.Dlg
             this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(1049, 371);
+            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(1387, 92);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
             this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(302, 29);
             this.label_SetTest_Manual_Side_Test.TabIndex = 53;
@@ -134,7 +151,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Key_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Key_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Key_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Key_Test.Location = new System.Drawing.Point(1049, 289);
+            this.button_Set_Key_Test.Location = new System.Drawing.Point(1049, 286);
             this.button_Set_Key_Test.Name = "button_Set_Key_Test";
             this.button_Set_Key_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Key_Test.TabIndex = 54;
@@ -147,7 +164,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Housing_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Housing_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Housing_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Housing_Test.Location = new System.Drawing.Point(1049, 124);
+            this.button_Set_Housing_Test.Location = new System.Drawing.Point(1049, 121);
             this.button_Set_Housing_Test.Name = "button_Set_Housing_Test";
             this.button_Set_Housing_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Housing_Test.TabIndex = 55;
@@ -160,7 +177,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Gasket_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Gasket_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Gasket_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(1049, 179);
+            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(1049, 176);
             this.button_Set_Gasket_Test.Name = "button_Set_Gasket_Test";
             this.button_Set_Gasket_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Gasket_Test.TabIndex = 56;
@@ -173,7 +190,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Dent_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Dent_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Dent_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Dent_Test.Location = new System.Drawing.Point(1049, 234);
+            this.button_Set_Dent_Test.Location = new System.Drawing.Point(1049, 231);
             this.button_Set_Dent_Test.Name = "button_Set_Dent_Test";
             this.button_Set_Dent_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Dent_Test.TabIndex = 57;
@@ -186,7 +203,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Oring_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Oring_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Oring_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Oring_Test.Location = new System.Drawing.Point(1049, 403);
+            this.button_Set_Oring_Test.Location = new System.Drawing.Point(1387, 121);
             this.button_Set_Oring_Test.Name = "button_Set_Oring_Test";
             this.button_Set_Oring_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Oring_Test.TabIndex = 58;
@@ -199,7 +216,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Cone_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Cone_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Cone_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Cone_Test.Location = new System.Drawing.Point(1049, 458);
+            this.button_Set_Cone_Test.Location = new System.Drawing.Point(1387, 176);
             this.button_Set_Cone_Test.Name = "button_Set_Cone_Test";
             this.button_Set_Cone_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Cone_Test.TabIndex = 59;
@@ -212,7 +229,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Height_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Height_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Height_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Height_Test.Location = new System.Drawing.Point(1049, 513);
+            this.button_Set_Height_Test.Location = new System.Drawing.Point(1387, 231);
             this.button_Set_Height_Test.Name = "button_Set_Height_Test";
             this.button_Set_Height_Test.Size = new System.Drawing.Size(140, 56);
             this.button_Set_Height_Test.TabIndex = 60;
@@ -252,11 +269,11 @@ namespace ZenHandler.Dlg
             // 
             this.checkBox_Roi_Height.AutoSize = true;
             this.checkBox_Roi_Height.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_Height.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Height.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Height.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Height.Location = new System.Drawing.Point(1049, 735);
+            this.checkBox_Roi_Height.Location = new System.Drawing.Point(1448, 515);
             this.checkBox_Roi_Height.Name = "checkBox_Roi_Height";
-            this.checkBox_Roi_Height.Size = new System.Drawing.Size(145, 28);
+            this.checkBox_Roi_Height.Size = new System.Drawing.Size(135, 25);
             this.checkBox_Roi_Height.TabIndex = 63;
             this.checkBox_Roi_Height.Text = "ROI HEIGHT";
             this.checkBox_Roi_Height.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -266,11 +283,11 @@ namespace ZenHandler.Dlg
             // 
             this.checkBox_Roi_Cone.AutoSize = true;
             this.checkBox_Roi_Cone.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_Cone.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Cone.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Cone.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(1049, 701);
+            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(1448, 481);
             this.checkBox_Roi_Cone.Name = "checkBox_Roi_Cone";
-            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(140, 28);
+            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(129, 25);
             this.checkBox_Roi_Cone.TabIndex = 64;
             this.checkBox_Roi_Cone.Text = "ROI CONE  ";
             this.checkBox_Roi_Cone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -280,11 +297,11 @@ namespace ZenHandler.Dlg
             // 
             this.checkBox_Roi_ORing.AutoSize = true;
             this.checkBox_Roi_ORing.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_ORing.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_ORing.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_ORing.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(1049, 667);
+            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(1448, 447);
             this.checkBox_Roi_ORing.Name = "checkBox_Roi_ORing";
-            this.checkBox_Roi_ORing.Size = new System.Drawing.Size(137, 28);
+            this.checkBox_Roi_ORing.Size = new System.Drawing.Size(127, 25);
             this.checkBox_Roi_ORing.TabIndex = 65;
             this.checkBox_Roi_ORing.Text = "ROI ORING";
             this.checkBox_Roi_ORing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -294,11 +311,11 @@ namespace ZenHandler.Dlg
             // 
             this.checkBox_Roi_Key.AutoSize = true;
             this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1049, 633);
+            this.checkBox_Roi_Key.Location = new System.Drawing.Point(1448, 413);
             this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
-            this.checkBox_Roi_Key.Size = new System.Drawing.Size(139, 28);
+            this.checkBox_Roi_Key.Size = new System.Drawing.Size(127, 25);
             this.checkBox_Roi_Key.TabIndex = 69;
             this.checkBox_Roi_Key.Text = "ROI KEY     ";
             this.checkBox_Roi_Key.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -311,9 +328,9 @@ namespace ZenHandler.Dlg
             this.label_SetTest_Manual_Roi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Roi.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Roi.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(1049, 601);
+            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(1448, 381);
             this.label_SetTest_Manual_Roi.Name = "label_SetTest_Manual_Roi";
-            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(302, 29);
+            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(241, 29);
             this.label_SetTest_Manual_Roi.TabIndex = 70;
             this.label_SetTest_Manual_Roi.Text = "Roi Set";
             this.label_SetTest_Manual_Roi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -323,19 +340,259 @@ namespace ZenHandler.Dlg
             this.button_Set_Roi_Save.BackColor = System.Drawing.Color.YellowGreen;
             this.button_Set_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Roi_Save.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Roi_Save.Location = new System.Drawing.Point(1230, 632);
+            this.button_Set_Roi_Save.Location = new System.Drawing.Point(1599, 412);
             this.button_Set_Roi_Save.Name = "button_Set_Roi_Save";
-            this.button_Set_Roi_Save.Size = new System.Drawing.Size(121, 63);
+            this.button_Set_Roi_Save.Size = new System.Drawing.Size(90, 43);
             this.button_Set_Roi_Save.TabIndex = 71;
             this.button_Set_Roi_Save.Text = "ROI SAVE";
             this.button_Set_Roi_Save.UseVisualStyleBackColor = false;
             this.button_Set_Roi_Save.Click += new System.EventHandler(this.button_Set_Roi_Save_Click);
+            // 
+            // label_Set_TopCam_ResolX_Val
+            // 
+            this.label_Set_TopCam_ResolX_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_ResolX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_ResolX_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolX_Val.Location = new System.Drawing.Point(1230, 150);
+            this.label_Set_TopCam_ResolX_Val.Name = "label_Set_TopCam_ResolX_Val";
+            this.label_Set_TopCam_ResolX_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_ResolX_Val.TabIndex = 73;
+            this.label_Set_TopCam_ResolX_Val.Text = "0.0";
+            this.label_Set_TopCam_ResolX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_ResolX_Val.Click += new System.EventHandler(this.label_Set_TopCam_ResolX_Val_Click);
+            // 
+            // label_Set_TopCam_ResolX
+            // 
+            this.label_Set_TopCam_ResolX.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_TopCam_ResolX.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolX.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolX.Location = new System.Drawing.Point(1230, 123);
+            this.label_Set_TopCam_ResolX.Name = "label_Set_TopCam_ResolX";
+            this.label_Set_TopCam_ResolX.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_ResolX.TabIndex = 72;
+            this.label_Set_TopCam_ResolX.Text = "Resoltion x";
+            this.label_Set_TopCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_TopCam_ResolY_Val
+            // 
+            this.label_Set_TopCam_ResolY_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_ResolY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_ResolY_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(1230, 207);
+            this.label_Set_TopCam_ResolY_Val.Name = "label_Set_TopCam_ResolY_Val";
+            this.label_Set_TopCam_ResolY_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_ResolY_Val.TabIndex = 75;
+            this.label_Set_TopCam_ResolY_Val.Text = "0.0";
+            this.label_Set_TopCam_ResolY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_ResolY_Val.Click += new System.EventHandler(this.label_Set_TopCam_ResolY_Val_Click);
+            // 
+            // label_Set_TopCam_ResolY
+            // 
+            this.label_Set_TopCam_ResolY.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_TopCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolY.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(1230, 180);
+            this.label_Set_TopCam_ResolY.Name = "label_Set_TopCam_ResolY";
+            this.label_Set_TopCam_ResolY.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_ResolY.TabIndex = 74;
+            this.label_Set_TopCam_ResolY.Text = "Resoltion y";
+            this.label_Set_TopCam_ResolY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_SideCam_ResolY_Val
+            // 
+            this.label_Set_SideCam_ResolY_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_SideCam_ResolY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_SideCam_ResolY_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_SideCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(1568, 207);
+            this.label_Set_SideCam_ResolY_Val.Name = "label_Set_SideCam_ResolY_Val";
+            this.label_Set_SideCam_ResolY_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_SideCam_ResolY_Val.TabIndex = 79;
+            this.label_Set_SideCam_ResolY_Val.Text = "0.0";
+            this.label_Set_SideCam_ResolY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_SideCam_ResolY_Val.Click += new System.EventHandler(this.label_Set_SideCam_ResolY_Val_Click);
+            // 
+            // label_Set_SideCam_ResolX_Val
+            // 
+            this.label_Set_SideCam_ResolX_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_SideCam_ResolX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_SideCam_ResolX_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(1568, 150);
+            this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
+            this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_SideCam_ResolX_Val.TabIndex = 77;
+            this.label_Set_SideCam_ResolX_Val.Text = "0.0";
+            this.label_Set_SideCam_ResolX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_SideCam_ResolX_Val.Click += new System.EventHandler(this.label_Set_SideCam_ResolX_Val_Click);
+            // 
+            // label_Set_SideCam_ResolY
+            // 
+            this.label_Set_SideCam_ResolY.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolY.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(1568, 180);
+            this.label_Set_SideCam_ResolY.Name = "label_Set_SideCam_ResolY";
+            this.label_Set_SideCam_ResolY.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_SideCam_ResolY.TabIndex = 78;
+            this.label_Set_SideCam_ResolY.Text = "Resoltion y";
+            this.label_Set_SideCam_ResolY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_SideCam_ResolX
+            // 
+            this.label_Set_SideCam_ResolX.BackColor = System.Drawing.Color.Gray;
+            this.label_Set_SideCam_ResolX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolX.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(1568, 123);
+            this.label_Set_SideCam_ResolX.Name = "label_Set_SideCam_ResolX";
+            this.label_Set_SideCam_ResolX.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_SideCam_ResolX.TabIndex = 76;
+            this.label_Set_SideCam_ResolX.Text = "Resoltion x";
+            this.label_Set_SideCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button_Set_Top_Resol_Save
+            // 
+            this.button_Set_Top_Resol_Save.BackColor = System.Drawing.Color.YellowGreen;
+            this.button_Set_Top_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Top_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(1230, 235);
+            this.button_Set_Top_Resol_Save.Name = "button_Set_Top_Resol_Save";
+            this.button_Set_Top_Resol_Save.Size = new System.Drawing.Size(121, 43);
+            this.button_Set_Top_Resol_Save.TabIndex = 80;
+            this.button_Set_Top_Resol_Save.Text = "RESOL SAVE";
+            this.button_Set_Top_Resol_Save.UseVisualStyleBackColor = false;
+            this.button_Set_Top_Resol_Save.Click += new System.EventHandler(this.button_Set_Top_Resol_Save_Click);
+            // 
+            // button_Set_Side_Resol_Save
+            // 
+            this.button_Set_Side_Resol_Save.BackColor = System.Drawing.Color.YellowGreen;
+            this.button_Set_Side_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(1568, 235);
+            this.button_Set_Side_Resol_Save.Name = "button_Set_Side_Resol_Save";
+            this.button_Set_Side_Resol_Save.Size = new System.Drawing.Size(121, 43);
+            this.button_Set_Side_Resol_Save.TabIndex = 81;
+            this.button_Set_Side_Resol_Save.Text = "RESOL SAVE";
+            this.button_Set_Side_Resol_Save.UseVisualStyleBackColor = false;
+            this.button_Set_Side_Resol_Save.Click += new System.EventHandler(this.button_Set_Side_Resol_Save_Click);
+            // 
+            // label_SetTest_Manual_Mark_Image
+            // 
+            this.label_SetTest_Manual_Mark_Image.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Mark_Image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_SetTest_Manual_Mark_Image.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Mark_Image.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Image.ForeColor = System.Drawing.Color.Black;
+            this.label_SetTest_Manual_Mark_Image.Location = new System.Drawing.Point(1049, 381);
+            this.label_SetTest_Manual_Mark_Image.Name = "label_SetTest_Manual_Mark_Image";
+            this.label_SetTest_Manual_Mark_Image.Size = new System.Drawing.Size(345, 29);
+            this.label_SetTest_Manual_Mark_Image.TabIndex = 82;
+            this.label_SetTest_Manual_Mark_Image.Text = "Mark Image";
+            this.label_SetTest_Manual_Mark_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel_Mark
+            // 
+            this.panel_Mark.BackColor = System.Drawing.Color.Gray;
+            this.panel_Mark.Location = new System.Drawing.Point(1049, 413);
+            this.panel_Mark.Name = "panel_Mark";
+            this.panel_Mark.Size = new System.Drawing.Size(235, 200);
+            this.panel_Mark.TabIndex = 83;
+            // 
+            // label_SetTest_Manual_Mark_Regist
+            // 
+            this.label_SetTest_Manual_Mark_Regist.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Mark_Regist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Mark_Regist.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(1290, 413);
+            this.label_SetTest_Manual_Mark_Regist.Name = "label_SetTest_Manual_Mark_Regist";
+            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Mark_Regist.TabIndex = 84;
+            this.label_SetTest_Manual_Mark_Regist.Text = "REGIST";
+            this.label_SetTest_Manual_Mark_Regist.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Mark_Regist.Click += new System.EventHandler(this.label_SetTest_Manual_Mark_Regist_Click);
+            // 
+            // label_SetTest_Manual_Mark_View
+            // 
+            this.label_SetTest_Manual_Mark_View.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Mark_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(1290, 453);
+            this.label_SetTest_Manual_Mark_View.Name = "label_SetTest_Manual_Mark_View";
+            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Mark_View.TabIndex = 85;
+            this.label_SetTest_Manual_Mark_View.Text = "VIEW";
+            this.label_SetTest_Manual_Mark_View.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Mark_View.Click += new System.EventHandler(this.label_SetTest_Manual_Mark_View_Click);
+            // 
+            // label_SetTest_Manual_Mark_Find
+            // 
+            this.label_SetTest_Manual_Mark_Find.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Mark_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Mark_Find.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Find.Location = new System.Drawing.Point(1290, 493);
+            this.label_SetTest_Manual_Mark_Find.Name = "label_SetTest_Manual_Mark_Find";
+            this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Mark_Find.TabIndex = 86;
+            this.label_SetTest_Manual_Mark_Find.Text = "MARK FIND";
+            this.label_SetTest_Manual_Mark_Find.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Mark_Find.Click += new System.EventHandler(this.label_SetTest_Manual_Mark_Find_Click);
+            // 
+            // label_SetTest_Manual_Image_Save
+            // 
+            this.label_SetTest_Manual_Image_Save.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Image_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(1290, 533);
+            this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
+            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Image_Save.TabIndex = 87;
+            this.label_SetTest_Manual_Image_Save.Text = "IMAGE SAVE";
+            this.label_SetTest_Manual_Image_Save.UseVisualStyleBackColor = false;
+            // 
+            // label_SetTest_Manual_Image_Load
+            // 
+            this.label_SetTest_Manual_Image_Load.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Image_Load.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(1290, 573);
+            this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
+            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Image_Load.TabIndex = 88;
+            this.label_SetTest_Manual_Image_Load.Text = "IMAGE LOAD";
+            this.label_SetTest_Manual_Image_Load.UseVisualStyleBackColor = false;
             // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_SetTest_Manual_Image_Load);
+            this.Controls.Add(this.label_SetTest_Manual_Image_Save);
+            this.Controls.Add(this.label_SetTest_Manual_Mark_Find);
+            this.Controls.Add(this.label_SetTest_Manual_Mark_View);
+            this.Controls.Add(this.label_SetTest_Manual_Mark_Regist);
+            this.Controls.Add(this.panel_Mark);
+            this.Controls.Add(this.label_SetTest_Manual_Mark_Image);
+            this.Controls.Add(this.button_Set_Side_Resol_Save);
+            this.Controls.Add(this.button_Set_Top_Resol_Save);
+            this.Controls.Add(this.label_Set_SideCam_ResolY_Val);
+            this.Controls.Add(this.label_Set_SideCam_ResolX_Val);
+            this.Controls.Add(this.label_Set_SideCam_ResolY);
+            this.Controls.Add(this.label_Set_SideCam_ResolX);
+            this.Controls.Add(this.label_Set_TopCam_ResolY_Val);
+            this.Controls.Add(this.label_Set_TopCam_ResolX_Val);
+            this.Controls.Add(this.label_Set_TopCam_ResolY);
+            this.Controls.Add(this.label_Set_TopCam_ResolX);
             this.Controls.Add(this.button_Set_Roi_Save);
             this.Controls.Add(this.label_SetTest_Manual_Roi);
             this.Controls.Add(this.checkBox_Roi_Key);
@@ -387,5 +644,22 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.CheckBox checkBox_Roi_Key;
         public System.Windows.Forms.Label label_SetTest_Manual_Roi;
         private System.Windows.Forms.Button button_Set_Roi_Save;
+        public System.Windows.Forms.Label label_Set_TopCam_ResolX_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_ResolX;
+        public System.Windows.Forms.Label label_Set_TopCam_ResolY_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_ResolY;
+        public System.Windows.Forms.Label label_Set_SideCam_ResolY_Val;
+        public System.Windows.Forms.Label label_Set_SideCam_ResolX_Val;
+        private System.Windows.Forms.Label label_Set_SideCam_ResolY;
+        private System.Windows.Forms.Label label_Set_SideCam_ResolX;
+        private System.Windows.Forms.Button button_Set_Top_Resol_Save;
+        private System.Windows.Forms.Button button_Set_Side_Resol_Save;
+        public System.Windows.Forms.Label label_SetTest_Manual_Mark_Image;
+        private System.Windows.Forms.Button label_SetTest_Manual_Mark_Regist;
+        private System.Windows.Forms.Button label_SetTest_Manual_Mark_View;
+        public System.Windows.Forms.Panel panel_Mark;
+        private System.Windows.Forms.Button label_SetTest_Manual_Mark_Find;
+        private System.Windows.Forms.Button label_SetTest_Manual_Image_Save;
+        private System.Windows.Forms.Button label_SetTest_Manual_Image_Load;
     }
 }

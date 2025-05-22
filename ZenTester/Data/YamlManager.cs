@@ -26,7 +26,6 @@ namespace ZenHandler.Data
 
         public List<string> recipeYamlFiles = new List<string>();
         public AlarmData alarmData {get; set;}
-        public ImageData imageData { get; set; }
 
         public TaskDataYaml taskDataYaml { get; set; }
 
@@ -233,46 +232,7 @@ namespace ZenHandler.Data
                 return false;
             }
         }
-        public bool imageDataSave()
-        {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathImage);
-            try
-            {
-                if (!File.Exists(filePath))
-                    return false;
 
-                SaveYaml(filePath, imageData);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error Save YAML: {ex.Message}");
-                return false;
-            }
-        }
-        public bool imageDataLoad()
-        {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathImage);
-            try
-            {
-                if (!File.Exists(filePath))
-                    return false;
-
-                imageData = LoadYaml<ImageData>(filePath);
-                if (imageData == null)
-                {
-                    return false;
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading YAML: {ex.Message}");
-                return false;
-            }
-        }
-        //
-        
         public bool AlarmLoad()
         {
             //Alarm_2025_02_04.yaml
