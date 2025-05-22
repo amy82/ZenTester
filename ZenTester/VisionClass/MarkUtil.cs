@@ -281,7 +281,7 @@ namespace ZenHandler.VisionClass
             MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref clMarkCenter.X);
             MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref clMarkCenter.Y);
 
-            if (m_MilModResult != MIL.M_NULL)
+            if (m_MilModResult == MIL.M_NULL)
             {
                 MIL.MmodFree(m_MilModResult);
                 m_MilModResult = MIL.M_NULL;
@@ -381,6 +381,14 @@ namespace ZenHandler.VisionClass
             {
 
             }
+
+            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
+            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
+
+            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[0]);//M_DRAW_SCALE_X
+            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[0]);//M_DRAW_SCALE_Y
+
+            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
             return false;
         }
         public void ViewMarkMask()
