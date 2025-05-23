@@ -1262,7 +1262,9 @@ namespace ZenHandler.Dlg
                 MarkIndex = 0;
             }
             string model = Globalo.visionManager.markUtil.ModelMarkName;
-            Globalo.visionManager.markUtil.DisplayMarkView(model, MarkIndex, Globalo.visionManager.markUtil.zoomDispSize.X, Globalo.visionManager.markUtil.zoomDispSize.Y);        //TODO: SIZE 수정 필요
+            double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
+            double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
+            Globalo.visionManager.markUtil.DisplayMarkView(model, MarkIndex, sizeX, sizeY);       //TODO: SIZE 수정 필요
         }
 
         private void button_Set_Mark_Next_Click(object sender, EventArgs e)
@@ -1279,7 +1281,10 @@ namespace ZenHandler.Dlg
             }
 
             string model = Globalo.visionManager.markUtil.ModelMarkName;
-            Globalo.visionManager.markUtil.DisplayMarkView(model, MarkIndex, Globalo.visionManager.markUtil.zoomDispSize.X, Globalo.visionManager.markUtil.zoomDispSize.Y);        //TODO: SIZE 수정 필요
+            double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
+            double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
+
+            Globalo.visionManager.markUtil.DisplayMarkView(model, MarkIndex, sizeX, sizeY);        //TODO: SIZE 수정 필요
         }
     }
 }

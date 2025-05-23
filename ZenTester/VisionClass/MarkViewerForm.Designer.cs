@@ -208,8 +208,6 @@ namespace ZenHandler.VisionClass
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel_MarkZoomImage;
         private System.Windows.Forms.Button button_Mask_Save;
         private System.Windows.Forms.Button button_Mask_Close;
         public System.Windows.Forms.Label label_Mask_Edge_Smooth_Val;
@@ -220,5 +218,6 @@ namespace ZenHandler.VisionClass
         private System.Windows.Forms.Label label_Mask_Brush_Size;
         private System.Windows.Forms.TrackBar trackBar_Mask_Brush_Size;
         public System.Windows.Forms.Label label_Mask_Brush_Size_Val;
+        public System.Windows.Forms.Panel panel_MarkZoomImage;
     }
 }

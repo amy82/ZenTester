@@ -39,12 +39,12 @@ namespace ZenHandler.VisionClass
 
         public MIL_ID[] m_MilModResult = new MIL_ID[2];     //SIDE , TOP 2개
         public MIL_ID[] m_MilMarkOverlay = new MIL_ID[2];   //SIDE , TOP 2개
-        public MIL_ID[] m_MilMarkImage = new MIL_ID[2];     //SIDE , TOP 2개
+        public MIL_ID[] m_MilMarkImage = new MIL_ID[2];     //small mark , mask zoom mark 2개
         public MIL_ID[] m_MilMarkDisplay = new MIL_ID[2];   //SIDE , TOP 2개
 
         public MIL_INT m_lTransparentColor;
 
-        public MarkViewerForm markViewer;
+        //public MarkViewerForm markViewer;
 
         public System.Drawing.Point m_clPtMarkSize = new System.Drawing.Point();
         public System.Drawing.Point m_clPtMarkStartPos = new System.Drawing.Point();
@@ -88,13 +88,16 @@ namespace ZenHandler.VisionClass
 
             bool rtn = false;
 
-            rtn = LoadMark("A_MODEL", (int)eCamType.SIDE_CAM);
+            rtn = LoadMark_mod("A_MODEL", (int)eCamType.SIDE_CAM);
 
-            markViewer = new MarkViewerForm();
+            //markViewer = new MarkViewerForm();
         }
         public void InitMarkViewDlg()
         {
-            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, smallDispSize.X, smallDispSize.Y, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref m_MilMarkImage[0]);
+            int CamSizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];
+            int CamSizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
+            long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
+            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, smallDispSize.X, smallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[0]);
             if (m_MilMarkImage[0] != MIL.M_NULL)
             {
                 m_MilMarkDisplay[0] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
@@ -108,22 +111,6 @@ namespace ZenHandler.VisionClass
 
                 }
             }
-            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, Globalo.visionManager.milLibrary.CAM_SIZE_X[0], Globalo.visionManager.milLibrary.CAM_SIZE_Y[0], (8 + MIL.M_UNSIGNED),
-                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
-
-
-            if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
-            {
-                Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
-                MIL_INT DisplayType = MIL.MdispInquire(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
-
-                if (DisplayType != MIL.M_WINDOWED)
-                {
-                    MIL.MdispFree(Globalo.visionManager.markUtil.m_MilMarkDisplay[1]);
-                    Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
-                }
-            }
-
             if (m_MilMarkDisplay[0] != MIL.M_NULL)
             {
                 MIL.MdispSelectWindow(m_MilMarkDisplay[0], m_MilMarkImage[0], Globalo.setTestControl.panel_Mark.Handle);
@@ -131,11 +118,29 @@ namespace ZenHandler.VisionClass
                 MarkEnableOverlay();
             }
 
-            //DisplayMarkView(m_nUnit, m_nMarkNo, m_clMaskViewDlg.m_iMarkSetSizeX, m_clMaskViewDlg.m_iMarkSetSizeY);
-            //DisplayMarkView("A_MODEL", 0, smallDispSize.X, smallDispSize.Y);
 
-            zoomDispSize.X = markViewer.DispSize.X;
-            zoomDispSize.Y = markViewer.DispSize.Y;
+
+
+
+            //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, CamSizeX, CamSizeY, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[1]);
+
+
+            //if (m_MilMarkImage[1] != MIL.M_NULL)
+            //{
+            //    Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
+            //    MIL_INT DisplayType = MIL.MdispInquire(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
+
+            //    if (DisplayType != MIL.M_WINDOWED)
+            //    {
+            //        MIL.MdispFree(Globalo.visionManager.markUtil.m_MilMarkDisplay[1]);
+            //        Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
+            //    }
+            //}
+
+
+
+            zoomDispSize.X = Globalo.markViewer.GetDispSize(0);//    DispSize.X;
+            zoomDispSize.Y = Globalo.markViewer.GetDispSize(1);//.DispSize.Y;
 
             DisplayMarkView(ModelMarkName, 0, zoomDispSize.X, zoomDispSize.Y);        //TODO: SIZE 수정 필요
 
@@ -157,8 +162,6 @@ namespace ZenHandler.VisionClass
             double dCenterY = 0.0;
 
             string szPath = "";
-            //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.bmp"), BASE_MODEL_PATH, g_clSysData.m_szModelName, nMarkNo + 1);
-            //szPath = "d:\\MARK.bmp";
 
             string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nMarkNo + 1}.bmp");       //LOT DATA
             MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
@@ -186,7 +189,7 @@ namespace ZenHandler.VisionClass
                 dZoomX = smallDispSize.X / dZoomMarkWidth;
                 dZoomY = smallDispSize.Y / dZoomMarkHeight;
 
-                MIL.MimResize(m_MilMarkImage[1], m_MilMarkImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
+                MIL.MimResize(m_MilMarkImage[1], m_MilMarkImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);//m_MilMarkImage[1] --> m_MilMarkImage[0]
 
                 DrawMarkOverlay(nMarkNo);	//<----여기서 작은 마크에 Line Draw
             }
@@ -194,7 +197,7 @@ namespace ZenHandler.VisionClass
             //m_nMarkNo = nMarkNo;
             //g_clTaskWork[m_nUnit].m_ManualMarkIndex = m_nMarkNo;
         }
-        public bool LoadMark(string ModelName, int camIndex)
+        public bool LoadMark_mod(string ModelName, int camIndex)
         {
             int i = 0;
             int j = 0;
@@ -229,7 +232,7 @@ namespace ZenHandler.VisionClass
             }
             return true;
         }
-        public bool SaveMark(string ModelName, int camIndex, int nNo)
+        public bool SaveMark_mod(string ModelName, int camIndex, int nNo)
         {
             string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName);       //LOT DATA
             if (!Directory.Exists(filePath)) // 폴더가 존재하지 않으면
@@ -343,9 +346,7 @@ namespace ZenHandler.VisionClass
             //  MASK VIEW
             //
             //------------------------------------------------------------------------------------------------------
-            Globalo.visionManager.markUtil.markViewer.InitMaskViewDlg(index, MarkNo, m_clPtMarkSize.X, m_clPtMarkSize.Y);
-            Globalo.visionManager.markUtil.markViewer.ShowDialog();
-
+            ViewMarkMask(index, MarkNo);
             return false;
         }
 
@@ -610,8 +611,8 @@ namespace ZenHandler.VisionClass
             m_clPtMarkSize.X = (int)dSizeX;
             m_clPtMarkSize.Y = (int)dSizeY;
 
-            Globalo.visionManager.markUtil.markViewer.InitMaskViewDlg(index, MarkNo, (int)dSizeX, (int)dSizeY);// m_clPtMarkSize.X, m_clPtMarkSize.Y);
-            Globalo.visionManager.markUtil.markViewer.ShowDialog();
+            Globalo.markViewer.InitMaskViewDlg(index, MarkNo, (int)dSizeX, (int)dSizeY);//뷰
+            Globalo.markViewer.ShowDialog();
         }
         
         public void MarkEnableOverlay()

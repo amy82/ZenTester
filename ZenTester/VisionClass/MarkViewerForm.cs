@@ -52,50 +52,32 @@ namespace ZenHandler.VisionClass
             label_Mask_Brush_Size_Val.Text = m_nBrushSize.ToString();
             label_Mask_Edge_Smooth_Val.Text = m_nEdgeSmooth.ToString();
 
-            //MbufAllocColor(g_clVision.m_MilSystem[0], 1L, CCD1_CAM_SIZE_X, CCD1_CAM_SIZE_Y, (8 + M_UNSIGNED), M_IMAGE + M_DISP + M_PROC, &g_clModelFinder.m_MilMarkImage[1]);
-
-            //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, Globalo.visionManager.milLibrary.CAM_SIZE_X[0], Globalo.visionManager.milLibrary.CAM_SIZE_Y[0], (8 + MIL.M_UNSIGNED), 
-            //    MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
-
-
-            //if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
-            //{
-            //    Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
-            //    MIL_INT DisplayType = MIL.MdispInquire(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
-
-            //    if (DisplayType != MIL.M_WINDOWED)
-            //    {
-            //        MIL.MdispFree(Globalo.visionManager.markUtil.m_MilMarkDisplay[1]);
-            //        Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
-            //    }
-            //}
-
             label_Mask_Erase.ForeColor = Color.Gray;
 
             //panel_MarkZoomImage
-        }
-
-        public void DisplayMarkView(int nMarkNo, double dZoomMarkWidth, double dZoomMarkHeight)
-        {
-            //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.bmp"), BASE_MODEL_PATH, g_clSysData.m_szModelName, nMarkNo + 1);
-
-            MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkOverlay[0], Globalo.visionManager.markUtil.m_lTransparentColor);
-            MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkImage[1], 192);
         }
         public void InitMaskViewDlg(int index, int nMarkNo, int m_iSizeX , int m_iSizeY)
         {
             //panel_MarkZoomImage
             CurrentCamIndex = index;
             CurrentMarkNo = nMarkNo;
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, DispSize.X, DispSize.Y, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
+            if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
+            {
+                MIL.MbufFree(Globalo.visionManager.markUtil.m_MilMarkImage[1]); //TODO: 250524 추가 확인필요
+            }
+            long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, DispSize.X, DispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
 
             if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
             {
                 if (Globalo.visionManager.markUtil.m_MilMarkDisplay[1] != MIL.M_NULL)
                 {
                     MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], 0);
+
                     Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
+
                     m_MilMaskOverlay = MIL.M_NULL;
+
                     Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, MIL.M_NULL);
 
                     MIL.MdispSelectWindow(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], Globalo.visionManager.markUtil.m_MilMarkImage[1], panel_MarkZoomImage.Handle);
@@ -150,7 +132,17 @@ namespace ZenHandler.VisionClass
             // 센터라인 그리기
             DrawCenterLine(m_clCdCenter);
         }
-
+        public int GetDispSize(int index)
+        {
+            if(index == 0)
+            {
+                return DispSize.X;
+            }
+            else
+            {
+                return DispSize.Y;
+            }
+        }
         private void MaskEnableOverlay()
         {
             if (m_bInitOverlay == false)
@@ -346,7 +338,6 @@ namespace ZenHandler.VisionClass
             }
 
             ///Globalo.visionManager.markUtil.LoadMark("A_MODEL", 0, 0);
-            //MIL.MdispSelect(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], Globalo.visionManager.markUtil.m_MilMarkImage[1]);
 
             this.Close();
         }
@@ -427,7 +418,7 @@ namespace ZenHandler.VisionClass
 
 
 
-            Globalo.visionManager.markUtil.SaveMark(Globalo.visionManager.markUtil.ModelMarkName, CurrentCamIndex, CurrentMarkNo);
+            Globalo.visionManager.markUtil.SaveMark_mod(Globalo.visionManager.markUtil.ModelMarkName, CurrentCamIndex, CurrentMarkNo);
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
 
@@ -444,7 +435,7 @@ namespace ZenHandler.VisionClass
                 m_MilMask = MIL.M_NULL;
             }
 
-            Globalo.visionManager.markUtil.LoadMark("A_MODEL", 0);
+            Globalo.visionManager.markUtil.LoadMark_mod("A_MODEL", 0);
             //if (m_pMaskBuff != null)
             //{
             //    free(m_pMaskBuff);
