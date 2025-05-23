@@ -58,6 +58,7 @@ namespace ZenHandler.Dlg
         private int[] CamW = new int[2];
         private int[] CamH = new int[2];
         public int CamIndex = 0;
+        public int MarkIndex = 0;
         public SetTestControl()
         {
             InitializeComponent();
@@ -853,7 +854,7 @@ namespace ZenHandler.Dlg
 
                 //Set_panelCam.Invalidate();
                 // 마우스 왼쪽 버튼이 눌린 상태에서 이동 중
-                Console.WriteLine($"드래그 중: X={e.X}, Y={e.Y}");
+                //Console.WriteLine($"드래그 중: X={e.X}, Y={e.Y}");
                 // ROI 박스 그리기 등 처리
             }
             else if (isMovingRoi)
@@ -862,7 +863,7 @@ namespace ZenHandler.Dlg
                 int dx = e.X - moveStartMousePos.X;
                 int dy = e.Y - moveStartMousePos.Y;
 
-                Console.WriteLine($"드래그 중: dx={dx}, dy={dy}");
+                //Console.WriteLine($"드래그 중: dx={dx}, dy={dy}");
                 DrawRoiBox.Location = new System.Drawing.Point(moveStartRoiPos.X + dx, moveStartRoiPos.Y + dy);
 
 
@@ -1202,7 +1203,6 @@ namespace ZenHandler.Dlg
 
         private void label_SetTest_Manual_Mark_Regist_Click(object sender, EventArgs e)
         {
-
             //double dSizeX, double dSizeY, double dCenterX, double dCenterY
             Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
 
@@ -1231,7 +1231,7 @@ namespace ZenHandler.Dlg
 
         private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.markUtil.ViewMarkMask(CamIndex);
+            Globalo.visionManager.markUtil.ViewMarkMask(CamIndex, MarkIndex);
         }
 
         private void label_SetTest_Manual_Mark_Find_Click(object sender, EventArgs e)
@@ -1252,12 +1252,34 @@ namespace ZenHandler.Dlg
 
         private void button_Set_Mark_Prev_Click(object sender, EventArgs e)
         {
-
+            //Prev
+            if (MarkIndex > 0)
+            {
+                MarkIndex--;
+            }
+            else
+            {
+                MarkIndex = 0;
+            }
+            string model = Globalo.visionManager.markUtil.ModelMarkName;
+            Globalo.visionManager.markUtil.DisplayMarkView(model, MarkIndex, Globalo.visionManager.markUtil.zoomDispSize.X, Globalo.visionManager.markUtil.zoomDispSize.Y);        //TODO: SIZE 수정 필요
         }
 
         private void button_Set_Mark_Next_Click(object sender, EventArgs e)
         {
+            //Next
 
+            if (MarkIndex < 3)
+            {
+                MarkIndex++;
+            }
+            else
+            {
+                MarkIndex = 3;
+            }
+
+            string model = Globalo.visionManager.markUtil.ModelMarkName;
+            Globalo.visionManager.markUtil.DisplayMarkView(model, MarkIndex, Globalo.visionManager.markUtil.zoomDispSize.X, Globalo.visionManager.markUtil.zoomDispSize.Y);        //TODO: SIZE 수정 필요
         }
     }
 }
