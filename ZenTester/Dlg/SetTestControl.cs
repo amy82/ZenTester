@@ -1061,8 +1061,11 @@ namespace ZenHandler.Dlg
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Clone());
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Clone());
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2].Clone());
+
                     drawTestRoi(isRoiChecked);
                 }
+
+
                 if (changed.Name == "checkBox_Roi_Cone") 
                 {
                     isRoiChecked = 1;
@@ -1208,7 +1211,8 @@ namespace ZenHandler.Dlg
             double dCenterX = DrawRoiBox.X + (DrawRoiBox.Width / 2);
             double dCenterY = DrawRoiBox.Y + (DrawRoiBox.Height / 2);
 
-            Console.WriteLine($"Mark Roi = Center X:{dCenterX},Center Y:{dCenterY},w:{dSizeX},h:{dSizeY}");
+            Console.WriteLine($"Mark Roi Pos = Center X:{dCenterX}, Center Y:{dCenterY}");
+            Console.WriteLine($"Mark Roi Size = Width:{dSizeX}, Height:{dSizeY}");
 
             if (dSizeX > 1024 || dSizeY > 1024)
             {
@@ -1218,6 +1222,10 @@ namespace ZenHandler.Dlg
             {
                 return;
             }
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
             Globalo.visionManager.markUtil.RegisterMark(CamIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
         }
 
@@ -1234,6 +1242,8 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
 
             Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, 0, ref dAlign);
 

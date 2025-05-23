@@ -24,7 +24,7 @@ namespace ZenHandler.VisionClass
         public AoiTopTester aoiTopTester;
         public AoiSideTester aoiSideTester;
         public MarkUtil markUtil;
-        public MarkViewerForm markViewer;
+        
 
         public Action<Bitmap> OnCamera1Frame;
         public Action<Bitmap> OnCamera2Frame;
@@ -86,8 +86,10 @@ namespace ZenHandler.VisionClass
             //milLibrary.DrawOverlay(0);
             //milLibrary.DrawOverlay(1);
 
+            
             markUtil = new MarkUtil();
-            markViewer = new MarkViewerForm();
+            markUtil.LoadMark("A_MODEL", 0);
+            markUtil.InitMarkViewDlg();
 
             StartCameras();
         }

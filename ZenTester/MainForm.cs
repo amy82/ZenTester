@@ -67,7 +67,7 @@ namespace ZenHandler  //ApsMotionControl
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
             Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig("AoiConfig.yaml");
 
-
+            
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
 
@@ -149,7 +149,7 @@ namespace ZenHandler  //ApsMotionControl
             Globalo.visionManager.RegisterDisplayHandle(2, Globalo.setTestControl.Set_panelCam.Handle);
 
             Globalo.visionManager.MilSet();
-
+            
 
             Globalo.setTestControl.setCamCenter();
             //if (ProgramState.ON_LINE_MIL)

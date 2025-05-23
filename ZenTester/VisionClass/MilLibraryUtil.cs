@@ -172,10 +172,7 @@ namespace ZenHandler.VisionClass
 
             System.Drawing.Point textPoint = new System.Drawing.Point(10, 10);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Green, 15);
-
-
             
-
             Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
 
             /*
@@ -585,7 +582,7 @@ namespace ZenHandler.VisionClass
                         {
                             using (SolidBrush RightBrush = new SolidBrush(Color.Yellow))
                             {
-                                using (Font OverlayFont = new Font("Courier New", nSize, FontStyle.Bold))
+                                using (Font OverlayFont = new Font("Arial", nSize, FontStyle.Bold))
                                 {
                                     // Write text in the overlay image
                                     DrawingGraphics.DrawString(szText, OverlayFont, LeftBrush, x, y);

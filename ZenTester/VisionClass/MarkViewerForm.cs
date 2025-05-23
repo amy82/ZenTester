@@ -13,7 +13,7 @@ namespace ZenHandler.VisionClass
 {
     public partial class MarkViewerForm : Form
     {
-        private OpenCvSharp.Point2d DispSize = new OpenCvSharp.Point2d();
+        public OpenCvSharp.Point2d DispSize = new OpenCvSharp.Point2d();
         private System.Drawing.Point m_clPtMarkSize = new System.Drawing.Point();
         private System.Drawing.Point m_clCdCenter = new System.Drawing.Point();
         private MIL_ID m_MilMaskOverlay;
@@ -48,6 +48,7 @@ namespace ZenHandler.VisionClass
             label_Mask_Edge_Smooth_Val.Text = m_nEdgeSmooth.ToString();
 
             //MbufAllocColor(g_clVision.m_MilSystem[0], 1L, CCD1_CAM_SIZE_X, CCD1_CAM_SIZE_Y, (8 + M_UNSIGNED), M_IMAGE + M_DISP + M_PROC, &g_clModelFinder.m_MilMarkImage[1]);
+
             MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, Globalo.visionManager.milLibrary.CAM_SIZE_X[0], Globalo.visionManager.milLibrary.CAM_SIZE_Y[0], (8 + MIL.M_UNSIGNED), 
                 MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
 
@@ -61,9 +62,11 @@ namespace ZenHandler.VisionClass
                 {
                     MIL.MdispFree(Globalo.visionManager.markUtil.m_MilMarkDisplay[1]);
                     Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
-                    return;
                 }
             }
+
+            label_Mask_Erase.ForeColor = Color.Gray;
+
             //panel_MarkZoomImage
         }
 
@@ -105,7 +108,7 @@ namespace ZenHandler.VisionClass
             //m_bEnableOverlay = false;
 
             m_pMaskBuff = null;
-            //m_nEdgeSmooth = g_clMarkData[nUnit].m_nSmooth[nMarkNo];
+            m_nEdgeSmooth = Globalo.visionManager.markUtil.m_nSmooth;
 
             m_dZoomX = DispSize.X / (double)m_iSizeX;      //마크 이미지 축소 OR 확대
             m_dZoomY = DispSize.Y / (double)m_iSizeY;
@@ -371,6 +374,15 @@ namespace ZenHandler.VisionClass
         private void label_Mask_Erase_Click(object sender, EventArgs e)
         {
             m_bEraseMask = !m_bEraseMask;
+
+            if (m_bEraseMask)
+            {
+                label_Mask_Erase.ForeColor = Color.Gray;
+            }
+            else
+            {
+                label_Mask_Erase.ForeColor = Color.Black;
+            }
         }
 
         private void label_Mask_Bg_Click(object sender, EventArgs e)
@@ -450,6 +462,8 @@ namespace ZenHandler.VisionClass
                     }
                     m_nEdgeSmooth = dNumData;
                     label_Mask_Edge_Smooth_Val.Text = m_nEdgeSmooth.ToString();
+                    Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
+                    DrawCenterLine(m_clCdCenter);
                 }
             }
         }
