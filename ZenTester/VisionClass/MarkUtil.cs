@@ -119,30 +119,10 @@ namespace ZenHandler.VisionClass
             }
 
 
-
-
-
-            //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, CamSizeX, CamSizeY, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[1]);
-
-
-            //if (m_MilMarkImage[1] != MIL.M_NULL)
-            //{
-            //    Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
-            //    MIL_INT DisplayType = MIL.MdispInquire(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
-
-            //    if (DisplayType != MIL.M_WINDOWED)
-            //    {
-            //        MIL.MdispFree(Globalo.visionManager.markUtil.m_MilMarkDisplay[1]);
-            //        Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
-            //    }
-            //}
-
-
-
             zoomDispSize.X = Globalo.markViewer.GetDispSize(0);//    DispSize.X;
             zoomDispSize.Y = Globalo.markViewer.GetDispSize(1);//.DispSize.Y;
 
-            DisplayMarkView(ModelMarkName, 0, zoomDispSize.X, zoomDispSize.Y);        //TODO: SIZE 수정 필요
+            DisplaySmallMarkView(ModelMarkName, 0, zoomDispSize.X, zoomDispSize.Y);        //TODO: SIZE 수정 필요
 
             ShowMarkNo();
         }
@@ -150,52 +130,69 @@ namespace ZenHandler.VisionClass
         {
 
         }
-        public void DisplayMarkView(string markName, int nMarkNo, double dZoomMarkWidth, double dZoomMarkHeight)
+        public void DisplaySmallMarkView(string markName, int nMarkNo, double dZoomMarkWidth, double dZoomMarkHeight)
         {
-            double dZoomX = 0.0;
-            double dZoomY = 0.0;
-
-            double dSizeX = 0.0;
-            double dSizeY = 0.0;
-
-            double dCenterX = 0.0;
-            double dCenterY = 0.0;
-
             string szPath = "";
-
             string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nMarkNo + 1}.bmp");       //LOT DATA
+            
             MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
             MIL.MbufClear(m_MilMarkImage[0], 192);
 
             //if (filePath)       //szPath 파일이 있으면
             if (File.Exists(filePath))
             {
-                MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref m_MilMarkImage[1]);
+                MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref m_MilMarkImage[1]);     //TODO: <--시작 처음 한번만 하면되지 않을까?
 
                 //MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel, m_MilMarkImage[0], MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
-
+                double dSizeX = 0.0;
+                double dSizeY = 0.0;
                 MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);       //<-----여기서왜 마크 사이즈를 바꾸지?
                 MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
 
                 m_clPtMarkSize.X = (int)dSizeX;
                 m_clPtMarkSize.Y = (int)dSizeY;
 
+                double dCenterX = 0.0;
+                double dCenterY = 0.0;
                 MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
                 MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
 
                 //m_clPtMarkCenterPos.X = (int)dCenterX;        //필요없는듯
                 //m_clPtMarkCenterPos.Y = (int)dCenterY;
-
+                double dZoomX = 0.0;
+                double dZoomY = 0.0;
                 dZoomX = smallDispSize.X / dZoomMarkWidth;
                 dZoomY = smallDispSize.Y / dZoomMarkHeight;
 
-                MIL.MimResize(m_MilMarkImage[1], m_MilMarkImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);//m_MilMarkImage[1] --> m_MilMarkImage[0]
+                MIL.MimResize(m_MilMarkImage[1], m_MilMarkImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
 
                 DrawMarkOverlay(nMarkNo);	//<----여기서 작은 마크에 Line Draw
             }
 
             //m_nMarkNo = nMarkNo;
             //g_clTaskWork[m_nUnit].m_ManualMarkIndex = m_nMarkNo;
+        }
+        public bool SaveMark_mod(string ModelName, int camIndex, int nNo)
+        {
+            string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName);       //LOT DATA
+            if (!Directory.Exists(filePath)) // 폴더가 존재하지 않으면
+            {
+                Directory.CreateDirectory(filePath); // 폴더 생성
+            }
+
+
+            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo}.mod");       //LOT DATA
+
+
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
+            //m_bMarkState[nUnit][nNo] = true;
+            MIL.MmodSave(filePath, m_MilModModel[nNo], MIL.M_DEFAULT);
+
+
+            // BMP 
+            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo}.bmp");       //LOT DATA
+            MIL.MbufExport(filePath, MIL.M_BMP, m_MilMarkImage[1]);
+            return false;
         }
         public bool LoadMark_mod(string ModelName, int camIndex)
         {
@@ -232,28 +229,7 @@ namespace ZenHandler.VisionClass
             }
             return true;
         }
-        public bool SaveMark_mod(string ModelName, int camIndex, int nNo)
-        {
-            string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName);       //LOT DATA
-            if (!Directory.Exists(filePath)) // 폴더가 존재하지 않으면
-            {
-                Directory.CreateDirectory(filePath); // 폴더 생성
-            }
-
-
-            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo}.mod");       //LOT DATA
-
-
-            MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
-            //m_bMarkState[nUnit][nNo] = true;
-            MIL.MmodSave(filePath, m_MilModModel[nNo], MIL.M_DEFAULT);
-
-
-            // BMP 
-            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo}.bmp");       //LOT DATA
-            MIL.MbufExport(filePath, MIL.M_BMP, m_MilMarkImage[1]);
-            return false;
-        }
+        
         
         public void DrawMarkOverlay(int nNo)
         {

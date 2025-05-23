@@ -417,16 +417,16 @@ namespace ZenHandler.VisionClass
             MIL.MmodPreprocess(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT);
 
 
+            Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
 
             Globalo.visionManager.markUtil.SaveMark_mod(Globalo.visionManager.markUtil.ModelMarkName, CurrentCamIndex, CurrentMarkNo);
 
-            Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
 
             //g_clMarkData[m_nUnit].SaveData(g_clSysData.m_szModelName);
 
             Globalo.visionManager.markUtil.SettingFindMark(0);
             //
-            Globalo.visionManager.markUtil.DisplayMarkView(Globalo.visionManager.markUtil.ModelMarkName, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);
+            Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.visionManager.markUtil.ModelMarkName, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);
 
 
             if (m_MilMask != MIL.M_NULL)
@@ -435,7 +435,7 @@ namespace ZenHandler.VisionClass
                 m_MilMask = MIL.M_NULL;
             }
 
-            Globalo.visionManager.markUtil.LoadMark_mod("A_MODEL", 0);
+            //Globalo.visionManager.markUtil.LoadMark_mod("A_MODEL", 0);
             //if (m_pMaskBuff != null)
             //{
             //    free(m_pMaskBuff);
