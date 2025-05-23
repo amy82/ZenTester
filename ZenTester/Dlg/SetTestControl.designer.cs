@@ -598,6 +598,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Mark_Next.TabIndex = 90;
             this.button_Set_Mark_Next.Text = "▶";
             this.button_Set_Mark_Next.UseVisualStyleBackColor = false;
+            this.button_Set_Mark_Next.Click += new System.EventHandler(this.button_Set_Mark_Next_Click);
             // 
             // button_Set_Mark_Prev
             // 
@@ -611,6 +612,7 @@ namespace ZenHandler.Dlg
             this.button_Set_Mark_Prev.TabIndex = 89;
             this.button_Set_Mark_Prev.Text = "◀";
             this.button_Set_Mark_Prev.UseVisualStyleBackColor = false;
+            this.button_Set_Mark_Prev.Click += new System.EventHandler(this.button_Set_Mark_Prev_Click);
             // 
             // SetTestControl
             // 

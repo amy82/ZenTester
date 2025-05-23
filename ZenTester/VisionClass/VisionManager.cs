@@ -88,7 +88,8 @@ namespace ZenHandler.VisionClass
 
             
             markUtil = new MarkUtil();
-            markUtil.LoadMark("A_MODEL", 0);
+            markUtil.LoadMark("A_MODEL",0, 0);
+            markUtil.LoadMark("A_MODEL",1, 0);
             markUtil.InitMarkViewDlg();
 
             StartCameras();

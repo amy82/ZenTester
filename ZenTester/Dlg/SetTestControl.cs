@@ -57,7 +57,7 @@ namespace ZenHandler.Dlg
 
         private int[] CamW = new int[2];
         private int[] CamH = new int[2];
-        int CamIndex = 0;
+        public int CamIndex = 0;
         public SetTestControl()
         {
             InitializeComponent();
@@ -1226,12 +1226,12 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-            Globalo.visionManager.markUtil.RegisterMark(CamIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
+            Globalo.visionManager.markUtil.RegisterMark(CamIndex, 0, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
         }
 
         private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.markUtil.ViewMarkMask();
+            Globalo.visionManager.markUtil.ViewMarkMask(CamIndex);
         }
 
         private void label_SetTest_Manual_Mark_Find_Click(object sender, EventArgs e)
@@ -1248,6 +1248,16 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, 0, ref dAlign);
 
             Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
+        }
+
+        private void button_Set_Mark_Prev_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Set_Mark_Next_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

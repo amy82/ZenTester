@@ -27,9 +27,9 @@ namespace ZenHandler.VisionClass
     public class MarkUtil
     {
         private Stopwatch TeststopWatch = new Stopwatch();
-        public MIL_ID m_MilModModel;
-        public MIL_ID m_MilModResult;
+        public MIL_ID[] m_MilModModel;
 
+        public MIL_ID[] m_MilModResult;
         public MIL_ID[] m_MilMarkOverlay;
         public MIL_ID[] m_MilMarkImage;
         public MIL_ID[] m_MilMarkDisplay;
@@ -41,7 +41,7 @@ namespace ZenHandler.VisionClass
         public System.Drawing.Point m_clPtMarkStartPos = new System.Drawing.Point();
         private System.Drawing.Point smallDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
 
-
+        public string ModelMarkName = "A_MODEL";
 
         public System.Drawing.Point dMarkCenterX = new System.Drawing.Point();
 
@@ -52,16 +52,25 @@ namespace ZenHandler.VisionClass
         {
             int i = 0;
             m_MilMarkImage = new MIL_ID[2];
+            m_MilModResult = new MIL_ID[2];
             m_MilMarkDisplay = new MIL_ID[2];
             m_MilMarkOverlay = new MIL_ID[2];
+            m_MilModModel = new MIL_ID[5];
+
             for (i = 0; i < 2; i++)
             {
                 m_MilMarkImage[i] = MIL.M_NULL;
+                m_MilModResult[i] = MIL.M_NULL;
                 m_MilMarkDisplay[i] = MIL.M_NULL;
                 m_MilMarkOverlay[i] = MIL.M_NULL;
             }
-            m_MilModModel = MIL.M_NULL;
-            m_MilModResult = MIL.M_NULL;
+            for (i = 0; i < 5; i++)
+            {
+                m_MilModModel[i] = MIL.M_NULL;
+            }
+
+
+                
             
             m_lTransparentColor = MIL.M_NULL;
             
@@ -101,23 +110,23 @@ namespace ZenHandler.VisionClass
 
             //DisplayMarkView(m_nUnit, m_nMarkNo, m_clMaskViewDlg.m_iMarkSetSizeX, m_clMaskViewDlg.m_iMarkSetSizeY);
             //DisplayMarkView("A_MODEL", 0, smallDispSize.X, smallDispSize.Y);
-            DisplayMarkView("A_MODEL", 0, markViewer.DispSize.X, markViewer.DispSize.Y);
+            DisplayMarkView(ModelMarkName, 0, markViewer.DispSize.X, markViewer.DispSize.Y);        //TODO: SIZE 수정 필요
             //this->ShowMarkNo();
         }
-        public bool LoadMark(string markName, int nNo)
+        public bool LoadMark(string markName, int camIndex, int nNo)
         {
-            if (m_MilModResult != MIL.M_NULL)
+            if (m_MilModResult[camIndex] != MIL.M_NULL)
             {
-                MIL.MmodFree(m_MilModResult);
-                m_MilModResult = MIL.M_NULL;
+                MIL.MmodFree(m_MilModResult[camIndex]);
+                m_MilModResult[camIndex] = MIL.M_NULL;
             }
 
-            MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult);
+            MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult[camIndex]);
 
-            if (m_MilModModel != MIL.M_NULL)
+            if (m_MilModModel[nNo] != MIL.M_NULL)
             {
-                MIL.MmodFree(m_MilModModel);
-                m_MilModModel = MIL.M_NULL;
+                MIL.MmodFree(m_MilModModel[nNo]);
+                m_MilModModel[nNo] = MIL.M_NULL;
             }
 
             //_stprintf_s(szPath, SIZE_OF_1K, _T("%s\\%s\\MARK-%d.mod"), BASE_MODEL_PATH, (TCHAR*)(LPCTSTR)sModelName, nNo + 1);
@@ -126,7 +135,7 @@ namespace ZenHandler.VisionClass
 
             if (File.Exists(filePath))
             {
-                MIL.MmodRestore(filePath, Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModModel);
+                MIL.MmodRestore(filePath, Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModModel[nNo]);
             }
             else
             {
@@ -135,7 +144,7 @@ namespace ZenHandler.VisionClass
 
             return true;
         }
-        public bool SaveMark(string markName, int nNo)
+        public bool SaveMark(string markName, int camIndex, int nNo)
         {
             string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName);       //LOT DATA
             if (!Directory.Exists(filePath)) // 폴더가 존재하지 않으면
@@ -146,9 +155,9 @@ namespace ZenHandler.VisionClass
             filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nNo}.mod");       //LOT DATA
 
 
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
             //m_bMarkState[nUnit][nNo] = true;
-            MIL.MmodSave(filePath, m_MilModModel, MIL.M_DEFAULT);
+            MIL.MmodSave(filePath, m_MilModModel[nNo], MIL.M_DEFAULT);
 
 
             // BMP 
@@ -183,14 +192,14 @@ namespace ZenHandler.VisionClass
 
                 //MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel, m_MilMarkImage[0], MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
-                MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);       //<-----여기서왜 마크 사이즈를 바꾸지?
-                MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
+                MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);       //<-----여기서왜 마크 사이즈를 바꾸지?
+                MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
 
                 m_clPtMarkSize.X = (int)dSizeX;
                 m_clPtMarkSize.Y = (int)dSizeY;
 
-                MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
-                MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
+                MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
+                MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
 
                 //m_clPtMarkCenterPos.X = (int)dCenterX;        //필요없는듯
                 //m_clPtMarkCenterPos.Y = (int)dCenterY;
@@ -210,43 +219,35 @@ namespace ZenHandler.VisionClass
         {
             double dSizeX = 0.0;
             double dSizeY = 0.0;
-
-            System.Drawing.Point clDptCenter = new System.Drawing.Point();
-
             double m_dZoomX = 0.0;
             double m_dZoomY = 0.0;
-
+            double m_clCdCenterX = 0.0;
+            double m_clCdCenterY = 0.0;
 
             MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
 
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
 
             m_dZoomX = (double)smallDispSize.X / (double)dSizeX;      //마크 이미지 축소 OR 확대
             m_dZoomY = (double)smallDispSize.Y / (double)dSizeY;
 
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, 3203L, m_dZoomX); //M_DRAW_SCALE_X
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, 3204L, m_dZoomY); //M_DRAW_SCALE_Y
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_DEFAULT, 3203L, m_dZoomX); //M_DRAW_SCALE_X
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_DEFAULT, 3204L, m_dZoomY); //M_DRAW_SCALE_Y
 
-
-            double m_clCdCenterX = 0.0;
-            double m_clCdCenterY = 0.0;
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref m_clCdCenterX);
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref m_clCdCenterY);
-
-            clDptCenter.X = (int)m_clCdCenterX;
-            clDptCenter.Y = (int)m_clCdCenterY;
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref m_clCdCenterX);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref m_clCdCenterY);
 
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel, m_MilMarkOverlay[0], MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);//<---노란 마스크 영역
+            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[nNo], m_MilMarkOverlay[0], MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);//<---노란 마스크 영역
 
 
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_MAGENTA);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, 3203L, m_dZoomX);   //M_DRAW_SCALE_X
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, 3204L, m_dZoomY);   //M_DRAW_SCALE_Y
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_DEFAULT, 3203L, m_dZoomX);   //M_DRAW_SCALE_X
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_DEFAULT, 3204L, m_dZoomY);   //M_DRAW_SCALE_Y
 
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel, m_MilMarkOverlay[0], MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);//<-----EDGE 영역
+            MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
+            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[nNo], m_MilMarkOverlay[0], MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);//<-----EDGE 영역
 
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
 
@@ -254,19 +255,19 @@ namespace ZenHandler.VisionClass
             //	m_dZoomX = (double)g_clModelFinder.m_clPtSmallMarkDispSize.x / (double)g_clModelFinder.m_clPtZoomMarkDispSize.x;		//마크 이미지 축소 OR 확대
             //m_dZoomY = (double)g_clModelFinder.m_clPtSmallMarkDispSize.y / (double)g_clModelFinder.m_clPtZoomMarkDispSize.y;
 
-            int dCenterX = (int)(clDptCenter.X * m_dZoomX);
-            int dCenterY = (int)(clDptCenter.Y * m_dZoomY);
+            int dCenterX = (int)(m_clCdCenterX * m_dZoomX);
+            int dCenterY = (int)(m_clCdCenterY * m_dZoomY);
 
             MIL.MgraLine(MIL.M_DEFAULT, m_MilMarkOverlay[0], dCenterX, 0, dCenterX, dSizeY);    //<-----Center Cross x축
             MIL.MgraLine(MIL.M_DEFAULT, m_MilMarkOverlay[0], 0, dCenterY, dSizeX, dCenterY);    //<-----Center Cross y축
         }
-        public bool RegisterMark(int index, double dStartX, double dStartY, double dSizeX, double dSizeY)
+        public bool RegisterMark(int index, int MarkNo, double dStartX, double dStartY, double dSizeX, double dSizeY)
         {
             MIL_ID MilTempImage = MIL.M_NULL;
-            if (m_MilModModel != MIL.M_NULL)
+            if (m_MilModModel[index] != MIL.M_NULL)
             {
-                MIL.MmodFree(m_MilModModel);
-                m_MilModModel = MIL.M_NULL;
+                MIL.MmodFree(m_MilModModel[index]);
+                m_MilModModel[index] = MIL.M_NULL;
             }
 
             m_clPtMarkStartPos.X = (int)(dStartX * Globalo.visionManager.milLibrary.xExpand[index]);
@@ -279,7 +280,7 @@ namespace ZenHandler.VisionClass
 
             //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, Globalo.visionManager.milLibrary.CAM_SIZE_X[0], Globalo.visionManager.milLibrary.CAM_SIZE_Y[0], (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_DISP + MIL.M_PROC, ref MilTempImage);
 
-            MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_GEOMETRIC, MIL.M_DEFAULT, ref m_MilModModel);
+            MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_GEOMETRIC, MIL.M_DEFAULT, ref m_MilModModel[index]);
             //MIL.MmodDefine(m_MilModModel, MIL.M_IMAGE, Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clPtMarkStartPos.X, m_clPtMarkStartPos.Y, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             //Binarize 이미지로 변환해서 마크 등록할지..
 
@@ -287,15 +288,15 @@ namespace ZenHandler.VisionClass
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clPtMarkStartPos.X, m_clPtMarkStartPos.Y, m_clPtMarkSize.X, m_clPtMarkSize.Y, ref MilTempImage);
             MIL.MimBinarize(MilTempImage, MilTempImage, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
 
-            MIL.MmodDefine(m_MilModModel, MIL.M_IMAGE, MilTempImage, 0, 0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
+            MIL.MmodDefine(m_MilModModel[index], MIL.M_IMAGE, MilTempImage, 0, 0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             //
             //
             //
             //
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel, MilTempImage, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[index], MilTempImage, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clPtMarkSize.X / 2);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clPtMarkSize.Y / 2);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clPtMarkSize.X / 2);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clPtMarkSize.Y / 2);
 
 
 
@@ -305,7 +306,7 @@ namespace ZenHandler.VisionClass
             //  MASK VIEW
             //
             //------------------------------------------------------------------------------------------------------
-            Globalo.visionManager.markUtil.markViewer.InitMaskViewDlg(0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
+            Globalo.visionManager.markUtil.markViewer.InitMaskViewDlg(index, MarkNo, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             Globalo.visionManager.markUtil.markViewer.ShowDialog();
 
             return false;
@@ -316,33 +317,35 @@ namespace ZenHandler.VisionClass
         //	마크 속성 세팅
         //
         //-----------------------------------------------------------------------------
-        public void SettingFindMark(int nNo = 0)
+        public void SettingFindMark(int index = 0)
         {
 
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SEARCH_POSITION_RANGE, MIL.M_ENABLE);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SEARCH_ANGLE_RANGE, MIL.M_ENABLE);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SEARCH_SCALE_RANGE, MIL.M_ENABLE);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_NUMBER, 3/*1*/);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SPEED, MIL.M_MEDIUM/*M_HIGH*/);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_ACCURACY, MIL.M_HIGH);// M_MEDIUM);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SHARED_EDGES, MIL.M_DISABLE);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_ASPECT_RATIO, MIL.M_DEFAULT);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SAVE_TARGET_EDGES, MIL.M_DISABLE);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_TARGET_CACHING, MIL.M_DISABLE);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_MEDIUM);
-            MIL.MmodControl(m_MilModModel, MIL.M_CONTEXT, MIL.M_FILTER_MODE, MIL.M_RECURSIVE);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_ANGLE, 0);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 10);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 10);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_SCALE, 1.0);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.99);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SEARCH_POSITION_RANGE, MIL.M_ENABLE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SEARCH_ANGLE_RANGE, MIL.M_ENABLE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SEARCH_SCALE_RANGE, MIL.M_ENABLE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_NUMBER, 3/*1*/);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SPEED, MIL.M_MEDIUM/*M_HIGH*/);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_ACCURACY, MIL.M_HIGH);// M_MEDIUM);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SHARED_EDGES, MIL.M_DISABLE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_ASPECT_RATIO, MIL.M_DEFAULT);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SAVE_TARGET_EDGES, MIL.M_DISABLE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_TARGET_CACHING, MIL.M_DISABLE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_MEDIUM);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_FILTER_MODE, MIL.M_RECURSIVE);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ANGLE, 0);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 10);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 10);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_SCALE, 1.0);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.99);
+
             /////MIL.MmodControl(m_MilModModel[nUnit][nNo], M_DEFAULT, M_SCALE_MAX_FACTOR, 1.01);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.2);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 80);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);
-            MIL.MmodControl(m_MilModModel, MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 80);
+            ///
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.2);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 80);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);
+            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 80);
         }
 
         //FindModel(int nUnit, int nNo, bool bAreaFlag, CDPoint& clFindPos, double& dScore, double& dAngle, double& dFitError, CDPoint& clMarkSize, CDPoint& clMarkCenter)
@@ -356,20 +359,20 @@ namespace ZenHandler.VisionClass
             OpenCvSharp.Point2d clMarkSize = new OpenCvSharp.Point2d();
             OpenCvSharp.Point2d clMarkCenter = new OpenCvSharp.Point2d();
 
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref clMarkSize.X);
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref clMarkSize.Y);
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref clMarkCenter.X);
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref clMarkCenter.Y);
+            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref clMarkSize.X);
+            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref clMarkSize.Y);
+            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref clMarkCenter.X);
+            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref clMarkCenter.Y);
 
-            if (m_MilModResult == MIL.M_NULL)
+            if (m_MilModResult[index] == MIL.M_NULL)
             {
-                MIL.MmodFree(m_MilModResult);
-                m_MilModResult = MIL.M_NULL;
+                MIL.MmodFree(m_MilModResult[index]);
+                m_MilModResult[index] = MIL.M_NULL;
 
-                MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult);
+                MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult[index]);
             }
 
-            MIL.MmodPreprocess(m_MilModModel, MIL.M_DEFAULT);
+            MIL.MmodPreprocess(m_MilModModel[index], MIL.M_DEFAULT);
             if (bAreaFlag == true)
             {
                 MIL_ID MilChildLow = MIL.M_NULL;
@@ -379,7 +382,7 @@ namespace ZenHandler.VisionClass
                 MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
                 MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
 
-                MIL.MmodFind(m_MilModModel, MilChildLow, m_MilModResult);
+                MIL.MmodFind(m_MilModModel[index], MilChildLow, m_MilModResult[index]);
                 if (MilChildLow != MIL.M_NULL)
                 {
                     MIL.MbufFree(MilChildLow);
@@ -389,12 +392,12 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                MIL.MmodFind(m_MilModModel, Globalo.visionManager.milLibrary.MilProcImageChild[0], m_MilModResult);
+                MIL.MmodFind(m_MilModModel[index], Globalo.visionManager.milLibrary.MilProcImageChild[0], m_MilModResult[index]);
             }
 
             MIL_ID lObbjNo = MIL.M_NULL;
 
-            MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_NUMBER + MIL.M_TYPE_LONG, ref lObbjNo);
+            MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_NUMBER + MIL.M_TYPE_LONG, ref lObbjNo);
 
             if (lObbjNo < 1)
             {
@@ -409,12 +412,12 @@ namespace ZenHandler.VisionClass
             double[] Find_FitError = new double[5];
             if (lObbjNo == 1)
             {
-                MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_POSITION_X, Find_x);
-                MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_POSITION_Y, Find_y);
-                MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_ANGLE, Find_angle);
-                MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_SCORE, Find_Score);
-                MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_SCORE_TARGET, Find_ScoreTarget);
-                MIL.MmodGetResult(m_MilModResult, MIL.M_DEFAULT, MIL.M_FIT_ERROR, Find_FitError);
+                MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_POSITION_X, Find_x);
+                MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_POSITION_Y, Find_y);
+                MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_ANGLE, Find_angle);
+                MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_SCORE, Find_Score);
+                MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_SCORE_TARGET, Find_ScoreTarget);
+                MIL.MmodGetResult(m_MilModResult[index], MIL.M_DEFAULT, MIL.M_FIT_ERROR, Find_FitError);
             }
             else
             {
@@ -479,13 +482,13 @@ namespace ZenHandler.VisionClass
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
             }
 
-            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
-            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
+            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
+            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
 
-            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[0]);//M_DRAW_SCALE_X
-            MIL.MmodControl(m_MilModResult, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[0]);//M_DRAW_SCALE_Y
+            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[0]);//M_DRAW_SCALE_X
+            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[0]);//M_DRAW_SCALE_Y
 
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult[index], Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
 
             str = $"[ROI] (mm)";
@@ -557,15 +560,15 @@ namespace ZenHandler.VisionClass
 
 
         }
-        public void ViewMarkMask()
+        public void ViewMarkMask(int index)
         {
             double dSizeX = 0.0;
             double dSizeY = 0.0;
 
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);     //<-----여기서왜 마크 사이즈를 바꾸지?
-            MIL.MmodInquire(m_MilModModel, MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
+            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);     //<-----여기서왜 마크 사이즈를 바꾸지?
+            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
 
-            Globalo.visionManager.markUtil.markViewer.InitMaskViewDlg(0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
+            Globalo.visionManager.markUtil.markViewer.InitMaskViewDlg(index, 0, (int)dSizeX, (int)dSizeY);// m_clPtMarkSize.X, m_clPtMarkSize.Y);
             Globalo.visionManager.markUtil.markViewer.ShowDialog();
         }
         
