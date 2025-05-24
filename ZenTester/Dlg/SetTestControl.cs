@@ -1216,17 +1216,21 @@ namespace ZenHandler.Dlg
 
             if (dSizeX > 1024 || dSizeY > 1024)
             {
+                Console.WriteLine($"Mark Roi Size Over = Width:{dSizeX}, Height:{dSizeY}");
                 return;
             }
             if (dSizeX < 10 || dSizeY < 10)
             {
+                Console.WriteLine($"Mark Roi Size Less = Width:{dSizeX}, Height:{dSizeY}");
                 return;
             }
 
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);        //Cam Grab
+
             Globalo.visionManager.markUtil.RegisterMark(CamIndex, MarkIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
 
         private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)

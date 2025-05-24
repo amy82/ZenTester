@@ -98,7 +98,7 @@ namespace ZenHandler.VisionClass
             int CamSizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
             long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
             MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, smallDispSize.X, smallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[0]);
-            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, CamSizeX, CamSizeY, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
+            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, CamSizeX, CamSizeY, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[1]);
 
             if (m_MilMarkImage[0] != MIL.M_NULL)
             {
@@ -284,7 +284,7 @@ namespace ZenHandler.VisionClass
             MIL_ID MilTempImage = MIL.M_NULL;
             if (m_MilModModel[MarkNo] != MIL.M_NULL)
             {
-                MIL.MmodFree(m_MilModModel[index]);
+                MIL.MmodFree(m_MilModModel[MarkNo]);
                 m_MilModModel[MarkNo] = MIL.M_NULL;
             }
 
@@ -311,7 +311,7 @@ namespace ZenHandler.VisionClass
             //
             //
             //
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[MarkNo], MilTempImage, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            //MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[MarkNo], MilTempImage, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             MIL.MmodControl(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clPtMarkSize.X / 2);
             MIL.MmodControl(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clPtMarkSize.Y / 2);
@@ -333,35 +333,35 @@ namespace ZenHandler.VisionClass
         //	마크 속성 세팅
         //
         //-----------------------------------------------------------------------------
-        public void SettingFindMark(int index = 0)
+        public void SettingFindMark(int index, int markNo)
         {
 
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SEARCH_POSITION_RANGE, MIL.M_ENABLE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SEARCH_ANGLE_RANGE, MIL.M_ENABLE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SEARCH_SCALE_RANGE, MIL.M_ENABLE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_NUMBER, 3/*1*/);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SPEED, MIL.M_MEDIUM/*M_HIGH*/);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_ACCURACY, MIL.M_HIGH);// M_MEDIUM);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SHARED_EDGES, MIL.M_DISABLE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_ASPECT_RATIO, MIL.M_DEFAULT);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SAVE_TARGET_EDGES, MIL.M_DISABLE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_TARGET_CACHING, MIL.M_DISABLE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_MEDIUM);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_CONTEXT, MIL.M_FILTER_MODE, MIL.M_RECURSIVE);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ANGLE, 0);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 10);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 10);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_SCALE, 1.0);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.99);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SEARCH_POSITION_RANGE, MIL.M_ENABLE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SEARCH_ANGLE_RANGE, MIL.M_ENABLE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SEARCH_SCALE_RANGE, MIL.M_ENABLE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_NUMBER, 3/*1*/);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SPEED, MIL.M_MEDIUM/*M_HIGH*/);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_ACCURACY, MIL.M_HIGH);// M_MEDIUM);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SHARED_EDGES, MIL.M_DISABLE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_ASPECT_RATIO, MIL.M_DEFAULT);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SAVE_TARGET_EDGES, MIL.M_DISABLE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_TARGET_CACHING, MIL.M_DISABLE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_MEDIUM);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_FILTER_MODE, MIL.M_RECURSIVE);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE, 0);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 10);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 10);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE, 1.0);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.99);
 
             /////MIL.MmodControl(m_MilModModel[nUnit][nNo], M_DEFAULT, M_SCALE_MAX_FACTOR, 1.01);
             ///
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.2);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 80);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 80);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.2);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 80);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 80);
         }
 
         //FindModel(int nUnit, int nNo, bool bAreaFlag, CDPoint& clFindPos, double& dScore, double& dAngle, double& dFitError, CDPoint& clMarkSize, CDPoint& clMarkCenter)
@@ -581,8 +581,8 @@ namespace ZenHandler.VisionClass
             double dSizeX = 0.0;
             double dSizeY = 0.0;
 
-            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);     //<-----여기서왜 마크 사이즈를 바꾸지?
-            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
+            MIL.MmodInquire(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);     //<-----여기서왜 마크 사이즈를 바꾸지?
+            MIL.MmodInquire(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
             Console.WriteLine($"M_ALLOC_SIZE_X: {dSizeX}");
             Console.WriteLine($"M_ALLOC_SIZE_Y: {dSizeY}");
 

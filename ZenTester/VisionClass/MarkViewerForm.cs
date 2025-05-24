@@ -70,18 +70,19 @@ namespace ZenHandler.VisionClass
 
             if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
             {
-                if (Globalo.visionManager.markUtil.m_MilMarkDisplay[1] != MIL.M_NULL)
+                if (Globalo.visionManager.markUtil.m_MilMarkDisplay[1] == MIL.M_NULL)
                 {
-                    MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], 0);
+                    
 
-                    Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
-
-                    m_MilMaskOverlay = MIL.M_NULL;
                 }
+                MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], 0);
 
+                Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
+
+                m_MilMaskOverlay = MIL.M_NULL;
                 Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, MIL.M_NULL);
                 MIL.MdispSelectWindow(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], Globalo.visionManager.markUtil.m_MilMarkImage[1], panel_MarkZoomImage.Handle);
-                
+
             }
 
 
@@ -173,7 +174,7 @@ namespace ZenHandler.VisionClass
         private void DrawMask()
         {
             MIL.MbufClear(m_MilMask, 0);
-            if (Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex] != MIL.M_NULL)
+            if (Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo] != MIL.M_NULL)
             {
                 //TODO: m_clPtMarkSize 너가 달라지는거같다.
                 double m_dZoomX = (double)DispSize.X / (double)Globalo.visionManager.markUtil.m_clPtMarkSize.X;      //마크 이미지 축소 OR 확대 
@@ -182,22 +183,22 @@ namespace ZenHandler.VisionClass
                 //double m_dSmallX = (double)Globalo.visionManager.markUtil.m_clPtMarkSize.X / DispSize.X;      //마크 이미지 축소 OR 확대 
                 //double m_dSmallY = (double)Globalo.visionManager.markUtil.m_clPtMarkSize.Y / DispSize.Y;
 
-                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, 3203L, 1.0);//M_DRAW_SCALE_X
-                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, 3204L, 1.0);//M_DRAW_SCALE_Y 
+                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3203L, 1.0);//M_DRAW_SCALE_X
+                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3204L, 1.0);//M_DRAW_SCALE_Y 
 
-                MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], m_MilMask, MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], m_MilMask, MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);
                 MIL.MbufGet(m_MilMask, m_pMaskBuff);
 
-                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, 3203L, m_dZoomX);//M_DRAW_SCALE_X
-                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, 3204L, m_dZoomY);//M_DRAW_SCALE_Y
+                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3203L, m_dZoomX);//M_DRAW_SCALE_X
+                MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3204L, m_dZoomY);//M_DRAW_SCALE_Y
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_CYAN);// M_COLOR_GREEN);
-                MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], m_MilMaskOverlay, MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], m_MilMaskOverlay, MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 if (m_bDrawEdge)
                 {
                     MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_MAGENTA);
-                    MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nEdgeSmooth);
-                    MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], m_MilMaskOverlay, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                    MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nEdgeSmooth);
+                    MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], m_MilMaskOverlay, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
                 }
             }
         }
@@ -373,7 +374,7 @@ namespace ZenHandler.VisionClass
                 Array.Clear(m_pMaskBuff, 0, m_pMaskBuff.Length);
                 MIL.MbufPut(m_MilMask, m_pMaskBuff);
 
-                MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);//<---왜 들어가있지?
+                MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);//<---왜 들어가있지?
                 DrawCenterLine(m_clCdCenter);
                 Array.Clear(m_pMaskBuff, 0, m_pMaskBuff.Length);
             }
@@ -407,14 +408,14 @@ namespace ZenHandler.VisionClass
             MIL.MbufClear(m_MilMask, 0x00);
             MIL.MbufPut(m_MilMask, m_pMaskBuff);
 
-            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clCdCenter.X);
-            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clCdCenter.Y);
+            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clCdCenter.X);
+            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clCdCenter.Y);
 
-            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, 3203L, 1.0);    //M_DRAW_SCALE_X
-            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, 3204L, 1.0);	  //M_DRAW_SCALE_Y
+            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3203L, 1.0);    //M_DRAW_SCALE_X
+            MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3204L, 1.0);	  //M_DRAW_SCALE_Y
 
-            MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);  //210707		<---여기서 작은 화면에 마스크 그린다
-            MIL.MmodPreprocess(Globalo.visionManager.markUtil.m_MilModModel[CurrentCamIndex], MIL.M_DEFAULT);
+            MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);  //210707		<---여기서 작은 화면에 마스크 그린다
+            MIL.MmodPreprocess(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT);
 
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
@@ -424,7 +425,7 @@ namespace ZenHandler.VisionClass
 
             //g_clMarkData[m_nUnit].SaveData(g_clSysData.m_szModelName);
 
-            Globalo.visionManager.markUtil.SettingFindMark(0);
+            Globalo.visionManager.markUtil.SettingFindMark(CurrentCamIndex, CurrentMarkNo);
             //
             Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.visionManager.markUtil.ModelMarkName, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);
 
