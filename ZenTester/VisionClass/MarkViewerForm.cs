@@ -61,7 +61,7 @@ namespace ZenHandler.VisionClass
             //panel_MarkZoomImage
             CurrentCamIndex = index;
             CurrentMarkNo = nMarkNo;
-            if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
+            if (Globalo.visionManager.markUtil.m_MilMarkImage[1] == MIL.M_NULL)
             {
                 MIL.MbufFree(Globalo.visionManager.markUtil.m_MilMarkImage[1]); //TODO: 250524 추가 확인필요
             }
@@ -77,11 +77,11 @@ namespace ZenHandler.VisionClass
                     Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
 
                     m_MilMaskOverlay = MIL.M_NULL;
-
-                    Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, MIL.M_NULL);
-
-                    MIL.MdispSelectWindow(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], Globalo.visionManager.markUtil.m_MilMarkImage[1], panel_MarkZoomImage.Handle);
                 }
+
+                Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, MIL.M_NULL);
+                MIL.MdispSelectWindow(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], Globalo.visionManager.markUtil.m_MilMarkImage[1], panel_MarkZoomImage.Handle);
+                
             }
 
 

@@ -1226,7 +1226,7 @@ namespace ZenHandler.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-            Globalo.visionManager.markUtil.RegisterMark(CamIndex, 0, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
+            Globalo.visionManager.markUtil.RegisterMark(CamIndex, MarkIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
         }
 
         private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)
@@ -1245,7 +1245,7 @@ namespace ZenHandler.Dlg
 
             Globalo.visionManager.milLibrary.ClearOverlay(0);
 
-            Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, 0, ref dAlign);
+            Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, MarkIndex, ref dAlign);
 
             Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
         }
@@ -1256,15 +1256,18 @@ namespace ZenHandler.Dlg
             if (MarkIndex > 0)
             {
                 MarkIndex--;
+
+                label_Set_Mark_Model.Text = $"Mark-{MarkIndex+1}";
+                string model = Globalo.visionManager.markUtil.ModelMarkName;
+                double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
+                double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
+                Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
             }
             else
             {
                 MarkIndex = 0;
             }
-            string model = Globalo.visionManager.markUtil.ModelMarkName;
-            double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
-            double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
-            Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
+            
         }
 
         private void button_Set_Mark_Next_Click(object sender, EventArgs e)
@@ -1274,17 +1277,19 @@ namespace ZenHandler.Dlg
             if (MarkIndex < 3)
             {
                 MarkIndex++;
+                label_Set_Mark_Model.Text = $"Mark-{MarkIndex + 1}";
+                string model = Globalo.visionManager.markUtil.ModelMarkName;
+                double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
+                double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
+
+                Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Next Click
             }
             else
             {
                 MarkIndex = 3;
             }
 
-            string model = Globalo.visionManager.markUtil.ModelMarkName;
-            double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
-            double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
-
-            Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Next Click
+            
         }
     }
 }

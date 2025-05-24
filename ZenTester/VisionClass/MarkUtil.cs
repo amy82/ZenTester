@@ -98,6 +98,8 @@ namespace ZenHandler.VisionClass
             int CamSizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
             long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
             MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, smallDispSize.X, smallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[0]);
+            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, CamSizeX, CamSizeY, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.markUtil.m_MilMarkImage[1]);
+
             if (m_MilMarkImage[0] != MIL.M_NULL)
             {
                 m_MilMarkDisplay[0] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
@@ -119,10 +121,10 @@ namespace ZenHandler.VisionClass
             }
 
 
-            zoomDispSize.X = Globalo.markViewer.GetDispSize(0);//    DispSize.X;
-            zoomDispSize.Y = Globalo.markViewer.GetDispSize(1);//.DispSize.Y;
+            zoomDispSize.X = Globalo.markViewer.GetDispSize(0);
+            zoomDispSize.Y = Globalo.markViewer.GetDispSize(1);
 
-            DisplaySmallMarkView(ModelMarkName, 0, zoomDispSize.X, zoomDispSize.Y);        //TODO: SIZE 수정 필요
+            DisplaySmallMarkView(ModelMarkName, 0, zoomDispSize.X, zoomDispSize.Y);
 
             ShowMarkNo();
         }
@@ -181,7 +183,7 @@ namespace ZenHandler.VisionClass
             }
 
 
-            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo}.mod");       //LOT DATA
+            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo+1}.mod");       //LOT DATA
 
 
             MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
@@ -190,7 +192,7 @@ namespace ZenHandler.VisionClass
 
 
             // BMP 
-            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo}.bmp");       //LOT DATA
+            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo+1}.bmp");       //LOT DATA
             MIL.MbufExport(filePath, MIL.M_BMP, m_MilMarkImage[1]);
             return false;
         }
@@ -280,10 +282,10 @@ namespace ZenHandler.VisionClass
         public bool RegisterMark(int index, int MarkNo, double dStartX, double dStartY, double dSizeX, double dSizeY)
         {
             MIL_ID MilTempImage = MIL.M_NULL;
-            if (m_MilModModel[index] != MIL.M_NULL)
+            if (m_MilModModel[MarkNo] != MIL.M_NULL)
             {
                 MIL.MmodFree(m_MilModModel[index]);
-                m_MilModModel[index] = MIL.M_NULL;
+                m_MilModModel[MarkNo] = MIL.M_NULL;
             }
 
             m_clPtMarkStartPos.X = (int)(dStartX * Globalo.visionManager.milLibrary.xExpand[index]);
@@ -296,7 +298,7 @@ namespace ZenHandler.VisionClass
 
             //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, Globalo.visionManager.milLibrary.CAM_SIZE_X[0], Globalo.visionManager.milLibrary.CAM_SIZE_Y[0], (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_DISP + MIL.M_PROC, ref MilTempImage);
 
-            MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_GEOMETRIC, MIL.M_DEFAULT, ref m_MilModModel[index]);
+            MIL.MmodAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_GEOMETRIC, MIL.M_DEFAULT, ref m_MilModModel[MarkNo]);
             //MIL.MmodDefine(m_MilModModel, MIL.M_IMAGE, Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clPtMarkStartPos.X, m_clPtMarkStartPos.Y, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             //Binarize 이미지로 변환해서 마크 등록할지..
 
@@ -304,15 +306,15 @@ namespace ZenHandler.VisionClass
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clPtMarkStartPos.X, m_clPtMarkStartPos.Y, m_clPtMarkSize.X, m_clPtMarkSize.Y, ref MilTempImage);
             MIL.MimBinarize(MilTempImage, MilTempImage, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
 
-            MIL.MmodDefine(m_MilModModel[index], MIL.M_IMAGE, MilTempImage, 0, 0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
+            MIL.MmodDefine(m_MilModModel[MarkNo], MIL.M_IMAGE, MilTempImage, 0, 0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             //
             //
             //
             //
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[index], MilTempImage, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[MarkNo], MilTempImage, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clPtMarkSize.X / 2);
-            MIL.MmodControl(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clPtMarkSize.Y / 2);
+            MIL.MmodControl(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, m_clPtMarkSize.X / 2);
+            MIL.MmodControl(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, m_clPtMarkSize.Y / 2);
 
 
 
@@ -373,10 +375,10 @@ namespace ZenHandler.VisionClass
             OpenCvSharp.Point2d clMarkSize = new OpenCvSharp.Point2d();
             OpenCvSharp.Point2d clMarkCenter = new OpenCvSharp.Point2d();
 
-            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref clMarkSize.X);
-            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref clMarkSize.Y);
-            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref clMarkCenter.X);
-            MIL.MmodInquire(m_MilModModel[index], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref clMarkCenter.Y);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref clMarkSize.X);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref clMarkSize.Y);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref clMarkCenter.X);
+            MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref clMarkCenter.Y);
 
             if (m_MilModResult[index] == MIL.M_NULL)
             {
@@ -386,7 +388,7 @@ namespace ZenHandler.VisionClass
                 MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult[index]);
             }
 
-            MIL.MmodPreprocess(m_MilModModel[index], MIL.M_DEFAULT);
+            MIL.MmodPreprocess(m_MilModModel[nNo], MIL.M_DEFAULT);
             if (bAreaFlag == true)
             {
                 MIL_ID MilChildLow = MIL.M_NULL;
@@ -396,7 +398,7 @@ namespace ZenHandler.VisionClass
                 MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
                 MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
 
-                MIL.MmodFind(m_MilModModel[index], MilChildLow, m_MilModResult[index]);
+                MIL.MmodFind(m_MilModModel[nNo], MilChildLow, m_MilModResult[index]);
                 if (MilChildLow != MIL.M_NULL)
                 {
                     MIL.MbufFree(MilChildLow);
@@ -406,7 +408,7 @@ namespace ZenHandler.VisionClass
             }
             else
             {
-                MIL.MmodFind(m_MilModModel[index], Globalo.visionManager.milLibrary.MilProcImageChild[0], m_MilModResult[index]);
+                MIL.MmodFind(m_MilModModel[nNo], Globalo.visionManager.milLibrary.MilProcImageChild[0], m_MilModResult[index]);
             }
 
             MIL_ID lObbjNo = MIL.M_NULL;
