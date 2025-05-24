@@ -40,6 +40,11 @@ namespace ZenHandler.VisionClass
             this.label_Mask_Brush_Size = new System.Windows.Forms.Label();
             this.trackBar_Mask_Brush_Size = new System.Windows.Forms.TrackBar();
             this.label_Mask_Brush_Size_Val = new System.Windows.Forms.Label();
+            this.button_Mask_Center_Move_Left = new System.Windows.Forms.Button();
+            this.button_Mask_Center_Move_Right = new System.Windows.Forms.Button();
+            this.button_Mask_Center_Move_Up = new System.Windows.Forms.Button();
+            this.button_Mask_Center_Move_Down = new System.Windows.Forms.Button();
+            this.button_Mask_Center_Move_Value = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Mask_Brush_Size)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,11 +188,83 @@ namespace ZenHandler.VisionClass
             this.label_Mask_Brush_Size_Val.Text = "0";
             this.label_Mask_Brush_Size_Val.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // button_Mask_Center_Move_Left
+            // 
+            this.button_Mask_Center_Move_Left.BackColor = System.Drawing.Color.Tan;
+            this.button_Mask_Center_Move_Left.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mask_Center_Move_Left.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Mask_Center_Move_Left.ForeColor = System.Drawing.Color.White;
+            this.button_Mask_Center_Move_Left.Location = new System.Drawing.Point(2, 68);
+            this.button_Mask_Center_Move_Left.Name = "button_Mask_Center_Move_Left";
+            this.button_Mask_Center_Move_Left.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Left.TabIndex = 91;
+            this.button_Mask_Center_Move_Left.Text = "◀";
+            this.button_Mask_Center_Move_Left.UseVisualStyleBackColor = false;
+            // 
+            // button_Mask_Center_Move_Right
+            // 
+            this.button_Mask_Center_Move_Right.BackColor = System.Drawing.Color.Tan;
+            this.button_Mask_Center_Move_Right.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mask_Center_Move_Right.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Mask_Center_Move_Right.ForeColor = System.Drawing.Color.White;
+            this.button_Mask_Center_Move_Right.Location = new System.Drawing.Point(144, 68);
+            this.button_Mask_Center_Move_Right.Name = "button_Mask_Center_Move_Right";
+            this.button_Mask_Center_Move_Right.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Right.TabIndex = 92;
+            this.button_Mask_Center_Move_Right.Text = "▶";
+            this.button_Mask_Center_Move_Right.UseVisualStyleBackColor = false;
+            // 
+            // button_Mask_Center_Move_Up
+            // 
+            this.button_Mask_Center_Move_Up.BackColor = System.Drawing.Color.Tan;
+            this.button_Mask_Center_Move_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mask_Center_Move_Up.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Mask_Center_Move_Up.ForeColor = System.Drawing.Color.White;
+            this.button_Mask_Center_Move_Up.Location = new System.Drawing.Point(73, 20);
+            this.button_Mask_Center_Move_Up.Name = "button_Mask_Center_Move_Up";
+            this.button_Mask_Center_Move_Up.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Up.TabIndex = 93;
+            this.button_Mask_Center_Move_Up.Text = "▲";
+            this.button_Mask_Center_Move_Up.UseVisualStyleBackColor = false;
+            // 
+            // button_Mask_Center_Move_Down
+            // 
+            this.button_Mask_Center_Move_Down.BackColor = System.Drawing.Color.Tan;
+            this.button_Mask_Center_Move_Down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mask_Center_Move_Down.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Mask_Center_Move_Down.ForeColor = System.Drawing.Color.White;
+            this.button_Mask_Center_Move_Down.Location = new System.Drawing.Point(73, 124);
+            this.button_Mask_Center_Move_Down.Name = "button_Mask_Center_Move_Down";
+            this.button_Mask_Center_Move_Down.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Down.TabIndex = 94;
+            this.button_Mask_Center_Move_Down.Text = "▼";
+            this.button_Mask_Center_Move_Down.UseVisualStyleBackColor = false;
+            // 
+            // button_Mask_Center_Move_Value
+            // 
+            this.button_Mask_Center_Move_Value.BackColor = System.Drawing.SystemColors.Window;
+            this.button_Mask_Center_Move_Value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.button_Mask_Center_Move_Value.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_Mask_Center_Move_Value.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mask_Center_Move_Value.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Mask_Center_Move_Value.ForeColor = System.Drawing.Color.Black;
+            this.button_Mask_Center_Move_Value.Location = new System.Drawing.Point(73, 66);
+            this.button_Mask_Center_Move_Value.Name = "button_Mask_Center_Move_Value";
+            this.button_Mask_Center_Move_Value.Size = new System.Drawing.Size(65, 50);
+            this.button_Mask_Center_Move_Value.TabIndex = 95;
+            this.button_Mask_Center_Move_Value.Text = "10";
+            this.button_Mask_Center_Move_Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MarkViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 594);
+            this.Controls.Add(this.button_Mask_Center_Move_Value);
+            this.Controls.Add(this.button_Mask_Center_Move_Down);
+            this.Controls.Add(this.button_Mask_Center_Move_Up);
+            this.Controls.Add(this.button_Mask_Center_Move_Right);
+            this.Controls.Add(this.button_Mask_Center_Move_Left);
             this.Controls.Add(this.label_Mask_Brush_Size_Val);
             this.Controls.Add(this.trackBar_Mask_Brush_Size);
             this.Controls.Add(this.label_Mask_Brush_Size);
@@ -219,5 +296,10 @@ namespace ZenHandler.VisionClass
         private System.Windows.Forms.TrackBar trackBar_Mask_Brush_Size;
         public System.Windows.Forms.Label label_Mask_Brush_Size_Val;
         public System.Windows.Forms.Panel panel_MarkZoomImage;
+        private System.Windows.Forms.Button button_Mask_Center_Move_Left;
+        private System.Windows.Forms.Button button_Mask_Center_Move_Right;
+        private System.Windows.Forms.Button button_Mask_Center_Move_Up;
+        private System.Windows.Forms.Button button_Mask_Center_Move_Down;
+        public System.Windows.Forms.Label button_Mask_Center_Move_Value;
     }
 }

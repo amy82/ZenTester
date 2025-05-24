@@ -304,7 +304,7 @@ namespace ZenHandler.VisionClass
 
             //
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clPtMarkStartPos.X, m_clPtMarkStartPos.Y, m_clPtMarkSize.X, m_clPtMarkSize.Y, ref MilTempImage);
-            MIL.MimBinarize(MilTempImage, MilTempImage, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
+            MIL.MimBinarize(MilTempImage, MilTempImage, MIL.M_FIXED + MIL.M_GREATER, 40, MIL.M_NULL);
 
             MIL.MmodDefine(m_MilModModel[MarkNo], MIL.M_IMAGE, MilTempImage, 0, 0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             //
@@ -370,8 +370,8 @@ namespace ZenHandler.VisionClass
         {
             dFindPos.X = 0.0;
             dFindPos.Y = 0.0;
-
-
+            dScore = 0.0;
+            dAngle = 0.0;
             OpenCvSharp.Point2d clMarkSize = new OpenCvSharp.Point2d();
             OpenCvSharp.Point2d clMarkCenter = new OpenCvSharp.Point2d();
 
