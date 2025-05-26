@@ -252,20 +252,20 @@ namespace ZenHandler  //ApsMotionControl
 
             if(Globalo.yamlManager.configData != null)
             {
-                portData = Globalo.yamlManager.configData.SerialPort.Bcr;
+                portData = Globalo.yamlManager.configData.SerialPort.Light;
             }
             else
             {
                 portData = "COM1";
             }
 
-            Globalo.serialPortManager.Barcode = new Serial.SerialCommunicator(portData);
-            Globalo.serialPortManager.Barcode.myName = "Bcr";
+            Globalo.serialPortManager.LightControl = new Serial.SerialCommunicator(portData);
+            Globalo.serialPortManager.LightControl.myName = "Light";
 ;            //barcodePort.DataReceived += (sender, data) =>
             //{
             //    Console.WriteLine("Barcode Reader Data: " + data);
             //};
-            connectRtn = Globalo.serialPortManager.Barcode.Open();
+            connectRtn = Globalo.serialPortManager.LightControl.Open();
 
         }
         

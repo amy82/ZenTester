@@ -32,9 +32,16 @@ namespace ZenHandler.VisionClass
         public int Height { get; set; }
         public int Smooth { get; set; }
     }
+    public class LightData
+    {
+        public string name { get; set; }
+        public int data { get; set; }
+    }
     public class MarkDataGroup
     {
         public List<MarkData> markList { get; set; } = new List<MarkData>();
+        public List<LightData> topLightData { get; set; } = new List<LightData>();
+        public List<LightData> sideLightData { get; set; } = new List<LightData>();
     }
     public enum eMarkList
     {
@@ -72,6 +79,7 @@ namespace ZenHandler.VisionClass
         private double dAngle = 0.0;
 
         public MarkDataGroup markData { get; set; } = new MarkDataGroup();
+        //public LIghtDataGroup lightData { get; set; } = new LightDataGroup();
 
         public MarkUtil()
         {

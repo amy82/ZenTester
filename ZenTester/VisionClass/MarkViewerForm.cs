@@ -97,7 +97,9 @@ namespace ZenHandler.VisionClass
             //m_bEnableOverlay = false;
 
             m_pMaskBuff = null;
-            m_nEdgeSmooth = Globalo.visionManager.markUtil.m_nSmooth;
+            //m_nEdgeSmooth = Globalo.visionManager.markUtil.m_nSmooth;
+            m_nEdgeSmooth = Globalo.visionManager.markUtil.markData.markList[nMarkNo].Smooth;
+            label_Mask_Edge_Smooth_Val.Text = m_nEdgeSmooth.ToString();
 
             m_dZoomX = (double)DispSize.X / (double)m_iSizeX;      //마크 이미지 축소 OR 확대
             m_dZoomY = (double)DispSize.Y / (double)m_iSizeY;

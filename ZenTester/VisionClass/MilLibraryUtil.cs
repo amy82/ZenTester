@@ -124,6 +124,7 @@ namespace ZenHandler.VisionClass
         {
             MIL.MbufExport(path, MIL.M_BMP, Globalo.visionManager.milLibrary.MilCamGrabImageChild[index]);
         }
+
         public void SetGrabOn(int index, bool bGrab)
         {
             bGrabOnFlag[index] = bGrab;

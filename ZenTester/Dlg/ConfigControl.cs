@@ -52,16 +52,16 @@ namespace ZenHandler.Dlg
             Globalo.yamlManager.configData.DrivingSettings.EnableAutoStartBcr = checkBox_BcrGo.Checked;
 
             //Serial Port
-            Globalo.yamlManager.configData.SerialPort.Bcr = poisonComboBox_BcrPort.Text;
+            Globalo.yamlManager.configData.SerialPort.Light = poisonComboBox_Light_Port.Text;
             Globalo.yamlManager.configData.DrivingSettings.Language = ComboBox_Language.Text;
 
             //제품 간격 - Tray , Socket
-            Globalo.motionManager.transferMachine.productLayout.TrayGap.GapX = double.Parse(label_Config_Tray_GapX_Val.Text);
-            Globalo.motionManager.transferMachine.productLayout.TrayGap.GapY = double.Parse(label_Config_Tray_GapY_Val.Text);
-            Globalo.motionManager.transferMachine.productLayout.SocketGap.GapX = double.Parse(label_Config_Socket_GapX_Val.Text);
-            Globalo.motionManager.transferMachine.productLayout.SocketGap.GapY = double.Parse(label_Config_Socket_GapY_Val.Text);
-            Globalo.motionManager.transferMachine.productLayout.NgGap.GapX = double.Parse(label_Config_Ng_GapX_Val.Text);
-            Globalo.motionManager.transferMachine.productLayout.NgGap.GapY = double.Parse(label_Config_Ng_GapY_Val.Text);
+            //Globalo.motionManager.transferMachine.productLayout.TrayGap.GapX = double.Parse(label_Config_Tray_GapX_Val.Text);
+            //Globalo.motionManager.transferMachine.productLayout.TrayGap.GapY = double.Parse(label_Config_Tray_GapY_Val.Text);
+            //Globalo.motionManager.transferMachine.productLayout.SocketGap.GapX = double.Parse(label_Config_Socket_GapX_Val.Text);
+            //Globalo.motionManager.transferMachine.productLayout.SocketGap.GapY = double.Parse(label_Config_Socket_GapY_Val.Text);
+            //Globalo.motionManager.transferMachine.productLayout.NgGap.GapX = double.Parse(label_Config_Ng_GapX_Val.Text);
+            //Globalo.motionManager.transferMachine.productLayout.NgGap.GapY = double.Parse(label_Config_Ng_GapY_Val.Text);
 
         }
         public void ShowDriveSet()
@@ -87,15 +87,15 @@ namespace ZenHandler.Dlg
         }
         public void ShowComPort()
         {
-            string comData = Globalo.yamlManager.configData.SerialPort.Bcr;
-            int index = poisonComboBox_BcrPort.Items.IndexOf(comData);
+            string comData = Globalo.yamlManager.configData.SerialPort.Light;
+            int index = poisonComboBox_Light_Port.Items.IndexOf(comData);
             if (index < 0)
             {
-                poisonComboBox_BcrPort.SelectedIndex = 0;  // 첫 번째 항목 선택
+                poisonComboBox_Light_Port.SelectedIndex = 0;  // 첫 번째 항목 선택
             }
             else
             {
-                poisonComboBox_BcrPort.SelectedIndex = index;
+                poisonComboBox_Light_Port.SelectedIndex = index;
             }
         }
         private void ShowLanguage()
@@ -120,7 +120,7 @@ namespace ZenHandler.Dlg
 
             for (i = 0; i < 20; i++)
             {
-                poisonComboBox_BcrPort.Items.Add("COM" + (i + 1).ToString());
+                poisonComboBox_Light_Port.Items.Add("COM" + (i + 1).ToString());
             }
 
             ComboBox_Language.Items.Add("ko");
@@ -185,7 +185,7 @@ namespace ZenHandler.Dlg
 
             GetConfigData();
             Globalo.yamlManager.configDataSave();
-            Data.TaskDataYaml.TaskSave_Layout(Globalo.motionManager.transferMachine.productLayout, Machine.TransferMachine.LayoutPath);
+            //Data.TaskDataYaml.TaskSave_Layout(Globalo.motionManager.transferMachine.productLayout, Machine.TransferMachine.LayoutPath);
             //Globalo.motionManager.transferMachine
             //
             RefreshConfig();
@@ -198,17 +198,17 @@ namespace ZenHandler.Dlg
 
         private void button_Bcr_Connect_Click(object sender, EventArgs e)
         {
-            bool connectRtn = Globalo.serialPortManager.Barcode.Open();
+            bool connectRtn = Globalo.serialPortManager.LightControl.Open();
 
             string logData = "";
 
             if (connectRtn)
             {
-                logData = $"[SERIAL] BCR CONNECT OK:{Globalo.yamlManager.configData.SerialPort.Bcr}";
+                logData = $"[SERIAL] BCR CONNECT OK:{Globalo.yamlManager.configData.SerialPort.Light}";
             }
             else
             {
-                logData = $"[SERIAL] BCR CONNECT FAIL:{Globalo.yamlManager.configData.SerialPort.Bcr}";
+                logData = $"[SERIAL] BCR CONNECT FAIL:{Globalo.yamlManager.configData.SerialPort.Light}";
             }
 
             Globalo.LogPrint("Serial", logData);
@@ -216,7 +216,7 @@ namespace ZenHandler.Dlg
 
         private void button_Bcr_DisConnect_Click(object sender, EventArgs e)
         {
-            Globalo.serialPortManager.Barcode.Close();
+            Globalo.serialPortManager.LightControl.Close();
 
             string logData = $"[SERIAL] BCR DISCONNECT";
 

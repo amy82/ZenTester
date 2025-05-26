@@ -8,7 +8,7 @@ namespace ZenHandler.Data
 {
     public class _SerialPort
     {
-        public string Bcr { get; set; }
+        public string Light { get; set; }
     }
 
     public class _DrivingSettings

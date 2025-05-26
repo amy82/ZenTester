@@ -8,7 +8,7 @@ namespace ZenHandler.Serial
 {
     public class SerialPortManager
     {
-        public SerialCommunicator Barcode;
+        public SerialCommunicator LightControl;
 
         private List<SerialCommunicator> _serialPorts;
 
@@ -28,7 +28,7 @@ namespace ZenHandler.Serial
             //    serialPort.StartReceiving();
             //}
         }
-
+        
         // SerialPort 추가
         public void AddSerialPort(SerialCommunicator communicator)
         {

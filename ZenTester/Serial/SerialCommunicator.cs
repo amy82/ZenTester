@@ -37,7 +37,7 @@ namespace ZenHandler.Serial
         {
             //, int dataBits = 8, StopBits stopBits = StopBits.One, Parity parity = Parity.None
             this.PortName = portName;
-            this.BaudRate = (int)BaudRates.Baud9600;
+            this.BaudRate = (int)BaudRates.Baud19200;
             this.DataBits = 8;
             this.StopBits = StopBits.One;
             this.Parity = Parity.None;
@@ -59,6 +59,19 @@ namespace ZenHandler.Serial
 
             // 2. 데이터 수신 이벤트 핸들러 등록
             _serialPort.DataReceived += SerialPort_DataReceived;
+        }
+
+        public void ctrlLedVolume(int ch, int value)
+        {
+            int chNo = 0;
+            chNo = ch;
+
+            string sSend = "";
+            //sSend.Format(_T("[%02d%03d"), iNoChannel, iValue);
+            sSend = string.Format("[{0:00}{1:000}", chNo, value);
+            //string sSend = $"[{iNoChannel:00}{iValue:000}";
+
+            SendData(sSend);
         }
         // 바코드 스캔 발생 시 이벤트 호출
         public void SimulateScan(string barcodeData)

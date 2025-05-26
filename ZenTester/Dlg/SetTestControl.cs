@@ -59,6 +59,9 @@ namespace ZenHandler.Dlg
         private int[] CamH = new int[2];
         public int CamIndex = 0;
         public int MarkIndex = 0;
+
+        public int TopLIghtDataNo = 0;
+        public int SideLIghtDataNo = 0;
         public SetTestControl()
         {
             InitializeComponent();
@@ -70,6 +73,19 @@ namespace ZenHandler.Dlg
             checkBox_Roi_ORing.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_Cone.CheckedChanged += checkBox_CheckedChanged;
             checkBox_Roi_Height.CheckedChanged += checkBox_CheckedChanged;
+
+
+            trackBar_Top_Light.Minimum = 0;
+            trackBar_Top_Light.Maximum = 255;
+            trackBar_Top_Light.Value = 0;
+            trackBar_Top_Light.TickFrequency = 10;
+            trackBar_Top_Light.Scroll += trackBar_Top_Light_Scroll;
+
+            trackBar_Side_Light.Minimum = 0;
+            trackBar_Side_Light.Maximum = 255;
+            trackBar_Side_Light.Value = 0;
+            trackBar_Side_Light.TickFrequency = 10;
+            trackBar_Side_Light.Scroll += trackBar_Side_Light_Scroll;
         }
         public void setCamCenter()
         {
@@ -105,7 +121,18 @@ namespace ZenHandler.Dlg
             checkBox_Roi_Height.Checked = false;
 
         }
+        private void trackBar_Top_Light_Scroll(object sender, EventArgs e)
+        {
+            int currentValue = ((TrackBar)sender).Value;
+            TopLightChange(1, TopLIghtDataNo, currentValue);
+        }
+        private void trackBar_Side_Light_Scroll(object sender, EventArgs e)
+        {
+            int currentValue = ((TrackBar)sender).Value;
+            SideLightChange(1, 2, SideLIghtDataNo, currentValue);
 
+
+        }
         public void UpdateImage(Bitmap image)
         {
             if (CurrentImage != null) CurrentImage.Dispose();
@@ -1313,5 +1340,152 @@ namespace ZenHandler.Dlg
                 Data.TaskDataYaml.Save_MarkData("A_MODEL", "MarkData.yaml");
             }
         }
+
+        private void label_SetTest_Manual_Image_Save_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Bitmap Image (*.bmp)|*.bmp";
+                saveFileDialog.Title = "이미지 저장";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = saveFileDialog.FileName;
+                    //grabbedImage.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    Globalo.visionManager.milLibrary.GrabImageSave(0, selectedFilePath);
+
+
+                    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
+                }
+            }
+        }
+
+        private void label_SetTest_Manual_Image_Load_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void TopLightChange(int channel, int NoData , int data)
+        {
+            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel, data);
+            label_SetTest_Manual_Top_Light_Data.Text = data.ToString();
+            TopLIghtDataNo = NoData;
+            trackBar_Top_Light.Value = data;
+        }
+
+        private void SideLightChange(int channel1, int channel2, int NoData, int data)      //사이드는 채널 2개다
+        {
+            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel1, data);
+            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel2, data);
+            label_SetTest_Manual_Side_Light_Data.Text = data.ToString();
+            SideLIghtDataNo = NoData;
+            trackBar_Side_Light.Value = data;
+        }
+
+        private void label_SetTest_Manual_Light_Val1_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.topLightData[0].data;
+            TopLightChange(1, 1, data);
+        }
+
+        private void label_SetTest_Manual_Light_Val2_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.topLightData[1].data;
+            TopLightChange(1, 2, data);
+        }
+
+        private void label_SetTest_Manual_Light_Val3_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.topLightData[2].data;
+            TopLightChange(1, 3, data);
+        }
+
+        private void label_SetTest_Manual_Top_Light_Val4_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.topLightData[3].data;
+            TopLightChange(1, 4, data);
+        }
+
+        private void label_SetTest_Manual_Top_Light_Val5_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.topLightData[4].data;
+            TopLightChange(1, 5, data);
+        }
+        private void label_SetTest_Manual_Side_Light_Val1_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.sideLightData[0].data;
+            SideLightChange(1, 2, 0, data);
+        }
+
+        private void label_SetTest_Manual_Side_Light_Val2_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.sideLightData[1].data;
+            SideLightChange(1, 2, 1, data);
+        }
+
+        private void label_SetTest_Manual_Side_Light_Val3_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.sideLightData[2].data;
+            SideLightChange(1, 2, 2, data);
+        }
+        private void label_SetTest_Manual_Side_Light_Val4_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.sideLightData[3].data;
+            SideLightChange(1, 2, 3, data);
+        }
+
+        private void label_SetTest_Manual_Side_Light_Val5_Click(object sender, EventArgs e)
+        {
+            int data = Globalo.visionManager.markUtil.markData.sideLightData[4].data;
+            SideLightChange(1, 2, 4, data);
+        }
+        private void label_SetTest_Manual_Top_Light_Data_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 0)
+                {
+                    dNumData = 0;
+                }
+                if (dNumData > 255)
+                {
+                    dNumData = 255;
+                }
+                TopLightChange(1, TopLIghtDataNo, dNumData);
+            }
+        }
+
+        private void label_SetTest_Manual_Side_Light_Data_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_SetTest_Manual_Side_Light_Data.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 0)
+                {
+                    dNumData = 0;
+                }
+                if (dNumData > 255)
+                {
+                    dNumData = 255;
+                }
+                SideLightChange(1, 2, SideLIghtDataNo, dNumData);
+            }
+        }
+
+        
     }
 }

@@ -51,10 +51,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.BTN_CONFIG_SAVE = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.poisonComboBox_BcrPort = new System.Windows.Forms.ComboBox();
+            this.poisonComboBox_Light_Port = new System.Windows.Forms.ComboBox();
             this.button_Bcr_DisConnect = new System.Windows.Forms.Button();
             this.button_Bcr_Connect = new System.Windows.Forms.Button();
-            this.label_Config_Bcr = new System.Windows.Forms.Label();
+            this.label_Config_Light = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.hopeCheckBox_ImageGrabUse = new ReaLTaiizor.Controls.HopeCheckBox();
@@ -368,10 +368,10 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.poisonComboBox_BcrPort);
+            this.groupBox1.Controls.Add(this.poisonComboBox_Light_Port);
             this.groupBox1.Controls.Add(this.button_Bcr_DisConnect);
             this.groupBox1.Controls.Add(this.button_Bcr_Connect);
-            this.groupBox1.Controls.Add(this.label_Config_Bcr);
+            this.groupBox1.Controls.Add(this.label_Config_Light);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(375, 21);
             this.groupBox1.Name = "groupBox1";
@@ -379,18 +379,18 @@
             this.groupBox1.TabIndex = 46;
             this.groupBox1.TabStop = false;
             // 
-            // poisonComboBox_BcrPort
+            // poisonComboBox_Light_Port
             // 
-            this.poisonComboBox_BcrPort.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.poisonComboBox_BcrPort.DropDownHeight = 120;
-            this.poisonComboBox_BcrPort.Font = new System.Drawing.Font("나눔고딕", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.poisonComboBox_BcrPort.FormattingEnabled = true;
-            this.poisonComboBox_BcrPort.IntegralHeight = false;
-            this.poisonComboBox_BcrPort.ItemHeight = 20;
-            this.poisonComboBox_BcrPort.Location = new System.Drawing.Point(94, 53);
-            this.poisonComboBox_BcrPort.Name = "poisonComboBox_BcrPort";
-            this.poisonComboBox_BcrPort.Size = new System.Drawing.Size(189, 28);
-            this.poisonComboBox_BcrPort.TabIndex = 51;
+            this.poisonComboBox_Light_Port.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.poisonComboBox_Light_Port.DropDownHeight = 120;
+            this.poisonComboBox_Light_Port.Font = new System.Drawing.Font("나눔고딕", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.poisonComboBox_Light_Port.FormattingEnabled = true;
+            this.poisonComboBox_Light_Port.IntegralHeight = false;
+            this.poisonComboBox_Light_Port.ItemHeight = 20;
+            this.poisonComboBox_Light_Port.Location = new System.Drawing.Point(94, 53);
+            this.poisonComboBox_Light_Port.Name = "poisonComboBox_Light_Port";
+            this.poisonComboBox_Light_Port.Size = new System.Drawing.Size(189, 28);
+            this.poisonComboBox_Light_Port.TabIndex = 51;
             // 
             // button_Bcr_DisConnect
             // 
@@ -420,19 +420,19 @@
             this.button_Bcr_Connect.UseVisualStyleBackColor = false;
             this.button_Bcr_Connect.Click += new System.EventHandler(this.button_Bcr_Connect_Click);
             // 
-            // label_Config_Bcr
+            // label_Config_Light
             // 
-            this.label_Config_Bcr.BackColor = System.Drawing.SystemColors.Window;
-            this.label_Config_Bcr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Bcr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Bcr.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Bcr.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Bcr.Location = new System.Drawing.Point(12, 53);
-            this.label_Config_Bcr.Name = "label_Config_Bcr";
-            this.label_Config_Bcr.Size = new System.Drawing.Size(76, 29);
-            this.label_Config_Bcr.TabIndex = 30;
-            this.label_Config_Bcr.Text = "BCR";
-            this.label_Config_Bcr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Config_Light.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Config_Light.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Config_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Config_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Light.ForeColor = System.Drawing.Color.Black;
+            this.label_Config_Light.Location = new System.Drawing.Point(12, 53);
+            this.label_Config_Light.Name = "label_Config_Light";
+            this.label_Config_Light.Size = new System.Drawing.Size(76, 29);
+            this.label_Config_Light.TabIndex = 30;
+            this.label_Config_Light.Text = "BCR";
+            this.label_Config_Light.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -566,7 +566,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.Label label_Config_Bcr;
+        public System.Windows.Forms.Label label_Config_Light;
         private System.Windows.Forms.CheckBox checkBox_IdleReportPass;
         private System.Windows.Forms.CheckBox checkBox_BcrGo;
         private ReaLTaiizor.Controls.HopeCheckBox hopeCheckBox_PinCountUse;
@@ -580,7 +580,7 @@
         public System.Windows.Forms.Label label4;
         public System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox ComboBox_Language;
-        private System.Windows.Forms.ComboBox poisonComboBox_BcrPort;
+        private System.Windows.Forms.ComboBox poisonComboBox_Light_Port;
         public System.Windows.Forms.Label label_Config_Tray_GapY;
         public System.Windows.Forms.Label label_Config_Tray_GapX;
         private System.Windows.Forms.Label label_Config_Tray_GapY_Val;
