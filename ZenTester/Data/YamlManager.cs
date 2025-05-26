@@ -18,6 +18,7 @@ namespace ZenHandler.Data
         private readonly IDeserializer _deserializer;
 
         // 데이터를 보관할 속성
+        public ModelListData modelLIstData { get; set; }
 
         public SecGemDataYaml secsGemDataYaml { get; set; }
         public RootRecipe vPPRecipeSpecEquip { get; set; }
@@ -45,6 +46,7 @@ namespace ZenHandler.Data
             secsGemDataYaml = new SecGemDataYaml();
             teachData = new TeachingDataYaml();
             taskDataYaml = new TaskDataYaml();
+            modelLIstData = new ModelListData();
         }
         public bool RecipeYamlFileCopy(string copyPPid, string createPPid)
         {

@@ -27,13 +27,13 @@ namespace ZenHandler.Controls
         public int SelectColIndex = -1; 
         //
         //
-        public DefaultGridView(int _col , int _row , int[] _inGridWid)
+        public DefaultGridView(int _col , int _row , int[] _inGridWid, int rowHeight = 26)
         {
             nGridColCount = _col;
             nGridRowCount = _row;
 
             inGridWid = _inGridWid;
-
+            dRowHeight = rowHeight;
             InitializeGrid();
 
 

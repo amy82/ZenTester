@@ -66,7 +66,7 @@ namespace ZenHandler  //ApsMotionControl
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
             Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig("AoiConfig.yaml");
-
+            Globalo.yamlManager.modelLIstData.ModelLoad();
             
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
@@ -96,7 +96,7 @@ namespace ZenHandler  //ApsMotionControl
 
 
             //Globalo.mMainPanel = new Dlg.MainControl(dRightPanelW, dRightPanelH);
-            //Globalo.mManualPanel = new Dlg.ManualControl(dRightPanelW, dRightPanelH);
+            Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             //Globalo.mTeachPanel = new Dlg.TeachingControl(dRightPanelW, dRightPanelH);
             //Globalo.mCCdPanel = new Dlg.CCdControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
@@ -341,6 +341,7 @@ namespace ZenHandler  //ApsMotionControl
             Globalo.mConfigPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mAlarmPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.setTestControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mManualPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mlogControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             
             //Globalo.pickerInfo.Location = new System.Drawing.Point(0, Globalo.operationPanel.Location.Y + MainBtnHGap);
@@ -353,10 +354,10 @@ namespace ZenHandler  //ApsMotionControl
             Globalo.mlogControl.Visible = false;
 
             //CenterPanel.Controls.Add(Globalo.mMainPanel);
-            //CenterPanel.Controls.Add(Globalo.mManualPanel);
             //CenterPanel.Controls.Add(Globalo.mTeachPanel);
             //CenterPanel.Controls.Add(Globalo.mioPanel);
             //CenterPanel.Controls.Add(Globalo.mCCdPanel);
+            LeftPanel.Controls.Add(Globalo.mManualPanel);
             LeftPanel.Controls.Add(Globalo.mConfigPanel);
             LeftPanel.Controls.Add(Globalo.mAlarmPanel);
             LeftPanel.Controls.Add(Globalo.mlogControl);

@@ -57,9 +57,10 @@ namespace ZenHandler.Data
         public const string SENSOR_INI_DIR = "D:\\EVMS\\ZenHandler\\Initialize";
 
         //Mes
+        public const string BASE_MODEL_PATH = "D:\\EVMS\\TP\\ENV\\AoiData";
         public const string BASE_SECSGEM_PATH = "D:\\EVMS\\ZenHandler\\SecsGem";
         public const string BASE_RECIPE_PATH = "D:\\EVMS\\ZenHandler\\SecsGem\\Recipe";
-        public const string BASE_MODEL_PATH = "D:\\EVMS\\ZenHandler\\Model";
+        
         public const string BASE_MODEL_DEFAULT_PATH = "D:\\EVMS\\ZenHandler\\Model\\DEFAULT_MODEL";
 
         //LOG
@@ -82,6 +83,8 @@ namespace ZenHandler.Data
         public const string yamlFilePathProduct = "products.yaml";
         public const string yamlFilePathUser = "users.yaml";
         public const string yamlFilePathAlarm = "Alarm.yaml";   //ex) Alarm_20250204  하루씩
+        public const string yamlFilePathModel = "ModelList.yaml";
+
 
 
         //

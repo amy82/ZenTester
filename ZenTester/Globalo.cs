@@ -45,7 +45,7 @@ namespace ZenHandler
         //화면 Form
         public static Dlg.TeachingControl mTeachPanel;
         public static Dlg.MainControl mMainPanel;
-        public static Dlg.ManualControl mManualPanel;
+        public static Dlg.ModelControl mManualPanel;
         public static Dlg.IoControl mioPanel;
 
         public static Dlg.CCdControl mCCdPanel;

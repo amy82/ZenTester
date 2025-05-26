@@ -191,6 +191,7 @@
     <Compile Include="Data\YamlAlarmData.cs" />
     <Compile Include="Data\YamlConfigData.cs" />
     <Compile Include="Data\YamlManager.cs" />
+    <Compile Include="Data\YamlModelData.cs" />
     <Compile Include="Data\YamlRecipe.cs" />
     <Compile Include="Data\YamlSecGemData.cs" />
     <Compile Include="Data\YamlTaskData.cs" />
@@ -299,11 +300,11 @@
     <Compile Include="Dlg\TabMenuForm.Designer.cs">
       <DependentUpon>TabMenuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\ManualControl.cs">
+    <Compile Include="Dlg\ModelControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dlg\ManualControl.designer.cs">
-      <DependentUpon>ManualControl.cs</DependentUpon>
+    <Compile Include="Dlg\ModelControl.designer.cs">
+      <DependentUpon>ModelControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Dlg\TeachingControl.cs">
       <SubType>UserControl</SubType>
@@ -512,8 +513,8 @@
     <EmbeddedResource Include="Dlg\TabMenuForm.resx">
       <DependentUpon>TabMenuForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\ManualControl.resx">
-      <DependentUpon>ManualControl.cs</DependentUpon>
+    <EmbeddedResource Include="Dlg\ModelControl.resx">
+      <DependentUpon>ModelControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\TeachingControl.resx">
       <DependentUpon>TeachingControl.cs</DependentUpon>
