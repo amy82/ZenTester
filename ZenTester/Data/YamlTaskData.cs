@@ -125,6 +125,50 @@ namespace ZenHandler.Data
                 return new Data.AoiRoiConfig();
             }
         }
+        //
+        //
+        //
+
+        public static VisionClass.MarkDataGroup Load_MarkData(string Model, string fileName)
+        {
+            string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, Model, fileName);       //TRAY DATA
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    return new VisionClass.MarkDataGroup();
+                }
+
+
+                VisionClass.MarkDataGroup data = Data.YamlManager.LoadYaml<VisionClass.MarkDataGroup>(filePath);
+                if (data == null)
+                {
+
+                    return new VisionClass.MarkDataGroup();
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error Load MarkData: {ex.Message}");
+                return new VisionClass.MarkDataGroup();
+            }
+        }
+        public static bool Save_MarkData(string Model, string fileName)
+        {
+            string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, Model, fileName);       //LOT DATA
+            try
+            {
+                Data.YamlManager.SaveYaml(filePath, Globalo.visionManager.markUtil.markData);// data);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error Save MarkData: {ex.Message}");
+                return false;
+            }
+
+        }
         //--------------------------------------------------------------------------------------------------------------
         //
         // Transfer

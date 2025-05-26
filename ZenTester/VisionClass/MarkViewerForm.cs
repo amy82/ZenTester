@@ -32,7 +32,7 @@ namespace ZenHandler.VisionClass
         private bool m_bMaskDrag = false;
         private bool m_bEraseMask = false;
 
-
+        private int m_nMovePixel = 10;
         private int CurrentCamIndex = 0;
         private int CurrentMarkNo = 0;
         public MarkViewerForm()
@@ -191,7 +191,7 @@ namespace ZenHandler.VisionClass
 
                 MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3203L, m_dZoomX);//M_DRAW_SCALE_X
                 MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3204L, m_dZoomY);//M_DRAW_SCALE_Y
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_CYAN);// M_COLOR_GREEN);
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);// M_COLOR_GREEN);M_COLOR_CYAN
                 MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], m_MilMaskOverlay, MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 if (m_bDrawEdge)
@@ -419,7 +419,8 @@ namespace ZenHandler.VisionClass
 
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
-
+            Globalo.visionManager.markUtil.markData.markList[CurrentMarkNo].Smooth = m_nEdgeSmooth;
+            Data.TaskDataYaml.Save_MarkData("A_MODEL", "MarkData.yaml");
             Globalo.visionManager.markUtil.SaveMark_mod(Globalo.visionManager.markUtil.ModelMarkName, CurrentCamIndex, CurrentMarkNo);
 
 
@@ -476,6 +477,88 @@ namespace ZenHandler.VisionClass
                     DrawCenterLine(m_clCdCenter);
                 }
             }
+        }
+
+        private void button_Mask_Center_Move_Value_Click(object sender, EventArgs e)
+        {
+            string formattedValue = button_Mask_Center_Move_Value.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 100)
+                {
+                    dNumData = 100;
+                }
+                m_nMovePixel = dNumData;
+                button_Mask_Center_Move_Value.Text = m_nMovePixel.ToString();
+            }
+        }
+
+        private void MarkCenterLineMove(int Dic)
+        {
+            //
+            if (Dic == 0)
+            {
+                //UP
+                if (m_clCdCenter.Y > m_nMovePixel + 1)
+                {
+                    m_clCdCenter.Y -= m_nMovePixel;
+                }
+            }
+            if (Dic == 1)
+            {
+                //DOWN
+                if (m_clCdCenter.Y < DispSize.Y - m_nMovePixel - 1)
+                {
+                    m_clCdCenter.Y += m_nMovePixel;
+                }
+            }
+            if (Dic == 2)
+            {
+                //LEFT
+                if (m_clCdCenter.X > m_nMovePixel + 1)
+                {
+                    m_clCdCenter.X -= m_nMovePixel;
+                }
+            }
+            if (Dic == 3)
+            {
+                //RIGHT
+                if (m_clCdCenter.X < DispSize.X - m_nMovePixel - 1)
+                {
+                    m_clCdCenter.X += m_nMovePixel;
+                }
+            }
+
+            DrawCenterLine(m_clCdCenter);
+        }
+        private void button_Mask_Center_Move_Up_Click(object sender, EventArgs e)
+        {
+            MarkCenterLineMove(0);
+        }
+
+        private void button_Mask_Center_Move_Down_Click(object sender, EventArgs e)
+        {
+            MarkCenterLineMove(1);
+        }
+
+        private void button_Mask_Center_Move_Left_Click(object sender, EventArgs e)
+        {
+            MarkCenterLineMove(2);
+        }
+
+        private void button_Mask_Center_Move_Right_Click(object sender, EventArgs e)
+        {
+            MarkCenterLineMove(3);
         }
     }
 }

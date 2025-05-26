@@ -194,12 +194,13 @@ namespace ZenHandler.VisionClass
             this.button_Mask_Center_Move_Left.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Mask_Center_Move_Left.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Mask_Center_Move_Left.ForeColor = System.Drawing.Color.White;
-            this.button_Mask_Center_Move_Left.Location = new System.Drawing.Point(2, 68);
+            this.button_Mask_Center_Move_Left.Location = new System.Drawing.Point(8, 66);
             this.button_Mask_Center_Move_Left.Name = "button_Mask_Center_Move_Left";
-            this.button_Mask_Center_Move_Left.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Left.Size = new System.Drawing.Size(65, 50);
             this.button_Mask_Center_Move_Left.TabIndex = 91;
             this.button_Mask_Center_Move_Left.Text = "◀";
             this.button_Mask_Center_Move_Left.UseVisualStyleBackColor = false;
+            this.button_Mask_Center_Move_Left.Click += new System.EventHandler(this.button_Mask_Center_Move_Left_Click);
             // 
             // button_Mask_Center_Move_Right
             // 
@@ -207,12 +208,13 @@ namespace ZenHandler.VisionClass
             this.button_Mask_Center_Move_Right.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Mask_Center_Move_Right.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Mask_Center_Move_Right.ForeColor = System.Drawing.Color.White;
-            this.button_Mask_Center_Move_Right.Location = new System.Drawing.Point(144, 68);
+            this.button_Mask_Center_Move_Right.Location = new System.Drawing.Point(139, 66);
             this.button_Mask_Center_Move_Right.Name = "button_Mask_Center_Move_Right";
-            this.button_Mask_Center_Move_Right.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Right.Size = new System.Drawing.Size(65, 50);
             this.button_Mask_Center_Move_Right.TabIndex = 92;
             this.button_Mask_Center_Move_Right.Text = "▶";
             this.button_Mask_Center_Move_Right.UseVisualStyleBackColor = false;
+            this.button_Mask_Center_Move_Right.Click += new System.EventHandler(this.button_Mask_Center_Move_Right_Click);
             // 
             // button_Mask_Center_Move_Up
             // 
@@ -220,12 +222,13 @@ namespace ZenHandler.VisionClass
             this.button_Mask_Center_Move_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Mask_Center_Move_Up.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Mask_Center_Move_Up.ForeColor = System.Drawing.Color.White;
-            this.button_Mask_Center_Move_Up.Location = new System.Drawing.Point(73, 20);
+            this.button_Mask_Center_Move_Up.Location = new System.Drawing.Point(72, 19);
             this.button_Mask_Center_Move_Up.Name = "button_Mask_Center_Move_Up";
-            this.button_Mask_Center_Move_Up.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Up.Size = new System.Drawing.Size(67, 48);
             this.button_Mask_Center_Move_Up.TabIndex = 93;
             this.button_Mask_Center_Move_Up.Text = "▲";
             this.button_Mask_Center_Move_Up.UseVisualStyleBackColor = false;
+            this.button_Mask_Center_Move_Up.Click += new System.EventHandler(this.button_Mask_Center_Move_Up_Click);
             // 
             // button_Mask_Center_Move_Down
             // 
@@ -233,12 +236,13 @@ namespace ZenHandler.VisionClass
             this.button_Mask_Center_Move_Down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Mask_Center_Move_Down.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Mask_Center_Move_Down.ForeColor = System.Drawing.Color.White;
-            this.button_Mask_Center_Move_Down.Location = new System.Drawing.Point(73, 124);
+            this.button_Mask_Center_Move_Down.Location = new System.Drawing.Point(72, 117);
             this.button_Mask_Center_Move_Down.Name = "button_Mask_Center_Move_Down";
-            this.button_Mask_Center_Move_Down.Size = new System.Drawing.Size(65, 48);
+            this.button_Mask_Center_Move_Down.Size = new System.Drawing.Size(67, 48);
             this.button_Mask_Center_Move_Down.TabIndex = 94;
             this.button_Mask_Center_Move_Down.Text = "▼";
             this.button_Mask_Center_Move_Down.UseVisualStyleBackColor = false;
+            this.button_Mask_Center_Move_Down.Click += new System.EventHandler(this.button_Mask_Center_Move_Down_Click);
             // 
             // button_Mask_Center_Move_Value
             // 
@@ -248,12 +252,13 @@ namespace ZenHandler.VisionClass
             this.button_Mask_Center_Move_Value.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Mask_Center_Move_Value.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Mask_Center_Move_Value.ForeColor = System.Drawing.Color.Black;
-            this.button_Mask_Center_Move_Value.Location = new System.Drawing.Point(73, 66);
+            this.button_Mask_Center_Move_Value.Location = new System.Drawing.Point(73, 67);
             this.button_Mask_Center_Move_Value.Name = "button_Mask_Center_Move_Value";
-            this.button_Mask_Center_Move_Value.Size = new System.Drawing.Size(65, 50);
+            this.button_Mask_Center_Move_Value.Size = new System.Drawing.Size(66, 50);
             this.button_Mask_Center_Move_Value.TabIndex = 95;
             this.button_Mask_Center_Move_Value.Text = "10";
             this.button_Mask_Center_Move_Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.button_Mask_Center_Move_Value.Click += new System.EventHandler(this.button_Mask_Center_Move_Value_Click);
             // 
             // MarkViewerForm
             // 

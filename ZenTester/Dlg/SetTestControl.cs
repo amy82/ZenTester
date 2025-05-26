@@ -1295,5 +1295,23 @@ namespace ZenHandler.Dlg
 
             
         }
+
+        private void label_SetTest_Manual_Mark_Roi_Save_Click(object sender, EventArgs e)
+        {
+            DialogResult result = DialogResult.None;
+            result = Globalo.MessageAskPopup("MARK ROI영역 등록하시겠습니까?");
+
+            if (result == DialogResult.Yes)
+            {
+                Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
+
+                Globalo.visionManager.markUtil.markData.markList[MarkIndex].X = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                Globalo.visionManager.markUtil.markData.markList[MarkIndex].Y = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
+                Globalo.visionManager.markUtil.markData.markList[MarkIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                Globalo.visionManager.markUtil.markData.markList[MarkIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
+                //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5)
+                Data.TaskDataYaml.Save_MarkData("A_MODEL", "MarkData.yaml");
+            }
+        }
     }
 }

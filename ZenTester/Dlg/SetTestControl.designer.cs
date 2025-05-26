@@ -70,6 +70,7 @@ namespace ZenHandler.Dlg
             this.label_Set_Mark_Model = new System.Windows.Forms.Label();
             this.button_Set_Mark_Next = new System.Windows.Forms.Button();
             this.button_Set_Mark_Prev = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Mark_Roi_Save = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Title
@@ -555,7 +556,7 @@ namespace ZenHandler.Dlg
             this.label_SetTest_Manual_Image_Save.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Image_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(1325, 533);
+            this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(1216, 663);
             this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
             this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(104, 39);
             this.label_SetTest_Manual_Image_Save.TabIndex = 87;
@@ -567,7 +568,7 @@ namespace ZenHandler.Dlg
             this.label_SetTest_Manual_Image_Load.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Image_Load.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(1325, 573);
+            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(1216, 701);
             this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
             this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(104, 39);
             this.label_SetTest_Manual_Image_Load.TabIndex = 88;
@@ -614,11 +615,25 @@ namespace ZenHandler.Dlg
             this.button_Set_Mark_Prev.UseVisualStyleBackColor = false;
             this.button_Set_Mark_Prev.Click += new System.EventHandler(this.button_Set_Mark_Prev_Click);
             // 
+            // label_SetTest_Manual_Mark_Roi_Save
+            // 
+            this.label_SetTest_Manual_Mark_Roi_Save.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Mark_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Mark_Roi_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Roi_Save.Location = new System.Drawing.Point(1325, 533);
+            this.label_SetTest_Manual_Mark_Roi_Save.Name = "label_SetTest_Manual_Mark_Roi_Save";
+            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(104, 39);
+            this.label_SetTest_Manual_Mark_Roi_Save.TabIndex = 92;
+            this.label_SetTest_Manual_Mark_Roi_Save.Text = "ROI SAVE";
+            this.label_SetTest_Manual_Mark_Roi_Save.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Mark_Roi_Save.Click += new System.EventHandler(this.label_SetTest_Manual_Mark_Roi_Save_Click);
+            // 
             // SetTestControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_SetTest_Manual_Mark_Roi_Save);
             this.Controls.Add(this.label_Set_Mark_Model);
             this.Controls.Add(this.button_Set_Mark_Next);
             this.Controls.Add(this.button_Set_Mark_Prev);
@@ -710,5 +725,6 @@ namespace ZenHandler.Dlg
         private System.Windows.Forms.Label label_Set_Mark_Model;
         private System.Windows.Forms.Button button_Set_Mark_Next;
         private System.Windows.Forms.Button button_Set_Mark_Prev;
+        private System.Windows.Forms.Button label_SetTest_Manual_Mark_Roi_Save;
     }
 }
