@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ZenHandler.Controls
+namespace ZenTester.Controls
 {
     public class TeachingGridView : DataGridView
     {

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Matrox.MatroxImagingLibrary;
 
-namespace ZenHandler.VisionClass
+namespace ZenTester.VisionClass
 {
     public class AoiTester
     {

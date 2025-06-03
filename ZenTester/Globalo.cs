@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 
 
-namespace ZenHandler
+namespace ZenTester
 {
     public class Globalo
     {

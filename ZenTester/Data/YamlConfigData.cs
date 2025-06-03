@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public class _SerialPort
     {

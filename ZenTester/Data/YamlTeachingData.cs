@@ -8,7 +8,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public enum eTeachPosName : int
     {

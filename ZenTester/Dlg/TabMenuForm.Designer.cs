@@ -1,5 +1,5 @@
 ﻿
-namespace ZenHandler.Dlg
+namespace ZenTester.Dlg
 {
     partial class TabMenuForm
     {
@@ -95,7 +95,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_LOG.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_LOG.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_LOG.Image = global::ZenHandler.Properties.Resources.log;
+            this.BTN_BOTTOM_LOG.Image = global::ZenTester.Properties.Resources.log;
             this.BTN_BOTTOM_LOG.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_LOG.Location = new System.Drawing.Point(7, 228);
             this.BTN_BOTTOM_LOG.Name = "BTN_BOTTOM_LOG";
@@ -137,7 +137,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_WALLPAPER.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_WALLPAPER.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_WALLPAPER.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_WALLPAPER.Image = global::ZenHandler.Properties.Resources.Desktop;
+            this.BTN_BOTTOM_WALLPAPER.Image = global::ZenTester.Properties.Resources.Desktop;
             this.BTN_BOTTOM_WALLPAPER.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_WALLPAPER.Location = new System.Drawing.Point(13, 294);
             this.BTN_BOTTOM_WALLPAPER.Name = "BTN_BOTTOM_WALLPAPER";
@@ -155,7 +155,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_EXIT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_EXIT.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_EXIT.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_EXIT.Image = global::ZenHandler.Properties.Resources.Exit;
+            this.BTN_BOTTOM_EXIT.Image = global::ZenTester.Properties.Resources.Exit;
             this.BTN_BOTTOM_EXIT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_EXIT.Location = new System.Drawing.Point(7, 336);
             this.BTN_BOTTOM_EXIT.Name = "BTN_BOTTOM_EXIT";
@@ -186,7 +186,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_ALARM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_ALARM.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_ALARM.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_ALARM.Image = global::ZenHandler.Properties.Resources.Alarm;
+            this.BTN_BOTTOM_ALARM.Image = global::ZenTester.Properties.Resources.Alarm;
             this.BTN_BOTTOM_ALARM.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_ALARM.Location = new System.Drawing.Point(6, 186);
             this.BTN_BOTTOM_ALARM.Name = "BTN_BOTTOM_ALARM";
@@ -204,7 +204,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_LIGHT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_LIGHT.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_LIGHT.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_LIGHT.Image = global::ZenHandler.Properties.Resources.Light;
+            this.BTN_BOTTOM_LIGHT.Image = global::ZenTester.Properties.Resources.Light;
             this.BTN_BOTTOM_LIGHT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_LIGHT.Location = new System.Drawing.Point(13, 378);
             this.BTN_BOTTOM_LIGHT.Name = "BTN_BOTTOM_LIGHT";
@@ -221,7 +221,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_IO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_IO.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_IO.ForeColor = System.Drawing.Color.Gainsboro;
-            this.BTN_BOTTOM_IO.Image = global::ZenHandler.Properties.Resources.Io;
+            this.BTN_BOTTOM_IO.Image = global::ZenTester.Properties.Resources.Io;
             this.BTN_BOTTOM_IO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_IO.Location = new System.Drawing.Point(7, 113);
             this.BTN_BOTTOM_IO.Name = "BTN_BOTTOM_IO";
@@ -239,7 +239,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_CCD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_CCD.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_CCD.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_CCD.Image = global::ZenHandler.Properties.Resources.Ccd;
+            this.BTN_BOTTOM_CCD.Image = global::ZenTester.Properties.Resources.Ccd;
             this.BTN_BOTTOM_CCD.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_CCD.Location = new System.Drawing.Point(17, 438);
             this.BTN_BOTTOM_CCD.Name = "BTN_BOTTOM_CCD";
@@ -257,7 +257,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_TEACH.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_TEACH.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_TEACH.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_TEACH.Image = global::ZenHandler.Properties.Resources.Teaching1;
+            this.BTN_BOTTOM_TEACH.Image = global::ZenTester.Properties.Resources.Teaching1;
             this.BTN_BOTTOM_TEACH.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_TEACH.Location = new System.Drawing.Point(3, 45);
             this.BTN_BOTTOM_TEACH.Name = "BTN_BOTTOM_TEACH";
@@ -275,7 +275,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_MAIN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_MAIN.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_MAIN.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_MAIN.Image = global::ZenHandler.Properties.Resources.Manual;
+            this.BTN_BOTTOM_MAIN.Image = global::ZenTester.Properties.Resources.Manual;
             this.BTN_BOTTOM_MAIN.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_MAIN.Location = new System.Drawing.Point(3, 3);
             this.BTN_BOTTOM_MAIN.Name = "BTN_BOTTOM_MAIN";
@@ -294,7 +294,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_SETUP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_SETUP.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_SETUP.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_SETUP.Image = global::ZenHandler.Properties.Resources.Config;
+            this.BTN_BOTTOM_SETUP.Image = global::ZenTester.Properties.Resources.Config;
             this.BTN_BOTTOM_SETUP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_SETUP.Location = new System.Drawing.Point(4, 144);
             this.BTN_BOTTOM_SETUP.Name = "BTN_BOTTOM_SETUP";
@@ -312,7 +312,7 @@ namespace ZenHandler.Dlg
             this.BTN_BOTTOM_MANUAL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_BOTTOM_MANUAL.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_BOTTOM_MANUAL.ForeColor = System.Drawing.Color.White;
-            this.BTN_BOTTOM_MANUAL.Image = global::ZenHandler.Properties.Resources.Teaching1;
+            this.BTN_BOTTOM_MANUAL.Image = global::ZenTester.Properties.Resources.Teaching1;
             this.BTN_BOTTOM_MANUAL.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BTN_BOTTOM_MANUAL.Location = new System.Drawing.Point(4, 87);
             this.BTN_BOTTOM_MANUAL.Name = "BTN_BOTTOM_MANUAL";

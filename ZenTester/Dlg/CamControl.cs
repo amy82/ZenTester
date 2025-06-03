@@ -11,7 +11,7 @@ using System.Windows;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace ZenHandler.Dlg
+namespace ZenTester.Dlg
 {
     public partial class CamControl : UserControl
     {

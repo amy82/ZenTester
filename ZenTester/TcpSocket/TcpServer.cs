@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ZenHandler.TcpSocket
+namespace ZenTester.TcpSocket
 {
     public class TcpServer
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZenHandler.Ubisam
+namespace ZenTester.Ubisam
 {
     public static class ReportConstants
     {

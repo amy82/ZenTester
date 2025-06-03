@@ -1,5 +1,5 @@
 ﻿
-namespace ZenHandler
+namespace ZenTester
 {
     partial class MessagePopUpForm
     {
@@ -41,7 +41,7 @@ namespace ZenHandler
             // 
             // warnningImage
             // 
-            this.warnningImage.Image = global::ZenHandler.Properties.Resources.question;
+            this.warnningImage.Image = global::ZenTester.Properties.Resources.question;
             this.warnningImage.Location = new System.Drawing.Point(9, 11);
             this.warnningImage.Margin = new System.Windows.Forms.Padding(0);
             this.warnningImage.Name = "warnningImage";

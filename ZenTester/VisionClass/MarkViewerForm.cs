@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Matrox.MatroxImagingLibrary;
 using OpenCvSharp;
-namespace ZenHandler.VisionClass
+namespace ZenTester.VisionClass
 {
     public partial class MarkViewerForm : Form
     {

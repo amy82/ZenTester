@@ -1,5 +1,5 @@
 ﻿
-namespace ZenHandler.Dlg
+namespace ZenTester.Dlg
 {
     partial class UnitControl
     {

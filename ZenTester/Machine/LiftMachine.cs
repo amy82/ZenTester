@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ZenHandler.Machine
+namespace ZenTester.Machine
 {
     public class LiftMachine : MotionControl.MotorController
     {

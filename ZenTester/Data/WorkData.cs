@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Data;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public class CSFRInfo
     {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace ZenHandler.Dlg
+namespace ZenTester.Dlg
 {
     public partial class IoControl : UserControl
     {

@@ -15,7 +15,7 @@ using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public class CEEpromData
     {

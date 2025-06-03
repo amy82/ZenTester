@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public struct RcmdCtrlStateChgReq
     {

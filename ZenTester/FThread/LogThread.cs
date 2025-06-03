@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace ZenHandler.FThread
+namespace ZenTester.FThread
 {
     public class LogThread : BaseThread
     {

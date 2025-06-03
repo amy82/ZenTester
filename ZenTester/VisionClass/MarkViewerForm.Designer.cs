@@ -1,5 +1,5 @@
 ﻿
-namespace ZenHandler.VisionClass
+namespace ZenTester.VisionClass
 {
     partial class MarkViewerForm
     {

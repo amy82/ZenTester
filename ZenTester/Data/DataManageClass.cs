@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public class DataManageClass
     {
@@ -54,14 +54,14 @@ namespace ZenHandler.Data
 
 
         //LAON
-        public const string SENSOR_INI_DIR = "D:\\EVMS\\ZenHandler\\Initialize";
+        public const string SENSOR_INI_DIR = "D:\\EVMS\\ZenTester\\Initialize";
 
         //Mes
         public const string BASE_MODEL_PATH = "D:\\EVMS\\TP\\ENV\\AoiData";
-        public const string BASE_SECSGEM_PATH = "D:\\EVMS\\ZenHandler\\SecsGem";
-        public const string BASE_RECIPE_PATH = "D:\\EVMS\\ZenHandler\\SecsGem\\Recipe";
+        public const string BASE_SECSGEM_PATH = "D:\\EVMS\\ZenTester\\SecsGem";
+        public const string BASE_RECIPE_PATH = "D:\\EVMS\\ZenTester\\SecsGem\\Recipe";
         
-        public const string BASE_MODEL_DEFAULT_PATH = "D:\\EVMS\\ZenHandler\\Model\\DEFAULT_MODEL";
+        public const string BASE_MODEL_DEFAULT_PATH = "D:\\EVMS\\ZenTester\\Model\\DEFAULT_MODEL";
 
         //LOG
         public const string BASE_LOG_EQUIP_PATH = "D:\\EVMS\\OP\\LOG\\EQUIP";               //설비 STEP LOG

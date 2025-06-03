@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5E068DC1-D369-4002-A8F9-78BF879266B2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ZenHandler</RootNamespace>
-    <AssemblyName>ZenHandler</AssemblyName>
+    <RootNamespace>ZenTester</RootNamespace>
+    <AssemblyName>ZenTester</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -349,6 +349,8 @@
     <Compile Include="FThread\ManualThread.cs" />
     <Compile Include="FThread\MotorAutoThread.cs" />
     <Compile Include="FThread\MotorManualThread.cs" />
+    <Compile Include="FThread\TestAutoThread.cs" />
+    <Compile Include="Http\HttpService.cs" />
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -441,6 +443,7 @@
     <Compile Include="Serial\SerialCommunicator.cs" />
     <Compile Include="Serial\SerialPortManager.cs" />
     <Compile Include="TcpSocket\packetData.cs" />
+    <Compile Include="TcpSocket\TcpClientHandler.cs" />
     <Compile Include="TcpSocket\TcpManager.cs" />
     <Compile Include="TcpSocket\TcpServer.cs" />
     <Compile Include="ThreadControl.cs" />

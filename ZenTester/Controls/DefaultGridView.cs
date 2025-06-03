@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 
-namespace ZenHandler.Controls
+namespace ZenTester.Controls
 {
     [ToolboxItem(true)]
     public class DefaultGridView : DataGridView

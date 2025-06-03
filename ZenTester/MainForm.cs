@@ -12,7 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Globalization;
 
-namespace ZenHandler  //ApsMotionControl
+namespace ZenTester  //ApsMotionControl
 {
     public partial class MainForm : Form
     {
@@ -154,6 +154,8 @@ namespace ZenHandler  //ApsMotionControl
             
 
             Globalo.setTestControl.setCamCenter();
+
+
             //if (ProgramState.ON_LINE_MIL)
             //{
             //    InitMilLib();
@@ -178,8 +180,9 @@ namespace ZenHandler  //ApsMotionControl
             //Globalo.mTeachPanel.eLogSender += eLogPrint;
             //Globalo.mManualPanel.eLogSender += eLogPrint;
 
-            Globalo.tcpManager = new TcpSocket.TcpManager("127.0.0.1", 2001);
-            
+            Globalo.tcpManager = new TcpSocket.TcpManager();
+            Globalo.tcpManager.SetClient("127.0.0.1", 2001);
+
             //Globalo.mTeachPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             //Globalo.mMainPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             //Globalo.mCCdPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
@@ -194,7 +197,10 @@ namespace ZenHandler  //ApsMotionControl
 
             SerialConnect();
 
-            serverStart();      //SECS - GEM 연결
+           //// serverStart();      //SECS - GEM 연결
+
+            Http.HttpService.Start();
+
 
             TopPanel.Paint += new PaintEventHandler(Form_Paint);
             eLogPrint("Main", "PG START");

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace ZenHandler.Serial
+namespace ZenTester.Serial
 {
     public class SerialCommunicator
     {

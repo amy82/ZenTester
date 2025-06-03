@@ -9,7 +9,7 @@ using OpenCvSharp;
 using Matrox.MatroxImagingLibrary;
 using System.Diagnostics;
 
-namespace ZenHandler.FThread
+namespace ZenTester.FThread
 {
     
     public class CcdColorThread : BaseThread

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Matrox.MatroxImagingLibrary;
 
 
-namespace ZenHandler.VisionClass
+namespace ZenTester.VisionClass
 {
     public class VisionManager
     {

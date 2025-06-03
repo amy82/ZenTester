@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 //1. (추상 클래스) 공통 기능? 조그 이동? 티칭 위치 이동  , 정지, 원점 잡기?
 //2.이재기 , 매거진, 리프트, pcb축 - pcb축이면 소켓 업다운 등도 넣기 
 
-namespace ZenHandler.MotionControl
+namespace ZenTester.MotionControl
 {
     public class MotorAxis
     {

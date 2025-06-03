@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZenHandler.VisionClass
+namespace ZenTester.VisionClass
 {
     public struct STRUC_MIL_BOX
     {

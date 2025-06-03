@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 
 
-namespace ZenHandler.Process
+namespace ZenTester.Process
 {
     public class ManualProcess
     {

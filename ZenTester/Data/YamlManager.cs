@@ -9,7 +9,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public class YamlManager
     {

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using OpenCvSharp;
 using System.Diagnostics;
 
-namespace ZenHandler.FThread
+namespace ZenTester.FThread
 {
     public class CcdGrabThread : BaseThread
     {

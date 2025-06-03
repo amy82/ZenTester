@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ZenHandler.FThread
+namespace ZenTester.FThread
 {
     public class MotorAutoThread : BaseThread
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZenHandler.Serial
+namespace ZenTester.Serial
 {
     public class SerialPortManager
     {

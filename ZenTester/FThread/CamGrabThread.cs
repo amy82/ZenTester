@@ -8,7 +8,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace ZenHandler.FThread
+namespace ZenTester.FThread
 {
     public class CamGrabThread : BaseThread
     {

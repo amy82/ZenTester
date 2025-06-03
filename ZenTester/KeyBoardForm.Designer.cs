@@ -1,5 +1,5 @@
 ﻿
-namespace ZenHandler
+namespace ZenTester
 {
     partial class KeyBoardForm
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Tommy;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public struct STURC_TEACH_DATA
     {

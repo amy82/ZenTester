@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZenHandler.MotionControl
+namespace ZenTester.MotionControl
 {
     
     public static class MotorSet

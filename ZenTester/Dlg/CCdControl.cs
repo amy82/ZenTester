@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using ReaLTaiizor.Drawing.Poison;
 
-namespace ZenHandler.Dlg
+namespace ZenTester.Dlg
 {
     public partial class CCdControl : UserControl
     {

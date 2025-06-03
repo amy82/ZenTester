@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ZenHandler
+namespace ZenTester
 {
     // 메시지 필터 클래스
     public class KeyMessageFilter : IMessageFilter

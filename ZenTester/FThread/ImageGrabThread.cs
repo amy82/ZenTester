@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using OpenCvSharp;
 
 
-namespace ZenHandler.FThread
+namespace ZenTester.FThread
 {
     public class ImageGrabThread : BaseThread
     {

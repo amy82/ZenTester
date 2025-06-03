@@ -1,5 +1,5 @@
 ﻿
-namespace ZenHandler
+namespace ZenTester
 {
     partial class MainForm
     {
@@ -111,7 +111,7 @@ namespace ZenHandler
             this.BTN_TOP_LOG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_TOP_LOG.Font = new System.Drawing.Font("Nirmala UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_TOP_LOG.ForeColor = System.Drawing.Color.White;
-            this.BTN_TOP_LOG.Image = global::ZenHandler.Properties.Resources.RightTop_logo;
+            this.BTN_TOP_LOG.Image = global::ZenTester.Properties.Resources.RightTop_logo;
             this.BTN_TOP_LOG.Location = new System.Drawing.Point(300, 4);
             this.BTN_TOP_LOG.Margin = new System.Windows.Forms.Padding(0);
             this.BTN_TOP_LOG.Name = "BTN_TOP_LOG";
@@ -164,7 +164,7 @@ namespace ZenHandler
             // 
             // MainTitlepictureBox
             // 
-            this.MainTitlepictureBox.Image = global::ZenHandler.Properties.Resources.mainTitle;
+            this.MainTitlepictureBox.Image = global::ZenTester.Properties.Resources.mainTitle;
             this.MainTitlepictureBox.Location = new System.Drawing.Point(19, 10);
             this.MainTitlepictureBox.Name = "MainTitlepictureBox";
             this.MainTitlepictureBox.Size = new System.Drawing.Size(43, 36);

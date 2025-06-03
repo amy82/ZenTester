@@ -10,7 +10,7 @@ using OfficeOpenXml;
 using System.IO;
 //using Excel = Microsoft.Office.Interop.Excel;
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
     public class IoData
     {

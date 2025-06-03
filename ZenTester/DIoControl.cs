@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace ZenHandler
+namespace ZenTester
 {
     public class DIoControl
     {

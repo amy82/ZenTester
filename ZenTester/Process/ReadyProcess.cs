@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ZenHandler.Process
+namespace ZenTester.Process
 {
     public class ReadyProcess
     {

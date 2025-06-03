@@ -10,7 +10,7 @@ using OpenCvSharp;
 using LgitLibrary;
 using System.IO;
 
-namespace ZenHandler
+namespace ZenTester
 {
     public class CLaonGrabberClass : IDisposable
     {

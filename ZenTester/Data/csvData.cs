@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 
-namespace ZenHandler.Data
+namespace ZenTester.Data
 {
 
     public class EEpromReadData

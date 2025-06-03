@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZenHandler.TcpSocket
+namespace ZenTester.TcpSocket
 {
     public enum CMD_POPUP_MESSAGE : int {  cpTEMINAL = 1,  cpDefault };    //cpOPCALL = 1,cpFmt_PPReq,
 
@@ -14,7 +14,10 @@ namespace ZenHandler.TcpSocket
         public string Value { get; set; }
         public List<EquipmentParameterInfo> ChildItem { get; set; } = new List<EquipmentParameterInfo>();
     }
-
+    public class ResultData
+    {
+        public string Cmd { get; set; }
+    }
     public class EquipmentData
     {
         public string Command { get; set; } //LGIT_LOT_ID_FAIL

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 
 
-namespace ZenHandler.Dlg
+namespace ZenTester.Dlg
 {
     public partial class AlarmControl : UserControl
     {

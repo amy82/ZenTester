@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ZenHandler.MotionControl
+namespace ZenTester.MotionControl
 {
     //class MotionBase
     public abstract class MotorController

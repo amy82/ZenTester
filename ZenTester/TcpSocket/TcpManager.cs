@@ -7,22 +7,45 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ZenHandler.TcpSocket
+namespace ZenTester.TcpSocket
 {
     public class TcpManager
     {
         private readonly SynchronizationContext _syncContext;
         //private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
         
-        private TcpServer _server;
+        private TcpServer _server;      //미사용
         private CancellationTokenSource _cts;
-        public TcpManager(string ip, int port)
+
+        private TcpClientHandler _client;
+        public TcpManager()//string ip, int port)
         {
             _syncContext = SynchronizationContext.Current;
-            _server = new TcpServer(ip, port);
-            //_server.OnMessageReceived += OnMessageReceived; // 서버의 메시지 수신 이벤트 구독
-            _server.OnMessageReceivedAsync += HandleClientMessageAsync;
+            //_server = new TcpServer(ip, port);
+            //_server.OnMessageReceivedAsync += HandleClientMessageAsync;
             _cts = new CancellationTokenSource();
+        }
+
+        public void SetClient(string ip, int port)
+        {
+            _client = new TcpClientHandler(ip, port, this);
+            //_client.OnMessageReceived += OnMessageReceived;
+            _client.OnMessageReceivedAsync += HandleClientMessageAsync;
+            _client.Connect();
+        }
+
+        public async void SendMessageToHost(EquipmentData data) //ResultData
+        {
+            if (_client.bHostConnectedState() == false)
+            {
+                return;
+            }
+            string jsonData = JsonConvert.SerializeObject(data);
+            await _client.SendDataAsync(jsonData);
+        }
+        public void DisconnectClient()
+        {
+            _client.Disconnect(false);
         }
         public async void SendMessageToClient(TcpSocket.EquipmentData equipData)//string message)
         {

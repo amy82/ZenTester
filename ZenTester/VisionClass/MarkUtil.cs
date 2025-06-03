@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Matrox.MatroxImagingLibrary;
-using ZenHandler.Data;
+using ZenTester.Data;
 
-namespace ZenHandler.VisionClass
+namespace ZenTester.VisionClass
 {
     public class CDMotor
     {
