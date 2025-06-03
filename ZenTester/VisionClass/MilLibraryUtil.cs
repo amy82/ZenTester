@@ -140,6 +140,12 @@ namespace ZenHandler.VisionClass
             MIL.MbufLoad(filePath, MilCamGrabImage[index]);
             MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
         }
+
+        public void setTestCamImage(int index, string filePath)
+        {
+            MIL.MbufLoad(filePath, MilCamGrabImage[index]);
+            MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
+        }
         public void ClearOverlay(int index)
         {
             m_clMilDrawBox[index].RemoveAll();

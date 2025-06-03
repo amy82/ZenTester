@@ -1362,7 +1362,28 @@ namespace ZenHandler.Dlg
 
         private void label_SetTest_Manual_Image_Load_Click(object sender, EventArgs e)
         {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "이미지 파일 선택";
+                //openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
+                openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
+                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\Image"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
 
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                    string selectedFilePath = openFileDialog.FileName;
+                    Globalo.visionManager.SetTestLoadBmp(CamIndex, selectedFilePath);
+
+                    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
+                    ///MessageBox.Show("선택한 이미지 경로:\n" + selectedFilePath);
+                }
+                else
+                {
+                    Globalo.visionManager.milLibrary.SetGrabOn(1, true);
+                }
+            }
         }
 
 

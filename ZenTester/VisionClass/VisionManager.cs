@@ -104,7 +104,12 @@ namespace ZenHandler.VisionClass
         public void SetLoadBmp(int index, string filePath)
         {
             milLibrary.setCamImage(index, filePath);
-            
+
+        }
+        public void SetTestLoadBmp(int index, string filePath)
+        {
+            milLibrary.setTestCamImage(index, filePath);
+
         }
         public void ChangeDisplayHandle(int camIndex, Panel panel)
         {
