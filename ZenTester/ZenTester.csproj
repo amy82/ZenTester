@@ -344,7 +344,6 @@
     <Compile Include="FThread\CamGrabThread.cs" />
     <Compile Include="FThread\CcdColorThread.cs" />
     <Compile Include="FThread\CcdGrabThread.cs" />
-    <Compile Include="FThread\DIoThread.cs" />
     <Compile Include="FThread\ImageGrabThread.cs" />
     <Compile Include="FThread\ManualThread.cs" />
     <Compile Include="FThread\MotorAutoThread.cs" />

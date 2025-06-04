@@ -12,26 +12,16 @@ namespace ZenTester
         public FThread.TimeThread timeThread;
         
         public FThread.AutoRunthread autoRunthread;
-
-        //CCD thread
-        public FThread.CcdColorThread ccdColorThread;
-        public FThread.CamGrabThread camGrabThread;
-        public FThread.CcdGrabThread ccdGrabThread;
-
-        //test
-        public FThread.ImageGrabThread imageGrabThread;
-
-
-        //ON_LINE_MOTOR
-        public FThread.DIoThread dIoThread;
-
-        public FThread.ManualThread manualThread;
+        public FThread.TestAutoThread[] testAutoThread = new FThread.TestAutoThread[2];
 
         public ThreadControl()
         {
             logThread = new FThread.LogThread();
             timeThread = new FThread.TimeThread();
             autoRunthread = new FThread.AutoRunthread();
+
+            testAutoThread[0] = new FThread.TestAutoThread(0);
+            testAutoThread[1] = new FThread.TestAutoThread(1);
 
             // 이벤트 핸들러 등록
             //autoRunthread.ThreadCompleted += (bool result) =>
@@ -43,30 +33,24 @@ namespace ZenTester
             //    //}
             //};
 
-            ccdColorThread = new FThread.CcdColorThread();
-            ccdGrabThread = new FThread.CcdGrabThread();
             if (ProgramState.ON_LINE_OPENCV_IMAGE)
             {
-                imageGrabThread = new FThread.ImageGrabThread();
             }
                 
             if (ProgramState.ON_LINE_MIL)
             {
                 if (ProgramState.ON_LINE_CAM)
                 {
-                    camGrabThread = new FThread.CamGrabThread();
                 }
             }
-
-            manualThread = new FThread.ManualThread();
         }
         public void AllThreadStart()
         {
             logThread.Start();
             timeThread.Start();
+
             if (ProgramState.ON_LINE_MOTOR)
             {
-                //dIoThread.Start();
             }
             
         }
@@ -76,24 +60,21 @@ namespace ZenTester
             timeThread.Close();
             autoRunthread.Close();
 
-            if (ProgramState.ON_LINE_OPENCV_IMAGE)
-            {
-                imageGrabThread.Close();
-            }
+            testAutoThread[0].Close();
+            testAutoThread[1].Close();
+
             if (ProgramState.ON_LINE_MIL)
             {
-                ccdColorThread.Close();
-                ccdGrabThread.Close();
+;
             }
             if (ProgramState.ON_LINE_CAM)
             {
-                camGrabThread.Close();
+
             }
             if (ProgramState.ON_LINE_MOTOR)
             {
-                //dIoThread.Close();
+
             }
-            manualThread.Close();
         }
     }
 }

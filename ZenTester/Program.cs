@@ -12,8 +12,8 @@ namespace ZenTester
 {
     static class Program
     {
-        public const string VERSION_INFO = "1.0.0.1";
-        public const string BUILD_DATE = "25-04-16";        //16:00
+        public const string VERSION_INFO = "H1.0.0.1";
+        public const string BUILD_DATE = "25-06-04";        //16:00
 
         [STAThread]
         static void Main()

@@ -350,8 +350,6 @@ namespace ZenTester
             m_pGrabBuff[2] = new Mat(m_nHeight, m_nWidth, MatType.CV_8UC3);
 
 
-
-            Globalo.threadControl.ccdGrabThread.RawInit();
         }
         public void BoardtInitialize()
         {

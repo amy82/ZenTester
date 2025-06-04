@@ -127,17 +127,13 @@ namespace ZenTester.Dlg
 
                     Globalo.vision.UISet(Globalo.camControl.CcdPanel.Width, Globalo.camControl.CcdPanel.Height);
 
+
                     if (ProgramState.ON_LINE_MIL == true)
-                    {
-                        Globalo.threadControl.imageGrabThread.RawInit();
-                    }
-                    else if (ProgramState.ON_LINE_MIL == true)
                     {
                         Globalo.vision.AllocMilCCdBuffer(0, Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight);
                         Globalo.vision.AllocMilCcdDisplay(Globalo.camControl.CcdPanel.Handle);
                     }
 
-                    Globalo.threadControl.ccdGrabThread.RawInit();
 
                     SetImageInfo();
                     
@@ -411,11 +407,11 @@ namespace ZenTester.Dlg
                 Globalo.LogPrint("ManualControl", "[INFO] MANUAL 동작 중 사용 불가", Globalo.eMessageName.M_WARNING);
                 return;
             }
-            if (Globalo.threadControl.manualThread.GetThreadRun() == false)
-            {
-                Globalo.LogPrint("", "[CCD] MANUAL CCD OPEN");
-                Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_CCD_OPEN);// 2);
-            }
+            //if (Globalo.threadControl.manualThread.GetThreadRun() == false)
+            //{
+            //    Globalo.LogPrint("", "[CCD] MANUAL CCD OPEN");
+            //    Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_CCD_OPEN);// 2);
+            //}
         }
 
         private void BTN_CCD_GABBER_START_Click(object sender, EventArgs e)
@@ -476,11 +472,11 @@ namespace ZenTester.Dlg
                 Globalo.LogPrint("ManualControl", "[INFO] MANUAL 동작 중 사용 불가", Globalo.eMessageName.M_WARNING);
                 return;
             }
-            if (Globalo.threadControl.manualThread.GetThreadRun() == false)
-            {
-                Globalo.LogPrint("", "[CCD] MANUAL CCD CLOSE");
-                Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_CCD_CLOSE);//3);
-            }
+            //if (Globalo.threadControl.manualThread.GetThreadRun() == false)
+            //{
+            //    Globalo.LogPrint("", "[CCD] MANUAL CCD CLOSE");
+            //    Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_CCD_CLOSE);//3);
+            //}
             //Globalo.mLaonGrabberClass.CloseDevice();
         }
 
@@ -733,12 +729,12 @@ namespace ZenTester.Dlg
                 Globalo.LogPrint("ManualControl", "[INFO] MANUAL 동작 중 사용 불가", Globalo.eMessageName.M_WARNING);
                 return;
             }
-            if (Globalo.threadControl.manualThread.GetThreadRun() == false)
-            {
-                Globalo.motionManager.transferMachine.RunState = OperationState.ManualTesting;
-                Globalo.LogPrint("", "[CCD] MANUAL EEPROM VERIFY");
-                Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_MANUAL_VERIFY);//10);
-            }
+            //if (Globalo.threadControl.manualThread.GetThreadRun() == false)
+            //{
+            //    Globalo.motionManager.transferMachine.RunState = OperationState.ManualTesting;
+            //    Globalo.LogPrint("", "[CCD] MANUAL EEPROM VERIFY");
+            //    Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_MANUAL_VERIFY);//10);
+            //}
         }
         public void EEpromRead()
         {
@@ -880,15 +876,6 @@ namespace ZenTester.Dlg
                 return;
             }
 
-            if (Globalo.threadControl.manualThread.GetThreadRun() == false)
-            {
-                Globalo.threadControl.manualThread.runfn(FThread.ManualThread.eManualType.M_EEPROM_READ);
-            }
-            
-
-            
-
-            //EEPROM_TotalRead_Type2(0x0000, 0x513, CompareEEpromData, 512);//최대 32씩만	0x512	0x46D
         }
         
         private void CCdControl_VisibleChanged(object sender, EventArgs e)

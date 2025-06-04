@@ -23,13 +23,18 @@ namespace ZenTester.Http
         };
         public HttpService()
         {
-
+            Event.EventManager.PgExitCall += OnPgExit;
+        }
+        private void OnPgExit(object sender, EventArgs e)
+        {
+            //await HttpService.Stop();
+            _ = HttpService.Stop();
         }
         public static void Start()
         {
             _HttpCts = new CancellationTokenSource();
             _listener = new HttpListener();
-            _listener.Prefixes.Add("http://+:4001/"); // PC1 주소에서 8080 포트로 요청 받음
+            _listener.Prefixes.Add("http://+:4001/"); // PC1 주소에서 4001 포트로 요청 받음
             _listener.Start();
             //Start에서 오류나면 관리자 권한으로 시작하거나
             //cmd 관리자 권한에서 실행하기=>netsh http add urlacl url=http://+:3001/ user=Everyone

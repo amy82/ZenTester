@@ -12,10 +12,11 @@ namespace ZenTester.FThread
         public int m_nCurrentStep = 0;
         public int m_nStartStep = 0;
         public int m_nEndStep = 0;
-
-        public TestAutoThread()     //MotionControl.MotorController _parent)
+        public int m_nUnit = 0;
+        public TestAutoThread(int index = 0)     //MotionControl.MotorController _parent)
         {
             //this.parent = _parent;
+            m_nUnit = index;
             this.name = "testThread";
         }
 

@@ -14,7 +14,7 @@ namespace ZenTester.TcpSocket
         private readonly SynchronizationContext _syncContext;
         //private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
         
-        private TcpServer _server;      //미사용
+        private TcpServer _server;      //미사용   
         private CancellationTokenSource _cts;
 
         private TcpClientHandler _client;
@@ -23,9 +23,14 @@ namespace ZenTester.TcpSocket
             _syncContext = SynchronizationContext.Current;
             //_server = new TcpServer(ip, port);
             //_server.OnMessageReceivedAsync += HandleClientMessageAsync;
-            _cts = new CancellationTokenSource();
-        }
 
+            _cts = new CancellationTokenSource();
+            Event.EventManager.PgExitCall += OnPgExit;
+        }
+        private void OnPgExit(object sender, EventArgs e)
+        {
+            StopServer();
+        }
         public void SetClient(string ip, int port)
         {
             _client = new TcpClientHandler(ip, port, this);
@@ -85,6 +90,37 @@ namespace ZenTester.TcpSocket
             
             sendEqipData.ErrText = nAlarmID;
             SendMessageToClient(sendEqipData);
+        }
+        private void socketMessageParse(TesterData data)        //index = ip뒷자리
+        {
+            int i = 0;
+            int result = -1;
+
+            string dataName = data.Cmd;
+            if (data.Cmd == "CMD_TEST")
+            {
+                int index = data.socketIndex;
+                if (index == 0 || index == 2)
+                {
+                    //AOI 공정
+                    //0번 Aoi Left 의 Left 소켓
+                    //2번 Aoi right 의 Left 소켓
+
+                    //EEPROM WRITE
+                    //0,1,2,3
+                    //EEPROM VERIFY
+                    //0,1,2,3
+
+                    //FW
+                    //0 한번만 들어오는 lot이 차례대로 4개 들어올듯
+                }
+                else
+                {
+                    //1번 Aoi Left 의 Right 소켓
+                    //3번 Aoi Right 의 Right 소켓
+                }
+            }
+
         }
         private void hostMessageParse(EquipmentData data)
         {
@@ -570,11 +606,25 @@ namespace ZenTester.TcpSocket
             using (JsonTextReader reader = new JsonTextReader(sr))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
+                //EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
+                var wrapper = serializer.Deserialize<MessageWrapper>(reader);
+                
 
                 try
                 {
-                    hostMessageParse(data);
+                    switch (wrapper.Type)
+                    {
+                        case "EquipmentData":
+                            EquipmentData edata = serializer.Deserialize<EquipmentData>(reader);
+                            hostMessageParse(edata);
+                            break;
+
+                        case "Tester":
+                            //SocketTestState sdata = serializer.Deserialize<SocketTestState>(reader);
+                            TesterData socketState = JsonConvert.DeserializeObject<TesterData>(wrapper.Data.ToString());
+                            socketMessageParse(socketState);
+                            break;
+                    }
                     await Task.Delay(10); // 가짜 비동기 작업 (예: DB 저장)
                 }
                 catch (Exception ex)
