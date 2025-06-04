@@ -9,6 +9,9 @@ namespace ZenTester.FThread
     public class TestAutoThread : BaseThread
     {
         //private MotionControl.MotorController parent;
+
+        public Process.AoiTestFlow aoiTestFlow;
+        
         public int m_nCurrentStep = 0;
         public int m_nStartStep = 0;
         public int m_nEndStep = 0;
@@ -17,12 +20,15 @@ namespace ZenTester.FThread
         {
             //this.parent = _parent;
             m_nUnit = index;
+            aoiTestFlow = new Process.AoiTestFlow(); ;
+
             this.name = "testThread";
         }
 
         private void AoiFlow()
         {
             //소켓 2개 연달아 검사
+            this.m_nCurrentStep = aoiTestFlow.AoiAutoProcess(this.m_nCurrentStep);
         }
         private void Write_EEpromFlow()
         {
@@ -38,7 +44,30 @@ namespace ZenTester.FThread
         }
         protected override void ThreadRun()
         {
+            if (this.m_nCurrentStep >= this.m_nStartStep && this.m_nCurrentStep < this.m_nEndStep)
+            {
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                {
+                    AoiFlow();
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM)
+                {
+                    Verify_EEpromFlow();
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                {
+                    FwFlow();
+                }
+            }
+            else
+            {
+                m_nStartStep = 0;
+                m_nEndStep = 0;
+                this.Stop();
 
+                Console.WriteLine($" Process Stop");
+            }
+                
         }
         protected override void ThreadInit()
         {

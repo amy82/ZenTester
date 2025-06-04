@@ -10,10 +10,16 @@ using System.Diagnostics;
 
 namespace ZenTester
 {
+    public enum TESTER_PG
+    {
+        AOI, EEPROM, FW
+    }
     static class Program
     {
         public const string VERSION_INFO = "H1.0.0.1";
         public const string BUILD_DATE = "25-06-04";        //16:00
+        public const TESTER_PG TEST_PG_SELECT = TESTER_PG.AOI;     //AOI , EEPROM , FW         //MEMO: 여기서 프로그램 선택
+
 
         [STAThread]
         static void Main()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,63 @@ namespace ZenTester.Http
         {
             "RecipeA.json", "RecipeB.json", "RecipeC.json"
         };
+
+        public async static void LotApdReport(TcpSocket.AoiApdData apdData)
+        {
+            var AoiApdList = new
+            {
+                LH = apdData.LH,
+                RH = apdData.RH,
+                MH = apdData.MH,
+                Gasket = apdData.Gasket,
+                KeyType = apdData.KeyType,
+                CircleDented = apdData.CircleDented,
+                Concentrycity_A = apdData.Concentrycity_A,
+                Concentrycity_D = apdData.Concentrycity_D,
+                Cone = apdData.Cone,
+                ORing = apdData.ORing,
+                Result = apdData.Result,
+                Barcode = apdData.Barcode,
+                Socket_Num = apdData.Socket_Num
+
+            };
+
+
+            string json = JsonConvert.SerializeObject(AoiApdList);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpClient client = new HttpClient();
+            try
+            {
+
+                int port = 3001;    //SecsGem Pg
+                string url = $"http://192.168.100.100:{port}/ApdReport";
+
+
+                var response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Recipe Send Complete!");
+                }
+                else
+                {
+                    Console.WriteLine($"Recipe Send Fail: ErrCode {(int)response.StatusCode} {response.ReasonPhrase}");
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Server Response Content: " + errorContent);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("HTTP 요청 중 오류 발생: " + ex.Message);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine("요청 시간이 초과되었습니다: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("알 수 없는 예외: " + ex.Message);
+            }
+        }
         public HttpService()
         {
             Event.EventManager.PgExitCall += OnPgExit;
@@ -162,6 +220,7 @@ namespace ZenTester.Http
 
             context.Response.Close();
         }
+
         public static async Task Stop()
         {
             if (_HttpCts != null)

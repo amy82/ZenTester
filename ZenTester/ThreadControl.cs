@@ -12,7 +12,7 @@ namespace ZenTester
         public FThread.TimeThread timeThread;
         
         public FThread.AutoRunthread autoRunthread;
-        public FThread.TestAutoThread[] testAutoThread = new FThread.TestAutoThread[2];
+        public FThread.TestAutoThread testAutoThread;
 
         public ThreadControl()
         {
@@ -20,8 +20,9 @@ namespace ZenTester
             timeThread = new FThread.TimeThread();
             autoRunthread = new FThread.AutoRunthread();
 
-            testAutoThread[0] = new FThread.TestAutoThread(0);
-            testAutoThread[1] = new FThread.TestAutoThread(1);
+            testAutoThread = new FThread.TestAutoThread();
+
+
 
             // 이벤트 핸들러 등록
             //autoRunthread.ThreadCompleted += (bool result) =>
@@ -60,8 +61,7 @@ namespace ZenTester
             timeThread.Close();
             autoRunthread.Close();
 
-            testAutoThread[0].Close();
-            testAutoThread[1].Close();
+            testAutoThread.Close();
 
             if (ProgramState.ON_LINE_MIL)
             {

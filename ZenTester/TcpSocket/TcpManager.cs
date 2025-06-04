@@ -99,26 +99,37 @@ namespace ZenTester.TcpSocket
             string dataName = data.Cmd;
             if (data.Cmd == "CMD_TEST")
             {
-                int index = data.socketIndex;
-                if (index == 0 || index == 2)
-                {
-                    //AOI 공정
-                    //0번 Aoi Left 의 Left 소켓
-                    //2번 Aoi right 의 Left 소켓
+                int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
+                int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
 
-                    //EEPROM WRITE
-                    //0,1,2,3
-                    //EEPROM VERIFY
-                    //0,1,2,3
-
-                    //FW
-                    //0 한번만 들어오는 lot이 차례대로 4개 들어올듯
-                }
-                else
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
-                    //1번 Aoi Left 의 Right 소켓
-                    //3번 Aoi Right 의 Right 소켓
+                    //0번 Thread 운영 - 각 PC의 2개 소켓중 왼쪽 소켓
+                    if (nStep == 0)
+                    {
+                        Globalo.threadControl.testAutoThread.m_nCurrentStep = 100;      //우선 Thread 하나로 소켓 하나씩 진행
+                        Globalo.threadControl.testAutoThread.m_nStartStep = 100;
+                        Globalo.threadControl.testAutoThread.m_nEndStep = 1000;
+                        Globalo.threadControl.testAutoThread.Start();
+                    }
+                    if (nStep == 1)
+                    {
+                        //Z축 이동후 다음 Step 검사
+                    }
                 }
+                    
+
+                //AOI 공정 - 0,1,2,3
+                //0번 Aoi Left 의 Left 소켓
+                //2번 Aoi right 의 Left 소켓
+
+                //EEPROM WRITE
+                //0,1,2,3
+                //EEPROM VERIFY
+                //0,1,2,3
+
+                //FW
+                //0 한번만 들어오는 lot이 차례대로 4개 들어올듯
             }
 
         }

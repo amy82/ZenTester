@@ -36,8 +36,10 @@ namespace ZenTester.TcpSocket
     {
         public string Name { get; set; }
         public string Cmd { get; set; }
+        public int Step { get; set; }
+        public int result { get; set; }
         public string[] LotId { get; set; }       //"LOT20240601"
-        public int socketIndex { get; set; }    //
+        public int socketNum { get; set; }    //
         public int[] States { get; set; }       //{ 1, 1, 1, 1}  EEPROM ,AOI는 0번 index만 사용
         //TESTER  --> H /  REQ_APD_REPORT,
         //HANDLER --> T /  RESP_APD_REPORT,
@@ -48,5 +50,39 @@ namespace ZenTester.TcpSocket
     {
         public string Type { get; set; }        //공정명: EEPROM_WRITE, EEPROM_VERIFY, AOI, FW
         public object Data { get; set; }        //Data 안에 EquipmentData 또는 SocketTestState 추가해서 전달
+    }
+
+
+    public class AoiApdData
+    {
+        public string LH { get; set; }
+        public string RH { get; set; }
+        public string MH { get; set; }
+        public string Gasket { get; set; }
+        public string KeyType { get; set; }
+        public string CircleDented { get; set; }
+        public string Concentrycity_A { get; set; }
+        public string Concentrycity_D { get; set; }
+        public string Cone { get; set; }
+        public string ORing { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string Socket_Num { get; set; }
+        public void init()
+        {
+            LH = "0.0";
+            RH = "0.0";
+            MH = "0.0";
+            Gasket = "0.0";
+            KeyType = "A";
+            CircleDented = "0.0";
+            Concentrycity_A = "0.0";
+            Concentrycity_D = "0.0";
+            Cone = "1";
+            ORing = "1";
+            Result = "1";
+            Barcode = "EMPTY";
+            Socket_Num = "1";
+        }
     }
 }
