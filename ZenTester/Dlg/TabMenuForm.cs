@@ -53,11 +53,19 @@ namespace ZenTester.Dlg
             switch (index)
             {
                 case TABFORM.MAIN_FORM:
-                    Globalo.cameraControl.Visible = true;
+                    if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                    {
+                        Globalo.cameraControl.Visible = true;
+                    }
+                        
                     //Globalo.mMainPanel.Visible = true;
                     break;
                 case TABFORM.TEACH_FORM:
-                    Globalo.setTestControl.Visible = true;
+                    if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                    {
+                        Globalo.setTestControl.Visible = true;
+                    }
+                        
                     break;
                 case TABFORM.CONFIG_FORM:
                     Globalo.mConfigPanel.Visible = true;

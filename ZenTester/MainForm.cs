@@ -33,6 +33,15 @@ namespace ZenTester  //ApsMotionControl
         public MainForm()
         {
             InitializeComponent();
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                ProgramState.ON_LINE_MIL = true;
+            }
+            else
+            {
+                ProgramState.ON_LINE_MIL = false;
+            }
+            //ON_LINE_MIL
             //this.TopMost = true;
             keyMessageFilter = new KeyMessageFilter();
             Application.AddMessageFilter(keyMessageFilter);
@@ -96,9 +105,11 @@ namespace ZenTester  //ApsMotionControl
 
 
             //Globalo.mMainPanel = new Dlg.MainControl(dRightPanelW, dRightPanelH);
-            Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             //Globalo.mTeachPanel = new Dlg.TeachingControl(dRightPanelW, dRightPanelH);
             //Globalo.mCCdPanel = new Dlg.CCdControl(dRightPanelW, dRightPanelH);
+
+
+            Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
             Globalo.setTestControl = new Dlg.SetTestControl();
             Globalo.cameraControl = new Dlg.CameraControl();
@@ -136,49 +147,29 @@ namespace ZenTester  //ApsMotionControl
 
 
 
-            Globalo.visionManager = new VisionClass.VisionManager();
-
-            Globalo.visionManager.SetPanelSize(
-                Globalo.cameraControl.getWidth(),  Globalo.cameraControl.getHeight(), 
-                Globalo.setTestControl.getWidth(),  Globalo.setTestControl.getHeight());
-
-
-
-            Globalo.visionManager.RegisterDisplayHandle(0, Globalo.cameraControl.panelCam1.Handle);
-            Globalo.visionManager.RegisterDisplayHandle(1, Globalo.cameraControl.panelCam2.Handle);
-            Globalo.visionManager.RegisterDisplayHandle(2, Globalo.setTestControl.Set_panelCam.Handle);
-            Globalo.visionManager.RegisterDisplayHandle(3, Globalo.setTestControl.panel_Mark.Handle);
-            Globalo.visionManager.RegisterDisplayHandle(4, Globalo.markViewer.panel_MarkZoomImage.Handle);
-
-            Globalo.visionManager.MilSet();
             
 
-            Globalo.setTestControl.setCamCenter();
+
+            if (ProgramState.ON_LINE_MIL == true)
+            {
+                Globalo.visionManager = new VisionClass.VisionManager();
+
+                Globalo.visionManager.SetPanelSize(
+                    Globalo.cameraControl.getWidth(), Globalo.cameraControl.getHeight(),
+                    Globalo.setTestControl.getWidth(), Globalo.setTestControl.getHeight());
+
+                Globalo.visionManager.RegisterDisplayHandle(0, Globalo.cameraControl.panelCam1.Handle);
+                Globalo.visionManager.RegisterDisplayHandle(1, Globalo.cameraControl.panelCam2.Handle);
+                Globalo.visionManager.RegisterDisplayHandle(2, Globalo.setTestControl.Set_panelCam.Handle);
+                Globalo.visionManager.RegisterDisplayHandle(3, Globalo.setTestControl.panel_Mark.Handle);
+                Globalo.visionManager.RegisterDisplayHandle(4, Globalo.markViewer.panel_MarkZoomImage.Handle);
+
+                Globalo.visionManager.MilSet();
 
 
-            //if (ProgramState.ON_LINE_MIL)
-            //{
-            //    InitMilLib();
-            //}
-
-            //if (ProgramState.ON_LINE_OPENCV_IMAGE)
-            //{
-            //    Globalo.threadControl.imageGrabThread.RawInit();
-            //    Globalo.threadControl.imageGrabThread.Start();
-            //}
-            //else if (ProgramState.ON_LINE_MIL)
-            //{
-            //    Globalo.threadControl.ccdColorThread.Start();
-            //    Globalo.threadControl.ccdGrabThread.Start();
-            //    if (ProgramState.ON_LINE_CAM)
-            //    {
-            //        Globalo.threadControl.camGrabThread.Start();
-            //    }
-            //}
-
-
-            //Globalo.mTeachPanel.eLogSender += eLogPrint;
-            //Globalo.mManualPanel.eLogSender += eLogPrint;
+                Globalo.setTestControl.setCamCenter();
+            }
+                
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
             Globalo.tcpManager.SetClient("127.0.0.1", 2001);
@@ -186,6 +177,7 @@ namespace ZenTester  //ApsMotionControl
             //Globalo.mTeachPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             //Globalo.mMainPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             //Globalo.mCCdPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
+
             Globalo.mConfigPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mAlarmPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
@@ -213,10 +205,9 @@ namespace ZenTester  //ApsMotionControl
 
             Program.SetLanguage(Globalo.yamlManager.configData.DrivingSettings.Language);
 
-            LeeTestForm popupForm = new LeeTestForm();
-
-            popupForm.Show();
-            popupForm.WindowState = FormWindowState.Minimized;
+            //LeeTestForm popupForm = new LeeTestForm();
+            //popupForm.Show();
+            //popupForm.WindowState = FormWindowState.Minimized;
         }
         
         private void OnLanguageChanged(object sender, EventArgs e)
@@ -334,8 +325,14 @@ namespace ZenTester  //ApsMotionControl
             //좌측 패널
             //-----------------------------------------------
             LeftPanel.Controls.Add(Globalo.productionInfo);
-            LeftPanel.Controls.Add(Globalo.cameraControl);
-            LeftPanel.Controls.Add(Globalo.setTestControl);
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                LeftPanel.Controls.Add(Globalo.cameraControl);
+                LeftPanel.Controls.Add(Globalo.setTestControl);
+                Globalo.cameraControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
+                Globalo.setTestControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
+            }
+
 
             //LeftPanel.Controls.Add(Globalo.operationPanel);
             //LeftPanel.Controls.Add(Globalo.trayStateInfo);
@@ -343,10 +340,9 @@ namespace ZenTester  //ApsMotionControl
             //LeftPanel.Controls.Add(Globalo.pickerInfo);
 
             Globalo.productionInfo.Location = new System.Drawing.Point(0, 0);
-            Globalo.cameraControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+           
             Globalo.mConfigPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mAlarmPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
-            Globalo.setTestControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mManualPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mlogControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             

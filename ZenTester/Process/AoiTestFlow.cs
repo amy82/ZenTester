@@ -101,7 +101,7 @@ namespace ZenTester.Process
                     break;
 
                 case 300:
-                    //Apd 보고
+                    //Apd 보고 -> SecsGem Clinet -> 결과는 Handler로 전송
                     Http.HttpService.LotApdReport(aoitestData);
                     nRetStep = 900;
                     break;
@@ -135,6 +135,27 @@ namespace ZenTester.Process
                 {
                     case 10:
                         nRetStep = 20;
+                        break;
+                    case 20:
+                        //Gasket - 유무 검사
+                        //Dent - 찌그러짐
+                        //Key - 유무 검사
+                        //Housing Out - Center xy 차이
+                        //Housing In - Center xy 차이
+
+                        nRetStep = 30;
+                        break;
+                    case 30:
+                        nRetStep = 40;
+                        break;
+                    case 40:
+                        nRetStep = 50;
+                        break;
+                    case 50:
+                        nRetStep = 60;
+                        break;
+                    case 60:
+                        nRetStep = 900;
                         break;
                     case 900:
                         nRetStep = 1000;
@@ -192,6 +213,23 @@ namespace ZenTester.Process
                 {
                     case 10:
                         nRetStep = 20;
+                        break;
+                    case 20:
+                        //Left Height
+                        //Center Height
+                        //Right Height
+                        //Oring 유무
+                        //Cone 유무
+                        nRetStep = 30;
+                        break;
+                    case 30:
+                        nRetStep = 40;
+                        break;
+                    case 40:
+                        nRetStep = 50;
+                        break;
+                    case 50:
+                        nRetStep = 900;
                         break;
                     case 900:
                         nRetStep = 1000;
