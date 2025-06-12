@@ -66,7 +66,7 @@ namespace ZenTester  //ApsMotionControl
 
             Globalo.yamlManager.AlarmLoad();
             Globalo.yamlManager.secsGemDataYaml.MesLoad();
-            Globalo.yamlManager.secsGemDataYaml.SensorIniLoad();
+            //Globalo.yamlManager.secsGemDataYaml.SensorIniLoad();
 
             //string className = typeof(Machine.TransferMachine).Name;
             //Globalo.yamlManager.teachData.LoadTeaching(className);
@@ -90,18 +90,6 @@ namespace ZenTester  //ApsMotionControl
             //keyMessageFilter.KeyEvent += KeyMessageFilter_KeyEvent;
             Globalo.mlogControl = new Dlg.LogControl(dRightPanelW, dRightPanelH);
 
-
-            //모터 초기화
-            //
-            if (ProgramState.ON_LINE_MOTOR)
-            {
-                bool rtn = Globalo.motionManager.MotionInit();
-                if (rtn == false)
-                {
-                    //Motor Set Fail!!
-                    MessageBox.Show("Motor Set Fail!!");
-                }
-            }
 
 
             //Globalo.mMainPanel = new Dlg.MainControl(dRightPanelW, dRightPanelH);
