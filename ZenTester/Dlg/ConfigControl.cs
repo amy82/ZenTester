@@ -182,7 +182,6 @@ namespace ZenTester.Dlg
         private void BTN_CONFIG_SAVE_Click(object sender, EventArgs e)
         {
             //Save
-
             GetConfigData();
             Globalo.yamlManager.configDataSave();
             //Data.TaskDataYaml.TaskSave_Layout(Globalo.motionManager.transferMachine.productLayout, Machine.TransferMachine.LayoutPath);

@@ -98,7 +98,9 @@ namespace ZenTester.VisionClass
 
             m_pMaskBuff = null;
             //m_nEdgeSmooth = Globalo.visionManager.markUtil.m_nSmooth;
-            m_nEdgeSmooth = Globalo.visionManager.markUtil.markData.markList[nMarkNo].Smooth;
+
+            m_nEdgeSmooth = Globalo.yamlManager.aoiRoiConfig.markData[nMarkNo].Smooth;
+
             label_Mask_Edge_Smooth_Val.Text = m_nEdgeSmooth.ToString();
 
             m_dZoomX = (double)DispSize.X / (double)m_iSizeX;      //마크 이미지 축소 OR 확대
@@ -421,8 +423,12 @@ namespace ZenTester.VisionClass
 
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
-            Globalo.visionManager.markUtil.markData.markList[CurrentMarkNo].Smooth = m_nEdgeSmooth;
-            Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
+            Globalo.yamlManager.aoiRoiConfig.markData[CurrentMarkNo].Smooth = m_nEdgeSmooth;
+
+            Data.TaskDataYaml.Save_AoiConfig();
+            ///Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
+
+
             Globalo.visionManager.markUtil.SaveMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentCamIndex, CurrentMarkNo);
 
 

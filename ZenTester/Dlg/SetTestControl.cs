@@ -1333,12 +1333,14 @@ namespace ZenTester.Dlg
             {
                 Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
 
-                Globalo.visionManager.markUtil.markData.markList[MarkIndex].X = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
-                Globalo.visionManager.markUtil.markData.markList[MarkIndex].Y = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
-                Globalo.visionManager.markUtil.markData.markList[MarkIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
-                Globalo.visionManager.markUtil.markData.markList[MarkIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].X = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Y = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                 //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5)
-                Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
+
+                Data.TaskDataYaml.Save_AoiConfig();
+                //Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
             }
         }
 
@@ -1407,59 +1409,59 @@ namespace ZenTester.Dlg
 
         private void label_SetTest_Manual_Light_Val1_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.topLightData[0].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
             TopLightChange(1, 1, data);
         }
 
         private void label_SetTest_Manual_Light_Val2_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.topLightData[1].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[1].data;
             TopLightChange(1, 2, data);
         }
 
         private void label_SetTest_Manual_Light_Val3_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.topLightData[2].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[2].data;
             TopLightChange(1, 3, data);
         }
 
         private void label_SetTest_Manual_Top_Light_Val4_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.topLightData[3].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[3].data;
             TopLightChange(1, 4, data);
         }
 
         private void label_SetTest_Manual_Top_Light_Val5_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.topLightData[4].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[4].data;
             TopLightChange(1, 5, data);
         }
         private void label_SetTest_Manual_Side_Light_Val1_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.sideLightData[0].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
             SideLightChange(1, 2, 0, data);
         }
 
         private void label_SetTest_Manual_Side_Light_Val2_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.sideLightData[1].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[1].data;
             SideLightChange(1, 2, 1, data);
         }
 
         private void label_SetTest_Manual_Side_Light_Val3_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.sideLightData[2].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[2].data;
             SideLightChange(1, 2, 2, data);
         }
         private void label_SetTest_Manual_Side_Light_Val4_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.sideLightData[3].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[3].data;
             SideLightChange(1, 2, 3, data);
         }
 
         private void label_SetTest_Manual_Side_Light_Val5_Click(object sender, EventArgs e)
         {
-            int data = Globalo.visionManager.markUtil.markData.sideLightData[4].data;
+            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[4].data;
             SideLightChange(1, 2, 4, data);
         }
         private void label_SetTest_Manual_Top_Light_Data_Click(object sender, EventArgs e)

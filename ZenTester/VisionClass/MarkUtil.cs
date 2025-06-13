@@ -24,25 +24,7 @@ namespace ZenTester.VisionClass
             T = 0.0;
         }
     }
-    public class MarkData
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Smooth { get; set; }
-    }
-    public class LightData
-    {
-        public string name { get; set; }
-        public int data { get; set; }
-    }
-    public class MarkDataGroup
-    {
-        public List<MarkData> markList { get; set; } = new List<MarkData>();
-        public List<LightData> topLightData { get; set; } = new List<LightData>();
-        public List<LightData> sideLightData { get; set; } = new List<LightData>();
-    }
+    
     public enum eMarkList
     {
         LEFT_HEIGHT_MARK = 0, CENTER_HEIGHT_MARK, RIGHT_HEIGHT_MARK, CONE_MARK, MAX_MARK_LIST
@@ -78,8 +60,7 @@ namespace ZenTester.VisionClass
         private double dScore = 0.0;
         private double dAngle = 0.0;
 
-        public MarkDataGroup markData { get; set; } = new MarkDataGroup();
-        //public LIghtDataGroup lightData { get; set; } = new LightDataGroup();
+        //public MarkDataGroup markData { get; set; } = new MarkDataGroup();
 
         public MarkUtil()
         {
@@ -110,7 +91,7 @@ namespace ZenTester.VisionClass
 
 
             rtn = LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, (int)eCamType.SIDE_CAM);
-            markData = Data.TaskDataYaml.Load_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
+            //markData = Data.TaskDataYaml.Load_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
 
             //markViewer = new MarkViewerForm();
         }
@@ -498,10 +479,10 @@ namespace ZenTester.VisionClass
             //m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width;
             //m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height;
 
-            m_clRoi.X = markData.markList[MarkNo].X;
-            m_clRoi.Y = markData.markList[MarkNo].Y;
-            m_clRoi.Width = markData.markList[MarkNo].Width;
-            m_clRoi.Height = markData.markList[MarkNo].Height;
+            m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].X;
+            m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Y;
+            m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Width;
+            m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Height;
             //HeightHeight
 
 
