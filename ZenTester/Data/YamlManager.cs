@@ -21,7 +21,9 @@ namespace ZenTester.Data
         public ModelListData modelLIstData { get; set; }
 
         public SecGemDataYaml secsGemDataYaml { get; set; }
+
         public RootRecipe vPPRecipeSpecEquip { get; set; }
+
         public RootRecipe vPPRecipeSpec__Host { get; set; }
         public ConfigData configData { get; private set; }
 
@@ -128,8 +130,14 @@ namespace ZenTester.Data
         }
         public RootRecipe RecipeLoad(string recipeFilePPid)
         {
-            //string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, CPath.yamlFilePathRecipe);
-            string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, recipeFilePPid + ".yaml");
+            //D:\\ EVMS \\ TP \\ ENV \\ AoiData \\ ACA05C005X_H180E \\ ACA05C005X_H180E.yaml
+
+            string pgPath = "";
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                pgPath = "AoiData";
+            }
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, recipeFilePPid, recipeFilePPid + ".yaml");
             RootRecipe tempRecipe = null;
             try
             {
@@ -137,29 +145,10 @@ namespace ZenTester.Data
                 if (!File.Exists(filePath))
                     return tempRecipe;
 
-                // vPPRecipeSpecEquip = LoadYaml<RootRecipe>(filePath);
                 tempRecipe = LoadYaml<RootRecipe>(filePath);
+
                 return tempRecipe;
 
-                //if (tempRecipe == null)
-                //{
-                //    return tempRecipe;
-                //}
-                // PP_RECIPE_SPEC 정보 출력
-                //Console.WriteLine($"PPId: {vPPRecipeSpecEquip.RECIPE.Ppid}");
-                //Console.WriteLine($"VERSION: {vPPRecipeSpecEquip.RECIPE.Version}");
-
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["Task1"] = new Data.Param { value = 999, use = true };
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["Task 1"] = new Data.Param { value = 888, use = true };
-
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["Task2"] = new Data.Param { value = 1, use = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["Task1"].use };
-
-                // ParamMap 출력 (Value와 Flag 값 출력)
-                //foreach (var kvp in vPPRecipeSpecEquip.RECIPE.ParamMap)
-                //{
-                //    Console.WriteLine($"Task: {kvp.Key}, Value: {kvp.Value.value}, Flag: {kvp.Value.use}");
-                //}
-                //return tempRecipe;
             }
             catch (Exception ex)
             {
@@ -169,7 +158,13 @@ namespace ZenTester.Data
         }
         public bool RecipeSave(RootRecipe ppRecipe)
         {
-            string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, ppRecipe.RECIPE.Ppid +".yaml");//   CPath.yamlFilePathRecipe);
+            //string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, ppRecipe.RECIPE.Ppid +".yaml");//   CPath.yamlFilePathRecipe);
+            string pgPath = "";
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                pgPath = "AoiData";
+            }
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, ppRecipe.RECIPE.Ppid, ppRecipe.RECIPE.Ppid + ".yaml");
             try
             {
                 if (!File.Exists(filePath))

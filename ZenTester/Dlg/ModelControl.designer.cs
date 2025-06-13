@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.TeachingTitleLabel = new System.Windows.Forms.Label();
+            this.dataGridViewModel = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModel)).BeginInit();
             this.SuspendLayout();
             // 
             // TeachingTitleLabel
@@ -41,20 +43,32 @@
             this.TeachingTitleLabel.Text = "| MODEL";
             this.TeachingTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // dataGridViewModel
+            // 
+            this.dataGridViewModel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewModel.Location = new System.Drawing.Point(38, 80);
+            this.dataGridViewModel.Name = "dataGridViewModel";
+            this.dataGridViewModel.RowTemplate.Height = 23;
+            this.dataGridViewModel.Size = new System.Drawing.Size(490, 432);
+            this.dataGridViewModel.TabIndex = 32;
+            // 
             // ModelControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.Controls.Add(this.dataGridViewModel);
             this.Controls.Add(this.TeachingTitleLabel);
             this.Name = "ModelControl";
             this.Size = new System.Drawing.Size(770, 800);
             this.VisibleChanged += new System.EventHandler(this.ManualControl_VisibleChanged);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModel)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Label TeachingTitleLabel;
+        private System.Windows.Forms.DataGridView dataGridViewModel;
     }
 }

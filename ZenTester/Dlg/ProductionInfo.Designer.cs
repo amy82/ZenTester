@@ -182,10 +182,10 @@ namespace ZenTester.Dlg
             // 
             this.textBox_Recipe.BackColor = System.Drawing.Color.White;
             this.textBox_Recipe.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_Recipe.Location = new System.Drawing.Point(543, 40);
+            this.textBox_Recipe.Location = new System.Drawing.Point(493, 40);
             this.textBox_Recipe.Name = "textBox_Recipe";
             this.textBox_Recipe.ReadOnly = true;
-            this.textBox_Recipe.Size = new System.Drawing.Size(176, 26);
+            this.textBox_Recipe.Size = new System.Drawing.Size(226, 26);
             this.textBox_Recipe.TabIndex = 38;
             this.textBox_Recipe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -204,7 +204,7 @@ namespace ZenTester.Dlg
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label8.Location = new System.Drawing.Point(469, 47);
+            this.label8.Location = new System.Drawing.Point(419, 47);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(68, 14);
             this.label8.TabIndex = 23;
@@ -303,7 +303,7 @@ namespace ZenTester.Dlg
             this.textBox_TopLot.Location = new System.Drawing.Point(9, 41);
             this.textBox_TopLot.Name = "textBox_TopLot";
             this.textBox_TopLot.ReadOnly = true;
-            this.textBox_TopLot.Size = new System.Drawing.Size(439, 27);
+            this.textBox_TopLot.Size = new System.Drawing.Size(395, 27);
             this.textBox_TopLot.TabIndex = 15;
             this.textBox_TopLot.Text = "0000000000";
             this.textBox_TopLot.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

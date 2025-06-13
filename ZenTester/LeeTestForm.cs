@@ -132,5 +132,10 @@ namespace ZenTester
             Globalo.visionManager.milLibrary.m_clMilDrawCircle[0].AddList(500, 500, 100, 1, DashStyle.Solid, Color.Red);
             Globalo.visionManager.milLibrary.DrawOverlayAll(0,0);
         }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            Http.HttpService.ReqRecipe();
+        }
     }
 }

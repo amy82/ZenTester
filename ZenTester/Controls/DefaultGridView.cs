@@ -34,9 +34,8 @@ namespace ZenTester.Controls
 
             inGridWid = _inGridWid;
             dRowHeight = rowHeight;
+
             InitializeGrid();
-
-
         }
        
         private void InitializeGrid()
@@ -88,6 +87,7 @@ namespace ZenTester.Controls
 
 
             this.ColumnHeadersHeight = dRowHeight;
+
             for (i = 0; i < nGridRowCount; i++)
             {
                 this.Rows[i].Height = dRowHeight;

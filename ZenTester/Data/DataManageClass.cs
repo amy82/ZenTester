@@ -28,7 +28,7 @@ namespace ZenTester.Data
         public const string BASE_DATA_PATH = "D:\\EVMS\\Data";
 
 
-        public const string BASE_OP_PATH = "D:\\EVMS\\TP";
+        public const string BASE_TP_PATH = "D:\\EVMS\\TP";
         //ENV - 구동PGM의 설비환경설정파일 보관하는 Directory(삭제되지 않음)
         public const string BASE_ENV_PATH = "D:\\EVMS\\TP\\ENV";
 
@@ -40,10 +40,8 @@ namespace ZenTester.Data
         //      - P1_PAAM - 설비모델 (Handler PC #1에서 실행)
         //          - exefile.exe   - 구동PGM 실행파일
         //          - reference.dll - 구동PGM dll 파일 등
+
         public const string BASE_EXE_PATH = "D:\\EVMS\\TP\\EXE";
-
-
-
 
         //LOG
         public const string BASE_LOG_PATH = "D:\\EVMS\\TP\\LOG";
@@ -51,40 +49,42 @@ namespace ZenTester.Data
         //AOI
         public const string BASE_AOI_DATA_PATH = "D:\\EVMS\\TP\\ENV\\AoiData";
 
+        //설정 저장 파일
+        public const string yamlFilePathConfig = "Config.yaml";
+        public const string yamlFilePathModelInfo = "ModelInfo.yaml";
 
-
-        //LAON
-        public const string SENSOR_INI_DIR = "D:\\EVMS\\ZenTester\\Initialize";
-
-        //Mes
-        public const string BASE_MODEL_PATH = "D:\\EVMS\\TP\\ENV\\AoiData";
-        public const string BASE_SECSGEM_PATH = "D:\\EVMS\\ZenTester\\SecsGem";
-        public const string BASE_RECIPE_PATH = "D:\\EVMS\\ZenTester\\SecsGem\\Recipe";
-        
-        public const string BASE_MODEL_DEFAULT_PATH = "D:\\EVMS\\ZenTester\\Model\\DEFAULT_MODEL";
 
         //LOG
-        public const string BASE_LOG_EQUIP_PATH = "D:\\EVMS\\TP\\LOG\\EQUIP";               //설비 STEP LOG
+        public const string BASE_LOG_EQUIP_PATH = "D:\\EVMS\\TP\\LOG\\EQUIP";           //설비 STEP LOG
         public const string BASE_LOG_MMDDATA_PATH = "D:\\EVMS\\LOG\\MMD_DATA";          //CSV 저장 위치
         public const string BASE_LOG_EEPROMDATA_PATH = "D:\\EVMS\\LOG\\EEPROM_DATA";    //DUMP 저장 위치
         public const string BASE_LOG_ALARM_PATH = "D:\\EVMS\\LOG\\ALARM";               //ALARM 저장 위치
 
 
+        
 
-        //설정 저장 파일
+
+
+        
+
+
+
+
         public const string yamlTeachingData = "teachingData.yaml";
         public const string yamlFilePathTask = "taskData.yaml";
         public const string yamlFilePathTray = "trayData.yaml";
         public const string yamlFilePathSecGem = "SecGemData.yaml";
-        public const string yamlFilePathConfig = "equip_config.yaml";
-        public const string yamlFilePathImage = "imageData.yaml";
-        public const string yamlFilePathUgc = "ugcFilePath.yaml";
         public const string yamlFilePathRecipe = "Recipe.yaml";
         public const string yamlFilePathProduct = "products.yaml";
         public const string yamlFilePathUser = "users.yaml";
         public const string yamlFilePathAlarm = "Alarm.yaml";   //ex) Alarm_20250204  하루씩
         public const string yamlFilePathModel = "ModelList.yaml";
 
+        //Mes
+        public const string BASE_SECSGEM_PATH = "D:\\EVMS\\TP\\ENV\\SecsGem";
+        public const string BASE_RECIPE_PATH = "D:\\EVMS\\TP\\ENV\\SecsGem\\Recipe";
+        //LAON
+        public const string SENSOR_INI_DIR = "D:\\EVMS\\ZenTester\\Initialize";
 
 
         //

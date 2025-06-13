@@ -41,21 +41,6 @@ namespace ZenTester
             }
             Application.Run(new MainForm());
 
-            //bool createdNew;
-            //using (Mutex mutex = new Mutex(true, processName, out createdNew))
-            //{
-            //    if (createdNew)
-            //    {
-            //        // 애플리케이션이 처음 실행될 때
-            //        Application.Run(new MainForm());
-            //    }
-            //    else
-            //    {
-            //        // 이미 실행 중이면 사용자에게 메시지 표시
-            //        MessageBox.Show("이 애플리케이션은 이미 실행 중입니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    }
-            //}
-
         }
         public static void SetLanguage(string langCode)
         {

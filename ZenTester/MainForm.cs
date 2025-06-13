@@ -65,16 +65,17 @@ namespace ZenTester  //ApsMotionControl
             Globalo.mAlarmPanel = new Dlg.AlarmControl(dRightPanelW, dRightPanelH);
 
             Globalo.yamlManager.AlarmLoad();
-            Globalo.yamlManager.secsGemDataYaml.MesLoad();
-            //Globalo.yamlManager.secsGemDataYaml.SensorIniLoad();
 
-            //string className = typeof(Machine.TransferMachine).Name;
-            //Globalo.yamlManager.teachData.LoadTeaching(className);
+
+            Globalo.yamlManager.secsGemDataYaml.MesLoad();
+
 
 
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
+
             Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig("AoiConfig.yaml");
+
             Globalo.yamlManager.modelLIstData.ModelLoad();
             
             //Globalo.yamlManager.imageDataLoad();
@@ -125,7 +126,7 @@ namespace ZenTester  //ApsMotionControl
             Globalo.threadControl.AllThreadStart();     //< - Log , Time Thread
 
 
-            //Globalo.yamlManager.vPPRecipeSpecEquip = Globalo.yamlManager.RecipeLoad(Globalo.dataManage.mesData.m_sMesPPID);         //init
+            Globalo.yamlManager.vPPRecipeSpecEquip = Globalo.yamlManager.RecipeLoad(Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe);   //init
 
             //if (Globalo.yamlManager.vPPRecipeSpecEquip == null)
             //{
@@ -188,6 +189,8 @@ namespace ZenTester  //ApsMotionControl
             Globalo.productionInfo.BcrSet(Globalo.dataManage.TaskWork.m_szChipID);
             Globalo.productionInfo.ProductionInfoSet();
             Globalo.productionInfo.PinCountInfoSet();
+            Globalo.productionInfo.ShowModelName();
+            Globalo.productionInfo.ShowRecipeName();
 
             //Globalo.pickerInfo.SetPickerInfo();
 
@@ -607,6 +610,16 @@ namespace ZenTester  //ApsMotionControl
         private void BTN_TOP_CLIENT_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void BTN_TOP_LOG_Click_1(object sender, EventArgs e)
+        {
+            if (ProgramState.NORINDA_MODE == true)
+            {
+                LeeTestForm popupForm = new LeeTestForm();
+                popupForm.Show();
+            }
+                
         }
     }
 }

@@ -91,11 +91,11 @@ namespace ZenTester.Dlg
 
         public void ShowModelName()
         {
-            if (Globalo.yamlManager.secsGemDataYaml.MesData.SecGemData.CurrentModelName.Length < 1)
+            if (Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel.Length < 1)
             {
                 return;
             }
-            textBox_Model.Text = Globalo.yamlManager.secsGemDataYaml.MesData.SecGemData.CurrentModelName;
+            textBox_Model.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel;
         }
         public void ShowRecipeName()
         {

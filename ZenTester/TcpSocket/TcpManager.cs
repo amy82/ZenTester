@@ -375,11 +375,6 @@ namespace ZenTester.TcpSocket
                 TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
                 if (data.DataID.Length > 0)
                 {
-                    bool rtn = Globalo.yamlManager.secsGemDataYaml.ModelDataSet(data.DataID);    //현재 모델명 변경 , 모델 폴더 없으면 Default 폴더 복사
-                    if (rtn)
-                    {
-                        
-                    }
                     Globalo.productionInfo.ShowModelName();
                     sendEqipData.Command = "APS_MODEL_ACK";
                 }
@@ -398,9 +393,6 @@ namespace ZenTester.TcpSocket
             if (data.Command == "APS_PPID_CMD") //"APS_PPID_REQ")
             {
                 TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-
-                //sendEqipData.Command = "APS_PPID_RES";
-                //sendEqipData.DataID = Globalo.dataManage.mesData.m_sMesPPID;
 
                 SendMessageToClient(sendEqipData);
             }

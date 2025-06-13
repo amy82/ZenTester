@@ -82,8 +82,6 @@ namespace ZenTester.Dlg
                     }
                     Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[sName].value = sValue;
                 }
-
-
             }
             return nRtn;
         }
@@ -95,8 +93,6 @@ namespace ZenTester.Dlg
             int dataCount = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap.Count();
 
             dataGridView_Recipe.Rows.Clear();
-
-
 
             int count = 0;
             foreach (var kvp in Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap)

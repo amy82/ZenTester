@@ -436,7 +436,7 @@ namespace ZenTester.Data
                     csv.WriteField(_time);
                     csv.NextRecord();
                     csv.WriteField("Model");
-                    csv.WriteField(Globalo.yamlManager.secsGemDataYaml.MesData.SecGemData.CurrentModelName);
+                    csv.WriteField(Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe);
                     csv.NextRecord();
                     csv.WriteField("Sw Version");
                     csv.WriteField(Program.VERSION_INFO);

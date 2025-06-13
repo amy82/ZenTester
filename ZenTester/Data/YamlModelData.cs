@@ -27,7 +27,7 @@ namespace ZenTester.Data
         public bool ModelLoad()
         {
             //string filePath = CPath.yamlFilePathModel;
-            string filePath = Path.Combine(CPath.BASE_MODEL_PATH, CPath.yamlFilePathModel);
+            string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, CPath.yamlFilePathModel);
             try
             {
                 if (!File.Exists(filePath))
@@ -53,7 +53,7 @@ namespace ZenTester.Data
         public bool ModelSave()
         {
             //string filePath = CPath.yamlFilePathModel;
-            string filePath = Path.Combine(CPath.BASE_MODEL_PATH, CPath.yamlFilePathModel);
+            string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, CPath.yamlFilePathModel);
 
             try
             {

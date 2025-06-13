@@ -22,7 +22,46 @@ namespace ZenTester.Http
         {
             "RecipeA.json", "RecipeB.json", "RecipeC.json"
         };
+        public async static void ReqRecipe()
+        {
+            string json = JsonConvert.SerializeObject("");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpClient client = new HttpClient();
+            try
+            {
 
+                int port = 3001;    //SecsGem Pg
+                string url = $"http://192.168.100.100:{port}/reqRecipe";
+
+                if (ProgramState.NORINDA_MODE == true)
+                {
+                    url = $"http://127.0.0.1:{port}/reqRecipe";
+                }
+                var response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Recipe Send Complete!");
+                }
+                else
+                {
+                    Console.WriteLine($"Recipe Send Fail: ErrCode {(int)response.StatusCode} {response.ReasonPhrase}");
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Server Response Content: " + errorContent);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("HTTP 요청 중 오류 발생: " + ex.Message);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine("요청 시간이 초과되었습니다: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("알 수 없는 예외: " + ex.Message);
+            }
+        }
         public async static void LotApdReport(TcpSocket.AoiApdData apdData)
         {
             var AoiApdList = new
@@ -163,6 +202,9 @@ namespace ZenTester.Http
                     int useChk = 0;
                     double specData = 0.0;
                     string key_type = "";
+                    string recipePPid = "";
+
+                    recipePPid = Convert.ToString(data["NAME"]);
                     useChk = Convert.ToInt32(data["O_RING"]);        //오링 유무
                     useChk = Convert.ToInt32(data["CONE"]);          //콘 유무
                     key_type = Convert.ToString(data["KEYTYPE"]);       //Key Type
@@ -173,7 +215,7 @@ namespace ZenTester.Http
                     specData = Convert.ToDouble(data["HEIGHT_MH_MAX"]);             //MH MAX SPEC
                     specData = Convert.ToDouble(data["HEIGHT_RH_MIN"]);             //RH MIN SPEC
                     specData = Convert.ToDouble(data["HEIGHT_RH_MAX"]);             //RH MAX SPEC
-
+                    //
                     specData = Convert.ToDouble(data["CONCENTRICITY_IN_MIN"]);      //내측 MIN SPEC
                     specData = Convert.ToDouble(data["CONCENTRICITY_IN_MAX"]);      //내측 MAX SPEC
                     specData = Convert.ToDouble(data["CONCENTRICITY_OUT_MIN"]);     //외측 MIN SPEC
@@ -184,6 +226,8 @@ namespace ZenTester.Http
                     specData = Convert.ToDouble(data["DENT_MAX"]);                  //DENT MAX SPEC
 
                     Console.WriteLine($"HEIGHT_LH_MIN:{specData}");
+
+                    //받아서 레시피 파일로 저장을 하자
                 }
             }
             else if (path == "/recipe")

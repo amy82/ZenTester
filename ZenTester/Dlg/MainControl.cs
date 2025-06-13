@@ -309,24 +309,6 @@ namespace ZenTester.Dlg
 
             dataGridView_Result.ClearSelection();
         }
-        //public void ShowModelName()
-        //{
-        //    if (Globalo.yamlManager.secsGemDataYaml.MesData.SecGemData.CurrentModelName.Length < 1)
-        //    {
-        //        return;
-        //    }
-        //    textBox_Model.Text = Globalo.yamlManager.secsGemDataYaml.MesData.SecGemData.CurrentModelName;
-        //}
-        //public void ShowRecipeName()
-        //{
-        //    if (Globalo.dataManage.mesData.m_sMesPPID.Length < 1)
-        //    {
-        //        return;
-        //    }
-
-        //    textBox_Recipe.Text = Globalo.dataManage.mesData.m_sMesPPID;
-        //}
-        
         private void Form_Paint(object sender, PaintEventArgs e)
         {
             int lineStartY = ManualTitleLabel.Location.Y + Globalo.TabLineY;// 60;
