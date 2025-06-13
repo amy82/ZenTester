@@ -104,7 +104,7 @@ namespace ZenTester.Dlg
                 return;
             }
 
-            textBox_Recipe.Text = Globalo.dataManage.mesData.m_sMesPPID;
+            textBox_Recipe.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe; //Globalo.dataManage.mesData.m_sMesPPID;
         }
 
         private void BTN_MAIN_RECIPE_VEW_Click(object sender, EventArgs e)

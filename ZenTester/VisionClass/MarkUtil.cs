@@ -70,7 +70,7 @@ namespace ZenTester.VisionClass
         public System.Drawing.Point smallDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
         public System.Drawing.Point zoomDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
 
-        public string ModelMarkName = "A_MODEL";
+        //public string ModelMarkName = "A_MODEL";
 
         public System.Drawing.Point dMarkCenterX = new System.Drawing.Point();
 
@@ -107,8 +107,10 @@ namespace ZenTester.VisionClass
 
             bool rtn = false;
 
-            rtn = LoadMark_mod("A_MODEL", (int)eCamType.SIDE_CAM);
-            markData = Data.TaskDataYaml.Load_MarkData("A_MODEL", "MarkData.yaml");
+
+
+            rtn = LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, (int)eCamType.SIDE_CAM);
+            markData = Data.TaskDataYaml.Load_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
 
             //markViewer = new MarkViewerForm();
         }
@@ -144,7 +146,7 @@ namespace ZenTester.VisionClass
             zoomDispSize.X = Globalo.markViewer.GetDispSize(0);
             zoomDispSize.Y = Globalo.markViewer.GetDispSize(1);
 
-            DisplaySmallMarkView(ModelMarkName, 0, zoomDispSize.X, zoomDispSize.Y);
+            DisplaySmallMarkView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, 0, zoomDispSize.X, zoomDispSize.Y);
 
             ShowMarkNo();
         }

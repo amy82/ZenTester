@@ -204,30 +204,53 @@ namespace ZenTester.Http
                     string key_type = "";
                     string recipePPid = "";
 
-                    recipePPid = Convert.ToString(data["NAME"]);
-                    useChk = Convert.ToInt32(data["O_RING"]);        //오링 유무
-                    useChk = Convert.ToInt32(data["CONE"]);          //콘 유무
-                    key_type = Convert.ToString(data["KEYTYPE"]);       //Key Type
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["NAME"]);
 
-                    specData = Convert.ToDouble(data["HEIGHT_LH_MIN"]);             //LH MIN SPEC
-                    specData = Convert.ToDouble(data["HEIGHT_LH_MAX"]);             //LH MAX SPEC
-                    specData = Convert.ToDouble(data["HEIGHT_MH_MIN"]);             //MH MIN SPEC
-                    specData = Convert.ToDouble(data["HEIGHT_MH_MAX"]);             //MH MAX SPEC
-                    specData = Convert.ToDouble(data["HEIGHT_RH_MIN"]);             //RH MIN SPEC
-                    specData = Convert.ToDouble(data["HEIGHT_RH_MAX"]);             //RH MAX SPEC
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value = data["CONE"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value = data["KEYTYPE"].ToString();
                     //
-                    specData = Convert.ToDouble(data["CONCENTRICITY_IN_MIN"]);      //내측 MIN SPEC
-                    specData = Convert.ToDouble(data["CONCENTRICITY_IN_MAX"]);      //내측 MAX SPEC
-                    specData = Convert.ToDouble(data["CONCENTRICITY_OUT_MIN"]);     //외측 MIN SPEC
-                    specData = Convert.ToDouble(data["CONCENTRICITY_OUT_MAX"]);     //외측 MAX SPEC
-                    specData = Convert.ToDouble(data["GASKET_MIN"]);                //GASKET MIN SPEC
-                    specData = Convert.ToDouble(data["GASKET_MAX"]);                //GASKET MAX SPEC
-                    specData = Convert.ToDouble(data["DENT_MIN"]);                  //DENT MIN SPEC
-                    specData = Convert.ToDouble(data["DENT_MAX"]);                  //DENT MAX SPEC
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value = data["HEIGHT_LH_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value = data["HEIGHT_LH_MAX"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value = data["HEIGHT_MH_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value = data["HEIGHT_MH_MAX"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value = data["HEIGHT_RH_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value = data["HEIGHT_RH_MAX"].ToString();
+                    //
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value = data["CONCENTRICITY_IN_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value = data["CONCENTRICITY_IN_MAX"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value = data["CONCENTRICITY_OUT_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value = data["CONCENTRICITY_OUT_MAX"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value = data["GASKET_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value = data["GASKET_MAX"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value = data["DENT_MIN"].ToString();
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value = data["DENT_MAX"].ToString();
+
+                    //useChk = Convert.ToInt32(data["O_RING"]);        //오링 유무
+                    //useChk = Convert.ToInt32(data["CONE"]);          //콘 유무
+                    //key_type = Convert.ToString(data["KEYTYPE"]);       //Key Type
+                    //specData = Convert.ToDouble(data["HEIGHT_LH_MIN"]);             //LH MIN SPEC
+                    //specData = Convert.ToDouble(data["HEIGHT_LH_MAX"]);             //LH MAX SPEC
+                    //specData = Convert.ToDouble(data["HEIGHT_MH_MIN"]);             //MH MIN SPEC
+                    //specData = Convert.ToDouble(data["HEIGHT_MH_MAX"]);             //MH MAX SPEC
+                    //specData = Convert.ToDouble(data["HEIGHT_RH_MIN"]);             //RH MIN SPEC
+                    //specData = Convert.ToDouble(data["HEIGHT_RH_MAX"]);             //RH MAX SPEC
+                    //
+                    //specData = Convert.ToDouble(data["CONCENTRICITY_IN_MIN"]);      //내측 MIN SPEC
+                    //specData = Convert.ToDouble(data["CONCENTRICITY_IN_MAX"]);      //내측 MAX SPEC
+                    //specData = Convert.ToDouble(data["CONCENTRICITY_OUT_MIN"]);     //외측 MIN SPEC
+                    //specData = Convert.ToDouble(data["CONCENTRICITY_OUT_MAX"]);     //외측 MAX SPEC
+                    //specData = Convert.ToDouble(data["GASKET_MIN"]);                //GASKET MIN SPEC
+                    //specData = Convert.ToDouble(data["GASKET_MAX"]);                //GASKET MAX SPEC
+                    //specData = Convert.ToDouble(data["DENT_MIN"]);                  //DENT MIN SPEC
+                    //specData = Convert.ToDouble(data["DENT_MAX"]);                  //DENT MAX SPEC
 
                     Console.WriteLine($"HEIGHT_LH_MIN:{specData}");
 
-                    //받아서 레시피 파일로 저장을 하자
+                    //TODO: 받아서 레시피 파일로 저장을 하자
+                    Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                    Globalo.productionInfo.ShowModelName();
+                    Globalo.productionInfo.ShowRecipeName();
                 }
             }
             else if (path == "/recipe")

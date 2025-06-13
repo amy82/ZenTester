@@ -125,7 +125,7 @@ namespace ZenTester  //ApsMotionControl
 
             Globalo.threadControl.AllThreadStart();     //< - Log , Time Thread
 
-
+            //레시피 요청하기
             Globalo.yamlManager.vPPRecipeSpecEquip = Globalo.yamlManager.RecipeLoad(Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe);   //init
 
             //if (Globalo.yamlManager.vPPRecipeSpecEquip == null)

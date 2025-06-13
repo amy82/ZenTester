@@ -159,7 +159,8 @@ namespace ZenTester.Data
         public bool RecipeSave(RootRecipe ppRecipe)
         {
             //string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, ppRecipe.RECIPE.Ppid +".yaml");//   CPath.yamlFilePathRecipe);
-            string pgPath = "";
+
+            string pgPath = ""; 
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
                 pgPath = "AoiData";
@@ -167,8 +168,15 @@ namespace ZenTester.Data
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, ppRecipe.RECIPE.Ppid, ppRecipe.RECIPE.Ppid + ".yaml");
             try
             {
-                if (!File.Exists(filePath))
-                    return false;
+                string directoryPath = Path.GetDirectoryName(filePath);
+
+                if (!Directory.Exists(directoryPath)) // 폴더가 존재하지 않으면
+                {
+                    Directory.CreateDirectory(directoryPath); // 폴더 생성
+                }
+
+                ////if (!File.Exists(filePath))
+                ////    return false;
 
                 SaveYaml(filePath, ppRecipe);
                 return true;

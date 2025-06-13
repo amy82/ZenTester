@@ -422,15 +422,15 @@ namespace ZenTester.VisionClass
 
             Globalo.visionManager.markUtil.m_nSmooth = m_nEdgeSmooth;
             Globalo.visionManager.markUtil.markData.markList[CurrentMarkNo].Smooth = m_nEdgeSmooth;
-            Data.TaskDataYaml.Save_MarkData("A_MODEL", "MarkData.yaml");
-            Globalo.visionManager.markUtil.SaveMark_mod(Globalo.visionManager.markUtil.ModelMarkName, CurrentCamIndex, CurrentMarkNo);
+            Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
+            Globalo.visionManager.markUtil.SaveMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentCamIndex, CurrentMarkNo);
 
 
             //g_clMarkData[m_nUnit].SaveData(g_clSysData.m_szModelName);
 
             Globalo.visionManager.markUtil.SettingFindMark(CurrentCamIndex, CurrentMarkNo);
             //
-            Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.visionManager.markUtil.ModelMarkName, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);
+            Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);
 
 
             if (m_MilMask != MIL.M_NULL)

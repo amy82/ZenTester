@@ -1289,7 +1289,7 @@ namespace ZenTester.Dlg
                 MarkIndex--;
 
                 label_Set_Mark_Model.Text = $"Mark-{MarkIndex+1}";
-                string model = Globalo.visionManager.markUtil.ModelMarkName;
+                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;// Globalo.visionManager.markUtil.ModelMarkName;
                 double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
                 double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
                 Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
@@ -1309,7 +1309,7 @@ namespace ZenTester.Dlg
             {
                 MarkIndex++;
                 label_Set_Mark_Model.Text = $"Mark-{MarkIndex + 1}";
-                string model = Globalo.visionManager.markUtil.ModelMarkName;
+                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;//Globalo.visionManager.markUtil.ModelMarkName;
                 double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
                 double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
 
@@ -1337,7 +1337,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.markUtil.markData.markList[MarkIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
                 Globalo.visionManager.markUtil.markData.markList[MarkIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                 //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5)
-                Data.TaskDataYaml.Save_MarkData("A_MODEL", "MarkData.yaml");
+                Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
             }
         }
 
