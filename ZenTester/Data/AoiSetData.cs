@@ -30,20 +30,12 @@ namespace ZenTester.Data
         // Optional: public string type { get; set; }  // 필요 시 추가
     }
 
-    public class Resolution
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
-    }
     public class AoiRoiConfig
     {
         public List<Roi> HEIGHT_ROI { get; set; }
         public List<Roi> KEY_ROI { get; set; }
         public List<Roi> CONE_ROI { get; set; }
         public List<Roi> ORING_ROI { get; set; }
-
-        public Resolution TopResolution { get; set; }
-        public Resolution SideResolution { get; set; }
     }
 
 

@@ -624,8 +624,8 @@ namespace ZenTester.VisionClass
 
                 double CamResolX = 0.0;
                 double CamResolY = 0.0;
-                CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.0186f;
-                CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.0186f;
+                CamResolX = Globalo.yamlManager.configData.CamSettings.SideResolution.X;   // 0.0186f;
+                CamResolY = Globalo.yamlManager.configData.CamSettings.SideResolution.Y;   //0.0186f;
 
                 Console.WriteLine($"CamResolX:{CamResolX}");
                 Console.WriteLine($"CamResolY:{CamResolY}");
@@ -852,8 +852,8 @@ namespace ZenTester.VisionClass
 
                 double CamResolX = 0.0;
                 double CamResolY = 0.0;
-                CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f; 
-                CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
+                CamResolX = Globalo.yamlManager.configData.CamSettings.SideResolution.X;   // 0.02026f; 
+                CamResolY = Globalo.yamlManager.configData.CamSettings.SideResolution.Y;   //0.02026f;//0.0288f;
 
                 Console.WriteLine($"CamResolX:{CamResolX}");
                 Console.WriteLine($"CamResolY:{CamResolY}");

@@ -85,13 +85,19 @@ namespace ZenTester.Data
         //
         //
         //--------------------------------------------------------------------------------------------------------------
-        public static bool Save_AoiConfig(string fileName)
+        public static bool Save_AoiConfig()
         {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //LOT DATA
+            string fileName = "AoiConfig.yaml";
+            string pgPath = "";
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                pgPath = "AoiData";
+            }
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath , Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe, fileName);       //LOT DATA
             try
             {
-                Data.YamlManager.SaveYaml(filePath, Globalo.yamlManager.aoiRoiConfig);// data);
-                return true;
+                Data.YamlManager.SaveYaml(filePath, Globalo.yamlManager.aoiRoiConfig);
+                return true; 
             }
             catch (Exception ex)
             {
@@ -100,9 +106,15 @@ namespace ZenTester.Data
             }
 
         }
-        public static Data.AoiRoiConfig Load_AoiConfig(string fileName)
+        public static Data.AoiRoiConfig Load_AoiConfig()
         {
-            string filePath = Path.Combine(CPath.BASE_ENV_PATH, fileName);       //TRAY DATA
+            string pgPath = "";
+            string fileName = "AoiConfig.yaml";
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                pgPath = "AoiData";
+            }
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe, fileName);       //TRAY DATA
             try
             {
                 if (!File.Exists(filePath))

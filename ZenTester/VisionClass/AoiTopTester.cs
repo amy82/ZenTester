@@ -838,8 +838,8 @@ namespace ZenTester.VisionClass
 
             double CamResolX = 0.0;
             double CamResolY = 0.0;
-            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.0186f;
-            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.0186f;
+            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
+            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
             if (circles.Count > 0)
             {
                 var minCircle = circles.OrderBy(c => c.radius).First();
@@ -1066,8 +1066,8 @@ namespace ZenTester.VisionClass
             //--------------------------------------------------------------------------------------------------------------------------------------------
             double CamResolX = 0.0;
             double CamResolY = 0.0;
-            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.0186f;
-            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.0186f;
+            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
+            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
             if (circles.Count > 0)
             {
                 var minCircle = circles.OrderBy(c => c.radius).First();

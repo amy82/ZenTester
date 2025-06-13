@@ -74,10 +74,10 @@ namespace ZenTester  //ApsMotionControl
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
 
-            Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig("AoiConfig.yaml");
 
             Globalo.yamlManager.modelLIstData.ModelLoad();
-            
+            Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();      //ModelLoad 다음에 로드해라
+
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
 

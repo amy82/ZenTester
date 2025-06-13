@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace ZenTester.Data
 {
+
+    public class Resolution
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+    public class _CamSettings
+    {
+        public Resolution TopResolution { get; set; }
+        public Resolution SideResolution { get; set; }
+    }
     public class _SerialPort
     {
         public string Light { get; set; }
@@ -28,5 +39,6 @@ namespace ZenTester.Data
     {
         public _SerialPort SerialPort { get; set; }
         public _DrivingSettings DrivingSettings { get; set; }
+        public _CamSettings CamSettings { get; set; }
     }
 }

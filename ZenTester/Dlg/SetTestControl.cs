@@ -107,11 +107,11 @@ namespace ZenTester.Dlg
         }
         private void showCamResol()
         {
-            label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.X.ToString();
-            label_Set_TopCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y.ToString();
+            label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.TopResolution.X.ToString();
+            label_Set_TopCam_ResolY_Val.Text = Globalo.yamlManager.configData.CamSettings.TopResolution.Y.ToString();
 
-            label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.X.ToString();
-            label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y.ToString();
+            label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.SideResolution.X.ToString();
+            label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.configData.CamSettings.SideResolution.Y.ToString();
         }
         public void ClearCheckbox()
         {
@@ -314,10 +314,11 @@ namespace ZenTester.Dlg
 
             //A ~ D: 2개씩
             //E 타입만 1개
+            string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, "C");        //키검사
-            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, "C");        //키검사
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType);        //키검사
+            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType);        //키검사
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
             
         }
@@ -357,8 +358,8 @@ namespace ZenTester.Dlg
 
             double CamResolX = 0.0;
             double CamResolY = 0.0;
-            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.0186f;
-            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.0186f;
+            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
+            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
 
 
             OpenCvSharp.Point c1 = FakraCenter[1];
@@ -963,8 +964,8 @@ namespace ZenTester.Dlg
             double CamResolY = 0.0;
             //CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
             //CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
-            CamResolX = Globalo.yamlManager.aoiRoiConfig.TopResolution.X;   // 0.02026f;
-            CamResolY = Globalo.yamlManager.aoiRoiConfig.TopResolution.Y;   //0.02026f;//0.0288f;
+            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.02026f;
+            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.02026f;//0.0288f;
 
             Console.WriteLine($"CamResolX:{CamResolX}");
             Console.WriteLine($"CamResolY:{CamResolY}");
@@ -1153,7 +1154,7 @@ namespace ZenTester.Dlg
                     Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i] = tempRoi[i].Clone();
                 }
             }
-            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+            Data.TaskDataYaml.Save_AoiConfig();     //Roi Set Save
         }
 
         private void CamResolutionInput(Label OffsetLabel)
@@ -1206,10 +1207,10 @@ namespace ZenTester.Dlg
 
         private void button_Set_Top_Resol_Save_Click(object sender, EventArgs e)
         {
-            Globalo.yamlManager.aoiRoiConfig.TopResolution.X = double.Parse(label_Set_TopCam_ResolX_Val.Text);
-            Globalo.yamlManager.aoiRoiConfig.TopResolution.Y = double.Parse(label_Set_TopCam_ResolY_Val.Text);
-            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+            Globalo.yamlManager.configData.CamSettings.TopResolution.X = double.Parse(label_Set_TopCam_ResolX_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.TopResolution.Y = double.Parse(label_Set_TopCam_ResolY_Val.Text);
 
+            Globalo.yamlManager.configDataSave();
             if (checkBox_Measure.Checked)
             {
                 DrawDistnace();
@@ -1218,10 +1219,10 @@ namespace ZenTester.Dlg
 
         private void button_Set_Side_Resol_Save_Click(object sender, EventArgs e)
         {
-            Globalo.yamlManager.aoiRoiConfig.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
-            Globalo.yamlManager.aoiRoiConfig.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
 
-            Data.TaskDataYaml.Save_AoiConfig("AoiConfig.yaml");
+            Globalo.yamlManager.configDataSave();
             if (checkBox_Measure.Checked)
             {
                 DrawDistnace();
