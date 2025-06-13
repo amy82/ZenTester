@@ -43,7 +43,6 @@ namespace ZenTester.Dlg
         private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
         private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
 
-        //private System.Drawing.Point[] DistLineX = new System.Drawing.Point[2];
         private System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
 
         private bool m_bDrawFlag = false;
@@ -103,8 +102,8 @@ namespace ZenTester.Dlg
             }
 
             showCamResol();
-            
         }
+
         private void showCamResol()
         {
             label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.TopResolution.X.ToString();
@@ -130,17 +129,8 @@ namespace ZenTester.Dlg
         {
             int currentValue = ((TrackBar)sender).Value;
             SideLightChange(1, 2, SideLIghtDataNo, currentValue);
-
-
         }
-        public void UpdateImage(Bitmap image)
-        {
-            if (CurrentImage != null) CurrentImage.Dispose();
 
-            CurrentImage = (Bitmap)image.Clone();
-
-            //pictureBoxCam1.Image = CurrentImage;
-        }
 
         public int getWidth()
         {
@@ -335,11 +325,7 @@ namespace ZenTester.Dlg
 
 
             byte[] ImageBuffer = new byte[dataSize];
-
             
-
-
-
             //
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
