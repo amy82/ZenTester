@@ -95,7 +95,17 @@ namespace ZenTester.Dlg
             {
                 return;
             }
-            textBox_Model.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel;
+            if (textBox_Model.InvokeRequired)
+            {
+                textBox_Model.Invoke(new MethodInvoker(() =>
+                {
+                    textBox_Model.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel;
+                }));
+            }
+            else
+            {
+                textBox_Model.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel;
+            }
         }
         public void ShowRecipeName()
         {
@@ -104,7 +114,17 @@ namespace ZenTester.Dlg
                 return;
             }
 
-            textBox_Recipe.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe; //Globalo.dataManage.mesData.m_sMesPPID;
+            if (textBox_Recipe.InvokeRequired)
+            {
+                textBox_Recipe.Invoke(new MethodInvoker(() =>
+                {
+                    textBox_Recipe.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe;
+                }));
+            }
+            else
+            {
+                textBox_Recipe.Text = Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe;
+            }
         }
 
         private void BTN_MAIN_RECIPE_VEW_Click(object sender, EventArgs e)

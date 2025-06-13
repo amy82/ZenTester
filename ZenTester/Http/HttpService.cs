@@ -247,8 +247,10 @@ namespace ZenTester.Http
 
                     Console.WriteLine($"HEIGHT_LH_MIN:{specData}");
 
+                    Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
                     //TODO: 받아서 레시피 파일로 저장을 하자
                     Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                    Globalo.yamlManager.secsGemDataYaml.MesSave();
                     Globalo.productionInfo.ShowModelName();
                     Globalo.productionInfo.ShowRecipeName();
                 }

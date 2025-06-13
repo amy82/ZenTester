@@ -13,7 +13,7 @@ namespace ZenTester.Dlg
     public partial class RecipePopup : Form
     {
         private const int RecipeGridRowViewCount = 13;
-        private int[] GridColWidth = { 30, 150, 210, 70, 270, 50, 50, 1 };
+        private int[] GridColWidth = { 30, 200, 150, 70, 270, 50, 50, 1 };
         private int RecipeGridWidth = 0;
         private int GridRowHeight = 30;
         private int GridHeaderHeight = 30;
@@ -98,17 +98,21 @@ namespace ZenTester.Dlg
             foreach (var kvp in Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap)
             {
                 //Console.WriteLine($"Task: {kvp.Key}, Value: {kvp.Value.value}, Flag: {kvp.Value.use}");
-                if (count <= RecipeGridRowViewCount)
-                {
-                    dataGridView_Recipe.Rows.Add(
+                dataGridView_Recipe.Rows.Add(
                         kvp.Value.use,
                         kvp.Key,
                         kvp.Value.value);
-                }
-                else
-                {
-                    dataGridView_Recipe.Rows.Add(false, "", ""); // 행 추가
-                }
+                //if (count <= RecipeGridRowViewCount)
+                //{
+                //    dataGridView_Recipe.Rows.Add(
+                //        kvp.Value.use,
+                //        kvp.Key,
+                //        kvp.Value.value);
+                //}
+                //else
+                //{
+                //    dataGridView_Recipe.Rows.Add(false, "", ""); // 행 추가
+                //}
 
                 dataGridView_Recipe.Rows[count].Cells[0].Style.BackColor = Color.White;
                 dataGridView_Recipe.Rows[count].Cells[0].Style.ForeColor = Color.Black;
@@ -296,7 +300,7 @@ namespace ZenTester.Dlg
             dataGridView_Recipe.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridView_Recipe.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
