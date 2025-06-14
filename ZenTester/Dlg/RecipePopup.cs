@@ -269,7 +269,9 @@ namespace ZenTester.Dlg
 
             //dataGridView_Recipe.CellContentClick += new DataGridViewCellEventHandler(RecipeGridView_CellContentClick);     //삭제 버튼 클릭시 사용
             // 버튼 클릭 이벤트 등록
-            dataGridView_Recipe.CellClick += new DataGridViewCellEventHandler(RecipeGridView_CellClick); //textbox 한번 클릭으로 바로 수정되게 추가
+            //dataGridView_Recipe.CellClick += new DataGridViewCellEventHandler(RecipeGridView_CellClick); //textbox 한번 클릭으로 바로 수정되게 추가
+
+
             //dataGridView_Recipe.SelectionChanged += dataGridView1_SelectionChanged;
             // 이벤트 핸들러 추가
             //CardGrid.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(CardGrid_EditingControlShowing);

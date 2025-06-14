@@ -49,6 +49,87 @@ namespace ZenTester.VisionClass
 
             return rtn;
         }
+        public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos)
+        {
+            bool IMG_VIEW = false;
+            int startTime = Environment.TickCount;
+            bool bRtn = false;
+            //
+            int radiusOuter = 800;      //이미지 중심에서 pogoPin을 찾을 원 크기
+
+            OpenCvSharp.Point ImageCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] / 2);
+
+
+            centerPos.X = ImageCenter.X;
+            centerPos.Y = ImageCenter.Y;
+            // 이미지 크기에 맞는 빈 마스크
+            //Mat mask = Mat.Zeros(srcImage.Size(), MatType.CV_8UC1);
+
+            // 바깥쪽 원 그리기 (하얀색)
+            //Cv2.Circle(mask, ImageCenter, radiusOuter, Scalar.White, -1);
+
+            //Mat masked = new Mat();
+            // 원과 원 사이의 영역만 남긴 결과
+            //Cv2.BitwiseAnd(srcImage, srcImage, masked, mask);       //원본에서 마스크 영역만 남기기
+
+
+            Mat gray = new Mat();
+            if (srcImage.Channels() == 3)
+                Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
+            else
+                gray = srcImage.Clone();  // 이미 흑백이면 그대로 복사
+            Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(5, 5), 1);
+
+            Mat thresh = new Mat();
+            Cv2.Threshold(gray, thresh, 60, 255, ThresholdTypes.Binary);  // 조명 따라 100 조정
+
+
+            if (IMG_VIEW)
+            {
+                Cv2.NamedWindow("Detected thresh ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Detected thresh ", thresh);
+                Cv2.WaitKey(0);
+
+            }
+            OpenCvSharp.Point[][] contours;
+            HierarchyIndex[] hierarchy;
+            Cv2.FindContours(thresh, out contours, out hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+
+
+            Mat colorImage = new Mat();
+            Cv2.CvtColor(srcImage, colorImage, ColorConversionCodes.GRAY2BGR);  // 1채널 → 3채널 변환
+            
+            // 가장 큰 원을 찾기
+            foreach (var contour in contours)
+            {
+                Point2f center;
+                float radius;
+                Cv2.MinEnclosingCircle(contour, out center, out radius);
+
+                if (radius > 900 && radius < 1050)  // 실제 원 반지름 조건에 맞게
+                {
+                    centerPos.X = (int)center.X;
+                    centerPos.Y = (int)center.Y;
+
+                    //가장 바깥원  = 983
+                    //Cv2.Circle(srcImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), (int)radius, Scalar.Red, 2);
+                    //Cv2.Circle(srcImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), 3, Scalar.Yellow, -1); // 중심점
+
+                    bRtn = true;
+                    Cv2.Circle(colorImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), (int)radius, Scalar.Red, 2);
+                }
+            }
+
+            if (IMG_VIEW)
+            {
+                Cv2.NamedWindow("Detected colorImage ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Detected colorImage ", colorImage);
+                Cv2.WaitKey(0);
+
+            }
+
+            return bRtn;
+        }
         public bool FindPogoPinCenter(int index, Mat srcImage)
         {
             bool IMG_VIEW = true;
@@ -450,18 +531,18 @@ namespace ZenTester.VisionClass
 
                 if (bRtn)
                 {
-                    str = $"{keyType} Key Detected!";
+                    str = $"{keyType} Key #{roiIndex+1} Detected!";
                     ConeColor = Color.Green;
                 }
                 else
                 {
-                    str = $"{keyType} Key Not Detected!";
+                    str = $"{keyType} Key #{roiIndex + 1} Not Detected!";
                     ConeColor = Color.Red;
                 }
 
 
                 int leng = str.Length;
-                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
+                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250 + (250* roiIndex));
 
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
             }
@@ -607,7 +688,7 @@ namespace ZenTester.VisionClass
             System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
         }
-        public void GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1)
+        public int GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1)
         {
             //가스켓 밝기 계산
             bool IMG_VIEW = true;
@@ -622,8 +703,8 @@ namespace ZenTester.VisionClass
             //Cv2.NamedWindow("GasketTest binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
             //Cv2.ImShow("GasketTest binary ", binary);
             //Cv2.WaitKey(0);
-            int radiusOuter = 700;
-            int radiusInner = 430;
+            int radiusOuter = 880;// 700;
+            int radiusInner = 550;// 430;
                 
 
             // 이미지 크기에 맞는 빈 마스크
@@ -659,7 +740,7 @@ namespace ZenTester.VisionClass
 
             }
                 
-
+            int gaskerLight = (int)Math.Round(avg.Val0);
 
             Console.WriteLine($"가스켓 영역 평균 밝기: {avg.Val0:F2}");
 
@@ -679,6 +760,9 @@ namespace ZenTester.VisionClass
 
             System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+
+            return gaskerLight;
+
         }
         //public OpenCvSharp.Point Housing_Fakra_Test(int index, Mat srcImage)
         public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage)
@@ -818,6 +902,9 @@ namespace ZenTester.VisionClass
                     continue;
                 }
 
+                //여기서 가스켓 검사위한 동심도 중심 x,y 축 찾기
+
+               // centerPos[0].x
                 if (radius > maxRadius)
                 {
                     maxRadius = radius;
@@ -1154,33 +1241,6 @@ namespace ZenTester.VisionClass
                 Cv2.ImShow("Detected colorView ", colorView);
                 Cv2.WaitKey(0);
             }
-
-            //// 평균 좌표 계산
-            //if (centers.Count > 0)
-            //{
-            //    double sumX = centers.Sum(c => c.X);
-            //    double sumY = centers.Sum(c => c.Y);
-            //    Point2d avgCenter = new Point2d(sumX / centers.Count, sumY / centers.Count);
-            //    centerPos.X = (int)avgCenter.X;
-            //    centerPos.Y = (int)avgCenter.Y;
-
-            //    Rectangle m_clRect = new Rectangle((int)(avgCenter.X - (50)), (int)(avgCenter.Y - (50)), (int)(50 * 2), (int)(50 * 2));
-
-            //    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
-            //}
-
-            ////int centerX = srcImage.Cols / 2;
-            ////int centerY = srcImage.Rows / 2;
-            ////int roiSize = 150;
-            ////// ROI 영역 지정 (x, y, width, height)
-            ////Rect roi = new Rect(centerX - roiSize / 2, centerY - roiSize / 2, roiSize, roiSize);
-            ////Mat roiMat = new Mat(srcImage, roi);
-
-            ////// 평균 밝기 계산
-            ////Scalar mean = Cv2.Mean(roiMat);
-
-            ////// 결과 출력
-            ////Console.WriteLine($"[CenterFind] 중앙 영역 평균 밝기: {mean.Val0:F2}");
 
             //--------------------------------------------------------------------------------------------------------------------------------------------
             //

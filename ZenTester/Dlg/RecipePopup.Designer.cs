@@ -90,12 +90,13 @@ namespace ZenTester.Dlg
             this.BTN_RECIPE_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_RECIPE_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_SAVE.Location = new System.Drawing.Point(376, 122);
+            this.BTN_RECIPE_SAVE.Location = new System.Drawing.Point(393, 78);
             this.BTN_RECIPE_SAVE.Name = "BTN_RECIPE_SAVE";
             this.BTN_RECIPE_SAVE.Size = new System.Drawing.Size(104, 53);
             this.BTN_RECIPE_SAVE.TabIndex = 48;
             this.BTN_RECIPE_SAVE.Text = "SAVE";
             this.BTN_RECIPE_SAVE.UseVisualStyleBackColor = false;
+            this.BTN_RECIPE_SAVE.Visible = false;
             this.BTN_RECIPE_SAVE.Click += new System.EventHandler(this.BTN_RECIPE_SAVE_Click);
             // 
             // BTN_RECIPE_DOWN_REQ
@@ -104,12 +105,13 @@ namespace ZenTester.Dlg
             this.BTN_RECIPE_DOWN_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_RECIPE_DOWN_REQ.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_DOWN_REQ.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(376, 63);
+            this.BTN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(388, 59);
             this.BTN_RECIPE_DOWN_REQ.Name = "BTN_RECIPE_DOWN_REQ";
             this.BTN_RECIPE_DOWN_REQ.Size = new System.Drawing.Size(104, 53);
             this.BTN_RECIPE_DOWN_REQ.TabIndex = 47;
             this.BTN_RECIPE_DOWN_REQ.Text = "DOWNLOAD REQEST";
             this.BTN_RECIPE_DOWN_REQ.UseVisualStyleBackColor = false;
+            this.BTN_RECIPE_DOWN_REQ.Visible = false;
             this.BTN_RECIPE_DOWN_REQ.Click += new System.EventHandler(this.BTN_RECIPE_DOWN_REQ_Click);
             // 
             // dataGridView_Recipe

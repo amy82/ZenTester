@@ -56,6 +56,7 @@ namespace ZenTester.TcpSocket
 
     public class AoiApdData
     {
+        public string BcrLot { get; set; }
         public string LH { get; set; }
         public string RH { get; set; }
         public string MH { get; set; }
@@ -71,6 +72,7 @@ namespace ZenTester.TcpSocket
         public string Socket_Num { get; set; }
         public void init()
         {
+            BcrLot = string.Empty;
             LH = "0.0";
             RH = "0.0";
             MH = "0.0";

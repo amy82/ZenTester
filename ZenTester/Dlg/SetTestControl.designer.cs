@@ -262,9 +262,9 @@ namespace ZenTester.Dlg
             this.button_Pogo_Find_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Pogo_Find_Test.Location = new System.Drawing.Point(1230, 8);
             this.button_Pogo_Find_Test.Name = "button_Pogo_Find_Test";
-            this.button_Pogo_Find_Test.Size = new System.Drawing.Size(140, 39);
+            this.button_Pogo_Find_Test.Size = new System.Drawing.Size(165, 39);
             this.button_Pogo_Find_Test.TabIndex = 61;
-            this.button_Pogo_Find_Test.Text = "POGO FIND TEST";
+            this.button_Pogo_Find_Test.Text = "FIND CENTER TEST";
             this.button_Pogo_Find_Test.UseVisualStyleBackColor = false;
             this.button_Pogo_Find_Test.Click += new System.EventHandler(this.button_Pogo_Find_Test_Click);
             // 

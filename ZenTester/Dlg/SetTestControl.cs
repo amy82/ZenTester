@@ -27,7 +27,7 @@ namespace ZenTester.Dlg
 
         public Bitmap CurrentImage { get; set; }
 
-        private OpenCvSharp.Point centerPos;
+        
         public System.Drawing.Point m_clClickPoint = new System.Drawing.Point();
         public Rectangle m_rSetCamBox = new Rectangle();
 
@@ -57,6 +57,8 @@ namespace ZenTester.Dlg
 
         private int[] CamW = new int[2];
         private int[] CamH = new int[2];
+
+        private OpenCvSharp.Point[] centerPos = new OpenCvSharp.Point[2];
         public int CamIndex = 0;
         public int MarkIndex = 0;
         public int MaxMarkCount = 0;
@@ -102,8 +104,8 @@ namespace ZenTester.Dlg
                 CamW[i] = Globalo.visionManager.milLibrary.CAM_SIZE_X[i];
                 CamH[i] = Globalo.visionManager.milLibrary.CAM_SIZE_Y[i];
 
-                centerPos.X = (int)(CamW[i] / 2);
-                centerPos.Y = (int)(CamH[i] / 2);
+                centerPos[i].X = (int)(CamW[i] / 2);
+                centerPos[i].Y = (int)(CamH[i] / 2);
 
                 DistLineX[i,0] = new System.Drawing.Point(500, 500);
                 DistLineX[i,1] = new System.Drawing.Point(CamW[i] - 500, CamH[i] - 500);
@@ -327,10 +329,19 @@ namespace ZenTester.Dlg
             string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType);        //키검사
-            Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType);        //키검사
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-            
+            bool key1Rtn = true;
+            bool key2Rtn = true;
+            key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType);        //키검사
+            if (keyType != "E")
+            {
+                key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType);        //키검사
+            }
+            if (key1Rtn == true && key2Rtn == true)
+            {
+                //성공
+            }
+            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
         }
 
         private void button_Set_Housing_Test_Click(object sender, EventArgs e)
@@ -407,15 +418,29 @@ namespace ZenTester.Dlg
 
             byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
+
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, centerPos);     //가스켓 검사
+
+
+            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref centerPos);     //가장 작은 원의 중심 찾기
+            if (rtn)
+            {
+                Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, centerPos);     //가스켓 검사
+            }
+            
         }
 
         private void button_Set_Dent_Test_Click(object sender, EventArgs e)
         {
+            
 
         }
         #endregion
@@ -500,12 +525,20 @@ namespace ZenTester.Dlg
 
             byte[] ImageBuffer = new byte[dataSize];
 
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
+
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
 
-            Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);     //가스켓 검사
+            //Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);    //포고핀 중심찾기
+
+            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref centerPos);     //가장 작은 원의 중심 찾기
         }
         private void drawTestRoi(int index)
         {
@@ -1375,7 +1408,7 @@ namespace ZenTester.Dlg
                 openFileDialog.Title = "이미지 파일 선택";
                 //openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
                 openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
-                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\Image"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\newCam"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)

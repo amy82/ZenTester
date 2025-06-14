@@ -20,7 +20,6 @@ namespace ZenTester.TaskClass
             Console.WriteLine($"Task Start -------------------------- {taskStep}");
             _ = Task.Run(async () =>
             {
-
                 while (true)
                 {
                     nStep = aoiTestFlow.AoiAutoProcess(nStep);
@@ -32,7 +31,7 @@ namespace ZenTester.TaskClass
                     {
                         break;
                     }
-                    await Task.Delay(50);
+                    await Task.Delay(10);
                 }
 
                 Console.WriteLine($"Task End - {nStep}");

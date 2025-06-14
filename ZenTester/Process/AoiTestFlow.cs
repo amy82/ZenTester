@@ -42,15 +42,15 @@ namespace ZenTester.Process
                     TopCamTask = null;
                     SideCamTask = null;
                     CancelToken?.Dispose();
-                    CancelToken = new CancellationTokenSource();
-                    aoitestData.init();
+                    CancelToken = new CancellationTokenSource();    //
+
+                    aoitestData.init();     //AOI 결과값 초기화
 
                     TopCamTask = Task.Run(() =>
                     {
                         waitTopCam = 1;
                         waitTopCam = TopCamFlow();      //0 or -1 Return
                         Console.WriteLine($"-------------- TopCam Task - end {waitTopCam}");
-
                         return waitTopCam;
                     }, CancelToken.Token);
 
@@ -59,10 +59,10 @@ namespace ZenTester.Process
                         waitSideCam = 1;
                         waitSideCam = SideCamFlow();      //0 or -1 Return
                         Console.WriteLine($"-------------- SideCam Task - end {waitSideCam}");
-
                         return waitSideCam;
                     }, CancelToken.Token);
-                    nRetStep = 160;
+
+                    nRetStep = 200;
 
                     nTimeTick = Environment.TickCount;
                     break;
@@ -72,24 +72,18 @@ namespace ZenTester.Process
                     {
                         if (Environment.TickCount - nTimeTick > 10000)
                         {
-                            //타임아웃 추가?
                             Console.WriteLine("Timeout - {waitTopCam},{waitSideCam}");
                             nRetStep = -1;
                             break;
                         }
                         break;
                     }
-
-                    //Top, Side 둘다 검사 완료
-                    nRetStep = 300;
-                    break;
-
-                case 300:
+                    //
+                    //
                     //Apd 보고 -> SecsGem Clinet -> 결과는 Handler로 전송
                     Http.HttpService.LotApdReport(aoitestData);
                     nRetStep = 1000;    //1000이상이면 종료
                     break;
-
             }
             return nRetStep;
 
@@ -118,11 +112,17 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
-                        
+
+                        aoitestData.Gasket = "1";
+                        aoitestData.KeyType = "A";
+                        aoitestData.CircleDented = "1";
+                        aoitestData.Concentrycity_A = "0.1";
+                        aoitestData.Concentrycity_D = "0.1";
 
                         nRetStep = 100;
                         break;
-                    case 100://Gasket - 유무 검사
+                    case 100:
+                        //Gasket - 유무 검사
                         //Dent - 찌그러짐
                         //Key - 유무 검사
                         //Housing Out - Center xy 차이
@@ -191,8 +191,16 @@ namespace ZenTester.Process
                         //Left Height
                         //Center Height
                         //Right Height
+
                         //Oring 유무
                         //Cone 유무
+
+                        aoitestData.LH = "0.0";
+                        aoitestData.MH = "0.0";
+                        aoitestData.RH = "0.0";
+                        aoitestData.ORing = "1";
+                        aoitestData.Cone = "1";
+
                         nRetStep = 30;
                         break;
                     case 30:
