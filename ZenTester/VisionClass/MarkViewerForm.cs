@@ -426,8 +426,6 @@ namespace ZenTester.VisionClass
             Globalo.yamlManager.aoiRoiConfig.markData[CurrentMarkNo].Smooth = m_nEdgeSmooth;
 
             Data.TaskDataYaml.Save_AoiConfig();
-            ///Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
-
 
             Globalo.visionManager.markUtil.SaveMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentCamIndex, CurrentMarkNo);
 

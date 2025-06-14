@@ -20,7 +20,7 @@ namespace ZenTester.FThread
         {
             //this.parent = _parent;
             m_nUnit = index;
-            aoiTestFlow = new Process.AoiTestFlow(); ;
+            aoiTestFlow = new Process.AoiTestFlow();
 
             this.name = "testThread";
         }

@@ -12,6 +12,7 @@ namespace ZenTester.Data
     };
     public class MarkData
     {
+        public string name { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; }
@@ -49,7 +50,9 @@ namespace ZenTester.Data
         public List<Roi> KEY_ROI { get; set; }
         public List<Roi> CONE_ROI { get; set; }
         public List<Roi> ORING_ROI { get; set; }
+
         public List<MarkData> markData { get; set; } = new List<MarkData>();
+
         public List<LightData> topLightData { get; set; } = new List<LightData>();
         public List<LightData> sideLightData { get; set; } = new List<LightData>();
     }

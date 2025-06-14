@@ -355,7 +355,7 @@ namespace ZenTester.Dlg
             // 
             // button_Set_Roi_Save
             // 
-            this.button_Set_Roi_Save.BackColor = System.Drawing.Color.YellowGreen;
+            this.button_Set_Roi_Save.BackColor = System.Drawing.Color.Olive;
             this.button_Set_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Roi_Save.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Roi_Save.Location = new System.Drawing.Point(1261, 627);

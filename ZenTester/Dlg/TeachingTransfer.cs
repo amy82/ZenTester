@@ -324,7 +324,7 @@ namespace ZenTester.Dlg
                 //Picket Offset Save
                 GetPickerOffsetData();
 
-                Data.TaskDataYaml.TaskSave_Layout(Globalo.motionManager.transferMachine.productLayout, Machine.TransferMachine.LayoutPath);
+                //Data.TaskDataYaml.TaskSave_Layout(Globalo.motionManager.transferMachine.productLayout, Machine.TransferMachine.LayoutPath);
 
             }
                 

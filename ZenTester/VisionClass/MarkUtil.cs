@@ -60,8 +60,6 @@ namespace ZenTester.VisionClass
         private double dScore = 0.0;
         private double dAngle = 0.0;
 
-        //public MarkDataGroup markData { get; set; } = new MarkDataGroup();
-
         public MarkUtil()
         {
             int i = 0;
@@ -91,9 +89,6 @@ namespace ZenTester.VisionClass
 
 
             rtn = LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, (int)eCamType.SIDE_CAM);
-            //markData = Data.TaskDataYaml.Load_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
-
-            //markViewer = new MarkViewerForm();
         }
         public void InitMarkViewDlg()
         {
@@ -474,46 +469,12 @@ namespace ZenTester.VisionClass
             OpenCvSharp.Point2d dFindPos = new OpenCvSharp.Point2d();
             Rectangle m_clRoi = new Rectangle();
 
-            //m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X;
-            //m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y;
-            //m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width;
-            //m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height;
-
             m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].X;
             m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Y;
             m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Width;
             m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Height;
             //HeightHeight
 
-
-            //if (MarkNo == 0)
-            //{
-            //    m_clRoi.X = markData.LhMark.X;
-            //    m_clRoi.Y = markData.LhMark.Y;
-            //    m_clRoi.Width = markData.LhMark.Width;
-            //    m_clRoi.Height = markData.LhMark.Height;
-            //}
-            //if (MarkNo == 1)
-            //{
-            //    m_clRoi.X = markData.ChMark.X;
-            //    m_clRoi.Y = markData.ChMark.Y;
-            //    m_clRoi.Width = markData.ChMark.Width;
-            //    m_clRoi.Height = markData.ChMark.Height;
-            //}
-            //if (MarkNo == 2)
-            //{
-            //    m_clRoi.X = markData.RhMark.X;
-            //    m_clRoi.Y = markData.RhMark.Y;
-            //    m_clRoi.Width = markData.RhMark.Width;
-            //    m_clRoi.Height = markData.RhMark.Height;
-            //}
-            //if (MarkNo == 3)
-            //{
-            //    m_clRoi.X = markData.ConeMark.X;
-            //    m_clRoi.Y = markData.ConeMark.Y;
-            //    m_clRoi.Width = markData.ConeMark.Width;
-            //    m_clRoi.Height = markData.ConeMark.Height;
-            //}
 
 
             bFind = FindModel(index , MarkNo, true, m_clRoi, ref dScore, ref dAngle, ref dFindPos);

@@ -31,21 +31,12 @@
             this.ManualTitleLabel = new System.Windows.Forms.Label();
             this.ManualPanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label_Config_Ng_GapY_Val = new System.Windows.Forms.Label();
-            this.label_Config_Ng_GapX_Val = new System.Windows.Forms.Label();
-            this.label_Config_Ng_GapY = new System.Windows.Forms.Label();
-            this.label_Config_Ng_GapX = new System.Windows.Forms.Label();
-            this.label_Config_Socket_GapY_Val = new System.Windows.Forms.Label();
-            this.label_Config_Socket_GapX_Val = new System.Windows.Forms.Label();
-            this.label_Config_Socket_GapY = new System.Windows.Forms.Label();
-            this.label_Config_Socket_GapX = new System.Windows.Forms.Label();
             this.label_Config_Tray_GapY_Val = new System.Windows.Forms.Label();
             this.label_Config_Tray_GapX_Val = new System.Windows.Forms.Label();
             this.label_Config_Tray_GapY = new System.Windows.Forms.Label();
             this.label_Config_Tray_GapX = new System.Windows.Forms.Label();
             this.ComboBox_Language = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label_CsvScanMax = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label_PinCountMax = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -68,6 +59,7 @@
             this.checkBox_BcrGo = new System.Windows.Forms.CheckBox();
             this.checkBox_IdleReportPass = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label_CsvScanMax = new System.Windows.Forms.Label();
             this.ManualPanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -98,14 +90,6 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.White;
-            this.groupBox3.Controls.Add(this.label_Config_Ng_GapY_Val);
-            this.groupBox3.Controls.Add(this.label_Config_Ng_GapX_Val);
-            this.groupBox3.Controls.Add(this.label_Config_Ng_GapY);
-            this.groupBox3.Controls.Add(this.label_Config_Ng_GapX);
-            this.groupBox3.Controls.Add(this.label_Config_Socket_GapY_Val);
-            this.groupBox3.Controls.Add(this.label_Config_Socket_GapX_Val);
-            this.groupBox3.Controls.Add(this.label_Config_Socket_GapY);
-            this.groupBox3.Controls.Add(this.label_Config_Socket_GapX);
             this.groupBox3.Controls.Add(this.label_Config_Tray_GapY_Val);
             this.groupBox3.Controls.Add(this.label_Config_Tray_GapX_Val);
             this.groupBox3.Controls.Add(this.label_Config_Tray_GapY);
@@ -121,110 +105,6 @@
             this.groupBox3.Size = new System.Drawing.Size(298, 587);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
-            // 
-            // label_Config_Ng_GapY_Val
-            // 
-            this.label_Config_Ng_GapY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Ng_GapY_Val.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Ng_GapY_Val.Location = new System.Drawing.Point(184, 452);
-            this.label_Config_Ng_GapY_Val.Name = "label_Config_Ng_GapY_Val";
-            this.label_Config_Ng_GapY_Val.Size = new System.Drawing.Size(100, 29);
-            this.label_Config_Ng_GapY_Val.TabIndex = 62;
-            this.label_Config_Ng_GapY_Val.Text = "0.0";
-            this.label_Config_Ng_GapY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Config_Ng_GapY_Val.Click += new System.EventHandler(this.label_Config_Ng_GapY_Val_Click);
-            // 
-            // label_Config_Ng_GapX_Val
-            // 
-            this.label_Config_Ng_GapX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Ng_GapX_Val.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Ng_GapX_Val.Location = new System.Drawing.Point(184, 422);
-            this.label_Config_Ng_GapX_Val.Name = "label_Config_Ng_GapX_Val";
-            this.label_Config_Ng_GapX_Val.Size = new System.Drawing.Size(100, 29);
-            this.label_Config_Ng_GapX_Val.TabIndex = 61;
-            this.label_Config_Ng_GapX_Val.Text = "0.0";
-            this.label_Config_Ng_GapX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Config_Ng_GapX_Val.Click += new System.EventHandler(this.label_Config_Ng_GapX_Val_Click);
-            // 
-            // label_Config_Ng_GapY
-            // 
-            this.label_Config_Ng_GapY.BackColor = System.Drawing.SystemColors.Window;
-            this.label_Config_Ng_GapY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Ng_GapY.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Ng_GapY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Ng_GapY.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Ng_GapY.Location = new System.Drawing.Point(17, 453);
-            this.label_Config_Ng_GapY.Name = "label_Config_Ng_GapY";
-            this.label_Config_Ng_GapY.Size = new System.Drawing.Size(161, 29);
-            this.label_Config_Ng_GapY.TabIndex = 60;
-            this.label_Config_Ng_GapY.Text = "Ng Gap Y";
-            this.label_Config_Ng_GapY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Config_Ng_GapX
-            // 
-            this.label_Config_Ng_GapX.BackColor = System.Drawing.SystemColors.Window;
-            this.label_Config_Ng_GapX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Ng_GapX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Ng_GapX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Ng_GapX.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Ng_GapX.Location = new System.Drawing.Point(17, 422);
-            this.label_Config_Ng_GapX.Name = "label_Config_Ng_GapX";
-            this.label_Config_Ng_GapX.Size = new System.Drawing.Size(161, 29);
-            this.label_Config_Ng_GapX.TabIndex = 59;
-            this.label_Config_Ng_GapX.Text = "Ng Gap X";
-            this.label_Config_Ng_GapX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Config_Socket_GapY_Val
-            // 
-            this.label_Config_Socket_GapY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Socket_GapY_Val.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Socket_GapY_Val.Location = new System.Drawing.Point(184, 383);
-            this.label_Config_Socket_GapY_Val.Name = "label_Config_Socket_GapY_Val";
-            this.label_Config_Socket_GapY_Val.Size = new System.Drawing.Size(100, 29);
-            this.label_Config_Socket_GapY_Val.TabIndex = 58;
-            this.label_Config_Socket_GapY_Val.Text = "0.0";
-            this.label_Config_Socket_GapY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Config_Socket_GapY_Val.Click += new System.EventHandler(this.label_Config_Socket_GapY_Val_Click);
-            // 
-            // label_Config_Socket_GapX_Val
-            // 
-            this.label_Config_Socket_GapX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Socket_GapX_Val.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Socket_GapX_Val.Location = new System.Drawing.Point(184, 353);
-            this.label_Config_Socket_GapX_Val.Name = "label_Config_Socket_GapX_Val";
-            this.label_Config_Socket_GapX_Val.Size = new System.Drawing.Size(100, 29);
-            this.label_Config_Socket_GapX_Val.TabIndex = 57;
-            this.label_Config_Socket_GapX_Val.Text = "0.0";
-            this.label_Config_Socket_GapX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Config_Socket_GapX_Val.Click += new System.EventHandler(this.label_Config_Socket_GapX_Val_Click);
-            // 
-            // label_Config_Socket_GapY
-            // 
-            this.label_Config_Socket_GapY.BackColor = System.Drawing.SystemColors.Window;
-            this.label_Config_Socket_GapY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Socket_GapY.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Socket_GapY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Socket_GapY.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Socket_GapY.Location = new System.Drawing.Point(17, 384);
-            this.label_Config_Socket_GapY.Name = "label_Config_Socket_GapY";
-            this.label_Config_Socket_GapY.Size = new System.Drawing.Size(161, 29);
-            this.label_Config_Socket_GapY.TabIndex = 56;
-            this.label_Config_Socket_GapY.Text = "Socket Gap Y";
-            this.label_Config_Socket_GapY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Config_Socket_GapX
-            // 
-            this.label_Config_Socket_GapX.BackColor = System.Drawing.SystemColors.Window;
-            this.label_Config_Socket_GapX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Socket_GapX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Socket_GapX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Socket_GapX.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Socket_GapX.Location = new System.Drawing.Point(17, 353);
-            this.label_Config_Socket_GapX.Name = "label_Config_Socket_GapX";
-            this.label_Config_Socket_GapX.Size = new System.Drawing.Size(161, 29);
-            this.label_Config_Socket_GapX.TabIndex = 55;
-            this.label_Config_Socket_GapX.Text = "Socket Gap X";
-            this.label_Config_Socket_GapX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label_Config_Tray_GapY_Val
             // 
@@ -305,18 +185,6 @@
             this.label5.Text = "Language";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label_CsvScanMax
-            // 
-            this.label_CsvScanMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_CsvScanMax.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_CsvScanMax.Location = new System.Drawing.Point(184, 67);
-            this.label_CsvScanMax.Name = "label_CsvScanMax";
-            this.label_CsvScanMax.Size = new System.Drawing.Size(100, 29);
-            this.label_CsvScanMax.TabIndex = 34;
-            this.label_CsvScanMax.Text = "0";
-            this.label_CsvScanMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_CsvScanMax.Click += new System.EventHandler(this.label_CsvScanMax_Click);
-            // 
             // label4
             // 
             this.label4.BackColor = System.Drawing.SystemColors.Window;
@@ -324,12 +192,13 @@
             this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(17, 67);
+            this.label4.Location = new System.Drawing.Point(7, 391);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(161, 29);
             this.label4.TabIndex = 33;
             this.label4.Text = "CSV 검색 기간 (month)";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label4.Visible = false;
             // 
             // label_PinCountMax
             // 
@@ -641,6 +510,19 @@
             this.label3.Text = "운전 설정";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label_CsvScanMax
+            // 
+            this.label_CsvScanMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_CsvScanMax.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_CsvScanMax.Location = new System.Drawing.Point(174, 391);
+            this.label_CsvScanMax.Name = "label_CsvScanMax";
+            this.label_CsvScanMax.Size = new System.Drawing.Size(100, 29);
+            this.label_CsvScanMax.TabIndex = 34;
+            this.label_CsvScanMax.Text = "0";
+            this.label_CsvScanMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_CsvScanMax.Visible = false;
+            this.label_CsvScanMax.Click += new System.EventHandler(this.label_CsvScanMax_Click);
+            // 
             // ConfigControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -677,7 +559,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label_PinCountMax;
         public System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label_CsvScanMax;
         public System.Windows.Forms.Label label4;
         public System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox ComboBox_Language;
@@ -686,19 +567,12 @@
         public System.Windows.Forms.Label label_Config_Tray_GapX;
         private System.Windows.Forms.Label label_Config_Tray_GapY_Val;
         private System.Windows.Forms.Label label_Config_Tray_GapX_Val;
-        private System.Windows.Forms.Label label_Config_Socket_GapY_Val;
-        private System.Windows.Forms.Label label_Config_Socket_GapX_Val;
-        public System.Windows.Forms.Label label_Config_Socket_GapY;
-        public System.Windows.Forms.Label label_Config_Socket_GapX;
-        private System.Windows.Forms.Label label_Config_Ng_GapY_Val;
-        private System.Windows.Forms.Label label_Config_Ng_GapX_Val;
-        public System.Windows.Forms.Label label_Config_Ng_GapY;
-        public System.Windows.Forms.Label label_Config_Ng_GapX;
         public System.Windows.Forms.Label label_Config_Handler_Ip;
         private System.Windows.Forms.Label label_Handler_Ip3;
         private System.Windows.Forms.Label label_Handler_Ip2;
         private System.Windows.Forms.Label label_Handler_Ip1;
         public System.Windows.Forms.Label label_Config_Handler_Port;
         private System.Windows.Forms.Label label_Handler_Port;
+        private System.Windows.Forms.Label label_CsvScanMax;
     }
 }

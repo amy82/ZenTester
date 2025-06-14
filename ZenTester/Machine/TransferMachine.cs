@@ -126,8 +126,8 @@ namespace ZenTester.Machine
                 pickedProduct.UnLoadProductInfo.Add(new ProductInfo(i));
             }
 
-            pickedProduct = Data.TaskDataYaml.TaskLoad_Transfer(taskPath);
-            productLayout = Data.TaskDataYaml.TaskLoad_Layout(LayoutPath);
+            //pickedProduct = Data.TaskDataYaml.TaskLoad_Transfer(taskPath);
+            //productLayout = Data.TaskDataYaml.TaskLoad_Layout(LayoutPath);
 
 
             Position = MotionControl.MotorSet.TrayPosition.Left;
@@ -136,8 +136,8 @@ namespace ZenTester.Machine
 
         public override bool TaskSave()     //Picket 상태 저장
         {
-            bool rtn = Data.TaskDataYaml.TaskSave_Transfer(pickedProduct, taskPath);
-            return rtn;
+            //bool rtn = Data.TaskDataYaml.TaskSave_Transfer(pickedProduct, taskPath);
+            return true;
         }
         public override void MotorDataSet() //모터 설정 저장
         {
@@ -169,7 +169,7 @@ namespace ZenTester.Machine
             {
                 pickedProduct.UnLoadProductInfo[index].State = State;
             }
-            Data.TaskDataYaml.TaskSave_Transfer(pickedProduct, taskPath);
+            //Data.TaskDataYaml.TaskSave_Transfer(pickedProduct, taskPath);
             return true;
         }
 

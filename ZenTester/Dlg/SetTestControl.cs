@@ -59,6 +59,7 @@ namespace ZenTester.Dlg
         private int[] CamH = new int[2];
         public int CamIndex = 0;
         public int MarkIndex = 0;
+        public int MaxMarkCount = 0;
 
         public int TopLIghtDataNo = 0;
         public int SideLIghtDataNo = 0;
@@ -89,6 +90,9 @@ namespace ZenTester.Dlg
             trackBar_Side_Light.Value = 0;
             trackBar_Side_Light.TickFrequency = 10;
             trackBar_Side_Light.Scroll += trackBar_Side_Light_Scroll;
+
+
+            MaxMarkCount = Globalo.yamlManager.aoiRoiConfig.markData.Count;
         }
         public void setCamCenter()
         {
@@ -106,6 +110,10 @@ namespace ZenTester.Dlg
             }
 
             showCamResol();
+        }
+        private void showMark()
+        {
+            label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
         }
         private void showLight()
         {
@@ -207,11 +215,6 @@ namespace ZenTester.Dlg
                     Globalo.visionManager.milLibrary.SetGrabOn(0, true);
                 }
             }
-            
-
-            //g_clVision.m_nGrabMode[m_nUnit] = GRAB_LIVE;
-            //MbufLoad(pDlg->GetPathName(), g_clVision.m_MilGrabImage[0][0]);
-            //MimResize(g_clVision.m_MilGrabImageChild[0][0], g_clVision.MilCamSmallImageChild[0][0], CAM_REDUCE_FACTOR_X, CAM_REDUCE_FACTOR_Y, M_DEFAULT);
         }
 
         private void btn_SideCam_Image_Save_Click(object sender, EventArgs e)
@@ -265,6 +268,7 @@ namespace ZenTester.Dlg
             CamIndex = 1;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }
+
         private void drawCenterCross()
         {
             Globalo.visionManager.milLibrary.ClearOverlay(0);
@@ -272,6 +276,7 @@ namespace ZenTester.Dlg
             int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
             Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
         }
+
         private void SetTestControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
@@ -282,6 +287,7 @@ namespace ZenTester.Dlg
                 drawCenterCross();
                 showCamResol();
                 showLight();
+                showMark();
             }
             else
             {
@@ -289,6 +295,7 @@ namespace ZenTester.Dlg
                 m_bDrawMeasureLine = false;
                 isRoiChecked = -1;
                 isRoiNo = -1;
+
                 ClearCheckbox();
             }
         }
@@ -1287,8 +1294,9 @@ namespace ZenTester.Dlg
             {
                 MarkIndex--;
 
-                label_Set_Mark_Model.Text = $"Mark-{MarkIndex+1}";
-                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;// Globalo.visionManager.markUtil.ModelMarkName;
+                label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name; //$"Mark-{MarkIndex+1}";
+                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;      // Globalo.visionManager.markUtil.ModelMarkName;
+
                 double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
                 double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
                 Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
@@ -1304,10 +1312,10 @@ namespace ZenTester.Dlg
         {
             //Next
 
-            if (MarkIndex < 3)
+            if (MarkIndex < MaxMarkCount-1)
             {
                 MarkIndex++;
-                label_Set_Mark_Model.Text = $"Mark-{MarkIndex + 1}";
+                label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name; //$"Mark-{MarkIndex + 1}";
                 string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;//Globalo.visionManager.markUtil.ModelMarkName;
                 double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
                 double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
@@ -1316,7 +1324,7 @@ namespace ZenTester.Dlg
             }
             else
             {
-                MarkIndex = 3;
+                MarkIndex = MaxMarkCount-1;
             }
 
             
@@ -1335,10 +1343,8 @@ namespace ZenTester.Dlg
                 Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Y = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                 Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
                 Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
-                //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5)
 
                 Data.TaskDataYaml.Save_AoiConfig();
-                //Data.TaskDataYaml.Save_MarkData(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, "MarkData.yaml");
             }
         }
 
