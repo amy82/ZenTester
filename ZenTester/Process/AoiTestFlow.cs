@@ -34,30 +34,16 @@ namespace ZenTester.Process
             int localSocketNumber = 0;
             int nRetStep = nStep;
 
-            switch (nStep)
+            switch (nRetStep)
             {
                 case 100:
+                    waitTopCam = -1;
+                    waitSideCam = -1;
                     TopCamTask = null;
                     SideCamTask = null;
                     CancelToken?.Dispose();
                     CancelToken = new CancellationTokenSource();
                     aoitestData.init();
-                    nRetStep = 120;
-                    break;
-                case 120:
-                    //TOP 최초 조명 변경
-                    //SIDE 최초 조명 변경
-                    nRetStep = 140;
-                    break;
-                case 140:
-                    //TOP 조명 변경 확인?
-                    //SIDE 조명 변경 확인?
-
-                    nRetStep = 160;
-                    break;
-                case 160:
-                    waitTopCam = -1;
-                    waitSideCam = -1;
 
                     TopCamTask = Task.Run(() =>
                     {
@@ -76,17 +62,15 @@ namespace ZenTester.Process
 
                         return waitSideCam;
                     }, CancelToken.Token);
+                    nRetStep = 160;
 
-                    //if (TopCamTask == null || TopCamTask.IsCompleted)
-
-                    nRetStep = 200;
                     nTimeTick = Environment.TickCount;
                     break;
                 case 200:
                     //Top, Side 둘다 검사 대기
                     if (waitTopCam == 1 || waitSideCam == 1)
                     {
-                        if (Environment.TickCount - nTimeTick > 60000)
+                        if (Environment.TickCount - nTimeTick > 10000)
                         {
                             //타임아웃 추가?
                             Console.WriteLine("Timeout - {waitTopCam},{waitSideCam}");
@@ -103,10 +87,7 @@ namespace ZenTester.Process
                 case 300:
                     //Apd 보고 -> SecsGem Clinet -> 결과는 Handler로 전송
                     Http.HttpService.LotApdReport(aoitestData);
-                    nRetStep = 900;
-                    break;
-                case 900:
-                    nRetStep = 1900;    //1000이상이면 종료
+                    nRetStep = 1000;    //1000이상이면 종료
                     break;
 
             }
@@ -120,6 +101,7 @@ namespace ZenTester.Process
             int nRtn = -1;
             bool bRtn = false;
             string szLog = "";
+
             int nRetStep = 10;
             while (true)
             {
@@ -129,32 +111,22 @@ namespace ZenTester.Process
                     nRtn = -1;
                     break;
                 }
-                pauseEvent.Wait();  // 일시정지시 여기서 멈춰 있음
-                //Tester에서는 일시정지 없을듯
                 switch (nRetStep)
                 {
                     case 10:
+                        //조명 변경
                         nRetStep = 20;
                         break;
                     case 20:
-                        //Gasket - 유무 검사
+                        
+
+                        nRetStep = 100;
+                        break;
+                    case 100://Gasket - 유무 검사
                         //Dent - 찌그러짐
                         //Key - 유무 검사
                         //Housing Out - Center xy 차이
                         //Housing In - Center xy 차이
-
-                        nRetStep = 30;
-                        break;
-                    case 30:
-                        nRetStep = 40;
-                        break;
-                    case 40:
-                        nRetStep = 50;
-                        break;
-                    case 50:
-                        nRetStep = 60;
-                        break;
-                    case 60:
                         nRetStep = 900;
                         break;
                     case 900:
@@ -212,6 +184,7 @@ namespace ZenTester.Process
                 switch (nRetStep)
                 {
                     case 10:
+                        //조명 변경
                         nRetStep = 20;
                         break;
                     case 20:

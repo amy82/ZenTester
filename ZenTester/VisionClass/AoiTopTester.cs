@@ -1010,7 +1010,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 200)
+                if (distance > 300)//200)
                 {
                     Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1037,7 +1037,7 @@ namespace ZenTester.VisionClass
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
                 
-                if (radius < 600 || radius > 890)
+                if (radius < 600 || radius > 1000)//890)
                 {
                     continue;
                 }

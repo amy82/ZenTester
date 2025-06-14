@@ -65,6 +65,7 @@ namespace ZenTester
         public static Dlg.PickerInfo pickerInfo;
 
         public static TcpSocket.TcpManager tcpManager;      //secs/gem connect
+        public static TaskClass.TaskManager taskManager;
         public static Serial.SerialPortManager serialPortManager = new Serial.SerialPortManager();
         public static VisionClass.VisionManager visionManager;
 

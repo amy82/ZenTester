@@ -261,6 +261,7 @@ namespace ZenTester.Dlg
             //Set_panelCam.Handle
             CamIndex = 0;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
         }
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
@@ -353,7 +354,7 @@ namespace ZenTester.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
 
             List<OpenCvSharp.Point> FakraCenter;
             List<OpenCvSharp.Point> HousingCenter;

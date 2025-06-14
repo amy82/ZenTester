@@ -73,7 +73,11 @@ namespace ZenTester.TcpSocket
         public void StopServer()
         {
             _cts.Cancel();
-            _server.Stop();
+            if (_server != null)
+            {
+                _server.Stop();
+            }
+            
         }
         public void SendAlarmReport(string nAlarmID)
         {
@@ -105,12 +109,16 @@ namespace ZenTester.TcpSocket
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
                     //0번 Thread 운영 - 각 PC의 2개 소켓중 왼쪽 소켓
+                    //
                     if (nStep == 0)
                     {
-                        Globalo.threadControl.testAutoThread.m_nCurrentStep = 100;      //우선 Thread 하나로 소켓 하나씩 진행
-                        Globalo.threadControl.testAutoThread.m_nStartStep = 100;
-                        Globalo.threadControl.testAutoThread.m_nEndStep = 1000;
-                        Globalo.threadControl.testAutoThread.Start();
+                        //Globalo.threadControl.testAutoThread.m_nCurrentStep = 100;      //우선 Thread 하나로 소켓 하나씩 진행
+                        //Globalo.threadControl.testAutoThread.m_nStartStep = 100;
+                        //Globalo.threadControl.testAutoThread.m_nEndStep = 1000;
+                        //Globalo.threadControl.testAutoThread.Start();
+
+                        Globalo.taskManager.Aoi_TestRun(0);
+                        
                     }
                     if (nStep == 1)
                     {

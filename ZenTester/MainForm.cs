@@ -162,7 +162,9 @@ namespace ZenTester  //ApsMotionControl
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configData.DrivingSettings.HandlerPort);
-            
+            Globalo.taskManager = new TaskClass.TaskManager();
+
+
             Globalo.mConfigPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mAlarmPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             Globalo.mlogControl.BackColor = ColorTranslator.FromHtml("#F8F3F0");
