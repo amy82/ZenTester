@@ -52,7 +52,8 @@ namespace ZenTester.Dlg
         private Rectangle DrawRoiBox;
 
         public List<Data.Roi> tempRoi = new List<Data.Roi>();
-
+        private Button[] TopLightButtons;                // Top 검사 조명 버튼 배열
+        private Button[] SideLightButtons;               // Side 검사 조명 버튼 배열
 
         private int[] CamW = new int[2];
         private int[] CamH = new int[2];
@@ -64,6 +65,9 @@ namespace ZenTester.Dlg
         public SetTestControl()
         {
             InitializeComponent();
+
+            TopLightButtons = new Button[] { label_SetTest_Manual_Top_Light_Val1, label_SetTest_Manual_Top_Light_Val2, label_SetTest_Manual_Top_Light_Val3 };
+            SideLightButtons = new Button[] { label_SetTest_Manual_Side_Light_Val1 };
 
             tempRoi.Clear();
 
@@ -103,7 +107,14 @@ namespace ZenTester.Dlg
 
             showCamResol();
         }
+        private void showLight()
+        {
+            label_SetTest_Manual_Top_Light_Data.Text = Globalo.yamlManager.aoiRoiConfig.topLightData[TopLIghtDataNo].data.ToString();
+            label_SetTest_Manual_Side_Light_Data.Text = Globalo.yamlManager.aoiRoiConfig.sideLightData[SideLIghtDataNo].data.ToString();
 
+            trackBar_Top_Light.Value = Globalo.yamlManager.aoiRoiConfig.topLightData[TopLIghtDataNo].data;
+            trackBar_Side_Light.Value = Globalo.yamlManager.aoiRoiConfig.sideLightData[SideLIghtDataNo].data;
+        }
         private void showCamResol()
         {
             label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.TopResolution.X.ToString();
@@ -128,7 +139,7 @@ namespace ZenTester.Dlg
         private void trackBar_Side_Light_Scroll(object sender, EventArgs e)
         {
             int currentValue = ((TrackBar)sender).Value;
-            SideLightChange(1, 2, SideLIghtDataNo, currentValue);
+            SideLightChange(2, SideLIghtDataNo, currentValue);
         }
 
 
@@ -270,6 +281,7 @@ namespace ZenTester.Dlg
 
                 drawCenterCross();
                 showCamResol();
+                showLight();
             }
             else
             {
@@ -1379,76 +1391,109 @@ namespace ZenTester.Dlg
         private void TopLightChange(int channel, int NoData , int data)
         {
             Globalo.serialPortManager.LightControl.ctrlLedVolume(channel, data);
+            //
             label_SetTest_Manual_Top_Light_Data.Text = data.ToString();
             TopLIghtDataNo = NoData;
             trackBar_Top_Light.Value = data;
+
+
+            for (int i = 0; i < TopLightButtons.Length; i++)
+            {
+                if (i == NoData)
+                {
+                    TopLightButtons[i].ForeColor = Color.Black;
+                    TopLightButtons[i].BackColor = Color.Gold;
+                }
+                else
+                {
+                    TopLightButtons[i].ForeColor = Color.White;
+                    TopLightButtons[i].BackColor = Color.Tan;
+                }
+            }
         }
 
-        private void SideLightChange(int channel1, int channel2, int NoData, int data)      //사이드는 채널 2개다
+        private void SideLightChange(int channel, int NoData, int data)      //사이드는 채널 2개다
         {
-            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel1, data);
-            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel2, data);
+            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel, data);
+
+
+            //
             label_SetTest_Manual_Side_Light_Data.Text = data.ToString();
             SideLIghtDataNo = NoData;
             trackBar_Side_Light.Value = data;
+
+
+            for (int i = 0; i < SideLightButtons.Length; i++)
+            {
+                if (i == NoData)
+                {
+                    SideLightButtons[i].ForeColor = Color.Black;
+                    SideLightButtons[i].BackColor = Color.Gold;
+                }
+                else
+                {
+                    SideLightButtons[i].ForeColor = Color.White;
+                    SideLightButtons[i].BackColor = Color.Tan;
+                }
+            }
         }
 
         private void label_SetTest_Manual_Light_Val1_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
-            TopLightChange(1, 1, data);
+            TopLightChange(1, 0, data);
         }
 
         private void label_SetTest_Manual_Light_Val2_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.topLightData[1].data;
-            TopLightChange(1, 2, data);
+            TopLightChange(1, 1, data);
         }
 
         private void label_SetTest_Manual_Light_Val3_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.topLightData[2].data;
-            TopLightChange(1, 3, data);
+            TopLightChange(1, 2, data);
         }
 
         private void label_SetTest_Manual_Top_Light_Val4_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.topLightData[3].data;
-            TopLightChange(1, 4, data);
+            TopLightChange(1, 3, data);
         }
 
         private void label_SetTest_Manual_Top_Light_Val5_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.topLightData[4].data;
-            TopLightChange(1, 5, data);
+            TopLightChange(1, 4, data);
         }
         private void label_SetTest_Manual_Side_Light_Val1_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
-            SideLightChange(1, 2, 0, data);
+            SideLightChange(2, 0, data);
         }
 
         private void label_SetTest_Manual_Side_Light_Val2_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[1].data;
-            SideLightChange(1, 2, 1, data);
+            SideLightChange(2, 1, data);
         }
 
         private void label_SetTest_Manual_Side_Light_Val3_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[2].data;
-            SideLightChange(1, 2, 2, data);
+            SideLightChange(2, 2, data);
         }
         private void label_SetTest_Manual_Side_Light_Val4_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[3].data;
-            SideLightChange(1, 2, 3, data);
+            SideLightChange(2, 3, data);
         }
 
         private void label_SetTest_Manual_Side_Light_Val5_Click(object sender, EventArgs e)
         {
             int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[4].data;
-            SideLightChange(1, 2, 4, data);
+            SideLightChange(2, 4, data);
         }
         private void label_SetTest_Manual_Top_Light_Data_Click(object sender, EventArgs e)
         {
@@ -1492,10 +1537,41 @@ namespace ZenTester.Dlg
                 {
                     dNumData = 255;
                 }
-                SideLightChange(1, 2, SideLIghtDataNo, dNumData);
+                SideLightChange(2, SideLIghtDataNo, dNumData);
             }
         }
 
-        
+        private void getLightData(int LightCh)
+        {
+            int lightData = 0;
+            if (LightCh == 0)
+            {
+                //0 = Top Light
+                lightData = int.Parse(label_SetTest_Manual_Top_Light_Data.Text);
+
+                Globalo.yamlManager.aoiRoiConfig.topLightData[TopLIghtDataNo].data = lightData;
+            }
+            else
+            {
+                //1 = Top Light
+                lightData = int.Parse(label_SetTest_Manual_Side_Light_Data.Text);
+
+                Globalo.yamlManager.aoiRoiConfig.sideLightData[SideLIghtDataNo].data = lightData;
+            }
+            Data.TaskDataYaml.Save_AoiConfig();
+
+
+        }
+        private void label_SetTest_Manual_Top_Cam_Save_Click(object sender, EventArgs e)
+        {
+            //Top Camera Light Save
+            getLightData(0);
+        }
+
+        private void label_SetTest_Manual_Side_Light_Save_Click(object sender, EventArgs e)
+        {
+            //Side Camera Light Save
+            getLightData(1);
+        }
     }
 }

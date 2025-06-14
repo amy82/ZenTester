@@ -51,6 +51,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.BTN_CONFIG_SAVE = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label_Handler_Port = new System.Windows.Forms.Label();
+            this.label_Config_Handler_Port = new System.Windows.Forms.Label();
+            this.label_Config_Handler_Ip = new System.Windows.Forms.Label();
+            this.label_Handler_Ip3 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip2 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip1 = new System.Windows.Forms.Label();
             this.poisonComboBox_Light_Port = new System.Windows.Forms.ComboBox();
             this.button_Bcr_DisConnect = new System.Windows.Forms.Button();
             this.button_Bcr_Connect = new System.Windows.Forms.Button();
@@ -86,7 +92,7 @@
             this.ManualPanel.Controls.Add(this.groupBox2);
             this.ManualPanel.Location = new System.Drawing.Point(21, 97);
             this.ManualPanel.Name = "ManualPanel";
-            this.ManualPanel.Size = new System.Drawing.Size(725, 737);
+            this.ManualPanel.Size = new System.Drawing.Size(855, 708);
             this.ManualPanel.TabIndex = 4;
             // 
             // groupBox3
@@ -112,7 +118,7 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Location = new System.Drawing.Point(22, 21);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(298, 616);
+            this.groupBox3.Size = new System.Drawing.Size(298, 587);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             // 
@@ -357,7 +363,7 @@
             this.BTN_CONFIG_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_CONFIG_SAVE.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_CONFIG_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_CONFIG_SAVE.Location = new System.Drawing.Point(551, 660);
+            this.BTN_CONFIG_SAVE.Location = new System.Drawing.Point(551, 614);
             this.BTN_CONFIG_SAVE.Name = "BTN_CONFIG_SAVE";
             this.BTN_CONFIG_SAVE.Size = new System.Drawing.Size(122, 53);
             this.BTN_CONFIG_SAVE.TabIndex = 28;
@@ -368,6 +374,12 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.label_Handler_Port);
+            this.groupBox1.Controls.Add(this.label_Config_Handler_Port);
+            this.groupBox1.Controls.Add(this.label_Config_Handler_Ip);
+            this.groupBox1.Controls.Add(this.label_Handler_Ip3);
+            this.groupBox1.Controls.Add(this.label_Handler_Ip2);
+            this.groupBox1.Controls.Add(this.label_Handler_Ip1);
             this.groupBox1.Controls.Add(this.poisonComboBox_Light_Port);
             this.groupBox1.Controls.Add(this.button_Bcr_DisConnect);
             this.groupBox1.Controls.Add(this.button_Bcr_Connect);
@@ -375,9 +387,92 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(375, 21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(298, 297);
+            this.groupBox1.Size = new System.Drawing.Size(394, 297);
             this.groupBox1.TabIndex = 46;
             this.groupBox1.TabStop = false;
+            // 
+            // label_Handler_Port
+            // 
+            this.label_Handler_Port.BackColor = System.Drawing.Color.White;
+            this.label_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Port.ForeColor = System.Drawing.Color.Black;
+            this.label_Handler_Port.Location = new System.Drawing.Point(230, 67);
+            this.label_Handler_Port.Name = "label_Handler_Port";
+            this.label_Handler_Port.Size = new System.Drawing.Size(77, 40);
+            this.label_Handler_Port.TabIndex = 127;
+            this.label_Handler_Port.Text = "2001";
+            this.label_Handler_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Port.Click += new System.EventHandler(this.label_Handler_Port_Click);
+            // 
+            // label_Config_Handler_Port
+            // 
+            this.label_Config_Handler_Port.BackColor = System.Drawing.Color.LightGray;
+            this.label_Config_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Config_Handler_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Config_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Handler_Port.ForeColor = System.Drawing.Color.Black;
+            this.label_Config_Handler_Port.Location = new System.Drawing.Point(230, 39);
+            this.label_Config_Handler_Port.Name = "label_Config_Handler_Port";
+            this.label_Config_Handler_Port.Size = new System.Drawing.Size(77, 28);
+            this.label_Config_Handler_Port.TabIndex = 126;
+            this.label_Config_Handler_Port.Text = "PORT";
+            this.label_Config_Handler_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Config_Handler_Ip
+            // 
+            this.label_Config_Handler_Ip.BackColor = System.Drawing.Color.LightGray;
+            this.label_Config_Handler_Ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Config_Handler_Ip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Config_Handler_Ip.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Handler_Ip.ForeColor = System.Drawing.Color.Black;
+            this.label_Config_Handler_Ip.Location = new System.Drawing.Point(22, 39);
+            this.label_Config_Handler_Ip.Name = "label_Config_Handler_Ip";
+            this.label_Config_Handler_Ip.Size = new System.Drawing.Size(202, 28);
+            this.label_Config_Handler_Ip.TabIndex = 125;
+            this.label_Config_Handler_Ip.Text = "HANDLER IP ADDRESS";
+            this.label_Config_Handler_Ip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Handler_Ip3
+            // 
+            this.label_Handler_Ip3.BackColor = System.Drawing.Color.White;
+            this.label_Handler_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip3.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip3.ForeColor = System.Drawing.Color.Black;
+            this.label_Handler_Ip3.Location = new System.Drawing.Point(159, 67);
+            this.label_Handler_Ip3.Name = "label_Handler_Ip3";
+            this.label_Handler_Ip3.Size = new System.Drawing.Size(65, 40);
+            this.label_Handler_Ip3.TabIndex = 124;
+            this.label_Handler_Ip3.Text = "100";
+            this.label_Handler_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Ip3.Click += new System.EventHandler(this.label_Handler_Ip3_Click);
+            // 
+            // label_Handler_Ip2
+            // 
+            this.label_Handler_Ip2.BackColor = System.Drawing.Color.White;
+            this.label_Handler_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip2.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip2.ForeColor = System.Drawing.Color.Black;
+            this.label_Handler_Ip2.Location = new System.Drawing.Point(94, 67);
+            this.label_Handler_Ip2.Name = "label_Handler_Ip2";
+            this.label_Handler_Ip2.Size = new System.Drawing.Size(65, 40);
+            this.label_Handler_Ip2.TabIndex = 123;
+            this.label_Handler_Ip2.Text = "100";
+            this.label_Handler_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Ip2.Click += new System.EventHandler(this.label_Handler_Ip2_Click);
+            // 
+            // label_Handler_Ip1
+            // 
+            this.label_Handler_Ip1.BackColor = System.Drawing.Color.LightGray;
+            this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip1.ForeColor = System.Drawing.Color.Black;
+            this.label_Handler_Ip1.Location = new System.Drawing.Point(22, 67);
+            this.label_Handler_Ip1.Name = "label_Handler_Ip1";
+            this.label_Handler_Ip1.Size = new System.Drawing.Size(72, 40);
+            this.label_Handler_Ip1.TabIndex = 122;
+            this.label_Handler_Ip1.Text = "192.168";
+            this.label_Handler_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // poisonComboBox_Light_Port
             // 
@@ -387,10 +482,11 @@
             this.poisonComboBox_Light_Port.FormattingEnabled = true;
             this.poisonComboBox_Light_Port.IntegralHeight = false;
             this.poisonComboBox_Light_Port.ItemHeight = 20;
-            this.poisonComboBox_Light_Port.Location = new System.Drawing.Point(94, 53);
+            this.poisonComboBox_Light_Port.Location = new System.Drawing.Point(229, 239);
             this.poisonComboBox_Light_Port.Name = "poisonComboBox_Light_Port";
-            this.poisonComboBox_Light_Port.Size = new System.Drawing.Size(189, 28);
+            this.poisonComboBox_Light_Port.Size = new System.Drawing.Size(45, 28);
             this.poisonComboBox_Light_Port.TabIndex = 51;
+            this.poisonComboBox_Light_Port.Visible = false;
             // 
             // button_Bcr_DisConnect
             // 
@@ -398,12 +494,13 @@
             this.button_Bcr_DisConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Bcr_DisConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Bcr_DisConnect.ForeColor = System.Drawing.Color.White;
-            this.button_Bcr_DisConnect.Location = new System.Drawing.Point(188, 148);
+            this.button_Bcr_DisConnect.Location = new System.Drawing.Point(188, 238);
             this.button_Bcr_DisConnect.Name = "button_Bcr_DisConnect";
             this.button_Bcr_DisConnect.Size = new System.Drawing.Size(95, 40);
             this.button_Bcr_DisConnect.TabIndex = 48;
             this.button_Bcr_DisConnect.Text = "DISCONNECT";
             this.button_Bcr_DisConnect.UseVisualStyleBackColor = false;
+            this.button_Bcr_DisConnect.Visible = false;
             this.button_Bcr_DisConnect.Click += new System.EventHandler(this.button_Bcr_DisConnect_Click);
             // 
             // button_Bcr_Connect
@@ -412,12 +509,13 @@
             this.button_Bcr_Connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Bcr_Connect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Bcr_Connect.ForeColor = System.Drawing.Color.White;
-            this.button_Bcr_Connect.Location = new System.Drawing.Point(188, 102);
+            this.button_Bcr_Connect.Location = new System.Drawing.Point(188, 238);
             this.button_Bcr_Connect.Name = "button_Bcr_Connect";
             this.button_Bcr_Connect.Size = new System.Drawing.Size(95, 44);
             this.button_Bcr_Connect.TabIndex = 47;
             this.button_Bcr_Connect.Text = "CONNECT";
             this.button_Bcr_Connect.UseVisualStyleBackColor = false;
+            this.button_Bcr_Connect.Visible = false;
             this.button_Bcr_Connect.Click += new System.EventHandler(this.button_Bcr_Connect_Click);
             // 
             // label_Config_Light
@@ -427,12 +525,13 @@
             this.label_Config_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Config_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Light.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Light.Location = new System.Drawing.Point(12, 53);
+            this.label_Config_Light.Location = new System.Drawing.Point(198, 238);
             this.label_Config_Light.Name = "label_Config_Light";
             this.label_Config_Light.Size = new System.Drawing.Size(76, 29);
             this.label_Config_Light.TabIndex = 30;
             this.label_Config_Light.Text = "BCR";
             this.label_Config_Light.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Config_Light.Visible = false;
             // 
             // label1
             // 
@@ -456,7 +555,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(375, 340);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(298, 297);
+            this.groupBox2.Size = new System.Drawing.Size(298, 268);
             this.groupBox2.TabIndex = 45;
             this.groupBox2.TabStop = false;
             // 
@@ -472,12 +571,13 @@
             this.hopeCheckBox_ImageGrabUse.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
             this.hopeCheckBox_ImageGrabUse.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hopeCheckBox_ImageGrabUse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
-            this.hopeCheckBox_ImageGrabUse.Location = new System.Drawing.Point(11, 90);
+            this.hopeCheckBox_ImageGrabUse.Location = new System.Drawing.Point(83, 159);
             this.hopeCheckBox_ImageGrabUse.Name = "hopeCheckBox_ImageGrabUse";
             this.hopeCheckBox_ImageGrabUse.Size = new System.Drawing.Size(159, 20);
             this.hopeCheckBox_ImageGrabUse.TabIndex = 30;
             this.hopeCheckBox_ImageGrabUse.Text = "CCD GRAB USE";
             this.hopeCheckBox_ImageGrabUse.UseVisualStyleBackColor = true;
+            this.hopeCheckBox_ImageGrabUse.Visible = false;
             // 
             // hopeCheckBox_PinCountUse
             // 
@@ -491,12 +591,13 @@
             this.hopeCheckBox_PinCountUse.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
             this.hopeCheckBox_PinCountUse.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hopeCheckBox_PinCountUse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
-            this.hopeCheckBox_PinCountUse.Location = new System.Drawing.Point(11, 54);
+            this.hopeCheckBox_PinCountUse.Location = new System.Drawing.Point(83, 133);
             this.hopeCheckBox_PinCountUse.Name = "hopeCheckBox_PinCountUse";
             this.hopeCheckBox_PinCountUse.Size = new System.Drawing.Size(163, 20);
             this.hopeCheckBox_PinCountUse.TabIndex = 29;
             this.hopeCheckBox_PinCountUse.Text = "PIN COUNT USE";
             this.hopeCheckBox_PinCountUse.UseVisualStyleBackColor = true;
+            this.hopeCheckBox_PinCountUse.Visible = false;
             // 
             // checkBox_BcrGo
             // 
@@ -505,7 +606,7 @@
             this.checkBox_BcrGo.FlatAppearance.BorderSize = 2;
             this.checkBox_BcrGo.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
             this.checkBox_BcrGo.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.checkBox_BcrGo.Location = new System.Drawing.Point(11, 250);
+            this.checkBox_BcrGo.Location = new System.Drawing.Point(29, 212);
             this.checkBox_BcrGo.Name = "checkBox_BcrGo";
             this.checkBox_BcrGo.Size = new System.Drawing.Size(194, 21);
             this.checkBox_BcrGo.TabIndex = 28;
@@ -520,7 +621,7 @@
             this.checkBox_IdleReportPass.FlatAppearance.BorderSize = 2;
             this.checkBox_IdleReportPass.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
             this.checkBox_IdleReportPass.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(11, 223);
+            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(29, 185);
             this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
             this.checkBox_IdleReportPass.Size = new System.Drawing.Size(194, 21);
             this.checkBox_IdleReportPass.TabIndex = 27;
@@ -547,7 +648,7 @@
             this.Controls.Add(this.ManualPanel);
             this.Controls.Add(this.ManualTitleLabel);
             this.Name = "ConfigControl";
-            this.Size = new System.Drawing.Size(770, 1000);
+            this.Size = new System.Drawing.Size(965, 850);
             this.VisibleChanged += new System.EventHandler(this.ConfigControl_VisibleChanged);
             this.ManualPanel.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -593,5 +694,11 @@
         private System.Windows.Forms.Label label_Config_Ng_GapX_Val;
         public System.Windows.Forms.Label label_Config_Ng_GapY;
         public System.Windows.Forms.Label label_Config_Ng_GapX;
+        public System.Windows.Forms.Label label_Config_Handler_Ip;
+        private System.Windows.Forms.Label label_Handler_Ip3;
+        private System.Windows.Forms.Label label_Handler_Ip2;
+        private System.Windows.Forms.Label label_Handler_Ip1;
+        public System.Windows.Forms.Label label_Config_Handler_Port;
+        private System.Windows.Forms.Label label_Handler_Port;
     }
 }

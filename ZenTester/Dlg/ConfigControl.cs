@@ -34,12 +34,17 @@ namespace ZenTester.Dlg
         }
         public void RefreshConfig()
         {
-            //ShowDriveSet();
-            //ShowComPort();
-            //ShowLanguage();
+            ShowDriveSet();
+            ShowComPort();
+            ShowLanguage();
         }
         public void GetConfigData()
         {
+            string Handlerip = "192.168." + label_Handler_Ip2.Text + "." + label_Handler_Ip3.Text;
+            string Handlerport = label_Handler_Port.Text;
+            Globalo.yamlManager.configData.DrivingSettings.HandlerIp = Handlerip;
+            Globalo.yamlManager.configData.DrivingSettings.HandlerPort = int.Parse(Handlerport);
+
             //
             Globalo.yamlManager.configData.DrivingSettings.PinCountMax = int.Parse(label_PinCountMax.Text);
             Globalo.yamlManager.configData.DrivingSettings.CsvScanMonth = int.Parse(label_CsvScanMax.Text);
@@ -55,17 +60,19 @@ namespace ZenTester.Dlg
             Globalo.yamlManager.configData.SerialPort.Light = poisonComboBox_Light_Port.Text;
             Globalo.yamlManager.configData.DrivingSettings.Language = ComboBox_Language.Text;
 
-            //제품 간격 - Tray , Socket
-            //Globalo.motionManager.transferMachine.productLayout.TrayGap.GapX = double.Parse(label_Config_Tray_GapX_Val.Text);
-            //Globalo.motionManager.transferMachine.productLayout.TrayGap.GapY = double.Parse(label_Config_Tray_GapY_Val.Text);
-            //Globalo.motionManager.transferMachine.productLayout.SocketGap.GapX = double.Parse(label_Config_Socket_GapX_Val.Text);
-            //Globalo.motionManager.transferMachine.productLayout.SocketGap.GapY = double.Parse(label_Config_Socket_GapY_Val.Text);
-            //Globalo.motionManager.transferMachine.productLayout.NgGap.GapX = double.Parse(label_Config_Ng_GapX_Val.Text);
-            //Globalo.motionManager.transferMachine.productLayout.NgGap.GapY = double.Parse(label_Config_Ng_GapY_Val.Text);
+            
 
         }
         public void ShowDriveSet()
         {
+            string Handlerip = Globalo.yamlManager.configData.DrivingSettings.HandlerIp;
+            string[] parts = Handlerip.Split('.');
+
+            label_Handler_Ip2.Text = parts[2];  // 50
+            label_Handler_Ip3.Text = parts[3];  // 1
+
+            label_Handler_Port.Text = Globalo.yamlManager.configData.DrivingSettings.HandlerPort.ToString();
+
             //bool setBool = Globalo.yamlManager.configData.DrivingSettings.IdleReportPass;
             //hopeCheckBox_PinCountUse.Checked = Globalo.yamlManager.configData.DrivingSettings.PinCountUse;
             //hopeCheckBox_ImageGrabUse.Checked = Globalo.yamlManager.configData.DrivingSettings.ImageGrabUse;
@@ -77,7 +84,7 @@ namespace ZenTester.Dlg
 
 
 
-            
+
             //label_Config_Tray_GapX_Val.Text = Globalo.motionManager.transferMachine.productLayout.TrayGap.GapX.ToString("0.0##");
             //label_Config_Tray_GapY_Val.Text = Globalo.motionManager.transferMachine.productLayout.TrayGap.GapY.ToString("0.0##");
             //label_Config_Socket_GapX_Val.Text = Globalo.motionManager.transferMachine.productLayout.SocketGap.GapX.ToString("0.0##");
@@ -148,36 +155,11 @@ namespace ZenTester.Dlg
 
 
 
-           // Graphics g = this.CreateGraphics();
-            // 지정된 펜츠로 폼에 사각형은 그립니다.
-            //Pen pen1 = new Pen(Color.Red, 1);
-            //Pen pen2 = new Pen(Color.Blue, 2);
-            //Pen pen3 = new Pen(Color.Magenta, 10);
-
-            //g.DrawLine(pen1, 10, 300, 100, 10);
-            //g.DrawLine(pen2, new Point(10, 400), new Point(100, 400));
-            //g.DrawLine(pen3, new Point(10, 500), new Point(150, 500));
-
-            //pen1.Dispose();
-            //pen2.Dispose();
-            //pen3.Dispose();
         }
         
         private void ManualBtnChange(eManualBtn index)
         {
 
-            //if (index == eManualBtn.pcbTab)
-            //{
-            //    BTN_MANUAL_PCB.BackColor = ColorTranslator.FromHtml("#FFB230");
-            //    manualPcb.Visible = true;
-            //    manualLens.Visible = false;
-            //}
-            //else
-            //{
-            //    BTN_MANUAL_LENS.BackColor = ColorTranslator.FromHtml("#FFB230");
-            //    manualLens.Visible = true;
-            //    manualPcb.Visible = false;
-            //}
         }
         private void BTN_CONFIG_SAVE_Click(object sender, EventArgs e)
         {
@@ -328,6 +310,108 @@ namespace ZenTester.Dlg
         {
             Label clickedLabel = sender as Label;
             ProductSizeInput(clickedLabel);
+        }
+
+        private void label_Handler_Ip2_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Handler_Ip2.Text;
+            int decimalValue = 0;
+
+
+            if (int.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString();
+                NumPadForm popupForm = new NumPadForm(formattedValue);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    if (int.TryParse(popupForm.NumPadResult, out int dNumData))
+                    {
+                        if (dNumData < 0)
+                        {
+                            dNumData = 0;
+                        }
+                        if (dNumData > 255)
+                        {
+                            dNumData = 255;
+                        }
+                        label_Handler_Ip2.Text = dNumData.ToString();
+                    }
+
+                }
+            }
+        }
+
+        private void label_Handler_Ip3_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Handler_Ip3.Text;
+            int decimalValue = 0;
+
+
+            if (int.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString();
+                NumPadForm popupForm = new NumPadForm(formattedValue);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    if (int.TryParse(popupForm.NumPadResult, out int dNumData))
+                    {
+                        if (dNumData < 0)
+                        {
+                            dNumData = 0;
+                        }
+                        if (dNumData > 255)
+                        {
+                            dNumData = 255;
+                        }
+                        label_Handler_Ip3.Text = dNumData.ToString();
+                    }
+
+                }
+            }
+        }
+
+        private void label_Handler_Port_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Handler_Port.Text;
+            int decimalValue = 0;
+
+
+            if (int.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString();
+                NumPadForm popupForm = new NumPadForm(formattedValue);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    if (int.TryParse(popupForm.NumPadResult, out int dNumData))
+                    {
+                        if (dNumData < 2000)
+                        {
+                            dNumData = 2000;
+                        }
+                        if (dNumData > 60000)
+                        {
+                            dNumData = 60000;
+                        }
+                        label_Handler_Port.Text = dNumData.ToString();
+                    }
+
+                }
+            }
         }
     }
 }

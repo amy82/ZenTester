@@ -32,7 +32,8 @@ namespace ZenTester.Data
         public bool ImageGrabUse { get; set; }
         public string Language { get; set; }
 
-
+        public string HandlerIp { get; set; }
+        public int HandlerPort { get; set; }
 
     }
     public class ConfigData

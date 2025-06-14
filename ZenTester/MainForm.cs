@@ -128,15 +128,15 @@ namespace ZenTester  //ApsMotionControl
             //레시피 요청하기
             Globalo.yamlManager.vPPRecipeSpecEquip = Globalo.yamlManager.RecipeLoad(Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe);   //init
 
-            //if (Globalo.yamlManager.vPPRecipeSpecEquip == null)
-            //{
-            //    Globalo.LogPrint("ManualControl", $"[{Globalo.dataManage.mesData.m_sMesPPID}] Recipe Load Fail");
-            //}
+            if (Globalo.yamlManager.vPPRecipeSpecEquip == null)
+            {
+                Globalo.LogPrint("ManualControl", $"[{Globalo.dataManage.mesData.m_sMesPPID}] Recipe Load Fail");
+            }
             //CLIENT 연결되면  APS_RECIPE_CMD 받고 Recipe Load() 호출한다.
 
 
 
-            
+
 
 
             if (ProgramState.ON_LINE_MIL == true)
@@ -161,7 +161,7 @@ namespace ZenTester  //ApsMotionControl
                 
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
-            Globalo.tcpManager.SetClient("127.0.0.1", 2001);
+            Globalo.tcpManager.SetClient(Globalo.yamlManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configData.DrivingSettings.HandlerPort);
 
             //Globalo.mTeachPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
             //Globalo.mMainPanel.BackColor = ColorTranslator.FromHtml("#F8F3F0");
