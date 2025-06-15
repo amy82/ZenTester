@@ -51,7 +51,7 @@ namespace ZenTester.VisionClass
         }
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos)
         {
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             int startTime = Environment.TickCount;
             bool bRtn = false;
             //
@@ -74,20 +74,25 @@ namespace ZenTester.VisionClass
 
 
             Mat gray = new Mat();
-            if (srcImage.Channels() == 3)
-                Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
-            else
-                gray = srcImage.Clone();  // 이미 흑백이면 그대로 복사
-            Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(7, 7), 0.3);
+            //if (srcImage.Channels() == 3)
+            //    Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
+            //else
+            //    gray = srcImage.Clone();  // 이미 흑백이면 그대로 복사
+            //Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(7, 7), 0.3);
+
+
+            var blurred = new Mat();
+            //var edges = new Mat();
+            Cv2.GaussianBlur(srcImage, gray, new OpenCvSharp.Size(3, 3), 0.7);
+
 
             Mat thresh = new Mat();
-            //Cv2.Threshold(gray, thresh, 60, 255, ThresholdTypes.Binary);  // 조명 따라 100 조정
-            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, 
-                ThresholdTypes.BinaryInv,
-                blockSize: 41,   // 주변 픽셀 크기 (홀수)
-                c: 31             // 평균보다 얼마나 빼줄지
-            );
 
+            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize: 77, c: 11);
+            
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
+            Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            Cv2.Dilate(thresh, thresh, kernel);
             if (IMG_VIEW)
             {
                 Cv2.NamedWindow("Detected thresh ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
@@ -102,10 +107,40 @@ namespace ZenTester.VisionClass
 
             Mat colorImage = new Mat();
             Cv2.CvtColor(srcImage, colorImage, ColorConversionCodes.GRAY2BGR);  // 1채널 → 3채널 변환
-            
+
+            int imageCenterX = thresh.Width / 2;
+            int imageCenterY = thresh.Height / 2;
+
             // 가장 큰 원을 찾기
             foreach (var contour in contours)
             {
+                Moments M = Cv2.Moments(contour);
+                if (M.M00 == 0) continue;
+                //centers.Add(new Point2d(M.M10 / M.M00, M.M01 / M.M00));
+
+                float contourCenterX = (float)(M.M10 / M.M00);
+                float contourCenterY = (float)(M.M01 / M.M00);
+
+                float dx = contourCenterX - imageCenterX;
+                float dy = contourCenterY - imageCenterY;
+                float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
+                if (distance > 300)//200)
+                {
+                    Console.WriteLine($"del distance:{distance}");
+                    continue; // contour 무시
+                }
+                double area = Cv2.ContourArea(contour);
+                double perimeter = Cv2.ArcLength(contour, true);
+
+                //if (perimeter == 0) continue; // 나누기 에러 방지
+                double circularity = 4 * Math.PI * area / (perimeter * perimeter);
+                if (circularity < 0.01)
+                {
+                    continue;
+                }
+
                 Point2f center;
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
@@ -121,6 +156,11 @@ namespace ZenTester.VisionClass
 
                     bRtn = true;
                     Cv2.Circle(colorImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), (int)radius, Scalar.Red, 2);
+
+                    System.Drawing.Point clPoint;
+                    clPoint = new System.Drawing.Point((int)(center.X - radius), (int)(center.Y - radius));
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCross(index, (int)(center.X), (int)(center.Y), 100, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                     break;
                 }
             }
@@ -855,7 +895,7 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 55;// 51;// 19; // 반드시 홀수
+            int blockSize = 77;// 51;// 19; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
@@ -1119,7 +1159,7 @@ namespace ZenTester.VisionClass
             // 2. Threshold (밝은 점을 강조)
             Mat binary = new Mat();
             var blurred = new Mat();
-            var edges = new Mat();
+            //var edges = new Mat();
             Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.3);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
@@ -1135,7 +1175,7 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 55;// 51; // 반드시 홀수
+            int blockSize = 77;// 51; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적

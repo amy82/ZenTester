@@ -377,6 +377,8 @@ namespace ZenTester.Dlg
 
             //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
 
+
+
             List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
             FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
@@ -393,6 +395,9 @@ namespace ZenTester.Dlg
             }
             double CamResolX = 0.0;
             double CamResolY = 0.0;
+
+            double con1Result = 0.0;
+            double con2Result = 0.0;
             CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
             CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
 
@@ -406,7 +411,8 @@ namespace ZenTester.Dlg
             float dist = (float)Math.Sqrt(dx * dx + dy * dy);
 
             System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
-            string str = $"Con1:{(dist * CamResolX).ToString("0.00#")}";
+            con1Result = dist * CamResolX;
+            string str = $"Con1:{con1Result.ToString("0.00#")}";
             Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
             Console.WriteLine($"Con1:{dist* CamResolX}");
 
@@ -414,13 +420,14 @@ namespace ZenTester.Dlg
             dy = c1.Y - c3.Y;
             dist = (float)Math.Sqrt(dx * dx + dy * dy);
 
-            Console.WriteLine($"Con2:{dist* CamResolX}");
+            con2Result = dist * CamResolX;
+            Console.WriteLine($"Con2:{con2Result}");
 
 
             
 
             ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 590);
-            str = $"Con2:{(dist * CamResolX).ToString("0.00#")}";
+            str = $"Con2:{con2Result.ToString("0.00#")}";
             Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
 
         }
@@ -579,8 +586,7 @@ namespace ZenTester.Dlg
 
             //Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);    //포고핀 중심찾기
 
-            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
-            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref centerPos);     //가장 작은 원의 중심 찾기
+            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref TopCenterPos[CamIndex]);     //가장 작은 원의 중심 찾기
         }
         private void drawTestRoi(int index)
         {
