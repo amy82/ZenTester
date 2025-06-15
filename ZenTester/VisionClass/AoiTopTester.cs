@@ -78,14 +78,14 @@ namespace ZenTester.VisionClass
                 Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
             else
                 gray = srcImage.Clone();  // 이미 흑백이면 그대로 복사
-            Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(5, 5), 1);
+            Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(7, 7), 0.3);
 
             Mat thresh = new Mat();
             //Cv2.Threshold(gray, thresh, 60, 255, ThresholdTypes.Binary);  // 조명 따라 100 조정
             Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, 
                 ThresholdTypes.BinaryInv,
-                blockSize: 51,   // 주변 픽셀 크기 (홀수)
-                c: 30             // 평균보다 얼마나 빼줄지
+                blockSize: 41,   // 주변 픽셀 크기 (홀수)
+                c: 31             // 평균보다 얼마나 빼줄지
             );
 
             if (IMG_VIEW)
@@ -97,7 +97,7 @@ namespace ZenTester.VisionClass
             }
             OpenCvSharp.Point[][] contours;
             HierarchyIndex[] hierarchy;
-            Cv2.FindContours(thresh, out contours, out hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+            Cv2.FindContours(thresh, out contours, out hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
 
             Mat colorImage = new Mat();
@@ -110,7 +110,7 @@ namespace ZenTester.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                if (radius > 900 && radius < 1050)  // 실제 원 반지름 조건에 맞게
+                if (radius > 800 && radius < 1100)  // 실제 원 반지름 조건에 맞게
                 {
                     centerPos.X = (int)center.X;
                     centerPos.Y = (int)center.Y;
@@ -121,6 +121,7 @@ namespace ZenTester.VisionClass
 
                     bRtn = true;
                     Cv2.Circle(colorImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), (int)radius, Scalar.Red, 2);
+                    break;
                 }
             }
 
@@ -269,7 +270,7 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
-        public bool MilEdgeKeytest(int index, int roiIndex, string keyType)
+        public bool MilEdgeKeytest(int index, int roiIndex, string keyType , double offsetX = 0.0 , double offsetY = 0.0)
         {
             int startTime = Environment.TickCount;
             bool bRtn = true;
@@ -292,8 +293,8 @@ namespace ZenTester.VisionClass
             double[] EdgeStrength = new double[CONTOUR_MAX_RESULTS];
 
 
-            int OffsetX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X;
-            int OffsetY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y;
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X + (int)offsetX;
+            int OffsetY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y + (int)offsetY;
 
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Width;
             int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Height;
@@ -311,18 +312,18 @@ namespace ZenTester.VisionClass
             //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
 
-            MIL.MgraColor(MIL.M_DEFAULT, 50);
+            MIL.MgraColor(MIL.M_DEFAULT, 0);
             if (keyType == "A")
             {
                 if (roiIndex == 0)
                 {
                     //A타입의 왼쪽 아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
                 }
                 else
                 {
                     //A타입의 우측 아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 0, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
                 }
             }
             if (keyType == "B")
@@ -330,12 +331,12 @@ namespace ZenTester.VisionClass
                 if (roiIndex == 0)
                 {
                     //좌측 아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
                 }
                 else
                 {
                     //우측 아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 0, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
                 }
             }
             if (keyType == "C")
@@ -348,7 +349,7 @@ namespace ZenTester.VisionClass
                 else
                 {
                     //우측 아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 0, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
                 }
             }
             if (keyType == "D")
@@ -356,26 +357,32 @@ namespace ZenTester.VisionClass
                 if (roiIndex == 0) 
                 {
                     //우측 위
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, OffsetHeight - 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 0, 90);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 0, OffsetHeight - 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 0, 90);
                 }
                 else
                 {
                     //우측아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 0, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
                 }
             }
 
             if (keyType == "E")
             {
                 //Key 1개
-                MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 1, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);//E타입의 왼쪽 아래 (1개)
+                MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);//E타입의 왼쪽 아래 (1개)
             }
             
             
             MIL.MbufExport($"d:\\OrgKey{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
 
-            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL); 
-            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 50, MIL.M_NULL);
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 40, MIL.M_NULL);
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_PERCENTILE_VALUE + MIL.M_GREATER, 50, MIL.M_NULL); 
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_TRIANGLE_BISECTION_DARK, MIL.M_NULL, MIL.M_NULL); 
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_PERCENTILE_VALUE, MIL.M_NULL, MIL.M_NULL); 
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 50, MIL.M_NULL);
+
+
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_LESS, MIL.M_NULL, MIL.M_NULL); 
             MIL.MbufExport($"d:\\Key{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
 
 
@@ -403,6 +410,9 @@ namespace ZenTester.VisionClass
             MIL.MedgeControl(MilEdgeContext, MIL.M_SIZE, MIL.M_ENABLE);
             MIL.MedgeControl(MilEdgeContext, MIL.M_STRENGTH, MIL.M_ENABLE);
 
+
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_TYPE, MIL.M_DERICHE);//MIL.M_DERICHE); M_SOBEL
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_SMOOTHNESS, 65.0);
             // Calculate edges and features.
             MIL.MedgeCalculate(MilEdgeContext, MilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
 
@@ -430,8 +440,10 @@ namespace ZenTester.VisionClass
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
             //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 5.0, MIL.M_NULL);
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_GREATER, 30.0, MIL.M_NULL);
+
+
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 3.0, MIL.M_NULL);     //250615 less Size 5.0
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_GREATER, 40.0, MIL.M_NULL); //250615 greater Size 30.0
 
             // Draw edges in the source image to show the result.
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
@@ -458,7 +470,7 @@ namespace ZenTester.VisionClass
             string str = "";
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
-            int KeyEdgeSpec = 30;
+            int KeyEdgeSpec = 10;
             Color ConeColor;
             System.Drawing.Point textPoint;
             Console.Write($"Key Edge Count:{NumResults}\n");
@@ -499,12 +511,8 @@ namespace ZenTester.VisionClass
                 textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
                 if (NumResults < KeyEdgeSpec)
                 {
-                    //오링 없음
                     bRtn = false;
                     Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
-                    
-
-                    
                     Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
                 } 
                 else
@@ -546,9 +554,9 @@ namespace ZenTester.VisionClass
 
 
                 int leng = str.Length;
-                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250 + (250* roiIndex));
+                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 200 + (250* roiIndex));
 
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 35);
             }
             else
             {
@@ -1066,7 +1074,7 @@ namespace ZenTester.VisionClass
             //roiIndex = 0 (외경)
             //roiIndex = 1 (내경)
             // 측정 시작
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
@@ -1348,24 +1356,18 @@ namespace ZenTester.VisionClass
                     {
                         Cv2.Circle(colorView, new OpenCvSharp.Point(actualPt.X, actualPt.Y), 12, Scalar.Yellow, 3);
                         Rectangle m_clRect = new Rectangle((int)(actualPt.X - (10)), (int)(actualPt.Y - (10)), (int)(10 * 2), (int)(10 * 2));
-                        if (IMG_VIEW)
-                        {
-                            //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-                            //Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(actualPt.X - drawRadius / 2, actualPt.Y - drawRadius / 2, drawRadius, 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Yellow);
-                            Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList(actualPt.X, actualPt.Y, drawRadius, 1, Color.Yellow);
-                        }
+                        //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                        //Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(actualPt.X - drawRadius / 2, actualPt.Y - drawRadius / 2, drawRadius, 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Yellow);
+                        Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList(actualPt.X, actualPt.Y, drawRadius, 1, Color.Yellow);
                     }
                     else
                     {
                         DentUnderCount++;
                         Cv2.Circle(colorView, new OpenCvSharp.Point(actualPt.X, actualPt.Y), 12, Scalar.Red, 3);
                         Rectangle m_clRect = new Rectangle((int)(actualPt.X - (10)), (int)(actualPt.Y - (10)), (int)(10 * 2), (int)(10 * 2));
-                        if (IMG_VIEW)
-                        {
-                            //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Red, 1, System.Drawing.Drawing2D.DashStyle.Solid); 
-                            //Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(actualPt.X- drawRadius/2, actualPt.Y - drawRadius / 2, drawRadius, 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Red);
-                            Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList(actualPt.X, actualPt.Y, drawRadius, 1,Color.Red);
-                        }
+                        //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Red, 1, System.Drawing.Drawing2D.DashStyle.Solid); 
+                        //Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(actualPt.X- drawRadius/2, actualPt.Y - drawRadius / 2, drawRadius, 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Red);
+                        Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList(actualPt.X, actualPt.Y, drawRadius, 1, Color.Red);
                     }
                 }
 

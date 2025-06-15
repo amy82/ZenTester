@@ -59,6 +59,7 @@ namespace ZenTester.Dlg
         private int[] CamH = new int[2];
 
         private OpenCvSharp.Point[] centerPos = new OpenCvSharp.Point[2];
+        private OpenCvSharp.Point[] TopCenterPos = new OpenCvSharp.Point[2];
         public int CamIndex = 0;
         public int MarkIndex = 0;
         public int MaxMarkCount = 0;
@@ -329,12 +330,21 @@ namespace ZenTester.Dlg
             string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+
             bool key1Rtn = true;
             bool key2Rtn = true;
-            key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType);        //키검사
+
+            //TopCenterPos[CamIndex]
+            //centerPos[i].X = (int)(CamW[i] / 2);
+            //centerPos[i].Y = (int)(CamH[i] / 2);
+            double offsetx = TopCenterPos[CamIndex].X - centerPos[CamIndex].X;
+            double offsety = TopCenterPos[CamIndex].Y - centerPos[CamIndex].Y;
+
+            key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType, offsetx, offsety);        //키검사
             if (keyType != "E")
             {
-                key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType);        //키검사
+                key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType, offsetx, offsety);        //키검사
             }
             if (key1Rtn == true && key2Rtn == true)
             {
@@ -369,7 +379,7 @@ namespace ZenTester.Dlg
 
             List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
-            //FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
+            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
             HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
             if (FakraCenter.Count < 2)
             {
@@ -437,11 +447,11 @@ namespace ZenTester.Dlg
 
 
 
-            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
-            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref centerPos);     //가장 작은 원의 중심 찾기
+            
+            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref TopCenterPos[CamIndex]);     //가장 작은 원의 중심 찾기
             if (rtn)
             {
-                Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, centerPos);     //가스켓 검사
+                Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, TopCenterPos[CamIndex]);     //가스켓 검사
             }
             
         }
