@@ -255,7 +255,14 @@ namespace ZenTester.VisionClass
 
         public void AddList(int nPosX, int nPosY, int nSize, int nWidth, Color color)
         {
+            STRUC_MIL_CROSS stMilCross;
+            stMilCross.clPoint = new Point(nPosX, nPosY);
 
+            stMilCross.nSize = nSize;
+            stMilCross.nWidth = nWidth;
+            stMilCross.color = color;
+
+            m_clArrayCross.Add(stMilCross);
         }
         public void AddList(System.Drawing.Point clPoint, int nSize, int nWidth, Color color)
         {

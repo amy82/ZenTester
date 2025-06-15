@@ -51,7 +51,7 @@ namespace ZenTester.VisionClass
         }
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos)
         {
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             bool bRtn = false;
             //
@@ -81,8 +81,12 @@ namespace ZenTester.VisionClass
             Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(5, 5), 1);
 
             Mat thresh = new Mat();
-            Cv2.Threshold(gray, thresh, 60, 255, ThresholdTypes.Binary);  // 조명 따라 100 조정
-
+            //Cv2.Threshold(gray, thresh, 60, 255, ThresholdTypes.Binary);  // 조명 따라 100 조정
+            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, 
+                ThresholdTypes.BinaryInv,
+                blockSize: 51,   // 주변 픽셀 크기 (홀수)
+                c: 30             // 평균보다 얼마나 빼줄지
+            );
 
             if (IMG_VIEW)
             {
@@ -691,7 +695,7 @@ namespace ZenTester.VisionClass
         public int GasketTest(int index, Mat srcImage, OpenCvSharp.Point circle1)
         {
             //가스켓 밝기 계산
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             int startTime = Environment.TickCount;
 
             //Mat binary = new Mat();
@@ -703,8 +707,8 @@ namespace ZenTester.VisionClass
             //Cv2.NamedWindow("GasketTest binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
             //Cv2.ImShow("GasketTest binary ", binary);
             //Cv2.WaitKey(0);
-            int radiusOuter = 880;// 700;
-            int radiusInner = 550;// 430;
+            int radiusOuter = 830;// 700;
+            int radiusInner = 580;// 430;
                 
 
             // 이미지 크기에 맞는 빈 마스크
@@ -739,17 +743,46 @@ namespace ZenTester.VisionClass
                 Cv2.WaitKey(0);
 
             }
-                
+            string str = "";
             int gaskerLight = (int)Math.Round(avg.Val0);
 
             Console.WriteLine($"가스켓 영역 평균 밝기: {avg.Val0:F2}");
 
+            System.Drawing.Point clPoint;
+
+
+            //안쪽 Mask roi
+            clPoint = new System.Drawing.Point((int)(circle1.X - radiusInner), (int)(circle1.Y - radiusInner));
+            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusInner * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+            //바깥쪽 Mask roi
+            clPoint = new System.Drawing.Point((int)(circle1.X - radiusOuter), (int)(circle1.Y - radiusOuter));
+            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusOuter * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+
+            int specMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
+            int specMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
+
+            //Average brightness of gasket area
+            //밝기 표시
+            clPoint = new System.Drawing.Point(100, 250);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+            str = $"Average brightness of gasket area: {gaskerLight} [{specMin}~{specMax}]";
+
+
+            if (gaskerLight < specMin || gaskerLight > specMax)
+            {
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.OrangeRed, 20);
+            }
+            else
+            {
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
+            }
+            
+            //////////////////////////////////////////////////////////////////////////////////////////////
             long elapsedMs = Environment.TickCount - startTime;
             // 시간 출력
             double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
-            string str = "";
+            
             str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
@@ -786,8 +819,8 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            //Cv2.MedianBlur(srcImage, blurred, 3);
+            //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
+            Cv2.MedianBlur(srcImage, blurred, 3);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -885,7 +918,7 @@ namespace ZenTester.VisionClass
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
                 if (distance > 350)
                 {
-                    Console.WriteLine($"del distance:{distance}");
+                    //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
                 }
                 double area = Cv2.ContourArea(contour);
@@ -934,6 +967,8 @@ namespace ZenTester.VisionClass
                     maxCenter = center;
                     maxContour = contour;
                 }
+
+                
                 circles.Add((center, radius));
                 ///centers.Add(new Point2d(center.X, center.Y));
                 //Console.Write("[CenterFind] measured circle: x = {0:0.00}, y = {1:0.00}, circularity = {2:0.00}, radius = {3:0.00}, area = {4:0.00}\n", center.X, center.Y, circularity, radius, area);
@@ -952,6 +987,9 @@ namespace ZenTester.VisionClass
             CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
             if (circles.Count > 0)
             {
+                // 반지름 순으로 정렬
+                //var sortedCircles = circles.OrderBy(c => c.radius).ToList();
+
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
 
@@ -1023,7 +1061,7 @@ namespace ZenTester.VisionClass
 
             return FakraPoints;
         }
-        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage)
+        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, bool bDentTest = false)
         {
             //roiIndex = 0 (외경)
             //roiIndex = 1 (내경)
@@ -1035,38 +1073,73 @@ namespace ZenTester.VisionClass
             string str = "";
             List<OpenCvSharp.Point> HousingPoints = new List<OpenCvSharp.Point>();
             //
-            //
-            //
+            //안쪽원 마스크 처리하기
+
+            OpenCvSharp.Point circleCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/2, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index]/2);
+            // 이미지 크기에 맞는 빈 마스크
+            //Mat mask = Mat.Zeros(srcImage.Size(), MatType.CV_8UC1);
+            //// 1. 원형 마스크 만들기
+            //Mat outerMask = new Mat(srcImage.Size(), MatType.CV_8UC1, Scalar.Black);
+            //Mat innerMask = new Mat(srcImage.Size(), MatType.CV_8UC1, Scalar.Black);
+
+            //Cv2.Circle(outerMask, circleCenter, 1300, Scalar.White, -1);//, LineTypes.AntiAlias);
+            //Cv2.Circle(innerMask, circleCenter, 580, Scalar.White, -1);//, LineTypes.AntiAlias);
+            // 안쪽 원을 검정으로 덮기 (원 내부 제거)
+            //Cv2.Circle(mask, circleCenter, 580, Scalar.White, -1);
+
+
+            // 바깥쪽 사각형 그리기 (하얀색)
+            //OpenCvSharp.Rect maskRect = new Rect(circleCenter.X - 1400, 0, 2800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index]);
+            //Cv2.Rectangle(mask, maskRect, Scalar.White, -1, LineTypes.AntiAlias);
+
+            // 안쪽 원을 검정으로 덮기 (원 내부 제거)
+           // Cv2.Circle(mask, circleCenter, 580, Scalar.Black, -1, LineTypes.AntiAlias);
+
+            // 2. 테두리만 추출
+            //Cv2.Subtract(outerMask, innerMask, mask);
+
+            // 3. 필요하다면 약간 부드럽게
+            //Cv2.GaussianBlur(mask, mask, new OpenCvSharp.Size(7, 7), 0);
+
+            //Mat masked = new Mat();
+            //Cv2.BitwiseAnd(srcImage, srcImage, masked, mask);
+
+            //Cv2.NamedWindow("Detected masked ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            //Cv2.ImShow("Detected masked ", masked);
+            //Cv2.WaitKey(0);
             //
             // 2. Threshold (밝은 점을 강조)
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0.7);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.3);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
-            int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
-            int strongedge = 170;// 150;   //<---이값보다 크면 엣지 강화
+            //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
+            //int strongedge = 170;// 150;   //<---이값보다 크면 엣지 강화
 
-            Cv2.Canny(blurred, edges, weakedge, strongedge);  // 윤곽 강화
-            if (IMG_VIEW)
-            {
-                Cv2.NamedWindow("Detected edges ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-                Cv2.ImShow("Detected edges ", edges);
-                Cv2.WaitKey(0);
-            }
+            //Cv2.Canny(blurred, edges, weakedge, strongedge);  // 윤곽 강화
+            //if (IMG_VIEW)
+            //{
+            //    Cv2.NamedWindow("Detected edges ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            //    Cv2.ImShow("Detected edges ", edges);
+            //    Cv2.WaitKey(0);
+            //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 51;// 19; // 반드시 홀수
-            int C = 7;
+            int blockSize = 55;// 51; // 반드시 홀수
+            //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
+            //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
+            //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
+            int C = 18; //7//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
 
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
-            Cv2.AdaptiveThreshold(srcImage, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));//(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
 
@@ -1178,7 +1251,7 @@ namespace ZenTester.VisionClass
             double CamResolY = 0.0;
             CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
             CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
-            if (circles.Count > 0)
+            if (circles.Count > 0 && bDentTest == false)
             {
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
@@ -1225,40 +1298,94 @@ namespace ZenTester.VisionClass
             //
             //
             //--------------------------------------------------------------------------------------------------------------------------------------------
-            
-            if (maxRadius > 1)
+            int DentUnderCount = 0;
+            if (maxRadius > 1 && bDentTest == true)
             {
-                for (int i = 0; i < maxContour.Length; i += 10)
+                int sampleCount = 200; // 원하는 샘플 개수 (조절 가능)
+                List<Point2f> idealCirclePoints = new List<Point2f>();
+                for (int i = 0; i < sampleCount; i++)
                 {
-                    // 중심으로부터 거리 계산
-                    float dx = maxContour[i].X - maxCenter.X;
-                    float dy = maxContour[i].Y - maxCenter.Y;
+                    double angle = 2 * Math.PI * i / sampleCount;
+
+                    float x = maxCenter.X + (float)(maxRadius * Math.Cos(angle));
+                    float y = maxCenter.Y + (float)(maxRadius * Math.Sin(angle));
+
+                    idealCirclePoints.Add(new Point2f(x, y));
+                }
+
+                OpenCvSharp.Point[] sampledContour = ResampleContour(maxContour, sampleCount); // 아까 만든 함수
+
+
+                double area = Cv2.ContourArea(maxContour);
+                double perimeter = Cv2.ArcLength(maxContour, true);
+                double circularity = 4 * Math.PI * area / (perimeter * perimeter);
+                Console.WriteLine($"Dentest circularity: {circularity}");
+
+                int drawRadius = 35;
+                //for (int i = 0; i < maxContour.Length; i += 17)
+                for (int i = 0; i < sampleCount; i++)
+                {
+                    // 이상적인 원 점
+                    var idealPt = idealCirclePoints[i];
+
+                    // 실제 contour 점 (리샘플링된 거여야 함!)
+                    var actualPt = sampledContour[i]; // <- maxContour가 아님
+
+                    float dx = actualPt.X - maxCenter.X;
+                    float dy = actualPt.Y - maxCenter.Y;
                     float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                    float deviation = dist - maxRadius;  // 중심 기준 거리 - 기준 반지름
+
+                    //// 중심으로부터 거리 계산
+                    //float dx = maxContour[i].X - maxCenter.X;
+                    //float dy = maxContour[i].Y - maxCenter.Y;
+                    //float dist = (float)Math.Sqrt(dx * dx + dy * dy);
                     //Console.Write("[CenterFind] dist - radius: x = {0:0.00}\n", (dist - radius));
                     // 기준 반지름과 비교
-                   
-                    if (Math.Abs(dist - maxRadius) <= 10.0)
+
+                    if (Math.Abs(deviation) < 13.0) //if (Math.Abs(dist - maxRadius) <= 10.0)//10.0)
                     {
-                        Cv2.Circle(colorView, new OpenCvSharp.Point(maxContour[i].X, maxContour[i].Y), 11, Scalar.Yellow, 3);
-                        Rectangle m_clRect = new Rectangle((int)(maxContour[i].X - (10)), (int)(maxContour[i].Y - (10)), (int)(10 * 2), (int)(10 * 2));
+                        Cv2.Circle(colorView, new OpenCvSharp.Point(actualPt.X, actualPt.Y), 12, Scalar.Yellow, 3);
+                        Rectangle m_clRect = new Rectangle((int)(actualPt.X - (10)), (int)(actualPt.Y - (10)), (int)(10 * 2), (int)(10 * 2));
                         if (IMG_VIEW)
                         {
                             //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                            //Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(actualPt.X - drawRadius / 2, actualPt.Y - drawRadius / 2, drawRadius, 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Yellow);
+                            Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList(actualPt.X, actualPt.Y, drawRadius, 1, Color.Yellow);
                         }
                     }
                     else
                     {
-                        Cv2.Circle(colorView, new OpenCvSharp.Point(maxContour[i].X, maxContour[i].Y), 11, Scalar.Red, 3);
-                        Rectangle m_clRect = new Rectangle((int)(maxContour[i].X - (10)), (int)(maxContour[i].Y - (10)), (int)(10 * 2), (int)(10 * 2));
+                        DentUnderCount++;
+                        Cv2.Circle(colorView, new OpenCvSharp.Point(actualPt.X, actualPt.Y), 12, Scalar.Red, 3);
+                        Rectangle m_clRect = new Rectangle((int)(actualPt.X - (10)), (int)(actualPt.Y - (10)), (int)(10 * 2), (int)(10 * 2));
                         if (IMG_VIEW)
                         {
                             //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, m_clRect, Color.Red, 1, System.Drawing.Drawing2D.DashStyle.Solid); 
+                            //Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(actualPt.X- drawRadius/2, actualPt.Y - drawRadius / 2, drawRadius, 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Red);
+                            Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList(actualPt.X, actualPt.Y, drawRadius, 1,Color.Red);
                         }
                     }
                 }
-            }
 
-            if (IMG_VIEW)
+
+                System.Drawing.Point clPoint = new System.Drawing.Point(100, 250);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                str = $"Dent Test: {DentUnderCount} / {sampleCount}";
+
+
+                if (DentUnderCount > 15)
+                {
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.Red, 20);
+                }
+                else
+                {
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
+                }
+                Console.WriteLine($"Dentest DentUnderCount: {DentUnderCount}");
+            }
+            
+            if (IMG_VIEW) 
             {
                 Cv2.NamedWindow("Detected colorView ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
                 Cv2.ImShow("Detected colorView ", colorView);
@@ -1294,6 +1421,46 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
 
             return HousingPoints;
+        }
+
+        private OpenCvSharp.Point[] ResampleContour(OpenCvSharp.Point[] contour, int targetCount)
+        {
+            // 누적 거리 구하기
+            double[] distances = new double[contour.Length];
+            distances[0] = 0;
+            for (int i = 1; i < contour.Length; i++)
+            {
+                double dx = contour[i].X - contour[i - 1].X;
+                double dy = contour[i].Y - contour[i - 1].Y;
+                distances[i] = distances[i - 1] + Math.Sqrt(dx * dx + dy * dy);
+            }
+
+            double totalLength = distances[distances.Length - 1];
+            double step = totalLength / targetCount;
+
+            List<OpenCvSharp.Point> resampled = new List<OpenCvSharp.Point>();
+            int currentIndex = 0;
+
+            for (int i = 0; i < targetCount; i++)
+            {
+                double targetDist = i * step;
+
+                // 해당 위치가 어디 구간에 속하는지 찾기
+                while (currentIndex < distances.Length - 1 && distances[currentIndex + 1] < targetDist)
+                {
+                    currentIndex++;
+                }
+
+                // 선형 보간
+                double ratio = (targetDist - distances[currentIndex]) /
+                               (distances[currentIndex + 1] - distances[currentIndex]);
+
+                int x = (int)(contour[currentIndex].X * (1 - ratio) + contour[currentIndex + 1].X * ratio);
+                int y = (int)(contour[currentIndex].Y * (1 - ratio) + contour[currentIndex + 1].Y * ratio);
+                resampled.Add(new OpenCvSharp.Point(x, y));
+            }
+
+            return resampled.ToArray();
         }
     }
 }

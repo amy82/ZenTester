@@ -89,7 +89,7 @@ namespace ZenTester.Dlg
             // 
             // label_SetTest_Title
             // 
-            this.label_SetTest_Title.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.label_SetTest_Title.BackColor = System.Drawing.Color.Black;
             this.label_SetTest_Title.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Title.ForeColor = System.Drawing.Color.White;
             this.label_SetTest_Title.Location = new System.Drawing.Point(3, 10);

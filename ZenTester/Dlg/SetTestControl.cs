@@ -369,8 +369,8 @@ namespace ZenTester.Dlg
 
             List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
-            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
-            //HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            //FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
             if (FakraCenter.Count < 2)
             {
                 Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
@@ -448,7 +448,31 @@ namespace ZenTester.Dlg
 
         private void button_Set_Dent_Test_Click(object sender, EventArgs e)
         {
-            
+            bool rtn = true;
+
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
+            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src, true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex, 0);
 
         }
         #endregion
