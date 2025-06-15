@@ -777,45 +777,68 @@ namespace ZenTester.VisionClass
             //
             //
             //
-            //
+            
+
+            
+
+
             // 2. Threshold (밝은 점을 강조)
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.7);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
+            //Cv2.MedianBlur(srcImage, blurred, 3);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
-            int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
-            int strongedge = 170;// 150;   //<---이값보다 크면 엣지 강화
+            //Mat lap = new Mat();
+            //Cv2.Laplacian(blurred, lap, MatType.CV_8U, ksize: 5);
 
-            Cv2.Canny(blurred, edges, weakedge, strongedge);  // 윤곽 강화
-            if (IMG_VIEW)
-            {
-                Cv2.NamedWindow("Detected srcImage ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-                Cv2.ImShow("Detected srcImage ", srcImage);
-                Cv2.WaitKey(0);
-            }
+            ////// 4. 절대값으로 변환 (음수 엣지를 양수로)
+            //Mat absLap = new Mat();
+            //Cv2.ConvertScaleAbs(lap, absLap);
+
+
+            //Cv2.NamedWindow("Detected absLap ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            //Cv2.ImShow("Detected absLap ", absLap);
+            //Cv2.WaitKey(0);
+
+            //int weakedge = 65;// 65;//40;      //<-- 이값보다 작으면 무시
+            //int strongedge = 100;//170;// 150;   //<---이값보다 크면 엣지 강화
+
+            //Cv2.Canny(blurred, edges, weakedge, strongedge);  // 윤곽 강화
+            //if (IMG_VIEW)
+            //{
+            //    Cv2.NamedWindow("Detected srcImage ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+            //    Cv2.ImShow("Detected srcImage ", srcImage);
+            //    Cv2.WaitKey(0);
+            //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 51;// 19; // 반드시 홀수
-            int C = 15;
+            int blockSize = 55;// 51;// 19; // 반드시 홀수
+            //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
+            //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
+            //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
+            int C = 26; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
 
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
-            //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
-            Cv2.AdaptiveThreshold(srcImage, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            //Cv2.AdaptiveThreshold(absLap, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            //Cv2.AdaptiveThreshold(edges, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
-            // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));//(5, 5));
-            Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            Cv2.Dilate(binary, binary, kernel);
-
+            // 5. (선택) 이진화로 엣지 강화
+            //Cv2.Threshold(blurred, binary, 80, 255, ThresholdTypes.Binary);
             if (IMG_VIEW)
             {
-                Cv2.NamedWindow("Detected binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
-                Cv2.ImShow("Detected binary ", binary);
+                Cv2.NamedWindow("Detected binary1 ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Detected binary1 ", binary);
                 Cv2.WaitKey(0);
             }
+
+            // 2. 커널 생성 (원형 커널 추천)
+            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));
+            //Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            //Cv2.Dilate(binary, binary, kernel);
             // 3. Contours 찾기
             int imageCenterX = binary.Width / 2;
             int imageCenterY = binary.Height / 2;
@@ -860,7 +883,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 200)
+                if (distance > 350)
                 {
                     Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -892,12 +915,12 @@ namespace ZenTester.VisionClass
                 }
                     
 
-                if (radius < 300 || radius > 600)
+                if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
                 {
                     continue;
                 }
                 Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.01)
+                if (circularity < 0.001)//0.01)
                 {
                     continue;
                 }

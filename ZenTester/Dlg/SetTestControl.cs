@@ -367,12 +367,20 @@ namespace ZenTester.Dlg
 
             //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
 
-            List<OpenCvSharp.Point> FakraCenter;
-            List<OpenCvSharp.Point> HousingCenter;
+            List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
+            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
             FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
-
-
+            //HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            if (FakraCenter.Count < 2)
+            {
+                Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
+                return;
+            }
+            if (HousingCenter.Count < 2)
+            {
+                Console.WriteLine($"Out Fakra Find Fail:{HousingCenter.Count}");
+                return;
+            }
             double CamResolX = 0.0;
             double CamResolY = 0.0;
             CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
