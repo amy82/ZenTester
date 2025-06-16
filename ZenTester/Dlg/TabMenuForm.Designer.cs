@@ -223,13 +223,14 @@ namespace ZenTester.Dlg
             this.BTN_BOTTOM_IO.ForeColor = System.Drawing.Color.Gainsboro;
             this.BTN_BOTTOM_IO.Image = global::ZenTester.Properties.Resources.Io;
             this.BTN_BOTTOM_IO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_BOTTOM_IO.Location = new System.Drawing.Point(7, 113);
+            this.BTN_BOTTOM_IO.Location = new System.Drawing.Point(14, 438);
             this.BTN_BOTTOM_IO.Name = "BTN_BOTTOM_IO";
             this.BTN_BOTTOM_IO.Size = new System.Drawing.Size(133, 36);
             this.BTN_BOTTOM_IO.TabIndex = 21;
             this.BTN_BOTTOM_IO.Text = "  IO";
             this.BTN_BOTTOM_IO.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BTN_BOTTOM_IO.UseVisualStyleBackColor = false;
+            this.BTN_BOTTOM_IO.Visible = false;
             this.BTN_BOTTOM_IO.Click += new System.EventHandler(this.BTN_BOTTOM_IO_Click_1);
             // 
             // BTN_BOTTOM_CCD
