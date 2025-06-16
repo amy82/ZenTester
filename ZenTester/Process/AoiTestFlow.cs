@@ -42,6 +42,7 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
+                    Globalo.visionManager.milLibrary.RunModeChange(true);
                     waitTopCam = -1;
                     waitSideCam = -1;
                     TopCamTask = null;
@@ -122,7 +123,7 @@ namespace ZenTester.Process
                         aoitestData.Concentrycity_D = "0.1";
                         //조명 변경
                         Globalo.setTestControl.manualConfig.checkBox_AllRelease();
-                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
+                        //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
 
                         //Top Light Set, Ch:1
                         //Val 0 : Housing 약간 어둡게
@@ -185,7 +186,7 @@ namespace ZenTester.Process
                         Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
                         Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
+                        //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
                         //Gasket - 유무 검사
                         //Dent - 찌그러짐
                         //Key - 유무 검사
@@ -199,10 +200,10 @@ namespace ZenTester.Process
                         int specGasketMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
                         int specDentMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value);
                         int specDentMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value);
-                        int con_InMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value);
-                        int con_InMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
-                        int con_OutMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
-                        int con_OutMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
+                        double con_InMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value);
+                        double con_InMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
+                        double con_OutMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
+                        double con_OutMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
 
 
                         //중심찾기
@@ -226,7 +227,7 @@ namespace ZenTester.Process
                         //가스켓 검사
                         //
                         //
-                        int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, src, aoiCenterPos[topCamIndex]);
+                        int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, src, aoiCenterPos[topCamIndex], true);
 
 
                         if (gasketLight < specGasketMin || gasketLight > specGasketMax)
@@ -247,25 +248,34 @@ namespace ZenTester.Process
                         //Dent (찌그러짐) 검사 
                         //
                         //
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true);   //true 일때 Dent(찌그러짐)검사
-
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true, true);   //true 일때 Dent(찌그러짐)검사
+                        int denUnderCnt = HousingCenter[0].X;
+                        if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
+                        {
+                            aoitestData.CircleDented = "0";
+                        }
+                        else
+                        {
+                            aoitestData.CircleDented = "1";
+                        }
+                        
                         //Key 검사 
                         //
                         //
                         int key1Rtn = 0;
                         int key2Rtn = 0;
                         string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
-                        int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
-                        int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
+                        int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex] / 2;
+                        int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] / 2;
 
                         double offsetx = aoiCenterPos[topCamIndex].X - cx;
                         double offsety = aoiCenterPos[topCamIndex].Y - cy;
 
-                        key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 0, keyType, offsetx, offsety);        //키검사
+                        key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 0, keyType, offsetx, offsety, true);        //키검사
 
                         if (keyType != "E")
                         {
-                            key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety);        //키검사
+                            key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety, true);        //키검사
                         }
 
                         if (key1Rtn == 0 || key2Rtn == 0)
@@ -290,68 +300,67 @@ namespace ZenTester.Process
                         FakraCenter.Clear();
                         HousingCenter.Clear();
 
-                        FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src); //Fakra 안쪽 원 찾기
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
-                        if (FakraCenter.Count < 2)
-                        {
-                            Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
-                            //return;
-                        }
-                        if (HousingCenter.Count < 2)
-                        {
-                            Console.WriteLine($"Out Fakra Find Fail:{HousingCenter.Count}");
-                            //return;
-                        }
                         double CamResolX = 0.0;
                         double CamResolY = 0.0;
 
                         double con1Result = 0.0;
                         double con2Result = 0.0;
-                        CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
-                        CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
-
-
-                        OpenCvSharp.Point c1 = FakraCenter[1];
-                        OpenCvSharp.Point c2 = HousingCenter[0];
-                        OpenCvSharp.Point c3 = HousingCenter[1];
                         float dx = 0.0f;
                         float dy = 0.0f;
                         float dist1 = 0.0f;
                         float dist2 = 0.0f;
 
-                        dx = c1.X - c2.X;
-                        dy = c1.Y - c2.Y;
-                        dist1 = (float)Math.Sqrt(dx * dx + dy * dy);
-                        dx = c1.X - c3.X;
-                        dy = c1.Y - c3.Y;
-                        dist2 = (float)Math.Sqrt(dx * dx + dy * dy);
+                        FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, true); //Fakra 안쪽 원 찾기
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+                        if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
+                        {
+                            Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
+                            //return;
 
 
-                        con1Result = dist1 * CamResolX;
-                        con2Result = dist2 * CamResolX;
 
-                        aoitestData.Concentrycity_A = con1Result.ToString();
-                        aoitestData.Concentrycity_D = con2Result.ToString();
+                            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
+                            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
+
+
+                            OpenCvSharp.Point c1 = FakraCenter[1];
+                            OpenCvSharp.Point c2 = HousingCenter[0];
+                            OpenCvSharp.Point c3 = HousingCenter[1];
+
+
+                            dx = c1.X - c2.X;
+                            dy = c1.Y - c2.Y;
+                            dist1 = (float)Math.Sqrt(dx * dx + dy * dy);
+                            dx = c1.X - c3.X;
+                            dy = c1.Y - c3.Y;
+                            dist2 = (float)Math.Sqrt(dx * dx + dy * dy);
+
+
+                            con1Result = dist1 * CamResolX;
+                            con2Result = dist2 * CamResolX;
+
+                            aoitestData.Concentrycity_A = con1Result.ToString();
+                            aoitestData.Concentrycity_D = con2Result.ToString();
+                        }
+                        else
+                        {
+                            aoitestData.Concentrycity_A = "0.0";
+                            aoitestData.Concentrycity_D = "0.0";
+                        }
+                        
 
 
                         if (con1Result < con_InMin || con1Result > con_InMax)
                         {
                             aoitestData.Result = "0";
                         }
-                        else
-                        {
 
-                        }
                         if (con2Result < con_OutMin || con2Result > con_OutMax)
                         {
                             aoitestData.Result = "0";
                         }
-                        else
-                        {
 
-                        }
-
-                        aoitestData.CircleDented = "1";
+                        
                         
                         nRetStep = 900;
                         break;
@@ -368,11 +377,11 @@ namespace ZenTester.Process
 
 
                         resultStr = $"Con1 :{aoitestData.Concentrycity_A}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 500);
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
                         resultStr = $"Con2 :{aoitestData.Concentrycity_D}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 450);
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
                         resultStr = $"Dent :{aoitestData.CircleDented}";
@@ -380,11 +389,12 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
                         resultStr = $"Gasket :{aoitestData.Gasket}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 350);
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 300);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Key :{aoitestData.KeyType}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 300);
+                        //resultStr = $"Key :{aoitestData.KeyType}";  //$"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+                        resultStr = $"Key :{aoitestData.KeyType}";// - {key1Rtn} / {key2Rtn}";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 200);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
 

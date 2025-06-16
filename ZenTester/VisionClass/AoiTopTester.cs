@@ -159,7 +159,7 @@ namespace ZenTester.VisionClass
 
                     System.Drawing.Point clPoint;
                     clPoint = new System.Drawing.Point((int)(center.X - radius), (int)(center.Y - radius));
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Black, 3, System.Drawing.Drawing2D.DashStyle.Solid);
                     Globalo.visionManager.milLibrary.DrawOverlayCross(index, (int)(center.X), (int)(center.Y), 100, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                     break;
                 }
@@ -496,8 +496,15 @@ namespace ZenTester.VisionClass
 
             MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
             MIL.MedgeControl(MilEdgeResult, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);
-
-            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            if (bAutorun)
+            {
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
+            else
+            {
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
+            
             //M_DRAW_BOX + M_DRAW_POSITION + M_DRAW_EDGES + M_DRAW_AXIS
 
             MIL_INT NumResults = 0;                                         // Number of results found.
@@ -798,10 +805,10 @@ namespace ZenTester.VisionClass
 
             //안쪽 Mask roi
             clPoint = new System.Drawing.Point((int)(circle1.X - radiusInner), (int)(circle1.Y - radiusInner));
-            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusInner * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusInner * 2), Color.DarkOliveGreen, 2, System.Drawing.Drawing2D.DashStyle.Solid);
             //바깥쪽 Mask roi
             clPoint = new System.Drawing.Point((int)(circle1.X - radiusOuter), (int)(circle1.Y - radiusOuter));
-            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusOuter * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusOuter * 2), Color.DarkOliveGreen, 2, System.Drawing.Drawing2D.DashStyle.Solid);
 
             int specMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
             int specMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);

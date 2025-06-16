@@ -57,11 +57,25 @@ namespace ZenTester.Dlg
         }
         public void checkBox_AllRelease()
         {
-            parentDlg.isRoiChecked = -1;
-            checkBox_Roi_Key.Checked = false;
-            checkBox_Roi_ORing.Checked = false;
-            checkBox_Roi_Cone.Checked = false;
-            checkBox_Roi_Height.Checked = false;
+            
+
+
+            if (this.InvokeRequired)
+            {
+                parentDlg.Invoke(new Action(() => parentDlg.isRoiChecked = -1));
+                checkBox_Roi_Key.Invoke(new Action(() => checkBox_Roi_Key.Checked = false));
+                checkBox_Roi_ORing.Invoke(new Action(() => checkBox_Roi_ORing.Checked = false));
+                checkBox_Roi_Cone.Invoke(new Action(() => checkBox_Roi_Cone.Checked = false));
+                checkBox_Roi_Height.Invoke(new Action(() => checkBox_Roi_Height.Checked = false));
+            }
+            else
+            {
+                parentDlg.isRoiChecked = -1;
+                checkBox_Roi_Key.Checked = false;
+                checkBox_Roi_ORing.Checked = false;
+                checkBox_Roi_Cone.Checked = false;
+                checkBox_Roi_Height.Checked = false;
+            }
         }
         private void button_Set_Top_Resol_Save_Click(object sender, EventArgs e)
         {
