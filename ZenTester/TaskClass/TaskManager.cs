@@ -9,15 +9,22 @@ namespace ZenTester.TaskClass
     public class TaskManager
     {
         private Process.AoiTestFlow aoiTestFlow;
-
+        public bool testRun = false;
         public TaskManager()
         {
             aoiTestFlow = new Process.AoiTestFlow();
         }
-        public void Aoi_TestRun(int taskStep)
+        public void Aoi_TestRun(int SocketNum)      //1 or 2
         {
             int nStep = 100;
-            Console.WriteLine($"Task Start -------------------------- {taskStep}");
+            string szLog = string.Empty;
+            aoiTestFlow.socketNumber = SocketNum;
+            Console.WriteLine($"Task Start SocketNum-------------------------- {SocketNum}");
+
+
+            szLog = $"[AOI] TEST START SocketNum :{aoiTestFlow.socketNumber}";
+            Globalo.LogPrint("PcbProcess", szLog);
+
             _ = Task.Run(async () =>
             {
                 while (true)
@@ -33,7 +40,7 @@ namespace ZenTester.TaskClass
                     }
                     await Task.Delay(10);
                 }
-
+                testRun = false;
                 Console.WriteLine($"Task End - {nStep}");
             });
             

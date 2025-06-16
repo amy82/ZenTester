@@ -26,6 +26,9 @@ namespace ZenTester.Process
 
         private TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
         private OpenCvSharp.Point[] aoiCenterPos = new OpenCvSharp.Point[2];
+
+
+        public int socketNumber = 0;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -36,7 +39,6 @@ namespace ZenTester.Process
 
         public int AoiAutoProcess(int nStep)
         {
-            int localSocketNumber = 0;
             int nRetStep = nStep;
 
             switch (nRetStep)
@@ -51,7 +53,7 @@ namespace ZenTester.Process
                     CancelToken = new CancellationTokenSource();    //
 
                     aoitestData.init();     //AOI 결과값 초기화
-
+                    aoitestData.Socket_Num = socketNumber.ToString();
                     TopCamTask = Task.Run(() =>
                     {
                         waitTopCam = 1;
@@ -312,6 +314,7 @@ namespace ZenTester.Process
 
                         FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, true); //Fakra 안쪽 원 찾기
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
                         {
                             Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");

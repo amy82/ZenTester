@@ -105,19 +105,19 @@ namespace ZenTester.TcpSocket
             {
                 int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
                 int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
-
+                if (Globalo.taskManager.testRun)
+                {
+                    Console.WriteLine("test Running!!!");
+                    return;
+                }
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
                     //0번 Thread 운영 - 각 PC의 2개 소켓중 왼쪽 소켓
                     //
                     if (nStep == 0)
                     {
-                        //Globalo.threadControl.testAutoThread.m_nCurrentStep = 100;      //우선 Thread 하나로 소켓 하나씩 진행
-                        //Globalo.threadControl.testAutoThread.m_nStartStep = 100;
-                        //Globalo.threadControl.testAutoThread.m_nEndStep = 1000;
-                        //Globalo.threadControl.testAutoThread.Start();
-
-                        Globalo.taskManager.Aoi_TestRun(0);
+                        Globalo.taskManager.testRun = true;
+                        Globalo.taskManager.Aoi_TestRun(index);
                         
                     }
                     if (nStep == 1)
@@ -125,7 +125,16 @@ namespace ZenTester.TcpSocket
                         //Z축 이동후 다음 Step 검사
                     }
                 }
-                    
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM)
+                {
+                    //프로그램 하나에 소켓 하나 eeprom write 진행
+                    //프로그램 하나에 소켓 하나 eeprom verify 진행
+                   // data.CommandParameter
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                {
+                    //프로그램 하나에 소켓 4개 펌웨어 진행
+                }
 
                 //AOI 공정 - 0,1,2,3
                 //0번 Aoi Left 의 Left 소켓

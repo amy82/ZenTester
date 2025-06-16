@@ -127,14 +127,14 @@ namespace ZenTester.Dlg
         {
             //TOP CAMERA SAVE
             //
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
-            Globalo.visionManager.milLibrary.DrawOverlayText(0, new System.Drawing.Point(100,100), "overlay test", Color.Yellow, 30);
+            //Globalo.visionManager.milLibrary.ClearOverlay(0);
+            //Globalo.visionManager.milLibrary.DrawOverlayText(0, new System.Drawing.Point(100,100), "overlay test", Color.Yellow, 30);
 
-            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-            Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 3500, 500 , 3500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 3500, 500 , 3500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
 
-            Globalo.visionManager.aoiTester.CirCleFind(0);
+            //Globalo.visionManager.aoiTester.CirCleFind(0);
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
@@ -182,16 +182,16 @@ namespace ZenTester.Dlg
 
         private void btn_SideCam_Image_Save_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.milLibrary.ClearOverlay(1);  
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 200), "overlay test1", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 400), "overlay test2", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 600), "overlay test3", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 800), "overlay test4", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1000), "overlay test5", Color.Yellow, 30); 
-            Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1200), "overlay test6", Color.Yellow, 30);
+            //Globalo.visionManager.milLibrary.ClearOverlay(1);  
+            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 200), "overlay test1", Color.Yellow, 30); 
+            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 400), "overlay test2", Color.Yellow, 30); 
+            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 600), "overlay test3", Color.Yellow, 30); 
+            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 800), "overlay test4", Color.Yellow, 30); 
+            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1000), "overlay test5", Color.Yellow, 30); 
+            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1200), "overlay test6", Color.Yellow, 30);
 
-            Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
-            Globalo.visionManager.milLibrary.DrawOverlayBox(1, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Dot);
+            //Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
+            //Globalo.visionManager.milLibrary.DrawOverlayBox(1, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Dot);
         }
 
         private void btn_SideCam_Image_Load_Click(object sender, EventArgs e)
@@ -242,17 +242,9 @@ namespace ZenTester.Dlg
             {
                 Globalo.visionManager.milLibrary.RunModeChange(false);
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
-
-                
-                
-                
             }
             else
             {
-                
-                
-
-                
             }
         }
 
@@ -618,8 +610,6 @@ namespace ZenTester.Dlg
                 int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
                 Console.WriteLine($"Drag Roi = w:{dragw},h:{dragh}");
             }
-            
-            
         }
         //--------------------------------------------------------------------------------------
         //
@@ -634,8 +624,6 @@ namespace ZenTester.Dlg
 
         public Rectangle GetRoiRect()//System.Drawing.Point p1, System.Drawing.Point p2)
         {
-
-
             return new Rectangle(
                 Math.Min(roiStart.X, roiEnd.X),
                 Math.Min(roiStart.Y, roiEnd.Y),
