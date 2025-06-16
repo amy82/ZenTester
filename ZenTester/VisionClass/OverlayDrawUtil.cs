@@ -185,7 +185,7 @@ namespace ZenTester.VisionClass
         {
 
         }
-        public void AddList(System.Drawing.Point clPoint, int nFontSize, string szText, string szFontName, Color color)
+        public void AddList(System.Drawing.Point clPoint, string szText, string szFontName, Color color, int nFontSize)
         {
             STRUC_MIL_TEXT stMilText = new STRUC_MIL_TEXT();
 

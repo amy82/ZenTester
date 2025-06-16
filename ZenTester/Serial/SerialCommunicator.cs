@@ -20,6 +20,7 @@ namespace ZenTester.Serial
         public StopBits StopBits { get; set; }
         public Parity Parity { get; set; }
 
+        public int recvCheck { get; set; }
         //public event Action<string> BarcodeScanned;
 
         public enum BaudRates
@@ -55,7 +56,7 @@ namespace ZenTester.Serial
                 RtsEnable = true            // Request to Send 설정 (옵션)
             };
 
-
+            recvCheck = -1;
 
             // 2. 데이터 수신 이벤트 핸들러 등록
             _serialPort.DataReceived += SerialPort_DataReceived;
@@ -108,13 +109,16 @@ namespace ZenTester.Serial
                 string logData = $"[Light] Recv Data:{scanData}";
 
                 Globalo.LogPrint("Serial", logData);
+
                 if (scanData == ":OK;")
                 {
                     Console.WriteLine("Light Return Ok: " + scanData);
+                    recvCheck = 1;  //OK
                 }
                 else
                 {
                     Console.WriteLine("Light Return Fail: " + scanData);
+                    recvCheck = 0;  //FAIL
                 }
 
                 //Globalo.productionInfo.BcrSet(scanData);

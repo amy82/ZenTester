@@ -310,10 +310,10 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
-        public bool MilEdgeKeytest(int index, int roiIndex, string keyType , double offsetX = 0.0 , double offsetY = 0.0)
+        public int MilEdgeKeytest(int index, int roiIndex, string keyType , double offsetX = 0.0 , double offsetY = 0.0)
         {
             int startTime = Environment.TickCount;
-            bool bRtn = true;
+            int nRtn = 0;
 
             const int CONTOUR_MAX_RESULTS = 300;
             MIL_ID MilDisplay = MIL.M_NULL;
@@ -358,7 +358,8 @@ namespace ZenTester.VisionClass
                 if (roiIndex == 0)
                 {
                     //A타입의 왼쪽 아래
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                    //MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.8, OffsetWidth / 1.8, 180, 270);
                 }
                 else
                 {
@@ -547,41 +548,30 @@ namespace ZenTester.VisionClass
 
                 CircleCx = EdgeCircleFitCx[0];
                 CircleErr = EdgeCircleFitErr[0];
-                str = $"Key{roiIndex + 1}";
+                str = $"#{roiIndex + 1}";
                 textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
                 if (NumResults < KeyEdgeSpec)
                 {
-                    bRtn = false;
+                    nRtn = 0;
                     Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
-                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 13);
                 } 
                 else
                 {
-                    bRtn = true;
+                    nRtn = 1;
                     Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Yellow, 2);
-                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 13);
                 }
                 
-                
-
-
-
-                //System.Drawing.Point textPoint;
-
-                //string str = $"CircleCx :{CircleCx.ToString("0.000")} / {circleSpec}";
-
-                //textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
-                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
-
-
+               
                 
 
                 str = $"[CONE] Edge Count:{NumResults}/{KeyEdgeSpec}";
 
-                textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
+                //textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
 
-                if (bRtn)
+                if (nRtn == 1)
                 {
                     str = $"{keyType} Key #{roiIndex+1} Detected!";
                     ConeColor = Color.Green;
@@ -593,10 +583,10 @@ namespace ZenTester.VisionClass
                 }
 
 
-                int leng = str.Length;
-                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 200 + (250* roiIndex));
+                //int leng = str.Length;
+                //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 200 + (250* roiIndex));
 
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 35);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 35);
             }
             else
             {
@@ -605,7 +595,7 @@ namespace ZenTester.VisionClass
 
 
                 Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
-                bRtn = false;
+                nRtn = 0;
             }
 
 
@@ -627,7 +617,7 @@ namespace ZenTester.VisionClass
 
             System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
-            return bRtn;
+            return nRtn;
         }
         public void Keytest(int index, Mat srcImage, OpenCvSharp.Point circle1, int roiIndex)
         {
@@ -811,17 +801,19 @@ namespace ZenTester.VisionClass
 
             //Average brightness of gasket area
             //밝기 표시
-            clPoint = new System.Drawing.Point(100, 250);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
-            str = $"Average brightness of gasket area: {gaskerLight} [{specMin}~{specMax}]";
+            clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+            str = $"Gasket Light: {gaskerLight} [{specMin}~{specMax}]";
 
 
             if (gaskerLight < specMin || gaskerLight > specMax)
             {
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.OrangeRed, 20);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.OrangeRed, 20);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.OrangeRed, 13);
             }
             else
             {
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
             }
             
             //////////////////////////////////////////////////////////////////////////////////////////////
@@ -839,14 +831,16 @@ namespace ZenTester.VisionClass
             Console.WriteLine(str);
             Globalo.LogPrint("", str);
 
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 400);
 
+            //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+            Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", Color.Blue, 15);
+            //Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 450
             return gaskerLight;
 
         }
         //public OpenCvSharp.Point Housing_Fakra_Test(int index, Mat srcImage)
-        public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage)
+        public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, bool bAutorun = false)
         {
             // 측정 시작
             bool IMG_VIEW = false;
@@ -1054,22 +1048,27 @@ namespace ZenTester.VisionClass
 
                 //Rectangle m_clRect2 = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
                 clPoint = new System.Drawing.Point((int)(minCircle.center.X - minCircle.radius), (int)(minCircle.center.Y - minCircle.radius));
-                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
-                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
 
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
 
 
-                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 460);
+                HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 460);
                 str = $"Fakra In  X:{(minCircle.center.X * CamResolX).ToString("0.00#")},Y:{(minCircle.center.Y * CamResolY).ToString("0.00#")},R:{(minCircle.radius * CamResolX).ToString("0.00#")}";
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
 
-                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 390);
+                HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 390);
                 str = $"Fakra Out X:{(maxCircle.center.X * CamResolX).ToString("0.00#")},Y:{(maxCircle.center.Y * CamResolY).ToString("0.00#")},R:{(maxCircle.radius * CamResolX).ToString("0.00#")}";
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
 
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
 
                 FakraPoints.Add((OpenCvSharp.Point)minCircle.center);
                 FakraPoints.Add((OpenCvSharp.Point)maxCircle.center);
@@ -1104,12 +1103,13 @@ namespace ZenTester.VisionClass
             Console.WriteLine(str);
             str = $"In Test Time: {elapsedMs / 1000.0:F3}(s)";
             Console.WriteLine(str);
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 920, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+            //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+            Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", Color.Blue, 13);
 
             return FakraPoints;
         }
-        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, bool bDentTest = false)
+        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, bool bDentTest = false, bool bAutorun = false)
         {
             //roiIndex = 0 (외경)
             //roiIndex = 1 (내경)
@@ -1323,15 +1323,16 @@ namespace ZenTester.VisionClass
                 Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
-
-
-                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 320);
+                
+                HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 320);
                 str = $"Housing In  X:{(minCircle.center.X * CamResolX).ToString("0.00#")},Y:{(minCircle.center.Y * CamResolY).ToString("0.00#")},R:{(minCircle.radius * CamResolX).ToString("0.00#")}";
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
 
-                HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
                 str = $"Housing Out X:{(maxCircle.center.X * CamResolX).ToString("0.00#")},Y:{(maxCircle.center.Y * CamResolY).ToString("0.00#")},R:{(maxCircle.radius * CamResolX).ToString("0.00#")}";
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
 
 
                 HousingPoints.Add((OpenCvSharp.Point)minCircle.center);
@@ -1411,18 +1412,20 @@ namespace ZenTester.VisionClass
                     }
                 }
 
-
-                System.Drawing.Point clPoint = new System.Drawing.Point(100, 250);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                //ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
+                System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 450);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
                 str = $"Dent Test: {DentUnderCount} / {sampleCount}";
 
 
                 if (DentUnderCount > 15)
                 {
-                    Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.Red, 20);
+                    //Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.Red, 20);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
                 }
                 else
                 {
-                    Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
+                    //Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
                 }
                 Console.WriteLine($"Dentest DentUnderCount: {DentUnderCount}");
 
@@ -1469,8 +1472,9 @@ namespace ZenTester.VisionClass
             
             
             Console.WriteLine(str);
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 920, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
+            Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", Color.Blue, 13);
 
             return HousingPoints;
         }

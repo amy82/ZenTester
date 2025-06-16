@@ -273,7 +273,7 @@ namespace ZenTester.VisionClass
         }
 
         #region [OVERLAY DRAW]
-        public void DrawOverlayAll(int index, int DisplayMode)
+        public void DrawOverlayAll(int index, int DisplayMode = 0)
         {
             MIL_ID tempOverlay = MIL.M_NULL;
             if (AutoRunMode)

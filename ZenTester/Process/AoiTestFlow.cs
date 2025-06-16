@@ -115,7 +115,13 @@ namespace ZenTester.Process
                 switch (nRetStep)
                 {
                     case 10:
+                        aoitestData.Gasket = "1";           //없거나,못찾으면 0 , 있으면 1
+                        aoitestData.KeyType = "A";          //찾으면 타입기록 , 못 찾으면 null기록
+                        aoitestData.CircleDented = "1";     //찌그러진 개수
+                        aoitestData.Concentrycity_A = "0.1";
+                        aoitestData.Concentrycity_D = "0.1";
                         //조명 변경
+                        Globalo.setTestControl.checkBox_AllRelease();
                         Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
 
                         //Top Light Set, Ch:1
@@ -126,28 +132,45 @@ namespace ZenTester.Process
                         data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
                         data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
                         //Globalo.serialPortManager.LightControl.ctrlLedVolume(1, data1);
-
+                        Globalo.serialPortManager.LightControl.recvCheck = -1;
                         Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
 
+                        szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
 
                         //Side Light Set, Ch:2
                         //Val 0: Side Common - 사용 안 할 수도
-                        nRetStep = 15;
+                        nRetStep = 50;
                         break;
 
-                    case 15:
-                        nRetStep = 20;
-                        break;
-                    case 20:
-                        Globalo.setTestControl.checkBox_AllRelease();
-                        aoitestData.Gasket = "1";           //없거나,못찾으면 0 , 있으면 1
-                        aoitestData.KeyType = "A";          //찾으면 타입기록 , 못 찾으면 null기록
-                        aoitestData.CircleDented = "1";     //찌그러진 개수
-                        aoitestData.Concentrycity_A = "0.1";
-                        aoitestData.Concentrycity_D = "0.1";
+                    case 50:
+                        if (Globalo.serialPortManager.LightControl.recvCheck == -1)
+                        {
+                            break;
+                        }
+                        else if (Environment.TickCount - nTimeTick > 3000)
+                        {
+                            szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
+                            Globalo.LogPrint("ManualControl", szLog);
+                            nRetStep *= -1;
+                            break;
+                        }
 
+                        if (Globalo.serialPortManager.LightControl.recvCheck == 0)
+                        {
+                            //조명 정상 변경 실패
+                            szLog = $"[LIGHT] LIGHT DATA CHANGE FAIL [STEP : {nRetStep}]";
+                            Globalo.LogPrint("ManualControl", szLog);
+                            nRetStep *= -1;
+                            break;
+                        }
+
+                        //조명 정상 변경 완료
+                        szLog = $"[LIGHT] LIGHT DATA CHANGE OK [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
                         nRetStep = 100;
                         break;
+
                     case 100:
                         int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
                         int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
@@ -229,8 +252,8 @@ namespace ZenTester.Process
                         //Key 검사 
                         //
                         //
-                        bool key1Rtn = true;
-                        bool key2Rtn = true;
+                        int key1Rtn = 0;
+                        int key2Rtn = 0;
                         string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
                         int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
                         int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
@@ -239,20 +262,23 @@ namespace ZenTester.Process
                         double offsety = aoiCenterPos[topCamIndex].Y - cy;
 
                         key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 0, keyType, offsetx, offsety);        //키검사
+
                         if (keyType != "E")
                         {
                             key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety);        //키검사
                         }
-                        if (key1Rtn == false || key2Rtn == false)
+
+                        if (key1Rtn == 0 || key2Rtn == 0)
                         {
                             //ng
                             aoitestData.Result = "0";
-
+                            aoitestData.KeyType = "null";
                             szLog = $"[TOP CAM] {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
                         else
                         {
+                            aoitestData.KeyType = keyType;
                             szLog = $"[TOP CAM] {keyType} FIND PASS";
                             Globalo.LogPrint("ManualControl", szLog);
                         }

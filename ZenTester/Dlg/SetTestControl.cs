@@ -317,15 +317,6 @@ namespace ZenTester.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            //byte[] ImageBuffer = new byte[dataSize];
-
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-
-            //Globalo.visionManager.aoiTopTester.Keytest(CamIndex, src, centerPos, 0);        //키검사
-
             //A ~ D: 2개씩
             //E 타입만 1개
             string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
@@ -333,25 +324,58 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
 
 
-            bool key1Rtn = true;
-            bool key2Rtn = true;
+            int key1Rtn = 0;
+            int key2Rtn = 0;
+            double offsetx = 0.0;
+            double offsety = 0.0;
 
-            //TopCenterPos[CamIndex]
-            //centerPos[i].X = (int)(CamW[i] / 2);
-            //centerPos[i].Y = (int)(CamH[i] / 2);
-            double offsetx = TopCenterPos[CamIndex].X - centerPos[CamIndex].X;
-            double offsety = TopCenterPos[CamIndex].Y - centerPos[CamIndex].Y;
+            byte[] ImageBuffer = new byte[dataSize];
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
+
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref TopCenterPos[CamIndex]);     //가장 작은 원의 중심 찾기
+            if (rtn)
+            {
+                offsetx = TopCenterPos[CamIndex].X - centerPos[CamIndex].X;
+                offsety = TopCenterPos[CamIndex].Y - centerPos[CamIndex].Y;
+            }
+            else
+            {
+                offsetx = centerPos[CamIndex].X;
+                offsety = centerPos[CamIndex].Y;
+            }
+
+            
 
             key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType, offsetx, offsety);        //키검사
             if (keyType != "E")
             {
                 key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType, offsetx, offsety);        //키검사
             }
-            if (key1Rtn == true && key2Rtn == true)
+            string str = string.Empty;
+            System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 300);
+            str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+            if (key1Rtn == 1 && key2Rtn == 1)
             {
                 //성공
+                
+                Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
+            }
+            else
+            {
+                Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
             }
             //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
+
+
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex, 0);
 
         }
 
@@ -411,15 +435,18 @@ namespace ZenTester.Dlg
             OpenCvSharp.Point c1 = FakraCenter[1];
             OpenCvSharp.Point c2 = HousingCenter[0];
             OpenCvSharp.Point c3 = HousingCenter[1];
+            string str = "";
 
             float dx = c1.X - c2.X;
             float dy = c1.Y - c2.Y;
             float dist = (float)Math.Sqrt(dx * dx + dy * dy);
 
-            System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
+            System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 590);
             con1Result = dist * CamResolX;
-            string str = $"Con1:{con1Result.ToString("0.00#")}";
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+
+            str = $"Con1:{con1Result.ToString("0.00#")}";
+            //Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+            Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(ConePoint, str, "나눔고딕", Color.GreenYellow, 13);
             Console.WriteLine($"Con1:{dist* CamResolX}");
 
             dx = c1.X - c3.X;
@@ -429,13 +456,13 @@ namespace ZenTester.Dlg
             con2Result = dist * CamResolX;
             Console.WriteLine($"Con2:{con2Result}");
 
-
-            
-
-            ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 590);
+            ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
             str = $"Con2:{con2Result.ToString("0.00#")}";
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+            //Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
+            Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(ConePoint, str, "나눔고딕", Color.GreenYellow, 13);
 
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex);
         }
 
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
@@ -467,7 +494,9 @@ namespace ZenTester.Dlg
             {
                 Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, TopCenterPos[CamIndex]);     //가스켓 검사
             }
-            
+
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex);
         }
 
         private void button_Set_Dent_Test_Click(object sender, EventArgs e)
@@ -583,8 +612,6 @@ namespace ZenTester.Dlg
             int dataSize = sizeX * sizeY;
 
             byte[] ImageBuffer = new byte[dataSize];
-
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
 
