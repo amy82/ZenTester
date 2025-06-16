@@ -511,7 +511,7 @@ namespace ZenTester.VisionClass
             string str = "";
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
-            int KeyEdgeSpec = 10;
+            
             Color ConeColor;
             System.Drawing.Point textPoint;
             Console.Write($"Key Edge Count:{NumResults}\n");
@@ -550,6 +550,8 @@ namespace ZenTester.VisionClass
                 CircleErr = EdgeCircleFitErr[0];
                 str = $"#{roiIndex + 1}";
                 textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
+
+                int KeyEdgeSpec = Globalo.yamlManager.configData.CamSettings.KeyEdgeSpecCount;
                 if (NumResults < KeyEdgeSpec)
                 {
                     nRtn = 0;
@@ -1391,7 +1393,9 @@ namespace ZenTester.VisionClass
             int DentUnderCount = 0;
             if (maxRadius > 1 && bDentTest == true)
             {
-                int sampleCount = 240; // 원하는 샘플 개수 (조절 가능)
+                int sampleCount = Globalo.yamlManager.configData.CamSettings.DentTotalCount; // 원하는 샘플 개수 (조절 가능)
+
+
                 List<Point2f> idealCirclePoints = new List<Point2f>();
                 for (int i = 0; i < sampleCount; i++)
                 {
@@ -1412,6 +1416,8 @@ namespace ZenTester.VisionClass
                 Console.WriteLine($"Dentest circularity: {circularity}");
 
                 int drawRadius = 35;
+
+                double dentSpec = Globalo.yamlManager.configData.CamSettings.DentLimit;
                 //for (int i = 0; i < maxContour.Length; i += 17)
                 for (int i = 0; i < sampleCount; i++)
                 {
@@ -1434,7 +1440,7 @@ namespace ZenTester.VisionClass
                     //Console.Write("[CenterFind] dist - radius: x = {0:0.00}\n", (dist - radius));
                     // 기준 반지름과 비교
 
-                    if (Math.Abs(deviation) < 13.0) //if (Math.Abs(dist - maxRadius) <= 10.0)//10.0)
+                    if (Math.Abs(deviation) < dentSpec)//13.0) //if (Math.Abs(dist - maxRadius) <= 10.0)//10.0)
                     {
                         Cv2.Circle(colorView, new OpenCvSharp.Point(actualPt.X, actualPt.Y), 12, Scalar.Yellow, 3);
                         Rectangle m_clRect = new Rectangle((int)(actualPt.X - (10)), (int)(actualPt.Y - (10)), (int)(10 * 2), (int)(10 * 2));

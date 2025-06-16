@@ -16,6 +16,10 @@ namespace ZenTester.Data
     {
         public Resolution TopResolution { get; set; }
         public Resolution SideResolution { get; set; }
+
+        public int KeyEdgeSpecCount { get; set; }
+        public double DentLimit { get; set; }
+        public int DentTotalCount { get; set; }
     }
     public class _SerialPort
     {

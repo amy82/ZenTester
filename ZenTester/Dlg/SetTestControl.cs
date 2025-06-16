@@ -47,25 +47,25 @@ namespace ZenTester.Dlg
         private bool isMovingRoi= false;
         private ResizeDirection resizeDir = ResizeDirection.None;
         private bool isResizing = false;
-        private int isRoiChecked = -1;
-        private int isRoiNo = -1;
+        public int isRoiChecked = -1;
+        public int isRoiNo = -1;
 
         private System.Drawing.Point moveStartMousePos;     // 마우스가 눌린 위치
         private System.Drawing.Point moveStartRoiPos;       // ROI 원래 위치
 
-        private System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
+        public System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
 
         private bool m_bDrawFlag = false;
         private bool m_bBoxMoveFlag = false;
-        private bool m_bDrawMeasureLine = false;
+        public bool m_bDrawMeasureLine = false;
 
         private Rectangle DrawRoiBox;
 
         public List<Data.Roi> tempRoi = new List<Data.Roi>();
-        
 
-        private int[] CamW = new int[2];
-        private int[] CamH = new int[2];
+
+        public int[] CamW = new int[2];
+        public int[] CamH = new int[2];
 
         public OpenCvSharp.Point[] centerPos = new OpenCvSharp.Point[2];
         private OpenCvSharp.Point[] TopCenterPos = new OpenCvSharp.Point[2];

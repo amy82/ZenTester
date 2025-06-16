@@ -18,15 +18,15 @@ namespace ZenTester.Dlg
 
         public int TopLIghtDataNo = 0;
         public int SideLIghtDataNo = 0;
-        private bool m_bDrawMeasureLine = false;
+        //private bool m_bDrawMeasureLine = false;
 
         public int CamIndex = 0;
-        private int[] CamW = new int[2];
-        private int[] CamH = new int[2];
+        //private int[] CamW = new int[2];
+        //private int[] CamH = new int[2];
         public List<Data.Roi> tempRoi = new List<Data.Roi>();
-        private System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
-        private int isRoiChecked = -1;
-        private int isRoiNo = -1;
+        //private System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
+        //private int isRoiChecked = -1;
+        //private int isRoiNo = -1;
 
         public ManualConfig(SetTestControl _parent)
         {
@@ -57,7 +57,7 @@ namespace ZenTester.Dlg
         }
         public void checkBox_AllRelease()
         {
-            isRoiChecked = -1;
+            parentDlg.isRoiChecked = -1;
             checkBox_Roi_Key.Checked = false;
             checkBox_Roi_ORing.Checked = false;
             checkBox_Roi_Cone.Checked = false;
@@ -67,6 +67,10 @@ namespace ZenTester.Dlg
         {
             Globalo.yamlManager.configData.CamSettings.TopResolution.X = double.Parse(label_Set_TopCam_ResolX_Val.Text);
             Globalo.yamlManager.configData.CamSettings.TopResolution.Y = double.Parse(label_Set_TopCam_ResolY_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.KeyEdgeSpecCount = int.Parse(label_Set_TopCam_Key_EdgeCount_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.DentLimit = double.Parse(label_Set_TopCam_Dent_Limit_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.DentTotalCount = int.Parse(label_Set_TopCam_Dent_Count_Val.Text);
+
 
             Globalo.yamlManager.configDataSave();
             if (checkBox_Measure.Checked)
@@ -89,6 +93,12 @@ namespace ZenTester.Dlg
 
             label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.SideResolution.X.ToString();
             label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.configData.CamSettings.SideResolution.Y.ToString();
+
+            label_Set_TopCam_Key_EdgeCount_Val.Text = Globalo.yamlManager.configData.CamSettings.KeyEdgeSpecCount.ToString();
+            label_Set_TopCam_Dent_Limit_Val.Text = Globalo.yamlManager.configData.CamSettings.DentLimit.ToString("0.0");
+            label_Set_TopCam_Dent_Count_Val.Text = Globalo.yamlManager.configData.CamSettings.DentTotalCount.ToString();
+
+
         }
         public void showLight()
         {
@@ -182,7 +192,7 @@ namespace ZenTester.Dlg
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox changed = sender as CheckBox;
-            isRoiChecked = -1;
+            parentDlg.isRoiChecked = -1;
             if (changed.Checked)
             {
                 tempRoi.Clear();
@@ -199,39 +209,39 @@ namespace ZenTester.Dlg
 
                 if (changed.Name == "checkBox_Roi_Height")
                 {
-                    isRoiChecked = 0;
+                    parentDlg.isRoiChecked = 0;
 
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Clone());
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Clone());
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2].Clone());
 
-                    drawTestRoi(isRoiChecked);
+                    drawTestRoi(parentDlg.isRoiChecked);
                 }
 
 
                 if (changed.Name == "checkBox_Roi_Cone")
                 {
-                    isRoiChecked = 1;
+                    parentDlg.isRoiChecked = 1;
 
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Clone());
-                    drawTestRoi(isRoiChecked);
+                    drawTestRoi(parentDlg.isRoiChecked);
                 }
                 if (changed.Name == "checkBox_Roi_ORing")
                 {
-                    isRoiChecked = 2;
+                    parentDlg.isRoiChecked = 2;
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Clone());
-                    drawTestRoi(isRoiChecked);
+                    drawTestRoi(parentDlg.isRoiChecked);
                 }
                 if (changed.Name == "checkBox_Roi_Key")
                 {
-                    isRoiChecked = 3;
+                    parentDlg.isRoiChecked = 3;
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Clone());
                     tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[1].Clone());
-                    drawTestRoi(isRoiChecked);
+                    drawTestRoi(parentDlg.isRoiChecked);
                 }
 
             }
-            if (isRoiChecked < 0)
+            if (parentDlg.isRoiChecked < 0)
             {
                 Globalo.visionManager.milLibrary.ClearOverlay(0);
             }
@@ -285,28 +295,28 @@ namespace ZenTester.Dlg
         private void button_Set_Roi_Save_Click(object sender, EventArgs e)
         {
             int i = 0;
-            if (isRoiChecked == 0)      //Height
+            if (parentDlg.isRoiChecked == 0)      //Height
             {
                 for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.Count; i++)
                 {
                     Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i] = tempRoi[i].Clone();
                 }
             }
-            else if (isRoiChecked == 1)      //Cone
+            else if (parentDlg.isRoiChecked == 1)      //Cone
             {
                 for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.CONE_ROI.Count; i++)
                 {
                     Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i] = tempRoi[i].Clone();
                 }
             }
-            else if (isRoiChecked == 2)      //Oring
+            else if (parentDlg.isRoiChecked == 2)      //Oring
             {
                 for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.ORING_ROI.Count; i++)
                 {
                     Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i] = tempRoi[i].Clone();
                 }
             }
-            else if (isRoiChecked == 3)      //Key
+            else if (parentDlg.isRoiChecked == 3)      //Key
             {
                 for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.KEY_ROI.Count; i++)
                 {
@@ -317,12 +327,12 @@ namespace ZenTester.Dlg
         }
         private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
         {
-            m_bDrawMeasureLine = false;
+            parentDlg.m_bDrawMeasureLine = false;
             if (checkBox_Measure.Checked)
             {
-                isRoiChecked = -1;
-                isRoiNo = -1;
-                m_bDrawMeasureLine = true;
+                parentDlg.isRoiChecked = -1;
+                parentDlg.isRoiNo = -1;
+                parentDlg.m_bDrawMeasureLine = true;
                 DrawDistnace();
             }
             else
@@ -345,11 +355,11 @@ namespace ZenTester.Dlg
             //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
 
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[CamIndex, 0].X), 0, (int)(DistLineX[CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[CamIndex, 1].X), 0, (int)(DistLineX[CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(parentDlg.DistLineX[CamIndex, 0].X), 0, (int)(parentDlg.DistLineX[CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(parentDlg.DistLineX[CamIndex, 1].X), 0, (int)(parentDlg.DistLineX[CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
 
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 0].Y), Color.Blue, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 1].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(parentDlg.DistLineX[CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(parentDlg.DistLineX[CamIndex, 0].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(parentDlg.DistLineX[CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(parentDlg.DistLineX[CamIndex, 1].Y), Color.Blue, 1);
 
             double CamResolX = 0.0;
             double CamResolY = 0.0;
@@ -363,12 +373,12 @@ namespace ZenTester.Dlg
             //
             System.Drawing.Point textPoint;
 
-            string str = $"[Distance x:{Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * CamResolX}";
-            textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 250);
+            string str = $"[Distance x:{Math.Abs(parentDlg.DistLineX[CamIndex, 0].X - parentDlg.DistLineX[CamIndex, 1].X) * CamResolX}";
+            textPoint = new System.Drawing.Point(10, parentDlg.CamH[CamIndex] - 250);
             Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
 
-            str = $"[Distance y:{Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * CamResolY}";
-            textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 150);
+            str = $"[Distance y:{Math.Abs(parentDlg.DistLineX[CamIndex, 0].Y - parentDlg.DistLineX[CamIndex, 1].Y) * CamResolY}";
+            textPoint = new System.Drawing.Point(10, parentDlg.CamH[CamIndex] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
 
         }
@@ -572,14 +582,93 @@ namespace ZenTester.Dlg
             {
                 checkBox_Measure.Checked = false;
                 ClearCheckbox();
-                m_bDrawMeasureLine = false;
-                isRoiChecked = -1;
-                isRoiNo = -1;
+                parentDlg.m_bDrawMeasureLine = false;
+                parentDlg.isRoiChecked = -1;
+                parentDlg.isRoiNo = -1;
             }
         }
         public void hidePanel()
         {
 
+        }
+
+        private void label_Set_TopCam_Key_EdgeCount_Val_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Set_TopCam_Key_EdgeCount_Val.Text;
+            decimal decimalValue = 0;
+
+
+            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 250)
+                {
+                    dNumData = 250;
+                }
+                label_Set_TopCam_Key_EdgeCount_Val.Text = dNumData.ToString();
+            }
+
+        }
+
+        private void label_Set_TopCam_Dent_Limit_Val_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Set_TopCam_Dent_Limit_Val.Text;
+            decimal decimalValue = 0;
+
+
+            if (decimal.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString("0.0");
+                NumPadForm popupForm = new NumPadForm(formattedValue, false);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    double dNumData = Double.Parse(popupForm.NumPadResult);
+
+                    label_Set_TopCam_Dent_Limit_Val.Text = dNumData.ToString("0.0");
+                }
+            }
+        }
+
+        private void label_Set_TopCam_Dent_Count_Val_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Set_TopCam_Dent_Count_Val.Text;
+            decimal decimalValue = 0;
+
+
+            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 100)
+                {
+                    dNumData = 100;
+                }
+                if (dNumData > 500)
+                {
+                    dNumData = 500;
+                }
+                label_Set_TopCam_Dent_Count_Val.Text = dNumData.ToString();
+            }
         }
     }
 }
