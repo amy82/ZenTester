@@ -581,8 +581,9 @@ namespace ZenTester.VisionClass
             double dSizeX = 0.0;
             double dSizeY = 0.0;
 
-            MIL.MmodInquire(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);     //<-----여기서왜 마크 사이즈를 바꾸지?
+            MIL.MmodInquire(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_X, ref dSizeX);
             MIL.MmodInquire(m_MilModModel[MarkNo], MIL.M_DEFAULT, MIL.M_ALLOC_SIZE_Y, ref dSizeY);
+
             Console.WriteLine($"M_ALLOC_SIZE_X: {dSizeX}");
             Console.WriteLine($"M_ALLOC_SIZE_Y: {dSizeY}");
 

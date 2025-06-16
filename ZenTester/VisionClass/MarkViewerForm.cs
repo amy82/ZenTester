@@ -343,7 +343,7 @@ namespace ZenTester.VisionClass
             }
 
             ///Globalo.visionManager.markUtil.LoadMark("A_MODEL", 0, 0);
-
+            Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, (int)eCamType.SIDE_CAM);
             this.Close();
         }
 
