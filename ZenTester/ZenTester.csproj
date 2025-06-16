@@ -198,6 +198,18 @@
     <Compile Include="Data\YamlTeachingData.cs" />
     <Compile Include="DIoControl.cs" />
     <Compile Include="DioDefine.cs" />
+    <Compile Include="Dlg\ManualConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\ManualConfig.Designer.cs">
+      <DependentUpon>ManualConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dlg\ManualTest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\ManualTest.Designer.cs">
+      <DependentUpon>ManualTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\SetTestControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -466,6 +478,12 @@
     <Compile Include="VisionClass\OpencvAoiTest.cs" />
     <Compile Include="VisionClass\OverlayDrawUtil.cs" />
     <Compile Include="VisionClass\VisionManager.cs" />
+    <EmbeddedResource Include="Dlg\ManualConfig.resx">
+      <DependentUpon>ManualConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\ManualTest.resx">
+      <DependentUpon>ManualTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\SetTestControl.resx">
       <DependentUpon>SetTestControl.cs</DependentUpon>
     </EmbeddedResource>

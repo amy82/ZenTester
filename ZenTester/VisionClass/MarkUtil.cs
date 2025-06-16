@@ -81,8 +81,8 @@ namespace ZenTester.VisionClass
             m_lTransparentColor = MIL.M_NULL;
             
 
-            smallDispSize.X = Globalo.setTestControl.panel_Mark.Width;
-            smallDispSize.Y = Globalo.setTestControl.panel_Mark.Height;
+            smallDispSize.X = Globalo.setTestControl.manualTest.panel_Mark.Width;
+            smallDispSize.Y = Globalo.setTestControl.manualTest.panel_Mark.Height;
 
             bool rtn = false;
 
@@ -113,7 +113,7 @@ namespace ZenTester.VisionClass
             }
             if (m_MilMarkDisplay[0] != MIL.M_NULL)
             {
-                MIL.MdispSelectWindow(m_MilMarkDisplay[0], m_MilMarkImage[0], Globalo.setTestControl.panel_Mark.Handle);
+                MIL.MdispSelectWindow(m_MilMarkDisplay[0], m_MilMarkImage[0], Globalo.setTestControl.manualTest.panel_Mark.Handle);
 
                 MarkEnableOverlay();
             }

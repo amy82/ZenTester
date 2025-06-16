@@ -15,24 +15,34 @@ namespace ZenTester.Dlg
 {
     public partial class SetTestControl : UserControl
     {
+        public enum eManualBtn : int
+        {
+            TestTab = 0, ConfigTab
+        };
         public enum ResizeDirection
         {
             None,
             TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left,
             Move
         }
+
+        private eManualBtn manualBtnTab;
+
+        public Dlg.ManualTest manualTest;
+        public Dlg.ManualConfig manualConfig;
+        public int CamIndex = 0;
         const int HANDLE_SIZE = 10;
         const int LINE_THICKNESS = 2;
         const int LINE_HIT_MARGIN = 10;
-
+        private System.Drawing.Point roiStart;
+        private System.Drawing.Point roiEnd;
         public Bitmap CurrentImage { get; set; }
 
         
         public System.Drawing.Point m_clClickPoint = new System.Drawing.Point();
         public Rectangle m_rSetCamBox = new Rectangle();
 
-        private System.Drawing.Point roiStart;
-        private System.Drawing.Point roiEnd;
+        
         private bool isDragging = false;
         private bool isMovingRoi= false;
         private ResizeDirection resizeDir = ResizeDirection.None;
@@ -52,50 +62,39 @@ namespace ZenTester.Dlg
         private Rectangle DrawRoiBox;
 
         public List<Data.Roi> tempRoi = new List<Data.Roi>();
-        private Button[] TopLightButtons;                // Top 검사 조명 버튼 배열
-        private Button[] SideLightButtons;               // Side 검사 조명 버튼 배열
+        
 
         private int[] CamW = new int[2];
         private int[] CamH = new int[2];
 
-        private OpenCvSharp.Point[] centerPos = new OpenCvSharp.Point[2];
+        public OpenCvSharp.Point[] centerPos = new OpenCvSharp.Point[2];
         private OpenCvSharp.Point[] TopCenterPos = new OpenCvSharp.Point[2];
-        public int CamIndex = 0;
-        public int MarkIndex = 0;
-        public int MaxMarkCount = 0;
+        
+        
+        
 
-        public int TopLIghtDataNo = 0;
-        public int SideLIghtDataNo = 0;
+        
         public SetTestControl()
         {
             InitializeComponent();
 
-            TopLightButtons = new Button[] { label_SetTest_Manual_Top_Light_Val1, label_SetTest_Manual_Top_Light_Val2, label_SetTest_Manual_Top_Light_Val3 };
-            SideLightButtons = new Button[] { label_SetTest_Manual_Side_Light_Val1 };
+            manualBtnTab = eManualBtn.TestTab;
+
+            manualTest = new ManualTest(this);
+            manualConfig = new ManualConfig(this);
+
+            manualTest.Visible = true;
+            manualConfig.Visible = false;
+
+            this.Controls.Add(manualTest);
+            this.Controls.Add(manualConfig);
+
+            manualTest.Location = new System.Drawing.Point(1050, 50);
+            manualConfig.Location = new System.Drawing.Point(1050, 50);
 
             tempRoi.Clear();
 
-            //this.Set_panelCam.
-            checkBox_Roi_Key.CheckedChanged += checkBox_CheckedChanged;
-            checkBox_Roi_ORing.CheckedChanged += checkBox_CheckedChanged;
-            checkBox_Roi_Cone.CheckedChanged += checkBox_CheckedChanged;
-            checkBox_Roi_Height.CheckedChanged += checkBox_CheckedChanged;
-
-
-            trackBar_Top_Light.Minimum = 0;
-            trackBar_Top_Light.Maximum = 255;
-            trackBar_Top_Light.Value = 0;
-            trackBar_Top_Light.TickFrequency = 10;
-            trackBar_Top_Light.Scroll += trackBar_Top_Light_Scroll;
-
-            trackBar_Side_Light.Minimum = 0;
-            trackBar_Side_Light.Maximum = 255;
-            trackBar_Side_Light.Value = 0;
-            trackBar_Side_Light.TickFrequency = 10;
-            trackBar_Side_Light.Scroll += trackBar_Side_Light_Scroll;
-
-
-            MaxMarkCount = Globalo.yamlManager.aoiRoiConfig.markData.Count;
+            
         }
         public void setCamCenter()
         {
@@ -112,48 +111,9 @@ namespace ZenTester.Dlg
                 DistLineX[i,1] = new System.Drawing.Point(CamW[i] - 500, CamH[i] - 500);
             }
 
-            showCamResol();
+            manualConfig.showCamResol();
         }
-        private void showMark()
-        {
-            label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
-        }
-        private void showLight()
-        {
-            label_SetTest_Manual_Top_Light_Data.Text = Globalo.yamlManager.aoiRoiConfig.topLightData[TopLIghtDataNo].data.ToString();
-            label_SetTest_Manual_Side_Light_Data.Text = Globalo.yamlManager.aoiRoiConfig.sideLightData[SideLIghtDataNo].data.ToString();
-
-            trackBar_Top_Light.Value = Globalo.yamlManager.aoiRoiConfig.topLightData[TopLIghtDataNo].data;
-            trackBar_Side_Light.Value = Globalo.yamlManager.aoiRoiConfig.sideLightData[SideLIghtDataNo].data;
-        }
-        private void showCamResol()
-        {
-            label_Set_TopCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.TopResolution.X.ToString();
-            label_Set_TopCam_ResolY_Val.Text = Globalo.yamlManager.configData.CamSettings.TopResolution.Y.ToString();
-
-            label_Set_SideCam_ResolX_Val.Text = Globalo.yamlManager.configData.CamSettings.SideResolution.X.ToString();
-            label_Set_SideCam_ResolY_Val.Text = Globalo.yamlManager.configData.CamSettings.SideResolution.Y.ToString();
-        }
-        public void ClearCheckbox()
-        {
-            checkBox_Roi_Key.Checked = false;
-            checkBox_Roi_ORing.Checked = false;
-            checkBox_Roi_Cone.Checked = false;
-            checkBox_Roi_Height.Checked = false;
-
-        }
-        private void trackBar_Top_Light_Scroll(object sender, EventArgs e)
-        {
-            int currentValue = ((TrackBar)sender).Value;
-            TopLightChange(1, TopLIghtDataNo, currentValue);
-        }
-        private void trackBar_Side_Light_Scroll(object sender, EventArgs e)
-        {
-            int currentValue = ((TrackBar)sender).Value;
-            SideLightChange(2, SideLIghtDataNo, currentValue);
-        }
-
-
+        
         public int getWidth()
         {
             return this.Set_panelCam.Width;
@@ -274,13 +234,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }
 
-        private void drawCenterCross()
-        {
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
-            int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-        }
+        
 
         private void SetTestControl_VisibleChanged(object sender, EventArgs e)
         {
@@ -289,400 +243,23 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.RunModeChange(false);
                 Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
 
-                drawCenterCross();
-                showCamResol();
-                showLight();
-                showMark();
-            }
-            else
-            {
-                checkBox_Measure.Checked = false;
-                m_bDrawMeasureLine = false;
-                isRoiChecked = -1;
-                isRoiNo = -1;
-
-                ClearCheckbox();
-            }
-        }
-
-        #region [TOP CAMERA MANUAL TEST]
-        private void button_Set_Key_Test_Click(object sender, EventArgs e)
-        {
-            bool rtn = true;
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-
-            //A ~ D: 2개씩
-            //E 타입만 1개
-            string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-
-
-            int key1Rtn = 0;
-            int key2Rtn = 0;
-            double offsetx = 0.0;
-            double offsety = 0.0;
-
-            byte[] ImageBuffer = new byte[dataSize];
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-            rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref TopCenterPos[CamIndex]);     //가장 작은 원의 중심 찾기
-            if (rtn)
-            {
-                offsetx = TopCenterPos[CamIndex].X - centerPos[CamIndex].X;
-                offsety = TopCenterPos[CamIndex].Y - centerPos[CamIndex].Y;
-            }
-            else
-            {
-                offsetx = centerPos[CamIndex].X;
-                offsety = centerPos[CamIndex].Y;
-            }
-
-            
-
-            key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 0, keyType, offsetx, offsety);        //키검사
-            if (keyType != "E")
-            {
-                key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(CamIndex, 1, keyType, offsetx, offsety);        //키검사
-            }
-            string str = string.Empty;
-            System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 300);
-            str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
-            if (key1Rtn == 1 && key2Rtn == 1)
-            {
-                //성공
                 
-                Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
+                
+                
             }
             else
             {
-                Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
-            }
-            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+                
+                
 
-
-
-
-            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex, 0);
-
-        }
-
-        private void button_Set_Housing_Test_Click(object sender, EventArgs e)
-        {
-            bool rtn = true;
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-
-            byte[] ImageBuffer = new byte[dataSize];
-            
-            //
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-
-
-
-            List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
-            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
-
-
-            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src);     //Fakra 안쪽 원 찾기
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
-
-            if (FakraCenter.Count < 2)
-            {
-                Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
-                return;
-            }
-            if (HousingCenter.Count < 2)
-            {
-                Console.WriteLine($"Out Fakra Find Fail:{HousingCenter.Count}");
-                return;
-            }
-            double CamResolX = 0.0;
-            double CamResolY = 0.0;
-
-            double con1Result = 0.0;
-            double con2Result = 0.0;
-            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
-            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   // 0.0186f;
-
-
-            OpenCvSharp.Point c1 = FakraCenter[1];
-            OpenCvSharp.Point c2 = HousingCenter[0];
-            OpenCvSharp.Point c3 = HousingCenter[1];
-            string str = "";
-
-            float dx = c1.X - c2.X;
-            float dy = c1.Y - c2.Y;
-            float dist = (float)Math.Sqrt(dx * dx + dy * dy);
-
-            System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 590);
-            con1Result = dist * CamResolX;
-
-            str = $"Con1:{con1Result.ToString("0.00#")}";
-            //Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
-            Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(ConePoint, str, "나눔고딕", Color.GreenYellow, 13);
-            Console.WriteLine($"Con1:{dist* CamResolX}");
-
-            dx = c1.X - c3.X;
-            dy = c1.Y - c3.Y;
-            dist = (float)Math.Sqrt(dx * dx + dy * dy);
-
-            con2Result = dist * CamResolX;
-            Console.WriteLine($"Con2:{con2Result}");
-
-            ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
-            str = $"Con2:{con2Result.ToString("0.00#")}";
-            //Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, ConePoint, str, Color.GreenYellow, 13);
-            Globalo.visionManager.milLibrary.m_clMilDrawText[CamIndex].AddList(ConePoint, str, "나눔고딕", Color.GreenYellow, 13);
-
-
-            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex);
-        }
-
-        private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
-        {
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-
-            byte[] ImageBuffer = new byte[dataSize];
-
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-
-
-            
-            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref TopCenterPos[CamIndex]);     //가장 작은 원의 중심 찾기
-            if (rtn)
-            {
-                Globalo.visionManager.aoiTopTester.GasketTest(CamIndex, src, TopCenterPos[CamIndex]);     //가스켓 검사
-            }
-
-
-            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex);
-        }
-
-        private void button_Set_Dent_Test_Click(object sender, EventArgs e)
-        {
-            bool rtn = true;
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-
-            byte[] ImageBuffer = new byte[dataSize];
-
-            //
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-
-            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src, true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
-
-            Globalo.visionManager.milLibrary.DrawOverlayAll(CamIndex, 0);
-
-        }
-        #endregion
-
-        #region [SIDE CAMERA MANUAL TEST]
-        private void button_Set_Oring_Test_Click(object sender, EventArgs e)
-        {
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-
-            //byte[] ImageBuffer = new byte[dataSize];
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(CamIndex, 0);
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-        }
-
-        private void button_Set_Cone_Test_Click(object sender, EventArgs e)
-        {
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-
-            //byte[] ImageBuffer = new byte[dataSize];
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(CamIndex, 0);//, src);
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-        }
-
-        private void button_Set_Height_Test_Click(object sender, EventArgs e)
-        {
-            checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-            //byte[] ImageBuffer = new byte[dataSize];
-
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-            //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
-            //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            //
-            Globalo.visionManager.aoiSideTester.HeightTest(CamIndex);
-            //
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-        }
-        #endregion
-
-        private void button_Pogo_Find_Test_Click(object sender, EventArgs e)
-        {
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-
-            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
-            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex];
-            int dataSize = sizeX * sizeY;
-
-            byte[] ImageBuffer = new byte[dataSize];
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-
-            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-
-            //Globalo.visionManager.aoiTopTester.FindPogoPinCenter(CamIndex, src);    //포고핀 중심찾기
-
-            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(CamIndex, src, ref TopCenterPos[CamIndex]);     //가장 작은 원의 중심 찾기
-        }
-        private void drawTestRoi(int index)
-        {
-            Data.Roi targetRoi;
-            Rectangle m_clRect;
-            System.Drawing.Point textPoint;
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
-
-            int boxLine = 1;
-            if (index == 0)
-            {
-                targetRoi = tempRoi[0];// Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
-
-                targetRoi = tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
-
-                targetRoi = tempRoi[2];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "RH ROI", Color.BlueViolet, 15);
-            }
-            if (index == 1)
-            {
-                targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CONE ROI", Color.BlueViolet, 15);
-            }
-            if (index == 2)
-            {
-                targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "ORING ROI", Color.BlueViolet, 15);
-            }
-            if (index == 3)
-            {
-                targetRoi = tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
-
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
-
-                targetRoi = tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
-                m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
-                textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
+                
             }
         }
+
+
+
+        
+        
         private int checkNoRoi(int index, System.Drawing.Point mousePos)
         {
             int i = 0;
@@ -828,7 +405,7 @@ namespace ZenTester.Dlg
                 }
 
                 moveStartMousePos = e.Location;
-                DrawDistnace();
+                manualConfig.DrawDistnace();
             }
             else if (isRoiChecked >= 0 && isRoiNo >= 0 && resizeDir != ResizeDirection.None)
             {
@@ -925,7 +502,7 @@ namespace ZenTester.Dlg
 
                 }
 
-                drawTestRoi(isRoiChecked);
+                manualConfig.drawTestRoi(isRoiChecked);
             }
             else if (isResizing)
             {
@@ -995,7 +572,7 @@ namespace ZenTester.Dlg
             else if (isDragging)
             {
                 roiEnd = e.Location;
-                Rectangle roi = GetRoiRect(roiStart, roiEnd);
+                Rectangle roi = GetRoiRect();//roiStart, roiEnd);
                 Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
@@ -1035,7 +612,7 @@ namespace ZenTester.Dlg
                 isDragging = false;
                 
                 roiEnd = e.Location;
-                DrawRoiBox = GetRoiRect(roiStart, roiEnd);
+                DrawRoiBox = GetRoiRect();//roiStart, roiEnd);
 
                 int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
                 int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
@@ -1052,65 +629,18 @@ namespace ZenTester.Dlg
         
         #endregion
 
-        private void checkBox_Measure_CheckedChanged(object sender, EventArgs e)
-        {
-            m_bDrawMeasureLine = false;
-            if (checkBox_Measure.Checked)
-            {
-                isRoiChecked = -1;
-                isRoiNo = -1;
-                m_bDrawMeasureLine = true;
-                DrawDistnace();
-            }
-            else
-            {
-                drawCenterCross();
-            }
-        }
-        private void DrawDistnace()
+        
+        
+
+        public Rectangle GetRoiRect()//System.Drawing.Point p1, System.Drawing.Point p2)
         {
 
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
-            //DistLineX[0] = new System.Drawing.Point(500, 500);
-            //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
-
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[CamIndex,0].X), 0, (int)(DistLineX[CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(DistLineX[CamIndex, 1].X), 0, (int)(DistLineX[CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex], Color.Red, 1);
-
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 0].Y), Color.Blue, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(DistLineX[CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex], (int)(DistLineX[CamIndex, 1].Y), Color.Blue, 1);
-
-            double CamResolX = 0.0;
-            double CamResolY = 0.0;
-            //CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
-            //CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
-            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.02026f;
-            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.02026f;//0.0288f;
-
-            Console.WriteLine($"CamResolX:{CamResolX}");
-            Console.WriteLine($"CamResolY:{CamResolY}");
-            //
-            System.Drawing.Point textPoint;
-
-            string str = $"[Distance x:{Math.Abs(DistLineX[CamIndex, 0].X - DistLineX[CamIndex, 1].X) * CamResolX}";
-            textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 250);
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
-
-            str = $"[Distance y:{Math.Abs(DistLineX[CamIndex, 0].Y - DistLineX[CamIndex, 1].Y) * CamResolY}";
-            textPoint = new System.Drawing.Point(10, CamH[CamIndex] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(CamIndex, textPoint, str, Color.Blue, 15);
-
-        }
-
-        private Rectangle GetRoiRect(System.Drawing.Point p1, System.Drawing.Point p2)
-        {
             return new Rectangle(
-                Math.Min(p1.X, p2.X),
-                Math.Min(p1.Y, p2.Y),
-                Math.Abs(p2.X - p1.X),
-                Math.Abs(p2.Y - p1.Y)
+                Math.Min(roiStart.X, roiEnd.X),
+                Math.Min(roiStart.Y, roiEnd.Y),
+                Math.Abs(roiEnd.X - roiStart.X),
+                Math.Abs(roiEnd.Y - roiStart.Y)
             );
         }
         private ResizeDirection GetDistDirection(System.Drawing.Point mousePos)
@@ -1186,526 +716,36 @@ namespace ZenTester.Dlg
                     return Cursors.Default;
             }
         }
-        public void checkBox_AllRelease()
+        
+        private void SetBtnChange(eManualBtn index)
         {
-            isRoiChecked = -1;
-            checkBox_Roi_Key.Checked = false;
-            checkBox_Roi_ORing.Checked = false;
-            checkBox_Roi_Cone.Checked = false;
-            checkBox_Roi_Height.Checked = false;
-        }
-        private void checkBox_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox changed = sender as CheckBox;
-            isRoiChecked = -1;
-            if (changed.Checked)
+            btn_Set_Test_Control.BackColor = ColorTranslator.FromHtml("#E1E0DF");
+            btn_Set_Config_Control.BackColor = ColorTranslator.FromHtml("#E1E0DF");
+            manualBtnTab = index;
+
+            if (manualBtnTab == eManualBtn.TestTab)
             {
-                tempRoi.Clear();
-                // 모든 체크박스를 순회하면서
-                foreach (var ctrl in this.Controls)
-                {
-                    if (ctrl is CheckBox cb && cb != changed)
-                    {
-                        cb.Checked = false;
-                    }
-                }
+                btn_Set_Test_Control.BackColor = ColorTranslator.FromHtml("#FFB230");
+                manualTest.Visible = true;
+                manualConfig.Visible = false;
 
-                Console.WriteLine($"{changed.Name} Checked");
-
-                if (changed.Name == "checkBox_Roi_Height") 
-                {
-                    isRoiChecked = 0;
-
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0].Clone());
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Clone());
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2].Clone());
-
-                    drawTestRoi(isRoiChecked);
-                }
-
-
-                if (changed.Name == "checkBox_Roi_Cone") 
-                {
-                    isRoiChecked = 1;
-
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Clone());
-                    drawTestRoi(isRoiChecked);
-                }
-                if (changed.Name == "checkBox_Roi_ORing")
-                {
-                    isRoiChecked = 2;
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Clone());
-                    drawTestRoi(isRoiChecked);
-                }
-                if (changed.Name == "checkBox_Roi_Key")
-                {
-                    isRoiChecked = 3;
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Clone());
-                    tempRoi.Add(Globalo.yamlManager.aoiRoiConfig.KEY_ROI[1].Clone());
-                    drawTestRoi(isRoiChecked);
-                }
-
-            }
-            if(isRoiChecked  < 0) 
-            {
-                Globalo.visionManager.milLibrary.ClearOverlay(0); 
-            }
-        }
-
-        private void button_Set_Roi_Save_Click(object sender, EventArgs e)
-        {
-            int i = 0;
-            if (isRoiChecked == 0)      //Height
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI.Count; i++)
-                {
-                    Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[i] = tempRoi[i].Clone();
-                }
-            }
-            else if (isRoiChecked == 1)      //Cone
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.CONE_ROI.Count; i++)
-                {
-                    Globalo.yamlManager.aoiRoiConfig.CONE_ROI[i] = tempRoi[i].Clone();
-                }
-            }
-            else if (isRoiChecked == 2)      //Oring
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.ORING_ROI.Count; i++)
-                {
-                    Globalo.yamlManager.aoiRoiConfig.ORING_ROI[i] = tempRoi[i].Clone();
-                }
-            }
-            else if (isRoiChecked == 3)      //Key
-            {
-                for (i = 0; i < Globalo.yamlManager.aoiRoiConfig.KEY_ROI.Count; i++)
-                {
-                    Globalo.yamlManager.aoiRoiConfig.KEY_ROI[i] = tempRoi[i].Clone();
-                }
-            }
-            Data.TaskDataYaml.Save_AoiConfig();     //Roi Set Save
-        }
-
-        private void CamResolutionInput(Label OffsetLabel)
-        {
-            string labelValue = OffsetLabel.Text;
-            decimal decimalValue = 0;
-
-
-            if (decimal.TryParse(labelValue, out decimalValue))
-            {
-                // 소수점 형식으로 변환
-                string formattedValue = decimalValue.ToString("0.000###");
-                NumPadForm popupForm = new NumPadForm(formattedValue, false);
-
-                DialogResult dialogResult = popupForm.ShowDialog();
-
-
-                if (dialogResult == DialogResult.OK)
-                {
-                    double dNumData = Double.Parse(popupForm.NumPadResult);
-
-                    OffsetLabel.Text = dNumData.ToString("0.000###");
-                }
-            }
-        }
-
-        private void label_Set_TopCam_ResolX_Val_Click(object sender, EventArgs e)
-        {
-            Label clickedLabel = sender as Label;
-            CamResolutionInput(clickedLabel);
-        }
-
-        private void label_Set_TopCam_ResolY_Val_Click(object sender, EventArgs e)
-        {
-            Label clickedLabel = sender as Label;
-            CamResolutionInput(clickedLabel);
-        }
-
-        private void label_Set_SideCam_ResolX_Val_Click(object sender, EventArgs e)
-        {
-            Label clickedLabel = sender as Label;
-            CamResolutionInput(clickedLabel);
-        }
-
-        private void label_Set_SideCam_ResolY_Val_Click(object sender, EventArgs e)
-        {
-            Label clickedLabel = sender as Label;
-            CamResolutionInput(clickedLabel);
-        }
-
-        private void button_Set_Top_Resol_Save_Click(object sender, EventArgs e)
-        {
-            Globalo.yamlManager.configData.CamSettings.TopResolution.X = double.Parse(label_Set_TopCam_ResolX_Val.Text);
-            Globalo.yamlManager.configData.CamSettings.TopResolution.Y = double.Parse(label_Set_TopCam_ResolY_Val.Text);
-
-            Globalo.yamlManager.configDataSave();
-            if (checkBox_Measure.Checked)
-            {
-                DrawDistnace();
-            }
-        }
-
-        private void button_Set_Side_Resol_Save_Click(object sender, EventArgs e)
-        {
-            Globalo.yamlManager.configData.CamSettings.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
-            Globalo.yamlManager.configData.CamSettings.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
-
-            Globalo.yamlManager.configDataSave();
-            if (checkBox_Measure.Checked)
-            {
-                DrawDistnace();
-            }
-        }
-
-        private void label_SetTest_Manual_Mark_Regist_Click(object sender, EventArgs e)
-        {
-            //double dSizeX, double dSizeY, double dCenterX, double dCenterY
-            Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
-
-            double dSizeX = DrawRoiBox.Width;
-            double dSizeY = DrawRoiBox.Height;
-            double dCenterX = DrawRoiBox.X + (DrawRoiBox.Width / 2);
-            double dCenterY = DrawRoiBox.Y + (DrawRoiBox.Height / 2);
-
-            Console.WriteLine($"Mark Roi Pos = Center X:{dCenterX}, Center Y:{dCenterY}");
-            Console.WriteLine($"Mark Roi Size = Width:{dSizeX}, Height:{dSizeY}");
-
-            if (dSizeX > 1024 || dSizeY > 1024)
-            {
-                Console.WriteLine($"Mark Roi Size Over = Width:{dSizeX}, Height:{dSizeY}");
-                return;
-            }
-            if (dSizeX < 10 || dSizeY < 10)
-            {
-                Console.WriteLine($"Mark Roi Size Less = Width:{dSizeX}, Height:{dSizeY}");
-                return;
-            }
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);        //Cam Grab
-
-            Globalo.visionManager.markUtil.RegisterMark(CamIndex, MarkIndex, DrawRoiBox.X, DrawRoiBox.Y, dSizeX, dSizeY);
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-        }
-
-        private void label_SetTest_Manual_Mark_View_Click(object sender, EventArgs e)
-        {
-            Globalo.visionManager.markUtil.ViewMarkMask(CamIndex, MarkIndex);
-        }
-
-        private void label_SetTest_Manual_Mark_Find_Click(object sender, EventArgs e)
-        {
-            VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
-
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(CamIndex);
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
-
-            Globalo.visionManager.markUtil.CalcSingleMarkAlign(CamIndex, MarkIndex, ref dAlign);
-
-            Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
-        }
-
-        private void button_Set_Mark_Prev_Click(object sender, EventArgs e)
-        {
-            //Prev
-            if (MarkIndex > 0)
-            {
-                MarkIndex--;
-
-                label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name; //$"Mark-{MarkIndex+1}";
-                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;      // Globalo.visionManager.markUtil.ModelMarkName;
-
-                double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
-                double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
-                Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
             }
             else
             {
-                MarkIndex = 0;
-            }
-            
-        }
-
-        private void button_Set_Mark_Next_Click(object sender, EventArgs e)
-        {
-            //Next
-
-            if (MarkIndex < MaxMarkCount-1)
-            {
-                MarkIndex++;
-                label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name; //$"Mark-{MarkIndex + 1}";
-                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;//Globalo.visionManager.markUtil.ModelMarkName;
-                double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
-                double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
-
-                Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Next Click
-            }
-            else
-            {
-                MarkIndex = MaxMarkCount-1;
-            }
-
-            
-        }
-
-        private void label_SetTest_Manual_Mark_Roi_Save_Click(object sender, EventArgs e)
-        {
-            DialogResult result = DialogResult.None;
-            result = Globalo.MessageAskPopup("MARK ROI영역 등록하시겠습니까?");
-
-            if (result == DialogResult.Yes)
-            {
-                Rectangle DrawRoiBox = GetRoiRect(roiStart, roiEnd);
-
-                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].X = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
-                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Y = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
-                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
-                Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
-
-                Data.TaskDataYaml.Save_AoiConfig();
+                btn_Set_Config_Control.BackColor = ColorTranslator.FromHtml("#FFB230");
+                manualConfig.Visible = true;
+                manualTest.Visible = false;
             }
         }
 
-        private void label_SetTest_Manual_Image_Save_Click(object sender, EventArgs e)
+        private void btn_Set_Test_Control_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Filter = "Bitmap Image (*.bmp)|*.bmp";
-                saveFileDialog.Title = "이미지 저장";
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string selectedFilePath = saveFileDialog.FileName;
-                    //grabbedImage.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                    Globalo.visionManager.milLibrary.GrabImageSave(0, selectedFilePath);
-
-
-                    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
-                }
-            }
+            SetBtnChange(eManualBtn.TestTab);
         }
 
-        private void label_SetTest_Manual_Image_Load_Click(object sender, EventArgs e)
+        private void btn_Set_Config_Control_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Title = "이미지 파일 선택";
-                //openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
-                openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
-                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\newCam"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, false);
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
-                    string selectedFilePath = openFileDialog.FileName;
-                    Globalo.visionManager.SetTestLoadBmp(CamIndex, selectedFilePath);
-
-                    Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
-                    ///MessageBox.Show("선택한 이미지 경로:\n" + selectedFilePath);
-                }
-                else
-                {
-                    Globalo.visionManager.milLibrary.SetGrabOn(1, true);
-                }
-            }
-        }
-
-
-        private void TopLightChange(int channel, int NoData , int data)
-        {
-            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel, data);
-            //
-            label_SetTest_Manual_Top_Light_Data.Text = data.ToString();
-            TopLIghtDataNo = NoData;
-            trackBar_Top_Light.Value = data;
-
-
-            for (int i = 0; i < TopLightButtons.Length; i++)
-            {
-                if (i == NoData)
-                {
-                    TopLightButtons[i].ForeColor = Color.Black;
-                    TopLightButtons[i].BackColor = Color.Gold;
-                }
-                else
-                {
-                    TopLightButtons[i].ForeColor = Color.White;
-                    TopLightButtons[i].BackColor = Color.Tan;
-                }
-            }
-        }
-
-        private void SideLightChange(int channel, int NoData, int data)      //사이드는 채널 2개다
-        {
-            Globalo.serialPortManager.LightControl.ctrlLedVolume(channel, data);
-
-
-            //
-            label_SetTest_Manual_Side_Light_Data.Text = data.ToString();
-            SideLIghtDataNo = NoData;
-            trackBar_Side_Light.Value = data;
-
-
-            for (int i = 0; i < SideLightButtons.Length; i++)
-            {
-                if (i == NoData)
-                {
-                    SideLightButtons[i].ForeColor = Color.Black;
-                    SideLightButtons[i].BackColor = Color.Gold;
-                }
-                else
-                {
-                    SideLightButtons[i].ForeColor = Color.White;
-                    SideLightButtons[i].BackColor = Color.Tan;
-                }
-            }
-        }
-
-        private void label_SetTest_Manual_Light_Val1_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
-            TopLightChange(1, 0, data);
-        }
-
-        private void label_SetTest_Manual_Light_Val2_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[1].data;
-            TopLightChange(1, 1, data);
-        }
-
-        private void label_SetTest_Manual_Light_Val3_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[2].data;
-            TopLightChange(1, 2, data);
-        }
-
-        private void label_SetTest_Manual_Top_Light_Val4_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[3].data;
-            TopLightChange(1, 3, data);
-        }
-
-        private void label_SetTest_Manual_Top_Light_Val5_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.topLightData[4].data;
-            TopLightChange(1, 4, data);
-        }
-        private void label_SetTest_Manual_Side_Light_Val1_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
-            SideLightChange(2, 0, data);
-        }
-
-        private void label_SetTest_Manual_Side_Light_Val2_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[1].data;
-            SideLightChange(2, 1, data);
-        }
-
-        private void label_SetTest_Manual_Side_Light_Val3_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[2].data;
-            SideLightChange(2, 2, data);
-        }
-        private void label_SetTest_Manual_Side_Light_Val4_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[3].data;
-            SideLightChange(2, 3, data);
-        }
-
-        private void label_SetTest_Manual_Side_Light_Val5_Click(object sender, EventArgs e)
-        {
-            int data = Globalo.yamlManager.aoiRoiConfig.sideLightData[4].data;
-            SideLightChange(2, 4, data);
-        }
-        private void label_SetTest_Manual_Top_Light_Data_Click(object sender, EventArgs e)
-        {
-            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
-            NumPadForm popupForm = new NumPadForm(formattedValue);
-
-            DialogResult dialogResult = popupForm.ShowDialog();
-
-
-            if (dialogResult == DialogResult.OK)
-            {
-                int dNumData = int.Parse(popupForm.NumPadResult);
-                if (dNumData < 0)
-                {
-                    dNumData = 0;
-                }
-                if (dNumData > 255)
-                {
-                    dNumData = 255;
-                }
-                TopLightChange(1, TopLIghtDataNo, dNumData);
-            }
-        }
-
-        private void label_SetTest_Manual_Side_Light_Data_Click(object sender, EventArgs e)
-        {
-            string formattedValue = label_SetTest_Manual_Side_Light_Data.Text;
-            NumPadForm popupForm = new NumPadForm(formattedValue);
-
-            DialogResult dialogResult = popupForm.ShowDialog();
-
-
-            if (dialogResult == DialogResult.OK)
-            {
-                int dNumData = int.Parse(popupForm.NumPadResult);
-                if (dNumData < 0)
-                {
-                    dNumData = 0;
-                }
-                if (dNumData > 255)
-                {
-                    dNumData = 255;
-                }
-                SideLightChange(2, SideLIghtDataNo, dNumData);
-            }
-        }
-
-        private void getLightData(int LightCh)
-        {
-            int lightData = 0;
-            if (LightCh == 0)
-            {
-                //0 = Top Light
-                lightData = int.Parse(label_SetTest_Manual_Top_Light_Data.Text);
-
-                Globalo.yamlManager.aoiRoiConfig.topLightData[TopLIghtDataNo].data = lightData;
-            }
-            else
-            {
-                //1 = Top Light
-                lightData = int.Parse(label_SetTest_Manual_Side_Light_Data.Text);
-
-                Globalo.yamlManager.aoiRoiConfig.sideLightData[SideLIghtDataNo].data = lightData;
-            }
-            Data.TaskDataYaml.Save_AoiConfig();
-
-
-        }
-        private void label_SetTest_Manual_Top_Cam_Save_Click(object sender, EventArgs e)
-        {
-            //Top Camera Light Save
-            getLightData(0);
-
-
-            Globalo.serialPortManager.LightControl.reqLightVal();
-        }
-
-        private void label_SetTest_Manual_Side_Light_Save_Click(object sender, EventArgs e)
-        {
-            //Side Camera Light Save
-            getLightData(1);
-            Globalo.serialPortManager.LightControl.reqLightVal();
+            SetBtnChange(eManualBtn.ConfigTab);
         }
     }
 }

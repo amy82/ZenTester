@@ -150,7 +150,7 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.visionManager.RegisterDisplayHandle(0, Globalo.cameraControl.panelCam1.Handle);
                 Globalo.visionManager.RegisterDisplayHandle(1, Globalo.cameraControl.panelCam2.Handle);
                 Globalo.visionManager.RegisterDisplayHandle(2, Globalo.setTestControl.Set_panelCam.Handle);
-                Globalo.visionManager.RegisterDisplayHandle(3, Globalo.setTestControl.panel_Mark.Handle);
+                Globalo.visionManager.RegisterDisplayHandle(3, Globalo.setTestControl.manualTest.panel_Mark.Handle);
                 Globalo.visionManager.RegisterDisplayHandle(4, Globalo.markViewer.panel_MarkZoomImage.Handle);
 
                 Globalo.visionManager.MilSet();

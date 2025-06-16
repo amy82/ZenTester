@@ -121,7 +121,7 @@ namespace ZenTester.Process
                         aoitestData.Concentrycity_A = "0.1";
                         aoitestData.Concentrycity_D = "0.1";
                         //조명 변경
-                        Globalo.setTestControl.checkBox_AllRelease();
+                        Globalo.setTestControl.manualConfig.checkBox_AllRelease();
                         Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
 
                         //Top Light Set, Ch:1
