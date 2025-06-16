@@ -114,13 +114,18 @@ namespace ZenTester.Process
                 {
                     case 10:
                         //조명 변경
+                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
+                        nRetStep = 15;
+                        break;
+
+                    case 15:
                         nRetStep = 20;
                         break;
                     case 20:
-
-                        aoitestData.Gasket = "1";
-                        aoitestData.KeyType = "A";
-                        aoitestData.CircleDented = "1";
+                        Globalo.setTestControl.checkBox_AllRelease();
+                        aoitestData.Gasket = "1";           //없거나,못찾으면 0 , 있으면 1
+                        aoitestData.KeyType = "A";          //찾으면 타입기록 , 못 찾으면 null기록
+                        aoitestData.CircleDented = "1";     //찌그러진 개수
                         aoitestData.Concentrycity_A = "0.1";
                         aoitestData.Concentrycity_D = "0.1";
 
@@ -130,21 +135,26 @@ namespace ZenTester.Process
                         int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
                         int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
                         int dataSize = sizeX * sizeY;
+
                         Globalo.visionManager.milLibrary.ClearOverlay(topCamIndex);
                         Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, false);
                         Globalo.visionManager.milLibrary.GetSnapImage(topCamIndex);
+
                         byte[] ImageBuffer = new byte[dataSize];
                         MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer);
                         Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
                         Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
+                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
                         //Gasket - 유무 검사
                         //Dent - 찌그러짐
                         //Key - 유무 검사
                         //Housing Out - Center xy 차이
                         //Housing In - Center xy 차이
-
+                        List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
+                        List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
                         string specKey = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
+
                         int specGasketMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
                         int specGasketMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
                         int specDentMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value);
@@ -197,7 +207,7 @@ namespace ZenTester.Process
                         //Dent (찌그러짐) 검사 
                         //
                         //
-                        Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true);   //true 일때 Dent(찌그러짐)검사
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true);   //true 일때 Dent(찌그러짐)검사
 
                         //Key 검사 
                         //
@@ -234,8 +244,9 @@ namespace ZenTester.Process
                         //동심도 검사 
                         //
                         //
-                        List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
-                        List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+                        FakraCenter.Clear();
+                        HousingCenter.Clear();
+
                         FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src); //Fakra 안쪽 원 찾기
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
                         if (FakraCenter.Count < 2)
@@ -298,9 +309,6 @@ namespace ZenTester.Process
                         }
 
                         aoitestData.CircleDented = "1";
-                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
-
-
                         
                         nRetStep = 900;
                         break;

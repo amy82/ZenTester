@@ -308,7 +308,7 @@ namespace ZenTester.Dlg
         private void button_Set_Key_Test_Click(object sender, EventArgs e)
         {
             bool rtn = true;
-
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -357,7 +357,7 @@ namespace ZenTester.Dlg
         private void button_Set_Housing_Test_Click(object sender, EventArgs e)
         {
             bool rtn = true;
-
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -381,8 +381,13 @@ namespace ZenTester.Dlg
 
             List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+
+
             FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(CamIndex, src); //Fakra 안쪽 원 찾기
             HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(CamIndex, src); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
+
+
             if (FakraCenter.Count < 2)
             {
                 Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
@@ -434,6 +439,7 @@ namespace ZenTester.Dlg
 
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
         {
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -466,7 +472,7 @@ namespace ZenTester.Dlg
         private void button_Set_Dent_Test_Click(object sender, EventArgs e)
         {
             bool rtn = true;
-
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -497,6 +503,7 @@ namespace ZenTester.Dlg
         #region [SIDE CAMERA MANUAL TEST]
         private void button_Set_Oring_Test_Click(object sender, EventArgs e)
         {
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -519,6 +526,7 @@ namespace ZenTester.Dlg
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
         {
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -540,6 +548,7 @@ namespace ZenTester.Dlg
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)
         {
+            checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[CamIndex];
@@ -1151,7 +1160,14 @@ namespace ZenTester.Dlg
                     return Cursors.Default;
             }
         }
-
+        public void checkBox_AllRelease()
+        {
+            isRoiChecked = -1;
+            checkBox_Roi_Key.Checked = false;
+            checkBox_Roi_ORing.Checked = false;
+            checkBox_Roi_Cone.Checked = false;
+            checkBox_Roi_Height.Checked = false;
+        }
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox changed = sender as CheckBox;

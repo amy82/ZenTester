@@ -849,7 +849,7 @@ namespace ZenTester.VisionClass
         public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage)
         {
             // 측정 시작
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Fakra_Test Test Start");
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
@@ -1067,7 +1067,7 @@ namespace ZenTester.VisionClass
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
 
                 HousingPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 390);
-                str = $"Fakra Out X:{(maxCircle.center.X * CamResolX).ToString("0.00#")},Y:{(maxCircle.center.Y * CamResolY).ToString("0.00#")},R:{(minCircle.radius * CamResolX).ToString("0.00#")}";
+                str = $"Fakra Out X:{(maxCircle.center.X * CamResolX).ToString("0.00#")},Y:{(maxCircle.center.Y * CamResolY).ToString("0.00#")},R:{(maxCircle.radius * CamResolX).ToString("0.00#")}";
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
 
 
@@ -1100,11 +1100,11 @@ namespace ZenTester.VisionClass
             double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
-            str = $"Test Time: {elapsedMs} ms";
+            str = $"In Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
-            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+            str = $"In Test Time: {elapsedMs / 1000.0:F3}(s)";
             Console.WriteLine(str);
-            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 920, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+            System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 920, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
 
             return FakraPoints;
@@ -1317,10 +1317,10 @@ namespace ZenTester.VisionClass
 
                 //Rectangle m_clRect2 = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
                 clPoint = new System.Drawing.Point((int)(minCircle.center.X - minCircle.radius), (int)(minCircle.center.Y - minCircle.radius));
-                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Green, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
-                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Green, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
 
@@ -1349,7 +1349,7 @@ namespace ZenTester.VisionClass
             int DentUnderCount = 0;
             if (maxRadius > 1 && bDentTest == true)
             {
-                int sampleCount = 200; // 원하는 샘플 개수 (조절 가능)
+                int sampleCount = 240; // 원하는 샘플 개수 (조절 가능)
                 List<Point2f> idealCirclePoints = new List<Point2f>();
                 for (int i = 0; i < sampleCount; i++)
                 {
@@ -1425,6 +1425,8 @@ namespace ZenTester.VisionClass
                     Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
                 }
                 Console.WriteLine($"Dentest DentUnderCount: {DentUnderCount}");
+
+                HousingPoints.Add(new OpenCvSharp.Point(DentUnderCount, sampleCount));
             }
             
             if (IMG_VIEW) 
@@ -1454,10 +1456,18 @@ namespace ZenTester.VisionClass
             long elapsedMs = Environment.TickCount - startTime;
             double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
             double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
-
             str = $"Test Time: {elapsedMs} ms";
             Console.WriteLine(str);
-            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+            if (bDentTest == false)
+            {
+                str = $"Out Test Time: {elapsedMs / 1000.0:F3}(s)";
+            }
+            else
+            {
+                str = $"Dent Test Time: {elapsedMs / 1000.0:F3}(s)";
+            }
+            
+            
             Console.WriteLine(str);
             System.Drawing.Point textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 920, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint,  str, Color.Blue, 15);
