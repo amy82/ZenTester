@@ -37,7 +37,7 @@ namespace ZenTester.Serial
         {
             //, int dataBits = 8, StopBits stopBits = StopBits.One, Parity parity = Parity.None
             this.PortName = portName;
-            this.BaudRate = (int)BaudRates.Baud19200;
+            this.BaudRate = (int)BaudRates.Baud9600;// Baud19200;
             this.DataBits = 8;
             this.StopBits = StopBits.One;
             this.Parity = Parity.None;
@@ -60,7 +60,15 @@ namespace ZenTester.Serial
             // 2. 데이터 수신 이벤트 핸들러 등록
             _serialPort.DataReceived += SerialPort_DataReceived;
         }
-
+        public void AllctrlLedVolume(int ch1Val, int ch2Val)
+        {
+            //1,2 채널
+            //:DIM!01010,100;  채널 1,2번 출력을 각각 10, 100으로 변경합니다. 
+            //:DIM!01120,255;  채널 1,2번 출력을 각각 120, 255으로 변경합니다.
+            string sSend = "";
+            sSend = string.Format(":DIM!01{0:000},{1:000};", ch1Val, ch2Val);
+            SendData(sSend);
+        }
         public void ctrlLedVolume(int ch, int value)
         {
             int chNo = 0;
@@ -68,15 +76,22 @@ namespace ZenTester.Serial
 
             string sSend = "";
             //sSend.Format(_T("[%02d%03d"), iNoChannel, iValue);
-            sSend = string.Format("[{0:00}{1:000}", chNo, value);
-            //string sSend = $"[{iNoChannel:00}{iValue:000}";
+            ///sSend = string.Format("[{0:00}{1:000}", chNo, value);
+
+
+            sSend = string.Format(":DIM!{0:00}{1:000};", chNo, value);
+
+            //FTS1-2250M - 2CH DIGITAL 8Bit Controller - 
+            //전력 60w
+
+            //:DIM!01010;       Channel 1 - val = 10
+            //:DIM!02100;       Channel 2 - val = 100
+
+            //:DIM!01010,100;   Channel 1,2  동시 10, 100 으로 변경
+            //:DIM!01120,255;   Channel 1,2  동시 120, 100 으로 변경
+
 
             SendData(sSend);
-        }
-        // 바코드 스캔 발생 시 이벤트 호출
-        public void SimulateScan(string barcodeData)
-        {
-            ///BarcodeScanned?.Invoke(barcodeData);
         }
         // 6. 바코드 데이터 수신 이벤트 처리
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -89,16 +104,23 @@ namespace ZenTester.Serial
 
 
                 ///string data = _serialPort.ReadLine();       //<--\r\n 붙을 경우 못 빠져나온다.
-                Console.WriteLine("바코드 데이터: " + scanData);
-                string logData = $"[Bcr] Scan Data:{scanData}";
+                Console.WriteLine("Recv Light Controller: " + scanData);
+                string logData = $"[Light] Recv Data:{scanData}";
 
                 Globalo.LogPrint("Serial", logData);
+                if (scanData == ":OK;")
+                {
+                    Console.WriteLine("Light Return Ok: " + scanData);
+                }
+                else
+                {
+                    Console.WriteLine("Light Return Fail: " + scanData);
+                }
+
+                //Globalo.productionInfo.BcrSet(scanData);
 
 
-                Globalo.productionInfo.BcrSet(scanData);
-
-
-                _serialPort.DiscardInBuffer(); // 입력 버퍼를 비웁니다.
+                    _serialPort.DiscardInBuffer(); // 입력 버퍼를 비웁니다.
 
             }
             catch (Exception ex)
@@ -137,7 +159,7 @@ namespace ZenTester.Serial
                     //_serialPort.WriteLine(data);
 
 
-                    logData = $"[Serial] Bcr Connect Ok  [{PortName}/{BaudRate}]";
+                    logData = $"[Serial] Light Connect Ok  [{PortName}/{BaudRate}]";
                     Globalo.LogPrint("SerialConnect", logData);
                     return true;
                 }
@@ -195,7 +217,24 @@ namespace ZenTester.Serial
         {
             if (_serialPort.IsOpen)
             {
-                _serialPort.WriteLine(data);
+                //_serialPort.WriteLine(data);
+                _serialPort.Write(data);        //개행문자 빼려고 Wirte로 변경
+                Console.WriteLine("Sent: " + data);
+            }
+            else
+            {
+                Console.WriteLine("Serial port is not open.");
+            }
+        }
+
+        public void reqLightVal()
+        {
+            //:DIM?;  현재 컨트롤러의 전체 출력채널의 밝기값을 모두 리턴합니다.
+           // string data = ":DIM?;";
+            string data = ":DIM?01;";
+            if (_serialPort.IsOpen)
+            {
+                _serialPort.Write(data);
                 Console.WriteLine("Sent: " + data);
             }
             else

@@ -100,6 +100,8 @@ namespace ZenTester.Process
             int nRtn = -1;
             bool bRtn = false;
             string szLog = "";
+            int data1 = 0;
+            int data2 = 0;
             int topCamIndex = 0;
             int nRetStep = 10;
             while (true)
@@ -115,6 +117,21 @@ namespace ZenTester.Process
                     case 10:
                         //조명 변경
                         Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
+
+                        //Top Light Set, Ch:1
+                        //Val 0 : Housing 약간 어둡게
+                        //Val 1 : Key/Gasket  밝게
+                        //Val 2 : Dent 0번과 비슷하게?
+
+                        data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
+                        data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
+                        //Globalo.serialPortManager.LightControl.ctrlLedVolume(1, data1);
+
+                        Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
+
+
+                        //Side Light Set, Ch:2
+                        //Val 0: Side Common - 사용 안 할 수도
                         nRetStep = 15;
                         break;
 

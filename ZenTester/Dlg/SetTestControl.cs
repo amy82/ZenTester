@@ -265,6 +265,7 @@ namespace ZenTester.Dlg
             CamIndex = 0;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+
         }
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
@@ -1670,12 +1671,16 @@ namespace ZenTester.Dlg
         {
             //Top Camera Light Save
             getLightData(0);
+
+
+            Globalo.serialPortManager.LightControl.reqLightVal();
         }
 
         private void label_SetTest_Manual_Side_Light_Save_Click(object sender, EventArgs e)
         {
             //Side Camera Light Save
             getLightData(1);
+            Globalo.serialPortManager.LightControl.reqLightVal();
         }
     }
 }

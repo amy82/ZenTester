@@ -37,6 +37,7 @@
             this.label_Config_Tray_GapX = new System.Windows.Forms.Label();
             this.ComboBox_Language = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label_CsvScanMax = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label_PinCountMax = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -59,7 +60,6 @@
             this.checkBox_BcrGo = new System.Windows.Forms.CheckBox();
             this.checkBox_IdleReportPass = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label_CsvScanMax = new System.Windows.Forms.Label();
             this.ManualPanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -184,6 +184,19 @@
             this.label5.TabIndex = 35;
             this.label5.Text = "Language";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_CsvScanMax
+            // 
+            this.label_CsvScanMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_CsvScanMax.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_CsvScanMax.Location = new System.Drawing.Point(174, 391);
+            this.label_CsvScanMax.Name = "label_CsvScanMax";
+            this.label_CsvScanMax.Size = new System.Drawing.Size(100, 29);
+            this.label_CsvScanMax.TabIndex = 34;
+            this.label_CsvScanMax.Text = "0";
+            this.label_CsvScanMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_CsvScanMax.Visible = false;
+            this.label_CsvScanMax.Click += new System.EventHandler(this.label_CsvScanMax_Click);
             // 
             // label4
             // 
@@ -351,11 +364,10 @@
             this.poisonComboBox_Light_Port.FormattingEnabled = true;
             this.poisonComboBox_Light_Port.IntegralHeight = false;
             this.poisonComboBox_Light_Port.ItemHeight = 20;
-            this.poisonComboBox_Light_Port.Location = new System.Drawing.Point(229, 239);
+            this.poisonComboBox_Light_Port.Location = new System.Drawing.Point(137, 137);
             this.poisonComboBox_Light_Port.Name = "poisonComboBox_Light_Port";
-            this.poisonComboBox_Light_Port.Size = new System.Drawing.Size(45, 28);
+            this.poisonComboBox_Light_Port.Size = new System.Drawing.Size(170, 28);
             this.poisonComboBox_Light_Port.TabIndex = 51;
-            this.poisonComboBox_Light_Port.Visible = false;
             // 
             // button_Bcr_DisConnect
             // 
@@ -363,13 +375,12 @@
             this.button_Bcr_DisConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Bcr_DisConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Bcr_DisConnect.ForeColor = System.Drawing.Color.White;
-            this.button_Bcr_DisConnect.Location = new System.Drawing.Point(188, 238);
+            this.button_Bcr_DisConnect.Location = new System.Drawing.Point(195, 173);
             this.button_Bcr_DisConnect.Name = "button_Bcr_DisConnect";
             this.button_Bcr_DisConnect.Size = new System.Drawing.Size(95, 40);
             this.button_Bcr_DisConnect.TabIndex = 48;
             this.button_Bcr_DisConnect.Text = "DISCONNECT";
             this.button_Bcr_DisConnect.UseVisualStyleBackColor = false;
-            this.button_Bcr_DisConnect.Visible = false;
             this.button_Bcr_DisConnect.Click += new System.EventHandler(this.button_Bcr_DisConnect_Click);
             // 
             // button_Bcr_Connect
@@ -378,13 +389,12 @@
             this.button_Bcr_Connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Bcr_Connect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Bcr_Connect.ForeColor = System.Drawing.Color.White;
-            this.button_Bcr_Connect.Location = new System.Drawing.Point(188, 238);
+            this.button_Bcr_Connect.Location = new System.Drawing.Point(94, 171);
             this.button_Bcr_Connect.Name = "button_Bcr_Connect";
             this.button_Bcr_Connect.Size = new System.Drawing.Size(95, 44);
             this.button_Bcr_Connect.TabIndex = 47;
             this.button_Bcr_Connect.Text = "CONNECT";
             this.button_Bcr_Connect.UseVisualStyleBackColor = false;
-            this.button_Bcr_Connect.Visible = false;
             this.button_Bcr_Connect.Click += new System.EventHandler(this.button_Bcr_Connect_Click);
             // 
             // label_Config_Light
@@ -394,13 +404,12 @@
             this.label_Config_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Config_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Light.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Light.Location = new System.Drawing.Point(198, 238);
+            this.label_Config_Light.Location = new System.Drawing.Point(22, 137);
             this.label_Config_Light.Name = "label_Config_Light";
-            this.label_Config_Light.Size = new System.Drawing.Size(76, 29);
+            this.label_Config_Light.Size = new System.Drawing.Size(109, 29);
             this.label_Config_Light.TabIndex = 30;
-            this.label_Config_Light.Text = "BCR";
+            this.label_Config_Light.Text = "LIGHT";
             this.label_Config_Light.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Config_Light.Visible = false;
             // 
             // label1
             // 
@@ -509,19 +518,6 @@
             this.label3.TabIndex = 26;
             this.label3.Text = "운전 설정";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_CsvScanMax
-            // 
-            this.label_CsvScanMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_CsvScanMax.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_CsvScanMax.Location = new System.Drawing.Point(174, 391);
-            this.label_CsvScanMax.Name = "label_CsvScanMax";
-            this.label_CsvScanMax.Size = new System.Drawing.Size(100, 29);
-            this.label_CsvScanMax.TabIndex = 34;
-            this.label_CsvScanMax.Text = "0";
-            this.label_CsvScanMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_CsvScanMax.Visible = false;
-            this.label_CsvScanMax.Click += new System.EventHandler(this.label_CsvScanMax_Click);
             // 
             // ConfigControl
             // 
