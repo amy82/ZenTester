@@ -20,12 +20,12 @@ namespace ZenTester.TcpSocket
         //public event Action<string> OnMessageReceived; // 메시지 수신 이벤트
         public event Func<string, Task> OnMessageReceivedAsync; // 비동기 이벤트
 
-        public TcpServer(string ip, int port)
+        public TcpServer(int port)
         {
             bConnected = false;
-            _listener = new TcpListener(IPAddress.Parse(ip), port);
+            _listener = new TcpListener(IPAddress.Any, port);//IPAddress.Parse(ip), port);
 
-            string logData = $"[tcp] Server Create:{ip} / {port}";
+            string logData = $"[tcp] Server Create: {port}";
             Globalo.LogPrint("CCdControl", logData);
         }
         public bool bClientConnectedState()

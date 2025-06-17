@@ -12,17 +12,20 @@ namespace ZenTester.TcpSocket
     public class TcpManager
     {
         private readonly SynchronizationContext _syncContext;
-        //private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
         
-        private TcpServer _server;      //미사용   
+        private TcpServer _Server;      //미사용   
         private CancellationTokenSource _cts;
 
-        private TcpClientHandler _client;
+        private TcpClientHandler _client;       //Handler로 연결
+        private TcpClientHandler _Verify_Client;       //Verify Secsgem으로 연결
         public TcpManager()//string ip, int port)
         {
             _syncContext = SynchronizationContext.Current;
-            //_server = new TcpServer(ip, port);
-            //_server.OnMessageReceivedAsync += HandleClientMessageAsync;
+
+
+
+            //_VerifyServer = new TcpServer(5001);
+            //_VerifyServer.OnMessageReceivedAsync += HandleClientMessageAsync;
 
             _cts = new CancellationTokenSource();
             Event.EventManager.PgExitCall += OnPgExit;
@@ -34,9 +37,14 @@ namespace ZenTester.TcpSocket
         public void SetClient(string ip, int port)
         {
             _client = new TcpClientHandler(ip, port, this);
-            //_client.OnMessageReceived += OnMessageReceived;
             _client.OnMessageReceivedAsync += HandleClientMessageAsync;
             _client.Connect();
+        }
+        public void SetVerifyClient(string ip, int port)
+        {
+            _Verify_Client = new TcpClientHandler(ip, port, this);
+            _Verify_Client.OnMessageReceivedAsync += VerifyClientMessageAsync;
+            _Verify_Client.Connect();
         }
 
         public async void SendMessageToHost(EquipmentData data) //ResultData
@@ -54,28 +62,28 @@ namespace ZenTester.TcpSocket
         }
         public async void SendMessageToClient(TcpSocket.EquipmentData equipData)//string message)
         {
-            if (_server.bClientConnectedState() == false)
+            if (_Server.bClientConnectedState() == false)
             {
                 return;
             }
-            //await _server.SendMessageAsync(message);   //클라이언트 하나만 허용  secGemApp
+            //await _VerifyServer.SendMessageAsync(message);   //클라이언트 하나만 허용  secGemApp
             //
             string jsonData = JsonConvert.SerializeObject(equipData);
-            await _server.BroadcastMessageAsync(jsonData);
+            await _Server.BroadcastMessageAsync(jsonData);
         }
         // 서버 시작
         public async Task StartServerAsync()
         {
-            await _server.StartAsync(_cts.Token);
+            await _Server.StartAsync(_cts.Token);
         }
 
         // 서버 중지
         public void StopServer()
         {
             _cts.Cancel();
-            if (_server != null)
+            if (_Server != null)
             {
-                _server.Stop();
+                _Server.Stop();
             }
             
         }
@@ -613,7 +621,50 @@ namespace ZenTester.TcpSocket
                 }
             }
         }
+        // 메시지 수신 시 처리
+        private async Task VerifyClientMessageAsync(string receivedData)
+        {
+            Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
 
+            //JsonSerializerSettings settings = new JsonSerializerSettings
+            //{
+            //    MaxDepth = 128, // 기본값보다 크게 설정
+            //    NullValueHandling = NullValueHandling.Ignore
+            //};
+            //EquipmentData data = JsonConvert.DeserializeObject<EquipmentData>(receivedData, settings);
+            Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
+            using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
+            using (JsonTextReader reader = new JsonTextReader(sr))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                //EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
+                var wrapper = serializer.Deserialize<MessageWrapper>(reader);
+
+
+                try
+                {
+                    switch (wrapper.Type)
+                    {
+                        case "EquipmentData":
+                            EquipmentData edata = serializer.Deserialize<EquipmentData>(reader);
+                            hostMessageParse(edata);
+                            break;
+
+                        case "Tester":
+                            //SocketTestState sdata = serializer.Deserialize<SocketTestState>(reader);
+                            TesterData socketState = JsonConvert.DeserializeObject<TesterData>(wrapper.Data.ToString());
+                            socketMessageParse(socketState);
+                            break;
+                    }
+                    await Task.Delay(10); // 가짜 비동기 작업 (예: DB 저장)
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+                }
+
+            }
+        }
         // 메시지 수신 시 처리
         private async Task HandleClientMessageAsync(string receivedData)
         {

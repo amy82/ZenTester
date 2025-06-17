@@ -90,14 +90,7 @@ namespace ZenTester  //ApsMotionControl
             // KeyEvent 이벤트 핸들러 추가
             //keyMessageFilter.KeyEvent += KeyMessageFilter_KeyEvent;
             Globalo.mlogControl = new Dlg.LogControl(dRightPanelW, dRightPanelH);
-
-
-
-            //Globalo.mMainPanel = new Dlg.MainControl(dRightPanelW, dRightPanelH);
-            //Globalo.mTeachPanel = new Dlg.TeachingControl(dRightPanelW, dRightPanelH);
-            //Globalo.mCCdPanel = new Dlg.CCdControl(dRightPanelW, dRightPanelH);
-
-
+            
             Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
             Globalo.setTestControl = new Dlg.SetTestControl();
@@ -158,7 +151,7 @@ namespace ZenTester  //ApsMotionControl
 
                 Globalo.setTestControl.setCamCenter();
             }
-                
+            
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configData.DrivingSettings.HandlerPort);
