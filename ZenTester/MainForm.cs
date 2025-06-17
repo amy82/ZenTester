@@ -179,7 +179,9 @@ namespace ZenTester  //ApsMotionControl
            //// serverStart();      //SECS - GEM 연결
 
             Http.HttpService.Start();
-
+            Http.HttpService.ReqRecipe();
+            //AOI 공정일 경우 시작할때, Secsgem으로 레시피 요청하기
+            //
 
             TopPanel.Paint += new PaintEventHandler(Form_Paint);
             eLogPrint("Main", "PG START");

@@ -17,6 +17,8 @@ namespace ZenTester.Http
         private static CancellationTokenSource _HttpCts;
         private static HttpListener _listener;
         private static Task _serverTask;
+        private static readonly object _fileLock = new object();
+
 
         private static readonly string[] RecipeFiles = new string[]
         {
@@ -35,11 +37,15 @@ namespace ZenTester.Http
                 //Verify Handler = 192.168.100.101
 
                 int port = 3001;    //SecsGem Pg
-                string url = $"http://192.168.100.100:{port}/reqRecipe";
+                string url = string.Empty;
 
                 if (ProgramState.NORINDA_MODE == true)
                 {
                     url = $"http://127.0.0.1:{port}/reqRecipe";
+                }
+                else
+                {
+                    url = $"http://192.168.100.100:{port}/reqRecipe";       //aoi만 사용하니깐 192.168.100.100
                 }
                 var response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -197,102 +203,129 @@ namespace ZenTester.Http
         {
             string path = context.Request.Url.AbsolutePath;
             var query = context.Request.QueryString;
-
-            if (path == "/recipes")
+            lock (_fileLock)
             {
-                string json = JsonConvert.SerializeObject(RecipeFiles);
-                byte[] buffer = Encoding.UTF8.GetBytes(json);
-                context.Response.ContentType = "application/json";
-                context.Response.OutputStream.Write(buffer, 0, buffer.Length);
-            }
-            else if (path == "/set-recipe")     //[AOI] 레시피 설정값 받는 부분 
-            {
-                using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
+                if (path == "/recipes")
                 {
-                    string body = reader.ReadToEnd();
-                    var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
-
-                    // 예시: 특정 값 확인
-                    int useChk = 0;
-                    double specData = 0.0;
-                    string key_type = "";
-                    string recipePPid = "";
-
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["NAME"]);
-
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value = data["CONE"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value = data["KEYTYPE"].ToString();
-                    //
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value = data["HEIGHT_LH_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value = data["HEIGHT_LH_MAX"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value = data["HEIGHT_MH_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value = data["HEIGHT_MH_MAX"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value = data["HEIGHT_RH_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value = data["HEIGHT_RH_MAX"].ToString();
-                    //
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value = data["CONCENTRICITY_IN_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value = data["CONCENTRICITY_IN_MAX"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value = data["CONCENTRICITY_OUT_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value = data["CONCENTRICITY_OUT_MAX"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value = data["GASKET_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value = data["GASKET_MAX"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value = data["DENT_MIN"].ToString();
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value = data["DENT_MAX"].ToString();
-
-
-                    //useChk = Convert.ToInt32(data["O_RING"]);        //오링 유무
-                    //key_type = Convert.ToString(data["KEYTYPE"]);       //Key Type
-                    //specData = Convert.ToDouble(data["HEIGHT_LH_MIN"]);             //LH MIN SPEC
-
-                    Console.WriteLine($"HEIGHT_LH_MIN:{specData}");
-
-                    Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
-                    Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
-                    //TODO: 받아서 레시피 파일로 저장을 하자
-
-
-                    Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
-                    Globalo.yamlManager.secsGemDataYaml.MesSave();
-
-
-
-                    Globalo.productionInfo.ShowModelName();
-                    Globalo.productionInfo.ShowRecipeName();
+                    string json = JsonConvert.SerializeObject(RecipeFiles);
+                    byte[] buffer = Encoding.UTF8.GetBytes(json);
+                    context.Response.ContentType = "application/json";
+                    context.Response.OutputStream.Write(buffer, 0, buffer.Length);
                 }
-            }
-            else if (path == "/recipe")
-            {
-                string name = query["name"];
-
-                if (!string.IsNullOrEmpty(name))
+                else if (path == "/set-Model")
                 {
-                    string filePath = Path.Combine("C:\\Recipes", name); // 실제 레시피 폴더 경로
-
-                    if (File.Exists(filePath))
+                    string szLog = string.Empty;
+                    szLog = $"[Http] Recv /set-Model";
+                    Globalo.LogPrint("LotProcess", szLog);
+                    using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
                     {
-                        string content = File.ReadAllText(filePath);
-                        byte[] buffer = Encoding.UTF8.GetBytes(content);
-                        context.Response.ContentType = "application/json";
-                        context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                        string body = reader.ReadToEnd();
+                        var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+
+                        Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = Convert.ToString(data["MODEL"]);
+
+
+
+                        Globalo.yamlManager.secsGemDataYaml.MesSave();
+                        Globalo.productionInfo.ShowModelName();
+                    }
+                }
+                else if (path == "/set-recipe")     //[AOI] 레시피 설정값 받는 부분 
+                {
+                    string szLog = string.Empty;
+                    szLog = $"[Http] Recv /set-recipe";
+                    Globalo.LogPrint("LotProcess", szLog);
+                    using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
+                    {
+                        string body = reader.ReadToEnd();
+                        var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+
+                        // 예시: 특정 값 확인
+                        int useChk = 0;
+                        double specData = 0.0;
+                        string key_type = "";
+                        string recipePPid = "";
+
+                        
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["RECIPE"]);
+
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value = data["CONE"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value = data["KEYTYPE"].ToString();
+                        //
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value = data["HEIGHT_LH_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value = data["HEIGHT_LH_MAX"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value = data["HEIGHT_MH_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value = data["HEIGHT_MH_MAX"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value = data["HEIGHT_RH_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value = data["HEIGHT_RH_MAX"].ToString();
+                        //
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value = data["CONCENTRICITY_IN_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value = data["CONCENTRICITY_IN_MAX"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value = data["CONCENTRICITY_OUT_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value = data["CONCENTRICITY_OUT_MAX"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value = data["GASKET_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value = data["GASKET_MAX"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value = data["DENT_MIN"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value = data["DENT_MAX"].ToString();
+
+
+                        //useChk = Convert.ToInt32(data["O_RING"]);        //오링 유무
+                        //key_type = Convert.ToString(data["KEYTYPE"]);       //Key Type
+                        //specData = Convert.ToDouble(data["HEIGHT_LH_MIN"]);             //LH MIN SPEC
+
+                        Console.WriteLine($"HEIGHT_LH_MIN:{specData}");
+
+                        Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
+                        Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
+                                                                                                   //TODO: 받아서 레시피 파일로 저장을 하자
+
+
+                        Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                        Globalo.yamlManager.secsGemDataYaml.MesSave();
+
+
+
+                        
+                        Globalo.productionInfo.ShowRecipeName();
+
+
+                        szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
+                        Globalo.LogPrint("LotProcess", szLog);
+                    }
+                }
+                else if (path == "/recipe")
+                {
+                    string name = query["name"];
+
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        string filePath = Path.Combine("C:\\Recipes", name); // 실제 레시피 폴더 경로
+
+                        if (File.Exists(filePath))
+                        {
+                            string content = File.ReadAllText(filePath);
+                            byte[] buffer = Encoding.UTF8.GetBytes(content);
+                            context.Response.ContentType = "application/json";
+                            context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = 404;
+                            byte[] buffer = Encoding.UTF8.GetBytes("File not found..");
+                            context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                        }
                     }
                     else
                     {
-                        context.Response.StatusCode = 404;
-                        byte[] buffer = Encoding.UTF8.GetBytes("File not found..");
-                        context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                        context.Response.StatusCode = 400;
                     }
                 }
                 else
                 {
-                    context.Response.StatusCode = 400;
+                    context.Response.StatusCode = 404;
                 }
             }
-            else
-            {
-                context.Response.StatusCode = 404;
-            }
-
             context.Response.Close();
         }
 
