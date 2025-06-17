@@ -118,10 +118,12 @@ namespace ZenTester.TcpSocket
             int result = -1;
 
             string dataName = data.Cmd;
+            int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
+            ///int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
             if (data.Cmd == "CMD_TEST")
             {
-                int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
-                int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
+                
+                
                 if (Globalo.taskManager.testRun)
                 {
                     Console.WriteLine("test Running!!!");
@@ -134,7 +136,7 @@ namespace ZenTester.TcpSocket
                     if (nStep == 0)
                     {
                         Globalo.taskManager.testRun = true;
-                        Globalo.taskManager.Aoi_TestRun(index);
+                        Globalo.taskManager.Aoi_TestRun(data);
                         
                     }
                     if (nStep == 1)
@@ -144,12 +146,13 @@ namespace ZenTester.TcpSocket
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
                 {
-                    //프로그램 하나에 소켓 하나 eeprom write 진행
                     // data.CommandParameter
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                 {
-                    //프로그램 하나에 소켓 하나 eeprom verify 진행
+                    Globalo.taskManager.testRun = true;
+                    Globalo.taskManager.Verify_TestRun(data);
+
                     // data.CommandParameter
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
@@ -718,34 +721,7 @@ namespace ZenTester.TcpSocket
 
             }
         }
-        private void OnMessageReceived(string receivedData)
-        {
-            //Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
-
-            ////JsonSerializerSettings settings = new JsonSerializerSettings
-            ////{
-            ////    MaxDepth = 128, // 기본값보다 크게 설정
-            ////    NullValueHandling = NullValueHandling.Ignore
-            ////};
-            ////EquipmentData data = JsonConvert.DeserializeObject<EquipmentData>(receivedData, settings);
-            //Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
-            //using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
-            //using (JsonTextReader reader = new JsonTextReader(sr))
-            //{
-            //    JsonSerializer serializer = new JsonSerializer();
-            //    EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
-
-            //    try
-            //    {
-            //        hostMessageParse(data);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
-            //    }
-
-            //}
-        }
+        
         
     }
 }

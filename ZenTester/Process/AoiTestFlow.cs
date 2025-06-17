@@ -24,11 +24,10 @@ namespace ZenTester.Process
         public int nLoadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
         public int nUnloadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
 
-        private TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
+        public TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
         private OpenCvSharp.Point[] aoiCenterPos = new OpenCvSharp.Point[2];
 
 
-        public int socketNumber = 0;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;

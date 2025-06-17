@@ -53,7 +53,21 @@ namespace ZenTester.TcpSocket
         public object Data { get; set; }        //Data 안에 EquipmentData 또는 SocketTestState 추가해서 전달
     }
 
-
+    public class VerifyApdData
+    {
+        //{ "Socket_Num", "Result", "Barcode", "SensorID" };
+        public string Socket_Num { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string SensorID { get; set; }
+        public void init()
+        {
+            Socket_Num = "1";
+            Result = "1";
+            Barcode = string.Empty;
+            SensorID = string.Empty;
+        }
+    }
     public class AoiApdData
     {
         public string BcrLot { get; set; }

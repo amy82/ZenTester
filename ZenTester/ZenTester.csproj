@@ -424,6 +424,7 @@
     <Compile Include="Process\ProcessManager.cs" />
     <Compile Include="Process\ReadyProcess.cs" />
     <Compile Include="Process\TransferFlow.cs" />
+    <Compile Include="Process\VerifyTestFlow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

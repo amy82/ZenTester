@@ -155,6 +155,34 @@ namespace ZenTester
         private void button23_Click(object sender, EventArgs e)
         {
             //verify apd
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "LOT_APD_REPORT";
+            sendEqipData.LotID = "testLot";//Globalo.dataManage.TaskWork.m_szChipID;
+            sendEqipData.Judge = 1;/// Globalo.taskWork.m_nTestFinalResult;
+
+            //1.Socket_Num
+            //2.Result
+            //3.Barcode
+            //4.SensorID
+            int tCount = 4;
+            string[] apdList = { "Socket_Num", "Result", "Barcode", "SensorID" };
+            string[] apdResult = { "11", "22", "33", "44" };
+
+            for (int i = 0; i < tCount; i++)
+            {
+                TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                pInfo.Name = apdList[i];
+                pInfo.Value = apdResult[i];
+
+                sendEqipData.CommandParameter.Add(pInfo);
+            }
+
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessageToServer(EqipData);
         }
     }
 }

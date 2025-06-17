@@ -213,7 +213,6 @@ namespace ZenTester.TcpSocket
                     if (bytesRead > 0)
                     {
                         string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        //OnMessageReceived?.Invoke(receivedData);
 
 
                         // ✅ 메시지 수신 시 비동기 이벤트 호출
