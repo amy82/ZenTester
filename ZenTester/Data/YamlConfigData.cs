@@ -42,6 +42,7 @@ namespace ZenTester.Data
     }
     public class ConfigData
     {
+        public int MachineId { get; set; }
         public _SerialPort SerialPort { get; set; }
         public _DrivingSettings DrivingSettings { get; set; }
         public _CamSettings CamSettings { get; set; }

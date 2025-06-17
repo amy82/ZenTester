@@ -216,7 +216,6 @@ namespace ZenTester.Data
                 if (!File.Exists(filePath))
                     return false;
 
-
                 configData = LoadYaml<ConfigData>(filePath);
                 if (configData == null)
                 {

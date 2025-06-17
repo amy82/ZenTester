@@ -24,6 +24,62 @@ namespace ZenTester.Http
         {
             "RecipeA.json", "RecipeB.json", "RecipeC.json"
         };
+
+
+        public async static void ReqModel()
+        {
+            
+            try
+            {
+
+                //PC Ip:
+                //Handler : 192.168.100.100
+                //SecsGem : 192.168.100.100
+                //Verify Handler = 192.168.100.101
+
+                int port = 3001;    //SecsGem Pg
+                string url = string.Empty;
+
+                if (ProgramState.NORINDA_MODE == true)
+                {
+                    url = $"http://127.0.0.1:{port}/reqModel";
+                }
+                else
+                {
+                    url = $"http://192.168.100.100:{port}/reqModel";       //aoi만 사용하니깐 192.168.100.100
+                }
+
+                //string json = JsonConvert.SerializeObject("");
+                int _idNum = Globalo.yamlManager.configData.MachineId;
+                var json = JsonConvert.SerializeObject(new { ipNumber = _idNum });
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient();
+                var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Req Model Send Complete!");
+                }
+                else
+                {
+                    Console.WriteLine($"Req Model Send Fail: ErrCode {(int)response.StatusCode} {response.ReasonPhrase}");
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Server Response Content: " + errorContent);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("Req Model HTTP 요청 중 오류 발생: " + ex.Message);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine("Req Model 요청 시간이 초과되었습니다: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Req Model 알 수 없는 예외: " + ex.Message);
+            }
+        }
         public async static void ReqRecipe()
         {
             string json = JsonConvert.SerializeObject("");
@@ -228,6 +284,10 @@ namespace ZenTester.Http
 
                         Globalo.yamlManager.secsGemDataYaml.MesSave();
                         Globalo.productionInfo.ShowModelName();
+
+
+                        szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
+                        Globalo.LogPrint("LotProcess", szLog);
                     }
                 }
                 else if (path == "/set-recipe")     //[AOI] 레시피 설정값 받는 부분 

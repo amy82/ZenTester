@@ -136,6 +136,7 @@ namespace ZenTester
         private void button21_Click(object sender, EventArgs e)
         {
             Http.HttpService.ReqRecipe();
+            Http.HttpService.ReqModel();
         }
     }
 }
