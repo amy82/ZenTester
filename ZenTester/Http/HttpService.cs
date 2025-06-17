@@ -314,6 +314,7 @@ namespace ZenTester.Http
                         Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
                         Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value = data["CONE"].ToString();
                         Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value = data["KEYTYPE"].ToString();
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value = data["GASKET"].ToString();
                         //
                         Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value = data["HEIGHT_LH_MIN"].ToString();
                         Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value = data["HEIGHT_LH_MAX"].ToString();

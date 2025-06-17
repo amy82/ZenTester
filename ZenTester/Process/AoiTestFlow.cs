@@ -196,6 +196,11 @@ namespace ZenTester.Process
                         //Housing In - Center xy 차이
                         List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
                         List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+
+                        int IsOring = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value);
+                        int IsCone = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value);
+                        int IsGasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value);
+
                         string specKey = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
 
                         int specGasketMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
@@ -207,10 +212,16 @@ namespace ZenTester.Process
                         double con_OutMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
                         double con_OutMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
 
-
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //중심찾기
                         //
                         //
+                        //
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+
                         bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex]);
                         if (rtn)
                         {
@@ -226,30 +237,43 @@ namespace ZenTester.Process
                             szLog = $"[TOP CAM] CENTER FIND FAIL ({aoiCenterPos[topCamIndex].X},{aoiCenterPos[topCamIndex].Y})";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+                        //
+                        //
                         //가스켓 검사
                         //
+                        // 유무에 따라서 검사해야된다.  0일때 있으면 ng , 1일때 없으면 ng
                         //
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
                         int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, src, aoiCenterPos[topCamIndex], true);
 
 
-                        if (gasketLight < specGasketMin || gasketLight > specGasketMax)
+                        if (gasketLight < specGasketMin)// || gasketLight > specGasketMax)
                         {
                             //ng
                             aoitestData.Result = "0";
 
-                            szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin} ~ {specGasketMax})";
+                            szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
                         else
                         {
-                            szLog = $"[TOP CAM] GASKET LIGHT PASS: {gasketLight} ({specGasketMin} ~ {specGasketMax})";
+                            szLog = $"[TOP CAM] GASKET LIGHT PASS: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
 
                         aoitestData.Gasket = gasketLight.ToString();
+
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //Dent (찌그러짐) 검사 
                         //
                         //
+                        //
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true, true);   //true 일때 Dent(찌그러짐)검사
                         int denUnderCnt = HousingCenter[0].X;
                         if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
@@ -260,10 +284,15 @@ namespace ZenTester.Process
                         {
                             aoitestData.CircleDented = "1";
                         }
-                        
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //Key 검사 
                         //
                         //
+                        //
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
                         int key1Rtn = 0;
                         int key2Rtn = 0;
                         string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
@@ -295,10 +324,15 @@ namespace ZenTester.Process
                             Globalo.LogPrint("ManualControl", szLog);
                         }
 
-
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+                        //
+                        //
                         //동심도 검사 
                         //
                         //
+                        //
+                        //----------------------------------------------------------------------------------------------------------------------------------------------------
+
                         FakraCenter.Clear();
                         HousingCenter.Clear();
 
@@ -315,6 +349,7 @@ namespace ZenTester.Process
                         FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, true); //Fakra 안쪽 원 찾기
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
+                        //내원 2개 , 외원 2개씩 찾아야 진행된다.
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
                         {
                             Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");

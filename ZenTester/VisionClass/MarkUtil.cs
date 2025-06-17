@@ -60,7 +60,7 @@ namespace ZenTester.VisionClass
         private double dScore = 0.0;
         private double dAngle = 0.0;
 
-        private int markBinarizeData = 50;
+        private int markBinarizeData = 195;
         public MarkUtil()
         {
             int i = 0;
