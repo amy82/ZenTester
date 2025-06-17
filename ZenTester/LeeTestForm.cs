@@ -138,5 +138,23 @@ namespace ZenTester
             Http.HttpService.ReqRecipe();
             Http.HttpService.ReqModel();
         }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            //verify object
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "OBJECT_ID_REPORT";
+            sendEqipData.LotID = "testLot";// Globalo.dataManage.TaskWork.m_szChipID;
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessageToServer(EqipData);
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            //verify apd
+        }
     }
 }

@@ -60,7 +60,16 @@ namespace ZenTester.TcpSocket
         {
             _client.Disconnect(false);
         }
-        public async void SendMessageToClient(TcpSocket.EquipmentData equipData)//string message)
+        public async void SendMessageToServer(TcpSocket.MessageWrapper equipData)
+        {
+            if (_Verify_Client.bHostConnectedState() == false)
+            {
+                return;
+            }
+            string jsonData = JsonConvert.SerializeObject(equipData);
+            await _Verify_Client.SendDataAsync(jsonData);
+        }
+        public async void SendMessageToClient(TcpSocket.EquipmentData equipData)
         {
             if (_Server.bClientConnectedState() == false)
             {

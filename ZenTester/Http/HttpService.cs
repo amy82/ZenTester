@@ -294,6 +294,10 @@ namespace ZenTester.Http
                 }
                 else if (path == "/set-recipe")     //[AOI] 레시피 설정값 받는 부분 
                 {
+                    if (Program.TEST_PG_SELECT != TESTER_PG.AOI)
+                    {
+                        return;
+                    }
                     string szLog = string.Empty;
                     szLog = $"[Http] Recv /set-recipe";
                     Globalo.LogPrint("LotProcess", szLog);
