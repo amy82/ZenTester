@@ -26,8 +26,9 @@ namespace ZenTester.Process
 
         public TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
         private OpenCvSharp.Point[] aoiCenterPos = new OpenCvSharp.Point[2];
-
-
+        private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+        private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+        private int m_nTestFinalResult;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -43,6 +44,7 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
+                    m_nTestFinalResult = 1;
                     Globalo.visionManager.milLibrary.RunModeChange(true);
                     waitTopCam = -1;
                     waitSideCam = -1;
@@ -51,8 +53,8 @@ namespace ZenTester.Process
                     CancelToken?.Dispose();
                     CancelToken = new CancellationTokenSource();    //
 
-                    aoitestData.init();     //AOI 결과값 초기화
-                    aoitestData.Socket_Num = socketNumber.ToString();
+                    
+                    
                     TopCamTask = Task.Run(() =>
                     {
                         waitTopCam = 1;
@@ -88,8 +90,63 @@ namespace ZenTester.Process
                     //
                     //
                     //Apd 보고 -> SecsGem Clinet -> 결과는 Handler로 전송
-                    Http.HttpService.LotApdReport(aoitestData);
-                    nRetStep = 1000;    //1000이상이면 종료
+                    //Http.HttpService.LotApdReport(aoitestData);     //<----바꾸자 HANDLER로 보내는걸로
+
+                    EqipData.Type = "EquipmentData";
+                    sendEqipData.Command = "LOT_APD_REPORT";
+                    sendEqipData.LotID = aoitestData.Barcode;
+                    sendEqipData.Judge = m_nTestFinalResult;
+                    int tCount = 4;
+
+                    string[] apdList = { "LH", "RH", "MH", "Gasket", "KeyType"
+                            , "CircleDented"
+                            , "Concentrycity_A"
+                            , "Concentrycity_D"
+                    , "Cone"
+                    , "ORing"
+                    , "Result"
+                    , "Barcode"
+                    , "Socket_Num"};
+
+                    string[] apdResult = {
+                        aoitestData.LH, aoitestData.RH, aoitestData.MH, 
+                        aoitestData.Gasket, aoitestData.KeyType,aoitestData.CircleDented, aoitestData.Concentrycity_A, aoitestData.Concentrycity_D,
+                    aoitestData.Cone, aoitestData.ORing, aoitestData.Result ,aoitestData.Barcode, aoitestData.Socket_Num};
+
+                    for (int i = 0; i < apdResult.Length; i++)
+                    {
+                        TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                        pInfo.Name = apdList[i];
+                        pInfo.Value = apdResult[i];
+
+                        sendEqipData.CommandParameter.Add(pInfo);
+                    }
+                    EqipData.Data = sendEqipData;
+                    Globalo.tcpManager.nRecv_Ack = -1;
+                    Globalo.tcpManager.SendMessageToServer(EqipData);
+                    nTimeTick = Environment.TickCount;
+
+
+
+                    nRetStep = 220;    //1000이상이면 종료
+                    break;
+                case 220:
+                    //Verify 공정은 Secsgem으로 apd보고해야된다 . 나머지는 Handler로
+                    //완공다되면 Handler로도 보내줘야된다.
+
+
+                    TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+                    objectData.Type = "EquipmentData";
+
+                    TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+                    LotstartData.LotID = aoitestData.Barcode;
+                    LotstartData.Command = "APS_LOT_FINISH";
+                    LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
+                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+
+                    objectData.Data = LotstartData;
+                    Globalo.tcpManager.SendMessageToHostNew(objectData);
                     break;
             }
             return nRetStep;

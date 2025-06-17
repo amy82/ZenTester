@@ -20,7 +20,10 @@ namespace ZenTester.Process
         public int nTimeTick = 0;
 
         public TcpSocket.VerifyApdData verifytestData = new TcpSocket.VerifyApdData();
+        private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+        private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
 
+        private int m_nTestFinalResult;
         public VerifyTestFlow()
         {
             verifyTask = Task.FromResult(1);
@@ -33,31 +36,42 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
+                    m_nTestFinalResult = 1;
                     waitverify = -1;
                     verifyTask = null;
                     CancelToken?.Dispose();
                     CancelToken = new CancellationTokenSource();    //
+                    nRetStep = 110;
 
-                    verifytestData.init();
-                    verifytestData.Socket_Num = socketNumber.ToString();
                     break;
                 case 110:
                     //착공걸기
-                    TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                    
                     EqipData.Type = "EquipmentData";
-
-                    TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
                     sendEqipData.Command = "OBJECT_ID_REPORT";
-                    sendEqipData.LotID = "testLot";// Globalo.dataManage.TaskWork.m_szChipID;
+                    sendEqipData.LotID = verifytestData.Barcode;
                     EqipData.Data = sendEqipData;
+                    Globalo.tcpManager.nRecv_Ack = -1;
                     Globalo.tcpManager.SendMessageToServer(EqipData);
+                    nTimeTick = Environment.TickCount;
+                    nRetStep = 111;
                     break;
                 case 111:
                     //착공 대기 or verify 진행
+                    if (Globalo.tcpManager.nRecv_Ack == 0)
+                    {
+                        nRetStep = 120;
+                    }
+                    else if (Environment.TickCount - nTimeTick > 5000)
+                    {
+                        Console.WriteLine($"Timeout {nRetStep}");
+                        nRetStep = -1;
+                    }
+                    
                     break;
 
                 case 120:
-
+                    nRetStep = 130;
                     break;
                 case 130:
                     verifyTask = Task.Run(() =>
@@ -67,9 +81,84 @@ namespace ZenTester.Process
                         Console.WriteLine($"-------------- Verify Task - end {waitverify}");
                         return waitverify;
                     }, CancelToken.Token);
+
+                    nTimeTick = Environment.TickCount;
+                    nRetStep = 131;
+                    break;
+                case 131:
+                    if (waitverify == 1)
+                    {
+                        if (Environment.TickCount - nTimeTick > 50000)
+                        {
+                            Console.WriteLine("Timeout - {waitverify}");
+                            nRetStep = -1;
+                            break;
+                        }
+                        break;
+                    }
+                    nRetStep = 200;
                     break;
                 case 200:
+                    EqipData.Type = "EquipmentData";
+                    sendEqipData.Command = "LOT_APD_REPORT";
+                    sendEqipData.LotID = verifytestData.Barcode;
+                    sendEqipData.Judge = m_nTestFinalResult;
 
+                    //1.Socket_Num
+                    //2.Result
+                    //3.Barcode
+                    //4.SensorID
+                    int tCount = 4;
+                    string[] apdList = { "Socket_Num", "Result", "Barcode", "SensorID" };
+                    string[] apdResult = { verifytestData.Socket_Num, m_nTestFinalResult.ToString(), verifytestData.Barcode, verifytestData.SensorID };
+
+                    for (int i = 0; i < tCount; i++)
+                    {
+                        TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                        pInfo.Name = apdList[i];
+                        pInfo.Value = apdResult[i];
+
+                        sendEqipData.CommandParameter.Add(pInfo);
+                    }
+
+                    EqipData.Data = sendEqipData;
+                    Globalo.tcpManager.nRecv_Ack = -1;
+                    Globalo.tcpManager.SendMessageToServer(EqipData);
+                    nTimeTick = Environment.TickCount;
+                    break;
+
+                case 210:
+                    //착공 확인 대기
+                    if (Globalo.tcpManager.nRecv_Ack > -1)
+                    {
+                        nRetStep = 220;
+                    }
+                    else if (Environment.TickCount - nTimeTick > 5000)
+                    {
+                        Console.WriteLine($"Timeout {nRetStep}");
+                        nRetStep = -1;
+                    }
+                    break;
+                case 220:
+                    //Verify 공정은 Secsgem으로 apd보고해야된다 . 나머지는 Handler로
+                    //완공다되면 Handler로도 보내줘야된다.
+
+
+                    TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+                    objectData.Type = "EquipmentData";
+
+                    TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+                    LotstartData.Command = "APS_LOT_FINISH";
+                    LotstartData.LotID = verifytestData.Barcode;
+                    LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
+                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+
+                    objectData.Data = LotstartData;
+                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter;
+                    //TODO: 여기서 Special Data 여기서 보내야된다.
+                    //
+                    Globalo.tcpManager.SendMessageToHostNew(objectData);
                     break;
             }
             return nRetStep;

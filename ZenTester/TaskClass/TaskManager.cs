@@ -15,36 +15,33 @@ namespace ZenTester.TaskClass
         public TaskManager()
         {
             aoiTestFlow = new Process.AoiTestFlow();
+            verifyTestFlow = new Process.VerifyTestFlow();
         }
         public void Aoi_TestRun(TcpSocket.TesterData data)  //int SocketNum)      //1 or 2
         {
             int nStep = 100;
             string szLog = string.Empty;
+            aoiTestFlow.aoitestData.init();     //AOI 결과값 초기화
             aoiTestFlow.aoitestData.Barcode = data.LotId[0];
             aoiTestFlow.aoitestData.Socket_Num = data.socketNum.ToString();
-            Console.WriteLine($"Aoi Task Start SocketNum-------------------------- {aoiTestFlow.aoitestData.Socket_Num}");
 
+            Console.WriteLine($"Aoi Task Start SocketNum------------- {aoiTestFlow.aoitestData.Socket_Num}");
 
             szLog = $"[AOI] TEST START :{aoiTestFlow.aoitestData.Barcode}/{aoiTestFlow.aoitestData.Socket_Num}";
-            Globalo.LogPrint("PcbProcess", szLog);
+            Globalo.LogPrint("TaskManager", szLog);
 
             _ = Task.Run(async () =>
             {
                 while (true)
                 {
                     nStep = aoiTestFlow.AoiAutoProcess(nStep);
-                    if (nStep == 1000)
-                    {
-                        break;
-                    }
-                    if (nStep < 0)
-                    {
-                        break;
-                    }
+                    //
+                    if (nStep == 1000) { break; }
+                    if (nStep < 0) { break; }
                     await Task.Delay(10);
                 }
                 testRun = false;
-                Console.WriteLine($"Task End - {nStep}");
+                Console.WriteLine($"TaskManager End - {nStep}");
             });
             
         }
@@ -52,27 +49,27 @@ namespace ZenTester.TaskClass
         {
             int nStep = 100;
             string szLog = string.Empty;
+            verifyTestFlow.verifytestData.init();
             verifyTestFlow.verifytestData.Barcode = data.LotId[0];
             verifyTestFlow.verifytestData.Socket_Num = data.socketNum.ToString();
-            Console.WriteLine($"Verify Task Start SocketNum-------------------------- {verifyTestFlow.verifytestData.Socket_Num}");
 
-
-            //szLog = $"[AOI] TEST START SocketNum :{verifyTestFlow.socketNumber}";
+            Console.WriteLine($"Verify Task Start SocketNum-------{verifyTestFlow.verifytestData.Socket_Num}");
+            
             szLog = $"[VERIFY] TEST START :{verifyTestFlow.verifytestData.Barcode}/{verifyTestFlow.verifytestData.Socket_Num}";
-            Globalo.LogPrint("PcbProcess", szLog);
+            Globalo.LogPrint("TaskManager", szLog);
 
             _ = Task.Run(async () =>
             {
                 while (true)
                 {
                     nStep = verifyTestFlow.VerifyAutoProcess(nStep);
-
+                    //
                     if (nStep == 1000){break;}
                     if (nStep < 0){break;}
                     await Task.Delay(10);
                 }
                 testRun = false;
-                Console.WriteLine($"Task End - {nStep}");
+                Console.WriteLine($"TaskManager End - {nStep}");
             });
 
         }

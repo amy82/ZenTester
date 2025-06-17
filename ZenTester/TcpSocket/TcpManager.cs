@@ -16,12 +16,14 @@ namespace ZenTester.TcpSocket
         private TcpServer _Server;      //미사용   
         private CancellationTokenSource _cts;
 
-        private TcpClientHandler _client;       //Handler로 연결
+        private TcpClientHandler _HandlerClient;       //Handler로 연결
         private TcpClientHandler _Verify_Client;       //Verify Secsgem으로 연결
+
+        public int nRecv_Ack;//bRecv_S6F12_Lot_Apd
         public TcpManager()//string ip, int port)
         {
             _syncContext = SynchronizationContext.Current;
-
+            nRecv_Ack = -1;
 
 
             //_VerifyServer = new TcpServer(5001);
@@ -36,9 +38,9 @@ namespace ZenTester.TcpSocket
         }
         public void SetClient(string ip, int port)
         {
-            _client = new TcpClientHandler(ip, port, this);
-            _client.OnMessageReceivedAsync += HandleClientMessageAsync;
-            _client.Connect();
+            _HandlerClient = new TcpClientHandler(ip, port, this);
+            _HandlerClient.OnMessageReceivedAsync += HandleClientMessageAsync;
+            _HandlerClient.Connect();
         }
         public void SetVerifyClient(string ip, int port)
         {
@@ -49,16 +51,25 @@ namespace ZenTester.TcpSocket
 
         public async void SendMessageToHost(EquipmentData data) //ResultData
         {
-            if (_client.bHostConnectedState() == false)
+            if (_HandlerClient.bHostConnectedState() == false)
             {
                 return;
             }
             string jsonData = JsonConvert.SerializeObject(data);
-            await _client.SendDataAsync(jsonData);
+            await _HandlerClient.SendDataAsync(jsonData);
+        }
+        public async void SendMessageToHostNew(MessageWrapper data)
+        {
+            if (_HandlerClient.bHostConnectedState() == false)
+            {
+                return;
+            }
+            string jsonData = JsonConvert.SerializeObject(data);
+            await _HandlerClient.SendDataAsync(jsonData);
         }
         public void DisconnectClient()
         {
-            _client.Disconnect(false);
+            _HandlerClient.Disconnect(false);
         }
         public async void SendMessageToServer(TcpSocket.MessageWrapper equipData)
         {
