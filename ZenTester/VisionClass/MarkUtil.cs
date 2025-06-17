@@ -60,6 +60,7 @@ namespace ZenTester.VisionClass
         private double dScore = 0.0;
         private double dAngle = 0.0;
 
+        private int markBinarizeData = 50;
         public MarkUtil()
         {
             int i = 0;
@@ -302,7 +303,7 @@ namespace ZenTester.VisionClass
 
             //
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clPtMarkStartPos.X, m_clPtMarkStartPos.Y, m_clPtMarkSize.X, m_clPtMarkSize.Y, ref MilTempImage);
-            MIL.MimBinarize(MilTempImage, MilTempImage, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
+            MIL.MimBinarize(MilTempImage, MilTempImage, MIL.M_FIXED + MIL.M_GREATER, markBinarizeData, MIL.M_NULL);
 
             MIL.MmodDefine(m_MilModModel[MarkNo], MIL.M_IMAGE, MilTempImage, 0, 0, m_clPtMarkSize.X, m_clPtMarkSize.Y);
             //
@@ -393,7 +394,7 @@ namespace ZenTester.VisionClass
                 MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, m_clRectRoi.Width, m_clRectRoi.Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilChildLow);
                 MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[0], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilChildLow);
 
-                MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
+                MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, markBinarizeData, MIL.M_NULL);
                 MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
 
                 MIL.MmodFind(m_MilModModel[nNo], MilChildLow, m_MilModResult[index]);

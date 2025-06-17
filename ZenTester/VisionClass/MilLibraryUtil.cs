@@ -703,7 +703,8 @@ namespace ZenTester.VisionClass
                 for (i = 0; i < TotalCamCount; i++)
                 {
                     //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
-                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
+                    //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);      //TOP
+                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);   //SIDE
 
 
                     bGrabOnFlag[i] = true;

@@ -58,7 +58,7 @@ namespace ZenTester.Http
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Req Model Send Complete!");
+                    Console.WriteLine("Req Model Complete!");
                 }
                 else
                 {
@@ -82,7 +82,9 @@ namespace ZenTester.Http
         }
         public async static void ReqRecipe()
         {
-            string json = JsonConvert.SerializeObject("");
+            ////string json = JsonConvert.SerializeObject("");
+            int _idNum = Globalo.yamlManager.configData.MachineId;
+            var json = JsonConvert.SerializeObject(new { ipNumber = _idNum });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();
             try
@@ -106,7 +108,7 @@ namespace ZenTester.Http
                 var response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Recipe Send Complete!");
+                    Console.WriteLine("Recipe Complete!");
                 }
                 else
                 {
@@ -172,7 +174,7 @@ namespace ZenTester.Http
                 var response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Recipe Send Complete!");
+                    Console.WriteLine("Recipe Complete!");
                 }
                 else
                 {
@@ -343,9 +345,6 @@ namespace ZenTester.Http
 
                         Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
                         Globalo.yamlManager.secsGemDataYaml.MesSave();
-
-
-
                         
                         Globalo.productionInfo.ShowRecipeName();
 
