@@ -78,7 +78,7 @@ namespace ZenTester.Process
                     //Top, Side 둘다 검사 대기
                     if (waitTopCam == 1 || waitSideCam == 1)
                     {
-                        if (Environment.TickCount - nTimeTick > 10000)
+                        if (Environment.TickCount - nTimeTick > 50000)
                         {
                             Console.WriteLine("Timeout - {waitTopCam},{waitSideCam}");
                             nRetStep = -1;
@@ -154,7 +154,7 @@ namespace ZenTester.Process
                         else if (Environment.TickCount - nTimeTick > 3000)
                         {
                             szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
-                            Globalo.LogPrint("ManualControl", szLog);
+                            Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
                             nRetStep *= -1;
                             break;
                         }

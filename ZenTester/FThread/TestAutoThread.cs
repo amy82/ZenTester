@@ -50,7 +50,11 @@ namespace ZenTester.FThread
                 {
                     AoiFlow();
                 }
-                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM)
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                {
+                    Write_EEpromFlow();
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                 {
                     Verify_EEpromFlow();
                 }

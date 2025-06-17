@@ -48,7 +48,6 @@
             this.label_Config_Handler_Ip = new System.Windows.Forms.Label();
             this.label_Handler_Ip3 = new System.Windows.Forms.Label();
             this.label_Handler_Ip2 = new System.Windows.Forms.Label();
-            this.label_Handler_Ip1 = new System.Windows.Forms.Label();
             this.poisonComboBox_Light_Port = new System.Windows.Forms.ComboBox();
             this.button_Bcr_DisConnect = new System.Windows.Forms.Button();
             this.button_Bcr_Connect = new System.Windows.Forms.Button();
@@ -60,6 +59,8 @@
             this.checkBox_BcrGo = new System.Windows.Forms.CheckBox();
             this.checkBox_IdleReportPass = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip1 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip4 = new System.Windows.Forms.Label();
             this.ManualPanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -256,12 +257,13 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.label_Handler_Ip4);
+            this.groupBox1.Controls.Add(this.label_Handler_Ip1);
             this.groupBox1.Controls.Add(this.label_Handler_Port);
             this.groupBox1.Controls.Add(this.label_Config_Handler_Port);
             this.groupBox1.Controls.Add(this.label_Config_Handler_Ip);
             this.groupBox1.Controls.Add(this.label_Handler_Ip3);
             this.groupBox1.Controls.Add(this.label_Handler_Ip2);
-            this.groupBox1.Controls.Add(this.label_Handler_Ip1);
             this.groupBox1.Controls.Add(this.poisonComboBox_Light_Port);
             this.groupBox1.Controls.Add(this.button_Bcr_DisConnect);
             this.groupBox1.Controls.Add(this.button_Bcr_Connect);
@@ -310,7 +312,7 @@
             this.label_Config_Handler_Ip.ForeColor = System.Drawing.Color.Black;
             this.label_Config_Handler_Ip.Location = new System.Drawing.Point(22, 39);
             this.label_Config_Handler_Ip.Name = "label_Config_Handler_Ip";
-            this.label_Config_Handler_Ip.Size = new System.Drawing.Size(202, 28);
+            this.label_Config_Handler_Ip.Size = new System.Drawing.Size(203, 28);
             this.label_Config_Handler_Ip.TabIndex = 125;
             this.label_Config_Handler_Ip.Text = "HANDLER IP ADDRESS";
             this.label_Config_Handler_Ip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -321,9 +323,9 @@
             this.label_Handler_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Handler_Ip3.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Ip3.ForeColor = System.Drawing.Color.Black;
-            this.label_Handler_Ip3.Location = new System.Drawing.Point(159, 67);
+            this.label_Handler_Ip3.Location = new System.Drawing.Point(124, 67);
             this.label_Handler_Ip3.Name = "label_Handler_Ip3";
-            this.label_Handler_Ip3.Size = new System.Drawing.Size(65, 40);
+            this.label_Handler_Ip3.Size = new System.Drawing.Size(50, 40);
             this.label_Handler_Ip3.TabIndex = 124;
             this.label_Handler_Ip3.Text = "100";
             this.label_Handler_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -335,26 +337,13 @@
             this.label_Handler_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Handler_Ip2.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Ip2.ForeColor = System.Drawing.Color.Black;
-            this.label_Handler_Ip2.Location = new System.Drawing.Point(94, 67);
+            this.label_Handler_Ip2.Location = new System.Drawing.Point(73, 67);
             this.label_Handler_Ip2.Name = "label_Handler_Ip2";
-            this.label_Handler_Ip2.Size = new System.Drawing.Size(65, 40);
+            this.label_Handler_Ip2.Size = new System.Drawing.Size(50, 40);
             this.label_Handler_Ip2.TabIndex = 123;
             this.label_Handler_Ip2.Text = "100";
             this.label_Handler_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label_Handler_Ip2.Click += new System.EventHandler(this.label_Handler_Ip2_Click);
-            // 
-            // label_Handler_Ip1
-            // 
-            this.label_Handler_Ip1.BackColor = System.Drawing.Color.LightGray;
-            this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Handler_Ip1.ForeColor = System.Drawing.Color.Black;
-            this.label_Handler_Ip1.Location = new System.Drawing.Point(22, 67);
-            this.label_Handler_Ip1.Name = "label_Handler_Ip1";
-            this.label_Handler_Ip1.Size = new System.Drawing.Size(72, 40);
-            this.label_Handler_Ip1.TabIndex = 122;
-            this.label_Handler_Ip1.Text = "192.168";
-            this.label_Handler_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // poisonComboBox_Light_Port
             // 
@@ -519,6 +508,32 @@
             this.label3.Text = "운전 설정";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label_Handler_Ip1
+            // 
+            this.label_Handler_Ip1.BackColor = System.Drawing.Color.White;
+            this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip1.ForeColor = System.Drawing.Color.Black;
+            this.label_Handler_Ip1.Location = new System.Drawing.Point(22, 67);
+            this.label_Handler_Ip1.Name = "label_Handler_Ip1";
+            this.label_Handler_Ip1.Size = new System.Drawing.Size(50, 40);
+            this.label_Handler_Ip1.TabIndex = 128;
+            this.label_Handler_Ip1.Text = "100";
+            this.label_Handler_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Handler_Ip4
+            // 
+            this.label_Handler_Ip4.BackColor = System.Drawing.Color.White;
+            this.label_Handler_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip4.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip4.ForeColor = System.Drawing.Color.Black;
+            this.label_Handler_Ip4.Location = new System.Drawing.Point(175, 67);
+            this.label_Handler_Ip4.Name = "label_Handler_Ip4";
+            this.label_Handler_Ip4.Size = new System.Drawing.Size(50, 40);
+            this.label_Handler_Ip4.TabIndex = 129;
+            this.label_Handler_Ip4.Text = "100";
+            this.label_Handler_Ip4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // ConfigControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -566,9 +581,10 @@
         public System.Windows.Forms.Label label_Config_Handler_Ip;
         private System.Windows.Forms.Label label_Handler_Ip3;
         private System.Windows.Forms.Label label_Handler_Ip2;
-        private System.Windows.Forms.Label label_Handler_Ip1;
         public System.Windows.Forms.Label label_Config_Handler_Port;
         private System.Windows.Forms.Label label_Handler_Port;
         private System.Windows.Forms.Label label_CsvScanMax;
+        private System.Windows.Forms.Label label_Handler_Ip4;
+        private System.Windows.Forms.Label label_Handler_Ip1;
     }
 }

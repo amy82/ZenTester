@@ -40,7 +40,8 @@ namespace ZenTester.Dlg
         }
         public void GetConfigData()
         {
-            string Handlerip = "192.168." + label_Handler_Ip2.Text + "." + label_Handler_Ip3.Text;
+            string Handlerip = label_Handler_Ip1.Text + "." + label_Handler_Ip2.Text + "." + label_Handler_Ip3.Text + "." + label_Handler_Ip4.Text;
+
             string Handlerport = label_Handler_Port.Text;
             Globalo.yamlManager.configData.DrivingSettings.HandlerIp = Handlerip;
             Globalo.yamlManager.configData.DrivingSettings.HandlerPort = int.Parse(Handlerport);
@@ -68,8 +69,10 @@ namespace ZenTester.Dlg
             string Handlerip = Globalo.yamlManager.configData.DrivingSettings.HandlerIp;
             string[] parts = Handlerip.Split('.');
 
-            label_Handler_Ip2.Text = parts[2];  // 50
-            label_Handler_Ip3.Text = parts[3];  // 1
+            label_Handler_Ip1.Text = parts[0];
+            label_Handler_Ip2.Text = parts[1];
+            label_Handler_Ip3.Text = parts[2];
+            label_Handler_Ip4.Text = parts[3];
 
             label_Handler_Port.Text = Globalo.yamlManager.configData.DrivingSettings.HandlerPort.ToString();
 

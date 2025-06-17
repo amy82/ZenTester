@@ -92,6 +92,7 @@ namespace ZenTester
                 // 포커스 없애기
                 this.ActiveControl = null;
             }
+            BTN_NUMPAD_ENTER.Focus();
         }
         
         private void NumPadForm_FormClosed(object sender, FormClosedEventArgs e)

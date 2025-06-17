@@ -125,11 +125,15 @@ namespace ZenTester.TcpSocket
                         //Z축 이동후 다음 Step 검사
                     }
                 }
-                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM)
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
                 {
                     //프로그램 하나에 소켓 하나 eeprom write 진행
+                    // data.CommandParameter
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                {
                     //프로그램 하나에 소켓 하나 eeprom verify 진행
-                   // data.CommandParameter
+                    // data.CommandParameter
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
                 {

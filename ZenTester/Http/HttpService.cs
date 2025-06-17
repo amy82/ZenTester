@@ -29,6 +29,10 @@ namespace ZenTester.Http
             HttpClient client = new HttpClient();
             try
             {
+                //PC Ip:
+                //Handler : 192.168.100.100
+                //SecsGem : 192.168.100.100
+                //Verify Handler = 192.168.100.101
 
                 int port = 3001;    //SecsGem Pg
                 string url = $"http://192.168.100.100:{port}/reqRecipe";
@@ -89,8 +93,18 @@ namespace ZenTester.Http
             try
             {
 
-                int port = 3001;    //SecsGem Pg
-                string url = $"http://192.168.100.100:{port}/ApdReport";
+                int port = 3001;    //T ------->>>  SecsGem Pg 3001 고정
+                string url = string.Empty;
+
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                {
+                    //url = $"http://192.168.100.101:{port}/ApdReport";      //VERIFY 설비 : 101
+                }
+                else
+                {
+                    //url = $"http://192.168.100.100:{port}/ApdReport";      //FW , WRITE , AOI : 100
+                }
+                url = $"http://127.0.0.1:{port}/ApdReport";
 
 
                 var response = await client.PostAsync(url, content);

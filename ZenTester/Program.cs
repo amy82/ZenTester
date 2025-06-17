@@ -12,7 +12,7 @@ namespace ZenTester
 {
     public enum TESTER_PG
     {
-        AOI, EEPROM, FW
+        AOI, EEPROM_WRITE, EEPROM_VERIFY, FW
     }
     static class Program
     {
