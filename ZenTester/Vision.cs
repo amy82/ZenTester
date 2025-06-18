@@ -464,6 +464,7 @@ namespace ZenTester
             {
                 return;
             }
+            return;
             int i = 0;
             MIL.MappAlloc(MIL.M_NULL, MIL.M_DEFAULT, ref MilApplication);//MIL.MappAlloc(MIL.M_DEFAULT, ref MilApplication);
             // Allocate defaults.

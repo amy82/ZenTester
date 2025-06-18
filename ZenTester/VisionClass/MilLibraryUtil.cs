@@ -640,7 +640,7 @@ namespace ZenTester.VisionClass
             CamControlHeight = _CamH;
             int i = 0;
             long lBufferAttributes = 0;
-            if (index < TotalCamCount)
+            if(bGrabOnFlag[index] == true)//if(index < TotalCamCount)
             {
                 lBufferAttributes = MIL.M_IMAGE + MIL.M_GRAB + MIL.M_PROC + MIL.M_DISP;
             }
@@ -707,18 +707,18 @@ namespace ZenTester.VisionClass
 
                     if (model.Contains("MV-CU120-10GM"))//TOP
                     {
-                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[0]);
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[0]);
                         bGrabOnFlag[0] = true;
                     }
 
                     if (model.Contains("MV-CH120-11GM"))//SIDE
                     {
-                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[1]);
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[1]);
                         bGrabOnFlag[1] = true;
                     }
                 }
 
-                for (i = 0; i < TotalCamCount; i++)
+                for (i = 0; i < 2; i++)
                 {
                     if (bGrabOnFlag[i] == true)
                     {
