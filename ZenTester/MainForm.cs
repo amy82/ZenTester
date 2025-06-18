@@ -78,6 +78,8 @@ namespace ZenTester  //ApsMotionControl
             Globalo.yamlManager.modelLIstData.ModelLoad();
             Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();      //ModelLoad 다음에 로드해라
 
+
+            //if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
 
@@ -288,7 +290,24 @@ namespace ZenTester  //ApsMotionControl
             TopPanel.BackColor = ColorTranslator.FromHtml("#FAFAFA");
             MainTitleLabel.ForeColor = ColorTranslator.FromHtml("#8F949F");
             MainTitleLabel.BackColor = Color.Transparent;
-            MainTitleLabel.Text = "Zen Tester V1";
+            string _pgModel = string.Empty;
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                _pgModel = "Aoi";
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            {
+                _pgModel = "Write";
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            {
+                _pgModel = "Verify";
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                _pgModel = "fw";
+            }
+            MainTitleLabel.Text = "Zen Tester :"+ _pgModel;
 
             //-----------------------------------------------
             int MidPanelHeight = LeftPanel.Height;          //Left Middle 패널 높이

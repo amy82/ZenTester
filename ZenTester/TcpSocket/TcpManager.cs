@@ -243,12 +243,18 @@ namespace ZenTester.TcpSocket
                 Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
 
-                Globalo.productionInfo.ShowRecipeName();
+                
 
                 //설정 부분 다시 로드해야된다. 
                 //SetControl
 
-                Globalo.setTestControl.manualConfig.RefreshConfig();
+                _syncContext.Send(_ =>
+                {
+                    Globalo.productionInfo.ShowRecipeName();
+                    Globalo.setTestControl.manualConfig.RefreshConfig();
+
+                }, null);
+                
 
 
 
@@ -261,7 +267,13 @@ namespace ZenTester.TcpSocket
                 string model = data.DataID;
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
-                Globalo.productionInfo.ShowModelName();
+
+                _syncContext.Send(_ =>
+                {
+                    Globalo.productionInfo.ShowModelName();
+
+                }, null);
+                
 
                 //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
                 Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
