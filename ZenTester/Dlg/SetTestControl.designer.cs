@@ -75,7 +75,7 @@ namespace ZenTester.Dlg
             // 
             // button_SetTest_SideCam
             // 
-            this.button_SetTest_SideCam.BackColor = System.Drawing.Color.Black;
+            this.button_SetTest_SideCam.BackColor = System.Drawing.Color.DarkGray;
             this.button_SetTest_SideCam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_SetTest_SideCam.ForeColor = System.Drawing.Color.White;
             this.button_SetTest_SideCam.Location = new System.Drawing.Point(1129, 8);

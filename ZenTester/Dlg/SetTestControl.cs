@@ -92,6 +92,8 @@ namespace ZenTester.Dlg
             manualTest.Location = new System.Drawing.Point(1050, 50);
             manualConfig.Location = new System.Drawing.Point(1050, 50);
 
+
+            button_SetTest_SideCam.BackColor = Color.DarkGray;
             tempRoi.Clear();
 
             
@@ -222,6 +224,9 @@ namespace ZenTester.Dlg
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
             //Set_panelCam.Handle
+
+            button_SetTest_TopCam.BackColor = Color.Black;
+            button_SetTest_SideCam.BackColor = Color.DarkGray;
             CamIndex = 0;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
@@ -230,6 +235,8 @@ namespace ZenTester.Dlg
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
+            button_SetTest_SideCam.BackColor = Color.Black;
+            button_SetTest_TopCam.BackColor = Color.DarkGray;
             CamIndex = 1;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
         }

@@ -203,6 +203,7 @@ namespace ZenTester.Dlg
             this.button_Set_Height_Test.TabIndex = 112;
             this.button_Set_Height_Test.Text = "HEIGHT TEST";
             this.button_Set_Height_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Height_Test.Click += new System.EventHandler(this.button_Set_Height_Test_Click);
             // 
             // button_Set_Cone_Test
             // 
@@ -215,6 +216,7 @@ namespace ZenTester.Dlg
             this.button_Set_Cone_Test.TabIndex = 111;
             this.button_Set_Cone_Test.Text = "CONE TEST";
             this.button_Set_Cone_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Cone_Test.Click += new System.EventHandler(this.button_Set_Cone_Test_Click);
             // 
             // button_Set_Oring_Test
             // 
@@ -227,6 +229,7 @@ namespace ZenTester.Dlg
             this.button_Set_Oring_Test.TabIndex = 110;
             this.button_Set_Oring_Test.Text = "ORING TEST";
             this.button_Set_Oring_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Oring_Test.Click += new System.EventHandler(this.button_Set_Oring_Test_Click);
             // 
             // button_Set_Dent_Test
             // 

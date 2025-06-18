@@ -73,6 +73,12 @@ namespace ZenTester.VisionClass
             MilDigitizerList[0] = MIL.M_NULL;
             MilDigitizerList[1] = MIL.M_NULL;
 
+
+            CAM_SIZE_X[0] = 4024;
+            CAM_SIZE_Y[0] = 3036;
+
+            CAM_SIZE_X[1] = 4096;
+            CAM_SIZE_Y[1] = 3000;
             for (i = 0; i < 2; i++)
             {
                 m_clMilDrawBox[i] = new CMilDrawBox();
@@ -80,8 +86,7 @@ namespace ZenTester.VisionClass
                 m_clMilDrawText[i] = new CMilDrawText();
                 m_clMilDrawCross[i] = new CMilDrawCross();
 
-                CAM_SIZE_X[i] = 1024;
-                CAM_SIZE_Y[i] = 768;
+                
 
                 xReduce[i] = 0.0;
                 yReduce[i] = 0.0;
@@ -89,6 +94,7 @@ namespace ZenTester.VisionClass
                 yExpand[i] = 0.0;
 
             }
+
             
         }
 

@@ -664,12 +664,12 @@ namespace ZenTester.VisionClass
         public bool HeightTest(int index)
         {
             int startTime = Environment.TickCount;
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            Globalo.visionManager.milLibrary.ClearOverlay(index);
             double[] heightData = new double[3];
 
-            heightData[0] = MilEdgeHeight(0, 0);
-            heightData[1] = MilEdgeHeight(0, 1);
-            heightData[2] = MilEdgeHeight(0, 2);
+            heightData[0] = MilEdgeHeight(index, 0);
+            heightData[1] = MilEdgeHeight(index, 1);
+            heightData[2] = MilEdgeHeight(index, 2);
 
 
             string str = "";
@@ -861,11 +861,11 @@ namespace ZenTester.VisionClass
                 Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * CamResolY}");
                 //int OffsetX = 800;
                 //int OffsetY = 700; 
-                Globalo.visionManager.milLibrary.ClearOverlay(0);
-                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
-                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.ClearOverlay(index);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
 
-                Globalo.visionManager.milLibrary.DrawOverlayArrow(0, OffsetX, (int)(OffsetY + minValue), OffsetX, (int)(OffsetY + maxValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayArrow(index, OffsetX, (int)(OffsetY + minValue), OffsetX, (int)(OffsetY + maxValue), Color.Yellow, 1);
 
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue))/2);
@@ -873,7 +873,7 @@ namespace ZenTester.VisionClass
                 System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX, textCenterY);
                 double dis = (maxValue - minValue) * CamResolY;
                 str = $"{dis.ToString("0.0##")} [mm]";
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Yellow, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
 
             }
             else
