@@ -245,6 +245,12 @@ namespace ZenTester.TcpSocket
 
                 Globalo.productionInfo.ShowRecipeName();
 
+                //설정 부분 다시 로드해야된다. 
+                //SetControl
+
+                Globalo.setTestControl.manualConfig.RefreshConfig();
+
+
 
                 //szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
                 //Globalo.LogPrint("LotProcess", szLog);

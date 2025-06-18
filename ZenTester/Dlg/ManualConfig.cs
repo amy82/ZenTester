@@ -18,15 +18,7 @@ namespace ZenTester.Dlg
 
         public int TopLIghtDataNo = 0;
         public int SideLIghtDataNo = 0;
-        //private bool m_bDrawMeasureLine = false;
 
-        //public int CamIndex = 0;
-        //private int[] CamW = new int[2];
-        //private int[] CamH = new int[2];
-        //public List<Data.Roi> tempRoi = new List<Data.Roi>();
-        //private System.Drawing.Point[,] DistLineX = new System.Drawing.Point[2, 2];
-        //private int isRoiChecked = -1;
-        //private int isRoiNo = -1;
 
         public ManualConfig(SetTestControl _parent)
         {
@@ -55,11 +47,14 @@ namespace ZenTester.Dlg
             trackBar_Side_Light.TickFrequency = 10;
             trackBar_Side_Light.Scroll += trackBar_Side_Light_Scroll;
         }
+        public void RefreshConfig()
+        {
+            showCamResol();
+            showLight();
+            drawCenterCross();
+        }
         public void checkBox_AllRelease()
         {
-            
-
-
             if (this.InvokeRequired)
             {
                 parentDlg.Invoke(new Action(() => parentDlg.isRoiChecked = -1));
@@ -588,9 +583,8 @@ namespace ZenTester.Dlg
         {
             if (this.Visible)
             {
-                showCamResol();
-                showLight();
-                drawCenterCross();
+                RefreshConfig();
+                
             }
             else
             {
