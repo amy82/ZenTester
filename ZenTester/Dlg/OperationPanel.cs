@@ -115,7 +115,7 @@ namespace ZenTester.Dlg
             //    MainGuideTxtSet("설비 일시정지 상태입니다.");
             //}
 
-            Globalo.camControl.setOverlayText("PAUS", Color.Red);         //초기화
+            //Globalo.camControl.setOverlayText("PAUS", Color.Red);         //초기화
 
             Globalo.threadControl.autoRunthread.Pause();
 

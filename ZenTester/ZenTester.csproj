@@ -240,12 +240,6 @@
     <Compile Include="Dlg\AlarmControl.designer.cs">
       <DependentUpon>AlarmControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\CamControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Dlg\CamControl.designer.cs">
-      <DependentUpon>CamControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dlg\ConfigControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -463,7 +457,6 @@
     <Compile Include="FThread\LogThread.cs" />
     <Compile Include="Ubisam\Constants.cs" />
     <Compile Include="Ubisam\DriverHelper.cs" />
-    <Compile Include="Vision.cs" />
     <Compile Include="VisionClass\AoiSideTester.cs" />
     <Compile Include="VisionClass\AoiTester.cs" />
     <Compile Include="VisionClass\AoiTopTester.cs" />
@@ -498,9 +491,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\AlarmControl.resx">
       <DependentUpon>AlarmControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\CamControl.resx">
-      <DependentUpon>CamControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\ConfigControl.resx">
       <DependentUpon>ConfigControl.cs</DependentUpon>

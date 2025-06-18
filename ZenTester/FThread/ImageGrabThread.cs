@@ -66,13 +66,13 @@ namespace ZenTester.FThread
                     // 데이터를 Mat에 복사
                     Marshal.Copy(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0, Globalo.mLaonGrabberClass.imageItp.Data, mHeight * mWidth * 3);
                     // Grab 버퍼에 저장
-                    Cv2.Resize(Globalo.mLaonGrabberClass.imageItp, resizedMat, new OpenCvSharp.Size((int)(mWidth * Globalo.vision.M_CcdReduceFactorX), (int)(mHeight * Globalo.vision.M_CcdReduceFactorY)));
-                    Globalo.camControl.Invoke((MethodInvoker)delegate
-                    {
+                    //Cv2.Resize(Globalo.mLaonGrabberClass.imageItp, resizedMat, new OpenCvSharp.Size((int)(mWidth * Globalo.vision.M_CcdReduceFactorX), (int)(mHeight * Globalo.vision.M_CcdReduceFactorY)));
+                    //Globalo.camControl.Invoke((MethodInvoker)delegate
+                    //{
 
-                        Globalo.camControl.pictureBox1.Image?.Dispose();  // 이전 이미지 Dispose
-                        Globalo.camControl.pictureBox1.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(resizedMat);// Globalo.mLaonGrabberClass.imageItp);
-                    });
+                    //    Globalo.camControl.pictureBox1.Image?.Dispose();  // 이전 이미지 Dispose
+                    //    Globalo.camControl.pictureBox1.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(resizedMat);// Globalo.mLaonGrabberClass.imageItp);
+                    //});
                     // byte[] 데이터를 Bitmap으로 변환
                     //using (MemoryStream stream = new MemoryStream(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer))
                     //{

@@ -37,7 +37,7 @@ namespace ZenTester.Process
                 case 30000:
                     _syncContext.Send(_ =>
                     {
-                        Globalo.camControl.setOverlayText("READY", Color.YellowGreen);         //초기화
+                        //Globalo.camControl.setOverlayText("READY", Color.YellowGreen);         //초기화
                     }, null);
                     Globalo.taskWork.m_nTestFinalResult = 1;        //초기화
                     nRetStep = 30050;
@@ -125,10 +125,10 @@ namespace ZenTester.Process
                     }
                     break;
                 case 39000:
-                    _syncContext.Send(_ =>
-                    {
-                        Globalo.camControl.setOverlayText("START", Color.Green);         //초기화
-                    }, null);
+                    //_syncContext.Send(_ =>
+                    //{
+                    //    Globalo.camControl.setOverlayText("START", Color.Green);         //초기화
+                    //}, null);
                     
                     szLog = $"[AUTO] START [STEP : {nRetStep}]";
                     Globalo.LogPrint("LotProcess", szLog);
@@ -718,12 +718,12 @@ namespace ZenTester.Process
                     {
                         if (Globalo.taskWork.m_nTestFinalResult == 1)
                         {
-                            Globalo.camControl.setOverlayText("PASS", Color.Green);
+                            //Globalo.camControl.setOverlayText("PASS", Color.Green);
                             Globalo.yamlManager.taskDataYaml.TaskData.ProductionInfo.OkCount++;
                         }
                         else
                         {
-                            Globalo.camControl.setOverlayText("FAIL", Color.Red);
+                            //Globalo.camControl.setOverlayText("FAIL", Color.Red);
                             Globalo.yamlManager.taskDataYaml.TaskData.ProductionInfo.NgCount++;
                         }
 
