@@ -423,8 +423,8 @@ namespace ZenTester.VisionClass
                 //string str = $"{dHeight.ToString("0.0##")}(mm)";
                 //Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Blue, 15);
 
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Green, 2);
-
+                ///Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Green, 2);
+                Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, Color.Green, System.Drawing.Drawing2D.DashStyle.Solid);
 
 
                 //System.Drawing.Point textPoint;
@@ -438,26 +438,27 @@ namespace ZenTester.VisionClass
                 System.Drawing.Point textPoint;
 
                 str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
-
-                textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
+                Console.WriteLine(str);
+                //textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
 
                 if (bRtn)
                 {
-                    str = $"CONE Detected!";
+                    str = $"CONE - 1";
                     ConeColor = Color.Green;
                 }
                 else
                 {
-                    str = $"CONE Not Detected!";
+                    str = $"CONE - 0";
                     ConeColor = Color.Red;
                 }
 
 
                 int leng = str.Length;
-                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
-
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
+                //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
+                textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", ConeColor, 13);
             }
             else
             {
@@ -465,7 +466,8 @@ namespace ZenTester.VisionClass
                 Console.Write("the specified maximum number of edges !\n\n");
 
 
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Red, 2);
+                //Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Red, 2);
+                Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, Color.Red, System.Drawing.Drawing2D.DashStyle.Solid);
                 bRtn = false;
             }
 

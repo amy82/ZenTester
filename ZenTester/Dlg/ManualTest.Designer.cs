@@ -197,9 +197,9 @@ namespace ZenTester.Dlg
             this.button_Set_Height_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Height_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Height_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Height_Test.Location = new System.Drawing.Point(29, 469);
+            this.button_Set_Height_Test.Location = new System.Drawing.Point(349, 262);
             this.button_Set_Height_Test.Name = "button_Set_Height_Test";
-            this.button_Set_Height_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Height_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Height_Test.TabIndex = 112;
             this.button_Set_Height_Test.Text = "HEIGHT TEST";
             this.button_Set_Height_Test.UseVisualStyleBackColor = false;
@@ -210,9 +210,9 @@ namespace ZenTester.Dlg
             this.button_Set_Cone_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Cone_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Cone_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Cone_Test.Location = new System.Drawing.Point(29, 418);
+            this.button_Set_Cone_Test.Location = new System.Drawing.Point(349, 192);
             this.button_Set_Cone_Test.Name = "button_Set_Cone_Test";
-            this.button_Set_Cone_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Cone_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Cone_Test.TabIndex = 111;
             this.button_Set_Cone_Test.Text = "CONE TEST";
             this.button_Set_Cone_Test.UseVisualStyleBackColor = false;
@@ -223,9 +223,9 @@ namespace ZenTester.Dlg
             this.button_Set_Oring_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Oring_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Oring_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Oring_Test.Location = new System.Drawing.Point(29, 367);
+            this.button_Set_Oring_Test.Location = new System.Drawing.Point(349, 122);
             this.button_Set_Oring_Test.Name = "button_Set_Oring_Test";
-            this.button_Set_Oring_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Oring_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Oring_Test.TabIndex = 110;
             this.button_Set_Oring_Test.Text = "ORING TEST";
             this.button_Set_Oring_Test.UseVisualStyleBackColor = false;
@@ -236,9 +236,9 @@ namespace ZenTester.Dlg
             this.button_Set_Dent_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Dent_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Dent_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Dent_Test.Location = new System.Drawing.Point(29, 224);
+            this.button_Set_Dent_Test.Location = new System.Drawing.Point(29, 262);
             this.button_Set_Dent_Test.Name = "button_Set_Dent_Test";
-            this.button_Set_Dent_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Dent_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Dent_Test.TabIndex = 109;
             this.button_Set_Dent_Test.Text = "DENT TEST";
             this.button_Set_Dent_Test.UseVisualStyleBackColor = false;
@@ -249,9 +249,9 @@ namespace ZenTester.Dlg
             this.button_Set_Gasket_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Gasket_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Gasket_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(29, 173);
+            this.button_Set_Gasket_Test.Location = new System.Drawing.Point(29, 192);
             this.button_Set_Gasket_Test.Name = "button_Set_Gasket_Test";
-            this.button_Set_Gasket_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Gasket_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Gasket_Test.TabIndex = 108;
             this.button_Set_Gasket_Test.Text = "GASKET TEST";
             this.button_Set_Gasket_Test.UseVisualStyleBackColor = false;
@@ -264,7 +264,7 @@ namespace ZenTester.Dlg
             this.button_Set_Housing_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Housing_Test.Location = new System.Drawing.Point(29, 122);
             this.button_Set_Housing_Test.Name = "button_Set_Housing_Test";
-            this.button_Set_Housing_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Housing_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Housing_Test.TabIndex = 107;
             this.button_Set_Housing_Test.Text = "HOUSING TEST";
             this.button_Set_Housing_Test.UseVisualStyleBackColor = false;
@@ -275,9 +275,9 @@ namespace ZenTester.Dlg
             this.button_Set_Key_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Key_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Key_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Key_Test.Location = new System.Drawing.Point(29, 275);
+            this.button_Set_Key_Test.Location = new System.Drawing.Point(29, 332);
             this.button_Set_Key_Test.Name = "button_Set_Key_Test";
-            this.button_Set_Key_Test.Size = new System.Drawing.Size(140, 50);
+            this.button_Set_Key_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Key_Test.TabIndex = 106;
             this.button_Set_Key_Test.Text = "KEY TEST";
             this.button_Set_Key_Test.UseVisualStyleBackColor = false;
@@ -285,28 +285,28 @@ namespace ZenTester.Dlg
             // 
             // label_SetTest_Manual_Side_Test
             // 
-            this.label_SetTest_Manual_Side_Test.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Side_Test.BackColor = System.Drawing.Color.LightSkyBlue;
             this.label_SetTest_Manual_Side_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(29, 338);
+            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(349, 84);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
-            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(153, 29);
+            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(180, 38);
             this.label_SetTest_Manual_Side_Test.TabIndex = 105;
             this.label_SetTest_Manual_Side_Test.Text = "Side Cam Manual Test";
             this.label_SetTest_Manual_Side_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label_SetTest_Manual_Top_Test
             // 
-            this.label_SetTest_Manual_Top_Test.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Top_Test.BackColor = System.Drawing.Color.LightSkyBlue;
             this.label_SetTest_Manual_Top_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Top_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(29, 93);
+            this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(29, 84);
             this.label_SetTest_Manual_Top_Test.Name = "label_SetTest_Manual_Top_Test";
-            this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(153, 29);
+            this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(180, 38);
             this.label_SetTest_Manual_Top_Test.TabIndex = 104;
             this.label_SetTest_Manual_Top_Test.Text = "Top Cam Manual Test";
             this.label_SetTest_Manual_Top_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -316,9 +316,9 @@ namespace ZenTester.Dlg
             this.button_Pogo_Find_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Pogo_Find_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Pogo_Find_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(205, 37);
+            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(29, 22);
             this.button_Pogo_Find_Test.Name = "button_Pogo_Find_Test";
-            this.button_Pogo_Find_Test.Size = new System.Drawing.Size(165, 39);
+            this.button_Pogo_Find_Test.Size = new System.Drawing.Size(180, 39);
             this.button_Pogo_Find_Test.TabIndex = 114;
             this.button_Pogo_Find_Test.Text = "FIND CENTER TEST";
             this.button_Pogo_Find_Test.UseVisualStyleBackColor = false;
