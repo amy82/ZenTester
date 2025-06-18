@@ -23,6 +23,7 @@ namespace ZenTester.Dlg
         public ManualConfig(SetTestControl _parent)
         {
             InitializeComponent();
+
             parentDlg = _parent;
 
             TopLightButtons = new Button[] { label_SetTest_Manual_Top_Light_Val1, label_SetTest_Manual_Top_Light_Val2, label_SetTest_Manual_Top_Light_Val3 };
@@ -49,6 +50,7 @@ namespace ZenTester.Dlg
         }
         public void RefreshConfig()
         {
+            checkBox_AllRelease();
             showCamResol();
             showLight();
             drawCenterCross();
@@ -143,59 +145,59 @@ namespace ZenTester.Dlg
             Data.Roi targetRoi;
             Rectangle m_clRect;
             System.Drawing.Point textPoint;
-            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
 
             int boxLine = 1;
             if (index == 0)
             {
                 targetRoi = parentDlg.tempRoi[0];// Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "LH ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "LH ROI", Color.BlueViolet, 15);
 
                 targetRoi = parentDlg.tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "CH ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "CH ROI", Color.BlueViolet, 15);
 
                 targetRoi = parentDlg.tempRoi[2];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "RH ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "RH ROI", Color.BlueViolet, 15);
             }
             if (index == 1)
             {
                 targetRoi = parentDlg.tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "CONE ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "CONE ROI", Color.BlueViolet, 15);
             }
             if (index == 2)
             {
                 targetRoi = parentDlg.tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "ORING ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "ORING ROI", Color.BlueViolet, 15);
             }
             if (index == 3)
             {
                 targetRoi = parentDlg.tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
 
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
 
                 targetRoi = parentDlg.tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(parentDlg.CamIndex, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
             }
         }
         private void checkBox_CheckedChanged(object sender, EventArgs e)
@@ -351,7 +353,7 @@ namespace ZenTester.Dlg
         }
         public void drawCenterCross()
         {
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
             int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
             Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
@@ -364,18 +366,27 @@ namespace ZenTester.Dlg
             //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
 
             Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].X), 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex], Color.Red, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].X), 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex], Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(parentDlg.CamIndex, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].X), 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex], Color.Red, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(parentDlg.CamIndex, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].X), 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex], Color.Red, 1);
 
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex], (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y), Color.Blue, 1);
-            Globalo.visionManager.milLibrary.DrawOverlayLine(0, 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex], (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(parentDlg.CamIndex, 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex], (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y), Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayLine(parentDlg.CamIndex, 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].Y), (int)Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex], (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].Y), Color.Blue, 1);
 
             double CamResolX = 0.0;
             double CamResolY = 0.0;
             //CamResolX = Globalo.yamlManager.aoiRoiConfig.SideResolution.X;   // 0.02026f;
             //CamResolY = Globalo.yamlManager.aoiRoiConfig.SideResolution.Y;   //0.02026f;//0.0288f;
-            CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.02026f;
-            CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.02026f;//0.0288f;
+            if (parentDlg.CamIndex == 0)
+            {
+                CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.02026f;
+                CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.02026f;//0.0288f;
+            }
+            else
+            {
+                CamResolX = Globalo.yamlManager.configData.CamSettings.SideResolution.X;   // 0.02026f;
+                CamResolY = Globalo.yamlManager.configData.CamSettings.SideResolution.Y;   //0.02026f;//0.0288f;
+            }
+            
 
             Console.WriteLine($"CamResolX:{CamResolX}");
             Console.WriteLine($"CamResolY:{CamResolY}");
