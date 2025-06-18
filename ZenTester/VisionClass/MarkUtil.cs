@@ -392,7 +392,7 @@ namespace ZenTester.VisionClass
             {
                 MIL_ID MilChildLow = MIL.M_NULL;
                 MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, m_clRectRoi.Width, m_clRectRoi.Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilChildLow);
-                MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[0], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilChildLow);
+                MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilChildLow);
 
                 MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, markBinarizeData, MIL.M_NULL);
                 MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
@@ -407,7 +407,7 @@ namespace ZenTester.VisionClass
             }
             else
             {
-                MIL.MmodFind(m_MilModModel[nNo], Globalo.visionManager.milLibrary.MilProcImageChild[0], m_MilModResult[index]);
+                MIL.MmodFind(m_MilModModel[nNo], Globalo.visionManager.milLibrary.MilProcImageChild[index], m_MilModResult[index]);
             }
 
             MIL_ID lObbjNo = MIL.M_NULL;
@@ -451,7 +451,7 @@ namespace ZenTester.VisionClass
                 dFindPos.X = Find_x[maxObjNum];
                 dFindPos.Y = Find_y[maxObjNum];
             }
-            dScore = Find_Score[maxObjNum];
+            dScore = Find_Score[maxObjNum]; 
             dAngle = Find_angle[maxObjNum];
             //dFitError = Find_FitError[maxObjNum];
             return true;
@@ -502,8 +502,8 @@ namespace ZenTester.VisionClass
             MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
             MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
 
-            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[0]);//M_DRAW_SCALE_X
-            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[0]);//M_DRAW_SCALE_Y
+            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);//M_DRAW_SCALE_X
+            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);//M_DRAW_SCALE_Y
 
             MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult[index], Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
@@ -512,7 +512,7 @@ namespace ZenTester.VisionClass
             textPoint = new System.Drawing.Point(m_clRoi.X, m_clRoi.Y + 50);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 11);
 
-            Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRoi, Color.Blue, 1);
+            Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRoi, Color.Blue, 1);
 
 
             str = $"Center X={dFindPos.X.ToString("0.0#")}";

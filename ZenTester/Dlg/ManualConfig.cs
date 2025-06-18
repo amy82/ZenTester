@@ -148,59 +148,59 @@ namespace ZenTester.Dlg
             Data.Roi targetRoi;
             Rectangle m_clRect;
             System.Drawing.Point textPoint;
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            Globalo.visionManager.milLibrary.ClearOverlay(index);
 
             int boxLine = 1;
             if (index == 0)
             {
                 targetRoi = parentDlg.tempRoi[0];// Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[0];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "LH ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "LH ROI", Color.BlueViolet, 15);
 
                 targetRoi = parentDlg.tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CH ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "CH ROI", Color.BlueViolet, 15);
 
                 targetRoi = parentDlg.tempRoi[2];//Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[2];
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "RH ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "RH ROI", Color.BlueViolet, 15);
             }
             if (index == 1)
             {
                 targetRoi = parentDlg.tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.CONE_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.CONE.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "CONE ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "CONE ROI", Color.BlueViolet, 15);
             }
             if (index == 2)
             {
                 targetRoi = parentDlg.tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.ORING_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.ORING.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "ORING ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "ORING ROI", Color.BlueViolet, 15);
             }
             if (index == 3)
             {
                 targetRoi = parentDlg.tempRoi[0];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY1.ToString());
 
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "KEY1 ROI", Color.BlueViolet, 15);
 
                 targetRoi = parentDlg.tempRoi[1];//Globalo.yamlManager.aoiRoiConfig.KEY_ROI.FirstOrDefault(r => r.name == Data.NO_ROI.KEY2.ToString());
                 m_clRect = new Rectangle((int)(targetRoi.X), (int)(targetRoi.Y), targetRoi.Width, targetRoi.Height);
-                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Blue, boxLine);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Blue, boxLine);
                 textPoint = new System.Drawing.Point(targetRoi.X, targetRoi.Y - 100);
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, "KEY2 ROI", Color.BlueViolet, 15);
             }
         }
         private void checkBox_CheckedChanged(object sender, EventArgs e)

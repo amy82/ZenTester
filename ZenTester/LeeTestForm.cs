@@ -128,7 +128,7 @@ namespace ZenTester
             clRect.Y = 100;
             clRect.Width = 300;
             clRect.Height = 300;
-            Globalo.visionManager.milLibrary.m_clMilDrawBox[0].AddList(clRect, 2, System.Drawing.Drawing2D.DashStyle.Dot, Color.Blue);
+            Globalo.visionManager.milLibrary.m_clMilDrawBox[0].AddList(clRect, 2, Color.Blue, System.Drawing.Drawing2D.DashStyle.Dot);
             Globalo.visionManager.milLibrary.m_clMilDrawCircle[0].AddList(500, 500, 100, 1, DashStyle.Solid, Color.Red);
             Globalo.visionManager.milLibrary.DrawOverlayAll(0,0);
         }

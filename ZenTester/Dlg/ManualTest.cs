@@ -319,6 +319,8 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
             Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0);
             //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
@@ -439,9 +441,9 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
-            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
 
             Globalo.visionManager.markUtil.CalcSingleMarkAlign(parentDlg.CamIndex, MarkIndex, ref dAlign);
 

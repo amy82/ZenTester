@@ -178,31 +178,33 @@ namespace ZenTester.VisionClass
                 //string str = $"{dHeight.ToString("0.0##")}(mm)";
                 //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
 
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Green, 2);
-
+                //Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Green, 2);
+                Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, Color.Green, System.Drawing.Drawing2D.DashStyle.Solid);
                 System.Drawing.Point textPoint;
 
                 str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
-
-                textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
+                Console.WriteLine(str);
+                //textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
                 
                 if (bRtn)
                 {
-                    str = $"O-RING Detected!";
+                    str = $"O-RING - 1";
                     OringColor = Color.Green;
                 }
                 else
                 {
-                    str = $"O-RING Not Detected!";
+                    str = $"O-RING - 0";
                     OringColor = Color.Red;
                 }
 
 
-                int leng = str.Length; 
-                textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/(leng-11)), 250);
+                int leng = str.Length;
+                //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/(leng-11)), 250);
+                textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);
 
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, OringColor, 50);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, OringColor, 50);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", OringColor, 13);
             }
             else
             {
@@ -210,7 +212,8 @@ namespace ZenTester.VisionClass
                 Console.Write("the specified maximum number of edges !\n\n");
 
                 OringColor = Color.Red;
-                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, OringColor, 2);
+                //Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, OringColor, 2);
+                Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, OringColor, System.Drawing.Drawing2D.DashStyle.Solid);
                 bRtn = false;
             }
 
