@@ -17,7 +17,7 @@ namespace ZenTester.VisionClass
         public MIL_ID[] MilDigitizerList;
         public MIL_ID MilSystem = MIL.M_NULL;              // System identifier.
         public int TotalCamCount = 0;
-        public int CamFixCount = 2;
+        public const int CamFixCount = 2;
         private bool AutoRunMode = true;
         public bool[] bGrabOnFlag = new bool[2];
 
@@ -695,8 +695,17 @@ namespace ZenTester.VisionClass
                 for (i = 0; i < TotalCamCount; i++)
                 {
                     //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
-                    //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);      //TOP
-                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);   //SIDE
+                    //
+                    if (i == 0)
+                    {
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);      //TOP
+                    }
+
+                    if (i == 1)
+                    {
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);   //SIDE
+                    }
+                    
 
 
                     bGrabOnFlag[i] = true;

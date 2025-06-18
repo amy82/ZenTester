@@ -353,10 +353,20 @@ namespace ZenTester.Dlg
         }
         public void drawCenterCross()
         {
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
-            int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
-            int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
+            int cx = 0;
+            int cy = 0;
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            Globalo.visionManager.milLibrary.ClearOverlay(1);
+
+            cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];
+            cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
+
             Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+
+            cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[1];
+            cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[1];
+
+            Globalo.visionManager.milLibrary.DrawOverlayCross(1, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
         }
         public void DrawDistnace()
         {
