@@ -62,7 +62,7 @@ namespace ZenTester.Dlg
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(673, 23);
             this.label2.TabIndex = 3;
-            this.label2.Text = "BOTTOM CAM";
+            this.label2.Text = "SIDE CAM";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelCam1
@@ -89,7 +89,7 @@ namespace ZenTester.Dlg
             this.label_Socket_Result2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label_Socket_Result2.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Socket_Result2.ForeColor = System.Drawing.Color.White;
-            this.label_Socket_Result2.Location = new System.Drawing.Point(1469, 349);
+            this.label_Socket_Result2.Location = new System.Drawing.Point(1469, 382);
             this.label_Socket_Result2.Name = "label_Socket_Result2";
             this.label_Socket_Result2.Size = new System.Drawing.Size(241, 23);
             this.label_Socket_Result2.TabIndex = 6;
@@ -158,7 +158,7 @@ namespace ZenTester.Dlg
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CameraControl";
-            this.Size = new System.Drawing.Size(1770, 700);
+            this.Size = new System.Drawing.Size(1770, 800);
             this.VisibleChanged += new System.EventHandler(this.CameraControl_VisibleChanged);
             this.ResumeLayout(false);
 

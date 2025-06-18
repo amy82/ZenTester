@@ -74,10 +74,10 @@ namespace ZenTester.VisionClass
             MilDigitizerList[1] = MIL.M_NULL;
 
 
-            CAM_SIZE_X[0] = 4024;
+            CAM_SIZE_X[0] = 4024;   //Top
             CAM_SIZE_Y[0] = 3036;
 
-            CAM_SIZE_X[1] = 4096;
+            CAM_SIZE_X[1] = 4096;   //Side
             CAM_SIZE_Y[1] = 3000;
             for (i = 0; i < 2; i++)
             {
@@ -166,7 +166,6 @@ namespace ZenTester.VisionClass
             {
                 MIL.MbufClear(MilSetCamOverlay, MilSetCamTransparent);
             }
-                
         }
         public void DrawRgbValue(int index, Point clickP)
         {
@@ -175,6 +174,7 @@ namespace ZenTester.VisionClass
             int pos = clickP.Y * width + clickP.X;
             int pixelValue = 0;
             byte[] pixelRGB = new byte[3];
+
             MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand[index]), (int)(clickP.Y * yExpand[index]), 1, 1, pixelRGB);
 
             int cx = (int)(clickP.X * xExpand[index] + 0.5);
@@ -186,21 +186,7 @@ namespace ZenTester.VisionClass
             System.Drawing.Point textPoint = new System.Drawing.Point(10, 10);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Green, 15);
             
-            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-
-            /*
-                     p.x = (int)(m_ClickP.x * CAM_EXPAND_FACTOR_X + 0.5);
-			        p.y = (int)(m_ClickP.y * CAM_EXPAND_FACTOR_Y + 0.5);
-
-			        vision.crosslist[m_iCurCamNo].addList(p, 30, M_COLOR_RED);
-			        MbufCopy(vision.MilGrabImageChild[m_iCurCamNo], vision.MilProcImageChild[m_iCurCamNo]);
-			        width = MbufInquire(vision.MilProcImageChild[m_iCurCamNo], M_PITCH, M_NULL);
-			        pos = p.y * width + p.x;
-			        val = vision.MilImageBuffer[m_iCurCamNo][pos];
-
-			        sprintf_s(szTmp, "(%d, %d) %d", p.x, p.y, val);
-			        vision.textlist[m_iCurCamNo].addList(50, 700, szTmp, M_COLOR_RED, 17, 7, "Arial"); 
-                     */
+            Globalo.visionManager.milLibrary.DrawOverlayCross(index, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
         }
         public void MilGrabRun(int index)
         {

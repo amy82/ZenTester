@@ -129,13 +129,6 @@ namespace ZenTester.Dlg
         {
             //TOP CAMERA SAVE
             //
-            //Globalo.visionManager.milLibrary.ClearOverlay(0);
-            //Globalo.visionManager.milLibrary.DrawOverlayText(0, new System.Drawing.Point(100,100), "overlay test", Color.Yellow, 30);
-
-            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-
-            //Globalo.visionManager.aoiTester.CirCleFind(0);
-
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.Filter = "Bitmap Image (*.bmp)|*.bmp";
@@ -217,7 +210,7 @@ namespace ZenTester.Dlg
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
             //Set_panelCam.Handle
-
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
             button_SetTest_TopCam.BackColor = Color.Black;
             button_SetTest_SideCam.BackColor = Color.DarkGray;
             CamIndex = 0;
@@ -228,6 +221,7 @@ namespace ZenTester.Dlg
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
             button_SetTest_SideCam.BackColor = Color.Black;
             button_SetTest_TopCam.BackColor = Color.DarkGray;
             CamIndex = 1;

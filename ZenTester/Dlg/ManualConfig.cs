@@ -254,7 +254,7 @@ namespace ZenTester.Dlg
             }
             if (parentDlg.isRoiChecked < 0)
             {
-                Globalo.visionManager.milLibrary.ClearOverlay(0);
+                Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
             }
         }
         private void CamResolutionInput(Label OffsetLabel)

@@ -52,8 +52,6 @@ namespace ZenTester.VisionClass
         public System.Drawing.Point smallDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
         public System.Drawing.Point zoomDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
 
-        //public string ModelMarkName = "A_MODEL";
-
         public System.Drawing.Point dMarkCenterX = new System.Drawing.Point();
 
         public int m_nSmooth = 90;
@@ -182,14 +180,11 @@ namespace ZenTester.VisionClass
                 Directory.CreateDirectory(filePath); // 폴더 생성
             }
 
-
             filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo+1}.mod");       //LOT DATA
-
 
             MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
             //m_bMarkState[nUnit][nNo] = true;
             MIL.MmodSave(filePath, m_MilModModel[nNo], MIL.M_DEFAULT);
-
 
             // BMP 
             filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo+1}.bmp");       //LOT DATA dfkrdfk
