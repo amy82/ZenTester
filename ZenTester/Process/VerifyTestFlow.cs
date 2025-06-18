@@ -52,7 +52,7 @@ namespace ZenTester.Process
                     sendEqipData.LotID = verifytestData.Barcode;
                     EqipData.Data = sendEqipData;
                     Globalo.tcpManager.nRecv_Ack = -1;
-                    Globalo.tcpManager.SendMessageToServer(EqipData);
+                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
                     nRetStep = 111;
                     break;
@@ -124,7 +124,7 @@ namespace ZenTester.Process
 
                     EqipData.Data = sendEqipData;
                     Globalo.tcpManager.nRecv_Ack = -1;
-                    Globalo.tcpManager.SendMessageToServer(EqipData);
+                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
                     break;
 
@@ -158,7 +158,7 @@ namespace ZenTester.Process
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter;
                     //TODO: 여기서 Special Data 여기서 보내야된다.
                     //
-                    Globalo.tcpManager.SendMessageToHostNew(objectData);
+                    Globalo.tcpManager.SendMessage_To_Handler(objectData);        //T ->Handelr로 보내는 부분
                     break;
             }
             return nRetStep;

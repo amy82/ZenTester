@@ -58,7 +58,7 @@ namespace ZenTester.TcpSocket
             string jsonData = JsonConvert.SerializeObject(data);
             await _HandlerClient.SendDataAsync(jsonData);
         }
-        public async void SendMessageToHostNew(MessageWrapper data)
+        public async void SendMessage_To_Handler(MessageWrapper data)
         {
             if (_HandlerClient.bHostConnectedState() == false)
             {
@@ -71,7 +71,7 @@ namespace ZenTester.TcpSocket
         {
             _HandlerClient.Disconnect(false);
         }
-        public async void SendMessageToServer(TcpSocket.MessageWrapper equipData)
+        public async void SendMessage_To_SecsGem(TcpSocket.MessageWrapper equipData)
         {
             if (_Verify_Client.bHostConnectedState() == false)
             {

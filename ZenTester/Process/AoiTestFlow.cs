@@ -124,7 +124,7 @@ namespace ZenTester.Process
                     }
                     EqipData.Data = sendEqipData;
                     Globalo.tcpManager.nRecv_Ack = -1;
-                    Globalo.tcpManager.SendMessageToServer(EqipData);
+                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
 
 
@@ -146,7 +146,7 @@ namespace ZenTester.Process
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
                     objectData.Data = LotstartData;
-                    Globalo.tcpManager.SendMessageToHostNew(objectData);
+                    Globalo.tcpManager.SendMessage_To_Handler(objectData);
                     break;
             }
             return nRetStep;

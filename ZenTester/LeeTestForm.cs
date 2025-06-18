@@ -149,7 +149,7 @@ namespace ZenTester
             sendEqipData.Command = "OBJECT_ID_REPORT";
             sendEqipData.LotID = "testLot";// Globalo.dataManage.TaskWork.m_szChipID;
             EqipData.Data = sendEqipData;
-            Globalo.tcpManager.SendMessageToServer(EqipData);
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
 
         private void button23_Click(object sender, EventArgs e)
@@ -182,7 +182,7 @@ namespace ZenTester
             }
 
             EqipData.Data = sendEqipData;
-            Globalo.tcpManager.SendMessageToServer(EqipData);
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
     }
 }
