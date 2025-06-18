@@ -518,7 +518,7 @@ namespace ZenTester.VisionClass
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 30, MIL.M_NULL);
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 150, MIL.M_NULL);
 
             MilImage = tempMilImage;
 
@@ -634,10 +634,10 @@ namespace ZenTester.VisionClass
                 //int OffsetX = 800;
                 //int OffsetY = 700; 
                 
-                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
-                Globalo.visionManager.milLibrary.DrawOverlayLine(0, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
 
-                Globalo.visionManager.milLibrary.DrawOverlayArrow(0, OffsetX + (OffsetWidth/2), (int)(OffsetY + minValue), OffsetX + (OffsetWidth / 2), (int)(OffsetY + maxValue), Color.Yellow, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayArrow(index, OffsetX + (OffsetWidth/2), (int)(OffsetY + minValue), OffsetX + (OffsetWidth / 2), (int)(OffsetY + maxValue), Color.Yellow, 1);
 
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
@@ -650,7 +650,7 @@ namespace ZenTester.VisionClass
                 System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY);
                 dHeight = (maxValue - minValue) * CamResolY;
                 string str = $"{dHeight.ToString("0.0##")}(mm)";
-                Globalo.visionManager.milLibrary.DrawOverlayText(0, textPoint, str, Color.Blue, 15);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
 
             }
             else
