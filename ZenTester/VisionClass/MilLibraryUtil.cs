@@ -689,41 +689,57 @@ namespace ZenTester.VisionClass
 
             MIL.MsysAlloc(MIL.M_SYSTEM_GIGE_VISION, MIL.M_DEV0, MIL.M_COMPLETE, ref MilSystem);
             TotalCamCount = (int)MIL.MsysInquire(MilSystem, MIL.M_DIGITIZER_NUM, MIL.M_NULL);
+            MIL_ID tempDigitizer = MIL.M_NULL;
 
+            bGrabOnFlag[0] = false;
+            bGrabOnFlag[1] = false;
             if (TotalCamCount > 0)
             {
+                MIL.MdigAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref tempDigitizer);
+
+                StringBuilder cameraModel = new StringBuilder(256);
+                MIL.MdigInquire(tempDigitizer, MIL.M_CAMERA_MODEL, cameraModel); // 또는 M_CAMERA_MODEL
+
+                string model = cameraModel.ToString();
+                MIL.MdigFree(tempDigitizer);
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
-                    //
-                    if (i == 0)
+
+                    if (model.Contains("MV-CU120-10GM"))//TOP
                     {
-                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);      //TOP
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[0]);
+                        bGrabOnFlag[0] = true;
                     }
 
-                    if (i == 1)
+                    if (model.Contains("MV-CH120-11GM"))//SIDE
                     {
-                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);   //SIDE
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0 + i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[1]);
+                        bGrabOnFlag[1] = true;
                     }
-                    
-
-
-                    bGrabOnFlag[i] = true;
                 }
 
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_SYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
-                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 3000);
+                    if (bGrabOnFlag[i] == true)
+                    {
+                        MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_SYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
+                        MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 3000);
 
-                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX[i]);
-                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY[i]);
+                        MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX[i]);
+                        MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY[i]);
 
-                    Console.WriteLine("Cam Width: " + m_nMilSizeX[i]);
-                    Console.WriteLine("Cam Height: " + m_nMilSizeY[i]);
+                        Console.WriteLine("Cam Width: " + m_nMilSizeX[i]);
+                        Console.WriteLine("Cam Height: " + m_nMilSizeY[i]);
 
-                    CAM_SIZE_X[i] = (int)m_nMilSizeX[i];
-                    CAM_SIZE_Y[i] = (int)m_nMilSizeY[i];
+                        CAM_SIZE_X[i] = (int)m_nMilSizeX[i];
+                        CAM_SIZE_Y[i] = (int)m_nMilSizeY[i];
+                    }
+                    else
+                    {
+                        m_nMilSizeX[i] = CAM_SIZE_X[i];
+                        m_nMilSizeY[i] = CAM_SIZE_Y[i];
+                    }
+                    
                 }
             }
             else
