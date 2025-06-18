@@ -41,10 +41,14 @@ namespace ZenTester.Dlg
         public void GetConfigData()
         {
             string Handlerip = label_Handler_Ip1.Text + "." + label_Handler_Ip2.Text + "." + label_Handler_Ip3.Text + "." + label_Handler_Ip4.Text;
+            string Secsgemip = label_Secsgem_Ip1.Text + "." + label_Secsgem_Ip2.Text + "." + label_Secsgem_Ip3.Text + "." + label_Secsgem_Ip4.Text;
 
             string Handlerport = label_Handler_Port.Text;
+            string Secsgemport = label_Secsgem_Port.Text;
             Globalo.yamlManager.configData.DrivingSettings.HandlerIp = Handlerip;
             Globalo.yamlManager.configData.DrivingSettings.HandlerPort = int.Parse(Handlerport);
+            Globalo.yamlManager.configData.DrivingSettings.SecsgemIp = Secsgemip;
+            Globalo.yamlManager.configData.DrivingSettings.SecsgemPort = int.Parse(Secsgemport);
 
             //
             Globalo.yamlManager.configData.DrivingSettings.PinCountMax = int.Parse(label_PinCountMax.Text);
@@ -67,14 +71,26 @@ namespace ZenTester.Dlg
         public void ShowDriveSet()
         {
             string Handlerip = Globalo.yamlManager.configData.DrivingSettings.HandlerIp;
-            string[] parts = Handlerip.Split('.');
+            string[] Handlerparts = Handlerip.Split('.');
 
-            label_Handler_Ip1.Text = parts[0];
-            label_Handler_Ip2.Text = parts[1];
-            label_Handler_Ip3.Text = parts[2];
-            label_Handler_Ip4.Text = parts[3];
+            string Secsgemip = Globalo.yamlManager.configData.DrivingSettings.SecsgemIp;
+            string[] Secsgemparts = Secsgemip.Split('.');
+
+            label_Handler_Ip1.Text = Handlerparts[0];
+            label_Handler_Ip2.Text = Handlerparts[1];
+            label_Handler_Ip3.Text = Handlerparts[2];
+            label_Handler_Ip4.Text = Handlerparts[3];
 
             label_Handler_Port.Text = Globalo.yamlManager.configData.DrivingSettings.HandlerPort.ToString();
+
+            label_Secsgem_Ip1.Text = Handlerparts[0];
+            label_Secsgem_Ip2.Text = Handlerparts[1];
+            label_Secsgem_Ip3.Text = Handlerparts[2];
+            label_Secsgem_Ip4.Text = Handlerparts[3];
+
+            label_Secsgem_Port.Text = Globalo.yamlManager.configData.DrivingSettings.SecsgemPort.ToString();
+
+
 
             //bool setBool = Globalo.yamlManager.configData.DrivingSettings.IdleReportPass;
             //hopeCheckBox_PinCountUse.Checked = Globalo.yamlManager.configData.DrivingSettings.PinCountUse;
@@ -315,9 +331,10 @@ namespace ZenTester.Dlg
             ProductSizeInput(clickedLabel);
         }
 
-        private void label_Handler_Ip2_Click(object sender, EventArgs e)
+
+        private void tcpIpInput(Label label)
         {
-            string labelValue = label_Handler_Ip2.Text;
+            string labelValue = label.Text;
             int decimalValue = 0;
 
 
@@ -342,47 +359,33 @@ namespace ZenTester.Dlg
                         {
                             dNumData = 255;
                         }
-                        label_Handler_Ip2.Text = dNumData.ToString();
+                        label.Text = dNumData.ToString();
                     }
 
                 }
             }
+        }
+        private void label_Handler_Ip1_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
+        }
+        private void label_Handler_Ip2_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
         }
 
         private void label_Handler_Ip3_Click(object sender, EventArgs e)
         {
-            string labelValue = label_Handler_Ip3.Text;
-            int decimalValue = 0;
-
-
-            if (int.TryParse(labelValue, out decimalValue))
-            {
-                // 소수점 형식으로 변환
-                string formattedValue = decimalValue.ToString();
-                NumPadForm popupForm = new NumPadForm(formattedValue);
-
-                DialogResult dialogResult = popupForm.ShowDialog();
-
-
-                if (dialogResult == DialogResult.OK)
-                {
-                    if (int.TryParse(popupForm.NumPadResult, out int dNumData))
-                    {
-                        if (dNumData < 0)
-                        {
-                            dNumData = 0;
-                        }
-                        if (dNumData > 255)
-                        {
-                            dNumData = 255;
-                        }
-                        label_Handler_Ip3.Text = dNumData.ToString();
-                    }
-
-                }
-            }
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
         }
-
+        private void label_Handler_Ip4_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
+        }
         private void label_Handler_Port_Click(object sender, EventArgs e)
         {
             string labelValue = label_Handler_Port.Text;
@@ -411,6 +414,65 @@ namespace ZenTester.Dlg
                             dNumData = 60000;
                         }
                         label_Handler_Port.Text = dNumData.ToString();
+                    }
+
+                }
+            }
+        }
+
+        private void label_Secsgem_Ip1_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
+        }
+
+        private void label_Secsgem_Ip2_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
+        }
+
+        private void label_Secsgem_Ip3_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
+
+        }
+
+        private void label_Secsgem_Ip4_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            tcpIpInput(clickedLabel);
+        }
+
+        private void label_Secsgem_Port_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Secsgem_Port.Text;
+            int decimalValue = 0;
+
+
+            if (int.TryParse(labelValue, out decimalValue))
+            {
+                // 소수점 형식으로 변환
+                string formattedValue = decimalValue.ToString();
+                NumPadForm popupForm = new NumPadForm(formattedValue);
+
+                DialogResult dialogResult = popupForm.ShowDialog();
+
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    if (int.TryParse(popupForm.NumPadResult, out int dNumData))
+                    {
+                        if (dNumData < 2000)
+                        {
+                            dNumData = 2000;
+                        }
+                        if (dNumData > 60000)
+                        {
+                            dNumData = 60000;
+                        }
+                        label_Secsgem_Port.Text = dNumData.ToString();
                     }
 
                 }
