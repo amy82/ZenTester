@@ -31,20 +31,11 @@ namespace ZenTester.Dlg
         {
             this.panel_ProductionInfo = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label_HandlerUph_Val = new System.Windows.Forms.Label();
-            this.label_SocketUph_Val = new System.Windows.Forms.Label();
-            this.label_CycleTime_Val = new System.Windows.Forms.Label();
-            this.label1_HandlerUph = new System.Windows.Forms.Label();
-            this.label_SocketUph = new System.Windows.Forms.Label();
-            this.label_CycleTime = new System.Windows.Forms.Label();
             this.BTN_MAIN_RECIPE_VEW = new System.Windows.Forms.Button();
             this.textBox_Recipe = new System.Windows.Forms.TextBox();
             this.textBox_Model = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.BTN_MAIN_PINCOUNT_RESET = new System.Windows.Forms.Button();
-            this.label_PinCount = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.textBox_ProcessState = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.BTN_MAIN_JUDGE_RESET = new System.Windows.Forms.Button();
@@ -71,20 +62,11 @@ namespace ZenTester.Dlg
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label_HandlerUph_Val);
-            this.groupBox1.Controls.Add(this.label_SocketUph_Val);
-            this.groupBox1.Controls.Add(this.label_CycleTime_Val);
-            this.groupBox1.Controls.Add(this.label1_HandlerUph);
-            this.groupBox1.Controls.Add(this.label_SocketUph);
-            this.groupBox1.Controls.Add(this.label_CycleTime);
             this.groupBox1.Controls.Add(this.BTN_MAIN_RECIPE_VEW);
             this.groupBox1.Controls.Add(this.textBox_Recipe);
             this.groupBox1.Controls.Add(this.textBox_Model);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.BTN_MAIN_PINCOUNT_RESET);
-            this.groupBox1.Controls.Add(this.label_PinCount);
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBox_ProcessState);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.BTN_MAIN_JUDGE_RESET);
@@ -103,66 +85,6 @@ namespace ZenTester.Dlg
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " PRODUCTION INFO";
-            // 
-            // label_HandlerUph_Val
-            // 
-            this.label_HandlerUph_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_HandlerUph_Val.Location = new System.Drawing.Point(1649, 75);
-            this.label_HandlerUph_Val.Name = "label_HandlerUph_Val";
-            this.label_HandlerUph_Val.Size = new System.Drawing.Size(89, 22);
-            this.label_HandlerUph_Val.TabIndex = 45;
-            this.label_HandlerUph_Val.Text = "0";
-            this.label_HandlerUph_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label_SocketUph_Val
-            // 
-            this.label_SocketUph_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_SocketUph_Val.Location = new System.Drawing.Point(1649, 50);
-            this.label_SocketUph_Val.Name = "label_SocketUph_Val";
-            this.label_SocketUph_Val.Size = new System.Drawing.Size(89, 22);
-            this.label_SocketUph_Val.TabIndex = 44;
-            this.label_SocketUph_Val.Text = "0";
-            this.label_SocketUph_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label_CycleTime_Val
-            // 
-            this.label_CycleTime_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_CycleTime_Val.Location = new System.Drawing.Point(1649, 25);
-            this.label_CycleTime_Val.Name = "label_CycleTime_Val";
-            this.label_CycleTime_Val.Size = new System.Drawing.Size(89, 22);
-            this.label_CycleTime_Val.TabIndex = 43;
-            this.label_CycleTime_Val.Text = "0";
-            this.label_CycleTime_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1_HandlerUph
-            // 
-            this.label1_HandlerUph.AutoSize = true;
-            this.label1_HandlerUph.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1_HandlerUph.Location = new System.Drawing.Point(1518, 80);
-            this.label1_HandlerUph.Name = "label1_HandlerUph";
-            this.label1_HandlerUph.Size = new System.Drawing.Size(122, 14);
-            this.label1_HandlerUph.TabIndex = 42;
-            this.label1_HandlerUph.Text = "Handler Time(UPH) :";
-            // 
-            // label_SocketUph
-            // 
-            this.label_SocketUph.AutoSize = true;
-            this.label_SocketUph.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SocketUph.Location = new System.Drawing.Point(1518, 54);
-            this.label_SocketUph.Name = "label_SocketUph";
-            this.label_SocketUph.Size = new System.Drawing.Size(88, 14);
-            this.label_SocketUph.TabIndex = 41;
-            this.label_SocketUph.Text = "SOCKET UPH :";
-            // 
-            // label_CycleTime
-            // 
-            this.label_CycleTime.AutoSize = true;
-            this.label_CycleTime.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_CycleTime.Location = new System.Drawing.Point(1518, 29);
-            this.label_CycleTime.Name = "label_CycleTime";
-            this.label_CycleTime.Size = new System.Drawing.Size(75, 14);
-            this.label_CycleTime.TabIndex = 40;
-            this.label_CycleTime.Text = "Cycle Time :";
             // 
             // BTN_MAIN_RECIPE_VEW
             // 
@@ -193,10 +115,10 @@ namespace ZenTester.Dlg
             // 
             this.textBox_Model.BackColor = System.Drawing.Color.White;
             this.textBox_Model.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_Model.Location = new System.Drawing.Point(997, 40);
+            this.textBox_Model.Location = new System.Drawing.Point(493, 80);
             this.textBox_Model.Name = "textBox_Model";
             this.textBox_Model.ReadOnly = true;
-            this.textBox_Model.Size = new System.Drawing.Size(241, 26);
+            this.textBox_Model.Size = new System.Drawing.Size(226, 26);
             this.textBox_Model.TabIndex = 36;
             this.textBox_Model.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -214,45 +136,11 @@ namespace ZenTester.Dlg
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label7.Location = new System.Drawing.Point(999, 22);
+            this.label7.Location = new System.Drawing.Point(419, 88);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(57, 14);
             this.label7.TabIndex = 22;
             this.label7.Text = "MODEL :";
-            // 
-            // BTN_MAIN_PINCOUNT_RESET
-            // 
-            this.BTN_MAIN_PINCOUNT_RESET.BackColor = System.Drawing.Color.Tan;
-            this.BTN_MAIN_PINCOUNT_RESET.FlatAppearance.BorderSize = 0;
-            this.BTN_MAIN_PINCOUNT_RESET.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_MAIN_PINCOUNT_RESET.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_MAIN_PINCOUNT_RESET.Location = new System.Drawing.Point(1394, 41);
-            this.BTN_MAIN_PINCOUNT_RESET.Name = "BTN_MAIN_PINCOUNT_RESET";
-            this.BTN_MAIN_PINCOUNT_RESET.Size = new System.Drawing.Size(66, 28);
-            this.BTN_MAIN_PINCOUNT_RESET.TabIndex = 21;
-            this.BTN_MAIN_PINCOUNT_RESET.Text = "RESET";
-            this.BTN_MAIN_PINCOUNT_RESET.UseVisualStyleBackColor = false;
-            this.BTN_MAIN_PINCOUNT_RESET.Click += new System.EventHandler(this.BTN_MAIN_PINCOUNT_RESET_Click);
-            // 
-            // label_PinCount
-            // 
-            this.label_PinCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_PinCount.Location = new System.Drawing.Point(1261, 41);
-            this.label_PinCount.Name = "label_PinCount";
-            this.label_PinCount.Size = new System.Drawing.Size(129, 28);
-            this.label_PinCount.TabIndex = 20;
-            this.label_PinCount.Text = "0";
-            this.label_PinCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.Location = new System.Drawing.Point(1263, 24);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(85, 14);
-            this.label6.TabIndex = 19;
-            this.label6.Text = "PINT COUNT :";
             // 
             // textBox_ProcessState
             // 
@@ -285,7 +173,7 @@ namespace ZenTester.Dlg
             this.BTN_MAIN_JUDGE_RESET.FlatAppearance.BorderSize = 0;
             this.BTN_MAIN_JUDGE_RESET.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_MAIN_JUDGE_RESET.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BTN_MAIN_JUDGE_RESET.Location = new System.Drawing.Point(888, 108);
+            this.BTN_MAIN_JUDGE_RESET.Location = new System.Drawing.Point(1648, 108);
             this.BTN_MAIN_JUDGE_RESET.Name = "BTN_MAIN_JUDGE_RESET";
             this.BTN_MAIN_JUDGE_RESET.Size = new System.Drawing.Size(83, 35);
             this.BTN_MAIN_JUDGE_RESET.TabIndex = 16;
@@ -323,7 +211,7 @@ namespace ZenTester.Dlg
             // label_production_total
             // 
             this.label_production_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_production_total.Location = new System.Drawing.Point(882, 74);
+            this.label_production_total.Location = new System.Drawing.Point(1642, 74);
             this.label_production_total.Name = "label_production_total";
             this.label_production_total.Size = new System.Drawing.Size(89, 22);
             this.label_production_total.TabIndex = 5;
@@ -333,7 +221,7 @@ namespace ZenTester.Dlg
             // label_production_ng
             // 
             this.label_production_ng.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_production_ng.Location = new System.Drawing.Point(882, 48);
+            this.label_production_ng.Location = new System.Drawing.Point(1642, 48);
             this.label_production_ng.Name = "label_production_ng";
             this.label_production_ng.Size = new System.Drawing.Size(89, 22);
             this.label_production_ng.TabIndex = 4;
@@ -343,7 +231,7 @@ namespace ZenTester.Dlg
             // label_production_ok
             // 
             this.label_production_ok.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_production_ok.Location = new System.Drawing.Point(882, 22);
+            this.label_production_ok.Location = new System.Drawing.Point(1642, 22);
             this.label_production_ok.Name = "label_production_ok";
             this.label_production_ok.Size = new System.Drawing.Size(89, 22);
             this.label_production_ok.TabIndex = 3;
@@ -354,7 +242,7 @@ namespace ZenTester.Dlg
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(827, 77);
+            this.label4.Location = new System.Drawing.Point(1587, 77);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 14);
             this.label4.TabIndex = 2;
@@ -364,7 +252,7 @@ namespace ZenTester.Dlg
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(827, 52);
+            this.label3.Location = new System.Drawing.Point(1587, 52);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 14);
             this.label3.TabIndex = 1;
@@ -374,7 +262,7 @@ namespace ZenTester.Dlg
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(827, 25);
+            this.label2.Location = new System.Drawing.Point(1587, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 14);
             this.label2.TabIndex = 0;
@@ -398,9 +286,6 @@ namespace ZenTester.Dlg
 
         private System.Windows.Forms.Panel panel_ProductionInfo;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button BTN_MAIN_PINCOUNT_RESET;
-        private System.Windows.Forms.Label label_PinCount;
-        private System.Windows.Forms.Label label6;
         public System.Windows.Forms.TextBox textBox_ProcessState;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button BTN_MAIN_JUDGE_RESET;
@@ -417,11 +302,5 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.TextBox textBox_Model;
         private System.Windows.Forms.TextBox textBox_Recipe;
         private System.Windows.Forms.Button BTN_MAIN_RECIPE_VEW;
-        private System.Windows.Forms.Label label1_HandlerUph;
-        private System.Windows.Forms.Label label_SocketUph;
-        private System.Windows.Forms.Label label_CycleTime;
-        private System.Windows.Forms.Label label_CycleTime_Val;
-        private System.Windows.Forms.Label label_HandlerUph_Val;
-        private System.Windows.Forms.Label label_SocketUph_Val;
     }
 }

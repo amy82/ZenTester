@@ -343,7 +343,7 @@ namespace ZenTester.VisionClass
             }
 
             ///Globalo.visionManager.markUtil.LoadMark("A_MODEL", 0, 0);
-            Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, (int)eCamType.SIDE_CAM);
+            Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);//, CurrentCamIndex);/// (int)eCamType.SIDE_CAM);
             this.Close();
         }
 
@@ -434,7 +434,7 @@ namespace ZenTester.VisionClass
 
             Globalo.visionManager.markUtil.SettingFindMark(CurrentCamIndex, CurrentMarkNo);
             //
-            Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);
+            Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);     //Mask Popup Save
 
 
             if (m_MilMask != MIL.M_NULL)

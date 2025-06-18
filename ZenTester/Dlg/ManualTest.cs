@@ -32,24 +32,45 @@ namespace ZenTester.Dlg
             parentDlg = _parent;
             MaxMarkCount = Globalo.yamlManager.aoiRoiConfig.markData.Count;
         }
+
+        public void SetSmallMark()
+        {
+            label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
+            string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
+
+            double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
+            double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
+
+            Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
+        }
         private void button_Set_Mark_Prev_Click(object sender, EventArgs e)
         {
             //Prev
             if (MarkIndex > 0)
             {
                 MarkIndex--;
-
-                label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name; //$"Mark-{MarkIndex+1}";
-                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;      // Globalo.visionManager.markUtil.ModelMarkName;
-
-                double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
-                double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
-                Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
+                SetSmallMark();
             }
             else
             {
                 MarkIndex = 0;
             }
+
+        }
+        private void button_Set_Mark_Next_Click(object sender, EventArgs e)
+        {
+            //Next
+
+            if (MarkIndex < MaxMarkCount - 1)
+            {
+                MarkIndex++;
+                SetSmallMark();
+            }
+            else
+            {
+                MarkIndex = MaxMarkCount - 1;
+            }
+
 
         }
         private void button_Pogo_Find_Test_Click(object sender, EventArgs e)
@@ -372,27 +393,7 @@ namespace ZenTester.Dlg
         {
             label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
         }
-        private void button_Set_Mark_Next_Click(object sender, EventArgs e)
-        {
-            //Next
-
-            if (MarkIndex < MaxMarkCount - 1)
-            {
-                MarkIndex++;
-                label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name; //$"Mark-{MarkIndex + 1}";
-                string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;//Globalo.visionManager.markUtil.ModelMarkName;
-                double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
-                double sizeY = Globalo.visionManager.markUtil.zoomDispSize.Y;
-
-                Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Next Click
-            }
-            else
-            {
-                MarkIndex = MaxMarkCount - 1;
-            }
-
-
-        }
+        
         private void label_SetTest_Manual_Mark_Regist_Click(object sender, EventArgs e)
         {
             //double dSizeX, double dSizeY, double dCenterX, double dCenterY
@@ -437,6 +438,7 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+
             //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
             Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
@@ -510,12 +512,16 @@ namespace ZenTester.Dlg
                 }
             }
         }
-
+        public void RefreshTest()
+        {
+            showMark();
+        }
         private void ManualTest_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
             {
-                showMark();
+                RefreshTest();
+                
             }
             else
             {

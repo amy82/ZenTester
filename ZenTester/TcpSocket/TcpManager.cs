@@ -251,7 +251,10 @@ namespace ZenTester.TcpSocket
                 _syncContext.Send(_ =>
                 {
                     Globalo.productionInfo.ShowRecipeName();
+                    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+                    Globalo.setTestControl.manualTest.SetSmallMark();
                     Globalo.setTestControl.manualConfig.RefreshConfig();
+                    Globalo.setTestControl.manualTest.RefreshTest();
 
                 }, null);
                 

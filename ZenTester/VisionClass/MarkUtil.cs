@@ -89,7 +89,7 @@ namespace ZenTester.VisionClass
 
 
 
-            rtn = LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, (int)eCamType.SIDE_CAM);
+            rtn = LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);//, (int)eCamType.SIDE_CAM);
         }
         public void InitMarkViewDlg()
         {
@@ -137,7 +137,7 @@ namespace ZenTester.VisionClass
             string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nMarkNo + 1}.bmp");       //LOT DATA
             
             MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
-            MIL.MbufClear(m_MilMarkImage[0], 192);
+            MIL.MbufClear(m_MilMarkImage[0], 192);      //작은 마크 이미지
 
             //if (filePath)       //szPath 파일이 있으면
             if (File.Exists(filePath))
@@ -153,13 +153,14 @@ namespace ZenTester.VisionClass
                 m_clPtMarkSize.X = (int)dSizeX;
                 m_clPtMarkSize.Y = (int)dSizeY;
 
-                double dCenterX = 0.0;
-                double dCenterY = 0.0;
-                MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
-                MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
+                //double dCenterX = 0.0;
+                //double dCenterY = 0.0;
+                //MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
+                //MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
 
                 //m_clPtMarkCenterPos.X = (int)dCenterX;        //필요없는듯
                 //m_clPtMarkCenterPos.Y = (int)dCenterY;
+
                 double dZoomX = 0.0;
                 double dZoomY = 0.0;
                 dZoomX = smallDispSize.X / dZoomMarkWidth;
@@ -191,21 +192,21 @@ namespace ZenTester.VisionClass
 
 
             // BMP 
-            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo+1}.bmp");       //LOT DATA
+            filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName, $"Mark-{nNo+1}.bmp");       //LOT DATA dfkrdfk
             MIL.MbufExport(filePath, MIL.M_BMP, m_MilMarkImage[1]);
             return false;
         }
-        public bool LoadMark_mod(string ModelName, int camIndex)
+        public bool LoadMark_mod(string ModelName)//, int camIndex)
         {
             int i = 0;
             int j = 0;
-            if (m_MilModResult[camIndex] != MIL.M_NULL)
-            {
-                MIL.MmodFree(m_MilModResult[camIndex]);
-                m_MilModResult[camIndex] = MIL.M_NULL;
-            }
+            //if (m_MilModResult[camIndex] != MIL.M_NULL)
+            //{
+            //    MIL.MmodFree(m_MilModResult[camIndex]);
+            //    m_MilModResult[camIndex] = MIL.M_NULL;
+            //}
 
-            MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult[camIndex]);
+            //MIL.MmodAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref m_MilModResult[camIndex]); //필요 없는 것 같아 주석처리 250618
 
 
             for (i = 0; i < (int)eMarkList.MAX_MARK_LIST; i++)
