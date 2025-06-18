@@ -156,10 +156,8 @@ namespace ZenTester  //ApsMotionControl
             Globalo.tcpManager = new TcpSocket.TcpManager();
 
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configData.DrivingSettings.HandlerPort);
-            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-            {
-                Globalo.tcpManager.SetVerifyClient("127.0.0.1", 5000);
-            }
+
+            Globalo.tcpManager.SetVerifyClient("127.0.0.1", 5000);
 
             Globalo.taskManager = new TaskClass.TaskManager();
 
@@ -176,10 +174,6 @@ namespace ZenTester  //ApsMotionControl
             SerialConnect();
 
            //// serverStart();      //SECS - GEM 연결
-
-            //Http.HttpService.Start();
-            //Http.HttpService.ReqRecipe();
-            //Http.HttpService.ReqModel();
 
             Globalo.tcpManager.ReqRecipeToSecsgem();
             Globalo.tcpManager.ReqModelToSecsgem();

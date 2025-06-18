@@ -350,10 +350,10 @@ namespace ZenTester
             // 
             // button21
             // 
-            this.button21.BackColor = System.Drawing.Color.IndianRed;
+            this.button21.BackColor = System.Drawing.Color.Black;
             this.button21.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button21.ForeColor = System.Drawing.Color.White;
-            this.button21.Location = new System.Drawing.Point(342, 304);
+            this.button21.Location = new System.Drawing.Point(341, 362);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(127, 34);
             this.button21.TabIndex = 23;

@@ -109,11 +109,16 @@ namespace ZenTester.TcpSocket
         }
         public void ReqRecipeToSecsgem()
         {
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                return;
+            }
             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
             EqipData.Type = "EquipmentData";
 
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
             sendEqipData.Command = "REQ_RECIPE";
+
             EqipData.Data = sendEqipData;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
@@ -731,7 +736,8 @@ namespace ZenTester.TcpSocket
                     switch (wrapper.Type)
                     {
                         case "EquipmentData":
-                            EquipmentData edata = serializer.Deserialize<EquipmentData>(reader);
+                            //EquipmentData edata = serializer.Deserialize<EquipmentData>(reader);
+                            EquipmentData edata = JsonConvert.DeserializeObject<EquipmentData>(wrapper.Data.ToString());
                             hostMessageParse(edata);
                             break;
 
