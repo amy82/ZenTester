@@ -15,7 +15,7 @@ namespace ZenTester.FThread
 
 
         private Process.PcbProcess RunProcess = new Process.PcbProcess();
-        private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
+        //private Process.ReadyProcess readyProcess = new Process.ReadyProcess();
         public AutoRunthread()
         {
             //thread = null;

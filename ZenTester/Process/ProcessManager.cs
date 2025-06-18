@@ -10,13 +10,13 @@ namespace ZenTester.Process
     {
         public PcbProcess pcbProcess;
         public TransferFlow transferFlow;
-        public LiftFlow liftFlow;
+        //public LiftFlow liftFlow;
 
         public ProcessManager()
         {
             pcbProcess = new PcbProcess();
             transferFlow = new TransferFlow();
-            liftFlow = new LiftFlow();
+            //liftFlow = new LiftFlow();
         }
 
 

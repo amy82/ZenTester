@@ -17,7 +17,7 @@ namespace ZenTester.TcpSocket
         private CancellationTokenSource _cts;
 
         private TcpClientHandler _HandlerClient;       //Handler로 연결
-        private TcpClientHandler _Verify_Client;       //Verify Secsgem으로 연결
+        private TcpClientHandler _SecsGem_Client;       //Secsgem으로 연결
 
         public int nRecv_Ack;//bRecv_S6F12_Lot_Apd
         public TcpManager()//string ip, int port)
@@ -44,9 +44,9 @@ namespace ZenTester.TcpSocket
         }
         public void SetVerifyClient(string ip, int port)
         {
-            _Verify_Client = new TcpClientHandler(ip, port, this);
-            _Verify_Client.OnMessageReceivedAsync += VerifyClientMessageAsync;
-            _Verify_Client.Connect();
+            _SecsGem_Client = new TcpClientHandler(ip, port, this);
+            _SecsGem_Client.OnMessageReceivedAsync += SecsGemClientMessageAsync;
+            _SecsGem_Client.Connect();
         }
 
         public async void SendMessageToHost(EquipmentData data) //ResultData
@@ -73,12 +73,12 @@ namespace ZenTester.TcpSocket
         }
         public async void SendMessage_To_SecsGem(TcpSocket.MessageWrapper equipData)
         {
-            if (_Verify_Client.bHostConnectedState() == false)
+            if (_SecsGem_Client.bHostConnectedState() == false)
             {
                 return;
             }
             string jsonData = JsonConvert.SerializeObject(equipData);
-            await _Verify_Client.SendDataAsync(jsonData);
+            await _SecsGem_Client.SendDataAsync(jsonData);
         }
         public async void SendMessageToClient(TcpSocket.EquipmentData equipData)
         {
@@ -107,6 +107,26 @@ namespace ZenTester.TcpSocket
             }
             
         }
+        public void ReqRecipeToSecsgem()
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "REQ_RECIPE";
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
+        }
+        public void ReqModelToSecsgem()
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "REQ_MODEL";
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
+        }
         public void SendAlarmReport(string nAlarmID)
         {
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
@@ -133,8 +153,6 @@ namespace ZenTester.TcpSocket
             ///int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
             if (data.Cmd == "CMD_TEST")
             {
-                
-                
                 if (Globalo.taskManager.testRun)
                 {
                     Console.WriteLine("test Running!!!");
@@ -197,6 +215,47 @@ namespace ZenTester.TcpSocket
             //Console.WriteLine($"장비 ID: {data.EQPID}, 레시피 ID: {data.RECIPEID}");
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //
+            if (data.Command == "RECV_SECS_RECIPE")
+            {
+                string ppid = data.RecipeID;
+                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                {
+                    //Data.RcmdParameter parameter = new Data.RcmdParameter();
+                    //parameter.name = paramInfo.Name;
+                    //parameter.value = paramInfo.Value;
+
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                }
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["RECIPE"]);
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
+                                                                                           //TODO: 받아서 레시피 파일로 저장을 하자
+
+
+                Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                Globalo.yamlManager.secsGemDataYaml.MesSave();
+
+                Globalo.productionInfo.ShowRecipeName();
+
+
+                //szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
+                //Globalo.LogPrint("LotProcess", szLog);
+                Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
+            }
+            if (data.Command == "RECV_SECS_MODEL")
+            {
+                string model = data.DataID;
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
+                Globalo.yamlManager.secsGemDataYaml.MesSave();
+                Globalo.productionInfo.ShowModelName();
+
+                //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
+                Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+
+            }
             if (data.Command == "APS_LOT_START_CMD")
             {
                 //착공 진행 신호
@@ -645,7 +704,7 @@ namespace ZenTester.TcpSocket
             }
         }
         // 메시지 수신 시 처리
-        private async Task VerifyClientMessageAsync(string receivedData)
+        private async Task SecsGemClientMessageAsync(string receivedData)
         {
             Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
 
@@ -655,7 +714,10 @@ namespace ZenTester.TcpSocket
             //    NullValueHandling = NullValueHandling.Ignore
             //};
             //EquipmentData data = JsonConvert.DeserializeObject<EquipmentData>(receivedData, settings);
+
+
             Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
+
             using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
             using (JsonTextReader reader = new JsonTextReader(sr))
             {

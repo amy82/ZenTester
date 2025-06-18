@@ -52,8 +52,6 @@ namespace ZenTester.Process
                     SideCamTask = null;
                     CancelToken?.Dispose();
                     CancelToken = new CancellationTokenSource();    //
-
-                    
                     
                     TopCamTask = Task.Run(() =>
                     {
@@ -98,20 +96,17 @@ namespace ZenTester.Process
                     sendEqipData.Judge = m_nTestFinalResult;
                     int tCount = 4;
 
-                    string[] apdList = { "LH", "RH", "MH", "Gasket", "KeyType"
+                    string[] apdList = { 
+                        "LH", "RH", "MH", 
+                        "Gasket", "KeyType"
                             , "CircleDented"
-                            , "Concentrycity_A"
-                            , "Concentrycity_D"
-                    , "Cone"
-                    , "ORing"
-                    , "Result"
-                    , "Barcode"
-                    , "Socket_Num"};
+                            , "Concentrycity_A", "Concentrycity_D"
+                        , "Cone", "ORing"
+                        , "Result" , "Barcode", "Socket_Num" };
 
-                    string[] apdResult = {
-                        aoitestData.LH, aoitestData.RH, aoitestData.MH, 
+                    string[] apdResult = { aoitestData.LH, aoitestData.RH, aoitestData.MH, 
                         aoitestData.Gasket, aoitestData.KeyType,aoitestData.CircleDented, aoitestData.Concentrycity_A, aoitestData.Concentrycity_D,
-                    aoitestData.Cone, aoitestData.ORing, aoitestData.Result ,aoitestData.Barcode, aoitestData.Socket_Num};
+                        aoitestData.Cone, aoitestData.ORing, aoitestData.Result ,aoitestData.Barcode, aoitestData.Socket_Num};
 
                     for (int i = 0; i < apdResult.Length; i++)
                     {

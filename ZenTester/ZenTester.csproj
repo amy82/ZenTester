@@ -418,13 +418,12 @@
       <DependentUpon>NumPadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Process\AoiTestFlow.cs" />
-    <Compile Include="Process\LiftFlow.cs" />
-    <Compile Include="Process\ManualProcess.cs" />
+    <Compile Include="Process\FwTestFlow.cs" />
     <Compile Include="Process\PcbProcess.cs" />
     <Compile Include="Process\ProcessManager.cs" />
-    <Compile Include="Process\ReadyProcess.cs" />
     <Compile Include="Process\TransferFlow.cs" />
     <Compile Include="Process\VerifyTestFlow.cs" />
+    <Compile Include="Process\WriteTestFlow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

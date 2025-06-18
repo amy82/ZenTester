@@ -10,12 +10,16 @@ namespace ZenTester.TaskClass
     {
         private Process.AoiTestFlow aoiTestFlow;
         private Process.VerifyTestFlow verifyTestFlow;
+        //private Process.VerifyTestFlow writeTestFlow;
+        //private Process.VerifyTestFlow fwTestFlow;
 
         public bool testRun = false;
         public TaskManager()
         {
             aoiTestFlow = new Process.AoiTestFlow();
             verifyTestFlow = new Process.VerifyTestFlow();
+            //writeTestFlow = new Process.VerifyTestFlow();
+            //fwTestFlow = new Process.VerifyTestFlow();
         }
         public void Aoi_TestRun(TcpSocket.TesterData data)  //int SocketNum)      //1 or 2
         {

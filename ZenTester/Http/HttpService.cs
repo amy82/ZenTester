@@ -345,7 +345,7 @@ namespace ZenTester.Http
 
                         Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
                         Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
-                                                                                                   //TODO: 받아서 레시피 파일로 저장을 하자
+                        //TODO: 받아서 레시피 파일로 저장을 하자
 
 
                         Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
