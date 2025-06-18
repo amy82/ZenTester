@@ -60,10 +60,10 @@ namespace ZenTester
 
         //In Left Panel
         public static Dlg.ProductionInfo productionInfo;
-        public static Dlg.OperationPanel operationPanel;
-        public static Dlg.TrayStateInfo trayStateInfo;
-        public static Dlg.SocketStateInfo socketStateInfo;
-        public static Dlg.PickerInfo pickerInfo;
+        //public static Dlg.OperationPanel operationPanel;
+        //public static Dlg.TrayStateInfo trayStateInfo;
+        //public static Dlg.SocketStateInfo socketStateInfo;
+        //public static Dlg.PickerInfo pickerInfo;
 
         public static TcpSocket.TcpManager tcpManager;      //secs/gem connect
         public static TaskClass.TaskManager taskManager;

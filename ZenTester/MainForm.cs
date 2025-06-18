@@ -83,9 +83,6 @@ namespace ZenTester  //ApsMotionControl
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
 
-            //Globalo.motionManager = new MotionControl.MotionManager();
-            //Globalo.motionManager.AllMotorParameterSet();
-
             //string fileName = string.Format(@"{0}\iomap.xlsx", Application.StartupPath); //file path
             //Globalo.dataManage.ioData.ReadEpplusData(fileName);
 
@@ -101,11 +98,7 @@ namespace ZenTester  //ApsMotionControl
 
             //Globalo.mioPanel = new Dlg.IoControl(dRightPanelW, dRightPanelH);
 
-            //Globalo.operationPanel = new Dlg.OperationPanel();
             Globalo.productionInfo = new Dlg.ProductionInfo();
-            Globalo.trayStateInfo = new Dlg.TrayStateInfo();
-            Globalo.socketStateInfo = new Dlg.SocketStateInfo();
-            Globalo.pickerInfo = new Dlg.PickerInfo();
             Globalo.tabMenuForm = new Dlg.TabMenuForm(RightPanel.Width, RightPanel.Height);
             
             

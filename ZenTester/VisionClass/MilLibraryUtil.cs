@@ -695,15 +695,16 @@ namespace ZenTester.VisionClass
             bGrabOnFlag[1] = false;
             if (TotalCamCount > 0)
             {
-                MIL.MdigAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref tempDigitizer);
-
-                StringBuilder cameraModel = new StringBuilder(256);
-                MIL.MdigInquire(tempDigitizer, MIL.M_CAMERA_MODEL, cameraModel); // 또는 M_CAMERA_MODEL
-
-                string model = cameraModel.ToString();
-                MIL.MdigFree(tempDigitizer);
+                
                 for (i = 0; i < TotalCamCount; i++)
                 {
+                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref tempDigitizer);
+
+                    StringBuilder cameraModel = new StringBuilder(256);
+                    MIL.MdigInquire(tempDigitizer, MIL.M_CAMERA_MODEL, cameraModel); // 또는 M_CAMERA_MODEL
+
+                    string model = cameraModel.ToString();
+                    MIL.MdigFree(tempDigitizer);
 
                     if (model.Contains("MV-CU120-10GM"))//TOP
                     {

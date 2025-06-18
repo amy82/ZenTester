@@ -255,7 +255,6 @@ namespace ZenTester.TcpSocket
                     Globalo.setTestControl.manualTest.SetSmallMark();
                     Globalo.setTestControl.manualConfig.RefreshConfig();
                     Globalo.setTestControl.manualTest.RefreshTest();
-
                 }, null);
                 
 

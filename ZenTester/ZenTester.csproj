@@ -294,12 +294,6 @@
     <Compile Include="Dlg\RecipePopup.Designer.cs">
       <DependentUpon>RecipePopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\SocketStateInfo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Dlg\SocketStateInfo.Designer.cs">
-      <DependentUpon>SocketStateInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dlg\TabMenuForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -518,9 +512,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\RecipePopup.resx">
       <DependentUpon>RecipePopup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\SocketStateInfo.resx">
-      <DependentUpon>SocketStateInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\TabMenuForm.resx">
       <DependentUpon>TabMenuForm.cs</DependentUpon>

@@ -91,7 +91,7 @@ namespace ZenTester.Dlg
 
             manualTest.Location = new System.Drawing.Point(1050, 50);
             manualConfig.Location = new System.Drawing.Point(1050, 50);
-
+            btn_Set_Test_Control.BackColor = ColorTranslator.FromHtml("#FFB230");
 
             button_SetTest_SideCam.BackColor = Color.DarkGray;
             tempRoi.Clear();
@@ -217,6 +217,8 @@ namespace ZenTester.Dlg
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
             manualConfig.checkBox_AllRelease();
+
+            label_SetTest_Title.Text = "Top Setting Camera";
         }
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
@@ -230,6 +232,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
             manualConfig.checkBox_AllRelease();
 
+            label_SetTest_Title.Text = "Side Setting Camera";
             //roi 다시 그리기
         }
 

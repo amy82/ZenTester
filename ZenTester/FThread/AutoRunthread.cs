@@ -72,7 +72,7 @@ namespace ZenTester.FThread
                 else
                 {
                     //일시 정지 요청시
-                    Globalo.operationPanel.PauseAutoProcess();
+                    //Globalo.operationPanel.PauseAutoProcess();
                 }
             }
             else
