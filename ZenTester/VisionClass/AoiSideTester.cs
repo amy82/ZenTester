@@ -18,7 +18,7 @@ namespace ZenTester.VisionClass
         {
 
         }
-        public bool MilEdgeOringTest(int index, int roiIndex)//, Mat srcImage)
+        public bool MilEdgeOringTest(int index, int roiIndex, bool bAutoRun = false)//, Mat srcImage)
         {
             int startTime = Environment.TickCount;
             bool bRtn = true;
@@ -216,26 +216,30 @@ namespace ZenTester.VisionClass
                 Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, OringColor, System.Drawing.Drawing2D.DashStyle.Solid);
                 bRtn = false;
             }
+            if (bAutoRun == false)
+            {
+                int elapsedMs = Environment.TickCount - startTime;
+                // 시간 출력
+                double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+                double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
-            int elapsedMs = Environment.TickCount - startTime;
-            // 시간 출력
-            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
-            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
+                str = $"Test Time: {elapsedMs} ms";
+                Console.WriteLine(str);
+                Globalo.LogPrint("", str);
 
-            str = $"Test Time: {elapsedMs} ms";
-            Console.WriteLine(str);
-            Globalo.LogPrint("", str);
+                str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+                Console.WriteLine(str);
+                Globalo.LogPrint("", str);
 
-            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
-            Console.WriteLine(str);
-            Globalo.LogPrint("", str);
-
-            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
+            
+                System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
+            }
+            
             return bRtn;
         }
-        public bool MilEdgeConeTest(int index, int roiIndex)
+        public bool MilEdgeConeTest(int index, int roiIndex, bool bAutoRun = false)
         {
             int startTime = Environment.TickCount;
             bool bRtn = true;
@@ -472,24 +476,27 @@ namespace ZenTester.VisionClass
             }
 
 
+            if (bAutoRun == false)
+            {
+                int elapsedMs = Environment.TickCount - startTime;
+                // 시간 출력
+                double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+                double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
 
-            int elapsedMs = Environment.TickCount - startTime;
-            // 시간 출력
-            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
-            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
+                str = $"Test Time: {elapsedMs} ms";
+                Console.WriteLine(str);
+                Globalo.LogPrint("", str);
 
+                str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+                Console.WriteLine(str);
+                Globalo.LogPrint("", str);
 
-            str = $"Test Time: {elapsedMs} ms";
-            Console.WriteLine(str);
-            Globalo.LogPrint("", str);
+                System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
+            }
 
-            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
-            Console.WriteLine(str);
-            Globalo.LogPrint("", str);
-
-            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
+            
             return bRtn;
         }
 

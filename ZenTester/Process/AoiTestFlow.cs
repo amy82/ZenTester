@@ -643,18 +643,27 @@ namespace ZenTester.Process
                         }
                         
                         
-                        nRetStep = 30;
-                        break;
-                    case 30:
-                        nRetStep = 40;
-                        break;
-                    case 40:
                         nRetStep = 50;
                         break;
                     case 50:
                         nRetStep = 900;
                         break;
                     case 900:
+                        System.Drawing.Point txtPoint = new System.Drawing.Point();
+                        string resultStr = string.Empty;
+
+
+                        resultStr = $"O-Ring :{aoitestData.ORing}";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 600);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+
+                        resultStr = $"Cone :{aoitestData.Cone}";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+
+        
+
+                        Globalo.visionManager.milLibrary.DrawOverlayAll(sideCamIndex);
                         nRetStep = 1000;
                         break;
                     default:
