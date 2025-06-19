@@ -477,14 +477,22 @@ namespace ZenTester.VisionClass
             bFind = FindModel(index , MarkNo, true, m_clRoi, ref dScore, ref dAngle, ref dFindPos);
             if (bFind)
             {
-                if (dScore > 10.0)
+                if (dScore > 70.0)
                 {
-                    //true
+                    dAlign.X = dFindPos.X;
+                    dAlign.Y = dFindPos.Y;
+                    dAlign.T = dAngle;
+                    MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);//M_COLOR_MAGENTA
                 }
-                dAlign.X = dFindPos.X;
-                dAlign.Y = dFindPos.Y;
-                dAlign.T = dAngle;
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);//M_COLOR_MAGENTA
+                else
+                {
+                    MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+
+                    str = $"MACHING FAIL!";
+                    textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 1000, 500);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
+                }
+                
             }
             else
             {
@@ -497,6 +505,8 @@ namespace ZenTester.VisionClass
                 textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 500, 500);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
             }
+
+
             if (MarkDraw)
             {
 
