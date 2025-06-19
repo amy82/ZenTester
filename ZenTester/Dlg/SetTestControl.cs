@@ -243,6 +243,7 @@ namespace ZenTester.Dlg
             if (this.Visible)
             {
                 Globalo.visionManager.milLibrary.RunModeChange(false);
+                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
                 Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             }
             else

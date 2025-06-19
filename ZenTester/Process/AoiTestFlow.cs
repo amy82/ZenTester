@@ -598,7 +598,7 @@ namespace ZenTester.Process
                         //Left Height
                         //Center Height
                         //Right Height
-                        Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
+                        ////Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
                         double[] heightData = new double[3];
 
@@ -616,7 +616,7 @@ namespace ZenTester.Process
                         //Oring 유무
                         //
                         //-------------------------------------------------------------------------------------------
-                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0);
+                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, true);
                         if (bOringRtn)
                         {
                             aoitestData.ORing = "1";
@@ -632,7 +632,7 @@ namespace ZenTester.Process
                         //Cone 유무
                         //
                         //-------------------------------------------------------------------------------------------
-                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0);//, src);
+                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, true);//, src);
                         if (bConeRtn)
                         {
                             aoitestData.Cone = "1";
@@ -658,7 +658,7 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
                         resultStr = $"Cone :{aoitestData.Cone}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 450);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
         

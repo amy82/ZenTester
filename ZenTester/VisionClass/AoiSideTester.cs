@@ -198,13 +198,16 @@ namespace ZenTester.VisionClass
                     OringColor = Color.Red;
                 }
 
+                if (bAutoRun == false)
+                {
+                    int leng = str.Length;
+                    //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/(leng-11)), 250);
+                    textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);
 
-                int leng = str.Length;
-                //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/(leng-11)), 250);
-                textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);
-
-                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, OringColor, 50);
-                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", OringColor, 13);
+                    //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, OringColor, 50);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", OringColor, 13);
+                }
+                
             }
             else
             {
@@ -213,7 +216,11 @@ namespace ZenTester.VisionClass
 
                 OringColor = Color.Red;
                 //Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, OringColor, 2);
-                Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, OringColor, System.Drawing.Drawing2D.DashStyle.Solid);
+                if (bAutoRun == false)
+                {
+                    Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, OringColor, System.Drawing.Drawing2D.DashStyle.Solid);
+                }
+                    
                 bRtn = false;
             }
             if (bAutoRun == false)
@@ -456,22 +463,29 @@ namespace ZenTester.VisionClass
                     str = $"CONE - 0";
                     ConeColor = Color.Red;
                 }
+                if (bAutoRun == false)
+                {
+                    int leng = str.Length;
+                    //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
+                    textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);
+                    //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", ConeColor, 13);
+                }
 
-
-                int leng = str.Length;
-                //textPoint = new System.Drawing.Point((int)(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / (leng - 10)), 250);
-                textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 370);
-                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, ConeColor, 50);
-                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", ConeColor, 13);
+                    
             }
             else
             {
                 Console.Write("Edges have not been found or the number of found edges is greater than\n");
                 Console.Write("the specified maximum number of edges !\n\n");
 
+                if (bAutoRun == false)
+                {
+                    //Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Red, 2);
+                    Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, Color.Red, System.Drawing.Drawing2D.DashStyle.Solid);
+                }
 
-                //Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRect, Color.Red, 2);
-                Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, Color.Red, System.Drawing.Drawing2D.DashStyle.Solid);
+                    
                 bRtn = false;
             }
 
@@ -655,14 +669,25 @@ namespace ZenTester.VisionClass
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
 
                 int txtOffsetX = 0;
+                int txtOffsetY = 0;
                 if (roiIndex == 2)
                 {
-                    txtOffsetX = 530;
+                    txtOffsetX = 610;
                 }
-                System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY);
+                if (roiIndex == 0 || roiIndex == 2)
+                {
+                    txtOffsetY = 170;
+                }
+                if (roiIndex == 1)
+                {
+                    txtOffsetY = -200;
+                }
+                System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY - txtOffsetY);
+
                 dHeight = (maxValue - minValue) * CamResolY;
                 string str = $"{dHeight.ToString("0.0##")}(mm)";
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
+                //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 11);
+                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", Color.Yellow, 11);
 
             }
             else
