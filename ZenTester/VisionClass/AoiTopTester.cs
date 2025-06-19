@@ -24,7 +24,7 @@ namespace ZenTester.VisionClass
         {
             bool rtn = true;
 
-            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
             
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
@@ -238,7 +238,7 @@ namespace ZenTester.VisionClass
             Cv2.CvtColor(srcImage, result, ColorConversionCodes.GRAY2BGR);
             int i = 0;
             Console.Write("------------FindContours\n");
-            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
 
             Console.Write($"PogoFind Count: {contours.Length}");
             if (contours.Length < 1)
@@ -446,7 +446,7 @@ namespace ZenTester.VisionClass
 
             MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
             MilImage = tempMilImage;
-            if (bAutorun == false)
+            if (false)//bAutorun == false)
             {
                 MIL.MdispSelect(MilDisplay, MilImage);
             }
@@ -647,12 +647,12 @@ namespace ZenTester.VisionClass
 
             if (bAutorun == false)
             {
-                System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+                System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 950, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150 - (100* roiIndex));
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
             }
-            
             return nRtn;
         }
+
         public void Keytest(int index, Mat srcImage, OpenCvSharp.Point circle1, int roiIndex)
         {
             bool IMG_VIEW = true;

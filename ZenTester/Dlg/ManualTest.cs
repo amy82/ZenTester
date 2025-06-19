@@ -81,7 +81,7 @@ namespace ZenTester.Dlg
         }
         private void button_Pogo_Find_Test_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -106,7 +106,7 @@ namespace ZenTester.Dlg
         {
             bool rtn = true;
             parentDlg.manualConfig.checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -179,7 +179,7 @@ namespace ZenTester.Dlg
         {
             bool rtn = true;
             parentDlg.manualConfig.checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -262,7 +262,7 @@ namespace ZenTester.Dlg
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
         {
             parentDlg.manualConfig.checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -297,7 +297,7 @@ namespace ZenTester.Dlg
         {
             bool rtn = true;
             parentDlg.manualConfig.checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -328,7 +328,7 @@ namespace ZenTester.Dlg
         private void button_Set_Oring_Test_Click(object sender, EventArgs e)
         {
             parentDlg.manualConfig.checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -348,7 +348,7 @@ namespace ZenTester.Dlg
                 OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
 
             }
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
 
@@ -360,7 +360,7 @@ namespace ZenTester.Dlg
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
         {
             parentDlg.manualConfig.checkBox_AllRelease();
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -378,9 +378,8 @@ namespace ZenTester.Dlg
             {
                 OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
                 OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
-
             }
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             Globalo.visionManager.aoiSideTester.MilEdgeConeTest(parentDlg.CamIndex, 0, OffsetPos);//, src);
 
@@ -393,7 +392,7 @@ namespace ZenTester.Dlg
         {
             parentDlg.manualConfig.checkBox_AllRelease();
 
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
@@ -458,7 +457,7 @@ namespace ZenTester.Dlg
         {
             VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
 
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
@@ -522,7 +521,7 @@ namespace ZenTester.Dlg
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+                    Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetTestLoadBmp(parentDlg.CamIndex, selectedFilePath);
 

@@ -160,7 +160,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(0, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Globalo.visionManager.milLibrary.ClearOverlay(0);
+                    Globalo.visionManager.milLibrary.ClearOverlay_Manual(0);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(0, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -175,11 +175,7 @@ namespace ZenTester.Dlg
 
         private void btn_SideCam_Image_Save_Click(object sender, EventArgs e)
         {
-            //Globalo.visionManager.milLibrary.ClearOverlay(1);  
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 200), "overlay test1", Color.Yellow, 30); 
 
-            //Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
-            //Globalo.visionManager.milLibrary.DrawOverlayBox(1, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Dot);
         }
 
         private void btn_SideCam_Image_Load_Click(object sender, EventArgs e)
@@ -193,7 +189,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(1, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Globalo.visionManager.milLibrary.ClearOverlay(1);
+                    Globalo.visionManager.milLibrary.ClearOverlay_Manual(1);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(1, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -210,7 +206,7 @@ namespace ZenTester.Dlg
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
             //Set_panelCam.Handle
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
             button_SetTest_TopCam.BackColor = Color.Black;
             button_SetTest_SideCam.BackColor = Color.DarkGray;
             CamIndex = 0;
@@ -223,7 +219,7 @@ namespace ZenTester.Dlg
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
-            Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
             button_SetTest_SideCam.BackColor = Color.Black;
             button_SetTest_TopCam.BackColor = Color.DarkGray;
             CamIndex = 1;
@@ -243,7 +239,7 @@ namespace ZenTester.Dlg
             if (this.Visible)
             {
                 Globalo.visionManager.milLibrary.RunModeChange(false);
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             }
             else
@@ -542,7 +538,7 @@ namespace ZenTester.Dlg
                 Rectangle m_clRect = new Rectangle(
                     (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
             else if (isDragging)
@@ -552,7 +548,7 @@ namespace ZenTester.Dlg
                 Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 //Set_panelCam.Invalidate();
@@ -574,7 +570,7 @@ namespace ZenTester.Dlg
                     (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
         }

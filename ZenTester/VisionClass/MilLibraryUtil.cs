@@ -202,6 +202,15 @@ namespace ZenTester.VisionClass
             //
             MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
         }
+        public void ClearOverlay_Manual(int index)
+        {
+            m_clMilDrawBox[index].RemoveAll();
+            m_clMilDrawCircle[index].RemoveAll();
+            m_clMilDrawText[index].RemoveAll();
+            m_clMilDrawCross[index].RemoveAll();
+
+            MIL.MbufClear(MilSetCamOverlay, MilSetCamTransparent);
+        }
         public void ClearOverlay(int index)
         {
             m_clMilDrawBox[index].RemoveAll();
@@ -220,6 +229,7 @@ namespace ZenTester.VisionClass
         public void DrawRgbValue(int index, Point clickP)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(index);
+
             int width = (int)MIL.MbufInquire(MilCamGrabImageChild[index], MIL.M_PITCH, MIL.M_NULL);
             int pos = clickP.Y * width + clickP.X;
             int pixelValue = 0;

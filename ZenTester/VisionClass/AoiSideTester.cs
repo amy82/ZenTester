@@ -745,7 +745,7 @@ namespace ZenTester.VisionClass
         public bool HeightTest(int index)
         {
             int startTime = Environment.TickCount;
-            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
             double[] heightData = new double[3];
 
 
@@ -760,7 +760,7 @@ namespace ZenTester.VisionClass
                 OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
 
             }
-            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
             //
 
             heightData[0] = MilEdgeHeight(index, 0, OffsetPos);

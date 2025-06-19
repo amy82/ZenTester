@@ -145,7 +145,7 @@ namespace ZenTester.Dlg
             Data.Roi targetRoi;
             Rectangle m_clRect;
             System.Drawing.Point textPoint;
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             int boxLine = 1;
             if (index == 0)
@@ -254,7 +254,7 @@ namespace ZenTester.Dlg
             }
             if (parentDlg.isRoiChecked < 0)
             {
-                Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
             }
         }
         private void CamResolutionInput(Label OffsetLabel)
@@ -355,8 +355,8 @@ namespace ZenTester.Dlg
         {
             int cx = 0;
             int cy = 0;
-            Globalo.visionManager.milLibrary.ClearOverlay(0);
-            Globalo.visionManager.milLibrary.ClearOverlay(1);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(0);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(1);
 
             cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];
             cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
@@ -370,12 +370,12 @@ namespace ZenTester.Dlg
         }
         public void DrawDistnace()
         {
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
             //DistLineX[0] = new System.Drawing.Point(500, 500);
             //DistLineX[1] = new System.Drawing.Point(sizeX - 500, sizeY - 500);
 
-            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
             Globalo.visionManager.milLibrary.DrawOverlayLine(parentDlg.CamIndex, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].X), 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 0].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex], Color.Red, 1);
             Globalo.visionManager.milLibrary.DrawOverlayLine(parentDlg.CamIndex, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].X), 0, (int)(parentDlg.DistLineX[parentDlg.CamIndex, 1].X), (int)Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex], Color.Red, 1);
 
