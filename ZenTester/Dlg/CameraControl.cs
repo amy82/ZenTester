@@ -25,7 +25,6 @@ namespace ZenTester.Dlg
         {
             InitializeComponent();
 
-            //initNewCameraSet();
             initResultGrid();
             
         }
@@ -60,16 +59,7 @@ namespace ZenTester.Dlg
             this.Controls.Add(ResultGridView1);
             this.Controls.Add(ResultGridView2);
         }
-        public void initNewCameraSet()
-        {
-            //Globalo.visionManager = new VisionClass.VisionManager(getWidth(), getHeight() , Globalo.setTestControl.Set_panelCam.Width, Globalo.setTestControl.Set_panelCam.Height);
 
-           
-
-
-
-            
-        }
         public void UpdateImage(Bitmap image)
         {
             if (CurrentImage != null) CurrentImage.Dispose();
@@ -179,7 +169,23 @@ namespace ZenTester.Dlg
             }
 
         }
+        public void drawCenterCross()
+        {
+            int cx = 0;
+            int cy = 0;
+            Globalo.visionManager.milLibrary.ClearOverlay(0);
+            Globalo.visionManager.milLibrary.ClearOverlay(1);
 
+            cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];
+            cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
+
+            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+
+            cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[1];
+            cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[1];
+
+            Globalo.visionManager.milLibrary.DrawOverlayCross(1, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+        }
         private void CameraControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)

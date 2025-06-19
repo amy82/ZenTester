@@ -51,9 +51,9 @@ namespace ZenTester.Dlg
         public void RefreshConfig()
         {
             checkBox_AllRelease();
+
             showCamResol();
             showLight();
-            drawCenterCross();
         }
         public void checkBox_AllRelease()
         {
@@ -348,26 +348,9 @@ namespace ZenTester.Dlg
             }
             else
             {
-                drawCenterCross();
             }
         }
-        public void drawCenterCross()
-        {
-            int cx = 0;
-            int cy = 0;
-            Globalo.visionManager.milLibrary.ClearOverlay_Manual(0);
-            Globalo.visionManager.milLibrary.ClearOverlay_Manual(1);
-
-            cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];
-            cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
-
-            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-
-            cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[1];
-            cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[1];
-
-            Globalo.visionManager.milLibrary.DrawOverlayCross(1, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-        }
+        
         public void DrawDistnace()
         {
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);

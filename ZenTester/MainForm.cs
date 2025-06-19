@@ -145,6 +145,7 @@ namespace ZenTester  //ApsMotionControl
 
 
                 Globalo.setTestControl.setCamCenter();
+                Globalo.cameraControl.drawCenterCross();
             }
             
 
@@ -186,7 +187,10 @@ namespace ZenTester  //ApsMotionControl
 
             //Globalo.pickerInfo.SetPickerInfo();
 
+            Globalo.tabMenuForm.MenuButtonSet(Dlg.TabMenuForm.TABFORM.MAIN_FORM);
+
             Program.SetLanguage(Globalo.yamlManager.configData.DrivingSettings.Language);
+
 
             //LeeTestForm popupForm = new LeeTestForm();
             //popupForm.Show();

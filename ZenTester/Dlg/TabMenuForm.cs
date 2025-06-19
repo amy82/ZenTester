@@ -32,9 +32,9 @@ namespace ZenTester.Dlg
 
 
             Run_Mode_Change(ProgramState.eRunMode.ENGINEER);//OPERATOR);
-            MenuButtonSet(TABFORM.MAIN_FORM);
+            //MenuButtonSet(TABFORM.MAIN_FORM);
         }
-        private void MenuButtonSet(TABFORM index)
+        public void MenuButtonSet(TABFORM index)
         {
             if (MenuChangeInterLock) return;        //모터 이동에 메뉴 이동안되는 용도로 일단 추가만
 
@@ -56,6 +56,8 @@ namespace ZenTester.Dlg
                     if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                     {
                         Globalo.cameraControl.Visible = true;
+
+                        Globalo.cameraControl.drawCenterCross();
                     }
                         
                     //Globalo.mMainPanel.Visible = true;
