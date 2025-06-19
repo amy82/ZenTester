@@ -338,8 +338,10 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+
             Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0);
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
@@ -358,7 +360,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.aoiSideTester.MilEdgeConeTest(parentDlg.CamIndex, 0);//, src);
 
 
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
 
@@ -386,7 +388,7 @@ namespace ZenTester.Dlg
             //
             Globalo.visionManager.aoiSideTester.HeightTest(parentDlg.CamIndex); 
             //
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
         }
         #endregion
         public void showMark()

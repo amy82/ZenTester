@@ -152,7 +152,7 @@ namespace ZenTester.Process
             string szLog = "";
             int data1 = 0;
             int data2 = 0;
-            int topCamIndex = 0;
+            const int topCamIndex = 0;
             int nRetStep = 10;
             while (true)
             {
@@ -556,6 +556,7 @@ namespace ZenTester.Process
             int nRtn = -1;
             bool bRtn = false;
             string szLog = "";
+            const int sideCamIndex = 1;
             int nRetStep = 10;
             while (true)
             {
@@ -591,22 +592,57 @@ namespace ZenTester.Process
                     case 20:
 
                         //== 높이 측정 기준 Mark 찾기
+
+
+                        //-------------------------------------------------------------------------------------------
                         //Left Height
                         //Center Height
                         //Right Height
+                        Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
-                        //---------------
+                        double[] heightData = new double[3];
+
+                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0);
+                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1);
+                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2);
+
+                        aoitestData.LH = heightData[0].ToString("0.0##");
+                        aoitestData.MH = heightData[0].ToString("0.0##");
+                        aoitestData.RH = heightData[0].ToString("0.0##");
+                        //-------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //Oring 유무
-
-                        //---------------
+                        //
+                        //-------------------------------------------------------------------------------------------
+                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0);
+                        if (bOringRtn)
+                        {
+                            aoitestData.ORing = "1";
+                        }
+                        else
+                        {
+                            aoitestData.ORing = "0";
+                        }
+                        //-------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //Cone 유무
-
-                        aoitestData.LH = "0.0";
-                        aoitestData.MH = "0.0";
-                        aoitestData.RH = "0.0";
-                        aoitestData.ORing = "1";
-                        aoitestData.Cone = "1";
-
+                        //
+                        //-------------------------------------------------------------------------------------------
+                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0);//, src);
+                        if (bConeRtn)
+                        {
+                            aoitestData.Cone = "1";
+                        }
+                        else
+                        {
+                            aoitestData.Cone = "0";
+                        }
+                        
+                        
                         nRetStep = 30;
                         break;
                     case 30:
