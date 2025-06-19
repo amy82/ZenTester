@@ -184,5 +184,14 @@ namespace ZenTester
             EqipData.Data = sendEqipData;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            TcpSocket.TesterData data = new TcpSocket.TesterData();
+            data.LotId = new string[1];
+            data.LotId[0] = "manual lot";
+            data.socketNum = 1;
+            Globalo.taskManager.Aoi_TestRun(data);
+        }
     }
 }

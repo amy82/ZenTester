@@ -55,6 +55,7 @@ namespace ZenTester
             this.button21 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
             this.button23 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -353,7 +354,7 @@ namespace ZenTester
             this.button21.BackColor = System.Drawing.Color.Black;
             this.button21.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button21.ForeColor = System.Drawing.Color.White;
-            this.button21.Location = new System.Drawing.Point(341, 362);
+            this.button21.Location = new System.Drawing.Point(342, 402);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(127, 34);
             this.button21.TabIndex = 23;
@@ -389,11 +390,25 @@ namespace ZenTester
             this.button23.UseVisualStyleBackColor = false;
             this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
+            // button24
+            // 
+            this.button24.BackColor = System.Drawing.Color.Black;
+            this.button24.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button24.ForeColor = System.Drawing.Color.White;
+            this.button24.Location = new System.Drawing.Point(342, 362);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(127, 34);
+            this.button24.TabIndex = 26;
+            this.button24.Text = "auto top test";
+            this.button24.UseVisualStyleBackColor = false;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 482);
+            this.Controls.Add(this.button24);
             this.Controls.Add(this.button23);
             this.Controls.Add(this.button22);
             this.Controls.Add(this.button21);
@@ -455,5 +470,6 @@ namespace ZenTester
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.Button button22;
         private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button24;
     }
 }

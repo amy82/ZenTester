@@ -94,14 +94,9 @@ namespace ZenTester.Process
                     sendEqipData.Command = "LOT_APD_REPORT";
                     sendEqipData.LotID = aoitestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
-                    int tCount = 4;
 
                     string[] apdList = { 
-                        "LH", "RH", "MH", 
-                        "Gasket", "KeyType"
-                            , "CircleDented"
-                            , "Concentrycity_A", "Concentrycity_D"
-                        , "Cone", "ORing"
+                        "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
                         , "Result" , "Barcode", "Socket_Num" };
 
                     string[] apdResult = { aoitestData.LH, aoitestData.RH, aoitestData.MH, 
@@ -121,8 +116,6 @@ namespace ZenTester.Process
                     Globalo.tcpManager.nRecv_Ack = -1;
                     Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
-
-
 
                     nRetStep = 220;    //1000이상이면 종료
                     break;
@@ -451,8 +444,8 @@ namespace ZenTester.Process
                             con1Result = dist1 * CamResolX;
                             con2Result = dist2 * CamResolX;
 
-                            aoitestData.Concentrycity_A = con1Result.ToString();
-                            aoitestData.Concentrycity_D = con2Result.ToString();
+                            aoitestData.Concentrycity_A = con1Result.ToString("0.00#");
+                            aoitestData.Concentrycity_D = con2Result.ToString("0.00#");
                         }
                         else
                         {
@@ -561,20 +554,40 @@ namespace ZenTester.Process
                     nRtn = -1;
                     break;
                 }
-                pauseEvent.Wait();  // 일시정지시 여기서 멈춰 있음
+                //pauseEvent.Wait();  // 일시정지시 여기서 멈춰 있음
                 //Tester에서는 일시정지 없을듯
                 switch (nRetStep)
                 {
                     case 10:
-                        //조명 변경
-                        nRetStep = 20;
+                        //Side 조명은 Top에서 같이 변경
+                        nTimeTick = Environment.TickCount;
+                        nRetStep = 12;
+                        break;
+                    case 12:
+                        if (Globalo.serialPortManager.LightControl.recvCheck == 1)
+                        {
+                            nRetStep = 20;
+                            break;
+                        }
+                        else if (Environment.TickCount - nTimeTick > 5000)
+                        {
+                            szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
+                            Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                            nRetStep *= -1;
+                            break;
+                        }
                         break;
                     case 20:
+
+                        //== 높이 측정 기준 Mark 찾기
                         //Left Height
                         //Center Height
                         //Right Height
 
+                        //---------------
                         //Oring 유무
+
+                        //---------------
                         //Cone 유무
 
                         aoitestData.LH = "0.0";
