@@ -629,7 +629,7 @@ namespace ZenTester.Process
                         //Oring 유무
                         //
                         //-------------------------------------------------------------------------------------------
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
 
 
                         OffsetPos.X = 0;
@@ -657,7 +657,19 @@ namespace ZenTester.Process
                         //Cone 유무
                         //
                         //-------------------------------------------------------------------------------------------
-                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, true);//, src);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
+
+
+                        OffsetPos.X = 0;
+                        OffsetPos.Y = 0;
+
+                        if (bRtn)
+                        {
+                            OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
+                            OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
+
+                        }
+                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
                         if (bConeRtn)
                         {
                             aoitestData.Cone = "1";

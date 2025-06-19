@@ -276,7 +276,7 @@ namespace ZenTester.VisionClass
             
             return bRtn;
         }
-        public bool MilEdgeConeTest(int index, int roiIndex, bool bAutoRun = false)
+        public bool MilEdgeConeTest(int index, int roiIndex, System.Drawing.Point OffsetPos, bool bAutoRun = false)
         {
             int startTime = Environment.TickCount;
             bool bRtn = true;
@@ -298,8 +298,10 @@ namespace ZenTester.VisionClass
             double[] EdgeSize = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeStrength = new double[CONTOUR_MAX_RESULTS];
 
+            int xGap = OffsetPos.X;
+            int YGap = OffsetPos.Y;
 
-            int OffsetX = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[roiIndex].X;
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[roiIndex].X + xGap;
             int OffsetY = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[roiIndex].Y;
 
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.CONE_ROI[roiIndex].Width;

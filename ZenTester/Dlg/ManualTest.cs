@@ -368,7 +368,21 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
-            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(parentDlg.CamIndex, 0);//, src);
+
+            System.Drawing.Point markPos = new System.Drawing.Point();
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
+
+
+            System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
+            if (bRtn)
+            {
+                OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
+                OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
+
+            }
+            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+
+            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(parentDlg.CamIndex, 0, OffsetPos);//, src);
 
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
