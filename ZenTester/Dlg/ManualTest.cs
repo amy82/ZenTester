@@ -35,7 +35,10 @@ namespace ZenTester.Dlg
 
         public void SetSmallMark()
         {
-            label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
+            VisionClass.eMarkList mark = (VisionClass.eMarkList)MarkIndex;
+            string markName = mark.ToString();
+            
+            label_Set_Mark_Model.Text = markName;// Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
             string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
 
             double sizeX = Globalo.visionManager.markUtil.zoomDispSize.X;
@@ -43,6 +46,7 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
         }
+
         private void button_Set_Mark_Prev_Click(object sender, EventArgs e)
         {
             //Prev
@@ -60,6 +64,8 @@ namespace ZenTester.Dlg
         private void button_Set_Mark_Next_Click(object sender, EventArgs e)
         {
             //Next
+            //public enum eMarkList{SIDE_CONTACT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, MAX_MARK_LIST}
+            int kk = (int)VisionClass.eMarkList.MAX_MARK_LIST;
 
             if (MarkIndex < MaxMarkCount - 1)
             {
@@ -393,7 +399,10 @@ namespace ZenTester.Dlg
         #endregion
         public void showMark()
         {
-            label_Set_Mark_Model.Text = Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
+            VisionClass.eMarkList mark = (VisionClass.eMarkList)MarkIndex;
+            string markName = mark.ToString();
+
+            label_Set_Mark_Model.Text = markName;// Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
         }
         
         private void label_SetTest_Manual_Mark_Regist_Click(object sender, EventArgs e)

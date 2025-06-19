@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
     
     public enum eMarkList
     {
-        LEFT_HEIGHT_MARK = 0, CENTER_HEIGHT_MARK, RIGHT_HEIGHT_MARK, CONE_MARK, MAX_MARK_LIST
+        SIDE_CONTACT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, MAX_MARK_LIST
     }
     public enum eCamType
     {
@@ -481,6 +481,9 @@ namespace ZenTester.VisionClass
                 {
                     //true
                 }
+                dAlign.X = dFindPos.X;
+                dAlign.Y = dFindPos.Y;
+                dAlign.T = dAngle;
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);//M_COLOR_MAGENTA
             }
             else

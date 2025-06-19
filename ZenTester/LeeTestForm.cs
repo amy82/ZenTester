@@ -193,5 +193,19 @@ namespace ZenTester
             data.socketNum = 1;
             Globalo.taskManager.Aoi_TestRun(data);
         }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            System.Drawing.Point ConePos = new Point();
+            Globalo.visionManager.milLibrary.ClearOverlay(1);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(1, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(1);
+            //
+            //
+            Globalo.visionManager.aoiSideTester.Side_ConeFind_Standard(1, ref ConePos);
+
+            Console.WriteLine($"x:{ConePos.X},y:{ConePos.Y}");
+        }
     }
 }

@@ -19,17 +19,24 @@ namespace ZenTester.VisionClass
 
         }
 
-        public bool Side_ConeFind_Standard(int index)        //사이드 카메라 기준점 찾기 - 커넥터 부분 Mark
+        public bool Side_ConeFind_Standard(int index, ref System.Drawing.Point conePos)        //사이드 카메라 기준점 찾기 - 커넥터 부분 Mark
         {
             bool bRtn = true;
             //Mark Find
             VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
+            //Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
+            int MarkIndex = 2;
+            //0 = TopCenter
+            //1 = sideCone
+            //2 = sideContact
+            //3 = sidelens
+            //
+            MarkIndex = (int)VisionClass.eMarkList.SIDE_CONTACT;
 
-            int MarkIndex = 0;
+            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign);
 
-
-            Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign);
-
+            conePos.X = (int)dAlign.X;
+            conePos.Y = (int)dAlign.Y;
             //X 위치반 센터 대비 얼마나 떨어졌는지로 체크?
 
             Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
