@@ -97,7 +97,7 @@ namespace ZenTester.Process
                     sendEqipData.Command = "LOT_APD_REPORT";
                     sendEqipData.LotID = aoitestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
-
+                    sendEqipData.CommandParameter.Clear();
                     string[] apdList = { 
                         "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
                         , "Result" , "Barcode", "Socket_Num" };
