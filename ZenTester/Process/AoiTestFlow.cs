@@ -629,7 +629,19 @@ namespace ZenTester.Process
                         //Oring 유무
                         //
                         //-------------------------------------------------------------------------------------------
-                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, true);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
+
+
+                        OffsetPos.X = 0;
+                        OffsetPos.Y = 0;
+
+                        if (bRtn)
+                        {
+                            OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
+                            OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
+
+                        }
+                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
                         if (bOringRtn)
                         {
                             aoitestData.ORing = "1";

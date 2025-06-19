@@ -452,7 +452,7 @@ namespace ZenTester.VisionClass
             //dFitError = Find_FitError[maxObjNum];
             return true;
         }
-        public bool CalcSingleMarkAlign(int index, int MarkNo, ref CDMotor dAlign)
+        public bool CalcSingleMarkAlign(int index, int MarkNo, ref CDMotor dAlign, bool MarkDraw = true)
         {
             int startTime = Environment.TickCount;
             bool bFind = false;
@@ -497,72 +497,62 @@ namespace ZenTester.VisionClass
                 textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 500, 500);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
             }
+            if (MarkDraw)
+            {
 
-            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
-            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
+            
+                MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
+                MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
 
-            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);//M_DRAW_SCALE_X
-            MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);//M_DRAW_SCALE_Y
+                MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);//M_DRAW_SCALE_X
+                MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);//M_DRAW_SCALE_Y
 
-            MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult[index], Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult[index], Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
 
+            if (MarkDraw)
+            {
+                str = $"[ROI] (mm)";
+                textPoint = new System.Drawing.Point(m_clRoi.X, m_clRoi.Y + 50);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 11);
 
-            str = $"[ROI] (mm)";
-            textPoint = new System.Drawing.Point(m_clRoi.X, m_clRoi.Y + 50);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 11);
-
-            Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRoi, Color.Blue, 1);
-
-
-            str = $"Center X={dFindPos.X.ToString("0.0#")}";
-            textPoint = new System.Drawing.Point(20, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 200);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
-
-            str = $"Center Y={dFindPos.Y.ToString("0.0#")}";
-            textPoint = new System.Drawing.Point(20, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 100);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
-
-            str = $"[Mark] HEIGHT MARK";
-            textPoint = new System.Drawing.Point(20, 30);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
-
-            str = $"SCORE: {dScore.ToString("0.0#")}%";
-            textPoint = new System.Drawing.Point(20, 120);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
-
-            ///this.DrawOverlayFindMark(0);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRoi, Color.Blue, 1);
 
 
+                str = $"Center X={dFindPos.X.ToString("0.0#")}";
+                textPoint = new System.Drawing.Point(20, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 200);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
+
+                str = $"Center Y={dFindPos.Y.ToString("0.0#")}";
+                textPoint = new System.Drawing.Point(20, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 100);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
+
+                str = $"[Mark] HEIGHT MARK";
+                textPoint = new System.Drawing.Point(20, 30);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
+
+                str = $"SCORE: {dScore.ToString("0.0#")}%";
+                textPoint = new System.Drawing.Point(20, 120);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
+           
+                
+                int elapsedMs = Environment.TickCount - startTime;
+                // 시간 출력
+                double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
+                double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
 
 
+                str = $"Test Time: {elapsedMs} ms";
+                Console.WriteLine(str);
+                Globalo.LogPrint("", str);
 
+                str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
+                Console.WriteLine(str);
+                Globalo.LogPrint("", str);
 
-            //str = $"[ALIGN DATA] (mm)";
-            //textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 180);
-            //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
-
-            //str = $"X:";
-            //textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 90);
-            //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
-
-
-            int elapsedMs = Environment.TickCount - startTime;
-            // 시간 출력
-            double elapsedMilliseconds = TeststopWatch.Elapsed.TotalMilliseconds;
-            double elapsedSeconds = TeststopWatch.Elapsed.TotalSeconds;
-
-
-            str = $"Test Time: {elapsedMs} ms";
-            Console.WriteLine(str);
-            Globalo.LogPrint("", str);
-
-            str = $"Test Time: {elapsedMs / 1000.0:F3}(s)";
-            Console.WriteLine(str);
-            Globalo.LogPrint("", str);
-
-            System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
-
+                System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
+                Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
+            }
             return bFind;
         }
         private void DrawOverlayFindMark(int index)

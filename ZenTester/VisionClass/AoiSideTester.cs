@@ -33,7 +33,7 @@ namespace ZenTester.VisionClass
             //
             MarkIndex = (int)MarkPos;   // VisionClass.eMarkList.SIDE_HEIGHT;
 
-            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign);
+            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, false);
 
             conePos.X = (int)dAlign.X;
             conePos.Y = (int)dAlign.Y;
@@ -45,7 +45,7 @@ namespace ZenTester.VisionClass
             return bRtn;
 
         }
-        public bool MilEdgeOringTest(int index, int roiIndex, bool bAutoRun = false)//, Mat srcImage)
+        public bool MilEdgeOringTest(int index, int roiIndex, System.Drawing.Point OffsetPos, bool bAutoRun = false)//, Mat srcImage)
         {
             int startTime = Environment.TickCount;
             bool bRtn = true;
@@ -63,7 +63,10 @@ namespace ZenTester.VisionClass
             double[] EdgeCircleFitErr = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeCircleRadius = new double[CONTOUR_MAX_RESULTS];
 
-            int OffsetX = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[roiIndex].X;
+            int xGap = OffsetPos.X;
+            int YGap = OffsetPos.Y;
+
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[roiIndex].X + xGap;
             int OffsetY = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[roiIndex].Y;
 
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.ORING_ROI[roiIndex].Width;

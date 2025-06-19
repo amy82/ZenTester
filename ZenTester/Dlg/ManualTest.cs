@@ -334,18 +334,23 @@ namespace ZenTester.Dlg
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
             int dataSize = sizeX * sizeY;
 
-
-            //byte[] ImageBuffer = new byte[dataSize];
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilCamGrabImageChild[CamIndex], ImageBuffer);
-            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-
-
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0);
+            System.Drawing.Point markPos = new System.Drawing.Point();
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
+
+
+            System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
+            if (bRtn)
+            {
+                OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
+                OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
+
+            }
+            Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+
+            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
