@@ -348,15 +348,15 @@ namespace ZenTester.VisionClass
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 10);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 10);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE, 1.0);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.99);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.85);//0.99);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.15);//1.2);
 
             /////MIL.MmodControl(m_MilModModel[nUnit][nNo], M_DEFAULT, M_SCALE_MAX_FACTOR, 1.01);
             ///
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.2);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 75);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 75);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 80);//90);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 70);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY, 80);//90);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 70);
         }
 
         //FindModel(int nUnit, int nNo, bool bAreaFlag, CDPoint& clFindPos, double& dScore, double& dAngle, double& dFitError, CDPoint& clMarkSize, CDPoint& clMarkCenter)
