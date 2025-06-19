@@ -162,7 +162,7 @@ namespace ZenTester.VisionClass
                     //Cv2.Circle(srcImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), 3, Scalar.Yellow, -1); // 중심점
 
                     bRtn = true;
-                    Cv2.Circle(colorImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), (int)radius, Scalar.Red, 2);
+                    Cv2.Circle(colorImage, new OpenCvSharp.Point((int)center.X, (int)center.Y), (int)radius, Scalar.Yellow, 2);
 
                     System.Drawing.Point clPoint;
                     clPoint = new System.Drawing.Point((int)(center.X - radius), (int)(center.Y - radius));
@@ -1013,7 +1013,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 280)//350)
+                if (distance > 340)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1111,7 +1111,7 @@ namespace ZenTester.VisionClass
                 {
                     Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
                 }
-               
+                
                 
 
 

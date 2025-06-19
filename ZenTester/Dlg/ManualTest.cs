@@ -128,7 +128,7 @@ namespace ZenTester.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
+            rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex], true);     //가장 작은 원의 중심 찾기
             if (rtn)
             {
                 offsetx = TopCenterPos[parentDlg.CamIndex].X - parentDlg.centerPos[parentDlg.CamIndex].X;
