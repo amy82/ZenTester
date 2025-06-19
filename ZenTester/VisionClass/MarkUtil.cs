@@ -353,10 +353,10 @@ namespace ZenTester.VisionClass
 
             /////MIL.MmodControl(m_MilModModel[nUnit][nNo], M_DEFAULT, M_SCALE_MAX_FACTOR, 1.01);
             ///
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 80);//90);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 70);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY, 80);//90);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 70);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);//90);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 80);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);//90);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 80);
         }
 
         //FindModel(int nUnit, int nNo, bool bAreaFlag, CDPoint& clFindPos, double& dScore, double& dAngle, double& dFitError, CDPoint& clMarkSize, CDPoint& clMarkCenter)

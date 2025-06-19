@@ -150,6 +150,30 @@ namespace ZenTester.VisionClass
         public void setTestCamImage(int index, string filePath)
         {
             MIL.MbufLoad(filePath, MilCamGrabImage[index]);
+
+            //사이즈 확인
+            MIL_ID tempBuf = MIL.M_NULL;
+
+            // BMP 등 이미지 파일을 새로운 버퍼에 로드
+            MIL.MbufRestore(filePath, MilSystem, ref tempBuf);
+
+            // 사이즈 확인
+            long imageWidth = 0;
+            long imageHeight = 0;
+
+            MIL.MbufInquire(tempBuf, MIL.M_SIZE_X, ref imageWidth);
+            MIL.MbufInquire(tempBuf, MIL.M_SIZE_Y, ref imageHeight);
+
+            Console.WriteLine($"BMP 이미지 실제 해상도: {imageWidth} x {imageHeight}");
+
+            // 다 썼으면 메모리 해제
+            MIL.MbufFree(tempBuf);
+            if (imageWidth != Globalo.visionManager.milLibrary.CAM_SIZE_X[index] ||
+                imageHeight != Globalo.visionManager.milLibrary.CAM_SIZE_Y[index])
+            {
+                return;
+            }
+            //
             MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
         }
         public void ClearOverlay(int index)
