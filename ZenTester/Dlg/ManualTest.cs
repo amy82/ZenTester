@@ -440,7 +440,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
 
             Globalo.visionManager.markUtil.CalcSingleMarkAlign(parentDlg.CamIndex, MarkIndex, ref dAlign);
