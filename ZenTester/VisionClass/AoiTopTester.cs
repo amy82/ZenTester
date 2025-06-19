@@ -49,13 +49,13 @@ namespace ZenTester.VisionClass
 
             return rtn;
         }
-        public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos)
+        public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos, bool autoRun = false)
         {
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = autoRun;
             int startTime = Environment.TickCount;
             bool bRtn = false;
             //
-            int radiusOuter = 800;      //이미지 중심에서 pogoPin을 찾을 원 크기
+            //int radiusOuter = 800;      //이미지 중심에서 pogoPin을 찾을 원 크기
 
             OpenCvSharp.Point ImageCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] / 2);
 
@@ -83,16 +83,16 @@ namespace ZenTester.VisionClass
 
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, gray, new OpenCvSharp.Size(3, 3), 0.7);
-
+            //Cv2.GaussianBlur(srcImage, gray, new OpenCvSharp.Size(3, 3), 0.7);
+            Cv2.MedianBlur(srcImage, gray, 3);
 
             Mat thresh = new Mat();
 
-            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize: 77, c: 11);
-            
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
-            Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            Cv2.Dilate(thresh, thresh, kernel);
+            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize: 77, c: 26);//11);
+
+            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
+            //Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            //Cv2.Dilate(thresh, thresh, kernel);
             if (IMG_VIEW)
             {
                 Cv2.NamedWindow("Detected thresh ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
@@ -145,7 +145,7 @@ namespace ZenTester.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                if (radius > 800 && radius < 1100)  // 실제 원 반지름 조건에 맞게
+                if (radius > 800 && radius < 1000)  // 실제 원 반지름 조건에 맞게
                 {
                     centerPos.X = (int)center.X;
                     centerPos.Y = (int)center.Y;
@@ -1093,22 +1093,27 @@ namespace ZenTester.VisionClass
 
                 HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 410);
                 str = $"Fakra In  X:{(minCircle.center.X * CamResolX).ToString("0.00#")},Y:{(minCircle.center.Y * CamResolY).ToString("0.00#")},R:{(minCircle.radius * CamResolX).ToString("0.00#")}";
+                Globalo.LogPrint("ManualControl", str);
                 if (bAutorun == false)
                 {
                     //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
                 }
-                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
-                    
+                
+
 
                 HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 340);
                 str = $"Fakra Out X:{(maxCircle.center.X * CamResolX).ToString("0.00#")},Y:{(maxCircle.center.Y * CamResolY).ToString("0.00#")},R:{(maxCircle.radius * CamResolX).ToString("0.00#")}";
+                Globalo.LogPrint("ManualControl", str);
                 if (bAutorun == false)
                 {
                     //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
 
                 }
-                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
                 
+
+
 
                 FakraPoints.Add((OpenCvSharp.Point)minCircle.center);
                 FakraPoints.Add((OpenCvSharp.Point)maxCircle.center);
@@ -1372,20 +1377,24 @@ namespace ZenTester.VisionClass
                 
                 HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 270);
                 str = $"Housing In  X:{(minCircle.center.X * CamResolX).ToString("0.00#")},Y:{(minCircle.center.Y * CamResolY).ToString("0.00#")},R:{(minCircle.radius * CamResolX).ToString("0.00#")}";
+                Globalo.LogPrint("ManualControl", str);
                 if (bAutorun == false)
                 {
                     //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
                 }
-                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
+                
                 
 
                 HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 200);
                 str = $"Housing Out X:{(maxCircle.center.X * CamResolX).ToString("0.00#")},Y:{(maxCircle.center.Y * CamResolY).ToString("0.00#")},R:{(maxCircle.radius * CamResolX).ToString("0.00#")}";
+                Globalo.LogPrint("ManualControl", str);
                 if (bAutorun == false)
                 {
                     //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
                 }
-                Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
+                
                     
 
 
