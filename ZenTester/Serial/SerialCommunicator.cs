@@ -101,7 +101,7 @@ namespace ZenTester.Serial
             {
                 string scanData = _serialPort.ReadExisting();
                 //receiveBuffer.Append(incoming);
-                Console.WriteLine($"scanData -------{ scanData}");
+                Console.WriteLine($"scanData -------{scanData}");
                 //string rawData = _serialPort.ReadExisting(); // 버퍼에 있는 모든 데이터 읽기
                 //string scanData = rawData.Trim(); // 불필요한 개행 문자 제거
                 //string scanData = rawData.Replace("\r", "").Replace("\n", ""); // \r\n 제거
@@ -111,20 +111,21 @@ namespace ZenTester.Serial
 
                 while (receiveBuffer.ToString().Contains(";"))
                 {
+                    string bufferStr = receiveBuffer.ToString();
                     ///string data = _serialPort.ReadLine();       //<--\r\n 붙을 경우 못 빠져나온다.
-                    Console.WriteLine("Recv Light Controller: " + scanData);
-                    string logData = $"[Light] Recv Data:{scanData}";
+                    Console.WriteLine("Recv Light Controller: " + bufferStr);
+                    string logData = $"[Light] Recv Data:{bufferStr}";
 
                     Globalo.LogPrint("Serial", logData);
 
-                    if (scanData.Contains("OK"))// == ":OK;")
+                    if (bufferStr.Contains("OK"))// == ":OK;")
                     {
-                        Console.WriteLine("Light Return Ok: " + scanData);
+                        Console.WriteLine("Light Return Ok: " + bufferStr);
                         recvCheck = 1;  //OK
                     }
                     else
                     {
-                        Console.WriteLine("Light Return Fail: " + scanData);
+                        Console.WriteLine("Light Return Fail: " + bufferStr);
                         recvCheck = 0;  //FAIL
                     }
 
