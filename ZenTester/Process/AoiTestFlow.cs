@@ -593,7 +593,9 @@ namespace ZenTester.Process
 
                         //== 높이 측정 기준 Mark 찾기
 
-
+                        Globalo.visionManager.milLibrary.ClearOverlay(sideCamIndex);
+                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
+                        Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
                         //-------------------------------------------------------------------------------------------
                         //Left Height
                         //Center Height
@@ -602,9 +604,9 @@ namespace ZenTester.Process
 
                         double[] heightData = new double[3];
 
-                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0);
-                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1);
-                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2);
+                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, true);
+                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, true);
+                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, true);
 
                         aoitestData.LH = heightData[0].ToString("0.0##");
                         aoitestData.MH = heightData[0].ToString("0.0##");
@@ -664,6 +666,7 @@ namespace ZenTester.Process
         
 
                         Globalo.visionManager.milLibrary.DrawOverlayAll(sideCamIndex);
+                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, true);
                         nRetStep = 1000;
                         break;
                     default:

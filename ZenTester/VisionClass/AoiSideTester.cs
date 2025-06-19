@@ -514,7 +514,7 @@ namespace ZenTester.VisionClass
             return bRtn;
         }
 
-        public double MilEdgeHeight(int index, int roiIndex)
+        public double MilEdgeHeight(int index, int roiIndex, bool bAutoRun = false)
         {
             double dHeight = 0.0;
 
@@ -662,9 +662,7 @@ namespace ZenTester.VisionClass
                 
                 Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
                 Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
-
                 Globalo.visionManager.milLibrary.DrawOverlayArrow(index, OffsetX + (OffsetWidth/2), (int)(OffsetY + minValue), OffsetX + (OffsetWidth / 2), (int)(OffsetY + maxValue), Color.Yellow, 1);
-
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
 
@@ -672,7 +670,15 @@ namespace ZenTester.VisionClass
                 int txtOffsetY = 0;
                 if (roiIndex == 2)
                 {
-                    txtOffsetX = 610;
+                    if (bAutoRun)
+                    {
+                        txtOffsetX = 610;
+                    }
+                    else
+                    {
+                        txtOffsetX = 380;
+                    }
+                    
                 }
                 if (roiIndex == 0 || roiIndex == 2)
                 {
@@ -746,7 +752,7 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
 
 
-
+            Globalo.visionManager.milLibrary.DrawOverlayAll(index);
             return true;
         }
         public bool MilHeightTest(int index, Mat srcImage)
