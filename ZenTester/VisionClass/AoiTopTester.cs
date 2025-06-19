@@ -104,6 +104,9 @@ namespace ZenTester.VisionClass
                 Cv2.WaitKey(0);
 
             }
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
+            Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            Cv2.Dilate(thresh, thresh, kernel);
             OpenCvSharp.Point[][] contours;
             HierarchyIndex[] hierarchy;
             Cv2.FindContours(thresh, out contours, out hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
@@ -963,9 +966,9 @@ namespace ZenTester.VisionClass
             }
 
             // 2. 커널 생성 (원형 커널 추천)
-            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));
-            //Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            //Cv2.Dilate(binary, binary, kernel);
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));
+            Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            Cv2.Dilate(binary, binary, kernel);
             // 3. Contours 찾기
             int imageCenterX = binary.Width / 2;
             int imageCenterY = binary.Height / 2;
@@ -1010,7 +1013,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 350)
+                if (distance > 280)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
