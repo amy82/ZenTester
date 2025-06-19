@@ -95,6 +95,7 @@ namespace ZenTester.Process
 
                     EqipData.Type = "EquipmentData";
                     sendEqipData.Command = "LOT_APD_REPORT";
+                    sendEqipData.DataID = aoitestData.Socket_Num;
                     sendEqipData.LotID = aoitestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
                     sendEqipData.CommandParameter.Clear();
