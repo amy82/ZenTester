@@ -346,14 +346,21 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true, true);   //true 일때 Dent(찌그러짐)검사
-                        int denUnderCnt = HousingCenter[0].X;
-                        if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
+                        if (HousingCenter.Count > 0)
                         {
-                            aoitestData.CircleDented = "0";
+                            int denUnderCnt = HousingCenter[0].X;
+                            if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
+                            {
+                                aoitestData.CircleDented = "0";
+                            }
+                            else
+                            {
+                                aoitestData.CircleDented = "1";
+                            }
                         }
                         else
                         {
-                            aoitestData.CircleDented = "1";
+                            aoitestData.CircleDented = "0";
                         }
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //

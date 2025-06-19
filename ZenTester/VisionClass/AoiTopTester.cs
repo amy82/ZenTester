@@ -51,7 +51,11 @@ namespace ZenTester.VisionClass
         }
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos, bool autoRun = false)
         {
-            bool IMG_VIEW = autoRun;
+            bool IMG_VIEW = true;
+            if (autoRun)
+            {
+                IMG_VIEW = false;
+            }
             int startTime = Environment.TickCount;
             bool bRtn = false;
             //
@@ -128,7 +132,7 @@ namespace ZenTester.VisionClass
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
                 if (distance > 300)//200)
                 {
-                    Console.WriteLine($"del distance:{distance}");
+                    //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
                 }
                 double area = Cv2.ContourArea(contour);
@@ -159,8 +163,18 @@ namespace ZenTester.VisionClass
 
                     System.Drawing.Point clPoint;
                     clPoint = new System.Drawing.Point((int)(center.X - radius), (int)(center.Y - radius));
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Black, 3, System.Drawing.Drawing2D.DashStyle.Solid);
-                    Globalo.visionManager.milLibrary.DrawOverlayCross(index, (int)(center.X), (int)(center.Y), 100, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                    if (autoRun == false)
+                    {
+                        Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Black, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                        Globalo.visionManager.milLibrary.DrawOverlayCross(index, (int)(center.X), (int)(center.Y), 100, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
+                    }
+                    else
+                    {
+                        Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(radius * 2), 3, System.Drawing.Drawing2D.DashStyle.Solid, Color.Black);
+                        Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList((int)center.X, (int)center.Y, 100, 1, Color.Yellow);
+                    }
+
+                    
                     break;
                 }
             }
@@ -809,11 +823,25 @@ namespace ZenTester.VisionClass
 
             //안쪽 Mask roi
             clPoint = new System.Drawing.Point((int)(circle1.X - radiusInner), (int)(circle1.Y - radiusInner));
-            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusInner * 2), Color.DarkOliveGreen, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            if (bAutorun == false)
+            {
+                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusInner * 2), Color.DarkOliveGreen, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            }
+            else
+            {
+                Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(radiusInner * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.DarkOliveGreen);
+            }
+            
             //바깥쪽 Mask roi
             clPoint = new System.Drawing.Point((int)(circle1.X - radiusOuter), (int)(circle1.Y - radiusOuter));
-            Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusOuter * 2), Color.DarkOliveGreen, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-
+            if (bAutorun == false)
+            {
+                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radiusOuter * 2), Color.DarkOliveGreen, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+            }
+            else
+            {
+                Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(radiusOuter * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.DarkOliveGreen);
+            }
             int specMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
             int specMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
 
@@ -1074,18 +1102,26 @@ namespace ZenTester.VisionClass
                 clPoint = new System.Drawing.Point((int)(minCircle.center.X - minCircle.radius), (int)(minCircle.center.Y - minCircle.radius));
                 if (bAutorun == false)
                 {
-                    //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
-                Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+                else
+                {
+                    Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+                }
+               
                 
 
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
                 if (bAutorun == false)
                 {
-                    //Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
-                Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+                else
+                {
+                    Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+                }
+                
                     
 
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
@@ -1292,7 +1328,7 @@ namespace ZenTester.VisionClass
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
                 if (distance > 300)//200)
                 {
-                    Console.WriteLine($"del distance:{distance}");
+                    //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
                 }
                 double area = Cv2.ContourArea(contour);

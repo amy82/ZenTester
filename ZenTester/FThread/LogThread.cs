@@ -76,7 +76,7 @@ namespace ZenTester.FThread
                     using (StreamWriter fw = new StreamWriter(fullPath, append: true))
                     {
                         string LogInfo = logQueue.Dequeue();// + "\n";
-
+                        if (LogInfo == null) return;
                         if (this.logListBox != null)
                         {
                             if (this.logListBox.InvokeRequired)

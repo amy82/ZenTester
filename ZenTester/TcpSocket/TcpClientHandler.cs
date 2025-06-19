@@ -83,7 +83,7 @@ namespace ZenTester.TcpSocket
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Connection failed: {ex.Message}");
+                //Console.WriteLine($"Connection failed: {ex.Message}");
                 StartReconnecting();
                 return false;
             }

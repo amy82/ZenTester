@@ -117,7 +117,8 @@ namespace ZenTester.Dlg
                 openFileDialog.Title = "이미지 파일 선택";
                 //openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
                 openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
-                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\Image"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                //D:\Work\Pro_Ject\Mexico\Aoi\_temp\newCam
+                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\newCam"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 Globalo.visionManager.milLibrary.SetGrabOn(0, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -161,7 +162,7 @@ namespace ZenTester.Dlg
                 openFileDialog.Title = "이미지 파일 선택";
                 //openFileDialog.Filter = "이미지 파일 (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일 (*.*)|*.*";
                 openFileDialog.Filter = "이미지 파일 (*.bmp;)|*.bmp;|모든 파일 (*.*)|*.*";
-                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\Image"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                openFileDialog.InitialDirectory = "D:\\Work\\Pro_Ject\\Mexico\\Aoi\\_temp\\newCam"; ;// Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 Globalo.visionManager.milLibrary.SetGrabOn(1, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
