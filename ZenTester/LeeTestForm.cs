@@ -203,7 +203,7 @@ namespace ZenTester
             Globalo.visionManager.milLibrary.GetSnapImage(1);
             //
             //
-            Globalo.visionManager.aoiSideTester.Side_ConeFind_Standard(1, ref ConePos);
+            Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(1, VisionClass.eMarkList.SIDE_HEIGHT, ref ConePos);
 
             Console.WriteLine($"x:{ConePos.X},y:{ConePos.Y}");
         }

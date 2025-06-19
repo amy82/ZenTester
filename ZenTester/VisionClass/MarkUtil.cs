@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
     
     public enum eMarkList
     {
-        SIDE_CONTACT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, MAX_MARK_LIST
+        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, MAX_MARK_LIST
     }
     public enum eCamType
     {
@@ -563,7 +563,7 @@ namespace ZenTester.VisionClass
             System.Drawing.Point timetextPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] - 800, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, timetextPoint, str, Color.Blue, 15);
 
-            return false;
+            return bFind;
         }
         private void DrawOverlayFindMark(int index)
         {

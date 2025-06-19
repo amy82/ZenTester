@@ -380,18 +380,11 @@ namespace ZenTester.Dlg
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
             int dataSize = sizeX * sizeY;
 
-            //byte[] ImageBuffer = new byte[dataSize];
-
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[CamIndex], ImageBuffer);
-            //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
-            //Globalo.visionManager.aoiSideTester.HeightTest(CamIndex, src);
-            //Globalo.visionManager.aoiSideTester.MilHeightTest(CamIndex, src);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
-            //
+
+           
             Globalo.visionManager.aoiSideTester.HeightTest(parentDlg.CamIndex); 
             //
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
@@ -516,6 +509,8 @@ namespace ZenTester.Dlg
 
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
                     ///MessageBox.Show("선택한 이미지 경로:\n" + selectedFilePath);
+                    ///
+                    Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
                 }
                 else
                 {

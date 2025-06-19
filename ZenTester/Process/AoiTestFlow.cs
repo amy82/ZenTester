@@ -602,11 +602,22 @@ namespace ZenTester.Process
                         //Right Height
                         ////Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
-                        double[] heightData = new double[3];
+                        System.Drawing.Point markPos = new System.Drawing.Point();
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
 
-                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, true);
-                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, true);
-                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, true);
+
+                        System.Drawing.Point OffsetPos = new System.Drawing.Point(0,0);
+                        double[] heightData = new double[3];
+                        if (bRtn)
+                        {
+                            OffsetPos.X = markPos.X - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].X;
+                            OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
+                            
+                        }
+
+                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, true);
+                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, true);
+                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, true);
 
                         aoitestData.LH = heightData[0].ToString("0.0##");
                         aoitestData.MH = heightData[0].ToString("0.0##");

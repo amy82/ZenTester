@@ -19,19 +19,19 @@ namespace ZenTester.VisionClass
 
         }
 
-        public bool Side_ConeFind_Standard(int index, ref System.Drawing.Point conePos)        //사이드 카메라 기준점 찾기 - 커넥터 부분 Mark
+        public bool Mark_Pos_Standard(int index, VisionClass.eMarkList MarkPos, ref System.Drawing.Point conePos)        //사이드 카메라 기준점 찾기 - 
         {
             bool bRtn = true;
             //Mark Find
             VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
             //Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
-            int MarkIndex = 2;
+            int MarkIndex = 0;
             //0 = TopCenter
             //1 = sideCone
             //2 = sideContact
             //3 = sidelens
             //
-            MarkIndex = (int)VisionClass.eMarkList.SIDE_CONTACT;
+            MarkIndex = (int)MarkPos;   // VisionClass.eMarkList.SIDE_HEIGHT;
 
             bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign);
 
@@ -541,7 +541,7 @@ namespace ZenTester.VisionClass
             return bRtn;
         }
 
-        public double MilEdgeHeight(int index, int roiIndex, bool bAutoRun = false)
+        public double MilEdgeHeight(int index, int roiIndex, System.Drawing.Point OffsetPos, bool bAutoRun = false)
         {
             double dHeight = 0.0;
 
@@ -558,8 +558,14 @@ namespace ZenTester.VisionClass
             double[] EdgeBoxMinY = new double[CONTOUR_MAX_RESULTS];
             double[] EdgeBoxMaxY = new double[CONTOUR_MAX_RESULTS];
 
-            int OffsetX = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].X;
+            int xGap = OffsetPos.X;
+            int YGap = OffsetPos.Y;
+
+
+            int OffsetX = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].X + xGap;
             int OffsetY = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].Y;
+
+            
 
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].Width;
             int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[roiIndex].Height;
@@ -737,9 +743,24 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.ClearOverlay(index);
             double[] heightData = new double[3];
 
-            heightData[0] = MilEdgeHeight(index, 0);
-            heightData[1] = MilEdgeHeight(index, 1);
-            heightData[2] = MilEdgeHeight(index, 2);
+
+            System.Drawing.Point markPos = new System.Drawing.Point();
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(index, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
+
+
+            System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
+            if (bRtn)
+            {
+                OffsetPos.X = markPos.X - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].X;
+                OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
+
+            }
+            Globalo.visionManager.milLibrary.ClearOverlay(index);
+            //
+
+            heightData[0] = MilEdgeHeight(index, 0, OffsetPos);
+            heightData[1] = MilEdgeHeight(index, 1, OffsetPos);
+            heightData[2] = MilEdgeHeight(index, 2, OffsetPos);
 
 
             string str = "";
