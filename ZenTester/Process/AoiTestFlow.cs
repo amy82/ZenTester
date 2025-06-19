@@ -21,6 +21,8 @@ namespace ZenTester.Process
         private int waitSideCam = 1;
         private readonly SynchronizationContext _syncContext;
         public int nTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
+        public int nTopTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
+        public int nSideTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
         public int nLoadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
         public int nUnloadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
 
@@ -44,6 +46,7 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
+                    Globalo.serialPortManager.LightControl.recvCheck = -1;
                     m_nTestFinalResult = 1;
                     Globalo.visionManager.milLibrary.RunModeChange(true);
                     waitTopCam = -1;
@@ -179,7 +182,7 @@ namespace ZenTester.Process
                         data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
                         data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
                         //Globalo.serialPortManager.LightControl.ctrlLedVolume(1, data1);
-                        Globalo.serialPortManager.LightControl.recvCheck = -1;
+                        
                         Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
 
                         szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
@@ -187,6 +190,7 @@ namespace ZenTester.Process
 
                         //Side Light Set, Ch:2
                         //Val 0: Side Common - 사용 안 할 수도
+                        nTopTimeTick = Environment.TickCount;
                         nRetStep = 50;
                         break;
 
@@ -195,7 +199,7 @@ namespace ZenTester.Process
                         {
                             break;
                         }
-                        else if (Environment.TickCount - nTimeTick > 3000)
+                        else if (Environment.TickCount - nTopTimeTick > 3000)
                         {
                             szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
                             Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
@@ -414,7 +418,7 @@ namespace ZenTester.Process
                         float dist2 = 0.0f;
 
                         FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, true); //Fakra 안쪽 원 찾기
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
                         //내원 2개 , 외원 2개씩 찾아야 진행된다.
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
@@ -503,7 +507,7 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
 
-
+                        Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
 
                         nRetStep = 1000;
                         break;
@@ -560,7 +564,7 @@ namespace ZenTester.Process
                 {
                     case 10:
                         //Side 조명은 Top에서 같이 변경
-                        nTimeTick = Environment.TickCount;
+                        nSideTimeTick = Environment.TickCount;
                         nRetStep = 12;
                         break;
                     case 12:
@@ -569,7 +573,7 @@ namespace ZenTester.Process
                             nRetStep = 20;
                             break;
                         }
-                        else if (Environment.TickCount - nTimeTick > 5000)
+                        else if (Environment.TickCount - nSideTimeTick > 5000)
                         {
                             szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
                             Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
