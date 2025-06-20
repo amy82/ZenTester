@@ -81,6 +81,7 @@ namespace ZenTester.Process
                     break;
 
                 case 120:
+                    //Globalo.taskWork.CommandParameter <-------Special Data
                     nRetStep = 130;
                     break;
                 case 130:
@@ -134,20 +135,28 @@ namespace ZenTester.Process
 
                     EqipData.Data = sendEqipData;
                     Globalo.tcpManager.nRecv_Ack = -1;
+                    Globalo.taskWork.bRecv_Client_ApdReport = -1;
                     Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
                     break;
 
                 case 210:
                     //착공 확인 대기
-                    if (Globalo.tcpManager.nRecv_Ack > -1)
+                    if (Globalo.taskWork.bRecv_Client_ApdReport == 0)
                     {
+                        nRetStep = 220;
+                    }
+                    else if (Globalo.taskWork.bRecv_Client_ApdReport == 1)
+                    {
+                        m_nTestFinalResult = -1;
+                        Console.WriteLine($"APD REPORT FAIL - {Globalo.taskWork.bRecv_Client_ApdReport}");
                         nRetStep = 220;
                     }
                     else if (Environment.TickCount - nTimeTick > 5000)
                     {
+                        m_nTestFinalResult = -2;
                         Console.WriteLine($"Timeout {nRetStep}");
-                        nRetStep = -1;
+                        nRetStep = 220;
                     }
                     break;
                 case 220:
@@ -162,10 +171,8 @@ namespace ZenTester.Process
                     LotstartData.Command = "APS_LOT_FINISH";
                     LotstartData.LotID = verifytestData.Barcode;
                     LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
-                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
                     objectData.Data = LotstartData;
-                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter;
                     //TODO: 여기서 Special Data 여기서 보내야된다.
                     //
                     Globalo.tcpManager.SendMessage_To_Handler(objectData);        //T ->Handelr로 보내는 부분
@@ -190,7 +197,17 @@ namespace ZenTester.Process
                 switch (nRetStep)
                 {
                     case 10:
-
+                        nRetStep = 20;
+                        break;
+                    case 20:
+                        nRetStep = 30;
+                        break;
+                    case 30:
+                        nRetStep = 900;
+                        break;
+                    case 900:
+                        m_nTestFinalResult = 1;
+                        nRetStep = 1000;
                         break;
                     default:
                         break;

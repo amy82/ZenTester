@@ -169,8 +169,8 @@ namespace ZenTester
 
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
             sendEqipData.Command = "LOT_APD_REPORT";
-            sendEqipData.LotID = "testLot";//Globalo.dataManage.TaskWork.m_szChipID;
-            sendEqipData.Judge = 1;/// Globalo.taskWork.m_nTestFinalResult;
+            sendEqipData.LotID = "testLot"; //Globalo.dataManage.TaskWork.m_szChipID;
+            sendEqipData.Judge = 1;         /// Globalo.taskWork.m_nTestFinalResult;
 
             //1.Socket_Num
             //2.Result
