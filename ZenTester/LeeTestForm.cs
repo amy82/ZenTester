@@ -143,7 +143,7 @@ namespace ZenTester
         private void button22_Click(object sender, EventArgs e)
         {
             //verify object
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 3; i++)
             {
                 TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
                 EqipData.Type = "EquipmentData";

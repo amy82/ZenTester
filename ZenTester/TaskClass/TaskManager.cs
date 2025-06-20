@@ -27,7 +27,7 @@ namespace ZenTester.TaskClass
             string szLog = string.Empty;
             aoiTestFlow.aoitestData.init();     //AOI 결과값 초기화
             aoiTestFlow.aoitestData.Barcode = data.LotId[0];
-            aoiTestFlow.aoitestData.Socket_Num = data.socketNum.ToString();
+            aoiTestFlow.aoitestData.Socket_Num = data.socketNum.ToString();     //1,2,3,4 들어올 듯
 
             Console.WriteLine($"Aoi Task Start SocketNum------------- {aoiTestFlow.aoitestData.Socket_Num}");
 
@@ -55,7 +55,7 @@ namespace ZenTester.TaskClass
             string szLog = string.Empty;
             verifyTestFlow.verifytestData.init();
             verifyTestFlow.verifytestData.Barcode = data.LotId[0];
-            verifyTestFlow.verifytestData.Socket_Num = data.socketNum.ToString();
+            verifyTestFlow.verifytestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
 
             Console.WriteLine($"Verify Task Start SocketNum-------{verifyTestFlow.verifytestData.Socket_Num}");
             

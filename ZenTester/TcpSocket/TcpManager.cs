@@ -181,9 +181,11 @@ namespace ZenTester.TcpSocket
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
                 {
                     // data.CommandParameter
+                    //data.socketNum = 1,2,3,4 // 5,6,7,8
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                 {
+                    //data.socketNum = 1,2,3,4 // 5,6,7,8  
                     Globalo.taskManager.testRun = true;
                     Globalo.taskManager.Verify_TestRun(data);
 
@@ -285,6 +287,7 @@ namespace ZenTester.TcpSocket
             {
                 //착공 진행 신호
                 Globalo.taskWork.bRecv_Client_LotStart = data.Judge;   //Only 0 = ok
+                Globalo.taskWork.CommandParameter = data.CommandParameter.Select(item => item.DeepCopy()).ToList();
             }
             else if (data.Command == "APS_LOT_COMPLETE_CMD")
             {
