@@ -49,35 +49,35 @@ namespace ZenTester.Process
                     //착공걸기 - 착공은 차례대로만 보내야돼서 Verify의 경우에는 동시에 보내야된다.
                     //Tester에서 Secsgem으로 착공 거는 공정은 Verify 공정만..
 
-                    EqipData.Type = "EquipmentData";
-                    sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
-                    sendEqipData.LotID = writetestData.Barcode;
-                    sendEqipData.DataID = writetestData.Socket_Num;
-                    EqipData.Data = sendEqipData;
+                    //EqipData.Type = "EquipmentData";
+                    //sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
+                    //sendEqipData.LotID = writetestData.Barcode;
+                    //sendEqipData.DataID = writetestData.Socket_Num;
+                    //EqipData.Data = sendEqipData;
 
-                    Globalo.tcpManager.nRecv_Ack = -1;
-                    Globalo.taskWork.bRecv_Client_LotStart = -1;
-                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //object
-                    nTimeTick = Environment.TickCount;
-                    nRetStep = 111;
+                    //Globalo.tcpManager.nRecv_Ack = -1;
+                    //Globalo.taskWork.bRecv_Client_LotStart = -1;
+                    //Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //object
+                    //nTimeTick = Environment.TickCount;
+                    nRetStep = 120;
                     break;
                 case 111:
                     //착공 대기 or verify 진행
                     //if (Globalo.tcpManager.nRecv_Ack == 0)
-                    if (Globalo.taskWork.bRecv_Client_LotStart == 0)
-                    {
-                        nRetStep = 120;
-                    }
-                    else if (Globalo.taskWork.bRecv_Client_LotStart > 0)
-                    {
-                        Console.WriteLine($"LOT START FAIL - {Globalo.taskWork.bRecv_Client_LotStart}");
-                        nRetStep = -1;
-                    }
-                    else if (Environment.TickCount - nTimeTick > 6000)
-                    {
-                        Console.WriteLine($"Timeout {nRetStep}");
-                        nRetStep = -1;
-                    }
+                    //if (Globalo.taskWork.bRecv_Client_LotStart == 0)
+                    //{
+                    //    nRetStep = 120;
+                    //}
+                    //else if (Globalo.taskWork.bRecv_Client_LotStart > 0)
+                    //{
+                    //    Console.WriteLine($"LOT START FAIL - {Globalo.taskWork.bRecv_Client_LotStart}");
+                    //    nRetStep = -1;
+                    //}
+                    //else if (Environment.TickCount - nTimeTick > 6000)
+                    //{
+                    //    Console.WriteLine($"Timeout {nRetStep}");
+                    //    nRetStep = -1;
+                    //}
 
                     break;
 

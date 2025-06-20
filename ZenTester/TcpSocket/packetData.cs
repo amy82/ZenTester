@@ -105,6 +105,26 @@ namespace ZenTester.TcpSocket
             SensorID = string.Empty;
         }
     }
+    public class FwapdData
+    {
+        //string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
+        public string Result_Code { get; set; }
+        public string Socket_Num { get; set; }
+        public string Version { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string Heater_Current { get; set; }
+
+        public void init()
+        {
+            Result_Code = String.Empty;
+            Socket_Num = String.Empty;
+            Version = String.Empty;
+            Result = String.Empty;
+            Barcode = String.Empty;
+            Heater_Current = String.Empty;
+        }
+    }
     public class AoiApdData
     {
         public string BcrLot { get; set; }
