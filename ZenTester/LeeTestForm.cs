@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -142,14 +143,22 @@ namespace ZenTester
         private void button22_Click(object sender, EventArgs e)
         {
             //verify object
-            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-            EqipData.Type = "EquipmentData";
+            for (int i = 0; i < 1; i++)
+            {
+                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                EqipData.Type = "EquipmentData";
 
-            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-            sendEqipData.Command = "OBJECT_ID_REPORT";
-            sendEqipData.LotID = "testLot";// Globalo.dataManage.TaskWork.m_szChipID;
-            EqipData.Data = sendEqipData;
-            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
+                TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+                sendEqipData.Command = "VERIFY_OBJECT_REPORT";
+                sendEqipData.LotID = "testLot-" + i.ToString();// Globalo.dataManage.TaskWork.m_szChipID;
+                sendEqipData.DataID = "1";
+                EqipData.Data = sendEqipData;
+                Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
+
+                Thread.Sleep(500);
+            }
+            
+
         }
 
         private void button23_Click(object sender, EventArgs e)

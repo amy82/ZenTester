@@ -152,7 +152,8 @@ namespace ZenTester.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                if (radius > 800 && radius < 1000)  // 실제 원 반지름 조건에 맞게
+                //if (radius > 800 && radius < 1000)  // 실제 원 반지름 조건에 맞게
+                if (radius > 400 && radius < 850)  // 실제 원 반지름 조건에 맞게
                 {
                     centerPos.X = (int)center.X;
                     centerPos.Y = (int)center.Y;
@@ -168,12 +169,12 @@ namespace ZenTester.VisionClass
                     clPoint = new System.Drawing.Point((int)(center.X - radius), (int)(center.Y - radius));
                     if (autoRun == false)
                     {
-                        Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Black, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                        Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(radius * 2), Color.Yellow, 3, System.Drawing.Drawing2D.DashStyle.Solid);
                         Globalo.visionManager.milLibrary.DrawOverlayCross(index, (int)(center.X), (int)(center.Y), 100, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                     }
                     else
                     {
-                        Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(radius * 2), 3, System.Drawing.Drawing2D.DashStyle.Solid, Color.Black);
+                        Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(radius * 2), 3, System.Drawing.Drawing2D.DashStyle.Solid, Color.Yellow);
                         Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList((int)center.X, (int)center.Y, 100, 1, Color.Yellow);
                     }
 
@@ -948,7 +949,7 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 26; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 30; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
 
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
@@ -1043,9 +1044,10 @@ namespace ZenTester.VisionClass
                 {
                     Console.WriteLine($"Fakra radius:{radius}");
                 }
-                    
 
-                if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+
+                //if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+                if (radius < 120 || radius > 220)
                 {
                     continue;
                 }
@@ -1202,7 +1204,7 @@ namespace ZenTester.VisionClass
             //roiIndex = 0 (외경)
             //roiIndex = 1 (내경)
             // 측정 시작
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
@@ -1267,7 +1269,7 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 18; //7//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 30;// 18; //7//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
 
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
@@ -1355,8 +1357,9 @@ namespace ZenTester.VisionClass
 
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                
-                if (radius < 600 || radius > 1000)//890)
+
+                //if (radius < 600 || radius > 1000)//890)
+                if (radius < 300 || radius > 400)//890)
                 {
                     continue;
                 }

@@ -383,7 +383,7 @@ namespace ZenTester
             this.button23.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button23.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button23.ForeColor = System.Drawing.Color.White;
-            this.button23.Location = new System.Drawing.Point(12, 402);
+            this.button23.Location = new System.Drawing.Point(12, 436);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(116, 34);
             this.button23.TabIndex = 25;
@@ -409,7 +409,7 @@ namespace ZenTester
             this.button25.BackColor = System.Drawing.Color.Black;
             this.button25.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button25.ForeColor = System.Drawing.Color.White;
-            this.button25.Location = new System.Drawing.Point(180, 402);
+            this.button25.Location = new System.Drawing.Point(341, 293);
             this.button25.Name = "button25";
             this.button25.Size = new System.Drawing.Size(127, 34);
             this.button25.TabIndex = 27;

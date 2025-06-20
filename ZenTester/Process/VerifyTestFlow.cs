@@ -45,14 +45,16 @@ namespace ZenTester.Process
 
                     break;
                 case 110:
-                    //착공걸기
+                    //착공걸기 - 착공은 차례대로만 보내야돼서 Verify의 경우에는 동시에 보내야된다.
+
                     
                     EqipData.Type = "EquipmentData";
-                    sendEqipData.Command = "OBJECT_ID_REPORT";
+                    sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
                     sendEqipData.LotID = verifytestData.Barcode;
                     EqipData.Data = sendEqipData;
+
                     Globalo.tcpManager.nRecv_Ack = -1;
-                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
+                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //object
                     nTimeTick = Environment.TickCount;
                     nRetStep = 111;
                     break;
@@ -62,7 +64,7 @@ namespace ZenTester.Process
                     {
                         nRetStep = 120;
                     }
-                    else if (Environment.TickCount - nTimeTick > 5000)
+                    else if (Environment.TickCount - nTimeTick > 6000)
                     {
                         Console.WriteLine($"Timeout {nRetStep}");
                         nRetStep = -1;
