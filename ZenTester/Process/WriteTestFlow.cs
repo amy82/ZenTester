@@ -120,13 +120,12 @@ namespace ZenTester.Process
                     //2.Result
                     //3.Barcode
                     //4.SensorID
-                    int tCount = 4;
 
                     string[] apdList = { "Checksum0", "Checksum1", "Checksum2", "Checksum3", "Checksum4", "Socket_Num", "Result", "Barcode", "SensorID", "Time"};
                     string[] apdResult = { writetestData.Checksum0, writetestData.Checksum1, writetestData.Checksum2, writetestData.Checksum3, writetestData.Checksum4,
                             writetestData.Socket_Num, m_nTestFinalResult.ToString(), writetestData.Barcode, writetestData.SensorID, writetestData.Time };
 
-                    for (int i = 0; i < tCount; i++)
+                    for (int i = 0; i < apdList.Length; i++)
                     {
                         TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
 

@@ -11,8 +11,7 @@ namespace ZenTester.TaskClass
         private Process.AoiTestFlow aoiTestFlow;
         private Process.VerifyTestFlow verifyTestFlow;
         private Process.WriteTestFlow writeTestFlow;
-
-        //private Process.VerifyTestFlow fwTestFlow;
+        private Process.FwTestFlow fwTestFlow;
 
         public bool testRun = false;
         public TaskManager()
@@ -20,8 +19,8 @@ namespace ZenTester.TaskClass
             aoiTestFlow = new Process.AoiTestFlow();
             verifyTestFlow = new Process.VerifyTestFlow();
             writeTestFlow = new Process.WriteTestFlow();
+            fwTestFlow = new Process.FwTestFlow();
 
-            //fwTestFlow = new Process.VerifyTestFlow();
         }
         public void Aoi_TestRun(TcpSocket.TesterData data)  //int SocketNum)      //1 or 2
         {
@@ -105,6 +104,35 @@ namespace ZenTester.TaskClass
                 }
                 testRun = false;
                 Console.WriteLine($"Write TaskManager End - {nStep}");
+            });
+
+        }
+
+        public void Fw_TestRun(TcpSocket.TesterData data)
+        {
+            int nStep = 100;
+            string szLog = string.Empty;
+            fwTestFlow.fwtestData.init();
+            fwTestFlow.fwtestData.Barcode = data.LotId[0];
+            fwTestFlow.fwtestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
+
+            Console.WriteLine($"Fw Task Start SocketNum-------{fwTestFlow.fwtestData.Socket_Num}");
+
+            szLog = $"[FW] TEST START :{fwTestFlow.fwtestData.Barcode}/{fwTestFlow.fwtestData.Socket_Num}";
+            Globalo.LogPrint("TaskManager", szLog);
+
+            _ = Task.Run(async () =>
+            {
+                while (true)
+                {
+                    nStep = fwTestFlow.FwAutoProcess(nStep);
+                    //
+                    if (nStep == 1000) { break; }
+                    if (nStep < 0) { break; }
+                    await Task.Delay(10);
+                }
+                testRun = false;
+                Console.WriteLine($"Fw TaskManager End - {nStep}");
             });
 
         }

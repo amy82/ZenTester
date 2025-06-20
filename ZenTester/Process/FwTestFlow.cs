@@ -13,7 +13,7 @@ namespace ZenTester.Process
         public ManualResetEventSlim pauseEvent = new ManualResetEventSlim(true);  // true면 동작 가능
 
         public Task<int> fwTask;
-        private int waitverify = 1;
+        private int waitFw = 1;
 
         private readonly SynchronizationContext _syncContext;
 
@@ -37,7 +37,7 @@ namespace ZenTester.Process
             {
                 case 100:
                     m_nTestFinalResult = 1;
-                    waitverify = -1;
+                    waitFw = -1;
                     fwTask = null;
                     CancelToken?.Dispose();
                     CancelToken = new CancellationTokenSource();    //
@@ -87,21 +87,21 @@ namespace ZenTester.Process
                 case 130:
                     fwTask = Task.Run(() =>
                     {
-                        waitverify = 1;
-                        waitverify = FwFlow();      //0 or -1 Return
-                        Console.WriteLine($"-------------- Fw Task - end {waitverify}");
-                        return waitverify;
+                        waitFw = 1;
+                        waitFw = FwFlow();      //0 or -1 Return
+                        Console.WriteLine($"-------------- Fw Task - end {waitFw}");
+                        return waitFw;
                     }, CancelToken.Token);
 
                     nTimeTick = Environment.TickCount;
                     nRetStep = 131;
                     break;
                 case 131:
-                    if (waitverify == 1)
+                    if (waitFw == 1)
                     {
                         if (Environment.TickCount - nTimeTick > 50000)
                         {
-                            Console.WriteLine("Timeout - {waitverify}");
+                            Console.WriteLine("Timeout - {waitFw}");
                             nRetStep = -1;
                             break;
                         }
@@ -114,17 +114,12 @@ namespace ZenTester.Process
                     sendEqipData.Command = "LOT_APD_REPORT";
                     sendEqipData.LotID = fwtestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
-
-                    //1.Socket_Num
-                    //2.Result
-                    //3.Barcode
-                    //4.SensorID
-                    int tCount = 4;
+                    
 
                     string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
                     string[] apdResult = { fwtestData.Result_Code, fwtestData.Socket_Num, fwtestData.Version,  m_nTestFinalResult.ToString(), fwtestData.Barcode, fwtestData.Heater_Current };
 
-                    for (int i = 0; i < tCount; i++)
+                    for (int i = 0; i < apdList.Length; i++)
                     {
                         TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
 
@@ -161,9 +156,7 @@ namespace ZenTester.Process
                     }
                     break;
                 case 220:
-                    //Verify 공정은 Secsgem으로 apd보고해야된다 . 나머지는 Handler로
                     //완공다되면 Handler로도 보내줘야된다.
-
 
                     TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
                     objectData.Type = "EquipmentData";
