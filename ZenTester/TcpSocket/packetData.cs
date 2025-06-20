@@ -62,7 +62,34 @@ namespace ZenTester.TcpSocket
         public string Type { get; set; }        //공정명: EEPROM_WRITE, EEPROM_VERIFY, AOI, FW
         public object Data { get; set; }        //Data 안에 EquipmentData 또는 SocketTestState 추가해서 전달
     }
-
+    public class WriteApdData
+    {
+        //string[] apdList = { "Checksum0", "Checksum1", "Checksum2", "Checksum3", "Checksum4",
+        //"Socket_Num", "Result", "Barcode", "SensorID", "Time"};
+        public string Checksum0 { get; set; }
+        public string Checksum1 { get; set; }
+        public string Checksum2 { get; set; }
+        public string Checksum3 { get; set; }
+        public string Checksum4 { get; set; }
+        public string Socket_Num { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string SensorID { get; set; }
+        public string Time { get; set; }
+        public void init()
+        {
+            Checksum0 = string.Empty;
+            Checksum1 = string.Empty;
+            Checksum2 = string.Empty;
+            Checksum3 = string.Empty;
+            Checksum4 = string.Empty;
+            Socket_Num = string.Empty;
+            Result = string.Empty;
+            Barcode = string.Empty;
+            SensorID = string.Empty;
+            Time = string.Empty;
+        }
+    }
     public class VerifyApdData
     {
         //{ "Socket_Num", "Result", "Barcode", "SensorID" };

@@ -10,7 +10,8 @@ namespace ZenTester.TaskClass
     {
         private Process.AoiTestFlow aoiTestFlow;
         private Process.VerifyTestFlow verifyTestFlow;
-        //private Process.VerifyTestFlow writeTestFlow;
+        private Process.WriteTestFlow writeTestFlow;
+
         //private Process.VerifyTestFlow fwTestFlow;
 
         public bool testRun = false;
@@ -18,7 +19,8 @@ namespace ZenTester.TaskClass
         {
             aoiTestFlow = new Process.AoiTestFlow();
             verifyTestFlow = new Process.VerifyTestFlow();
-            //writeTestFlow = new Process.VerifyTestFlow();
+            writeTestFlow = new Process.WriteTestFlow();
+
             //fwTestFlow = new Process.VerifyTestFlow();
         }
         public void Aoi_TestRun(TcpSocket.TesterData data)  //int SocketNum)      //1 or 2
@@ -73,7 +75,36 @@ namespace ZenTester.TaskClass
                     await Task.Delay(10);
                 }
                 testRun = false;
-                Console.WriteLine($"TaskManager End - {nStep}");
+                Console.WriteLine($"Verify TaskManager End - {nStep}");
+            });
+
+        }
+
+        public void Write_TestRun(TcpSocket.TesterData data)
+        {
+            int nStep = 100;
+            string szLog = string.Empty;
+            writeTestFlow.writetestData.init();
+            writeTestFlow.writetestData.Barcode = data.LotId[0];
+            writeTestFlow.writetestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
+
+            Console.WriteLine($"Verify Task Start SocketNum-------{writeTestFlow.writetestData.Socket_Num}");
+
+            szLog = $"[VERIFY] TEST START :{writeTestFlow.writetestData.Barcode}/{writeTestFlow.writetestData.Socket_Num}";
+            Globalo.LogPrint("TaskManager", szLog);
+
+            _ = Task.Run(async () =>
+            {
+                while (true)
+                {
+                    nStep = writeTestFlow.WriteAutoProcess(nStep);
+                    //
+                    if (nStep == 1000) { break; }
+                    if (nStep < 0) { break; }
+                    await Task.Delay(10);
+                }
+                testRun = false;
+                Console.WriteLine($"Write TaskManager End - {nStep}");
             });
 
         }
