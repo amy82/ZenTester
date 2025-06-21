@@ -50,6 +50,8 @@ namespace ZenTester.Dlg
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
             Globalo.mlogControl.Visible = false;
+
+            Globalo.fwSetControl.Visible = false;
             switch (index)
             {
                 case TABFORM.MAIN_FORM:
@@ -67,7 +69,10 @@ namespace ZenTester.Dlg
                     {
                         Globalo.setTestControl.Visible = true;
                     }
-                        
+                    if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                    {
+                        Globalo.fwSetControl.Visible = true;
+                    }
                     break;
                 case TABFORM.CONFIG_FORM:
                     Globalo.mConfigPanel.Visible = true;

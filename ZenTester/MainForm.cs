@@ -95,7 +95,7 @@ namespace ZenTester  //ApsMotionControl
             Globalo.setTestControl = new Dlg.SetTestControl();
             Globalo.cameraControl = new Dlg.CameraControl();
             Globalo.markViewer = new VisionClass.MarkViewerForm();
-
+            Globalo.fwSetControl = new Dlg.FwSetControl();
             //Globalo.mioPanel = new Dlg.IoControl(dRightPanelW, dRightPanelH);
 
             Globalo.productionInfo = new Dlg.ProductionInfo();
@@ -335,6 +335,13 @@ namespace ZenTester  //ApsMotionControl
                 LeftPanel.Controls.Add(Globalo.setTestControl);
                 Globalo.cameraControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.setTestControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
+                Globalo.setTestControl.Visible = false;
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                LeftPanel.Controls.Add(Globalo.fwSetControl);
+                Globalo.fwSetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
+                Globalo.fwSetControl.Visible = false;
             }
 
 

@@ -45,19 +45,10 @@ namespace ZenTester.Process
 
                     break;
                 case 110:
-                    //착공걸기 - 착공은 차례대로만 보내야돼서 Verify의 경우에는 동시에 보내야된다.
-                    //Tester에서 Secsgem으로 착공 거는 공정은 Verify 공정만..
+                    //Handler로 부터 펌웨어 파일명 받아서 , Conf.ini파일에서 파일명 비교
+                    //다를 경우 펌웨어 파일 요청 FTP server
 
-                    //EqipData.Type = "EquipmentData";
-                    //sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
-                    //sendEqipData.LotID = fwtestData.Barcode;
-                    //sendEqipData.DataID = fwtestData.Socket_Num;
-                    //EqipData.Data = sendEqipData;
-
-                    //Globalo.tcpManager.nRecv_Ack = -1;
-                    //Globalo.taskWork.bRecv_Client_LotStart = -1;
-                    //Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //object
-                    //nTimeTick = Environment.TickCount;
+                    //
                     nRetStep = 120;
                     break;
                 case 111:

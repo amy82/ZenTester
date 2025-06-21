@@ -1,19 +1,28 @@
 ﻿using Newtonsoft.Json;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ZenTester.Fxa
 {
     
     public class FxaFirmwardDw
     {
+        [DllImport("kernel32")]
+        private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
+        [DllImport("kernel32")]
+        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+
         public FxaFirmwardDw()
         {
 
@@ -69,6 +78,7 @@ namespace ZenTester.Fxa
 
             const string exeName = "cypress_cam_flashing"; // 확장자 없이
             //const string workingDir = @"D:\PG\FXABoard\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+
             const string workingDir = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
             const string exePath = workingDir + @"\cypress_cam_flashing.exe";
             const string host = "127.0.0.1";
@@ -118,6 +128,105 @@ namespace ZenTester.Fxa
 
             //WritePrivateProfileString("DEFAULT", "FIRMWARE_VERSION", strVersion, iniPath);
             //WritePrivateProfileString("DEFAULT", "FIRMWARE_FILE", strFile, iniPath);
+        }
+
+        public string getFirmwareFileName()
+        {
+            StringBuilder fwFileName = new StringBuilder(256);
+            string rtnFwName = string.Empty;
+            string strINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111\";
+
+            string sourcePath = Path.Combine(strINIPath, "conf.ini");
+            //OpenFileDialog openFileDlg = new OpenFileDialog();
+            //openFileDlg.DefaultExt = ".cyacd";
+            //openFileDlg.Filter = "CYACD File(*.cyacd)|*.cyacd"; // Opal의 경우 FW 파일 확장자가 .hex 임
+            //openFileDlg.ShowDialog();
+            //if (openFileDlg.FileName.Length > 0)
+            //{
+            //    //this.textBox1.Text = openFileDlg.FileName;
+
+            //    String strFile = Path.GetFileName(openFileDlg.FileName);
+            //    StringBuilder fwFileName = new StringBuilder();
+
+            //    GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, strINIPath);
+            //}
+
+            //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111
+            GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
+            rtnFwName = fwFileName.ToString();
+            return rtnFwName;
+        }
+
+        private void button3_Click()      //conf.ini 내용 확인
+        {
+            // Upload FW file to FXA board - Trinity
+            string strINIPath = "D:\\conf.ini"; // INI 파일 경로
+
+            OpenFileDialog openFileDlg = new OpenFileDialog();
+            openFileDlg.DefaultExt = ".cyacd";
+            openFileDlg.Filter = "CYACD File(*.cyacd)|*.cyacd"; // Opal의 경우 FW 파일 확장자가 .hex 임
+            openFileDlg.ShowDialog();
+            if (openFileDlg.FileName.Length > 0)
+            {
+                //this.textBox1.Text = openFileDlg.FileName;
+
+                String strFile = Path.GetFileName(openFileDlg.FileName);
+                StringBuilder fwFileName = new StringBuilder();
+
+                GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, strINIPath);
+
+                if (strFile == fwFileName.ToString())
+                {
+                    // 현재 동일한 펌웨어 파일이 적용되어 있으므로 업데이트 불필요함
+                    return;
+                }
+
+                // 펌웨어 파일명이 다를 경우 MES에서 펌웨어 파일을 다운로드
+
+                // SFTP를 통해 FXA보드에 펌웨어 파일 복사
+                var ci = new ConnectionInfo("192.168.90.120", "root", new PasswordAuthenticationMethod("root", "root"));
+
+                using (var sftp = new SftpClient(ci))
+                {
+                    sftp.Connect();
+
+                    using (var infile = System.IO.File.OpenRead(openFileDlg.FileName))
+                    {
+                        sftp.UploadFile(infile, "/home/root/utils/flashing/MCU/Common/" + strFile);
+                    }
+
+                    bool bCheckFile = false;
+
+                    foreach (SftpFile f in sftp.ListDirectory("/home/root/utils/flashing/MCU/Common/"))
+                    {
+                        if (f.Name == strFile)
+                        {
+                            bCheckFile = true;
+                            MessageBox.Show("Upload Success!");
+                            break;
+                        }
+                    }
+
+                    if (bCheckFile == false)
+                    {
+                        // 펌웨어 파일 업로드 실패, 재시도
+                    }
+
+                    sftp.Disconnect();
+                }
+
+                // 파일명에서 펌웨어 버전 추출
+                string[] seperate = strFile.Split('_');
+                string strVersion = seperate[1].ToLower();
+
+                // INI 파일에 펌웨어 버전 저장
+                WritePrivateProfileString("DEFAULT", "FIRMWARE_VERSION", strVersion, strINIPath);
+
+                // INI 파일에 펌웨어 파일명 저장
+                WritePrivateProfileString("DEFAULT", "FIRMWARE_FILE", strFile, strINIPath);
+
+                MessageBox.Show("Ready to FW Download!");
+            }
         }
     }
 }

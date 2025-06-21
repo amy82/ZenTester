@@ -55,6 +55,7 @@ namespace ZenTester
         //public static Dlg.CamControl camControl;
         public static Dlg.CameraControl cameraControl;
         public static Dlg.SetTestControl setTestControl;
+        public static Dlg.FwSetControl fwSetControl;
         
         public static VisionClass.MarkViewerForm markViewer;
 
