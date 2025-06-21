@@ -17,15 +17,14 @@ namespace ZenTester.TcpSocket
         private bool bConnected;
 
         private readonly List<TcpClient> _clientsList = new List<TcpClient>();
-        //public event Action<string> OnMessageReceived; // 메시지 수신 이벤트
         public event Func<string, Task> OnMessageReceivedAsync; // 비동기 이벤트
 
-        public TcpServer(string ip, int port)
+        public TcpServer(int port)
         {
             bConnected = false;
-            _listener = new TcpListener(IPAddress.Parse(ip), port);
+            _listener = new TcpListener(IPAddress.Any, port);//IPAddress.Parse(ip), port);
 
-            string logData = $"[tcp] Server Create:{ip} / {port}";
+            string logData = $"[tcp] Server Create: {port}";
             Globalo.LogPrint("CCdControl", logData);
         }
         public bool bClientConnectedState()
@@ -145,7 +144,6 @@ namespace ZenTester.TcpSocket
                             sb.Clear(); // StringBuilder 초기화 (다음 JSON 수신을 위해)
 
                             // 메시지 수신 이벤트 호출
-                            //OnMessageReceived?.Invoke(receivedData);
                             // ✅ 메시지 수신 시 비동기 이벤트 호출
                             if (OnMessageReceivedAsync != null)
                             {
@@ -153,26 +151,6 @@ namespace ZenTester.TcpSocket
                             }
                         }
                     }
-                    //while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-                    //{
-                    //    string receivedChunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    //    sb.Append(receivedChunk); // JSON 조각을 합침
-
-                    //    // JSON이 닫히는지 확인 (마지막 문자가 '}'로 끝나는지)
-                    //    if (receivedChunk.TrimEnd().EndsWith("}"))
-                    //        break;
-                    //}
-
-                    //string receivedData = sb.ToString();
-                    //OnMessageReceived?.Invoke(receivedData); // 메시지 수신 이벤트 호출
-
-                    //while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-                    //{
-                    //    string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    //    Console.WriteLine($"수신 메시지: {receivedData}");
-
-                    //    OnMessageReceived?.Invoke(receivedData); // 메시지 수신 이벤트 호출
-                    //}
                 }
                 catch (Exception ex)
                 {

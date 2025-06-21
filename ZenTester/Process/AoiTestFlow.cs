@@ -21,14 +21,16 @@ namespace ZenTester.Process
         private int waitSideCam = 1;
         private readonly SynchronizationContext _syncContext;
         public int nTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
+        public int nTopTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
+        public int nSideTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
         public int nLoadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
         public int nUnloadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
 
-        private TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
+        public TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
         private OpenCvSharp.Point[] aoiCenterPos = new OpenCvSharp.Point[2];
-
-
-        public int socketNumber = 0;
+        private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+        private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+        private int m_nTestFinalResult;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -44,6 +46,8 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
+                    Globalo.serialPortManager.LightControl.recvCheck = -1;
+                    m_nTestFinalResult = 1;
                     Globalo.visionManager.milLibrary.RunModeChange(true);
                     waitTopCam = -1;
                     waitSideCam = -1;
@@ -51,9 +55,7 @@ namespace ZenTester.Process
                     SideCamTask = null;
                     CancelToken?.Dispose();
                     CancelToken = new CancellationTokenSource();    //
-
-                    aoitestData.init();     //AOI 결과값 초기화
-                    aoitestData.Socket_Num = socketNumber.ToString();
+                    
                     TopCamTask = Task.Run(() =>
                     {
                         waitTopCam = 1;
@@ -89,8 +91,54 @@ namespace ZenTester.Process
                     //
                     //
                     //Apd 보고 -> SecsGem Clinet -> 결과는 Handler로 전송
-                    Http.HttpService.LotApdReport(aoitestData);
-                    nRetStep = 1000;    //1000이상이면 종료
+                    //Http.HttpService.LotApdReport(aoitestData);     //<----바꾸자 HANDLER로 보내는걸로
+
+                    EqipData.Type = "EquipmentData";
+                    sendEqipData.Command = "LOT_APD_REPORT";
+                    sendEqipData.DataID = aoitestData.Socket_Num;
+                    sendEqipData.LotID = aoitestData.Barcode;
+                    sendEqipData.Judge = m_nTestFinalResult;
+                    sendEqipData.CommandParameter.Clear();
+                    string[] apdList = { 
+                        "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
+                        , "Result" , "Barcode", "Socket_Num" };
+
+                    string[] apdResult = { aoitestData.LH, aoitestData.RH, aoitestData.MH, 
+                        aoitestData.Gasket, aoitestData.KeyType,aoitestData.CircleDented, aoitestData.Concentrycity_A, aoitestData.Concentrycity_D,
+                        aoitestData.Cone, aoitestData.ORing, aoitestData.Result ,aoitestData.Barcode, aoitestData.Socket_Num};
+
+                    for (int i = 0; i < apdResult.Length; i++)
+                    {
+                        TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                        pInfo.Name = apdList[i];
+                        pInfo.Value = apdResult[i];
+
+                        sendEqipData.CommandParameter.Add(pInfo);
+                    }
+                    EqipData.Data = sendEqipData;
+                    Globalo.tcpManager.nRecv_Ack = -1;
+                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
+                    nTimeTick = Environment.TickCount;
+
+                    nRetStep = 220;    //1000이상이면 종료
+                    break;
+                case 220:
+                    //Verify 공정은 Secsgem으로 apd보고해야된다 . 나머지는 Handler로
+                    //완공다되면 Handler로도 보내줘야된다.
+
+
+                    TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+                    objectData.Type = "EquipmentData";
+
+                    TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+                    LotstartData.LotID = aoitestData.Barcode;
+                    LotstartData.Command = "APS_LOT_FINISH";
+                    LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
+                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+
+                    objectData.Data = LotstartData;
+                    Globalo.tcpManager.SendMessage_To_Handler(objectData);
                     break;
             }
             return nRetStep;
@@ -105,7 +153,7 @@ namespace ZenTester.Process
             string szLog = "";
             int data1 = 0;
             int data2 = 0;
-            int topCamIndex = 0;
+            const int topCamIndex = 0;
             int nRetStep = 10;
             while (true)
             {
@@ -135,7 +183,7 @@ namespace ZenTester.Process
                         data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
                         data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
                         //Globalo.serialPortManager.LightControl.ctrlLedVolume(1, data1);
-                        Globalo.serialPortManager.LightControl.recvCheck = -1;
+                        
                         Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
 
                         szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
@@ -143,6 +191,7 @@ namespace ZenTester.Process
 
                         //Side Light Set, Ch:2
                         //Val 0: Side Common - 사용 안 할 수도
+                        nTopTimeTick = Environment.TickCount;
                         nRetStep = 50;
                         break;
 
@@ -151,7 +200,7 @@ namespace ZenTester.Process
                         {
                             break;
                         }
-                        else if (Environment.TickCount - nTimeTick > 3000)
+                        else if (Environment.TickCount - nTopTimeTick > 3000)
                         {
                             szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
                             Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
@@ -222,7 +271,7 @@ namespace ZenTester.Process
                         //
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-                        bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex]);
+                        bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex], true);
                         if (rtn)
                         {
                             szLog = $"[TOP CAM] CENTER FIND OK ({aoiCenterPos[topCamIndex].X},{aoiCenterPos[topCamIndex].Y})";
@@ -298,14 +347,21 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true, true);   //true 일때 Dent(찌그러짐)검사
-                        int denUnderCnt = HousingCenter[0].X;
-                        if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
+                        if (HousingCenter.Count > 0)
                         {
-                            aoitestData.CircleDented = "0";
+                            int denUnderCnt = HousingCenter[0].X;
+                            if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
+                            {
+                                aoitestData.CircleDented = "0";
+                            }
+                            else
+                            {
+                                aoitestData.CircleDented = "1";
+                            }
                         }
                         else
                         {
-                            aoitestData.CircleDented = "1";
+                            aoitestData.CircleDented = "0";
                         }
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
@@ -370,7 +426,7 @@ namespace ZenTester.Process
                         float dist2 = 0.0f;
 
                         FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, true); //Fakra 안쪽 원 찾기
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
                         //내원 2개 , 외원 2개씩 찾아야 진행된다.
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
@@ -400,8 +456,8 @@ namespace ZenTester.Process
                             con1Result = dist1 * CamResolX;
                             con2Result = dist2 * CamResolX;
 
-                            aoitestData.Concentrycity_A = con1Result.ToString();
-                            aoitestData.Concentrycity_D = con2Result.ToString();
+                            aoitestData.Concentrycity_A = con1Result.ToString("0.00#");
+                            aoitestData.Concentrycity_D = con2Result.ToString("0.00#");
                         }
                         else
                         {
@@ -459,7 +515,7 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
 
-
+                        Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
 
                         nRetStep = 1000;
                         break;
@@ -501,6 +557,7 @@ namespace ZenTester.Process
             int nRtn = -1;
             bool bRtn = false;
             string szLog = "";
+            const int sideCamIndex = 1;
             int nRetStep = 10;
             while (true)
             {
@@ -510,40 +567,142 @@ namespace ZenTester.Process
                     nRtn = -1;
                     break;
                 }
-                pauseEvent.Wait();  // 일시정지시 여기서 멈춰 있음
+                //pauseEvent.Wait();  // 일시정지시 여기서 멈춰 있음
                 //Tester에서는 일시정지 없을듯
                 switch (nRetStep)
                 {
                     case 10:
-                        //조명 변경
-                        nRetStep = 20;
+                        //Side 조명은 Top에서 같이 변경
+                        nSideTimeTick = Environment.TickCount;
+                        nRetStep = 12;
+                        break;
+                    case 12:
+                        if (Globalo.serialPortManager.LightControl.recvCheck == 1)
+                        {
+                            nRetStep = 20;
+                            break;
+                        }
+                        else if (Environment.TickCount - nSideTimeTick > 5000)
+                        {
+                            szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
+                            Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                            nRetStep *= -1;
+                            break;
+                        }
                         break;
                     case 20:
+
+                        //== 높이 측정 기준 Mark 찾기
+
+                        Globalo.visionManager.milLibrary.ClearOverlay(sideCamIndex);
+                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
+                        Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
+                        //-------------------------------------------------------------------------------------------
                         //Left Height
                         //Center Height
                         //Right Height
+                        ////Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
+                        System.Drawing.Point markPos = new System.Drawing.Point();
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
+
+
+                        System.Drawing.Point OffsetPos = new System.Drawing.Point(0,0);
+                        double[] heightData = new double[3];
+                        if (bRtn)
+                        {
+                            OffsetPos.X = markPos.X - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].X;
+                            OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
+                            
+                        }
+
+                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, true);
+                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, true);
+                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, true);
+
+                        aoitestData.LH = heightData[0].ToString("0.0##");
+                        aoitestData.MH = heightData[0].ToString("0.0##");
+                        aoitestData.RH = heightData[0].ToString("0.0##");
+                        //-------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //Oring 유무
+                        //
+                        //-------------------------------------------------------------------------------------------
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
+
+
+                        OffsetPos.X = 0;
+                        OffsetPos.Y = 0;
+
+                        if (bRtn)
+                        {
+                            OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
+                            OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
+
+                        }
+                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
+                        if (bOringRtn)
+                        {
+                            aoitestData.ORing = "1";
+                        }
+                        else
+                        {
+                            aoitestData.ORing = "0";
+                        }
+                        //-------------------------------------------------------------------------------------------
+                        //
+                        //
+                        //
                         //Cone 유무
+                        //
+                        //-------------------------------------------------------------------------------------------
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
 
-                        aoitestData.LH = "0.0";
-                        aoitestData.MH = "0.0";
-                        aoitestData.RH = "0.0";
-                        aoitestData.ORing = "1";
-                        aoitestData.Cone = "1";
 
-                        nRetStep = 30;
-                        break;
-                    case 30:
-                        nRetStep = 40;
-                        break;
-                    case 40:
+                        OffsetPos.X = 0;
+                        OffsetPos.Y = 0;
+
+                        if (bRtn)
+                        {
+                            OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
+                            OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
+
+                        }
+                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
+                        if (bConeRtn)
+                        {
+                            aoitestData.Cone = "1";
+                        }
+                        else
+                        {
+                            aoitestData.Cone = "0";
+                        }
+                        
+                        
                         nRetStep = 50;
                         break;
                     case 50:
                         nRetStep = 900;
                         break;
                     case 900:
+                        System.Drawing.Point txtPoint = new System.Drawing.Point();
+                        string resultStr = string.Empty;
+
+
+                        resultStr = $"O-Ring :{aoitestData.ORing}";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 600);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+
+                        resultStr = $"Cone :{aoitestData.Cone}";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 450);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+
+        
+
+                        Globalo.visionManager.milLibrary.DrawOverlayAll(sideCamIndex);
+                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, true);
                         nRetStep = 1000;
                         break;
                     default:

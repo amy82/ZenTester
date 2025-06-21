@@ -43,7 +43,9 @@ namespace ZenTester.VisionClass
         {
             bool rtn = false;
             double minArea = 45.0;
+
             Globalo.visionManager.milLibrary.ClearOverlay(index);
+
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
@@ -371,7 +373,9 @@ namespace ZenTester.VisionClass
             Cv2.CvtColor(srcImage, result, ColorConversionCodes.GRAY2BGR);
             int i = 0;
             Console.Write("------------FindContours\n");
+
             Globalo.visionManager.milLibrary.ClearOverlay(index);
+
             foreach (var contour in contours)
             {
                 double area = Cv2.ContourArea(contour);

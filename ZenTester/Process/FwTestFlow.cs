@@ -1,0 +1,237 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ZenTester.Process
+{
+    public class FwTestFlow
+    {
+        public CancellationTokenSource CancelToken;
+        public ManualResetEventSlim pauseEvent = new ManualResetEventSlim(true);  // true면 동작 가능
+
+        public Task<int> fwTask;
+        private int waitFw = 1;
+
+        private readonly SynchronizationContext _syncContext;
+
+        public int nTimeTick = 0;
+
+        public TcpSocket.FwapdData fwtestData = new TcpSocket.FwapdData();
+        private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+        private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+
+        private int m_nTestFinalResult;
+        public FwTestFlow()
+        {
+            fwTask = Task.FromResult(1);
+        }
+
+        public int FwAutoProcess(int nStep)
+        {
+            int nRetStep = nStep;
+
+            switch (nRetStep)
+            {
+                case 100:
+                    m_nTestFinalResult = 1;
+                    waitFw = -1;
+                    fwTask = null;
+                    CancelToken?.Dispose();
+                    CancelToken = new CancellationTokenSource();    //
+                    nRetStep = 110;
+
+                    break;
+                case 110:
+                    //착공걸기 - 착공은 차례대로만 보내야돼서 Verify의 경우에는 동시에 보내야된다.
+                    //Tester에서 Secsgem으로 착공 거는 공정은 Verify 공정만..
+
+                    //EqipData.Type = "EquipmentData";
+                    //sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
+                    //sendEqipData.LotID = fwtestData.Barcode;
+                    //sendEqipData.DataID = fwtestData.Socket_Num;
+                    //EqipData.Data = sendEqipData;
+
+                    //Globalo.tcpManager.nRecv_Ack = -1;
+                    //Globalo.taskWork.bRecv_Client_LotStart = -1;
+                    //Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //object
+                    //nTimeTick = Environment.TickCount;
+                    nRetStep = 120;
+                    break;
+                case 111:
+                    //착공 대기 or verify 진행
+                    //if (Globalo.tcpManager.nRecv_Ack == 0)
+                    //if (Globalo.taskWork.bRecv_Client_LotStart == 0)
+                    //{
+                    //    nRetStep = 120;
+                    //}
+                    //else if (Globalo.taskWork.bRecv_Client_LotStart > 0)
+                    //{
+                    //    Console.WriteLine($"LOT START FAIL - {Globalo.taskWork.bRecv_Client_LotStart}");
+                    //    nRetStep = -1;
+                    //}
+                    //else if (Environment.TickCount - nTimeTick > 6000)
+                    //{
+                    //    Console.WriteLine($"Timeout {nRetStep}");
+                    //    nRetStep = -1;
+                    //}
+
+                    break;
+
+                case 120:
+                    //Globalo.taskWork.CommandParameter <-------Special Data
+                    nRetStep = 130;
+                    break;
+                case 130:
+                    fwTask = Task.Run(() =>
+                    {
+                        waitFw = 1;
+                        waitFw = FwFlow();      //0 or -1 Return
+                        Console.WriteLine($"-------------- Fw Task - end {waitFw}");
+                        return waitFw;
+                    }, CancelToken.Token);
+
+                    nTimeTick = Environment.TickCount;
+                    nRetStep = 131;
+                    break;
+                case 131:
+                    if (waitFw == 1)
+                    {
+                        if (Environment.TickCount - nTimeTick > 50000)
+                        {
+                            Console.WriteLine("Timeout - {waitFw}");
+                            nRetStep = -1;
+                            break;
+                        }
+                        break;
+                    }
+                    nRetStep = 200;
+                    break;
+                case 200:
+                    EqipData.Type = "EquipmentData";
+                    sendEqipData.Command = "LOT_APD_REPORT";
+                    sendEqipData.LotID = fwtestData.Barcode;
+                    sendEqipData.Judge = m_nTestFinalResult;
+                    
+
+                    string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
+                    string[] apdResult = { fwtestData.Result_Code, fwtestData.Socket_Num, fwtestData.Version,  m_nTestFinalResult.ToString(), fwtestData.Barcode, fwtestData.Heater_Current };
+
+                    for (int i = 0; i < apdList.Length; i++)
+                    {
+                        TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                        pInfo.Name = apdList[i];
+                        pInfo.Value = apdResult[i];
+
+                        sendEqipData.CommandParameter.Add(pInfo);
+                    }
+
+                    EqipData.Data = sendEqipData;
+                    Globalo.tcpManager.nRecv_Ack = -1;
+                    Globalo.taskWork.bRecv_Client_ApdReport = -1;
+                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
+                    nTimeTick = Environment.TickCount;
+                    break;
+
+                case 210:
+                    //착공 확인 대기
+                    if (Globalo.taskWork.bRecv_Client_ApdReport == 0)
+                    {
+                        nRetStep = 220;
+                    }
+                    else if (Globalo.taskWork.bRecv_Client_ApdReport == 1)
+                    {
+                        m_nTestFinalResult = -1;
+                        Console.WriteLine($"APD REPORT FAIL - {Globalo.taskWork.bRecv_Client_ApdReport}");
+                        nRetStep = 220;
+                    }
+                    else if (Environment.TickCount - nTimeTick > 5000)
+                    {
+                        m_nTestFinalResult = -2;
+                        Console.WriteLine($"Timeout {nRetStep}");
+                        nRetStep = 220;
+                    }
+                    break;
+                case 220:
+                    //완공다되면 Handler로도 보내줘야된다.
+
+                    TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+                    objectData.Type = "EquipmentData";
+
+                    TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+                    LotstartData.Command = "APS_LOT_FINISH";
+                    LotstartData.LotID = fwtestData.Barcode;
+                    LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
+
+                    objectData.Data = LotstartData;
+                    //TODO: 여기서 Special Data 여기서 보내야된다.
+                    //
+                    Globalo.tcpManager.SendMessage_To_Handler(objectData);        //T ->Handelr로 보내는 부분
+                    break;
+            }
+            return nRetStep;
+        }
+
+        private int FwFlow()
+        {
+            int nRtn = -1;
+            bool bRtn = false;
+            string szLog = "";
+            int nRetStep = 10;
+            while (true)
+            {
+                if (CancelToken.Token.IsCancellationRequested)      //정지시 while 빠져나가는 부분
+                {
+                    Console.WriteLine("Fw Flow cancelled!");
+                    nRtn = -1;
+                    break;
+                }
+                switch (nRetStep)
+                {
+                    case 10:
+                        nRetStep = 20;
+                        break;
+                    case 20:
+                        nRetStep = 30;
+                        break;
+                    case 30:
+                        nRetStep = 900;
+                        break;
+                    case 900:
+                        m_nTestFinalResult = 1;
+                        nRetStep = 1000;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (nRetStep < 0)
+                {
+                    Console.WriteLine("Fw Flow - fail");
+                    break;
+                }
+
+                if (nRetStep == 1000)
+                {
+                    Console.WriteLine("Fw Flow - end");
+                    break;
+                }
+                Thread.Sleep(10);       //TODO: while문안에서는 최소 10ms 꼭 필요
+            }
+            if (nRetStep == 1000)
+            {
+                nRtn = 0;
+                Console.WriteLine("Fw Flow - ok");
+            }
+            else
+            {
+                nRtn = -1;
+                Console.WriteLine("Fw Flow - ng");
+            }
+            return nRtn;
+        }
+    }
+}

@@ -27,7 +27,7 @@ namespace ZenTester.TcpSocket
 
         private CancellationTokenSource _cancellationTokenSource;// = new CancellationTokenSource();
         private bool _isReconnecting = false;
-        private readonly int _reconnectInterval = 10000; // 재접속 시도 간격 (밀리초)
+        private readonly int _reconnectInterval = 15000; // 재접속 시도 간격 (밀리초)
         private System.Timers.Timer _reconnectTimer;
 
 
@@ -83,7 +83,7 @@ namespace ZenTester.TcpSocket
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Connection failed: {ex.Message}");
+                //Console.WriteLine($"Connection failed: {ex.Message}");
                 StartReconnecting();
                 return false;
             }
@@ -213,7 +213,6 @@ namespace ZenTester.TcpSocket
                     if (bytesRead > 0)
                     {
                         string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        //OnMessageReceived?.Invoke(receivedData);
 
 
                         // ✅ 메시지 수신 시 비동기 이벤트 호출

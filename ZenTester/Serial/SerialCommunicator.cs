@@ -19,7 +19,7 @@ namespace ZenTester.Serial
         public int DataBits { get; set; }
         public StopBits StopBits { get; set; }
         public Parity Parity { get; set; }
-
+        StringBuilder receiveBuffer = new StringBuilder();
         public int recvCheck { get; set; }
         //public event Action<string> BarcodeScanned;
 
@@ -99,32 +99,44 @@ namespace ZenTester.Serial
         {
             try
             {
-                string rawData = _serialPort.ReadExisting(); // 버퍼에 있는 모든 데이터 읽기
+                string scanData = _serialPort.ReadExisting();
+                //receiveBuffer.Append(incoming);
+                Console.WriteLine($"scanData -------{scanData}");
+                //string rawData = _serialPort.ReadExisting(); // 버퍼에 있는 모든 데이터 읽기
                 //string scanData = rawData.Trim(); // 불필요한 개행 문자 제거
-                string scanData = rawData.Replace("\r", "").Replace("\n", ""); // \r\n 제거
+                //string scanData = rawData.Replace("\r", "").Replace("\n", ""); // \r\n 제거
+                //string scanData = incoming;//.Replace("\r", "").Replace("\n", ""); // \r\n 제거
+                                           // 수신된 조각 문자열
+                receiveBuffer.Append(scanData);
 
-
-                ///string data = _serialPort.ReadLine();       //<--\r\n 붙을 경우 못 빠져나온다.
-                Console.WriteLine("Recv Light Controller: " + scanData);
-                string logData = $"[Light] Recv Data:{scanData}";
-
-                Globalo.LogPrint("Serial", logData);
-
-                if (scanData == ":OK;")
+                while (receiveBuffer.ToString().Contains(";"))
                 {
-                    Console.WriteLine("Light Return Ok: " + scanData);
-                    recvCheck = 1;  //OK
-                }
-                else
-                {
-                    Console.WriteLine("Light Return Fail: " + scanData);
-                    recvCheck = 0;  //FAIL
-                }
+                    string bufferStr = receiveBuffer.ToString();
+                    ///string data = _serialPort.ReadLine();       //<--\r\n 붙을 경우 못 빠져나온다.
+                    Console.WriteLine("Recv Light Controller: " + bufferStr);
+                    string logData = $"[Light] Recv Data:{bufferStr}";
 
-                //Globalo.productionInfo.BcrSet(scanData);
+                    Globalo.LogPrint("Serial", logData);
 
+                    if (bufferStr.Contains("OK"))// == ":OK;")
+                    {
+                        Console.WriteLine("Light Return Ok: " + bufferStr);
+                        recvCheck = 1;  //OK
+                    }
+                    else
+                    {
+                        Console.WriteLine("Light Return Fail: " + bufferStr);
+                        recvCheck = 0;  //FAIL
+                    }
 
+                    //Globalo.productionInfo.BcrSet(scanData);
+
+                    receiveBuffer.Clear();
                     _serialPort.DiscardInBuffer(); // 입력 버퍼를 비웁니다.
+                    break;
+                }
+
+                    
 
             }
             catch (Exception ex)
@@ -219,11 +231,13 @@ namespace ZenTester.Serial
         // 데이터 전송
         public void SendData(string data)
         {
+            _serialPort.DiscardInBuffer(); // 입력 버퍼를 비웁니다.
+            receiveBuffer.Clear();
             if (_serialPort.IsOpen)
             {
                 //_serialPort.WriteLine(data);
                 _serialPort.Write(data);        //개행문자 빼려고 Wirte로 변경
-                Console.WriteLine("Sent: " + data);
+                Console.WriteLine("Light Send: " + data);
             }
             else
             {

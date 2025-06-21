@@ -52,7 +52,7 @@ namespace ZenTester.VisionClass
         {
 
         }
-        public void AddList(Rectangle clRect, int nWidth, DashStyle nStyle, Color color)
+        public void AddList(Rectangle clRect, int nWidth, Color color, DashStyle nStyle)
         {
             STRUC_MIL_BOX stMilBox = new STRUC_MIL_BOX();
 

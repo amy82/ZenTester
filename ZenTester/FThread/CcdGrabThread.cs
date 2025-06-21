@@ -69,14 +69,14 @@ namespace ZenTester.FThread
                     // Grab 버퍼에 저장
 
                     // imageItp의 데이터를 기존 m_pGrabBuff에 복사 (Clone 대신)
-                    Globalo.mLaonGrabberClass.imageItp.CopyTo(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nGrabIndex[0]]);
+                    //Globalo.mLaonGrabberClass.imageItp.CopyTo(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nGrabIndex[0]]);
 
-                    Globalo.vision.m_nCvtColorReadyIndex[0] = Globalo.vision.m_nGrabIndex[0];
-                    Globalo.vision.m_nGrabIndex[0]++;
-                    if (Globalo.vision.m_nGrabIndex[0] >= 3)
-                    {
-                        Globalo.vision.m_nGrabIndex[0] = 0;
-                    }
+                    //Globalo.vision.m_nCvtColorReadyIndex[0] = Globalo.vision.m_nGrabIndex[0];
+                    //Globalo.vision.m_nGrabIndex[0]++;
+                    //if (Globalo.vision.m_nGrabIndex[0] >= 3)
+                    //{
+                    //    Globalo.vision.m_nGrabIndex[0] = 0;
+                    //}
                 }
                 
             }

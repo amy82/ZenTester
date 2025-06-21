@@ -14,7 +14,7 @@ namespace ZenTester.FThread
             M_EMPTY, M_EEPROM_READ = 1, M_CCD_OPEN = 2, M_CCD_CLOSE = 3, M_CCD_START = 4
                 , M_MANUAL_VERIFY = 10
         };
-        private Process.ManualProcess manualProcess = new Process.ManualProcess();
+        //private Process.ManualProcess manualProcess = new Process.ManualProcess();
         private eManualType nType = eManualType.M_EMPTY;
 
         public ManualThread()
@@ -42,7 +42,7 @@ namespace ZenTester.FThread
 
             if (nType == eManualType.M_EEPROM_READ)
             {
-                manualProcess.Manual_EEpromRead();
+                //manualProcess.Manual_EEpromRead();
             }
             if (nType == eManualType.M_CCD_OPEN)     //ccd open
             {
@@ -63,13 +63,13 @@ namespace ZenTester.FThread
             }
             if (nType == eManualType.M_CCD_START)     //ccd open -> start
             {
-                manualProcess.Manual_CCdRun();
+                //manualProcess.Manual_CCdRun();
             }
             if (nType == eManualType.M_MANUAL_VERIFY)
             {
                 //EEPROM VERIFY
 
-                manualProcess.Manual_Verify();
+                //manualProcess.Manual_Verify();
             }
 
 

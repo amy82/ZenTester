@@ -91,7 +91,9 @@ namespace ZenTester.Dlg
 
             manualTest.Location = new System.Drawing.Point(1050, 50);
             manualConfig.Location = new System.Drawing.Point(1050, 50);
+            btn_Set_Test_Control.BackColor = ColorTranslator.FromHtml("#FFB230");
 
+            button_SetTest_SideCam.BackColor = Color.DarkGray;
             tempRoi.Clear();
 
             
@@ -127,15 +129,6 @@ namespace ZenTester.Dlg
         {
             //TOP CAMERA SAVE
             //
-            //Globalo.visionManager.milLibrary.ClearOverlay(0);
-            //Globalo.visionManager.milLibrary.DrawOverlayText(0, new System.Drawing.Point(100,100), "overlay test", Color.Yellow, 30);
-
-            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 500, 500 , 500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 2500, 500 , 2500, 2000, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-            //Globalo.visionManager.milLibrary.DrawOverlayArrow(0, 3500, 500 , 3500, 1500, Color.Yellow, 2, System.Drawing.Drawing2D.DashStyle.Solid);
-
-            //Globalo.visionManager.aoiTester.CirCleFind(0);
-
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.Filter = "Bitmap Image (*.bmp)|*.bmp";
@@ -167,7 +160,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(0, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Globalo.visionManager.milLibrary.ClearOverlay(0);
+                    Globalo.visionManager.milLibrary.ClearOverlay_Manual(0);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(0, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -182,16 +175,7 @@ namespace ZenTester.Dlg
 
         private void btn_SideCam_Image_Save_Click(object sender, EventArgs e)
         {
-            //Globalo.visionManager.milLibrary.ClearOverlay(1);  
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 200), "overlay test1", Color.Yellow, 30); 
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 400), "overlay test2", Color.Yellow, 30); 
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 600), "overlay test3", Color.Yellow, 30); 
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 800), "overlay test4", Color.Yellow, 30); 
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1000), "overlay test5", Color.Yellow, 30); 
-            //Globalo.visionManager.milLibrary.DrawOverlayText(1, new System.Drawing.Point(1500, 1200), "overlay test6", Color.Yellow, 30);
 
-            //Rectangle m_clRect = new Rectangle((int)(100), (int)(100), 1000, 1000);
-            //Globalo.visionManager.milLibrary.DrawOverlayBox(1, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Dot);
         }
 
         private void btn_SideCam_Image_Load_Click(object sender, EventArgs e)
@@ -205,7 +189,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.SetGrabOn(1, false);
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Globalo.visionManager.milLibrary.ClearOverlay(1);
+                    Globalo.visionManager.milLibrary.ClearOverlay_Manual(1);
                     string selectedFilePath = openFileDialog.FileName;
                     Globalo.visionManager.SetLoadBmp(1, selectedFilePath);
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
@@ -222,16 +206,30 @@ namespace ZenTester.Dlg
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
             //Set_panelCam.Handle
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
+            button_SetTest_TopCam.BackColor = Color.Black;
+            button_SetTest_SideCam.BackColor = Color.DarkGray;
             CamIndex = 0;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            manualConfig.checkBox_AllRelease();
 
+            label_SetTest_Title.Text = "Top Setting Camera";
         }
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
+            button_SetTest_SideCam.BackColor = Color.Black;
+            button_SetTest_TopCam.BackColor = Color.DarkGray;
             CamIndex = 1;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            manualConfig.checkBox_AllRelease();
+
+            label_SetTest_Title.Text = "Side Setting Camera";
+            //roi 다시 그리기
         }
 
         
@@ -241,7 +239,10 @@ namespace ZenTester.Dlg
             if (this.Visible)
             {
                 Globalo.visionManager.milLibrary.RunModeChange(false);
-                Globalo.visionManager.ChangeSettingDisplayHandle(0, Set_panelCam);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
+                Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
+
+                //drawCenterCross();
             }
             else
             {
@@ -383,7 +384,7 @@ namespace ZenTester.Dlg
                 switch (resizeDir)
                 {
                     case ResizeDirection.Top:
-                        DistLineX[CamIndex,0].Y += dy;
+                        DistLineX[CamIndex, 0].Y += dy;
                         break;
                     case ResizeDirection.Left:
                         DistLineX[CamIndex, 0].X += dx;
@@ -474,26 +475,7 @@ namespace ZenTester.Dlg
                 tempRoi[isRoiNo].Width = DrawRoiBox.Width;
                 tempRoi[isRoiNo].Height = DrawRoiBox.Height;
 
-                if (isRoiChecked == 0)      //Height
-                {
-                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].x = DrawRoiBox.X;
-                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].y = DrawRoiBox.Y;
-                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].width = DrawRoiBox.Width;
-                    //Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[isRoiNo].height = DrawRoiBox.Height;
-                }
-                else if (isRoiChecked == 1)      //Cone
-                {
-
-                }
-                else if (isRoiChecked == 2)      //Oring
-                {
-
-                }
-                else if (isRoiChecked == 3)      //Key
-                {
-
-                }
-
+                
                 manualConfig.drawTestRoi(isRoiChecked);
             }
             else if (isResizing)
@@ -558,7 +540,7 @@ namespace ZenTester.Dlg
                 Rectangle m_clRect = new Rectangle(
                     (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
             else if (isDragging)
@@ -568,7 +550,7 @@ namespace ZenTester.Dlg
                 Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 //Set_panelCam.Invalidate();
@@ -590,7 +572,7 @@ namespace ZenTester.Dlg
                     (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
-                Globalo.visionManager.milLibrary.ClearOverlay(CamIndex);
+                Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.milLibrary.DrawOverlayBox(CamIndex, m_clRect, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
             }
         }
@@ -635,7 +617,7 @@ namespace ZenTester.Dlg
         {
             //거리측정
             //(int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand + 0.5)
-            Rectangle x1Line = new Rectangle((int)(DistLineX[CamIndex,0].X * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH[CamIndex] * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5));
+            Rectangle x1Line = new Rectangle((int)(DistLineX[CamIndex, 0].X * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH[CamIndex] * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5));
             Rectangle x2Line = new Rectangle((int)(DistLineX[CamIndex, 1].X * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, 0, LINE_HIT_MARGIN, (int)(CamH[CamIndex] * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5));
 
             Rectangle y1Line = new Rectangle(0, (int)(DistLineX[CamIndex, 0].Y * Globalo.visionManager.milLibrary.yReduce[CamIndex] + 0.5) - LINE_HIT_MARGIN / 2, (int)(CamW[CamIndex] * Globalo.visionManager.milLibrary.xReduce[CamIndex] + 0.5), LINE_HIT_MARGIN);

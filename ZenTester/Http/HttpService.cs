@@ -294,6 +294,10 @@ namespace ZenTester.Http
                 }
                 else if (path == "/set-recipe")     //[AOI] 레시피 설정값 받는 부분 
                 {
+                    if (Program.TEST_PG_SELECT != TESTER_PG.AOI)
+                    {
+                        return;
+                    }
                     string szLog = string.Empty;
                     szLog = $"[Http] Recv /set-recipe";
                     Globalo.LogPrint("LotProcess", szLog);
@@ -341,7 +345,7 @@ namespace ZenTester.Http
 
                         Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
                         Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
-                                                                                                   //TODO: 받아서 레시피 파일로 저장을 하자
+                        //TODO: 받아서 레시피 파일로 저장을 하자
 
 
                         Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);

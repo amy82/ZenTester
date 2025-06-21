@@ -38,6 +38,8 @@ namespace ZenTester.Data
 
         public string HandlerIp { get; set; }
         public int HandlerPort { get; set; }
+        public string SecsgemIp { get; set; }
+        public int SecsgemPort { get; set; }
 
     }
     public class ConfigData

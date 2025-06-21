@@ -36,8 +36,8 @@ namespace ZenTester.FThread
             int mHeight = Globalo.GrabberDll.mGetHeight();
 
 
-            dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
-            dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
+            //dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
+            //dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
             bytes2 = new byte[mWidth * mHeight];
         }
         //protected override void ProcessRun()
@@ -62,25 +62,25 @@ namespace ZenTester.FThread
             //{
             if (Globalo.mLaonGrabberClass.M_bOpen == false) return ;
 
-            if (Globalo.vision.m_nGrabIndex[0] == Globalo.vision.m_nCvtColorReadyIndex[0])
-            {
-                Thread.Sleep(10);
-                return;
-            }
+            //if (Globalo.vision.m_nGrabIndex[0] == Globalo.vision.m_nCvtColorReadyIndex[0])
+            //{
+            //    Thread.Sleep(10);
+            //    return;
+            //}
 
-            if (Globalo.vision.m_nCvtColorReadyIndex[0] < 0 || Globalo.vision.m_nCvtColorReadyIndex[0] >= 3)
-            {
-                Thread.Sleep(10);
-                return;
-            }
+            //if (Globalo.vision.m_nCvtColorReadyIndex[0] < 0 || Globalo.vision.m_nCvtColorReadyIndex[0] >= 3)
+            //{
+            //    Thread.Sleep(10);
+            //    return;
+            //}
 
 
             //0 = B , 1 = G , 2 = R
             //Cv2.Split 이걸쓰면 메모리 상승
             //Cv2.Split(oGlobal.mLaonGrabberClass.m_pGrabBuff[oGlobal.vision.m_nCvtColorReadyIndex[0]], out oGlobal.mLaonGrabberClass.m_pImageBuff);
-            Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[0], 0);
-            Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[1], 1);
-            Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[2], 2);
+            //Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[0], 0);
+            //Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[1], 1);
+            //Cv2.ExtractChannel(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nCvtColorReadyIndex[0]], Globalo.mLaonGrabberClass.m_pImageBuff[2], 2);
 
             //Cv2.Split(m_pGrabBuff[oGlobal.vision.m_nCvtColorReadyIndex[0]], out m_pImageBuff);
             //byte* data = (byte*)oGlobal.mLaonGrabberClass.m_pImageBuff[2].DataPointer;
@@ -91,15 +91,15 @@ namespace ZenTester.FThread
             //IntPtr ptr = oGlobal.mLaonGrabberClass.m_pImageBuff[2];
             // int size = Marshal.SizeOf(ptr);
 
-            Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[2].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
-            MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 0], bytes2);
-            Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[1].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
-            MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 1], bytes2);
-            Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[0].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
-            MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 2], bytes2);
+            //Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[2].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+            //MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 0], bytes2);
+            //Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[1].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+            //MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 1], bytes2);
+            //Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[0].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+            //MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 2], bytes2);
             
             
-            MIL.MimResize(Globalo.vision.m_MilCcdProcImage[0], Globalo.vision.m_MilSmallImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
+            //MIL.MimResize(Globalo.vision.m_MilCcdProcImage[0], Globalo.vision.m_MilSmallImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
         }
        
     }

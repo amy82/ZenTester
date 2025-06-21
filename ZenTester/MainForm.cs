@@ -78,11 +78,10 @@ namespace ZenTester  //ApsMotionControl
             Globalo.yamlManager.modelLIstData.ModelLoad();
             Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();      //ModelLoad 다음에 로드해라
 
+
+            //if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             //Globalo.yamlManager.imageDataLoad();
             //Globalo.yamlManager.RecipeYamlListLoad();
-
-            //Globalo.motionManager = new MotionControl.MotionManager();
-            //Globalo.motionManager.AllMotorParameterSet();
 
             //string fileName = string.Format(@"{0}\iomap.xlsx", Application.StartupPath); //file path
             //Globalo.dataManage.ioData.ReadEpplusData(fileName);
@@ -90,14 +89,7 @@ namespace ZenTester  //ApsMotionControl
             // KeyEvent 이벤트 핸들러 추가
             //keyMessageFilter.KeyEvent += KeyMessageFilter_KeyEvent;
             Globalo.mlogControl = new Dlg.LogControl(dRightPanelW, dRightPanelH);
-
-
-
-            //Globalo.mMainPanel = new Dlg.MainControl(dRightPanelW, dRightPanelH);
-            //Globalo.mTeachPanel = new Dlg.TeachingControl(dRightPanelW, dRightPanelH);
-            //Globalo.mCCdPanel = new Dlg.CCdControl(dRightPanelW, dRightPanelH);
-
-
+            
             Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
             Globalo.setTestControl = new Dlg.SetTestControl();
@@ -106,11 +98,7 @@ namespace ZenTester  //ApsMotionControl
 
             //Globalo.mioPanel = new Dlg.IoControl(dRightPanelW, dRightPanelH);
 
-            //Globalo.operationPanel = new Dlg.OperationPanel();
             Globalo.productionInfo = new Dlg.ProductionInfo();
-            Globalo.trayStateInfo = new Dlg.TrayStateInfo();
-            Globalo.socketStateInfo = new Dlg.SocketStateInfo();
-            Globalo.pickerInfo = new Dlg.PickerInfo();
             Globalo.tabMenuForm = new Dlg.TabMenuForm(RightPanel.Width, RightPanel.Height);
             
             
@@ -157,11 +145,16 @@ namespace ZenTester  //ApsMotionControl
 
 
                 Globalo.setTestControl.setCamCenter();
+                Globalo.cameraControl.drawCenterCross();
             }
-                
+            
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
+
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configData.DrivingSettings.HandlerPort);
+
+            Globalo.tcpManager.SetVerifyClient("127.0.0.1", 5000);
+
             Globalo.taskManager = new TaskClass.TaskManager();
 
 
@@ -178,9 +171,8 @@ namespace ZenTester  //ApsMotionControl
 
            //// serverStart();      //SECS - GEM 연결
 
-            Http.HttpService.Start();
-            Http.HttpService.ReqRecipe();
-            Http.HttpService.ReqModel();
+            Globalo.tcpManager.ReqRecipeToSecsgem();
+            Globalo.tcpManager.ReqModelToSecsgem();
             //AOI 공정일 경우 시작할때, Secsgem으로 레시피 요청하기
             //
 
@@ -195,7 +187,10 @@ namespace ZenTester  //ApsMotionControl
 
             //Globalo.pickerInfo.SetPickerInfo();
 
+            Globalo.tabMenuForm.MenuButtonSet(Dlg.TabMenuForm.TABFORM.MAIN_FORM);
+
             Program.SetLanguage(Globalo.yamlManager.configData.DrivingSettings.Language);
+
 
             //LeeTestForm popupForm = new LeeTestForm();
             //popupForm.Show();
@@ -292,7 +287,24 @@ namespace ZenTester  //ApsMotionControl
             TopPanel.BackColor = ColorTranslator.FromHtml("#FAFAFA");
             MainTitleLabel.ForeColor = ColorTranslator.FromHtml("#8F949F");
             MainTitleLabel.BackColor = Color.Transparent;
-            MainTitleLabel.Text = "Zen Tester V1";
+            string _pgModel = string.Empty;
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                _pgModel = "Aoi";
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            {
+                _pgModel = "Write";
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            {
+                _pgModel = "Verify";
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                _pgModel = "fw";
+            }
+            MainTitleLabel.Text = "Zen Tester :"+ _pgModel;
 
             //-----------------------------------------------
             int MidPanelHeight = LeftPanel.Height;          //Left Middle 패널 높이

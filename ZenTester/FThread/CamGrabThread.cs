@@ -26,9 +26,9 @@ namespace ZenTester.FThread
 
             try
             {
-                MIL.MdigGrab(Globalo.vision.MilDigitizer, Globalo.vision.MilCamGrabImage[0]);
-                MIL.MdigGrabWait(Globalo.vision.MilDigitizer, MIL.M_GRAB_END);// M_GRAB_END); M_GRAB_FRAME_END
-                MIL.MimResize(Globalo.vision.MilCamGrabImageChild[0], Globalo.vision.MilCamSmallImageChild[0], Globalo.vision.M_CamReduceFactorX, Globalo.vision.M_CamReduceFactorY, MIL.M_DEFAULT);
+                //MIL.MdigGrab(Globalo.vision.MilDigitizer, Globalo.vision.MilCamGrabImage[0]);
+                //MIL.MdigGrabWait(Globalo.vision.MilDigitizer, MIL.M_GRAB_END);// M_GRAB_END); M_GRAB_FRAME_END
+                //MIL.MimResize(Globalo.vision.MilCamGrabImageChild[0], Globalo.vision.MilCamSmallImageChild[0], Globalo.vision.M_CamReduceFactorX, Globalo.vision.M_CamReduceFactorY, MIL.M_DEFAULT);
                 Thread.Sleep(10);
 
             }

@@ -72,19 +72,13 @@ namespace ZenTester.VisionClass
             milLibrary.AllocMilSetCamBuffer(0, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
             milLibrary.AllocMilSetCamBuffer(1, SetCamControlWidth, SetCamControlHeight);    //Setting Camera
 
-            for (i = 0; i < milLibrary.CamFixCount; i++)
+            for (i = 0; i < MilLibraryUtil.CamFixCount; i++)
             {
                 milLibrary.AllocMilCamDisplay(_cameraDisplayHandles[i], i);
-
-                
                 milLibrary.EnableCamOverlay(i);
-                
-
             }
             milLibrary.AllocMilSetCamDisplay(_cameraDisplayHandles[2]);
             milLibrary.EnableSetCamOverlay();
-            //milLibrary.DrawOverlay(0);
-            //milLibrary.DrawOverlay(1);
 
             
             markUtil = new MarkUtil();
@@ -211,7 +205,6 @@ namespace ZenTester.VisionClass
 
         public void StartCameras()
         {
-            ////StartGrabCamera();
             StartCamera1();
             StartCamera2();
         }

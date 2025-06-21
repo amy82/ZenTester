@@ -12,17 +12,22 @@ namespace ZenTester.TcpSocket
     public class TcpManager
     {
         private readonly SynchronizationContext _syncContext;
-        //private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
         
-        private TcpServer _server;      //미사용   
+        private TcpServer _Server;      //미사용   
         private CancellationTokenSource _cts;
 
-        private TcpClientHandler _client;
+        private TcpClientHandler _HandlerClient;       //Handler로 연결
+        private TcpClientHandler _SecsGem_Client;       //Secsgem으로 연결
+
+        public int nRecv_Ack;//bRecv_S6F12_Lot_Apd
         public TcpManager()//string ip, int port)
         {
             _syncContext = SynchronizationContext.Current;
-            //_server = new TcpServer(ip, port);
-            //_server.OnMessageReceivedAsync += HandleClientMessageAsync;
+            nRecv_Ack = -1;
+
+
+            //_VerifyServer = new TcpServer(5001);
+            //_VerifyServer.OnMessageReceivedAsync += HandleClientMessageAsync;
 
             _cts = new CancellationTokenSource();
             Event.EventManager.PgExitCall += OnPgExit;
@@ -33,51 +38,99 @@ namespace ZenTester.TcpSocket
         }
         public void SetClient(string ip, int port)
         {
-            _client = new TcpClientHandler(ip, port, this);
-            //_client.OnMessageReceived += OnMessageReceived;
-            _client.OnMessageReceivedAsync += HandleClientMessageAsync;
-            _client.Connect();
+            _HandlerClient = new TcpClientHandler(ip, port, this);
+            _HandlerClient.OnMessageReceivedAsync += HandleClientMessageAsync;
+            _HandlerClient.Connect();
+        }
+        public void SetVerifyClient(string ip, int port)
+        {
+            _SecsGem_Client = new TcpClientHandler(ip, port, this);
+            _SecsGem_Client.OnMessageReceivedAsync += SecsGemClientMessageAsync;
+            _SecsGem_Client.Connect();
         }
 
         public async void SendMessageToHost(EquipmentData data) //ResultData
         {
-            if (_client.bHostConnectedState() == false)
+            if (_HandlerClient.bHostConnectedState() == false)
             {
                 return;
             }
             string jsonData = JsonConvert.SerializeObject(data);
-            await _client.SendDataAsync(jsonData);
+            await _HandlerClient.SendDataAsync(jsonData);
         }
-        public void DisconnectClient()
+        public async void SendMessage_To_Handler(MessageWrapper data)
         {
-            _client.Disconnect(false);
-        }
-        public async void SendMessageToClient(TcpSocket.EquipmentData equipData)//string message)
-        {
-            if (_server.bClientConnectedState() == false)
+            if (_HandlerClient.bHostConnectedState() == false)
             {
                 return;
             }
-            //await _server.SendMessageAsync(message);   //클라이언트 하나만 허용  secGemApp
+            string jsonData = JsonConvert.SerializeObject(data);
+            await _HandlerClient.SendDataAsync(jsonData);
+        }
+        public void DisconnectClient()
+        {
+            _HandlerClient.Disconnect(false);
+        }
+        public async void SendMessage_To_SecsGem(TcpSocket.MessageWrapper equipData)
+        {
+            if (_SecsGem_Client.bHostConnectedState() == false)
+            {
+                return;
+            }
+            string jsonData = JsonConvert.SerializeObject(equipData);
+            await _SecsGem_Client.SendDataAsync(jsonData);
+        }
+        public async void SendMessageToClient(TcpSocket.EquipmentData equipData)
+        {
+            if (_Server.bClientConnectedState() == false)
+            {
+                return;
+            }
+            //await _VerifyServer.SendMessageAsync(message);   //클라이언트 하나만 허용  secGemApp
             //
             string jsonData = JsonConvert.SerializeObject(equipData);
-            await _server.BroadcastMessageAsync(jsonData);
+            await _Server.BroadcastMessageAsync(jsonData);
         }
         // 서버 시작
         public async Task StartServerAsync()
         {
-            await _server.StartAsync(_cts.Token);
+            await _Server.StartAsync(_cts.Token);
         }
 
         // 서버 중지
         public void StopServer()
         {
             _cts.Cancel();
-            if (_server != null)
+            if (_Server != null)
             {
-                _server.Stop();
+                _Server.Stop();
             }
             
+        }
+        public void ReqRecipeToSecsgem()
+        {
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                return;
+            }
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "REQ_RECIPE";
+
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
+        }
+        public void ReqModelToSecsgem()
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "REQ_MODEL";
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
         public void SendAlarmReport(string nAlarmID)
         {
@@ -101,10 +154,10 @@ namespace ZenTester.TcpSocket
             int result = -1;
 
             string dataName = data.Cmd;
+            int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
+            ///int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
             if (data.Cmd == "CMD_TEST")
             {
-                int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
-                int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
                 if (Globalo.taskManager.testRun)
                 {
                     Console.WriteLine("test Running!!!");
@@ -117,7 +170,7 @@ namespace ZenTester.TcpSocket
                     if (nStep == 0)
                     {
                         Globalo.taskManager.testRun = true;
-                        Globalo.taskManager.Aoi_TestRun(index);
+                        Globalo.taskManager.Aoi_TestRun(data);
                         
                     }
                     if (nStep == 1)
@@ -127,12 +180,15 @@ namespace ZenTester.TcpSocket
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
                 {
-                    //프로그램 하나에 소켓 하나 eeprom write 진행
                     // data.CommandParameter
+                    //data.socketNum = 1,2,3,4 // 5,6,7,8
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                 {
-                    //프로그램 하나에 소켓 하나 eeprom verify 진행
+                    //data.socketNum = 1,2,3,4 // 5,6,7,8  
+                    Globalo.taskManager.testRun = true;
+                    Globalo.taskManager.Verify_TestRun(data);
+
                     // data.CommandParameter
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
@@ -166,10 +222,72 @@ namespace ZenTester.TcpSocket
             //Console.WriteLine($"장비 ID: {data.EQPID}, 레시피 ID: {data.RECIPEID}");
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //
+            if (data.Command == "RECV_SECS_RECIPE")
+            {
+                string ppid = data.RecipeID;
+                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                {
+                    //Data.RcmdParameter parameter = new Data.RcmdParameter();
+                    //parameter.name = paramInfo.Name;
+                    //parameter.value = paramInfo.Value;
+
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                }
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["RECIPE"]);
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
+                                                                                           //TODO: 받아서 레시피 파일로 저장을 하자
+
+
+                Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                Globalo.yamlManager.secsGemDataYaml.MesSave();
+
+                
+
+                //설정 부분 다시 로드해야된다. 
+                //SetControl
+
+                _syncContext.Send(_ =>
+                {
+                    Globalo.productionInfo.ShowRecipeName();
+                    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+                    Globalo.setTestControl.manualTest.SetSmallMark();
+                    Globalo.setTestControl.manualConfig.RefreshConfig();
+                    Globalo.setTestControl.manualTest.RefreshTest();
+                }, null);
+                
+
+
+
+                //szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
+                //Globalo.LogPrint("LotProcess", szLog);
+                Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
+            }
+            if (data.Command == "RECV_SECS_MODEL")
+            {
+                string model = data.DataID;
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
+                Globalo.yamlManager.secsGemDataYaml.MesSave();
+
+                _syncContext.Send(_ =>
+                {
+                    Globalo.productionInfo.ShowModelName();
+
+                }, null);
+                
+
+                //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
+                Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+
+            }
             if (data.Command == "APS_LOT_START_CMD")
             {
                 //착공 진행 신호
                 Globalo.taskWork.bRecv_Client_LotStart = data.Judge;   //Only 0 = ok
+                Globalo.taskWork.CommandParameter = data.CommandParameter.Select(item => item.DeepCopy()).ToList();
             }
             else if (data.Command == "APS_LOT_COMPLETE_CMD")
             {
@@ -613,7 +731,54 @@ namespace ZenTester.TcpSocket
                 }
             }
         }
+        // 메시지 수신 시 처리
+        private async Task SecsGemClientMessageAsync(string receivedData)
+        {
+            Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
 
+            //JsonSerializerSettings settings = new JsonSerializerSettings
+            //{
+            //    MaxDepth = 128, // 기본값보다 크게 설정
+            //    NullValueHandling = NullValueHandling.Ignore
+            //};
+            //EquipmentData data = JsonConvert.DeserializeObject<EquipmentData>(receivedData, settings);
+
+
+            Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
+
+            using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
+            using (JsonTextReader reader = new JsonTextReader(sr))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                //EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
+                var wrapper = serializer.Deserialize<MessageWrapper>(reader);
+
+
+                try
+                {
+                    switch (wrapper.Type)
+                    {
+                        case "EquipmentData":
+                            //EquipmentData edata = serializer.Deserialize<EquipmentData>(reader);
+                            EquipmentData edata = JsonConvert.DeserializeObject<EquipmentData>(wrapper.Data.ToString());
+                            hostMessageParse(edata);
+                            break;
+
+                        case "Tester":
+                            //SocketTestState sdata = serializer.Deserialize<SocketTestState>(reader);
+                            TesterData socketState = JsonConvert.DeserializeObject<TesterData>(wrapper.Data.ToString());
+                            socketMessageParse(socketState);
+                            break;
+                    }
+                    await Task.Delay(10); // 가짜 비동기 작업 (예: DB 저장)
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+                }
+
+            }
+        }
         // 메시지 수신 시 처리
         private async Task HandleClientMessageAsync(string receivedData)
         {
@@ -658,34 +823,7 @@ namespace ZenTester.TcpSocket
 
             }
         }
-        private void OnMessageReceived(string receivedData)
-        {
-            //Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
-
-            ////JsonSerializerSettings settings = new JsonSerializerSettings
-            ////{
-            ////    MaxDepth = 128, // 기본값보다 크게 설정
-            ////    NullValueHandling = NullValueHandling.Ignore
-            ////};
-            ////EquipmentData data = JsonConvert.DeserializeObject<EquipmentData>(receivedData, settings);
-            //Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
-            //using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
-            //using (JsonTextReader reader = new JsonTextReader(sr))
-            //{
-            //    JsonSerializer serializer = new JsonSerializer();
-            //    EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
-
-            //    try
-            //    {
-            //        hostMessageParse(data);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
-            //    }
-
-            //}
-        }
+        
         
     }
 }

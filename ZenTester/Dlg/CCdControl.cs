@@ -125,14 +125,14 @@ namespace ZenTester.Dlg
                     Globalo.mLaonGrabberClass.SelectSensor();
                     Globalo.mLaonGrabberClass.AllocImageBuff();
 
-                    Globalo.vision.UISet(Globalo.camControl.CcdPanel.Width, Globalo.camControl.CcdPanel.Height);
+                    //Globalo.vision.UISet(Globalo.camControl.CcdPanel.Width, Globalo.camControl.CcdPanel.Height);
 
 
-                    if (ProgramState.ON_LINE_MIL == true)
-                    {
-                        Globalo.vision.AllocMilCCdBuffer(0, Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight);
-                        Globalo.vision.AllocMilCcdDisplay(Globalo.camControl.CcdPanel.Handle);
-                    }
+                    //if (ProgramState.ON_LINE_MIL == true)
+                    //{
+                    //    Globalo.vision.AllocMilCCdBuffer(0, Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight);
+                    //    Globalo.vision.AllocMilCcdDisplay(Globalo.camControl.CcdPanel.Handle);
+                    //}
 
 
                     SetImageInfo();
@@ -583,8 +583,8 @@ namespace ZenTester.Dlg
             double dZoomX = 0.0;
             double dZoomY = 0.0;
 
-            dZoomX = Globalo.vision.M_CcdReduceFactorX;
-            dZoomY = Globalo.vision.M_CcdReduceFactorY;
+            //dZoomX = Globalo.vision.M_CcdReduceFactorX;
+            //dZoomY = Globalo.vision.M_CcdReduceFactorY;
 
             //oGlobal.mLaonGrabberClass.m_pFrameRawBuffer = LoadImg;
             int rSize = Globalo.mLaonGrabberClass.nFrameRawSize;    // MIU.m_pBoard->GetFrameRawSize();
@@ -631,18 +631,18 @@ namespace ZenTester.Dlg
 
             byte[] bytes2 = new byte[Globalo.mLaonGrabberClass.m_nHeight * Globalo.mLaonGrabberClass.m_nWidth];
 
-            Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[2].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
-            MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 0], bytes2);
+            //Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[2].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+            //MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 0], bytes2);
 
-            Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[1].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
-            MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 1], bytes2);
-            Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[0].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
-            MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 2], bytes2);
+            //Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[1].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+            //MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 1], bytes2);
+            //Marshal.Copy(Globalo.mLaonGrabberClass.m_pImageBuff[0].Data, bytes2, 0, bytes2.Length); // Mat 데이터를 바이트 배열로 복사
+            //MIL.MbufPut(Globalo.vision.m_MilCcdProcChild[0, 2], bytes2);
 
             //Globalo.mLaonGrabberClass.imageItp.SaveImage("d:\\imageItp.jpg");
             //Globalo.mLaonGrabberClass.m_pImageBuff[2].SaveImage("d:\\m_pImageBuff.jpg");
 
-            MIL.MimResize(Globalo.vision.m_MilCcdProcImage[0], Globalo.vision.m_MilSmallImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
+            //MIL.MimResize(Globalo.vision.m_MilCcdProcImage[0], Globalo.vision.m_MilSmallImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
         }
    
         private void button4_Click(object sender, EventArgs e)

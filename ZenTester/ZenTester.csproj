@@ -240,12 +240,6 @@
     <Compile Include="Dlg\AlarmControl.designer.cs">
       <DependentUpon>AlarmControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\CamControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Dlg\CamControl.designer.cs">
-      <DependentUpon>CamControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dlg\ConfigControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -299,12 +293,6 @@
     </Compile>
     <Compile Include="Dlg\RecipePopup.Designer.cs">
       <DependentUpon>RecipePopup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dlg\SocketStateInfo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Dlg\SocketStateInfo.Designer.cs">
-      <DependentUpon>SocketStateInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Dlg\TabMenuForm.cs">
       <SubType>UserControl</SubType>
@@ -418,12 +406,12 @@
       <DependentUpon>NumPadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Process\AoiTestFlow.cs" />
-    <Compile Include="Process\LiftFlow.cs" />
-    <Compile Include="Process\ManualProcess.cs" />
+    <Compile Include="Process\FwTestFlow.cs" />
     <Compile Include="Process\PcbProcess.cs" />
     <Compile Include="Process\ProcessManager.cs" />
-    <Compile Include="Process\ReadyProcess.cs" />
     <Compile Include="Process\TransferFlow.cs" />
+    <Compile Include="Process\VerifyTestFlow.cs" />
+    <Compile Include="Process\WriteTestFlow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -463,7 +451,6 @@
     <Compile Include="FThread\LogThread.cs" />
     <Compile Include="Ubisam\Constants.cs" />
     <Compile Include="Ubisam\DriverHelper.cs" />
-    <Compile Include="Vision.cs" />
     <Compile Include="VisionClass\AoiSideTester.cs" />
     <Compile Include="VisionClass\AoiTester.cs" />
     <Compile Include="VisionClass\AoiTopTester.cs" />
@@ -499,9 +486,6 @@
     <EmbeddedResource Include="Dlg\AlarmControl.resx">
       <DependentUpon>AlarmControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\CamControl.resx">
-      <DependentUpon>CamControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\ConfigControl.resx">
       <DependentUpon>ConfigControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -528,9 +512,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\RecipePopup.resx">
       <DependentUpon>RecipePopup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\SocketStateInfo.resx">
-      <DependentUpon>SocketStateInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\TabMenuForm.resx">
       <DependentUpon>TabMenuForm.cs</DependentUpon>

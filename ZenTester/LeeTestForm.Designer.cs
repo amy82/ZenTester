@@ -53,6 +53,11 @@ namespace ZenTester
             this.button19 = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
             this.button21 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button23 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.button25 = new System.Windows.Forms.Button();
+            this.button26 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -60,7 +65,7 @@ namespace ZenTester
             this.button_Con1_Test.BackColor = System.Drawing.Color.IndianRed;
             this.button_Con1_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Con1_Test.ForeColor = System.Drawing.Color.White;
-            this.button_Con1_Test.Location = new System.Drawing.Point(167, 264);
+            this.button_Con1_Test.Location = new System.Drawing.Point(167, 203);
             this.button_Con1_Test.Name = "button_Con1_Test";
             this.button_Con1_Test.Size = new System.Drawing.Size(76, 34);
             this.button_Con1_Test.TabIndex = 0;
@@ -73,7 +78,7 @@ namespace ZenTester
             this.button1.BackColor = System.Drawing.Color.IndianRed;
             this.button1.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(167, 293);
+            this.button1.Location = new System.Drawing.Point(167, 224);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 34);
             this.button1.TabIndex = 1;
@@ -112,7 +117,7 @@ namespace ZenTester
             this.button4.BackColor = System.Drawing.Color.IndianRed;
             this.button4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(378, 52);
+            this.button4.Location = new System.Drawing.Point(378, 47);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(90, 34);
             this.button4.TabIndex = 4;
@@ -125,7 +130,7 @@ namespace ZenTester
             this.button5.BackColor = System.Drawing.Color.IndianRed;
             this.button5.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(289, 52);
+            this.button5.Location = new System.Drawing.Point(289, 47);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(90, 34);
             this.button5.TabIndex = 5;
@@ -138,7 +143,7 @@ namespace ZenTester
             this.button6.BackColor = System.Drawing.Color.IndianRed;
             this.button6.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(288, 123);
+            this.button6.Location = new System.Drawing.Point(288, 109);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(90, 34);
             this.button6.TabIndex = 6;
@@ -151,7 +156,7 @@ namespace ZenTester
             this.button7.BackColor = System.Drawing.Color.IndianRed;
             this.button7.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Location = new System.Drawing.Point(379, 123);
+            this.button7.Location = new System.Drawing.Point(379, 109);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(90, 34);
             this.button7.TabIndex = 7;
@@ -164,7 +169,7 @@ namespace ZenTester
             this.button8.BackColor = System.Drawing.Color.IndianRed;
             this.button8.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(288, 83);
+            this.button8.Location = new System.Drawing.Point(288, 78);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(90, 34);
             this.button8.TabIndex = 9;
@@ -177,7 +182,7 @@ namespace ZenTester
             this.button9.BackColor = System.Drawing.Color.IndianRed;
             this.button9.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button9.ForeColor = System.Drawing.Color.White;
-            this.button9.Location = new System.Drawing.Point(378, 83);
+            this.button9.Location = new System.Drawing.Point(378, 78);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(90, 34);
             this.button9.TabIndex = 8;
@@ -199,7 +204,7 @@ namespace ZenTester
             this.button10.BackColor = System.Drawing.Color.IndianRed;
             this.button10.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button10.ForeColor = System.Drawing.Color.White;
-            this.button10.Location = new System.Drawing.Point(379, 163);
+            this.button10.Location = new System.Drawing.Point(379, 143);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(90, 34);
             this.button10.TabIndex = 12;
@@ -212,7 +217,7 @@ namespace ZenTester
             this.button11.BackColor = System.Drawing.Color.IndianRed;
             this.button11.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button11.ForeColor = System.Drawing.Color.White;
-            this.button11.Location = new System.Drawing.Point(289, 163);
+            this.button11.Location = new System.Drawing.Point(289, 143);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(90, 34);
             this.button11.TabIndex = 11;
@@ -338,7 +343,7 @@ namespace ZenTester
             this.button20.BackColor = System.Drawing.Color.IndianRed;
             this.button20.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button20.ForeColor = System.Drawing.Color.White;
-            this.button20.Location = new System.Drawing.Point(167, 224);
+            this.button20.Location = new System.Drawing.Point(242, 203);
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(107, 34);
             this.button20.TabIndex = 22;
@@ -348,10 +353,10 @@ namespace ZenTester
             // 
             // button21
             // 
-            this.button21.BackColor = System.Drawing.Color.IndianRed;
+            this.button21.BackColor = System.Drawing.Color.Black;
             this.button21.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button21.ForeColor = System.Drawing.Color.White;
-            this.button21.Location = new System.Drawing.Point(342, 304);
+            this.button21.Location = new System.Drawing.Point(342, 402);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(127, 34);
             this.button21.TabIndex = 23;
@@ -359,11 +364,83 @@ namespace ZenTester
             this.button21.UseVisualStyleBackColor = false;
             this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
+            // button22
+            // 
+            this.button22.BackColor = System.Drawing.Color.Black;
+            this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button22.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button22.ForeColor = System.Drawing.Color.White;
+            this.button22.Location = new System.Drawing.Point(12, 396);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(116, 34);
+            this.button22.TabIndex = 24;
+            this.button22.Text = "verify object";
+            this.button22.UseVisualStyleBackColor = false;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
+            // 
+            // button23
+            // 
+            this.button23.BackColor = System.Drawing.Color.Black;
+            this.button23.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button23.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button23.ForeColor = System.Drawing.Color.White;
+            this.button23.Location = new System.Drawing.Point(12, 436);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(116, 34);
+            this.button23.TabIndex = 25;
+            this.button23.Text = "verify apd";
+            this.button23.UseVisualStyleBackColor = false;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
+            // button24
+            // 
+            this.button24.BackColor = System.Drawing.Color.Black;
+            this.button24.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button24.ForeColor = System.Drawing.Color.White;
+            this.button24.Location = new System.Drawing.Point(342, 362);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(127, 34);
+            this.button24.TabIndex = 26;
+            this.button24.Text = "auto top test";
+            this.button24.UseVisualStyleBackColor = false;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            // 
+            // button25
+            // 
+            this.button25.BackColor = System.Drawing.Color.Black;
+            this.button25.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button25.ForeColor = System.Drawing.Color.White;
+            this.button25.Location = new System.Drawing.Point(341, 293);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(127, 34);
+            this.button25.TabIndex = 27;
+            this.button25.Text = "Mark Cone";
+            this.button25.UseVisualStyleBackColor = false;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+            // 
+            // button26
+            // 
+            this.button26.BackColor = System.Drawing.Color.PeachPuff;
+            this.button26.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button26.ForeColor = System.Drawing.Color.Black;
+            this.button26.Location = new System.Drawing.Point(167, 325);
+            this.button26.Name = "button26";
+            this.button26.Size = new System.Drawing.Size(127, 34);
+            this.button26.TabIndex = 28;
+            this.button26.Text = "Key Opencv";
+            this.button26.UseVisualStyleBackColor = false;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 482);
+            this.Controls.Add(this.button26);
+            this.Controls.Add(this.button25);
+            this.Controls.Add(this.button24);
+            this.Controls.Add(this.button23);
+            this.Controls.Add(this.button22);
             this.Controls.Add(this.button21);
             this.Controls.Add(this.button20);
             this.Controls.Add(this.button19);
@@ -421,5 +498,10 @@ namespace ZenTester
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button button26;
     }
 }

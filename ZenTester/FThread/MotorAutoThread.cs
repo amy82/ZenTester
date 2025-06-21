@@ -65,14 +65,12 @@ namespace ZenTester.FThread
         {
             if (this.m_nCurrentStep >= 1000 && this.m_nCurrentStep < 2000)
             {
-                this.m_nCurrentStep = this.parent.processManager.liftFlow.HomeProcess(this.m_nCurrentStep);
             }
         }
         private void MagazineFlow()
         {
             if (this.m_nCurrentStep >= 1000 && this.m_nCurrentStep < 2000)
             {
-                this.m_nCurrentStep = this.parent.processManager.liftFlow.HomeProcess(this.m_nCurrentStep);
             }
         }
 

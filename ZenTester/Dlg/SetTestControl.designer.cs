@@ -46,7 +46,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Title.Name = "label_SetTest_Title";
             this.label_SetTest_Title.Size = new System.Drawing.Size(1020, 23);
             this.label_SetTest_Title.TabIndex = 2;
-            this.label_SetTest_Title.Text = "Setting Camera";
+            this.label_SetTest_Title.Text = "Top Setting Camera";
             this.label_SetTest_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Set_panelCam
@@ -75,7 +75,7 @@ namespace ZenTester.Dlg
             // 
             // button_SetTest_SideCam
             // 
-            this.button_SetTest_SideCam.BackColor = System.Drawing.Color.Black;
+            this.button_SetTest_SideCam.BackColor = System.Drawing.Color.DarkGray;
             this.button_SetTest_SideCam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_SetTest_SideCam.ForeColor = System.Drawing.Color.White;
             this.button_SetTest_SideCam.Location = new System.Drawing.Point(1129, 8);

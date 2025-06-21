@@ -17,7 +17,7 @@ namespace ZenTester.VisionClass
         public MIL_ID[] MilDigitizerList;
         public MIL_ID MilSystem = MIL.M_NULL;              // System identifier.
         public int TotalCamCount = 0;
-        public int CamFixCount = 2;
+        public const int CamFixCount = 2;
         private bool AutoRunMode = true;
         public bool[] bGrabOnFlag = new bool[2];
 
@@ -73,6 +73,12 @@ namespace ZenTester.VisionClass
             MilDigitizerList[0] = MIL.M_NULL;
             MilDigitizerList[1] = MIL.M_NULL;
 
+
+            CAM_SIZE_X[0] = 4024;   //Top
+            CAM_SIZE_Y[0] = 3036;
+
+            CAM_SIZE_X[1] = 4096;   //Side
+            CAM_SIZE_Y[1] = 3000;
             for (i = 0; i < 2; i++)
             {
                 m_clMilDrawBox[i] = new CMilDrawBox();
@@ -80,8 +86,7 @@ namespace ZenTester.VisionClass
                 m_clMilDrawText[i] = new CMilDrawText();
                 m_clMilDrawCross[i] = new CMilDrawCross();
 
-                CAM_SIZE_X[i] = 1024;
-                CAM_SIZE_Y[i] = 768;
+                
 
                 xReduce[i] = 0.0;
                 yReduce[i] = 0.0;
@@ -89,6 +94,7 @@ namespace ZenTester.VisionClass
                 yExpand[i] = 0.0;
 
             }
+
             
         }
 
@@ -138,13 +144,72 @@ namespace ZenTester.VisionClass
         public void setCamImage(int index, string filePath)
         {
             MIL.MbufLoad(filePath, MilCamGrabImage[index]);
+            //사이즈 확인
+            MIL_ID tempBuf = MIL.M_NULL;
+
+            // BMP 등 이미지 파일을 새로운 버퍼에 로드
+            MIL.MbufRestore(filePath, MilSystem, ref tempBuf);
+
+            // 사이즈 확인
+            long imageWidth = 0;
+            long imageHeight = 0;
+
+            MIL.MbufInquire(tempBuf, MIL.M_SIZE_X, ref imageWidth);
+            MIL.MbufInquire(tempBuf, MIL.M_SIZE_Y, ref imageHeight);
+
+            Console.WriteLine($"BMP 이미지 실제 해상도: {imageWidth} x {imageHeight}");
+
+            // 다 썼으면 메모리 해제
+            MIL.MbufFree(tempBuf);
+            if (imageWidth != Globalo.visionManager.milLibrary.CAM_SIZE_X[index] ||
+                imageHeight != Globalo.visionManager.milLibrary.CAM_SIZE_Y[index])
+            {
+                string szLog = $"[ERR] IMAGE SIZE CHECK PLEASE! {imageWidth},{imageHeight} / {Globalo.visionManager.milLibrary.CAM_SIZE_X[index]},{Globalo.visionManager.milLibrary.CAM_SIZE_Y[index]}";
+                Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                return;
+            }
             MIL.MimResize(MilCamGrabImageChild[index], MilCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
         }
 
         public void setTestCamImage(int index, string filePath)
         {
             MIL.MbufLoad(filePath, MilCamGrabImage[index]);
+
+            //사이즈 확인
+            MIL_ID tempBuf = MIL.M_NULL;
+
+            // BMP 등 이미지 파일을 새로운 버퍼에 로드
+            MIL.MbufRestore(filePath, MilSystem, ref tempBuf);
+
+            // 사이즈 확인
+            long imageWidth = 0;
+            long imageHeight = 0;
+
+            MIL.MbufInquire(tempBuf, MIL.M_SIZE_X, ref imageWidth);
+            MIL.MbufInquire(tempBuf, MIL.M_SIZE_Y, ref imageHeight);
+
+            Console.WriteLine($"BMP 이미지 실제 해상도: {imageWidth} x {imageHeight}");
+
+            // 다 썼으면 메모리 해제
+            MIL.MbufFree(tempBuf);
+            if (imageWidth != Globalo.visionManager.milLibrary.CAM_SIZE_X[index] ||
+                imageHeight != Globalo.visionManager.milLibrary.CAM_SIZE_Y[index])
+            {
+                string szLog = $"[ERR] IMAGE SIZE CHECK PLEASE! {imageWidth},{imageHeight} / {Globalo.visionManager.milLibrary.CAM_SIZE_X[index]},{Globalo.visionManager.milLibrary.CAM_SIZE_Y[index]}";
+                Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                return;
+            }
+            //
             MIL.MimResize(MilCamGrabImageChild[index], MilSetCamSmallImageChild[index], xReduce[index], yReduce[index], MIL.M_DEFAULT);
+        }
+        public void ClearOverlay_Manual(int index)
+        {
+            m_clMilDrawBox[index].RemoveAll();
+            m_clMilDrawCircle[index].RemoveAll();
+            m_clMilDrawText[index].RemoveAll();
+            m_clMilDrawCross[index].RemoveAll();
+
+            MIL.MbufClear(MilSetCamOverlay, MilSetCamTransparent);
         }
         public void ClearOverlay(int index)
         {
@@ -160,15 +225,16 @@ namespace ZenTester.VisionClass
             {
                 MIL.MbufClear(MilSetCamOverlay, MilSetCamTransparent);
             }
-                
         }
         public void DrawRgbValue(int index, Point clickP)
         {
             Globalo.visionManager.milLibrary.ClearOverlay(index);
+
             int width = (int)MIL.MbufInquire(MilCamGrabImageChild[index], MIL.M_PITCH, MIL.M_NULL);
             int pos = clickP.Y * width + clickP.X;
             int pixelValue = 0;
             byte[] pixelRGB = new byte[3];
+
             MIL.MbufGet2d(MilCamGrabImageChild[index], (int)(clickP.X * xExpand[index]), (int)(clickP.Y * yExpand[index]), 1, 1, pixelRGB);
 
             int cx = (int)(clickP.X * xExpand[index] + 0.5);
@@ -180,21 +246,7 @@ namespace ZenTester.VisionClass
             System.Drawing.Point textPoint = new System.Drawing.Point(10, 10);
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Green, 15);
             
-            Globalo.visionManager.milLibrary.DrawOverlayCross(0, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
-
-            /*
-                     p.x = (int)(m_ClickP.x * CAM_EXPAND_FACTOR_X + 0.5);
-			        p.y = (int)(m_ClickP.y * CAM_EXPAND_FACTOR_Y + 0.5);
-
-			        vision.crosslist[m_iCurCamNo].addList(p, 30, M_COLOR_RED);
-			        MbufCopy(vision.MilGrabImageChild[m_iCurCamNo], vision.MilProcImageChild[m_iCurCamNo]);
-			        width = MbufInquire(vision.MilProcImageChild[m_iCurCamNo], M_PITCH, M_NULL);
-			        pos = p.y * width + p.x;
-			        val = vision.MilImageBuffer[m_iCurCamNo][pos];
-
-			        sprintf_s(szTmp, "(%d, %d) %d", p.x, p.y, val);
-			        vision.textlist[m_iCurCamNo].addList(50, 700, szTmp, M_COLOR_RED, 17, 7, "Arial"); 
-                     */
+            Globalo.visionManager.milLibrary.DrawOverlayCross(index, cx, cy, 300, Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
         }
         public void MilGrabRun(int index)
         {
@@ -648,7 +700,7 @@ namespace ZenTester.VisionClass
             CamControlHeight = _CamH;
             int i = 0;
             long lBufferAttributes = 0;
-            if (index < TotalCamCount)
+            if(bGrabOnFlag[index] == true)//if(index < TotalCamCount)
             {
                 lBufferAttributes = MIL.M_IMAGE + MIL.M_GRAB + MIL.M_PROC + MIL.M_DISP;
             }
@@ -697,32 +749,58 @@ namespace ZenTester.VisionClass
 
             MIL.MsysAlloc(MIL.M_SYSTEM_GIGE_VISION, MIL.M_DEV0, MIL.M_COMPLETE, ref MilSystem);
             TotalCamCount = (int)MIL.MsysInquire(MilSystem, MIL.M_DIGITIZER_NUM, MIL.M_NULL);
+            MIL_ID tempDigitizer = MIL.M_NULL;
 
+            bGrabOnFlag[0] = false;
+            bGrabOnFlag[1] = false;
             if (TotalCamCount > 0)
             {
+                
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);
-                    //MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);      //TOP
-                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[i]);   //SIDE
+                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref tempDigitizer);
 
+                    StringBuilder cameraModel = new StringBuilder(256);
+                    MIL.MdigInquire(tempDigitizer, MIL.M_CAMERA_MODEL, cameraModel); // 또는 M_CAMERA_MODEL
 
-                    bGrabOnFlag[i] = true;
+                    string model = cameraModel.ToString();
+                    MIL.MdigFree(tempDigitizer);
+
+                    if (model.Contains("MV-CU120-10GM"))//TOP
+                    {
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4024.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[0]);
+                        bGrabOnFlag[0] = true;
+                    }
+
+                    if (model.Contains("MV-CH120-11GM"))//SIDE
+                    {
+                        MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, ("aoiCam_4096_Side.dcf"), MIL.M_DEFAULT, ref MilDigitizerList[1]);
+                        bGrabOnFlag[1] = true;
+                    }
                 }
 
-                for (i = 0; i < TotalCamCount; i++)
+                for (i = 0; i < 2; i++)
                 {
-                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_SYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
-                    MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 3000);
+                    if (bGrabOnFlag[i] == true)
+                    {
+                        MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_MODE, MIL.M_SYNCHRONOUS); //M_SYNCHRONOUS); M_SYNCHRONOUS  M_ASYNCHRONOUS
+                        MIL.MdigControl(MilDigitizerList[i], MIL.M_GRAB_TIMEOUT, 3000);
 
-                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX[i]);
-                    MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY[i]);
+                        MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_X, ref m_nMilSizeX[i]);
+                        MIL.MdigInquire(MilDigitizerList[i], MIL.M_SIZE_Y, ref m_nMilSizeY[i]);
 
-                    Console.WriteLine("Cam Width: " + m_nMilSizeX[i]);
-                    Console.WriteLine("Cam Height: " + m_nMilSizeY[i]);
+                        Console.WriteLine("Cam Width: " + m_nMilSizeX[i]);
+                        Console.WriteLine("Cam Height: " + m_nMilSizeY[i]);
 
-                    CAM_SIZE_X[i] = (int)m_nMilSizeX[i];
-                    CAM_SIZE_Y[i] = (int)m_nMilSizeY[i];
+                        CAM_SIZE_X[i] = (int)m_nMilSizeX[i];
+                        CAM_SIZE_Y[i] = (int)m_nMilSizeY[i];
+                    }
+                    else
+                    {
+                        m_nMilSizeX[i] = CAM_SIZE_X[i];
+                        m_nMilSizeY[i] = CAM_SIZE_Y[i];
+                    }
+                    
                 }
             }
             else

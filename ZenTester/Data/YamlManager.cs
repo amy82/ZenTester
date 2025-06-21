@@ -103,7 +103,7 @@ namespace ZenTester.Data
             }
             return false;
         }
-        public bool RecipeYamlListLoad()
+        public bool RecipeYamlListLoad()    //tester에서 사용 x , secsgem에서 사용
         {
             string folderPath = CPath.BASE_RECIPE_PATH; // 검색할 폴더 경로
             recipeYamlFiles.Clear();
@@ -133,12 +133,25 @@ namespace ZenTester.Data
             //D:\\ EVMS \\ TP \\ ENV \\ AoiData \\ ACA05C005X_H180E \\ ACA05C005X_H180E.yaml
 
             string pgPath = "";
+            RootRecipe tempRecipe = null;
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
                 pgPath = "AoiData";
             }
+            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            {
+                pgPath = "WriteData";
+            }
+            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            {
+                pgPath = "VerifyData";
+            }
+            else
+            {
+                return tempRecipe;
+            }
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, recipeFilePPid, recipeFilePPid + ".yaml");
-            RootRecipe tempRecipe = null;
+            
             try
             {
                 
@@ -160,10 +173,22 @@ namespace ZenTester.Data
         {
             //string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, ppRecipe.RECIPE.Ppid +".yaml");//   CPath.yamlFilePathRecipe);
 
-            string pgPath = ""; 
+            string pgPath = "";
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
                 pgPath = "AoiData";
+            }
+            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            {
+                pgPath = "WriteData";
+            }
+            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            {
+                pgPath = "VerifyData";
+            }
+            else
+            {
+                return false;
             }
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, ppRecipe.RECIPE.Ppid, ppRecipe.RECIPE.Ppid + ".yaml");
             try

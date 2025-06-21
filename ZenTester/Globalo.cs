@@ -37,7 +37,7 @@ namespace ZenTester
 
         public static ThreadControl threadControl;
         public static MotionControl.MotionManager motionManager;
-        public static Vision vision = new Vision();
+        //public static Vision vision = new Vision();
 
         //우측 메뉴 Form
         public static Dlg.TabMenuForm tabMenuForm;
@@ -52,7 +52,7 @@ namespace ZenTester
         public static Dlg.ConfigControl mConfigPanel;
         public static Dlg.AlarmControl mAlarmPanel;
         public static Dlg.LogControl mlogControl;
-        public static Dlg.CamControl camControl;
+        //public static Dlg.CamControl camControl;
         public static Dlg.CameraControl cameraControl;
         public static Dlg.SetTestControl setTestControl;
         
@@ -60,10 +60,10 @@ namespace ZenTester
 
         //In Left Panel
         public static Dlg.ProductionInfo productionInfo;
-        public static Dlg.OperationPanel operationPanel;
-        public static Dlg.TrayStateInfo trayStateInfo;
-        public static Dlg.SocketStateInfo socketStateInfo;
-        public static Dlg.PickerInfo pickerInfo;
+        //public static Dlg.OperationPanel operationPanel;
+        //public static Dlg.TrayStateInfo trayStateInfo;
+        //public static Dlg.SocketStateInfo socketStateInfo;
+        //public static Dlg.PickerInfo pickerInfo;
 
         public static TcpSocket.TcpManager tcpManager;      //secs/gem connect
         public static TaskClass.TaskManager taskManager;

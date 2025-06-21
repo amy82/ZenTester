@@ -40,8 +40,8 @@ namespace ZenTester.Dlg
         public void PinCountInfoSet()
         {
             //Globalo.yamlManager.TaskData.PintCount > Globalo.yamlManager.configData.DrivingSettings.PinCountMax
-            string str = $"{Globalo.yamlManager.taskDataYaml.TaskData.PintCount} / {Globalo.yamlManager.configData.DrivingSettings.PinCountMax}";
-            label_PinCount.Text = str;
+            //string str = $"{Globalo.yamlManager.taskDataYaml.TaskData.PintCount} / {Globalo.yamlManager.configData.DrivingSettings.PinCountMax}";
+            //label_PinCount.Text = str;
         }
         public void ProductionInfoSet()
         {

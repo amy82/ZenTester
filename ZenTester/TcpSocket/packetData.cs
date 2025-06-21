@@ -13,6 +13,16 @@ namespace ZenTester.TcpSocket
         public string Name { get; set; }
         public string Value { get; set; }
         public List<EquipmentParameterInfo> ChildItem { get; set; } = new List<EquipmentParameterInfo>();
+        // 깊은 복사 메서드
+        public EquipmentParameterInfo DeepCopy()
+        {
+            return new EquipmentParameterInfo
+            {
+                Name = this.Name,
+                Value = this.Value,
+                ChildItem = this.ChildItem.Select(child => child.DeepCopy()).ToList()
+            };
+        }
     }
     public class ResultData
     {
@@ -52,8 +62,69 @@ namespace ZenTester.TcpSocket
         public string Type { get; set; }        //공정명: EEPROM_WRITE, EEPROM_VERIFY, AOI, FW
         public object Data { get; set; }        //Data 안에 EquipmentData 또는 SocketTestState 추가해서 전달
     }
+    public class WriteApdData
+    {
+        //string[] apdList = { "Checksum0", "Checksum1", "Checksum2", "Checksum3", "Checksum4",
+        //"Socket_Num", "Result", "Barcode", "SensorID", "Time"};
+        public string Checksum0 { get; set; }
+        public string Checksum1 { get; set; }
+        public string Checksum2 { get; set; }
+        public string Checksum3 { get; set; }
+        public string Checksum4 { get; set; }
+        public string Socket_Num { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string SensorID { get; set; }
+        public string Time { get; set; }
+        public void init()
+        {
+            Checksum0 = string.Empty;
+            Checksum1 = string.Empty;
+            Checksum2 = string.Empty;
+            Checksum3 = string.Empty;
+            Checksum4 = string.Empty;
+            Socket_Num = string.Empty;
+            Result = string.Empty;
+            Barcode = string.Empty;
+            SensorID = string.Empty;
+            Time = string.Empty;
+        }
+    }
+    public class VerifyApdData
+    {
+        //{ "Socket_Num", "Result", "Barcode", "SensorID" };
+        public string Socket_Num { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string SensorID { get; set; }
+        public void init()
+        {
+            Socket_Num = "1";
+            Result = "1";
+            Barcode = string.Empty;
+            SensorID = string.Empty;
+        }
+    }
+    public class FwapdData
+    {
+        //string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
+        public string Result_Code { get; set; }
+        public string Socket_Num { get; set; }
+        public string Version { get; set; }
+        public string Result { get; set; }
+        public string Barcode { get; set; }
+        public string Heater_Current { get; set; }
 
-
+        public void init()
+        {
+            Result_Code = String.Empty;
+            Socket_Num = String.Empty;
+            Version = String.Empty;
+            Result = String.Empty;
+            Barcode = String.Empty;
+            Heater_Current = String.Empty;
+        }
+    }
     public class AoiApdData
     {
         public string BcrLot { get; set; }
