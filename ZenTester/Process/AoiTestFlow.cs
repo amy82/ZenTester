@@ -250,16 +250,39 @@ namespace ZenTester.Process
 
                         if (gasketLight < specGasketMin)// || gasketLight > specGasketMax)
                         {
-                            //ng
-                            aoitestData.Result = "0";
+                            //검사 결과 : 없다. X
+                            if (IsGasket == 1)
+                            {
+                                //ng
+                                aoitestData.Result = "0";
 
-                            szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
-                            Globalo.LogPrint("ManualControl", szLog);
+                                szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            else
+                            {
+                                szLog = $"[TOP CAM] GASKET LIGHT PASS: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            
                         }
                         else
                         {
-                            szLog = $"[TOP CAM] GASKET LIGHT PASS: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
-                            Globalo.LogPrint("ManualControl", szLog);
+                            //검사 결과 : 있다. ㅇ
+                            if (IsGasket == 0)
+                            {
+                                //ng
+                                aoitestData.Result = "0";
+
+                                szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            else
+                            {
+                                szLog = $"[TOP CAM] GASKET LIGHT PASS: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            
                         }
 
                         aoitestData.Gasket = gasketLight.ToString();
