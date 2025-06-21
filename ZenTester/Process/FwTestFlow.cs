@@ -60,6 +60,8 @@ namespace ZenTester.Process
                     if(fwFileName == serverfwFileName)
                     {
                         nRetStep = 120; //JUMP
+                        //같은 경우 업데이트 필요 없음
+                        break;
                     }
                     else
                     {
