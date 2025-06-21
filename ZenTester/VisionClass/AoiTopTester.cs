@@ -51,7 +51,7 @@ namespace ZenTester.VisionClass
         }
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos, bool autoRun = false)
         {
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             if (autoRun)
             {
                 IMG_VIEW = false;
@@ -152,8 +152,8 @@ namespace ZenTester.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
-                //if (radius > 800 && radius < 1000)  // 실제 원 반지름 조건에 맞게
-                if (radius > 400 && radius < 850)  // 실제 원 반지름 조건에 맞게
+                if (radius > 800 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
+                //if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
                 {
                     centerPos.X = (int)center.X;
                     centerPos.Y = (int)center.Y;
@@ -899,7 +899,7 @@ namespace ZenTester.VisionClass
         public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, bool bAutorun = false)
         {
             // 측정 시작
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Fakra_Test Test Start");
             OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
@@ -949,8 +949,9 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 30; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
-
+            int C = 26; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            //큰원 26
+            //작은원 30
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
             Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
@@ -1046,8 +1047,8 @@ namespace ZenTester.VisionClass
                 }
 
 
-                //if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
-                if (radius < 120 || radius > 220)
+                if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+                //if (radius < 120 || radius > 220)
                 {
                     continue;
                 }
@@ -1269,8 +1270,9 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 30;// 18; //7//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
-
+            int C = 18;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            //작은원 30
+            //큰원 18
             //int minThresh = 70;
             //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
@@ -1358,8 +1360,8 @@ namespace ZenTester.VisionClass
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
 
-                //if (radius < 600 || radius > 1000)//890)
-                if (radius < 300 || radius > 400)//890)
+                if (radius < 600 || radius > 1000)//890)
+                //if (radius < 300 || radius > 400)//890)
                 {
                     continue;
                 }
