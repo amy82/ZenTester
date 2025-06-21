@@ -147,7 +147,7 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.setTestControl.setCamCenter();
                 Globalo.cameraControl.drawCenterCross();
             }
-            
+            Globalo.FxaBoardManager = new Fxa.FxaBoardManager();
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
 

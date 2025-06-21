@@ -349,6 +349,11 @@
     <Compile Include="FThread\MotorAutoThread.cs" />
     <Compile Include="FThread\MotorManualThread.cs" />
     <Compile Include="FThread\TestAutoThread.cs" />
+    <Compile Include="Fxa\FxaData.cs" />
+    <Compile Include="Fxa\FxaFirmwardDw.cs" />
+    <Compile Include="Fxa\FxaBoardManager.cs" />
+    <Compile Include="Fxa\FxaEEpromVerify.cs" />
+    <Compile Include="Fxa\FxaEEpromWrite.cs" />
     <Compile Include="Http\HttpService.cs" />
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>

@@ -69,6 +69,8 @@ namespace ZenTester
         public static TaskClass.TaskManager taskManager;
         public static Serial.SerialPortManager serialPortManager = new Serial.SerialPortManager();
         public static VisionClass.VisionManager visionManager;
+        public static Fxa.FxaBoardManager FxaBoardManager;
+
 
         public const int TabLineY = 56;
         public const int MAX_PATH = 256;
