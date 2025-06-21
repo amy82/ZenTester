@@ -153,6 +153,9 @@ namespace ZenTester.Dlg
             {
                 key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 1, keyType, offsetx, offsety);        //키검사
             }
+
+
+
             string str = string.Empty;
             System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex] - 300);
             str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
@@ -166,6 +169,8 @@ namespace ZenTester.Dlg
             {
                 Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
             }
+
+
             //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
 
 
@@ -304,12 +309,12 @@ namespace ZenTester.Dlg
             int dataSize = sizeX * sizeY;
 
 
-            byte[] ImageBuffer = new byte[dataSize];
 
             //
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
+            byte[] ImageBuffer = new byte[dataSize];
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);

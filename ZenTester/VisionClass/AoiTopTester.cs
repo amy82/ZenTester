@@ -51,7 +51,7 @@ namespace ZenTester.VisionClass
         }
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos, bool autoRun = false)
         {
-            bool IMG_VIEW = false;
+            bool IMG_VIEW = true;
             if (autoRun)
             {
                 IMG_VIEW = false;
@@ -91,8 +91,9 @@ namespace ZenTester.VisionClass
             Cv2.MedianBlur(srcImage, gray, 3);
 
             Mat thresh = new Mat();
-
-            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize: 77, c: 26);//11);
+            int CircleblockSize = 77;   //77  // 반드시 홀수
+            int Circle_C = 26;// 26;   //26;
+            Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, CircleblockSize, Circle_C);//11);
 
             //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
             //Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
@@ -124,7 +125,7 @@ namespace ZenTester.VisionClass
                 Moments M = Cv2.Moments(contour);
                 if (M.M00 == 0) continue;
                 //centers.Add(new Point2d(M.M10 / M.M00, M.M01 / M.M00));
-
+                //
                 float contourCenterX = (float)(M.M10 / M.M00);
                 float contourCenterY = (float)(M.M01 / M.M00);
 
@@ -133,7 +134,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 300)//200)
+                if (distance > 500)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -152,6 +153,7 @@ namespace ZenTester.VisionClass
                 float radius;
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
+                //if (radius > 600 && radius < 1100)  //큰원- 실제 원 반지름 조건에 맞게 큰원
                 if (radius > 800 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
                 //if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
                 {
@@ -328,8 +330,104 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
+        public int OpencvKeytest(MIL_ID tempMilImage, bool bAutorun = false)
+        {
+            bool IMG_VIEW = true;
+            MIL_ID MilImage = MIL.M_NULL;
+
+
+            MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
+            MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
+            int dataSize = (int)ImageSizeX * (int)ImageSizeY;
+
+            byte[] ImageBuffer = new byte[dataSize];
+            MIL.MbufGet(tempMilImage, ImageBuffer);
+            Mat srcImage = new Mat((int)ImageSizeY, (int)ImageSizeX, MatType.CV_8UC1);
+
+            Marshal.Copy(ImageBuffer, 0, srcImage.Data, dataSize);
+
+
+            Mat gray = new Mat();
+            //if (srcImage.Channels() == 3)
+            //    Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
+            //else
+            //    gray = srcImage.Clone();  // 이미 흑백이면 그대로 복사
+            //Cv2.GaussianBlur(gray, gray, new OpenCvSharp.Size(7, 7), 0.3);
+
+
+            var blurred = new Mat();
+            //var edges = new Mat();
+            //Cv2.GaussianBlur(srcImage, gray, new OpenCvSharp.Size(3, 3), 0.7);
+            Cv2.MedianBlur(srcImage, gray, 3);
+
+            Mat binary = new Mat();
+            int CircleblockSize = 65;   //77  // 반드시 홀수
+            int Circle_C = 7;// 26;   //26;
+            Cv2.AdaptiveThreshold(gray, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, CircleblockSize, Circle_C);//11);
+
+
+
+            //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
+            //Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            //Cv2.Dilate(thresh, thresh, kernel);
+            //Cv2.MorphologyEx로 내부 구멍 제거:
+            Cv2.MorphologyEx(binary, binary, MorphTypes.Close, Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5)));
+
+            if (IMG_VIEW)
+            {
+                Cv2.NamedWindow("Detected binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Detected binary ", binary);
+                Cv2.WaitKey(0);
+            }
+            // 2. Contour 찾기
+            Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+
+            // 2. 가장 큰 외곽선 찾기
+            OpenCvSharp.Point[] maxContour = contours.OrderByDescending(c => Cv2.ContourArea(c)).First();
+            double area = Cv2.ContourArea(maxContour);
+            //double area = Cv2.ContourArea(contour);
+            //if (area < 100) continue;  // 노이즈 제거
+
+            // 3. 외곽선 근사 (꼭짓점 수)
+            var approx = Cv2.ApproxPolyDP(maxContour, 0.02 * Cv2.ArcLength(maxContour, true), true);
+
+            // 4. 회전된 사각형 (기울기, 폭/높이 비율 등)
+            var rotatedRect = Cv2.MinAreaRect(maxContour);
+            float angle = rotatedRect.Angle;
+            float aspectRatio = Math.Max(rotatedRect.Size.Width, rotatedRect.Size.Height) / Math.Min(rotatedRect.Size.Width, rotatedRect.Size.Height);
+
+            // A/B 분류 기준 예시
+            string type;
+            if (approx.Length == 3 && angle > -20 && angle < 20)
+                type = "A 타입 (정삼각형 형태)";
+            else if (approx.Length == 3 && (angle < -30 || angle > 30))
+                type = "B 타입 (눕힌 삼각형)";
+            else
+                type = "Unknown";
+
+            Console.WriteLine($"면적: {area:F2}, 꼭짓점: {approx.Length}, 각도: {angle:F2}, 분류: {type}");
+
+
+            Mat colorView = new Mat();
+            Cv2.CvtColor(srcImage, colorView, ColorConversionCodes.GRAY2BGR); // 컬러 이미지로 변환
+            Cv2.DrawContours(
+                image: colorView,
+                contours: new[] { maxContour },  // Point[][] 형식
+                contourIdx: -1,                  // 전체 그리기
+                color: new Scalar(0, 0, 255),    // 빨간색
+                thickness: 2
+            );
+            if (IMG_VIEW)
+            {
+                Cv2.NamedWindow("Detected colorView ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
+                Cv2.ImShow("Detected colorView ", colorView);
+                Cv2.WaitKey(0);
+            }
+            return 0;
+        }
         public int MilEdgeKeytest(int index, int roiIndex, string keyType , double offsetX = 0.0 , double offsetY = 0.0, bool bAutorun = false)
         {
+            bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             int nRtn = 0;
 
@@ -351,8 +449,8 @@ namespace ZenTester.VisionClass
             double[] EdgeStrength = new double[CONTOUR_MAX_RESULTS];
 
 
-            int OffsetX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X + (int)offsetX;
-            int OffsetY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y + (int)offsetY;
+            int startX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X + (int)offsetX;
+            int startY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y + (int)offsetY;
 
             int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Width;
             int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Height;
@@ -366,18 +464,18 @@ namespace ZenTester.VisionClass
 
 
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
-            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref tempMilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], startX, startY, OffsetWidth, OffsetHeight, ref tempMilImage);
             //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
 
-
+            MIL.MbufExport($"d:\\org_Key{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
             MIL.MgraColor(MIL.M_DEFAULT, 0);
             if (keyType == "A")
             {
                 if (roiIndex == 0)
                 {
                     //A타입의 왼쪽 아래
-                    //MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
-                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.8, OffsetWidth / 1.8, 180, 270);
+                    MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 180, 270);
+                    //MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, OffsetWidth - 1, 0, OffsetWidth / 1.8, OffsetWidth / 1.8, 180, 270);
                 }
                 else
                 {
@@ -447,7 +545,7 @@ namespace ZenTester.VisionClass
 
             MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
             MilImage = tempMilImage;
-            if (false)//bAutorun == false)
+            if (true)//bAutorun == false)
             {
                 MIL.MdispSelect(MilDisplay, MilImage);
             }
@@ -512,8 +610,8 @@ namespace ZenTester.VisionClass
             MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
-            MIL.MedgeControl(MilEdgeResult, 319L, (double)-OffsetX);
-            MIL.MedgeControl(MilEdgeResult, 320L, (double)-OffsetY);
+            MIL.MedgeControl(MilEdgeResult, 319L, (double)-startX);
+            MIL.MedgeControl(MilEdgeResult, 320L, (double)-startX);
 
 
             MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
@@ -538,7 +636,7 @@ namespace ZenTester.VisionClass
             double CircleCx = 0.0;
             double CircleErr = 0.0;
             string str = "";
-            Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
+            Rectangle m_clRect = new Rectangle((int)(startX), (int)(startY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
             
             Color ConeColor;
@@ -629,7 +727,16 @@ namespace ZenTester.VisionClass
                 nRtn = 0;
             }
 
-
+            //--------------------------------------------------------------------------------------------------------Test
+            //
+            //
+            //
+            
+            //
+            //
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------
 
 
             int elapsedMs = Environment.TickCount - startTime;

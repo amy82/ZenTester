@@ -5,10 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Matrox.MatroxImagingLibrary;
+using OpenCvSharp;
 
 namespace ZenTester
 {
@@ -205,7 +208,7 @@ namespace ZenTester
 
         private void button25_Click(object sender, EventArgs e)
         {
-            System.Drawing.Point ConePos = new Point();
+            System.Drawing.Point ConePos = new System.Drawing.Point();
             Globalo.visionManager.milLibrary.ClearOverlay(1);
 
             Globalo.visionManager.milLibrary.SetGrabOn(1, false);
@@ -215,6 +218,43 @@ namespace ZenTester
             Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(1, VisionClass.eMarkList.SIDE_HEIGHT, ref ConePos);
 
             Console.WriteLine($"x:{ConePos.X},y:{ConePos.Y}");
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            int camnum = 0;
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(camnum);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[camnum];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[camnum];
+            int dataSize = sizeX * sizeY;
+
+            Globalo.visionManager.milLibrary.SetGrabOn(camnum, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(camnum);
+
+            byte[] ImageBuffer = new byte[dataSize];
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[camnum], ImageBuffer);
+
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+
+            MIL_ID roiMilImage = MIL.M_NULL;
+
+            double offsetx = 0.0;
+            double offsety = 0.0;
+            int startX = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].X + (int)offsetx;
+            int startY = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Y + (int)offsety;
+
+            int OffsetWidth = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Width;
+            int OffsetHeight = Globalo.yamlManager.aoiRoiConfig.KEY_ROI[0].Height;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref roiMilImage);
+
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[0], startX, startY, OffsetWidth, OffsetHeight, ref roiMilImage);
+
+            Globalo.visionManager.aoiTopTester.OpencvKeytest(roiMilImage);
+
         }
     }
 }
