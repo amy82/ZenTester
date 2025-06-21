@@ -88,16 +88,20 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             //var edges = new Mat();
             //Cv2.GaussianBlur(srcImage, gray, new OpenCvSharp.Size(3, 3), 0.7);
-            Cv2.MedianBlur(srcImage, gray, 3);
+            Cv2.MedianBlur(srcImage, gray, 5);
 
             Mat thresh = new Mat();
             int CircleblockSize = 77;   //77  // 반드시 홀수
-            int Circle_C = 26;// 26;   //26;
+            int Circle_C = 11;// 26;   //26;
             Cv2.AdaptiveThreshold(gray, thresh, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, CircleblockSize, Circle_C);//11);
 
             //Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
             //Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             //Cv2.Dilate(thresh, thresh, kernel);
+            
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
+            Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            Cv2.Dilate(thresh, thresh, kernel);
             if (IMG_VIEW)
             {
                 Cv2.NamedWindow("Detected thresh ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
@@ -105,12 +109,9 @@ namespace ZenTester.VisionClass
                 Cv2.WaitKey(0);
 
             }
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
-            Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            Cv2.Dilate(thresh, thresh, kernel);
             OpenCvSharp.Point[][] contours;
             HierarchyIndex[] hierarchy;
-            Cv2.FindContours(thresh, out contours, out hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
+            Cv2.FindContours(thresh, out contours, out hierarchy, RetrievalModes.List, ContourApproximationModes.ApproxSimple);
 
 
             Mat colorImage = new Mat();
@@ -134,7 +135,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 500)//200)
+                if (distance > 600)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -144,7 +145,7 @@ namespace ZenTester.VisionClass
 
                 //if (perimeter == 0) continue; // 나누기 에러 방지
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
-                if (circularity < 0.01)
+                if (circularity < 0.005)
                 {
                     continue;
                 }
@@ -154,7 +155,7 @@ namespace ZenTester.VisionClass
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
                 //if (radius > 600 && radius < 1100)  //큰원- 실제 원 반지름 조건에 맞게 큰원
-                if (radius > 800 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
+                if (radius > 700 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
                 //if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
                 {
                     centerPos.X = (int)center.X;
@@ -179,8 +180,6 @@ namespace ZenTester.VisionClass
                         Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(radius * 2), 3, System.Drawing.Drawing2D.DashStyle.Solid, Color.Yellow);
                         Globalo.visionManager.milLibrary.m_clMilDrawCross[index].AddList((int)center.X, (int)center.Y, 100, 1, Color.Yellow);
                     }
-
-                    
                     break;
                 }
             }
@@ -330,7 +329,7 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
-        public int OpencvKeytest(MIL_ID tempMilImage, bool bAutorun = false)
+        public double OpencvKeytest(MIL_ID tempMilImage,  bool bAutorun = false)
         {
             bool IMG_VIEW = true;
             MIL_ID MilImage = MIL.M_NULL;
@@ -339,7 +338,10 @@ namespace ZenTester.VisionClass
             MIL_INT ImageSizeX = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_X, MIL.M_NULL);
             MIL_INT ImageSizeY = MIL.MbufInquire(tempMilImage, MIL.M_SIZE_Y, MIL.M_NULL);
             int dataSize = (int)ImageSizeX * (int)ImageSizeY;
-
+            if (dataSize < 1)
+            {
+                return 0.0;
+            }
             byte[] ImageBuffer = new byte[dataSize];
             MIL.MbufGet(tempMilImage, ImageBuffer);
             Mat srcImage = new Mat((int)ImageSizeY, (int)ImageSizeX, MatType.CV_8UC1);
@@ -371,6 +373,7 @@ namespace ZenTester.VisionClass
             //Cv2.MorphologyEx(thresh, thresh, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             //Cv2.Dilate(thresh, thresh, kernel);
             //Cv2.MorphologyEx로 내부 구멍 제거:
+
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5)));
 
             if (IMG_VIEW)
@@ -393,19 +396,19 @@ namespace ZenTester.VisionClass
 
             // 4. 회전된 사각형 (기울기, 폭/높이 비율 등)
             var rotatedRect = Cv2.MinAreaRect(maxContour);
-            float angle = rotatedRect.Angle;
+            double angle = (double)rotatedRect.Angle;
             float aspectRatio = Math.Max(rotatedRect.Size.Width, rotatedRect.Size.Height) / Math.Min(rotatedRect.Size.Width, rotatedRect.Size.Height);
 
             // A/B 분류 기준 예시
             string type;
-            if (approx.Length == 3 && angle > -20 && angle < 20)
-                type = "A 타입 (정삼각형 형태)";
-            else if (approx.Length == 3 && (angle < -30 || angle > 30))
-                type = "B 타입 (눕힌 삼각형)";
-            else
-                type = "Unknown";
+            //if (approx.Length == 3 && angle > -20 && angle < 20)
+            //    type = "A 타입 (정삼각형 형태)";
+            //else if (approx.Length == 3 && (angle < -30 || angle > 30))
+            //    type = "B 타입 (눕힌 삼각형)";
+            //else
+            //    type = "Unknown";
 
-            Console.WriteLine($"면적: {area:F2}, 꼭짓점: {approx.Length}, 각도: {angle:F2}, 분류: {type}");
+            Console.WriteLine($"면적: {area:F2}, 꼭짓점: {approx.Length}, 각도: {angle:F2}");
 
 
             Mat colorView = new Mat();
@@ -423,11 +426,11 @@ namespace ZenTester.VisionClass
                 Cv2.ImShow("Detected colorView ", colorView);
                 Cv2.WaitKey(0);
             }
-            return 0;
+            return angle;
         }
         public int MilEdgeKeytest(int index, int roiIndex, string keyType , double offsetX = 0.0 , double offsetY = 0.0, bool bAutorun = false)
         {
-            bool IMG_VIEW = true;
+            bool IMG_VIEW = false;
             int startTime = Environment.TickCount;
             int nRtn = 0;
 
@@ -466,6 +469,15 @@ namespace ZenTester.VisionClass
             //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], startX, startY, OffsetWidth, OffsetHeight, ref tempMilImage);
             //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+
+            if (keyType == "A" || keyType == "B")
+            {
+                if (roiIndex == 0)
+                {
+                    double keyAngle = Globalo.visionManager.aoiTopTester.OpencvKeytest(tempMilImage);
+                    Console.WriteLine($"keyAngle ----- {keyAngle} ");
+                }
+            }
 
             MIL.MbufExport($"d:\\org_Key{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
             MIL.MgraColor(MIL.M_DEFAULT, 0);
@@ -611,7 +623,7 @@ namespace ZenTester.VisionClass
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             MIL.MedgeControl(MilEdgeResult, 319L, (double)-startX);
-            MIL.MedgeControl(MilEdgeResult, 320L, (double)-startX);
+            MIL.MedgeControl(MilEdgeResult, 320L, (double)-startY);
 
 
             MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
@@ -662,14 +674,14 @@ namespace ZenTester.VisionClass
                 // Print the results.
                 
 
-                Console.WriteLine($"M_CIRCLE_FIT_CENTER_X : {EdgeCircleFitCx[0]}");
-                Console.WriteLine($"M_CIRCLE_FIT_ERROR : {EdgeCircleFitErr[0]}");
-                Console.WriteLine($"M_CONVEX_PERIMETER : {EdgeConvex[0]}");
-                Console.WriteLine($"M_FAST_LENGTH : {EdgeFastLength[0]}");
-                Console.WriteLine($"M_LENGTH : {EdgeLength[0]}");
-                Console.WriteLine($"M_POSITION_Y : {EdgePositionY[0]}");
-                Console.WriteLine($"M_SIZE : {EdgeSize[0]}");
-                Console.WriteLine($"M_STRENGTH : {EdgeStrength[0]}");
+                //Console.WriteLine($"M_CIRCLE_FIT_CENTER_X : {EdgeCircleFitCx[0]}");
+                //Console.WriteLine($"M_CIRCLE_FIT_ERROR : {EdgeCircleFitErr[0]}");
+                //Console.WriteLine($"M_CONVEX_PERIMETER : {EdgeConvex[0]}");
+                //Console.WriteLine($"M_FAST_LENGTH : {EdgeFastLength[0]}");
+                //Console.WriteLine($"M_LENGTH : {EdgeLength[0]}");
+                //Console.WriteLine($"M_POSITION_Y : {EdgePositionY[0]}");
+                //Console.WriteLine($"M_SIZE : {EdgeSize[0]}");
+                //Console.WriteLine($"M_STRENGTH : {EdgeStrength[0]}");
 
 
 
@@ -678,7 +690,12 @@ namespace ZenTester.VisionClass
                 str = $"#{roiIndex + 1}";
                 textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
 
+
+                
+
                 int KeyEdgeSpec = Globalo.yamlManager.configData.CamSettings.KeyEdgeSpecCount;
+
+                
                 if (NumResults < KeyEdgeSpec)
                 {
                     nRtn = 0;

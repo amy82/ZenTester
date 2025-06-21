@@ -140,11 +140,7 @@ namespace ZenTester.Dlg
                 offsetx = TopCenterPos[parentDlg.CamIndex].X - parentDlg.centerPos[parentDlg.CamIndex].X;
                 offsety = TopCenterPos[parentDlg.CamIndex].Y - parentDlg.centerPos[parentDlg.CamIndex].Y;
             }
-            else
-            {
-                offsetx = parentDlg.centerPos[parentDlg.CamIndex].X;
-                offsety = parentDlg.centerPos[parentDlg.CamIndex].Y;
-            }
+
 
 
 
