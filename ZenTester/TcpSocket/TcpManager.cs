@@ -194,6 +194,7 @@ namespace ZenTester.TcpSocket
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
                 {
                     //프로그램 하나에 소켓 4개 펌웨어 진행
+                    Globalo.taskManager.Fw_TestRun(data);
                 }
 
                 //AOI 공정 - 0,1,2,3

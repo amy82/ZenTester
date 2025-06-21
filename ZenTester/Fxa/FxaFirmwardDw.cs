@@ -23,6 +23,7 @@ namespace ZenTester.Fxa
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
 
+        public const string strConfINIPath = @"D:\EVMS\\TP\\ENV\\fwexe\\TeslaEXE\\Tesla_FW_exe\\Trinity_FW_Download_20250421_1111\\conf.ini";
         public FxaFirmwardDw()
         {
 
@@ -129,34 +130,68 @@ namespace ZenTester.Fxa
             //WritePrivateProfileString("DEFAULT", "FIRMWARE_VERSION", strVersion, iniPath);
             //WritePrivateProfileString("DEFAULT", "FIRMWARE_FILE", strFile, iniPath);
         }
+        public bool sFtpUploadFile(string newFileName)
+        {
+            bool bCheckFile = false;
+            var ci = new ConnectionInfo("192.168.90.120", "root", new PasswordAuthenticationMethod("root", "root"));
+            string downFileName = "";
+            using (var sftp = new SftpClient(ci))
+            {
+                sftp.Connect();
 
+                using (var infile = System.IO.File.OpenRead(downFileName))  // openFileDlg.FileName))
+                {
+                    sftp.UploadFile(infile, "/home/root/utils/flashing/MCU/Common/" + newFileName);// strFile);
+                }
+
+                
+
+                foreach (SftpFile f in sftp.ListDirectory("/home/root/utils/flashing/MCU/Common/"))
+                {
+                    if (f.Name == newFileName)//strFile)
+                    {
+                        bCheckFile = true;
+                        //MessageBox.Show("Upload Success!");
+                        Console.WriteLine("Upload Success!");
+                        break;
+                    }
+                }
+
+                sftp.Disconnect();
+
+                setFirmwareFileName(newFileName);
+
+            }
+            return bCheckFile;
+        }
         public string getFirmwareFileName()
         {
             StringBuilder fwFileName = new StringBuilder(256);
             string rtnFwName = string.Empty;
-            string strINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111\";
 
-            string sourcePath = Path.Combine(strINIPath, "conf.ini");
-            //OpenFileDialog openFileDlg = new OpenFileDialog();
-            //openFileDlg.DefaultExt = ".cyacd";
-            //openFileDlg.Filter = "CYACD File(*.cyacd)|*.cyacd"; // Opal의 경우 FW 파일 확장자가 .hex 임
-            //openFileDlg.ShowDialog();
-            //if (openFileDlg.FileName.Length > 0)
-            //{
-            //    //this.textBox1.Text = openFileDlg.FileName;
-
-            //    String strFile = Path.GetFileName(openFileDlg.FileName);
-            //    StringBuilder fwFileName = new StringBuilder();
-
-            //    GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, strINIPath);
-            //}
-
-            //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111
+            string sourcePath = strConfINIPath;// Path.Combine(strConfINIPath, "conf.ini");
             GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
             rtnFwName = fwFileName.ToString();
             return rtnFwName;
         }
+        public bool setFirmwareFileName(string strFile)
+        {
+            // 파일명에서 펌웨어 버전 추출
+            string[] seperate = strFile.Split('_');
+            string strVersion = seperate[1].ToLower();
 
+            // INI 파일에 펌웨어 버전 저장
+            WritePrivateProfileString("DEFAULT", "FIRMWARE_VERSION", strVersion, strConfINIPath);
+
+            // INI 파일에 펌웨어 파일명 저장
+            WritePrivateProfileString("DEFAULT", "FIRMWARE_FILE", strFile, strConfINIPath);
+
+            //MessageBox.Show("Ready to FW Download!");
+            Console.WriteLine("Ready to FW Download!");
+
+            return true;
+
+        }
         private void button3_Click()      //conf.ini 내용 확인
         {
             // Upload FW file to FXA board - Trinity

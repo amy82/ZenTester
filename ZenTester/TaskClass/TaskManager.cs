@@ -114,9 +114,18 @@ namespace ZenTester.TaskClass
             string szLog = string.Empty;
             fwTestFlow.fwtestData.init();
             fwTestFlow.fwtestData.Barcode = data.LotId[0];
+
+            
             fwTestFlow.fwtestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
 
-            Console.WriteLine($"Fw Task Start SocketNum-------{fwTestFlow.fwtestData.Socket_Num}");
+            foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter)
+            {
+                if(paramInfo.Name =="FW_FILENAME")
+                {
+                    fwTestFlow.serverfwFileName = paramInfo.Value;
+                }
+            }
+                Console.WriteLine($"Fw Task Start SocketNum-------{fwTestFlow.fwtestData.Socket_Num}");
 
             szLog = $"[FW] TEST START :{fwTestFlow.fwtestData.Barcode}/{fwTestFlow.fwtestData.Socket_Num}";
             Globalo.LogPrint("TaskManager", szLog);

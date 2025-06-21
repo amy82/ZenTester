@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Renci.SshNet;
+using Renci.SshNet.Sftp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +20,16 @@ namespace ZenTester.Process
         private readonly SynchronizationContext _syncContext;
 
         public int nTimeTick = 0;
-
+        public string serverfwFileName = string.Empty;
         public TcpSocket.FwapdData fwtestData = new TcpSocket.FwapdData();
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
 
         private int m_nTestFinalResult;
+        private object openFileDlg;
+        private int nRetryCount = 0;
+        private int nRetryMax = 3;
+
         public FwTestFlow()
         {
             fwTask = Task.FromResult(1);
@@ -32,10 +38,11 @@ namespace ZenTester.Process
         public int FwAutoProcess(int nStep)
         {
             int nRetStep = nStep;
-
+            bool bRtn = false;
             switch (nRetStep)
             {
                 case 100:
+                    nRetryCount = 0;
                     m_nTestFinalResult = 1;
                     waitFw = -1;
                     fwTask = null;
@@ -48,27 +55,52 @@ namespace ZenTester.Process
                     //Handler로 부터 펌웨어 파일명 받아서 , Conf.ini파일에서 파일명 비교
                     //다를 경우 펌웨어 파일 요청 FTP server
 
+
+                    string fwFileName = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
+                    if(fwFileName == serverfwFileName)
+                    {
+                        nRetStep = 120; //JUMP
+                    }
+                    else
+                    {
+                        //1.다를경우 펌웨어 버전 업데이트 필요
+                        //2. 펌웨어 파일 다운로드 FTP Server
+
+                        //3. SFTP를 통해  FXA보드에 펌웨어 파일 전달
+
+                        nRetStep = 111;
+                    }
                     //
-                    nRetStep = 120;
+                    
                     break;
                 case 111:
-                    //착공 대기 or verify 진행
-                    //if (Globalo.tcpManager.nRecv_Ack == 0)
-                    //if (Globalo.taskWork.bRecv_Client_LotStart == 0)
-                    //{
-                    //    nRetStep = 120;
-                    //}
-                    //else if (Globalo.taskWork.bRecv_Client_LotStart > 0)
-                    //{
-                    //    Console.WriteLine($"LOT START FAIL - {Globalo.taskWork.bRecv_Client_LotStart}");
-                    //    nRetStep = -1;
-                    //}
-                    //else if (Environment.TickCount - nTimeTick > 6000)
-                    //{
-                    //    Console.WriteLine($"Timeout {nRetStep}");
-                    //    nRetStep = -1;
-                    //}
+                    nRetStep = 112;
+                    break;
+                case 112:
+                    nRetStep = 113;
+                    break;
+                case 113:
+                    // SFTP를 통해 FXA보드에 펌웨어 파일 복사
 
+                    bRtn = Globalo.FxaBoardManager.fxaFirmwardDw.sFtpUploadFile(serverfwFileName);
+                    if(bRtn == false)
+                    {
+                        if(nRetryCount < nRetryMax)
+                        {
+                            nRetryCount++;
+                            nRetStep = 113;
+                            break;
+                        }
+                        else
+                        {
+                            //Fail
+                            m_nTestFinalResult = -3;
+                            Console.WriteLine($"Firmware down Fail");
+                            nRetStep = 220;
+                            break;
+                        }
+                    }
+                    nRetStep = 120;
                     break;
 
                 case 120:
