@@ -31,6 +31,7 @@ namespace ZenTester.Dlg
         {
             this.label_FwSetTest_Title = new System.Windows.Forms.Label();
             this.button_FdSet_ConfRead = new System.Windows.Forms.Button();
+            this.button_FdSet_Test = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_FwSetTest_Title
@@ -58,10 +59,24 @@ namespace ZenTester.Dlg
             this.button_FdSet_ConfRead.UseVisualStyleBackColor = false;
             this.button_FdSet_ConfRead.Click += new System.EventHandler(this.button_FdSet_ConfRead_Click);
             // 
+            // button_FdSet_Test
+            // 
+            this.button_FdSet_Test.BackColor = System.Drawing.Color.Tan;
+            this.button_FdSet_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_FdSet_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_FdSet_Test.Location = new System.Drawing.Point(507, 181);
+            this.button_FdSet_Test.Name = "button_FdSet_Test";
+            this.button_FdSet_Test.Size = new System.Drawing.Size(180, 57);
+            this.button_FdSet_Test.TabIndex = 109;
+            this.button_FdSet_Test.Text = "fw Test";
+            this.button_FdSet_Test.UseVisualStyleBackColor = false;
+            this.button_FdSet_Test.Click += new System.EventHandler(this.button_FdSet_Test_Click);
+            // 
             // FwSetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_FdSet_Test);
             this.Controls.Add(this.button_FdSet_ConfRead);
             this.Controls.Add(this.label_FwSetTest_Title);
             this.Name = "FwSetControl";
@@ -74,5 +89,6 @@ namespace ZenTester.Dlg
 
         private System.Windows.Forms.Label label_FwSetTest_Title;
         private System.Windows.Forms.Button button_FdSet_ConfRead;
+        private System.Windows.Forms.Button button_FdSet_Test;
     }
 }

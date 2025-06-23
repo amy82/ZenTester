@@ -21,5 +21,10 @@ namespace ZenTester.Dlg
         {
             Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
         }
+
+        private void button_FdSet_Test_Click(object sender, EventArgs e)
+        {
+            Globalo.FxaBoardManager.fxaFirmwardDw.test111();
+        }
     }
 }

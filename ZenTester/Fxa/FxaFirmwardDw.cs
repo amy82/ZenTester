@@ -44,14 +44,37 @@ namespace ZenTester.Fxa
             string result = FirmwareDownLoadForCamAsync(lot1, lot2, lot3, lot4); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
             //result 결과 나오면 json 읽기
             //apd 보고
-
+            //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
             Globalo.LogPrint("FW : ", result, Globalo.eMessageName.M_INFO);
             //Globalo.gFXABoard.ReadFirmware(); //펌웨어 read
+
+            //index , LOT , 결과
+
+            getfwResult();
+
+            ReadFirmware();
         }
 
-        private void test222()      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
+
+        private void getfwResult()      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
         {
-            var result = ReadJsonResult("D:\\tmp\\PASSED_CAM1_1656620-0L-B-SLGM250230D00158.json"); //경로\\제품 BCR 
+            //D:\\tmp\\ 는 LOG_PATH = D:\tmp\  여기서 가져와서 붙이고
+            //PASSED_CAM1_
+            //PASSED_CAM2_
+            //PASSED_CAM3_
+            //PASSED_CAM4_
+
+            //PASSED
+            //FAILED
+            string resultLog = "D:\\tmp\\";
+            string final = "PASSED_";
+            string _Bcr = "CAM1_P1637042-00-C-SLGM250434C00283";
+
+
+            string jsonFilePath = Path.Combine(resultLog, final + _Bcr + ".json");
+
+              
+            var result = ReadJsonResult(jsonFilePath); //경로\\제품 BCR   ///"D:\\tmp\\PASSED_CAM1_P1637042-00-C-SLGM250434C00283.json";
 
             // 예: 모든 항목 출력
             foreach (var param in result.parameters)
@@ -60,6 +83,80 @@ namespace ZenTester.Fxa
                 string logMsg = $"[{param.result.ToUpper()}] {param.name} = {param.value}";
                 Globalo.LogPrint("FW Upload 결과", logMsg);
             }
+        }
+
+        public void ReadFirmware()
+        {
+            //F/W 버젼 읽기
+            var ci = new ConnectionInfo("192.168.90.120", "root", new PasswordAuthenticationMethod("root", "root"));
+
+            var client = new SshClient(ci);
+            client.Connect();
+
+            // Power On 12v
+            client.CreateCommand("bash /home/root/utils/cam_power/turn_on_cameras.sh 12v 'all' 1 9").Execute();
+            Thread.Sleep(200);
+
+            // FPD Link Setup
+            var output = client.CreateCommand("bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m 'cypress'").Execute(); // Trinity: cypress, Opal: ti
+
+            bool[] bCamConn = new bool[4] { false, false, false, false };
+
+            for (int i = 0; i < 4; i++)
+            {
+                string strFind = string.Format("P{0} Receiver is locked", i);
+                if (output.IndexOf(strFind) != -1)
+                {
+                    bCamConn[i] = true;
+                }
+            }
+            Thread.Sleep(200);
+
+            string[] mcuAddress = new string[4] { "0x2a", "0x2b", "0x2c", "0x2d" };
+
+            string strResult = "";
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (bCamConn[i] == false)
+                {
+                    strResult += "false,";
+                    continue;
+                }
+
+                // FW Version Read
+                string strFWVersion = string.Format("i2cget -y -f 9 {0} 0x01", mcuAddress[i]);
+                var version = client.CreateCommand(strFWVersion).Execute();
+
+                ////
+                /////
+                /////
+                ///
+
+
+
+                // Sensor ID Read
+                string readSensorIDCmd = $"bash /home/root/utils/read_imager_id.sh 9 {i}";
+                string sensorID = client.CreateCommand(readSensorIDCmd).Execute();
+
+                // 줄바꿈 제거 및 콤마로 구분된 hex string으로 변환
+                var idLines = sensorID.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                sensorID = string.Join(",", idLines);
+
+                //strResult += (version + ",");
+                strResult += $"P{i} => FW: {version}, SensorID: {sensorID}\n";
+            }
+            //szLog = $"[AUTO] PIN COUNT CHECK OVER: {Globalo.yamlManager.taskDataYaml.TaskData.PintCount} / {Globalo.yamlManager.configData.DrivingSettings.PinCountMax} [STEP : {nRetStep}]";
+            //Globalo.LogPrint("", szLog, Globalo.eMessageName.M_WARNING);
+
+
+            Globalo.LogPrint("FW Version Check", strResult, Globalo.eMessageName.M_WARNING);
+
+            client.CreateCommand("bash /home/root/utils/cam_power/turn_on_cameras.sh 0v 'all' 0 9").Execute();
+
+            client.Disconnect();
+
+
         }
         public static TestResult ReadJsonResult(string jsonFilePath)
         {
