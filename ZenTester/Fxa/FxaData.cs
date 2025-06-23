@@ -125,7 +125,7 @@ namespace ZenTester.Fxa
         private static readonly int[] _cpLength = new int[]
         {
             1,1,
-            5,6,6,
+            5,6,6,//6,6,
             4,
             1,1,
             5, 14, 14,4,4,4,11,
@@ -160,15 +160,23 @@ namespace ZenTester.Fxa
                 StringBuilder hex = new StringBuilder();
                 byte[] bytes = Encoding.ASCII.GetBytes(Input); // 문자열 → 바이트 배열 변환
 
-                byte[] padded = new byte[length];
-                Array.Copy(bytes, padded, bytes.Length);
-
-                if (Order == "Little")
+                if (bytes.Length > length)
                 {
-                    Array.Reverse(padded);
-
+                    return bytes;
                 }
-                return padded;
+                else
+                {
+                    byte[] padded = new byte[length];
+                    Array.Copy(bytes, padded, bytes.Length);
+
+                    if (Order == "Little")
+                    {
+                        Array.Reverse(padded);
+
+                    }
+                    return padded;
+                }
+                    
             }
             else if (Format == FLOAT)// && FixYn == "Y")
             {
