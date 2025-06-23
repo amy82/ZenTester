@@ -72,7 +72,7 @@ namespace ZenTester.Process
                         Console.WriteLine($"LOT START FAIL - {Globalo.taskWork.bRecv_Client_LotStart}");
                         nRetStep = -1;
                     }
-                    else if (Environment.TickCount - nTimeTick > 6000)
+                    else if (Environment.TickCount - nTimeTick > 15000)//6000)
                     {
                         Console.WriteLine($"Timeout {nRetStep}");
                         nRetStep = -1;
@@ -138,6 +138,8 @@ namespace ZenTester.Process
                     Globalo.taskWork.bRecv_Client_ApdReport = -1;
                     Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
+
+                    nRetStep = 210;
                     break;
 
                 case 210:
@@ -176,6 +178,9 @@ namespace ZenTester.Process
                     //TODO: 여기서 Special Data 여기서 보내야된다.
                     //
                     Globalo.tcpManager.SendMessage_To_Handler(objectData);        //T ->Handelr로 보내는 부분
+
+
+                    nRetStep = 1000;
                     break;
             }
             return nRetStep;
@@ -197,6 +202,9 @@ namespace ZenTester.Process
                 switch (nRetStep)
                 {
                     case 10:
+                        Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.Clear();      //여기에 crc 계산값을 담자
+
+                        Fxa.CrcClass.ChangeToHex(Globalo.taskWork.CommandParameter);
                         nRetStep = 20;
                         break;
                     case 20:
@@ -204,7 +212,10 @@ namespace ZenTester.Process
                         //Special Data + Crc  결과로 txt 파일 생성
                         //txt파일 명 과 같이 Verify~~.exe 호출
                         //verify 진행
+
                         //끝
+                        //Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData
+
                         nRetStep = 30;
                         break;
                     case 30:
