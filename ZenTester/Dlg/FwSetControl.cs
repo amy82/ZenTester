@@ -19,7 +19,9 @@ namespace ZenTester.Dlg
 
         private void button_FdSet_ConfRead_Click(object sender, EventArgs e)
         {
-            Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
+            string fwStr = "";
+            fwStr = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_FILE");
+            fwStr = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
         }
 
         private void button_FdSet_Test_Click(object sender, EventArgs e)

@@ -115,7 +115,12 @@ namespace ZenTester.TaskClass
             fwTestFlow.fwtestData.init();
             fwTestFlow.fwtestData.Barcode = data.LotId[0];
 
-            
+            fwTestFlow.fwtestData.arrBcr[0] = data.LotId[0];
+            fwTestFlow.fwtestData.arrBcr[1] = data.LotId[1];
+            fwTestFlow.fwtestData.arrBcr[2] = data.LotId[2];
+            fwTestFlow.fwtestData.arrBcr[3] = data.LotId[3];
+
+
             fwTestFlow.fwtestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
 
             foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter)
@@ -129,7 +134,6 @@ namespace ZenTester.TaskClass
 
             szLog = $"[FW] TEST START :{fwTestFlow.fwtestData.Barcode}/{fwTestFlow.fwtestData.Socket_Num}";
             Globalo.LogPrint("TaskManager", szLog);
-
             _ = Task.Run(async () =>
             {
                 while (true)

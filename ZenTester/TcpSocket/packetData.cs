@@ -115,7 +115,7 @@ namespace ZenTester.TcpSocket
         public string Result { get; set; }
         public string Barcode { get; set; }
         public string Heater_Current { get; set; }
-
+        public string[] arrBcr { get; set; } = new string[4];
         public void init()
         {
             Result_Code = String.Empty;
@@ -124,6 +124,12 @@ namespace ZenTester.TcpSocket
             Result = String.Empty;
             Barcode = String.Empty;
             Heater_Current = String.Empty;
+
+            for (int i = 0; i < arrBcr.Length; i++)
+            {
+                arrBcr[i] = string.Empty;
+            }
+            
         }
     }
     public class AoiApdData

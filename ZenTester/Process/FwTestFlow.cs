@@ -56,7 +56,8 @@ namespace ZenTester.Process
                     //다를 경우 펌웨어 파일 요청 FTP server
 
 
-                    string fwFileName = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
+                    string fwFileName = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_FILE");
+                    
 
                     bRtn = Globalo.FxaBoardManager.fxaFirmwardDw.chkfwExeFileCheck(fwFileName);
 
@@ -82,36 +83,6 @@ namespace ZenTester.Process
                     //
                     
                     break;
-                case 111:
-                    nRetStep = 112;
-                    break;
-                case 112:
-                    nRetStep = 113;
-                    break;
-                case 113:
-                    // SFTP를 통해 FXA보드에 펌웨어 파일 복사
-
-                    bRtn = Globalo.FxaBoardManager.fxaFirmwardDw.sFtpUploadFile(serverfwFileName);
-                    if(bRtn == false)
-                    {
-                        if(nRetryCount < nRetryMax)
-                        {
-                            nRetryCount++;
-                            nRetStep = 113;
-                            break;
-                        }
-                        else
-                        {
-                            //Fail
-                            m_nTestFinalResult = -3;
-                            Console.WriteLine($"Firmware down Fail");
-                            nRetStep = 220;
-                            break;
-                        }
-                    }
-                    nRetStep = 120;
-                    break;
-
                 case 120:
                     //Globalo.taskWork.CommandParameter <-------Special Data
                     nRetStep = 130;
@@ -227,6 +198,11 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
+                        fwtestData.Result_Code = "";
+                        fwtestData.Version = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
+
+                        string result = Globalo.FxaBoardManager.fxaFirmwardDw.FirmwareDownLoadForCamAsync(fwtestData.arrBcr);
+                        fwtestData.Heater_Current = "0";
                         nRetStep = 30;
                         break;
                     case 30:

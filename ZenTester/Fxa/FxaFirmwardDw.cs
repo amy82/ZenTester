@@ -23,7 +23,7 @@ namespace ZenTester.Fxa
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
 
-        public const string strConfINIPath = @"D:\EVMS\\TP\\ENV\\fwexe\\TeslaEXE\\Tesla_FW_exe\\Trinity_FW_Download_20250421_1111";
+        public const string strConfINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
         public FxaFirmwardDw()
         {
 
@@ -36,12 +36,9 @@ namespace ZenTester.Fxa
         public void test111()
         {
             //lot앞에 CAM1_붙여주기
-            string lot1 = "CAM1_P1637042-00-C-SLGM250434C00283";
-            string lot2 = "";
-            string lot3 = "";
-            string lot4 = "CAM3_P1637042-00-C-SLGM250434C00283";
 
-            string result = FirmwareDownLoadForCamAsync(lot1, lot2, lot3, lot4); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
+            string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
+            string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
             //result 결과 나오면 json 읽기
             //apd 보고
             //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
@@ -170,7 +167,7 @@ namespace ZenTester.Fxa
 
             return result;
         }
-        public string FirmwareDownLoadForCamAsync(string lotId1, string lotId2 = "", string lotId3 = "", string lotId4 = "")
+        public string FirmwareDownLoadForCamAsync(string[] lotId)
         {
             //FXA 보드에 업로드 되어있는 펌웨어 CAM 으로 다운로드 
 
@@ -198,22 +195,25 @@ namespace ZenTester.Fxa
                     System.Diagnostics.Process.Start(psi);
 
                     Thread.Sleep(100);
+
+                    string command = $"$H,01,{lotId[0]},02,{lotId[1]},03,{lotId[2]},04,{lotId[3]}";
+
+
+                    using (TcpClient client = new TcpClient(host, port))
+                    using (NetworkStream stream = client.GetStream())
+                    {
+                        byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
+                        stream.Write(data, 0, data.Length);
+
+                        byte[] buffer = new byte[1024];
+                        int bytes = stream.Read(buffer, 0, buffer.Length);
+
+                        return Encoding.ASCII.GetString(buffer, 0, bytes).Trim();
+                    }
                 }
-
-
-                string command = $"$H,01,{lotId1},02,{lotId2},03,{lotId3},04,{lotId4}";
-
-
-                using (TcpClient client = new TcpClient(host, port))
-                using (NetworkStream stream = client.GetStream())
+                else
                 {
-                    byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
-                    stream.Write(data, 0, data.Length);
-
-                    byte[] buffer = new byte[1024];
-                    int bytes = stream.Read(buffer, 0, buffer.Length);
-
-                    return Encoding.ASCII.GetString(buffer, 0, bytes).Trim();
+                    return "-1";
                 }
             }
             catch (Exception ex)
@@ -261,13 +261,14 @@ namespace ZenTester.Fxa
             }
             return bCheckFile;
         }
-        public string getFirmwareFileName()
+        public string getFirmwareFileName(string title)
         {
             StringBuilder fwFileName = new StringBuilder(256);
             string rtnFwName = string.Empty;
 
             string sourcePath = Path.Combine(strConfINIPath, "conf.ini");
-            GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
+            GetPrivateProfileString("DEFAULT", title, "", fwFileName, fwFileName.Capacity, sourcePath);
+            //GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
             rtnFwName = fwFileName.ToString();
             return rtnFwName;
         }
