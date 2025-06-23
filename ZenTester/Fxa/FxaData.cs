@@ -45,6 +45,7 @@ namespace ZenTester.Fxa
         //  <A,4 4b16 [CEPVAL]>
         public static readonly string HEX = "HEX";
         public static readonly string ASCII = "ASCII";
+        public static readonly string INT = "INT";
         public static readonly string DEC = "DEC";
         public static readonly string FLOAT = "FLOAT";
         public static readonly string DOUBLE = "DOUBLE";
@@ -52,26 +53,26 @@ namespace ZenTester.Fxa
 
         private static readonly string[] _cpNames = new string[]
         {
-            "EEPROM_VERSION_MAJOR",
-            "EEPROM_VERSION_MINOR",
-            "EEPROM_LAST_UPDATED_ENTITY",                   //ASCII
-            "IMAGER_NAME",                                  //ASCII
-            "Imager exact Color Filter Array",              //ASCII
-            "Imager input clock frequency",                 //DEC
-            "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MAJOR",
-            "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MINOR",
-            "MANUFACTURER",                                 //ASCII
-            "MANUFACTURER_PART_NUMBER",                     //ASCII
-            "TESLA_PART_NUMBER",                            //ASCII
-            "MANUFACTURED_LOCATION",                        //ASCII
-            "MANUFACTURED_ASY_LOCATION",                    //ASCII
-            "LENS_MANUFACTURER",                            //ASCII
-            "LENS_PART_NUMBER",                             //ASCII
-            "LENS_APERTURE",                                //FLOAT
-            "MODULE_ORIENTATION_ADJUSTMENT",
-            "MANUFACTURER_INTERNAL_VERSION_CONTROL",
-            "SERIALIZER_TYPE",                              //ASCII
-            "DIST_VERSION",                                 //DEC 0x가 없는 Hex로 처리 : 김수현선임 250623
+            "EEPROM_VERSION_MAJOR",                         //0
+            "EEPROM_VERSION_MINOR",                         //1
+            "EEPROM_LAST_UPDATED_ENTITY",                   //2~6   ASCII
+            "IMAGER_NAME",                                  //7~12  ASCII
+            "Imager exact Color Filter Array",              //13~18 ASCII
+            "Imager input clock frequency",                 //19~22 INT
+            "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MAJOR",       //23
+            "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MINOR",       //24
+            "MANUFACTURER",                                 //25 ~ 29   ASCII
+            "MANUFACTURER_PART_NUMBER",                     //30 ~ 43   ASCII
+            "TESLA_PART_NUMBER",                            //44 ~ 57   ASCII
+            "MANUFACTURED_LOCATION",                        //58 ~ 61   ASCII
+            "MANUFACTURED_ASY_LOCATION",                    //62 ~ 65   ASCII
+            "LENS_MANUFACTURER",                            //66 ~ 69   ASCII
+            "LENS_PART_NUMBER",                             //70 ~ 80   ASCII
+            "LENS_APERTURE",                                //81~84     FLOAT
+            "MODULE_ORIENTATION_ADJUSTMENT",                //85
+            "MANUFACTURER_INTERNAL_VERSION_CONTROL",        //86
+            "SERIALIZER_TYPE",                              //87 ~ 101      ASCII
+            "DIST_VERSION",                                 //102      DEC 0x가 없는 Hex로 처리 : 김수현선임 250623
             "LSC_MAP_B1_Bb_META_version",
             "LSC_MAP_B1_Gb_META_version",
             "LSC_MAP_B1_Gr_META_version",
@@ -79,7 +80,7 @@ namespace ZenTester.Fxa
             "LSC_MAP_B2_Bb_META_version",
             "LSC_MAP_B2_Gb_META_version",
             "LSC_MAP_B2_Gr_META_version",
-            "LSC_MAP_B2_Rr_META_version",
+            "LSC_MAP_B2_Rr_META_version",                       //110
             "LSC_MAP_D65_Bb_META_version",
             "LSC_MAP_D65_Gb_META_version",
             "LSC_MAP_D65_Gr_META_version",
@@ -89,7 +90,7 @@ namespace ZenTester.Fxa
             "LSC_MAP_G1_Gr_META_version",
             "LSC_MAP_G1_Rr_META_version",
             "LSC_MAP_G2_Bb_META_version",
-            "LSC_MAP_G2_Gb_META_version",
+            "LSC_MAP_G2_Gb_META_version",                       //120
             "LSC_MAP_G2_Gr_META_version",
             "LSC_MAP_G2_Rr_META_version",
             "LSC_MAP_R1_Bb_META_version",
@@ -99,19 +100,19 @@ namespace ZenTester.Fxa
             "LSC_MAP_R2_Bb_META_version",
             "LSC_MAP_R2_Gb_META_version",
             "LSC_MAP_R2_Gr_META_version",
-            "LSC_MAP_R2_Rr_META_version",
-            "PCBA_PN",                                    //ASCII
-            "PCBA_MFG",                                   //ASCII
-            "IRCF_PN",                                    //ASCII
-            "IRCF_MFG",                                   //ASCII
-            "FLAG05_MCU",                                 //DEC
-            "FLAG06_Heater"                               //DEC
+            "LSC_MAP_R2_Rr_META_version",                       //130
+            "PCBA_PN",                                    //131 ~ 143       SCII
+            "PCBA_MFG",                                   //144 ~ 147         ASCII
+            "IRCF_PN",                                    //148 ~ 160       ASCII
+            "IRCF_MFG",                                   //161 ~ 164        ASCII
+            "FLAG05_MCU",                                 //165     DEC
+            "FLAG06_Heater"                               //166             DEC
         };
         private static readonly string[] _cpFormat = new string[]
         {
             HEX,HEX,
             ASCII,ASCII,ASCII,
-            DEC,
+            INT,
             HEX,HEX,
             ASCII, ASCII, ASCII,ASCII,ASCII,ASCII,ASCII, 
             FLOAT,
@@ -120,6 +121,20 @@ namespace ZenTester.Fxa
             HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,
             ASCII,ASCII,ASCII,ASCII,
             DEC,DEC
+        };
+        private static readonly int[] _cpLength = new int[]
+        {
+            1,1,
+            5,6,6,
+            4,
+            1,1,
+            5, 14, 14,4,4,4,11,
+            4,
+            1, 1,
+            15,
+            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+            13,4,13,4,
+            1,1
         };
         //CRF-16 계산 (CCITT)
         public static ushort ComputeCRC16(byte[] data, ushort polynomial, ushort initialValue, ushort xorOut)
@@ -135,31 +150,27 @@ namespace ZenTester.Fxa
             }
             return (ushort)(crc ^ xorOut);
         }
-        public static byte[] StringToHex(string Input, string Format, string Order, string FixYn = "Y")       //MES 에서 받은 값을 변환
+        public static byte[] StringToHex(string Input, string Format, int length, string Order, string FixYn = "Y")       //MES 에서 받은 값을 변환
         {
             string RtnString = "";
             int i = 0;
 
-            if (Format == ASCII && FixYn == "Y")
+            if (Format == ASCII)// && FixYn == "Y")
             {
                 StringBuilder hex = new StringBuilder();
                 byte[] bytes = Encoding.ASCII.GetBytes(Input); // 문자열 → 바이트 배열 변환
 
-                //위에서 N일 경우가 있어서 무조건
-                //Y만 들어온다.
+                byte[] padded = new byte[length];
+                Array.Copy(bytes, padded, bytes.Length);
+
                 if (Order == "Little")
                 {
-                    //Array.Reverse(bytes);
+                    Array.Reverse(padded);
 
                 }
-                for (i = 0; i < bytes.Length; i++) // 뒤에서부터 추가
-                {
-                    hex.AppendFormat("{0:X2}", bytes[i]);      //Little Endian 변환 코드
-                }
-                //RtnString = hex.ToString().Trim();
-                return bytes;
+                return padded;
             }
-            else if (Format == FLOAT && FixYn == "Y")
+            else if (Format == FLOAT)// && FixYn == "Y")
             {
                 float floatValue = float.Parse(Input);
                 byte[] bytes = BitConverter.GetBytes(floatValue); // float → byte[]
@@ -171,13 +182,25 @@ namespace ZenTester.Fxa
                 //RtnString = BitConverter.ToString(bytes).Replace("-", "");
                 return bytes;
             }
-            else if (Format == DOUBLE && FixYn == "Y")
+            else if (Format == INT)
+            {
+                int nClockFre = int.Parse(Input);
+                byte[] bytes = BitConverter.GetBytes(nClockFre); // float → byte[]
+                if (Order == "Little")
+                {
+                    Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
+                }
+
+                //RtnString = BitConverter.ToString(bytes).Replace("-", "");
+                return bytes;
+            }
+            else if (Format == DOUBLE)// && FixYn == "Y")
             {
                 double doubleValue = double.Parse(Input);
                 byte[] bytes = BitConverter.GetBytes(doubleValue); // double → byte[]
                 if (Order == "Little")
                 {
-                    //Array.Reverse(bytes); // 빅엔디안 변환
+                    Array.Reverse(bytes); // 빅엔디안 변환
                 }
 
                 //RtnString = BitConverter.ToString(bytes).Replace("-", "");
@@ -199,27 +222,11 @@ namespace ZenTester.Fxa
                 {
                     bytes[i] = Convert.ToByte(Input.Substring(i * 2, 2), 16);
                 }
-                if (FixYn == "Y" && Order == "Little")
+                if (Order == "Little")//FixYn == "Y" && Order == "Little")
                 {
-                    //Array.Reverse(bytes);
+                    Array.Reverse(bytes);
                 }
                 return bytes;
-                //if (FixYn == "Y" && Order == "Little")
-                //{
-                //    //뒤집어야된다.
-                //    // 2자리씩 나누고 역순으로 정렬
-                //    // 2자리씩 나누기
-                //    string[] bytes = Enumerable.Range(0, Input.Length / 2)
-                //                               .Select(j => Input.Substring(j * 2, 2))
-                //                               .ToArray();
-                //    // Little Endian 변환 (뒤집기)
-                //    RtnString = string.Join("", bytes.Reverse());
-
-                //}
-                //else
-                //{
-                //    RtnString = Input;
-                //}
 
 
             }
@@ -234,7 +241,7 @@ namespace ZenTester.Fxa
                 if (dict.TryGetValue(name, out var info))
                 {
                     Console.WriteLine($"Name: {info.Name}, Value: {info.Value}");
-                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], "Little");//"Little"); Big
+                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], _cpLength[i], "Big");//"Little"); Big
                     foreach (byte b in bytes)
                     {
                         Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.Add(b); // 1바이트씩 넣기
