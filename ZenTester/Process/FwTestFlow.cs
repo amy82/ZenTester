@@ -200,7 +200,7 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
-                        fwtestData.Version = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
+                        //fwtestData.Version = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
                         fwtestData.LogPath = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("LOG_PATH");
 
                         // 쉼표로 분리

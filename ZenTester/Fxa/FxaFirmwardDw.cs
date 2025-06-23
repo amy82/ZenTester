@@ -174,7 +174,7 @@ namespace ZenTester.Fxa
 
                 // FW Version Read
                 string strFWVersion = string.Format("i2cget -y -f 9 {0} 0x01", mcuAddress[i]);
-                var version = client.CreateCommand(strFWVersion).Execute();
+                var fwversion = client.CreateCommand(strFWVersion).Execute();
 
                 ////
                 /////
@@ -192,7 +192,7 @@ namespace ZenTester.Fxa
                 sensorID = string.Join(",", idLines);
 
                 //strResult += (version + ",");
-                strResult += $"P{i} => FW: {version}, SensorID: {sensorID}\n";
+                strResult += $"P{i} => FW: {fwversion}, SensorID: {sensorID}\n";
             }
             //szLog = $"[AUTO] PIN COUNT CHECK OVER: {Globalo.yamlManager.taskDataYaml.TaskData.PintCount} / {Globalo.yamlManager.configData.DrivingSettings.PinCountMax} [STEP : {nRetStep}]";
             //Globalo.LogPrint("", szLog, Globalo.eMessageName.M_WARNING);
