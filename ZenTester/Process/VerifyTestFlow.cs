@@ -205,6 +205,10 @@ namespace ZenTester.Process
                         Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.Clear();      //여기에 crc 계산값을 담자
 
                         Fxa.CrcClass.ChangeToHex(Globalo.taskWork.CommandParameter);
+
+                        ushort crc16_ccitt_zero = Fxa.CrcClass.ComputeCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), 0x1021, 0x0000, 0x0000);
+                        //
+
                         nRetStep = 20;
                         break;
                     case 20:

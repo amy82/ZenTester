@@ -54,24 +54,24 @@ namespace ZenTester.Fxa
         {
             "EEPROM_VERSION_MAJOR",
             "EEPROM_VERSION_MINOR",
-            "EEPROM_LAST_UPDATED_ENTITY",
-            "IMAGER_NAME",
-            "Imager exact Color Filter Array",
-            "Imager input clock frequency",
+            "EEPROM_LAST_UPDATED_ENTITY",                   //ASCII
+            "IMAGER_NAME",                                  //ASCII
+            "Imager exact Color Filter Array",              //ASCII
+            "Imager input clock frequency",                 //DEC
             "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MAJOR",
             "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MINOR",
-            "MANUFACTURER",
-            "MANUFACTURER_PART_NUMBER",
-            "TESLA_PART_NUMBER",
-            "MANUFACTURED_LOCATION",
-            "MANUFACTURED_ASY_LOCATION",
-            "LENS_MANUFACTURER",
-            "LENS_PART_NUMBER",
-            "LENS_APERTURE",
+            "MANUFACTURER",                                 //ASCII
+            "MANUFACTURER_PART_NUMBER",                     //ASCII
+            "TESLA_PART_NUMBER",                            //ASCII
+            "MANUFACTURED_LOCATION",                        //ASCII
+            "MANUFACTURED_ASY_LOCATION",                    //ASCII
+            "LENS_MANUFACTURER",                            //ASCII
+            "LENS_PART_NUMBER",                             //ASCII
+            "LENS_APERTURE",                                //FLOAT
             "MODULE_ORIENTATION_ADJUSTMENT",
             "MANUFACTURER_INTERNAL_VERSION_CONTROL",
-            "SERIALIZER_TYPE",
-            "DIST_VERSION",
+            "SERIALIZER_TYPE",                              //ASCII
+            "DIST_VERSION",                                 //DEC 0x가 없는 Hex로 처리 : 김수현선임 250623
             "LSC_MAP_B1_Bb_META_version",
             "LSC_MAP_B1_Gb_META_version",
             "LSC_MAP_B1_Gr_META_version",
@@ -100,14 +100,27 @@ namespace ZenTester.Fxa
             "LSC_MAP_R2_Gb_META_version",
             "LSC_MAP_R2_Gr_META_version",
             "LSC_MAP_R2_Rr_META_version",
-            "PCBA_PN",
-            "PCBA_MFG",
-            "IRCF_PN",
-            "IRCF_MFG",
-            "FLAG05_MCU",
-            "FLAG06_Heater"
+            "PCBA_PN",                                    //ASCII
+            "PCBA_MFG",                                   //ASCII
+            "IRCF_PN",                                    //ASCII
+            "IRCF_MFG",                                   //ASCII
+            "FLAG05_MCU",                                 //DEC
+            "FLAG06_Heater"                               //DEC
         };
-
+        private static readonly string[] _cpFormat = new string[]
+        {
+            HEX,HEX,
+            ASCII,ASCII,ASCII,
+            DEC,
+            HEX,HEX,
+            ASCII, ASCII, ASCII,ASCII,ASCII,ASCII,ASCII, 
+            FLOAT,
+            HEX, HEX,
+            ASCII,
+            HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,
+            ASCII,ASCII,ASCII,ASCII,
+            DEC,DEC
+        };
         //CRF-16 계산 (CCITT)
         public static ushort ComputeCRC16(byte[] data, ushort polynomial, ushort initialValue, ushort xorOut)
         {
@@ -122,7 +135,7 @@ namespace ZenTester.Fxa
             }
             return (ushort)(crc ^ xorOut);
         }
-        public static string StringToHex(string Input, string Format, string Order, string FixYn)       //MES 에서 받은 값을 변환
+        public static byte[] StringToHex(string Input, string Format, string Order, string FixYn = "Y")       //MES 에서 받은 값을 변환
         {
             string RtnString = "";
             int i = 0;
@@ -139,17 +152,12 @@ namespace ZenTester.Fxa
                     Array.Reverse(bytes);
 
                 }
-
                 for (i = 0; i < bytes.Length; i++) // 뒤에서부터 추가
                 {
                     hex.AppendFormat("{0:X2}", bytes[i]);      //Little Endian 변환 코드
                 }
-
-                //foreach (char c in Input)
-                //{
-                //    hex.AppendFormat("{0:X2} ", (byte)c); // 각 문자를 16진수 2자리로 변환
-                //}
-                RtnString = hex.ToString().Trim();
+                //RtnString = hex.ToString().Trim();
+                return bytes;
             }
             else if (Format == FLOAT && FixYn == "Y")
             {
@@ -160,7 +168,8 @@ namespace ZenTester.Fxa
                     Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
                 }
 
-                RtnString = BitConverter.ToString(bytes).Replace("-", "");
+                //RtnString = BitConverter.ToString(bytes).Replace("-", "");
+                return bytes;
             }
             else if (Format == DOUBLE && FixYn == "Y")
             {
@@ -171,51 +180,67 @@ namespace ZenTester.Fxa
                     Array.Reverse(bytes); // 빅엔디안 변환
                 }
 
-                RtnString = BitConverter.ToString(bytes).Replace("-", "");
+                //RtnString = BitConverter.ToString(bytes).Replace("-", "");
+                return bytes;
+
             }
             else// (Format == HEX || Format == EMPTY || Format ==  || FixYn == "N")      //N이면 무조건 Hex로 들어온다.
             {
                 Input = Input.Replace("0x", "");
+                if (Input.Length % 2 != 0)
+                {
+                    Input = "0" + Input; // 홀수일 경우 앞에 0 붙여서 짝수로
+                }
+                int len = Input.Length / 2;
+
+                byte[] bytes = new byte[len];
+
+                for (i = 0; i < len; i++)
+                {
+                    bytes[i] = Convert.ToByte(Input.Substring(i * 2, 2), 16);
+                }
                 if (FixYn == "Y" && Order == "Little")
                 {
-                    //뒤집어야된다.
-                    // 2자리씩 나누고 역순으로 정렬
-
-                    //char[] charArray = Input.ToCharArray();
-                    //Array.Reverse(charArray);
-                    //RtnString = new string(charArray);
-
-                    // 2자리씩 나누기
-                    string[] bytes = Enumerable.Range(0, Input.Length / 2)
-                                               .Select(j => Input.Substring(j * 2, 2))
-                                               .ToArray();
-
-                    // Little Endian 변환 (뒤집기)
-                    RtnString = string.Join("", bytes.Reverse());
-
+                    Array.Reverse(bytes);
                 }
-                else
-                {
-                    RtnString = Input;
-                }
+                return bytes;
+                //if (FixYn == "Y" && Order == "Little")
+                //{
+                //    //뒤집어야된다.
+                //    // 2자리씩 나누고 역순으로 정렬
+                //    // 2자리씩 나누기
+                //    string[] bytes = Enumerable.Range(0, Input.Length / 2)
+                //                               .Select(j => Input.Substring(j * 2, 2))
+                //                               .ToArray();
+                //    // Little Endian 변환 (뒤집기)
+                //    RtnString = string.Join("", bytes.Reverse());
+
+                //}
+                //else
+                //{
+                //    RtnString = Input;
+                //}
+
 
             }
-
-
-
-
-            //MES_EEPROM_VALUE = BitConverter.ToString(Globalo.mCCdPanel.CcdEEpromReadData.GetRange(startAddress, readCount).ToArray()).Replace("-", " ");
-            return RtnString; // 마지막 공백 제거
+            //return RtnString; // 마지막 공백 제거
         }
         public static void ChangeToHex(List<TcpSocket.EquipmentParameterInfo> listData)
         {
             var dict = listData.ToDictionary(e => e.Name, e => e);
-
+            int i = 0;
             foreach (var name in _cpNames)
             {
                 if (dict.TryGetValue(name, out var info))
                 {
                     Console.WriteLine($"Name: {info.Name}, Value: {info.Value}");
+                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], "Little");
+                    foreach (byte b in bytes)
+                    {
+                        Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.Add(b); // 1바이트씩 넣기
+                    }
+                    i++;
+
                 }
             }
         }
