@@ -46,41 +46,9 @@ namespace ZenTester.Process
 
                     break;
                 case 110:
-                    //착공걸기 - 착공은 차례대로만 보내야돼서 Verify의 경우에는 동시에 보내야된다.
-                    //Tester에서 Secsgem으로 착공 거는 공정은 Verify 공정만..
 
-                    //EqipData.Type = "EquipmentData";
-                    //sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
-                    //sendEqipData.LotID = writetestData.Barcode;
-                    //sendEqipData.DataID = writetestData.Socket_Num;
-                    //EqipData.Data = sendEqipData;
-
-                    //Globalo.tcpManager.nRecv_Ack = -1;
-                    //Globalo.taskWork.bRecv_Client_LotStart = -1;
-                    //Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //object
-                    //nTimeTick = Environment.TickCount;
                     nRetStep = 120;
                     break;
-                case 111:
-                    //착공 대기 or verify 진행
-                    //if (Globalo.tcpManager.nRecv_Ack == 0)
-                    //if (Globalo.taskWork.bRecv_Client_LotStart == 0)
-                    //{
-                    //    nRetStep = 120;
-                    //}
-                    //else if (Globalo.taskWork.bRecv_Client_LotStart > 0)
-                    //{
-                    //    Console.WriteLine($"LOT START FAIL - {Globalo.taskWork.bRecv_Client_LotStart}");
-                    //    nRetStep = -1;
-                    //}
-                    //else if (Environment.TickCount - nTimeTick > 6000)
-                    //{
-                    //    Console.WriteLine($"Timeout {nRetStep}");
-                    //    nRetStep = -1;
-                    //}
-
-                    break;
-
                 case 120:
                     //Globalo.taskWork.CommandParameter <-------Special Data
                     nRetStep = 130;
@@ -202,6 +170,16 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
+
+                        //1.Special Data로 Crc 계산
+                        //2.Special data + crc = txt 파일 생성
+                        //3.txt파일명과 TeslaTrinity~~~Tool.exe 호출
+                        //4.끝나면 Dat 파일이 생성된다.
+                        //5.fxa보드로 cmd 명령어 호출 (dat 파일명 포함, 풀경로는 ini에 미리 설정)
+                        //6.write 끝나면 checksum 값 보고
+                        //7.end
+
+
                         nRetStep = 30;
                         break;
                     case 30:

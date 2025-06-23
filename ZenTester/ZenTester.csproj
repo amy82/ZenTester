@@ -210,6 +210,18 @@
     <Compile Include="Data\YamlTeachingData.cs" />
     <Compile Include="DIoControl.cs" />
     <Compile Include="DioDefine.cs" />
+    <Compile Include="Dlg\VerifySetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\VerifySetControl.Designer.cs">
+      <DependentUpon>VerifySetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dlg\WriteSetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dlg\WriteSetControl.Designer.cs">
+      <DependentUpon>WriteSetControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\FwSetControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -488,6 +500,12 @@
     <Compile Include="VisionClass\OpencvAoiTest.cs" />
     <Compile Include="VisionClass\OverlayDrawUtil.cs" />
     <Compile Include="VisionClass\VisionManager.cs" />
+    <EmbeddedResource Include="Dlg\VerifySetControl.resx">
+      <DependentUpon>VerifySetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\WriteSetControl.resx">
+      <DependentUpon>WriteSetControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\FwSetControl.resx">
       <DependentUpon>FwSetControl.cs</DependentUpon>
     </EmbeddedResource>

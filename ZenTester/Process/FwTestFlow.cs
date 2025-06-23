@@ -57,7 +57,14 @@ namespace ZenTester.Process
 
 
                     string fwFileName = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
-                    if(fwFileName == serverfwFileName)
+
+                    bRtn = Globalo.FxaBoardManager.fxaFirmwardDw.chkfwExeFileCheck(fwFileName);
+
+                    //250623 파일 유무만 확인 Ftp 없음 xx
+                    //if (fwFileName == serverfwFileName)
+
+
+                    if (bRtn)    //exe 파일 유무 확인
                     {
                         nRetStep = 120; //JUMP
                         //같은 경우 업데이트 필요 없음
@@ -65,12 +72,12 @@ namespace ZenTester.Process
                     }
                     else
                     {
+                        
                         //1.다를경우 펌웨어 버전 업데이트 필요
                         //2. 펌웨어 파일 다운로드 FTP Server
-
                         //3. SFTP를 통해  FXA보드에 펌웨어 파일 전달
-
-                        nRetStep = 111;
+                        nRetStep = -1;
+                        break;
                     }
                     //
                     

@@ -38,4 +38,66 @@ namespace ZenTester.Fxa
         public int cbData;
         public IntPtr lpData;
     }
+    public static class CpNameList
+    {
+        //public static readonly string[] CpNames { get; } = new string[]
+        private static readonly string[] _cpNames = new string[]
+        {
+            "EEPROM_VERSION_MAJOR",
+            "EEPROM_VERSION_MINOR",
+            "EEPROM_LAST_UPDATED_ENTITY",
+            "IMAGER_NAME",
+            "Imager exact Color Filter Array",
+            "Imager input clock frequency",
+            "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MAJOR",
+            "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MINOR",
+            "MANUFACTURER",
+            "MANUFACTURER_PART_NUMBER",
+            "TESLA_PART_NUMBER",
+            "MANUFACTURED_LOCATION",
+            "MANUFACTURED_ASY_LOCATION",
+            "LENS_MANUFACTURER",
+            "LENS_PART_NUMBER",
+            "LENS_APERTURE",
+            "MODULE_ORIENTATION_ADJUSTMENT",
+            "MANUFACTURER_INTERNAL_VERSION_CONTROL",
+            "SERIALIZER_TYPE",
+            "DIST_VERSION",
+            "LSC_MAP_B1_Bb_META_version",
+            "LSC_MAP_B1_Gb_META_version",
+            "LSC_MAP_B1_Gr_META_version",
+            "LSC_MAP_B1_Rr_META_version",
+            "LSC_MAP_B2_Bb_META_version",
+            "LSC_MAP_B2_Gb_META_version",
+            "LSC_MAP_B2_Gr_META_version",
+            "LSC_MAP_B2_Rr_META_version",
+            "LSC_MAP_D65_Bb_META_version",
+            "LSC_MAP_D65_Gb_META_version",
+            "LSC_MAP_D65_Gr_META_version",
+            "LSC_MAP_D65_Rr_META_version",
+            "LSC_MAP_G1_Bb_META_version",
+            "LSC_MAP_G1_Gb_META_version",
+            "LSC_MAP_G1_Gr_META_version",
+            "LSC_MAP_G1_Rr_META_version",
+            "LSC_MAP_G2_Bb_META_version",
+            "LSC_MAP_G2_Gb_META_version",
+            "LSC_MAP_G2_Gr_META_version",
+            "LSC_MAP_G2_Rr_META_version",
+            "LSC_MAP_R1_Bb_META_version",
+            "LSC_MAP_R1_Gb_META_version",
+            "LSC_MAP_R1_Gr_META_version",
+            "LSC_MAP_R1_Rr_META_version",
+            "LSC_MAP_R2_Bb_META_version",
+            "LSC_MAP_R2_Gb_META_version",
+            "LSC_MAP_R2_Gr_META_version",
+            "LSC_MAP_R2_Rr_META_version",
+            "PCBA_PN",
+            "PCBA_MFG",
+            "IRCF_PN",
+            "IRCF_MFG",
+            "FLAG05_MCU",
+            "FLAG06_Heater"
+        };
+    }
+
 }

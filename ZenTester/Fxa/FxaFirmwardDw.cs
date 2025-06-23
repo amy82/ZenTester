@@ -23,7 +23,7 @@ namespace ZenTester.Fxa
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
 
-        public const string strConfINIPath = @"D:\EVMS\\TP\\ENV\\fwexe\\TeslaEXE\\Tesla_FW_exe\\Trinity_FW_Download_20250421_1111\\conf.ini";
+        public const string strConfINIPath = @"D:\EVMS\\TP\\ENV\\fwexe\\TeslaEXE\\Tesla_FW_exe\\Trinity_FW_Download_20250421_1111";
         public FxaFirmwardDw()
         {
 
@@ -169,10 +169,19 @@ namespace ZenTester.Fxa
             StringBuilder fwFileName = new StringBuilder(256);
             string rtnFwName = string.Empty;
 
-            string sourcePath = strConfINIPath;// Path.Combine(strConfINIPath, "conf.ini");
+            string sourcePath = Path.Combine(strConfINIPath, "conf.ini");
             GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
             rtnFwName = fwFileName.ToString();
             return rtnFwName;
+        }
+
+        public bool chkfwExeFileCheck(string fineName)      //펌웨어 다운로드 프로그램 파일 유무 체크
+        {
+            bool bCheck = true;
+            string sourcePath = Path.Combine(strConfINIPath, fineName);     //exe 파일 유무 확인
+            bCheck = File.Exists(sourcePath);
+
+            return bCheck;
         }
         public bool setFirmwareFileName(string strFile)
         {

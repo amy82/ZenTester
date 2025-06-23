@@ -96,6 +96,8 @@ namespace ZenTester  //ApsMotionControl
             Globalo.cameraControl = new Dlg.CameraControl();
             Globalo.markViewer = new VisionClass.MarkViewerForm();
             Globalo.fwSetControl = new Dlg.FwSetControl();
+            Globalo.WriteSetControl = new Dlg.WriteSetControl();
+            Globalo.VerifySetControl = new Dlg.VerifySetControl();
             //Globalo.mioPanel = new Dlg.IoControl(dRightPanelW, dRightPanelH);
 
             Globalo.productionInfo = new Dlg.ProductionInfo();
@@ -343,7 +345,18 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.fwSetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.fwSetControl.Visible = false;
             }
-
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            {
+                LeftPanel.Controls.Add(Globalo.fwSetControl);
+                Globalo.WriteSetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
+                Globalo.WriteSetControl.Visible = false;
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            {
+                LeftPanel.Controls.Add(Globalo.fwSetControl);
+                Globalo.VerifySetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
+                Globalo.VerifySetControl.Visible = false;
+            }
 
             //LeftPanel.Controls.Add(Globalo.operationPanel);
             //LeftPanel.Controls.Add(Globalo.trayStateInfo);

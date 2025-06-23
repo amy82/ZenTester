@@ -40,12 +40,12 @@ namespace ZenTester.Process
                     waitverify = -1;
                     verifyTask = null;
                     CancelToken?.Dispose();
-                    CancelToken = new CancellationTokenSource();    //
+                    CancelToken = new CancellationTokenSource();
                     nRetStep = 110;
 
                     break;
                 case 110:
-                    //착공걸기 - 착공은 차례대로만 보내야돼서 Verify의 경우에는 동시에 보내야된다.
+                    //착공걸기 - 착공은 차례대로만  Verify 도
                     //Tester에서 Secsgem으로 착공 거는 공정은 Verify 공정만..
                     
                     EqipData.Type = "EquipmentData";
@@ -200,6 +200,11 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
+                        //Special Data 로 Crc 계산
+                        //Special Data + Crc  결과로 txt 파일 생성
+                        //txt파일 명 과 같이 Verify~~.exe 호출
+                        //verify 진행
+                        //끝
                         nRetStep = 30;
                         break;
                     case 30:
