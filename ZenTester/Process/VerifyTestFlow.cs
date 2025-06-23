@@ -206,7 +206,10 @@ namespace ZenTester.Process
 
                         Fxa.CrcClass.ChangeToHex(Globalo.taskWork.CommandParameter);
 
-                        ushort crc16_ccitt_zero = Fxa.CrcClass.ComputeCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), 0x1021, 0x0000, 0x0000);
+                        ushort crc16_ccitt_zero = Fxa.CrcClass.ComputeCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), 0x1021, 0x0000, 0x0000);   //0xFFFF
+
+                        byte[] outbytes;
+                        Fxa.CrcClass.CalculateCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), out outbytes);
                         //
 
                         nRetStep = 20;
