@@ -22,8 +22,7 @@ namespace ZenTester.Process
         public int nTimeTick = 0;
         public string serverfwFileName = string.Empty;
         public TcpSocket.FwapdData fwtestData = new TcpSocket.FwapdData();
-        private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-        private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+        
 
         private int m_nTestFinalResult;
         private object openFileDlg;
@@ -39,6 +38,7 @@ namespace ZenTester.Process
         {
             int nRetStep = nStep;
             bool bRtn = false;
+            string szLog = "";
             switch (nRetStep)
             {
                 case 100:
@@ -60,20 +60,23 @@ namespace ZenTester.Process
                     
 
                     bRtn = Globalo.FxaBoardManager.fxaFirmwardDw.chkfwExeFileCheck(fwFileName);
-
+                    
                     //250623 파일 유무만 확인 Ftp 없음 xx
                     //if (fwFileName == serverfwFileName)
 
 
                     if (bRtn)    //exe 파일 유무 확인
                     {
+                        szLog = $"[FW] {fwFileName} FIRMWARE FILE CHECK : OK  [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
                         nRetStep = 120; //JUMP
                         //같은 경우 업데이트 필요 없음
                         break;
                     }
                     else
                     {
-                        
+                        szLog = $"[FW] {fwFileName} FIRMWARE FILE CHECK : FAIL  [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
                         //1.다를경우 펌웨어 버전 업데이트 필요
                         //2. 펌웨어 파일 다운로드 FTP Server
                         //3. SFTP를 통해  FXA보드에 펌웨어 파일 전달
@@ -113,29 +116,65 @@ namespace ZenTester.Process
                     nRetStep = 200;
                     break;
                 case 200:
-                    EqipData.Type = "EquipmentData";
-                    sendEqipData.Command = "LOT_APD_REPORT";
-                    sendEqipData.LotID = fwtestData.Barcode;
-                    sendEqipData.Judge = m_nTestFinalResult;
-                    
 
                     string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
-                    string[] apdResult = { fwtestData.Result_Code[0], fwtestData.Socket_Num, fwtestData.Version[0],  m_nTestFinalResult.ToString(), fwtestData.Barcode, fwtestData.Heater_Current[0] };
+                    //string[] apdResult = { fwtestData.Result_Code[0], fwtestData.Socket_Num, fwtestData.Version[0], m_nTestFinalResult.ToString(), fwtestData.Barcode, fwtestData.Heater_Current[0] };
 
-                    for (int i = 0; i < apdList.Length; i++)
+                    for (int i = 0; i < 4; i++)
                     {
-                        TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+                        TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                        TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
 
-                        pInfo.Name = apdList[i];
-                        pInfo.Value = apdResult[i];
+                        EqipData.Type = "EquipmentData";
+                        sendEqipData.Command = "LOT_APD_REPORT";
+                        sendEqipData.LotID = fwtestData.arrBcr[i];
+                        sendEqipData.Judge = int.Parse(fwtestData.Result[i]);
 
-                        sendEqipData.CommandParameter.Add(pInfo);
+                        for (int j = 0; j < apdList.Length; j++)
+                        {
+                            TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+                            pInfo.Name = apdList[j];
+                            if(pInfo.Name == apdList[0])
+                            {
+                                pInfo.Value = fwtestData.Result_Code[j];
+                            }
+                            else if (pInfo.Name == apdList[1])
+                            {
+                                pInfo.Value = fwtestData.Socket_Num;
+                            }
+                            else if (pInfo.Name == apdList[2])
+                            {
+                                pInfo.Value = fwtestData.Version[j];
+                            }
+                            else if (pInfo.Name == apdList[3])
+                            {
+                                pInfo.Value = fwtestData.Result[j];
+                            }
+                            else if (pInfo.Name == apdList[4])
+                            {
+                                pInfo.Value = fwtestData.arrBcr[j];
+                            }
+                            else if (pInfo.Name == apdList[5])
+                            {
+                                pInfo.Value = fwtestData.Heater_Current[j];
+                            }
+
+
+                            sendEqipData.CommandParameter.Add(pInfo);
+                            EqipData.Data = sendEqipData;
+                            
+                        }
+
+                        Globalo.tcpManager.nRecv_Ack = -1;
+                        Globalo.taskWork.bRecv_Client_ApdReport = -1;
+                        Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     }
+                    
 
-                    EqipData.Data = sendEqipData;
-                    Globalo.tcpManager.nRecv_Ack = -1;
-                    Globalo.taskWork.bRecv_Client_ApdReport = -1;
-                    Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
+                    
+                    
+
+                   
                     nTimeTick = Environment.TickCount;
                     break;
 
@@ -244,6 +283,9 @@ namespace ZenTester.Process
                         {
                             fwtestData.Version[i] = _version[i];
                             fwtestData.Sensorid[i] = _sensorId[i];
+
+                            szLog = $"[FW] Version: {fwtestData.Version[i]} SensorId:{fwtestData.Sensorid[i]} [STEP : {nRetStep}]";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
                             
 
