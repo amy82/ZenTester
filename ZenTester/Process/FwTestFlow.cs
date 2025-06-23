@@ -120,7 +120,7 @@ namespace ZenTester.Process
                     
 
                     string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
-                    string[] apdResult = { fwtestData.Result_Code, fwtestData.Socket_Num, fwtestData.Version,  m_nTestFinalResult.ToString(), fwtestData.Barcode, fwtestData.Heater_Current };
+                    string[] apdResult = { fwtestData.Result_Code[0], fwtestData.Socket_Num, fwtestData.Version[0],  m_nTestFinalResult.ToString(), fwtestData.Barcode, fwtestData.Heater_Current[0] };
 
                     for (int i = 0; i < apdList.Length; i++)
                     {
@@ -183,6 +183,7 @@ namespace ZenTester.Process
             int nRtn = -1;
             bool bRtn = false;
             string szLog = "";
+            int i = 0;
             int nRetStep = 10;
             while (true)
             {
@@ -192,17 +193,60 @@ namespace ZenTester.Process
                     nRtn = -1;
                     break;
                 }
+
                 switch (nRetStep)
                 {
                     case 10:
                         nRetStep = 20;
                         break;
                     case 20:
-                        fwtestData.Result_Code = "";
                         fwtestData.Version = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
+                        fwtestData.LogPath = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("LOG_PATH");
 
-                        string result = Globalo.FxaBoardManager.fxaFirmwardDw.FirmwareDownLoadForCamAsync(fwtestData.arrBcr);
-                        fwtestData.Heater_Current = "0";
+                        // 쉼표로 분리
+                        
+                        string fwRtn = Globalo.FxaBoardManager.fxaFirmwardDw.FirmwareDownLoadForCamAsync(fwtestData.arrBcr);
+
+                        szLog = $"[FW] Firmware Result:{fwRtn} [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
+                        string[] items = fwRtn.Split(',');
+                        //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03";
+
+                        //3번째 , 6번째, 9번째, 12번째
+
+                        fwtestData.Result_Code[0] = items[3];
+                        fwtestData.Result_Code[1] = items[6];
+                        fwtestData.Result_Code[2] = items[9];
+                        fwtestData.Result_Code[3] = items[12];
+
+
+                        for (i = 0; i < 4; i++)
+                        {
+                            if (fwtestData.Result_Code[i] == "00")
+                            {
+                                fwtestData.Result[i] = "1";
+                            }
+                            else
+                            {
+                                //ng
+                                fwtestData.Result[i] = "0";
+                            }
+
+                            fwtestData.Heater_Current[i] = Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(fwtestData.arrBcr[i], fwtestData.Result[i]);
+                        }
+
+                        string[] _sensorId = new string[4];
+                        string[] _version = new string[4];
+
+                        //ReadFirmware
+                        Globalo.FxaBoardManager.fxaFirmwardDw.ReadFirmware(ref _version , ref _sensorId);
+                        for (i = 0; i < 4; i++)
+                        {
+                            fwtestData.Version[i] = _version[i];
+                            fwtestData.Sensorid[i] = _sensorId[i];
+                        }
+                            
+
                         nRetStep = 30;
                         break;
                     case 30:

@@ -28,5 +28,11 @@ namespace ZenTester.Dlg
         {
             Globalo.FxaBoardManager.fxaFirmwardDw.test111();
         }
+
+        private void button_FdSet_JsonRead_Click(object sender, EventArgs e)
+        {
+            string tempLot = "CAM1_P1637042-00-C-SLGM250434C00283";
+            Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(tempLot, "1");
+        }
     }
 }

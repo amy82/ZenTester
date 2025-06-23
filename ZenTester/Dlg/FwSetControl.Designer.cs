@@ -32,6 +32,7 @@ namespace ZenTester.Dlg
             this.label_FwSetTest_Title = new System.Windows.Forms.Label();
             this.button_FdSet_ConfRead = new System.Windows.Forms.Button();
             this.button_FdSet_Test = new System.Windows.Forms.Button();
+            this.button_FdSet_JsonRead = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_FwSetTest_Title
@@ -64,7 +65,7 @@ namespace ZenTester.Dlg
             this.button_FdSet_Test.BackColor = System.Drawing.Color.Tan;
             this.button_FdSet_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_FdSet_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_FdSet_Test.Location = new System.Drawing.Point(507, 181);
+            this.button_FdSet_Test.Location = new System.Drawing.Point(310, 105);
             this.button_FdSet_Test.Name = "button_FdSet_Test";
             this.button_FdSet_Test.Size = new System.Drawing.Size(180, 57);
             this.button_FdSet_Test.TabIndex = 109;
@@ -72,10 +73,24 @@ namespace ZenTester.Dlg
             this.button_FdSet_Test.UseVisualStyleBackColor = false;
             this.button_FdSet_Test.Click += new System.EventHandler(this.button_FdSet_Test_Click);
             // 
+            // button_FdSet_JsonRead
+            // 
+            this.button_FdSet_JsonRead.BackColor = System.Drawing.Color.Tan;
+            this.button_FdSet_JsonRead.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_FdSet_JsonRead.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_FdSet_JsonRead.Location = new System.Drawing.Point(507, 191);
+            this.button_FdSet_JsonRead.Name = "button_FdSet_JsonRead";
+            this.button_FdSet_JsonRead.Size = new System.Drawing.Size(180, 57);
+            this.button_FdSet_JsonRead.TabIndex = 110;
+            this.button_FdSet_JsonRead.Text = "Json Read";
+            this.button_FdSet_JsonRead.UseVisualStyleBackColor = false;
+            this.button_FdSet_JsonRead.Click += new System.EventHandler(this.button_FdSet_JsonRead_Click);
+            // 
             // FwSetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_FdSet_JsonRead);
             this.Controls.Add(this.button_FdSet_Test);
             this.Controls.Add(this.button_FdSet_ConfRead);
             this.Controls.Add(this.label_FwSetTest_Title);
@@ -90,5 +105,6 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Label label_FwSetTest_Title;
         private System.Windows.Forms.Button button_FdSet_ConfRead;
         private System.Windows.Forms.Button button_FdSet_Test;
+        private System.Windows.Forms.Button button_FdSet_JsonRead;
     }
 }

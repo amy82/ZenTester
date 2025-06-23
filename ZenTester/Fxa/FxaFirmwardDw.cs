@@ -49,10 +49,42 @@ namespace ZenTester.Fxa
 
             getfwResult();
 
-            ReadFirmware();
+            string[] _sensorId = new string[4];
+            string[] _version = new string[4];
+
+            ReadFirmware(ref _version, ref _sensorId);
         }
 
+        public string getHeater_Current(string _Lot, string fwResult)
+        {
+            string resultLog = "D:\\tmp";
+            string final = "";
+            string _Bcr = _Lot;
 
+            if (fwResult == "1")
+            {
+                final = "PASSED_";
+            }
+            else
+            {
+                final = "FAILED_";
+            }
+            string jsonFilePath = Path.Combine(resultLog, final + _Bcr + ".json");
+
+            try
+            {
+                var result = ReadJsonResult(jsonFilePath); //경로\\제품 BCR   ///"D:\\tmp\\PASSED_CAM1_P1637042-00-C-SLGM250434C00283.json";
+
+                var param = result.parameters.FirstOrDefault(p => p.name == "imager_temperature_sensor_test");
+
+                return param.value.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+            }
+            return "-1";
+        }
         private void getfwResult()      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
         {
             //D:\\tmp\\ 는 LOG_PATH = D:\tmp\  여기서 가져와서 붙이고
@@ -73,6 +105,9 @@ namespace ZenTester.Fxa
               
             var result = ReadJsonResult(jsonFilePath); //경로\\제품 BCR   ///"D:\\tmp\\PASSED_CAM1_P1637042-00-C-SLGM250434C00283.json";
 
+            //string temp = result.parameters["imager_temperature_sensor_test"].name;
+
+            
             // 예: 모든 항목 출력
             foreach (var param in result.parameters)
             {
@@ -82,7 +117,7 @@ namespace ZenTester.Fxa
             }
         }
 
-        public void ReadFirmware()
+        public void ReadFirmware(ref string[] version , ref string[] sensorid)
         {
             //F/W 버젼 읽기
             var ci = new ConnectionInfo("192.168.90.120", "root", new PasswordAuthenticationMethod("root", "root"));
@@ -95,7 +130,23 @@ namespace ZenTester.Fxa
             Thread.Sleep(200);
 
             // FPD Link Setup
-            var output = client.CreateCommand("bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m 'cypress'").Execute(); // Trinity: cypress, Opal: ti
+            string model = "";
+            if (true)
+            {
+                //Trinity: cypress
+                model = "'cypress'";
+            }
+            else
+            {
+                //Opal: ti
+                model = "'ti'";
+            }
+            //string cmddddd = "bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m 'cypress'";
+
+            string cmddddd = $"bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m {model}";
+
+            //var output = client.CreateCommand("bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m 'cypress'").Execute(); // Trinity: cypress, Opal: ti
+            var output = client.CreateCommand(cmddddd).Execute();
 
             bool[] bCamConn = new bool[4] { false, false, false, false };
 
@@ -176,6 +227,7 @@ namespace ZenTester.Fxa
 
             const string workingDir = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
             const string exePath = workingDir + @"\cypress_cam_flashing.exe";
+
             const string host = "127.0.0.1";
             const int port = 5000;
             //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111
