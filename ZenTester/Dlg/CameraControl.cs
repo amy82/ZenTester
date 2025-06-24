@@ -54,29 +54,36 @@ namespace ZenTester.Dlg
         public void setSideTestResult(int socketNum, string result)
         {
             string[] items = result.Split(',');
-            if (socketNum == 1)
+            for (int i = 0; i < items.Length; i++)
             {
-                //0, 1, 2, 3, 4
-                
-            }
-            else
-            {
-
+                if (socketNum == 1)
+                {
+                    //0, 1, 2, 3, 4
+                    LeftResultVal[i].Text = items[i];
+                }
+                else
+                {
+                    RightResultVal[i].Text = items[i];
+                }
             }
         }
 
         public void setTopTestResult(int socketNum, string result)
         {
             string[] items = result.Split(',');
-            if (socketNum == 1)
+            for (int i = 0; i < items.Length; i++)
             {
-                //5, 6, 7, 8, 9
-                //LeftResultVal[i].Text = "0.0";
+                if (socketNum == 1)
+                {
+                    //5, 6, 7, 8, 9
+                    LeftResultVal[i + 5].Text = items[i];
+                }
+                else
+                {
+                    RightResultVal[i + 5].Text = items[i];
+                }
             }
-            else
-            {
-                //RightResultVal[i].Text = "0.0";
-            }
+            
         }
         
 
