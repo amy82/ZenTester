@@ -156,7 +156,7 @@ namespace ZenTester.TcpSocket
             string dataName = data.Cmd;
             int nStep = data.Step;      //aoi 의 경우 단계 구분 0 -> 1
             ///int index = data.socketNum;   //<---apd 보고할때 SocketNum 에 기입해야된다. 1,2,3,4
-            if (data.Cmd == "CMD_TEST")
+            if (data.Cmd == "START_TEST")//"CMD_TEST")
             {
                 if (Globalo.taskManager.testRun)
                 {
