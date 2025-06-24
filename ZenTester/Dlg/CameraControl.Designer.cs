@@ -77,8 +77,6 @@ namespace ZenTester.Dlg
             this.label_Aoi_Result_Mh2 = new System.Windows.Forms.Label();
             this.label_Aoi_Result_Lh_Val2 = new System.Windows.Forms.Label();
             this.label_Aoi_Result_Lh2 = new System.Windows.Forms.Label();
-            this.label_LogTitle = new System.Windows.Forms.Label();
-            this.listBox_Log = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -138,7 +136,7 @@ namespace ZenTester.Dlg
             // 
             // btn_TopCam_Image_Load
             // 
-            this.btn_TopCam_Image_Load.Location = new System.Drawing.Point(1521, 553);
+            this.btn_TopCam_Image_Load.Location = new System.Drawing.Point(1136, 718);
             this.btn_TopCam_Image_Load.Name = "btn_TopCam_Image_Load";
             this.btn_TopCam_Image_Load.Size = new System.Drawing.Size(72, 29);
             this.btn_TopCam_Image_Load.TabIndex = 7;
@@ -149,7 +147,7 @@ namespace ZenTester.Dlg
             // 
             // btn_TopCam_Image_Save
             // 
-            this.btn_TopCam_Image_Save.Location = new System.Drawing.Point(1450, 553);
+            this.btn_TopCam_Image_Save.Location = new System.Drawing.Point(1065, 718);
             this.btn_TopCam_Image_Save.Name = "btn_TopCam_Image_Save";
             this.btn_TopCam_Image_Save.Size = new System.Drawing.Size(72, 29);
             this.btn_TopCam_Image_Save.TabIndex = 8;
@@ -665,35 +663,10 @@ namespace ZenTester.Dlg
             this.label_Aoi_Result_Lh2.Text = "LH (12.390)";
             this.label_Aoi_Result_Lh2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label_LogTitle
-            // 
-            this.label_LogTitle.AutoSize = true;
-            this.label_LogTitle.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_LogTitle.Location = new System.Drawing.Point(1257, 13);
-            this.label_LogTitle.Name = "label_LogTitle";
-            this.label_LogTitle.Size = new System.Drawing.Size(73, 15);
-            this.label_LogTitle.TabIndex = 73;
-            this.label_LogTitle.Text = " LOG VIEW";
-            // 
-            // listBox_Log
-            // 
-            this.listBox_Log.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.listBox_Log.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.listBox_Log.FormattingEnabled = true;
-            this.listBox_Log.HorizontalScrollbar = true;
-            this.listBox_Log.ItemHeight = 15;
-            this.listBox_Log.Location = new System.Drawing.Point(1255, 32);
-            this.listBox_Log.Margin = new System.Windows.Forms.Padding(0);
-            this.listBox_Log.Name = "listBox_Log";
-            this.listBox_Log.Size = new System.Drawing.Size(504, 484);
-            this.listBox_Log.TabIndex = 74;
-            // 
             // CameraControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label_LogTitle);
-            this.Controls.Add(this.listBox_Log);
             this.Controls.Add(this.label_Aoi_Result_ConD_Val2);
             this.Controls.Add(this.label_Aoi_Result_ConD2);
             this.Controls.Add(this.label_Aoi_Result_ConA_Val2);
@@ -743,10 +716,9 @@ namespace ZenTester.Dlg
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CameraControl";
-            this.Size = new System.Drawing.Size(1770, 800);
+            this.Size = new System.Drawing.Size(1260, 800);
             this.VisibleChanged += new System.EventHandler(this.CameraControl_VisibleChanged);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -799,7 +771,5 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_Aoi_Result_Mh2;
         private System.Windows.Forms.Label label_Aoi_Result_Lh_Val2;
         public System.Windows.Forms.Label label_Aoi_Result_Lh2;
-        private System.Windows.Forms.Label label_LogTitle;
-        public System.Windows.Forms.ListBox listBox_Log;
     }
 }

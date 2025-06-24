@@ -22,14 +22,14 @@ namespace ZenTester.Dlg
         {
             pcbTab = 0, lensTab
         };
-        public LogControl(int _w, int _h)
+        public LogControl()//int _w, int _h)
         {
             InitializeComponent();
 
             this.Paint += new PaintEventHandler(Form_Paint);
             
-            this.Width = _w;
-            this.Height = _h;
+            //this.Width = _w;
+            //this.Height = _h;
 
 
             setInterface();
@@ -75,11 +75,11 @@ namespace ZenTester.Dlg
         public void setInterface()
         {
 
-            ManualTitleLabel.ForeColor = ColorTranslator.FromHtml("#6F6F6F");
+            //ManualTitleLabel.ForeColor = ColorTranslator.FromHtml("#6F6F6F");
 
-            textBox_DumpFile.Text = Data.CPath.BASE_LOG_EEPROMDATA_PATH;
-            textBox_EquipLog.Text = Data.CPath.BASE_LOG_EQUIP_PATH;
-            textBox_SensorIni.Text = Data.CPath.SENSOR_INI_DIR;
+            //textBox_DumpFile.Text = Data.CPath.BASE_LOG_EEPROMDATA_PATH;
+            //textBox_EquipLog.Text = Data.CPath.BASE_LOG_EQUIP_PATH;
+            //textBox_SensorIni.Text = Data.CPath.SENSOR_INI_DIR;
         }
         private void AlarmControl_VisibleChanged(object sender, EventArgs e)
         {

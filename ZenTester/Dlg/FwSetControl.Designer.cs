@@ -95,7 +95,7 @@ namespace ZenTester.Dlg
             this.Controls.Add(this.button_FdSet_ConfRead);
             this.Controls.Add(this.label_FwSetTest_Title);
             this.Name = "FwSetControl";
-            this.Size = new System.Drawing.Size(807, 568);
+            this.Size = new System.Drawing.Size(1260, 568);
             this.ResumeLayout(false);
 
         }

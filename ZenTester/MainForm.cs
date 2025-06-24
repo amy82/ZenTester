@@ -88,7 +88,7 @@ namespace ZenTester  //ApsMotionControl
 
             // KeyEvent 이벤트 핸들러 추가
             //keyMessageFilter.KeyEvent += KeyMessageFilter_KeyEvent;
-            Globalo.mlogControl = new Dlg.LogControl(dRightPanelW, dRightPanelH);
+            Globalo.mlogControl = new Dlg.LogControl();// dRightPanelW, dRightPanelH);
             
             Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
@@ -277,11 +277,7 @@ namespace ZenTester  //ApsMotionControl
         {
             //int i = 0;
 
-            //int MainBtnWGap = 4;
             int MainBtnHGap = 2;
-            //int MainBtnStartX = 1;
-            //int BtnPosX = 0;
-
 
             //-----------------------------------------------
             //상단 패널
@@ -330,6 +326,7 @@ namespace ZenTester  //ApsMotionControl
             //-----------------------------------------------
             //좌측 패널
             //-----------------------------------------------
+            
             LeftPanel.Controls.Add(Globalo.productionInfo);
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
@@ -338,12 +335,16 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.cameraControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.setTestControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.setTestControl.Visible = false;
+
+                
             }
             if (Program.TEST_PG_SELECT == TESTER_PG.FW)
             {
                 LeftPanel.Controls.Add(Globalo.fwSetControl);
                 Globalo.fwSetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.fwSetControl.Visible = false;
+
+                
             }
             if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
             {
@@ -358,6 +359,12 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.VerifySetControl.Visible = false;
             }
 
+            int logStartX = 0;
+            int logStartY = 0;
+            logStartX = Globalo.cameraControl.Width-10;
+            logStartY = Globalo.cameraControl.Location.Y+6;
+
+            LeftPanel.Controls.Add(Globalo.mlogControl);
             //LeftPanel.Controls.Add(Globalo.operationPanel);
             //LeftPanel.Controls.Add(Globalo.trayStateInfo);
             //LeftPanel.Controls.Add(Globalo.socketStateInfo);
@@ -365,10 +372,10 @@ namespace ZenTester  //ApsMotionControl
 
             Globalo.productionInfo.Location = new System.Drawing.Point(0, 0);
            
-            Globalo.mConfigPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mConfigPanel.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mAlarmPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mManualPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
-            Globalo.mlogControl.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            Globalo.mlogControl.Location = new System.Drawing.Point(logStartX, logStartY);// Globalo.productionInfo.Height + MainBtnHGap);
             
             //Globalo.pickerInfo.Location = new System.Drawing.Point(0, Globalo.operationPanel.Location.Y + MainBtnHGap);
             //Globalo.socketStateInfo.Location = new System.Drawing.Point(0, Globalo.pickerInfo.Location.Y + Globalo.pickerInfo.Height + MainBtnHGap);
@@ -377,7 +384,7 @@ namespace ZenTester  //ApsMotionControl
             //Globalo.mCCdPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
-            Globalo.mlogControl.Visible = false;
+            Globalo.mlogControl.Visible = true;
 
             //CenterPanel.Controls.Add(Globalo.mMainPanel);
             //CenterPanel.Controls.Add(Globalo.mTeachPanel);
@@ -386,7 +393,6 @@ namespace ZenTester  //ApsMotionControl
             LeftPanel.Controls.Add(Globalo.mManualPanel);
             LeftPanel.Controls.Add(Globalo.mConfigPanel);
             LeftPanel.Controls.Add(Globalo.mAlarmPanel);
-            LeftPanel.Controls.Add(Globalo.mlogControl);
 
 
 
