@@ -362,7 +362,7 @@ namespace ZenTester  //ApsMotionControl
             int logStartX = 0;
             int logStartY = 0;
             logStartX = Globalo.cameraControl.Width-10;
-            logStartY = Globalo.cameraControl.Location.Y+6;
+            logStartY = Globalo.productionInfo.Height + MainBtnHGap;
 
             LeftPanel.Controls.Add(Globalo.mlogControl);
             //LeftPanel.Controls.Add(Globalo.operationPanel);
