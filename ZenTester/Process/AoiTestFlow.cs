@@ -131,13 +131,14 @@ namespace ZenTester.Process
                     TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
                     objectData.Type = "EquipmentData";
 
-                    TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
-                    LotstartData.LotID = aoitestData.Barcode;
-                    LotstartData.Command = "APS_LOT_FINISH";
-                    LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
+                    //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+                    TcpSocket.TesterData resultData = new TcpSocket.TesterData();
+                    resultData.LotId[0] = aoitestData.Barcode;
+                    resultData.Cmd = "CMD_RESULT";// "APS_LOT_FINISH";
+                    resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
-                    objectData.Data = LotstartData;
+                    objectData.Data = resultData;
                     Globalo.tcpManager.SendMessage_To_Handler(objectData);
                     break;
             }
