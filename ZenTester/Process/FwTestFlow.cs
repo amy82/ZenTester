@@ -168,6 +168,8 @@ namespace ZenTester.Process
                         Globalo.tcpManager.nRecv_Ack = -1;
                         Globalo.taskWork.bRecv_Client_ApdReport = -1;
                         Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
+
+                        Thread.Sleep(300);
                     }
                     
 
