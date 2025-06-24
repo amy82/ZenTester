@@ -492,6 +492,8 @@ namespace ZenTester.Process
                         System.Drawing.Point txtPoint = new System.Drawing.Point();
                         string resultStr = string.Empty;
 
+                        resultStr = aoitestData.Gasket + "," + aoitestData.KeyType + "," + aoitestData.CircleDented + "," + aoitestData.Concentrycity_A + "," + aoitestData.Concentrycity_D;
+                        Globalo.cameraControl.setTopTestResult(int.Parse(aoitestData.Socket_Num), resultStr);
 
                         resultStr = $"Con1 :{aoitestData.Concentrycity_A}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 600);
@@ -690,6 +692,10 @@ namespace ZenTester.Process
                         System.Drawing.Point txtPoint = new System.Drawing.Point();
                         string resultStr = string.Empty;
 
+
+                        resultStr = aoitestData.LH + "," + aoitestData.MH + "," + aoitestData.RH + "," + aoitestData.Cone + "," + aoitestData.ORing;
+
+                        Globalo.cameraControl.setSideTestResult(int.Parse(aoitestData.Socket_Num), resultStr);
 
                         resultStr = $"O-Ring :{aoitestData.ORing}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 600);

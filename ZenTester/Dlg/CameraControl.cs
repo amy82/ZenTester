@@ -21,13 +21,79 @@ namespace ZenTester.Dlg
         private int[] StartPos = new int[] { 1450, 10 };          //Grid Pos
         private int[] inGridWid = new int[] { 120, 130 };    //Grid Width
 
+
+        private Label[] LeftResultTitle;
+        private Label[] RightResultTitle;
+
+        private Label[] LeftResultVal;
+        private Label[] RightResultVal;
         public CameraControl()
         {
             InitializeComponent();
 
-            initResultGrid();
-            
+            //initResultGrid();
+            LeftResultTitle = new Label[] { label_Aoi_Result_Lh1, label_Aoi_Result_Mh1, label_Aoi_Result_Rh1,
+                label_Aoi_Result_Cone1, label_Aoi_Result_ORing1,label_Aoi_Result_Gasket1, label_Aoi_Result_Key1,label_Aoi_Result_Dent1,
+            label_Aoi_Result_ConA1, label_Aoi_Result_ConD1};
+
+            RightResultTitle = new Label[] { label_Aoi_Result_Lh2, label_Aoi_Result_Mh2, label_Aoi_Result_Rh2,
+                label_Aoi_Result_Cone2, label_Aoi_Result_ORing2,label_Aoi_Result_Gasket2, label_Aoi_Result_Key2,label_Aoi_Result_Dent2,
+            label_Aoi_Result_ConA2, label_Aoi_Result_ConD2};
+
+
+            LeftResultVal = new Label[] { label_Aoi_Result_Lh_Val1, label_Aoi_Result_Mh_Val1, label_Aoi_Result_Rh_Val1,
+                label_Aoi_Result_Cone_Val1, label_Aoi_Result_ORing_Val1,label_Aoi_Result_Gasket_Val1, label_Aoi_Result_Key_Val1,label_Aoi_Result_Dent_Val1,
+            label_Aoi_Result_ConA_Val1, label_Aoi_Result_ConD_Val1};
+
+            RightResultVal = new Label[] { label_Aoi_Result_Lh_Val2, label_Aoi_Result_Mh_Val2, label_Aoi_Result_Rh_Val2,
+                label_Aoi_Result_Cone_Val2, label_Aoi_Result_ORing_Val2, label_Aoi_Result_Gasket_Val2, label_Aoi_Result_Key_Val2,label_Aoi_Result_Dent_Val2,
+            label_Aoi_Result_ConA_Val2, label_Aoi_Result_ConD_Val2};
+
+            initResult();
         }
+        public void setSideTestResult(int socketNum, string result)
+        {
+            string[] items = result.Split(',');
+            if (socketNum == 1)
+            {
+                //0, 1, 2, 3, 4
+                
+            }
+            else
+            {
+
+            }
+        }
+
+        public void setTopTestResult(int socketNum, string result)
+        {
+            string[] items = result.Split(',');
+            if (socketNum == 1)
+            {
+                //5, 6, 7, 8, 9
+                //LeftResultVal[i].Text = "0.0";
+            }
+            else
+            {
+                //RightResultVal[i].Text = "0.0";
+            }
+        }
+        
+
+        public void initResult()
+        {
+            int i = 0;
+            for (i = 0; i < LeftResultVal.Length; i++)
+            {
+                LeftResultVal[i].Text = "0.0";
+            }
+            for (i = 0; i < RightResultVal.Length; i++)
+            {
+                RightResultVal[i].Text = "0.0";
+            }
+        }
+
+
         public void initResultGrid()
         {
             int i = 0;
@@ -186,6 +252,7 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.DrawOverlayCross(1, cx / 2, cy / 2, 1000, Color.Yellow, 1, System.Drawing.Drawing2D.DashStyle.Solid);
         }
+
         private void CameraControl_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
