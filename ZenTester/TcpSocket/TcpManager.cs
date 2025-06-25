@@ -290,7 +290,7 @@ namespace ZenTester.TcpSocket
                 Globalo.taskWork.bRecv_Client_LotStart = data.Judge;   //Only 0 = ok
                 Globalo.taskWork.CommandParameter = data.CommandParameter.Select(item => item.DeepCopy()).ToList();
             }
-            else if (data.Command == "APS_LOT_COMPLETE_CMD")
+            else if (data.Command == "LOT_COMPLETE_CMD")
             {
                 //완공 진행 신호
                 Globalo.taskWork.bRecv_Client_ApdReport = data.Judge;       //0 = 완공 , 1 = Lot_Processing_Completed_Ack = 1

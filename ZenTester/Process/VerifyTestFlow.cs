@@ -114,6 +114,7 @@ namespace ZenTester.Process
                     sendEqipData.Command = "LOT_APD_REPORT";
                     sendEqipData.LotID = verifytestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
+                    sendEqipData.DataID = verifytestData.Socket_Num;
 
                     //1.Socket_Num
                     //2.Result
