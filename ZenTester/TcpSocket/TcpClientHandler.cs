@@ -27,7 +27,7 @@ namespace ZenTester.TcpSocket
 
         private CancellationTokenSource _cancellationTokenSource;// = new CancellationTokenSource();
         private bool _isReconnecting = false;
-        private readonly int _reconnectInterval = 15000; // 재접속 시도 간격 (밀리초)
+        private readonly int _reconnectInterval = 3000;//15000; // 재접속 시도 간격 (밀리초)
         private System.Timers.Timer _reconnectTimer;
 
 
