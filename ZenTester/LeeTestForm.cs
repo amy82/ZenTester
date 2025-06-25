@@ -146,22 +146,22 @@ namespace ZenTester
         private void button22_Click(object sender, EventArgs e)
         {
             //verify object
-            for (int i = 0; i < 3; i++)
-            {
-                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-                EqipData.Type = "EquipmentData";
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
 
-                TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-                sendEqipData.Command = "VERIFY_OBJECT_REPORT";
-                sendEqipData.LotID = "testLot-" + i.ToString();// Globalo.dataManage.TaskWork.m_szChipID;
-                sendEqipData.DataID = "1";
-                EqipData.Data = sendEqipData;
-                Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "VERIFY_OBJECT_REPORT";
+            sendEqipData.LotID = "testLot-1";
+            sendEqipData.DataID = "1";
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
 
-                Thread.Sleep(500);
-            }
-            
+            Thread.Sleep(100);
 
+            sendEqipData.LotID = "testLot-222";
+            sendEqipData.DataID = "1";
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
         }
 
         private void button23_Click(object sender, EventArgs e)

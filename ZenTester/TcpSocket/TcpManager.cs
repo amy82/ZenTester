@@ -284,7 +284,7 @@ namespace ZenTester.TcpSocket
                 Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
 
             }
-            if (data.Command == "APS_LOT_START_CMD")
+            if (data.Command == "LOT_START_CMD")
             {
                 //착공 진행 신호
                 Globalo.taskWork.bRecv_Client_LotStart = data.Judge;   //Only 0 = ok
