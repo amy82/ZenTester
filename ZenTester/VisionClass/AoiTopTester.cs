@@ -1069,11 +1069,11 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 77;// 51;// 19; // 반드시 홀수
+            int blockSize = 55;// 77;// 19; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 26; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 54; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //큰원 26
             //작은원 30
             //int minThresh = 70;
@@ -1096,8 +1096,9 @@ namespace ZenTester.VisionClass
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
             // 3. Contours 찾기
-            int imageCenterX = binary.Width / 2;
-            int imageCenterY = binary.Height / 2;
+            int imageCenterX = 1172;// binary.Width / 2;
+            int imageCenterY = 1427;// binary.Height / 2;
+
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
             //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -1139,7 +1140,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 340)//350)
+                if (distance > 300)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1171,13 +1172,13 @@ namespace ZenTester.VisionClass
                 }
 
 
-                if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
-                //if (radius < 120 || radius > 220)
+                //if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+                if (radius < 120 || radius > 280)
                 {
                     continue;
                 }
                 Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.001)//0.01)
+                if (circularity < 0.01)//0.01)
                 {
                     continue;
                 }
