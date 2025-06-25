@@ -128,6 +128,7 @@ namespace ZenTester.Process
                         EqipData.Type = "EquipmentData";
                         sendEqipData.Command = "LOT_APD_REPORT";
                         sendEqipData.LotID = fwtestData.arrBcr[i];
+                        sendEqipData.ErrCode = "";      //DefectCode
                         sendEqipData.Judge = int.Parse(fwtestData.Result[i]);
 
                         for (int j = 0; j < apdList.Length; j++)
@@ -159,7 +160,6 @@ namespace ZenTester.Process
                                 pInfo.Value = fwtestData.Heater_Current[j];
                             }
 
-
                             sendEqipData.CommandParameter.Add(pInfo);
                             EqipData.Data = sendEqipData;
                             
@@ -171,12 +171,6 @@ namespace ZenTester.Process
 
                         Thread.Sleep(300);
                     }
-                    
-
-                    
-                    
-
-                   
                     nTimeTick = Environment.TickCount;
                     break;
 

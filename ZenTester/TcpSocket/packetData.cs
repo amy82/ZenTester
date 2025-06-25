@@ -38,7 +38,7 @@ namespace ZenTester.TcpSocket
         public string MaterialID { get; set; }
         public string LotID { get; set; }
         public int CallType { get; set; }
-        public string ErrCode { get; set; }
+        public string ErrCode { get; set; }     //Defect 코드로 활용
         public string ErrText { get; set; }
         public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
     }
