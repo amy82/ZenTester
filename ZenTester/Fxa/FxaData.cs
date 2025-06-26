@@ -125,16 +125,20 @@ namespace ZenTester.Fxa
         private static readonly int[] _cpLength = new int[]
         {
             1,1,
-            5,6,6,//6,6,
-            4,
+            5,4,4,
             1,1,
-            5, 14, 14,4,4,4,11,
-            4,
+            5, 15, 15,4,4,4,4,
             1, 1,
             15,
-            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+            1,
+            1,1,1,1,1,
+            1,1,1,1,1,
+            1,1,1,1,1,
+            1,1,1,1,1,
+            1,1,1,1,1,
+            1,1,1,
             13,4,13,4,
-            1,1
+            1,1,1,1
         };
         //CRF-16 계산 (CCITT)
         public static ushort ComputeCRC16(byte[] data, ushort polynomial, ushort initialValue, ushort xorOut)
