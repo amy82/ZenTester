@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -14,6 +15,11 @@ namespace ZenTester.Fxa
         [DllImport("user32.dll", SetLastError = true)]
 
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
+        [DllImport("kernel32")]
+        private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
+        [DllImport("kernel32")]
+        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+        public const string strWriteINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMCreationTool_250526_1111";
         public FxaEEpromWrite()
         {
             //ipc 통신으로 넘어오는 부분
@@ -52,6 +58,7 @@ namespace ZenTester.Fxa
 
             //string args = $"/c cd /d D:\\EVMS\\TP\\ENV\\ti_cam_eeprom_flasher && ti_cam_eeprom_flasher.exe {datFileName}";  //OPAL
 
+            //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_EEPROM_exe
             string workingDir = @"D:\EVMS\TP\ENV\lgit_eeprom_flash";        //trinity
             string exeName = "cam_eeprom_flasher.exe";
 
@@ -98,7 +105,7 @@ namespace ZenTester.Fxa
             //MES 정보가 담긴 .txt 파일을 .dat 파일로 변환 ThunderEEPROMCreationTool.exe <- 김수현 선임 제공
             //string msg = "P1656620-0L-B:SLGM250230D00158,B825114T1100345,A05S002X"; //P1656620-0L-B-SLGM250230D00158_20250618_053822
 
-            string writeMsg = caseid + "."+ lotid + ".A05S002X";
+            string writeMsg = caseid + ","+ lotid + ",A05S002X";
 
 
 
@@ -125,6 +132,20 @@ namespace ZenTester.Fxa
                     gch.Free();
                 }
             }
+        }
+        public string gettxtFilePath()
+        {
+            StringBuilder fwFileName = new StringBuilder(256);
+            string rtnFwName = string.Empty;
+
+            string sourcePath = Path.Combine(strWriteINIPath, "Configuration.ini");
+
+            GetPrivateProfileString("CONFIG", "PATH3", "", fwFileName, fwFileName.Capacity, sourcePath);
+            //GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
+            //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111
+
+            rtnFwName = fwFileName.ToString();
+            return rtnFwName;
         }
     }
 }

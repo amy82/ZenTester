@@ -33,7 +33,7 @@ namespace ZenTester.Dlg
 
         private void button_VSet_Run_Click(object sender, EventArgs e)
         {
-            Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation("P1656620-0R-B-SLGM250230D00169", "B825114T1100345");
+            Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation("P1656620-0L-B:SLGM250230D00158", "B825114T1100345");
         }
     }
 }

@@ -60,7 +60,7 @@ namespace ZenTester.Fxa
                     COPYDATASTRUCT cds = new COPYDATASTRUCT();
                     cds.dwData = IntPtr.Zero;
                     cds.cbData = buff.Length + 2;
-                    cds.lpData = gch.AddrOfPinnedObject();
+                    cds.lpData = gch.AddrOfPinnedObject();      //Barcode,LotID, StationID
 
                     SendMessage(pro[0].MainWindowHandle, WM_COPYDATA, IntPtr.Zero, ref cds);
                 }

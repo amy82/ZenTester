@@ -445,6 +445,11 @@ namespace ZenTester  //ApsMotionControl
 
                 string[] Tockens = ExtractAtTokens(received);
 
+                //		received	"D:\\test\\P1656620-0L-B-SLGM250230D00158_20250626_105204.dat@1750902724@1750902724@434209840218070890010D@90FB@4AEF@EADA@DCE0@E9FE@BEF8@10F0@10F0"	string
+                //Dat파일경로
+                //
+                //		+		Tockens	{string[11]}	string[]
+
                 Globalo.LogPrint("Write .dat Creation 결과", received, Globalo.eMessageName.M_INFO);
                 Globalo.LogPrint("Checksum", string.Join("\n", Tockens), Globalo.eMessageName.M_INFO);
 
