@@ -216,7 +216,15 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
-                        //Special Data 로 Crc 계산
+                        //1.Special Data 로 Crc 계산 해서 비교 
+
+                        //2.Special Data 로 txt 파일 만들기 -> 경로 는 conf.ini에서 가져와서 그 경로에 저장
+
+                        //3.김수현 Verification Too.exe로 ipc통신으로 바코드 이름하고
+                        //Globalo.gFXABoard.RunEEPROMVerifycation();  호출
+                        //결과값 = 00
+
+
                         //Special Data + Crc  결과로 txt 파일 생성
                         //txt파일 명 과 같이 Verify~~.exe 호출
                         //verify 진행
