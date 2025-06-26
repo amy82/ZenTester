@@ -17,7 +17,10 @@ namespace ZenTester.Fxa
 
 
         //public const string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\ThunderEEPROMVerificationTool_250526_1111";
+
+
         public const string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111";
+
         //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111
         public const int WM_COPYDATA = 0x004A;
 

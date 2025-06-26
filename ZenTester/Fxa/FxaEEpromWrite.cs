@@ -93,16 +93,21 @@ namespace ZenTester.Fxa
             }
         }
         //Dat 파일 만들기
-        public void RunEEPROMWriteDatCreation()
+        public void RunEEPROMWriteDatCreation(string caseid, string lotid)
         {
             //MES 정보가 담긴 .txt 파일을 .dat 파일로 변환 ThunderEEPROMCreationTool.exe <- 김수현 선임 제공
-            string msg = "P1656620-0L-B:SLGM250230D00158,B825114T1100345,A05S002X"; //P1656620-0L-B-SLGM250230D00158_20250618_053822
+            //string msg = "P1656620-0L-B:SLGM250230D00158,B825114T1100345,A05S002X"; //P1656620-0L-B-SLGM250230D00158_20250618_053822
+
+            string writeMsg = caseid + "."+ lotid + ".A05S002X";
+
+
+
             //string msg = "P1656620-0R-B:SLGM250230D00169,C825116T1100008,A05S002X";
             System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("ThunderEEPROMCreationTool");
             //System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("ThunderEEPROMVerificationTool");
             if (pro.Length > 0)
             {
-                byte[] buff = System.Text.Encoding.Unicode.GetBytes(msg);
+                byte[] buff = System.Text.Encoding.Unicode.GetBytes(writeMsg);// msg);
 
                 GCHandle gch = GCHandle.Alloc(buff, GCHandleType.Pinned);
 

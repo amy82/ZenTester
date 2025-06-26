@@ -32,6 +32,7 @@ namespace ZenTester.Dlg
             this.label_VerifySetTest_Title = new System.Windows.Forms.Label();
             this.button_VSet_ConfRead = new System.Windows.Forms.Button();
             this.button_VSet_Crc_Cal = new System.Windows.Forms.Button();
+            this.button_VSet_Run = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_VerifySetTest_Title
@@ -70,11 +71,26 @@ namespace ZenTester.Dlg
             this.button_VSet_Crc_Cal.TabIndex = 109;
             this.button_VSet_Crc_Cal.Text = "V Crc Cal";
             this.button_VSet_Crc_Cal.UseVisualStyleBackColor = false;
+            this.button_VSet_Crc_Cal.Click += new System.EventHandler(this.button_VSet_Crc_Cal_Click);
+            // 
+            // button_VSet_Run
+            // 
+            this.button_VSet_Run.BackColor = System.Drawing.Color.Tan;
+            this.button_VSet_Run.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_VSet_Run.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_VSet_Run.Location = new System.Drawing.Point(315, 114);
+            this.button_VSet_Run.Name = "button_VSet_Run";
+            this.button_VSet_Run.Size = new System.Drawing.Size(180, 57);
+            this.button_VSet_Run.TabIndex = 110;
+            this.button_VSet_Run.Text = "Manual Verify";
+            this.button_VSet_Run.UseVisualStyleBackColor = false;
+            this.button_VSet_Run.Click += new System.EventHandler(this.button_VSet_Run_Click);
             // 
             // VerifySetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_VSet_Run);
             this.Controls.Add(this.button_VSet_Crc_Cal);
             this.Controls.Add(this.button_VSet_ConfRead);
             this.Controls.Add(this.label_VerifySetTest_Title);
@@ -89,5 +105,6 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Label label_VerifySetTest_Title;
         private System.Windows.Forms.Button button_VSet_ConfRead;
         private System.Windows.Forms.Button button_VSet_Crc_Cal;
+        private System.Windows.Forms.Button button_VSet_Run;
     }
 }

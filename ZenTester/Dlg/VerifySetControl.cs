@@ -25,5 +25,15 @@ namespace ZenTester.Dlg
             string szLog = $"[VERIFY] TXT PATH : {txtpath}";
             Globalo.LogPrint("ManualControl", szLog);
         }
+
+        private void button_VSet_Crc_Cal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_VSet_Run_Click(object sender, EventArgs e)
+        {
+            Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation("P1656620-0R-B-SLGM250230D00169", "B825114T1100345");
+        }
     }
 }
