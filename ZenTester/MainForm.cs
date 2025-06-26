@@ -442,7 +442,8 @@ namespace ZenTester  //ApsMotionControl
 
                 // 보낸 프로세스 이름 가져오기
                 string senderProc = GetProcessNameFromHwnd(senderHandle);
-
+                Console.WriteLine($"GetProcessName : {senderProc}");
+                //Write 프로그램 = GetProcessName : Idle
                 string[] Tockens = ExtractAtTokens(received);
 
                 //		received	"D:\\test\\P1656620-0L-B-SLGM250230D00158_20250626_105204.dat@1750902724@1750902724@434209840218070890010D@90FB@4AEF@EADA@DCE0@E9FE@BEF8@10F0@10F0"	string
@@ -450,10 +451,31 @@ namespace ZenTester  //ApsMotionControl
                 //
                 //		+		Tockens	{string[11]}	string[]
 
-                Globalo.LogPrint("Write .dat Creation 결과", received, Globalo.eMessageName.M_INFO);
-                Globalo.LogPrint("Checksum", string.Join("\n", Tockens), Globalo.eMessageName.M_INFO);
+                Globalo.LogPrint("Write .dat Creation 결과", received);//, Globalo.eMessageName.M_INFO);
+                Globalo.LogPrint("Checksum", string.Join("\n", Tockens));//, Globalo.eMessageName.M_INFO);
 
+                string[] tokens = ExtractAtTokens(received);
+                foreach (string token in tokens)
+                {
+                    Console.WriteLine($"token → {token}");
+                }
 
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                {
+                    //생성된 Dat 경로 받아야된다.
+                    // '@' 기준으로 파싱
+                    string[] receivedParse = received.Split('@');
+
+                    // 출력
+                    for (int i = 0; i < receivedParse.Length; i++)
+                    {
+                        Console.WriteLine($"[{i}] {receivedParse[i]}");
+                    }
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                {
+                    
+                }
                 // 여기서 구분 처리
                 //switch (senderProc)
                 //{
