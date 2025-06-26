@@ -56,7 +56,7 @@ namespace ZenTester.Fxa
             "EEPROM_VERSION_MAJOR",                         //0
             "EEPROM_VERSION_MINOR",                         //1
             "EEPROM_LAST_UPDATED_ENTITY",                   //2~6   ASCII
-            "IMAGER_NAME",                                  //7~12  ASCII
+            //"IMAGER_NAME",                                  //7~12  ASCII
             "Imager exact Color Filter Array",              //13~18 ASCII
             "Imager input clock frequency",                 //19~22 INT
             "CAMERA_LOCATION_AT_VEHICLE_LEVEL_MAJOR",       //23
@@ -67,7 +67,7 @@ namespace ZenTester.Fxa
             "MANUFACTURED_LOCATION",                        //58 ~ 61   ASCII
             "MANUFACTURED_ASY_LOCATION",                    //62 ~ 65   ASCII
             "LENS_MANUFACTURER",                            //66 ~ 69   ASCII
-            "LENS_PART_NUMBER",                             //70 ~ 80   ASCII
+           // "LENS_PART_NUMBER",                             //70 ~ 80   ASCII
             "LENS_APERTURE",                                //81~84     FLOAT
             "MODULE_ORIENTATION_ADJUSTMENT",                //85
             "MANUFACTURER_INTERNAL_VERSION_CONTROL",        //86
@@ -105,29 +105,31 @@ namespace ZenTester.Fxa
             "PCBA_MFG",                                   //144 ~ 147         ASCII
             "IRCF_PN",                                    //148 ~ 160       ASCII
             "IRCF_MFG",                                   //161 ~ 164        ASCII
+            "FLAG03_IMX963_OTP",                                 //165     DEC
+            "FLAG04_IMX963_RI",                                 //165     DEC
             "FLAG05_MCU",                                 //165     DEC
             "FLAG06_Heater"                               //166             DEC
         };
         private static readonly string[] _cpFormat = new string[]
         {
             HEX,HEX,
-            ASCII,ASCII,ASCII,
+            ASCII,ASCII,
             INT,
             HEX,HEX,
-            ASCII, ASCII, ASCII,ASCII,ASCII,ASCII,ASCII, 
+            ASCII, ASCII, ASCII,ASCII,ASCII,ASCII, 
             FLOAT,
             HEX, HEX,
             ASCII,
             HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,HEX,
             ASCII,ASCII,ASCII,ASCII,
-            DEC,DEC
+            DEC,DEC,DEC,DEC
         };
         private static readonly int[] _cpLength = new int[]
         {
             1,1,
-            5,4,4,
+            5,6,4,
             1,1,
-            5, 15, 15,4,4,4,4,
+            5,14,14,4,4,4,4,
             1, 1,
             15,
             1,
@@ -173,11 +175,11 @@ namespace ZenTester.Fxa
                     byte[] padded = new byte[length];
                     Array.Copy(bytes, padded, bytes.Length);
 
-                    if (Order == "Little")
-                    {
-                        Array.Reverse(padded);
+                    //if (Order == "Little")
+                    //{
+                    //    Array.Reverse(padded);
 
-                    }
+                    //}
                     return padded;
                 }
                     
@@ -198,10 +200,10 @@ namespace ZenTester.Fxa
             {
                 int nClockFre = int.Parse(Input);
                 byte[] bytes = BitConverter.GetBytes(nClockFre); // float → byte[]
-                if (Order == "Little")
-                {
-                    Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
-                }
+                //if (Order == "Little")
+                //{
+                //    Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
+                //}
 
                 //RtnString = BitConverter.ToString(bytes).Replace("-", "");
                 return bytes;
@@ -234,10 +236,10 @@ namespace ZenTester.Fxa
                 {
                     bytes[i] = Convert.ToByte(Input.Substring(i * 2, 2), 16);
                 }
-                if (Order == "Little")//FixYn == "Y" && Order == "Little")
-                {
-                    Array.Reverse(bytes);
-                }
+                //if (Order == "Little")//FixYn == "Y" && Order == "Little")
+                //{
+                //    Array.Reverse(bytes);
+                //}
                 return bytes;
 
 
@@ -253,7 +255,7 @@ namespace ZenTester.Fxa
                 if (dict.TryGetValue(name, out var info))
                 {
                     Console.WriteLine($"Name: {info.Name}, Value: {info.Value}");
-                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], _cpLength[i], "Big");//"Little"); Big
+                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], _cpLength[i], "Little");//"Little"); Big
                     foreach (byte b in bytes)
                     {
                         Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.Add(b); // 1바이트씩 넣기
