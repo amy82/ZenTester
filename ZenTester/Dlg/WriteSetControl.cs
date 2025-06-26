@@ -64,6 +64,8 @@ namespace ZenTester.Dlg
                 string successLog = result.Replace("[SUCCESS]", "").Trim();
                 Globalo.LogPrint("EEPROM I2C Write Flash 성공", successLog, Globalo.eMessageName.M_INFO);
             }
+
+            //3.dat 확장자를 txt로 만들기
         }
 
         private async void button1_Click(object sender, EventArgs e)            //lim Write 버튼
@@ -82,9 +84,14 @@ namespace ZenTester.Dlg
 
                 // → 필요 시: 에러 유형별 분기
                 if (errorDetail.Contains("Can't open config"))
+                { 
                     Globalo.LogPrint("원인", "flash_conf.ini 접근 실패", Globalo.eMessageName.M_WARNING);
+                }
                 else if (errorDetail.Contains("I2C"))
+                {
                     Globalo.LogPrint("원인", "I2C 통신 오류", Globalo.eMessageName.M_WARNING);
+                }
+                
             }
             else
             {
