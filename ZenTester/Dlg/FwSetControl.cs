@@ -34,5 +34,6 @@ namespace ZenTester.Dlg
             string tempLot = "CAM1_P1637042-00-C-SLGM250434C00283";
             Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(tempLot, "1");
         }
+
     }
 }

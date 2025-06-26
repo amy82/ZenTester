@@ -15,25 +15,30 @@ namespace ZenTester.Fxa
 
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
         public List<byte> mmdEEpromData;    //Special Data -> Hex Data
+        public string defaultCrc;
 
         public FxaEEpromVerify()
         {
             mmdEEpromData = new List<byte>();
+            defaultCrc = string.Empty;
         }
 
 
-        public void RunEEPROMVerifycation()
+        public void RunEEPROMVerifycation(string caseId , string lotid , string temp = "A05S002X")
         {
-            string msg = "P1656620-0L-B:SLGM250230D00158,B825114T1100345,A05S002X"; //P1656620-0L-B-SLGM250230D00158_20250618_053822 C342090304180708DA000F
+            //string msg = "P1656620-0L-B:SLGM250230D00158,B825114T1100345,A05S002X"; //P1656620-0L-B-SLGM250230D00158_20250618_053822 C342090304180708DA000F
             //msg = 바코드 , 섹젬에서 받은 LOTID , 뒤에는 아무거나
 
+            string verifyMsg = caseId + "," + lotid + "," + temp;
 
             //string msg = "P1656620-0R-B:SLGM250230D00169,C825116T1100008,A05S002X";
             //System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("ThunderEEPROMCreationTool");
+
+
             System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("ThunderEEPROMVerificationTool");
             if (pro.Length > 0)
             {
-                byte[] buff = System.Text.Encoding.Unicode.GetBytes(msg);
+                byte[] buff = System.Text.Encoding.Unicode.GetBytes(verifyMsg);
 
                 GCHandle gch = GCHandle.Alloc(buff, GCHandleType.Pinned);
 

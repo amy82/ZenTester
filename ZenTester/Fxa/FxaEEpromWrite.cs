@@ -16,7 +16,8 @@ namespace ZenTester.Fxa
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
         public FxaEEpromWrite()
         {
-
+            //ipc 통신으로 넘어오는 부분
+            //[10:17:44.2] D:\test\P1656620-0L-B-SLGM250230D00158_20250620_011740.dat@1750349860@1750349860@434209840218070890010D@A7FC@4AEF@01DC@6AE9@E9FE@BEF8@10F0@10F0
         }
         public async void test111()
         {

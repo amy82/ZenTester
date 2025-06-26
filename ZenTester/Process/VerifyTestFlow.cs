@@ -207,10 +207,19 @@ namespace ZenTester.Process
 
                         Fxa.CrcClass.ChangeToHex(Globalo.taskWork.CommandParameter);
 
+                        //비교 cfc : Globalo.FxaBoardManager.fxaEEpromVerify.defaultCrc
                         ushort crc16_ccitt_zero = Fxa.CrcClass.ComputeCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), 0x1021, 0x0000, 0x0000);   //0xFFFF
 
-                        byte[] outbytes;
-                        Fxa.CrcClass.CalculateCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), out outbytes);
+                        if (Globalo.FxaBoardManager.fxaEEpromVerify.defaultCrc == crc16_ccitt_zero.ToString())
+                        {
+                            Console.WriteLine($"[CRC] {Globalo.FxaBoardManager.fxaEEpromVerify.defaultCrc} / {crc16_ccitt_zero} 일치");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"[CRC] {Globalo.FxaBoardManager.fxaEEpromVerify.defaultCrc} / {crc16_ccitt_zero} 불일치");
+                        }
+                        //byte[] outbytes;
+                        //Fxa.CrcClass.CalculateCRC16(Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.ToArray(), out outbytes);
                         //
 
                         nRetStep = 20;
@@ -218,13 +227,19 @@ namespace ZenTester.Process
                     case 20:
                         //1.Special Data 로 Crc 계산 해서 비교 
 
+                        /*
+                         [CONFIG]
+SAVE_PATH=D:\test
+PATH3=D:\test
+IPC_NAME=ZenTester
+                         */
                         //2.Special Data 로 txt 파일 만들기 -> 경로 는 conf.ini에서 가져와서 그 경로에 저장
 
                         //3.김수현 Verification Too.exe로 ipc통신으로 바코드 이름하고
                         //Globalo.gFXABoard.RunEEPROMVerifycation();  호출
                         //결과값 = 00
 
-
+                        //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111\Configuration.ini = PATH3=D:\test  여기에 남겨라
                         //Special Data + Crc  결과로 txt 파일 생성
                         //txt파일 명 과 같이 Verify~~.exe 호출
                         //verify 진행
@@ -232,6 +247,11 @@ namespace ZenTester.Process
                         //끝
                         //Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData
 
+
+                        Fxa.CrcClass.crcToTxtSave(Globalo.taskWork.CommandParameter, "D:\\aaa");
+                        Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.LotID, sendEqipData.DataID);
+                        //RunEEPROMVerifycation  -----> WndProc 이쪽으로 결과 들어온다
+                        //
                         nRetStep = 30;
                         break;
                     case 30:

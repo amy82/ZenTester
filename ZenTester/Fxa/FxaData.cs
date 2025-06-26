@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,6 +143,23 @@ namespace ZenTester.Fxa
             13,4,13,4,
             1,1,1,1
         };
+        public static bool crcToTxtSave(List<TcpSocket.EquipmentParameterInfo> listData, string filePath)
+        {
+            // 폴더 경로 추출
+            string folderPath = Path.GetDirectoryName(filePath);
+
+            // 폴더가 없으면 생성
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // Value 값들만 줄바꿈으로 이어서 하나의 문자열로 만듬
+            var valueLines = listData.Select(item => item.Value);
+            File.WriteAllLines(filePath, valueLines);
+
+            return true;
+        }
         //CRF-16 계산 (CCITT)
         public static ushort ComputeCRC16(byte[] data, ushort polynomial, ushort initialValue, ushort xorOut)
         {
@@ -246,7 +264,7 @@ namespace ZenTester.Fxa
             }
             //return RtnString; // 마지막 공백 제거
         }
-        public static void ChangeToHex(List<TcpSocket.EquipmentParameterInfo> listData)
+        public static string ChangeToHex(List<TcpSocket.EquipmentParameterInfo> listData)
         {
             var dict = listData.ToDictionary(e => e.Name, e => e);
             int i = 0;
@@ -263,7 +281,16 @@ namespace ZenTester.Fxa
                     i++;
 
                 }
+
+                
             }
+            string rtnCrc = string.Empty;
+            if (dict.TryGetValue("DEFAULT_DATA_CRC", out var crcInfo))
+            {
+                Globalo.FxaBoardManager.fxaEEpromVerify.defaultCrc = crcInfo.Value;
+                rtnCrc = crcInfo.Value;
+            }
+            return rtnCrc;
         }
 
         public static readonly ushort[] Crc16Table_1021 = new ushort[256]

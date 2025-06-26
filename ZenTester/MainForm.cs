@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace ZenTester  //ApsMotionControl
 {
@@ -399,7 +400,77 @@ namespace ZenTester  //ApsMotionControl
 
             
         }
-        
+        [DllImport("user32.dll")]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        private string GetProcessNameFromHwnd(IntPtr hwnd)
+        {
+            GetWindowThreadProcessId(hwnd, out uint pid);
+            try
+            {
+                var proc = System.Diagnostics.Process.GetProcessById((int)pid);
+                return proc.ProcessName; // 예: ThunderEEPROMCreationTool
+            }
+            catch
+            {
+                return "Unknown";
+            }
+        }
+        private string[] ExtractAtTokens(string received)
+        {
+            var tokens = received
+                .Split('@')           // @ 기준으로 자르고
+                .Skip(1)              // 첫 번째는 @ 앞이니까 건너뜀
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToArray();
+            //.ToList();
+
+            string allTokens = string.Join("\n", tokens);
+
+            return tokens;
+
+        }
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_COPYDATA = 0x004A;
+
+            if (m.Msg == WM_COPYDATA)
+            {
+                IntPtr senderHandle = m.WParam;
+                Fxa.COPYDATASTRUCT cds = (Fxa.COPYDATASTRUCT)Marshal.PtrToStructure(m.LParam, typeof(Fxa.COPYDATASTRUCT));
+                string received = Marshal.PtrToStringUni(cds.lpData);
+
+                // 보낸 프로세스 이름 가져오기
+                string senderProc = GetProcessNameFromHwnd(senderHandle);
+
+                string[] Tockens = ExtractAtTokens(received);
+
+                Globalo.LogPrint("Write .dat Creation 결과", received, Globalo.eMessageName.M_INFO);
+                Globalo.LogPrint("Checksum", string.Join("\n", Tockens), Globalo.eMessageName.M_INFO);
+
+
+                // 여기서 구분 처리
+                //switch (senderProc)
+                //{
+                //    case "ThunderEEPROMCreationTool":
+                //        HandleCreationResponse(senderProc, received);
+                //        break;
+
+                //    case "ThunderEEPROMVerificationTool":
+                //        HandleVerificationResponse(senderProc,received);
+                //        break;
+
+                //    default:
+                //        MessageBox.Show("알 수 없는 응답 from [" + senderProc + "]:\n" + received);
+                //        break;
+                //}
+
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
         public void MainTitleChange()
         {
             if (ProgramState.CurrentRunMode == ProgramState.eRunMode.ENGINEER)
