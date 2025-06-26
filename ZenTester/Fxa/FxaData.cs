@@ -200,10 +200,10 @@ namespace ZenTester.Fxa
             {
                 int nClockFre = int.Parse(Input);
                 byte[] bytes = BitConverter.GetBytes(nClockFre); // float → byte[]
-                //if (Order == "Little")
-                //{
-                //    Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
-                //}
+                if (Order == "Little")
+                {
+                    Array.Reverse(bytes); // 빅엔디안으로 변환 (네트워크 전송 시 필요)
+                }
 
                 //RtnString = BitConverter.ToString(bytes).Replace("-", "");
                 return bytes;
@@ -255,7 +255,7 @@ namespace ZenTester.Fxa
                 if (dict.TryGetValue(name, out var info))
                 {
                     Console.WriteLine($"Name: {info.Name}, Value: {info.Value}");
-                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], _cpLength[i], "Little");//"Little"); Big
+                    byte[] bytes = StringToHex(info.Value, _cpFormat[i], _cpLength[i], "Big");//"Little"); Big
                     foreach (byte b in bytes)
                     {
                         Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData.Add(b); // 1바이트씩 넣기
