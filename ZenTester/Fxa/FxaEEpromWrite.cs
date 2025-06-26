@@ -22,9 +22,11 @@ namespace ZenTester.Fxa
         public const string strWriteINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMCreationTool_250526_1111";
 
         public List<byte> mmdEEpromData;    //Special Data -> Hex Data
+        public string defaultCrc;
         public FxaEEpromWrite()
         {
             mmdEEpromData = new List<byte>();
+            defaultCrc = string.Empty;
             //ipc 통신으로 넘어오는 부분
             //[10:17:44.2] D:\test\P1656620-0L-B-SLGM250230D00158_20250620_011740.dat@1750349860@1750349860@434209840218070890010D@A7FC@4AEF@01DC@6AE9@E9FE@BEF8@10F0@10F0
         }
@@ -33,6 +35,7 @@ namespace ZenTester.Fxa
             //EEPROM Write I2C Flash
             string datfilename = "P1656620-0L-B-SLGM250230D00158_20250620_072939"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
             //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+
 
             string result = await RunEEPROMWriteCommandAsync(datfilename);
 

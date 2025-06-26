@@ -49,9 +49,9 @@ namespace ZenTester.Dlg
 
 
             //1.Dat만들기
-            Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00158", "B825114T1100345");
+            Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
 
-
+             
             //2.write 진행
             //EEPROM Write I2C Flash
             string datfilename = "P1656620-0L-B-SLGM250230D00158_20250626_111146"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 

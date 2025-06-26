@@ -87,6 +87,8 @@ namespace ZenTester.TaskClass
             string szLog = string.Empty;
             writeTestFlow.writetestData.init();
             writeTestFlow.writetestData.Barcode = data.LotId[0];
+            writeTestFlow.wLotId = data.DataID;
+
             writeTestFlow.writetestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
             //foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter)
 
