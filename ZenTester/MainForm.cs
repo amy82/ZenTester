@@ -470,7 +470,12 @@ namespace ZenTester  //ApsMotionControl
                     for (int i = 0; i < receivedParse.Length; i++)
                     {
                         Console.WriteLine($"[{i}] {receivedParse[i]}");
+                        if (i == 0)
+                        {
+                            Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath = receivedParse[i];
+                        }
                     }
+
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                 {
