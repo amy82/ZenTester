@@ -229,9 +229,9 @@ namespace ZenTester.Process
 
                         /*
                          [CONFIG]
-SAVE_PATH=D:\test
-PATH3=D:\test
-IPC_NAME=ZenTester
+                            SAVE_PATH=D:\test
+                            PATH3=D:\test
+                            IPC_NAME=ZenTester
                          */
                         //2.Special Data 로 txt 파일 만들기 -> 경로 는 conf.ini에서 가져와서 그 경로에 저장
 
@@ -247,6 +247,7 @@ IPC_NAME=ZenTester
                         //끝
                         //Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData
 
+                        string txtpath = Globalo.FxaBoardManager.fxaEEpromVerify.gettxtFilePath();
 
                         Fxa.CrcClass.crcToTxtSave(Globalo.taskWork.CommandParameter, "D:\\aaa");
                         Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.LotID, sendEqipData.DataID);

@@ -52,6 +52,8 @@ namespace ZenTester.Dlg
             /////Globalo.mlogControl.Visible = false;
 
             Globalo.fwSetControl.Visible = false;
+            Globalo.WriteSetControl.Visible = false;
+            Globalo.VerifySetControl.Visible = false;
             switch (index)
             {
                 case TABFORM.MAIN_FORM:
@@ -72,6 +74,14 @@ namespace ZenTester.Dlg
                     if (Program.TEST_PG_SELECT == TESTER_PG.FW)
                     {
                         Globalo.fwSetControl.Visible = true;
+                    }
+                    if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                    {
+                        Globalo.WriteSetControl.Visible = true;
+                    }
+                    if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                    {
+                        Globalo.VerifySetControl.Visible = true;
                     }
                     break;
                 case TABFORM.CONFIG_FORM:

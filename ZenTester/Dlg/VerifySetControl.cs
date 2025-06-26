@@ -20,6 +20,10 @@ namespace ZenTester.Dlg
         private void button_FdSet_ConfRead_Click(object sender, EventArgs e)
         {
             //Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
+            string txtpath = Globalo.FxaBoardManager.fxaEEpromVerify.gettxtFilePath();
+
+            string szLog = $"[VERIFY] TXT PATH : {txtpath}";
+            Globalo.LogPrint("ManualControl", szLog);
         }
     }
 }

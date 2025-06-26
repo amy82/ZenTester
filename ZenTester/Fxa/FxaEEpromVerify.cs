@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,15 @@ namespace ZenTester.Fxa
 {
     public class FxaEEpromVerify
     {
+        [DllImport("kernel32")]
+        private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
+        [DllImport("kernel32")]
+        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+
+
+        //public const string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\ThunderEEPROMVerificationTool_250526_1111";
+        public const string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111";
+        //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111
         public const int WM_COPYDATA = 0x004A;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -56,6 +66,22 @@ namespace ZenTester.Fxa
                     gch.Free();
                 }
             }
+        }
+
+
+        public string gettxtFilePath()
+        {
+            StringBuilder fwFileName = new StringBuilder(256);
+            string rtnFwName = string.Empty;
+
+            string sourcePath = Path.Combine(strVerifyINIPath, "Configuration.ini");
+
+            GetPrivateProfileString("CONFIG", "PATH3", "", fwFileName, fwFileName.Capacity, sourcePath);
+            //GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
+            //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111
+
+            rtnFwName = fwFileName.ToString();
+            return rtnFwName;
         }
 
     }

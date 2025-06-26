@@ -349,13 +349,13 @@ namespace ZenTester  //ApsMotionControl
             }
             if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
             {
-                LeftPanel.Controls.Add(Globalo.fwSetControl);
+                LeftPanel.Controls.Add(Globalo.WriteSetControl);
                 Globalo.WriteSetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.WriteSetControl.Visible = false;
             }
             if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
             {
-                LeftPanel.Controls.Add(Globalo.fwSetControl);
+                LeftPanel.Controls.Add(Globalo.VerifySetControl);
                 Globalo.VerifySetControl.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
                 Globalo.VerifySetControl.Visible = false;
             }
