@@ -22,7 +22,7 @@ namespace ZenTester.Process
         public TcpSocket.VerifyApdData verifytestData = new TcpSocket.VerifyApdData();
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-
+        public List<TcpSocket.EquipmentParameterInfo> CommandParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
         private int m_nTestFinalResult;
         public VerifyTestFlow()
         {

@@ -24,6 +24,7 @@ namespace ZenTester.Process
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
 
+        public List<TcpSocket.EquipmentParameterInfo> CommandParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
         private int m_nTestFinalResult;
         public WriteTestFlow()
         {
@@ -170,6 +171,13 @@ namespace ZenTester.Process
                         nRetStep = 20;
                         break;
                     case 20:
+                        //스페셜 data로 txt만들기 CommandParameter
+
+                        string txtFilePath = "";
+
+                        Fxa.CrcClass.crcToTxtSave(CommandParameter, txtFilePath);
+
+                        //Globalo.FxaBoardManager.fxaEEpromWrite.sa
 
                         //1.Special Data로 Crc 계산
                         //2.Special data + crc = txt 파일 생성

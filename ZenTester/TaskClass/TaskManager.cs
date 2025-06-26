@@ -58,6 +58,8 @@ namespace ZenTester.TaskClass
             verifyTestFlow.verifytestData.Barcode = data.LotId[0];
             verifyTestFlow.verifytestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
 
+            //verify는 착공을 secsgem으로 바로 걸기 때문에 special Data는 secsgem으로부터 받아야된다.
+
             Console.WriteLine($"Verify Task Start SocketNum-------{verifyTestFlow.verifytestData.Socket_Num}");
             
             szLog = $"[VERIFY] TEST START :{verifyTestFlow.verifytestData.Barcode}/{verifyTestFlow.verifytestData.Socket_Num}";
@@ -86,6 +88,9 @@ namespace ZenTester.TaskClass
             writeTestFlow.writetestData.init();
             writeTestFlow.writetestData.Barcode = data.LotId[0];
             writeTestFlow.writetestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
+            //foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter)
+
+            writeTestFlow.CommandParameter = data.CommandParameter.Select(item => item.DeepCopy()).ToList();
 
             Console.WriteLine($"Write Task Start SocketNum-------{writeTestFlow.writetestData.Socket_Num}");
 

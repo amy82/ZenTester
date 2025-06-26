@@ -20,8 +20,11 @@ namespace ZenTester.Fxa
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
         public const string strWriteINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMCreationTool_250526_1111";
+
+        public List<byte> mmdEEpromData;    //Special Data -> Hex Data
         public FxaEEpromWrite()
         {
+            mmdEEpromData = new List<byte>();
             //ipc 통신으로 넘어오는 부분
             //[10:17:44.2] D:\test\P1656620-0L-B-SLGM250230D00158_20250620_011740.dat@1750349860@1750349860@434209840218070890010D@A7FC@4AEF@01DC@6AE9@E9FE@BEF8@10F0@10F0
         }

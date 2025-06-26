@@ -47,7 +47,7 @@ namespace ZenTester.Process
                     waitFw = -1;
                     fwTask = null;
                     CancelToken?.Dispose();
-                    CancelToken = new CancellationTokenSource();    //
+                    CancelToken = new CancellationTokenSource();
                     nRetStep = 110;
 
                     break;
