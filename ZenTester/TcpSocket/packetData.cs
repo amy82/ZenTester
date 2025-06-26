@@ -48,6 +48,7 @@ namespace ZenTester.TcpSocket
         public string Cmd { get; set; }
         public int Step { get; set; }
         public int result { get; set; }
+        public string DataID { get; set; }
         public string[] LotId { get; set; }       //"LOT20240601"
         public int socketNum { get; set; }    //
         public int[] States { get; set; }       //{ 1, 1, 1, 1}  EEPROM ,AOI는 0번 index만 사용
