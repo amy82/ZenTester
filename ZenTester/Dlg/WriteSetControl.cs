@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -64,32 +65,58 @@ namespace ZenTester.Dlg
             // 파일 이름만 가져오고 확장자는 제거
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath);
 
-            string datfilename = "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+            string datfilename = fileNameWithoutExtension;/// "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
             //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
 
             string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
-
-            if (result.StartsWith("[ERROR]"))
+            //"[SUCCESS]\nCamera EEPROM flash: PASS"
+            // 대소문자 구분 없이 포함 여부 확인
+            bool hasSuccess = result.Contains("SUCCESS");
+            bool hasPass = result.Contains("PASS");
+            if (hasSuccess || hasPass)
             {
-                string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
-
-                Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail, Globalo.eMessageName.M_ERROR);
-
-                // → 필요 시: 에러 유형별 분기
-                if (errorDetail.Contains("Can't open config"))
-                    Globalo.LogPrint("fxaEEpromWrite", "flash_conf.ini 접근 실패", Globalo.eMessageName.M_WARNING);
-                else if (errorDetail.Contains("I2C"))
-                    Globalo.LogPrint("fxaEEpromWrite", "I2C 통신 오류", Globalo.eMessageName.M_WARNING);
+                //EEPROM I2C Write Flash 성공
+                //string successLog = result.Replace("[SUCCESS]", "").Trim();
+                Globalo.LogPrint("Write Flash", result);//, Globalo.eMessageName.M_INFO);
             }
             else
             {
-                string successLog = result.Replace("[SUCCESS]", "").Trim();
-                Globalo.LogPrint("EEPROM I2C Write Flash 성공", successLog, Globalo.eMessageName.M_INFO);
+                string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
+
+                Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail);//, Globalo.eMessageName.M_ERROR);
+
+                // → 필요 시: 에러 유형별 분기
+
+                if (errorDetail.Contains("Can't open config"))
+                {
+                    Globalo.LogPrint("fxaEEpromWrite", "flash_conf.ini 접근 실패");//, Globalo.eMessageName.M_WARNING);
+                }
+                else if (errorDetail.Contains("I2C"))
+                {
+                    Globalo.LogPrint("fxaEEpromWrite", "I2C 통신 오류");//, Globalo.eMessageName.M_WARNING);
+                }
             }
+            //if (result.StartsWith("[ERROR]"))
 
             //
             //3.dat 확장자를 txt로 만들기
             //생성된 dat파일을 그위치에서 txt로 확장자 바꿔준다.
+
+            if (File.Exists(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath))
+            {
+                string newPath = Path.ChangeExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath, ".txt");
+                if (File.Exists(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath))
+                {
+                    File.Move(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath, newPath); // 실제로 이름 변경 (확장자 변경)
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath} 파일이 존재하지 않습니다.");
+            }
+            // 확장자를 .csv로 바꾸기
+            
+
         }
 
         private async void button1_Click(object sender, EventArgs e)            //lim Write 버튼
