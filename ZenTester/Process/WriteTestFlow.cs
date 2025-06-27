@@ -28,6 +28,7 @@ namespace ZenTester.Process
         public string wLotId;
         public List<TcpSocket.EquipmentParameterInfo> CommandParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
         private int m_nTestFinalResult;
+        private int fileChkCount;
         public WriteTestFlow()
         {
             writeTask = Task.FromResult(1);
@@ -185,6 +186,7 @@ namespace ZenTester.Process
                         }
                         else
                         {
+                            m_nTestFinalResult = 0;
                             Console.WriteLine($"[CRC] {Globalo.FxaBoardManager.fxaEEpromWrite.defaultCrc} / {crc16_ccitt_zero} 불일치");
                         }
 
@@ -199,9 +201,6 @@ namespace ZenTester.Process
                         string folder = Globalo.FxaBoardManager.fxaEEpromWrite.gettxtFilePath();
                         string txtFilePath = Path.Combine(folder, filename);
 
-
-
-
                         bool bSave = Fxa.CrcClass.crcToTxtSave(CommandParameter, txtFilePath);
                         if (bSave)
                         {
@@ -210,6 +209,7 @@ namespace ZenTester.Process
                         }
                         else
                         {
+                            m_nTestFinalResult = 0;
                             szLog = $"{txtFilePath} Save Fail";
                             Globalo.LogPrint("WriteFlow", szLog);
                         }
@@ -250,10 +250,12 @@ namespace ZenTester.Process
                     case 35:
                         if (Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate == 0)
                         {
+                            fileChkCount = 0;
                             nRetStep = 40;
                         }
                         else if (Environment.TickCount - nTimeTick > 30000)
                         {
+                            m_nTestFinalResult = 0;
                             nRetStep *= -1;
                             Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Timeout 30s.");
                             break;
@@ -262,9 +264,26 @@ namespace ZenTester.Process
                     case 40:
                         if(Environment.TickCount - nTimeTick > 500)     //dat 생성후 바로 체크 안되는듯 딜레이 추가
                         {
-                            nRetStep = 50;
+                            nRetStep = 45;
                         }
                         
+                        break;
+                    case 45:
+                        if (File.Exists(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath))
+                        {
+
+                            nRetStep = 50;
+                        }
+                        else
+                        {
+                            if (fileChkCount < 3)
+                            {
+                                nTimeTick = Environment.TickCount;
+                                fileChkCount++;
+                                nRetStep = 40;
+                            }
+                            Console.WriteLine("Data file check fail");
+                        }
                         break;
                     case 50:
 
@@ -289,10 +308,10 @@ namespace ZenTester.Process
                             //string successLog = result.Replace("[SUCCESS]", "").Trim();
                             Globalo.LogPrint("Write Flash", result);//, Globalo.eMessageName.M_INFO);
 
-                            nRetStep = 60;
                         }
                         else
                         {
+                            m_nTestFinalResult = 0;
                             string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
 
                             Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail);//, Globalo.eMessageName.M_ERROR);
@@ -308,6 +327,7 @@ namespace ZenTester.Process
                                 Globalo.LogPrint("fxaEEpromWrite", "I2C 통신 오류");//, Globalo.eMessageName.M_WARNING);
                             }
                         }
+                        nRetStep = 60;
                         break;
                     case 60:
                         //---------------------------------------------------------------------------------------------------------------------------
@@ -331,6 +351,7 @@ namespace ZenTester.Process
                         }
                         else
                         {
+                            m_nTestFinalResult = 0;
                             Console.WriteLine($"{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath} 파일이 존재하지 않습니다.");
                         }
                         nRetStep = 70;
@@ -340,7 +361,7 @@ namespace ZenTester.Process
                         nRetStep = 900;
                         break;
                     case 900:
-                        m_nTestFinalResult = 1;
+                        
                         nRetStep = 1000;
                         break;
                     default:
