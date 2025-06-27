@@ -50,8 +50,8 @@ namespace ZenTester.Fxa
                 // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
 
                 string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
-
                 string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
+
 
                 strLog = $"Firmware DownLoad ForCamAsync:{result}";
 
@@ -332,61 +332,53 @@ namespace ZenTester.Fxa
             try
             {
                 // EXE가 실행 중인지 확인
+                System.Diagnostics.Process proc;
                 int cnt = System.Diagnostics.Process.GetProcessesByName(exeName).Length;
-                if (cnt == 0)
+                if (cnt < 1)
                 {
                     var psi = new ProcessStartInfo
                     {
-                        FileName = "cmd.exe",
-                        Arguments = "/c " + Path.GetFileName(exePath),
+                        FileName = exePath,//"cmd.exe",
+                        //Arguments = "/c " + Path.GetFileName(exePath),
                         WorkingDirectory = workingDir,
                         UseShellExecute = false,
                         CreateNoWindow = true
                     };
-                    //System.Diagnostics.Process.Start(psi);
-                    // Process 실행 및 종료 대기
-                    string fdrtn = string.Empty;
-                    using (var process = System.Diagnostics.Process.Start(psi))
+                    proc = System.Diagnostics.Process.Start(psi);
+                }
+                // Process 실행 및 종료 대기
+                string fdrtn = string.Empty;
+                    
+
+                Thread.Sleep(100);
+
+                string command = $"$H,01,{lotId[0]},02,{lotId[1]},03,{lotId[2]},04,{lotId[3]}";
+
+
+                using (TcpClient client = new TcpClient(host, port))
+                {
+                    using (NetworkStream stream = client.GetStream())
                     {
-                        Thread.Sleep(100);
+                        byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
+                        stream.Write(data, 0, data.Length);
 
-                        string command = $"$H,01,{lotId[0]},02,{lotId[1]},03,{lotId[2]},04,{lotId[3]}";
-
-
-                        using (TcpClient client = new TcpClient(host, port))
-                        {
-                            using (NetworkStream stream = client.GetStream())
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
-                                stream.Write(data, 0, data.Length);
-
-                                byte[] buffer = new byte[1024];
-                                int bytes = stream.Read(buffer, 0, buffer.Length);
-                                fdrtn = Encoding.ASCII.GetString(buffer, 0, bytes).Trim();
-                                stream.Close();
-                            }
-                            client.Close();
-                        }
-                        //process.WaitForExit();  // 프로세스가 종료될 때까지 기다림
-
-                        //if (!process.WaitForExit(5000))  // 5초만 기다림
-                        //{
-                        //    Console.WriteLine("프로세스가 종료되지 않음. 강제 종료.");
-                        //    process.Kill();  // 자식 포함 강제 종료
-                        //}
-                        //process.Kill(true);  // 자식 포함 강제 종료
-                        // 종료 코드 확인 (옵션)
-                        int exitCode = process.ExitCode;
-                        Console.WriteLine($"프로세스 종료됨. 코드: {exitCode}");
-
-                        return fdrtn;
-
+                        byte[] buffer = new byte[1024];
+                        int bytes = stream.Read(buffer, 0, buffer.Length);
+                        fdrtn = Encoding.ASCII.GetString(buffer, 0, bytes).Trim();
                     }
                 }
-                else
-                {
-                    return "-1";
-                }
+
+                //if (!process.WaitForExit(5000))  // 5초만 기다림
+                //{
+                //    Console.WriteLine("프로세스가 종료되지 않음. 강제 종료.");
+                //    process.Kill();  // 자식 포함 강제 종료
+                //}
+                //process.Kill(true);  // 자식 포함 강제 종료
+                // 종료 코드 확인 (옵션)
+                //int exitCode = process.ExitCode;
+                // Console.WriteLine($"프로세스 종료됨. 코드: {exitCode}");
+
+                return fdrtn;
             }
             catch (Exception ex)
             {
