@@ -176,7 +176,7 @@ namespace ZenTester.Fxa
             }
             return "-1";
         }
-        private void getfwResultFromJson(string lotId, int nResult)      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
+        public void getfwResultFromJson(string lotId, int nResult)      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
         {
             //D:\\tmp\\ 는 LOG_PATH = D:\tmp\  여기서 가져와서 붙이고
             //PASSED_CAM1_
@@ -372,7 +372,7 @@ namespace ZenTester.Fxa
                 {
                     using (NetworkStream stream = client.GetStream())
                     {
-                        byte[] data = Encoding.ASCII.GetBytes(command);// + "\r\n");
+                        byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
                         stream.Write(data, 0, data.Length);
 
                         byte[] buffer = new byte[1024];

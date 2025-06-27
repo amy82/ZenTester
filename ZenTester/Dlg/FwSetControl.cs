@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,11 +34,13 @@ namespace ZenTester.Dlg
                 return;
             }
             bManualFwRun = true;
+            Globalo.LogPrint("fw :", "Manual FirmwareDw Start");
+
             await Task.Run(async () =>
             {
                 int i = 0;
                 string strLog = string.Empty;
-                string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283", "", "", "" };
+                string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283", "-1", "-2", "CAM4_P1637042-00-C-SLGM250434C00283" };
                 string result = Globalo.FxaBoardManager.fxaFirmwardDw.FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
 
 
@@ -70,12 +73,16 @@ namespace ZenTester.Dlg
                     rtnFinalArr[2] = receivedParse[9];
                     rtnFinalArr[3] = receivedParse[12];
                 }
+                Thread.Sleep(300);
                 for (i = 0; i < rtnBcrArr.Length; i++)
                 {
                     if (int.Parse(rtnFinalArr[i]) == 0)
                     {
                         //ok
                         strLog = $"Cam{i+1} Firmware Download ok -{rtnFinalArr[i]}";
+
+                        int nResult = int.Parse(rtnFinalArr[i]);
+                        Globalo.FxaBoardManager.fxaFirmwardDw.getfwResultFromJson(lotarr[i], nResult);
                     }
                     else
                     {
