@@ -285,16 +285,35 @@ namespace ZenTester.Process
                         
                         break;
                     case 40:
-
+                        Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = -1;
                         Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.LotID, sendEqipData.DataID);
                         nRetStep = 50;
+                        nTimeTick = Environment.TickCount;
                         break;
                     case 50:
+                        if (Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal == 0)
+                        {
+                            //pass
+                            szLog = $"Verify Ok";
+                            Globalo.LogPrint("WriteFlow", szLog);
+                        }
+                        else if (Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal == 1)
+                        {
+                            //ng
+                            szLog = $"Verify Ng";
+                            Globalo.LogPrint("WriteFlow", szLog);
+                            m_nTestFinalResult = 0;
+                        }
+                        else if (Environment.TickCount - nTimeTick > 20000)
+                        {
+                            m_nTestFinalResult = 0;
+                            //time out
+                        }
 
                         nRetStep = 900;
                         break;
                     case 900:
-                        m_nTestFinalResult = 1;
+                        
                         nRetStep = 1000;
                         break;
                     default:

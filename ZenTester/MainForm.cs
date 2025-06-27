@@ -444,7 +444,7 @@ namespace ZenTester  //ApsMotionControl
                 string senderProc = GetProcessNameFromHwnd(senderHandle);
                 Console.WriteLine($"GetProcessName : {senderProc}");
                 //Write 프로그램 = GetProcessName : Idle
-                string[] Tockens = ExtractAtTokens(received);
+                //string[] Tockens = ExtractAtTokens(received);
 
                 //		received	"D:\\test\\P1656620-0L-B-SLGM250230D00158_20250626_105204.dat@1750902724@1750902724@434209840218070890010D@90FB@4AEF@EADA@DCE0@E9FE@BEF8@10F0@10F0"	string
                 //Dat파일경로
@@ -452,7 +452,7 @@ namespace ZenTester  //ApsMotionControl
                 //		+		Tockens	{string[11]}	string[]
 
                 Globalo.LogPrint("Write .dat Creation 결과", received);//, Globalo.eMessageName.M_INFO);
-                Globalo.LogPrint("Checksum", string.Join("\n", Tockens));//, Globalo.eMessageName.M_INFO);
+                //Globalo.LogPrint("Checksum", string.Join("\n", Tockens));//, Globalo.eMessageName.M_INFO);
 
                 string[] tokens = ExtractAtTokens(received);
                 foreach (string token in tokens)
@@ -462,6 +462,7 @@ namespace ZenTester  //ApsMotionControl
                 string logstr = string.Empty;
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
                 {
+                    Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList.Clear();
                     //생성된 Dat 경로 받아야된다.
                     // '@' 기준으로 파싱
                     string[] receivedParse = received.Split('@');
@@ -470,6 +471,7 @@ namespace ZenTester  //ApsMotionControl
                     for (int i = 0; i < receivedParse.Length; i++)
                     {
                         Console.WriteLine($"[{i}] {receivedParse[i]}");
+                        Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList.Add(receivedParse[i]);
                         if (i == 0)
                         {
                             Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath = receivedParse[i];
@@ -497,14 +499,15 @@ namespace ZenTester  //ApsMotionControl
                     bool hasOkSuccess = received.Contains("OK");
                     bool hasNGSuccess = received.Contains("NG");
                     Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = -1;
-                    
+
                     if (hasOkSuccess)
                     {
                         Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = 0;
                     }
-                    if (hasNGSuccess)
+                    else
                     {
                         Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = 1;
+
                     }
                 }
                 // 여기서 구분 처리

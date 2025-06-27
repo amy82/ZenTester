@@ -25,9 +25,12 @@ namespace ZenTester.Fxa
         public string defaultCrc;
         public string datFullPath;
         public int recvDataCreate;
+
+        public List<string> checksumDataList;
         public FxaEEpromWrite()
         {
             mmdEEpromData = new List<byte>();
+            checksumDataList = new List<string>();
             defaultCrc = string.Empty;
             datFullPath = string.Empty;
             recvDataCreate = -1;

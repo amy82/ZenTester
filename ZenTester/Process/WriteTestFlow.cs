@@ -93,10 +93,22 @@ namespace ZenTester.Process
                     //2.Result
                     //3.Barcode
                     //4.SensorID
-
+                    if (Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList.Count > 9)
+                    {
+                        writetestData.Time = Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList[1];
+                        writetestData.Checksum0 = Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList[4];
+                        writetestData.Checksum1 = Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList[5];
+                        writetestData.Checksum2 = Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList[6];
+                        writetestData.Checksum3 = Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList[7];
+                        writetestData.Checksum4 = Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList[8];
+                    }
                     string[] apdList = { "Checksum0", "Checksum1", "Checksum2", "Checksum3", "Checksum4", "Socket_Num", "Result", "Barcode", "SensorID", "Time"};
+
                     string[] apdResult = { writetestData.Checksum0, writetestData.Checksum1, writetestData.Checksum2, writetestData.Checksum3, writetestData.Checksum4,
                             writetestData.Socket_Num, m_nTestFinalResult.ToString(), writetestData.Barcode, writetestData.SensorID, writetestData.Time };
+
+                    //Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList
+
 
                     for (int i = 0; i < apdList.Length; i++)
                     {
@@ -306,6 +318,7 @@ namespace ZenTester.Process
                         {
                             //EEPROM I2C Write Flash 성공
                             //string successLog = result.Replace("[SUCCESS]", "").Trim();
+
                             Globalo.LogPrint("Write Flash", result);//, Globalo.eMessageName.M_INFO);
 
                         }
