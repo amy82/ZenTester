@@ -76,7 +76,8 @@ namespace ZenTester.Dlg
                 //
                 //---------------------------------------------------------------------------------------------------------------------------
                 //
-                Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
+                //Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
+                Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0R-B:SLGM250230D00169", "D125227T2100059");
                 Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate = -1;
                 int nWriteTimeTick = 0;
                 nWriteTimeTick = Environment.TickCount;
