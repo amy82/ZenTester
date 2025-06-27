@@ -24,11 +24,13 @@ namespace ZenTester.Fxa
         public List<byte> mmdEEpromData;    //Special Data -> Hex Data
         public string defaultCrc;
         public string datFullPath;
+        public int recvDataCreate;
         public FxaEEpromWrite()
         {
             mmdEEpromData = new List<byte>();
             defaultCrc = string.Empty;
             datFullPath = string.Empty;
+            recvDataCreate = -1;
             //ipc 통신으로 넘어오는 부분
             //[10:17:44.2] D:\test\P1656620-0L-B-SLGM250230D00158_20250620_011740.dat@1750349860@1750349860@434209840218070890010D@A7FC@4AEF@01DC@6AE9@E9FE@BEF8@10F0@10F0
         }
@@ -108,7 +110,7 @@ namespace ZenTester.Fxa
             }
         }
         //Dat 파일 만들기
-        public void RunEEPROMWriteDatCreation(string caseid, string lotid)
+        public void Run_DatCreation_EEPROMWrite(string caseid, string lotid)
         {
             //MES 정보가 담긴 .txt 파일을 .dat 파일로 변환 ThunderEEPROMCreationTool.exe <- 김수현 선임 제공
             //string msg = "P1656620-0L-B:SLGM250230D00158,B825114T1100345,A05S002X"; //P1656620-0L-B-SLGM250230D00158_20250618_053822
