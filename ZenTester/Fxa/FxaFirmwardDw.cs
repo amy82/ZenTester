@@ -35,28 +35,48 @@ namespace ZenTester.Fxa
             //4. json 파일 내용
         }
 
-        public void test111()
+        public void Manual_Fw_Test()
         {
+            int i = 0;
             //1. 스페셜 DATA에서 받은 파일명하고
             //conf.ini에서 FIRMWARE_FILE = TRI_0xA2_interrupt_fix.cyacd  파일명하고 비교해야된다.
 
 
-
+            string strLog = string.Empty;
             //lot앞에 CAM1_붙여주기
 
             // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
+
             string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
+
+
+
             string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
+
+            strLog = $"FirmwareDownLoadForCamAsync:{result}";
+
+            if (result == "-1")
+            {
+                Globalo.LogPrint("fw :", "Firmware Download Fail");
+                return;
+            }
+
+            string[] receivedParse = result.Split(',');
             //result 결과 나오면 json 읽기
             //apd 보고
             //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
-            Globalo.LogPrint("FW : ", result, Globalo.eMessageName.M_INFO);
+            Globalo.LogPrint("fw :", strLog);//, Globalo.eMessageName.M_INFO);
 
-            //Globalo.gFXABoard.ReadFirmware(); //펌웨어 read
 
-            //index , LOT , 결과
 
-            getfwResult();
+            for (i = 0; i < lotarr.Length; i++)
+            {
+                int nResult = 1;
+                getfwResultFromJson(lotarr[i], nResult);
+            }
+            
+
+
 
             string[] _sensorId = new string[4];
             string[] _version = new string[4];
@@ -107,7 +127,7 @@ namespace ZenTester.Fxa
             }
             return "-1";
         }
-        private void getfwResult()      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
+        private void getfwResultFromJson(string lotId, int nResult)      //fw 다운로드 완료시 생성되는 json 파일 불러오는 함수
         {
             //D:\\tmp\\ 는 LOG_PATH = D:\tmp\  여기서 가져와서 붙이고
             //PASSED_CAM1_
@@ -117,14 +137,22 @@ namespace ZenTester.Fxa
 
             //PASSED
             //FAILED
-            string resultLog = "D:\\tmp\\";
-            string final = "PASSED_";
-            string _Bcr = "CAM1_P1637042-00-C-SLGM250434C00283";
+            string resultLog = "D:\\tmp\\";     //conf.ini에서 가져와라 LOG_PATH = D:\tmp\
+            string final = "";
+
+            if (nResult == 1)
+            {
+                final = "PASSED_";
+            }
+            else
+            {
+                final = "FAILED_";
+            }
+            //string _Bcr = "CAM1_P1637042-00-C-SLGM250434C00283";
+            string _Bcr = lotId;
 
 
             string jsonFilePath = Path.Combine(resultLog, final + _Bcr + ".json");
-
-              
             var result = ReadJsonResult(jsonFilePath); //경로\\제품 BCR   ///"D:\\tmp\\PASSED_CAM1_P1637042-00-C-SLGM250434C00283.json";
 
             //string temp = result.parameters["imager_temperature_sensor_test"].name;
@@ -134,8 +162,8 @@ namespace ZenTester.Fxa
             foreach (var param in result.parameters)
             {
                 //Console.WriteLine($"[{param.result.ToUpper()}] {param.name} = {param.value}");
-                string logMsg = $"[{param.result.ToUpper()}] {param.name} = {param.value}";
-                Globalo.LogPrint("FW Upload 결과", logMsg);
+                string logMsg = $"[json][{param.result.ToUpper()}] {param.name} = {param.value}";
+                Globalo.LogPrint("fw", logMsg);
             }
         }
 

@@ -26,7 +26,7 @@ namespace ZenTester.Dlg
 
         private void button_FdSet_Test_Click(object sender, EventArgs e)
         {
-            Globalo.FxaBoardManager.fxaFirmwardDw.test111();
+            Globalo.FxaBoardManager.fxaFirmwardDw.Manual_Fw_Test();
         }
 
         private void button_FdSet_JsonRead_Click(object sender, EventArgs e)
