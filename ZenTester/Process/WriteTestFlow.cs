@@ -222,7 +222,7 @@ namespace ZenTester.Process
                         //1.Dat만들기
                         //Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00158", "B825114T1100345");
 
-                        Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation(writetestData.Barcode, wLotId);
+                        Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite(writetestData.Barcode, wLotId);
                         break;
                     case 40:
 
