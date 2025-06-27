@@ -75,7 +75,7 @@ namespace ZenTester.Dlg
                 //
                 //
                 //---------------------------------------------------------------------------------------------------------------------------
-                //
+                //D125227T2100059_P1656620-0R-B-SLGM250230D00169_2025040119_EEPROM-MES
                 //Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
                 Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0R-B:SLGM250230D00169", "D125227T2100059");
                 Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate = -1;
@@ -87,9 +87,9 @@ namespace ZenTester.Dlg
                     {
                         break;
                     }
-                    if (Environment.TickCount - nWriteTimeTick > 20000)
+                    if (Environment.TickCount - nWriteTimeTick > 30000)
                     {
-                        Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Timeout 20s.");
+                        Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Timeout 30s.");
                         break;
                     }
                 }

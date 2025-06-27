@@ -450,7 +450,7 @@ namespace ZenTester  //ApsMotionControl
                 //Dat파일경로
                 //
                 //		+		Tockens	{string[11]}	string[]
-
+                //"EEPROM FXA Board Link Error NG@1750986742@1750986742@C342090304180708DA000F@@@@@@@@"
                 Globalo.LogPrint("Write .dat Creation 결과", received);//, Globalo.eMessageName.M_INFO);
                 //Globalo.LogPrint("Checksum", string.Join("\n", Tockens));//, Globalo.eMessageName.M_INFO);
 
@@ -471,9 +471,14 @@ namespace ZenTester  //ApsMotionControl
                     for (int i = 0; i < receivedParse.Length; i++)
                     {
                         Console.WriteLine($"[{i}] {receivedParse[i]}");
+                        
                         Globalo.FxaBoardManager.fxaEEpromWrite.checksumDataList.Add(receivedParse[i]);
                         if (i == 0)
                         {
+                            if (receivedParse[i].Contains("NG"))
+                            {
+                                break;
+                            }
                             Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath = receivedParse[i];
                             logstr = $"Get Dat Path:{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath}";
                             Globalo.LogPrint("WndProc", logstr);
