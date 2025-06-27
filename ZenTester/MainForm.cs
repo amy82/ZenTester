@@ -169,9 +169,10 @@ namespace ZenTester  //ApsMotionControl
             //Globalo.mCCdPanel.SetSensorIni();
 
             MainUiSet();
-
-            SerialConnect();
-
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                SerialConnect();
+            }
            //// serverStart();      //SECS - GEM 연결
 
             Globalo.tcpManager.ReqRecipeToSecsgem();

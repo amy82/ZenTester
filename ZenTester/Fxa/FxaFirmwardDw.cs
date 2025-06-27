@@ -35,102 +35,106 @@ namespace ZenTester.Fxa
             //4. json 파일 내용
         }
 
-        public void Manual_Fw_Test()
+        public async void Manual_Fw_Test()
         {
             int i = 0;
             //1. 스페셜 DATA에서 받은 파일명하고
             //conf.ini에서 FIRMWARE_FILE = TRI_0xA2_interrupt_fix.cyacd  파일명하고 비교해야된다.
-            Globalo.LogPrint("fw :", "Firmware Download Start");
-
-            string strLog = string.Empty;
-            //lot앞에 CAM1_붙여주기
-
-            // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
-
-            string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
-
-
-
-            string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
-
-            strLog = $"FirmwareDownLoadForCamAsync:{result}";
-
-            if (result == "-1")
+            await Task.Run(async () =>
             {
-                Globalo.LogPrint("fw :", "Firmware Download Fail");
-                return;
-            }
+                Globalo.LogPrint("fw :", "Firmware Download Start");
 
-            string[] receivedParse = result.Split(',');     //총 13개
-            //0 = $T
-            //1 = index (01)
-            //2 = 1번 Lot
-            //3 = 1번 결과
+                string strLog = string.Empty;
+                //lot앞에 CAM1_붙여주기
 
-            //4 = index (02)
-            //5 = 2번 Lot
-            //6 = 2번 결과
+                // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
 
-            //7 = index (03)
-            //8 = 3번 Lot
-            //9 = 3번 결과
+                string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
 
-            //10 = index (04)
-            //11 = 4번 Lot
-            //12 = 4번 결과
-            //result 결과 나오면 json 읽기
-            //apd 보고
-            //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
-            Globalo.LogPrint("fw :", strLog);//, Globalo.eMessageName.M_INFO);
 
-            string[] rtnBcrArr = new string[4];
-            string[] rtnFinalArr = new string[4];
-            for (i = 0; i < rtnBcrArr.Length; i++)
-            {
-                rtnBcrArr[i] = string.Empty;
-                rtnFinalArr[i] = string.Empty;
-            }
 
-            if (receivedParse.Length >= 13)
-            {
-                rtnBcrArr[0] = receivedParse[2];
-                rtnBcrArr[1] = receivedParse[5];
-                rtnBcrArr[2] = receivedParse[8];
-                rtnBcrArr[3] = receivedParse[11];
-                //
-                rtnFinalArr[0] = receivedParse[3];
-                rtnFinalArr[1] = receivedParse[6];
-                rtnFinalArr[2] = receivedParse[9];
-                rtnFinalArr[3] = receivedParse[12];
-            }
+                string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
+
+                strLog = $"FirmwareDownLoadForCamAsync:{result}";
+
+                if (result == "-1")
+                {
+                    Globalo.LogPrint("fw :", "Firmware Download Fail");
+                    return;
+                }
+
+                string[] receivedParse = result.Split(',');     //총 13개
+                //0 = $T
+                //1 = index (01)
+                //2 = 1번 Lot
+                //3 = 1번 결과
+
+                //4 = index (02)
+                //5 = 2번 Lot
+                //6 = 2번 결과
+
+                //7 = index (03)
+                //8 = 3번 Lot
+                //9 = 3번 결과
+
+                //10 = index (04)
+                //11 = 4번 Lot
+                //12 = 4번 결과
+                //result 결과 나오면 json 읽기
+                //apd 보고
+                //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
+                Globalo.LogPrint("fw :", strLog);//, Globalo.eMessageName.M_INFO);
+
+                string[] rtnBcrArr = new string[4];
+                string[] rtnFinalArr = new string[4];
+                for (i = 0; i < rtnBcrArr.Length; i++)
+                {
+                    rtnBcrArr[i] = string.Empty;
+                    rtnFinalArr[i] = string.Empty;
+                }
+
+                if (receivedParse.Length >= 13)
+                {
+                    rtnBcrArr[0] = receivedParse[2];
+                    rtnBcrArr[1] = receivedParse[5];
+                    rtnBcrArr[2] = receivedParse[8];
+                    rtnBcrArr[3] = receivedParse[11];
+                    //
+                    rtnFinalArr[0] = receivedParse[3];
+                    rtnFinalArr[1] = receivedParse[6];
+                    rtnFinalArr[2] = receivedParse[9];
+                    rtnFinalArr[3] = receivedParse[12];
+                }
             
 
-            for (i = 0; i < lotarr.Length; i++)
-            {
-                int nResult = 1;
-                getfwResultFromJson(lotarr[i], nResult);
-            }
+                for (i = 0; i < lotarr.Length; i++)
+                {
+                    int nResult = 1;
+                    getfwResultFromJson(lotarr[i], nResult);
+                }
             
 
 
 
-            string[] _sensorId = new string[4];
-            string[] _version = new string[4];
+                string[] _sensorId = new string[4];
+                string[] _version = new string[4];
 
-            ReadFirmware(ref _version, ref _sensorId);
+                ReadFirmware(ref _version, ref _sensorId);
 
-            //ReadFirmware  = VERSION 읽어서 conf.ini  에서 FIRMWARE_VERSION = 0xa2 와 비교하고
-            //SENSER ID 읽어서 SKARLRL
+                //ReadFirmware  = VERSION 읽어서 conf.ini  에서 FIRMWARE_VERSION = 0xa2 와 비교하고
+                //SENSER ID 읽어서 SKARLRL
 
-            /*
-             Result_Code
-                Socket_Num
-                Version
-                Result
-                Barcode
-                Heater_Current
+                /*
+                 Result_Code
+                    Socket_Num
+                    Version
+                    Result
+                    Barcode
+                    Heater_Current
 
-             */
+                 */
+                await Task.Delay(10);
+            });
         }
 
         public string getHeater_Current(string _Lot, string fwResult)
