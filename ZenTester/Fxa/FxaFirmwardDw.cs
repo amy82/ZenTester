@@ -35,104 +35,115 @@ namespace ZenTester.Fxa
             //4. json 파일 내용
         }
 
-        public async void Manual_Fw_Test()
+        public void Manual_Fw_DownLoad()
         {
             int i = 0;
             //1. 스페셜 DATA에서 받은 파일명하고
             //conf.ini에서 FIRMWARE_FILE = TRI_0xA2_interrupt_fix.cyacd  파일명하고 비교해야된다.
-            await Task.Run(async () =>
+            Globalo.LogPrint("fw :", "Firmware Download Start");
+
+            string strLog = string.Empty;
+            //lot앞에 CAM1_붙여주기
+
+            // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
+
+            string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283", "", "", "" };
+            string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
+
+
+            strLog = $"Firmware DownLoad ForCamAsync:{result}";
+
+            if (result == "-1")
             {
-                Globalo.LogPrint("fw :", "Firmware Download Start");
+                Globalo.LogPrint("fw :", "Firmware Download Fail");
+                return;
+            }
 
-                string strLog = string.Empty;
-                //lot앞에 CAM1_붙여주기
+            string[] receivedParse = result.Split(',');     //총 13개
+                                                            //0 = $T
+                                                            //1 = index (01)
+                                                            //2 = 1번 Lot
+                                                            //3 = 1번 결과
 
-                // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
+            //4 = index (02)
+            //5 = 2번 Lot
+            //6 = 2번 결과
 
-                string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
-                string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
+            //7 = index (03)
+            //8 = 3번 Lot
+            //9 = 3번 결과
 
+            //10 = index (04)
+            //11 = 4번 Lot
+            //12 = 4번 결과
+            //result 결과 나오면 json 읽기
+            //apd 보고
+            //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
+            Globalo.LogPrint("fw :", strLog);//, Globalo.eMessageName.M_INFO);
 
-                strLog = $"Firmware DownLoad ForCamAsync:{result}";
+            string[] rtnBcrArr = new string[4];
+            string[] rtnFinalArr = new string[4];
+            for (i = 0; i < rtnBcrArr.Length; i++)
+            {
+                rtnBcrArr[i] = string.Empty;
+                rtnFinalArr[i] = string.Empty;
+            }
 
-                if (result == "-1")
-                {
-                    Globalo.LogPrint("fw :", "Firmware Download Fail");
-                    return;
-                }
+            if (receivedParse.Length >= 13)
+            {
+                rtnBcrArr[0] = receivedParse[2];
+                rtnBcrArr[1] = receivedParse[5];
+                rtnBcrArr[2] = receivedParse[8];
+                rtnBcrArr[3] = receivedParse[11];
+                //
+                rtnFinalArr[0] = receivedParse[3];
+                rtnFinalArr[1] = receivedParse[6];
+                rtnFinalArr[2] = receivedParse[9];
+                rtnFinalArr[3] = receivedParse[12];
+            }
 
-                string[] receivedParse = result.Split(',');     //총 13개
-                //0 = $T
-                //1 = index (01)
-                //2 = 1번 Lot
-                //3 = 1번 결과
-
-                //4 = index (02)
-                //5 = 2번 Lot
-                //6 = 2번 결과
-
-                //7 = index (03)
-                //8 = 3번 Lot
-                //9 = 3번 결과
-
-                //10 = index (04)
-                //11 = 4번 Lot
-                //12 = 4번 결과
-                //result 결과 나오면 json 읽기
-                //apd 보고
-                //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
-                Globalo.LogPrint("fw :", strLog);//, Globalo.eMessageName.M_INFO);
-
-                string[] rtnBcrArr = new string[4];
-                string[] rtnFinalArr = new string[4];
-                for (i = 0; i < rtnBcrArr.Length; i++)
-                {
-                    rtnBcrArr[i] = string.Empty;
-                    rtnFinalArr[i] = string.Empty;
-                }
-
-                if (receivedParse.Length >= 13)
-                {
-                    rtnBcrArr[0] = receivedParse[2];
-                    rtnBcrArr[1] = receivedParse[5];
-                    rtnBcrArr[2] = receivedParse[8];
-                    rtnBcrArr[3] = receivedParse[11];
-                    //
-                    rtnFinalArr[0] = receivedParse[3];
-                    rtnFinalArr[1] = receivedParse[6];
-                    rtnFinalArr[2] = receivedParse[9];
-                    rtnFinalArr[3] = receivedParse[12];
-                }
-            
-
-                for (i = 0; i < lotarr.Length; i++)
-                {
-                    int nResult = int.Parse(rtnFinalArr[i]);
-                    getfwResultFromJson(lotarr[i], nResult);
-                }
-            
+            //---------------------------------------------------------------------------------------------------
+            //
+            //
+            // Get Json
+            //
+            //---------------------------------------------------------------------------------------------------
+            for (i = 0; i < lotarr.Length; i++)
+            {
+                int nResult = int.Parse(rtnFinalArr[i]);
+                getfwResultFromJson(lotarr[i], nResult);
+            }
 
 
 
-                string[] _sensorId = new string[4];
-                string[] _version = new string[4];
 
-                ReadFirmware(ref _version, ref _sensorId);
+            string[] _version = new string[4];
+            string[] _sensorId = new string[4];
 
-                //ReadFirmware  = VERSION 읽어서 conf.ini  에서 FIRMWARE_VERSION = 0xa2 와 비교하고
-                //SENSER ID 읽어서 SKARLRL
+            ReadFirmware(ref _version, ref _sensorId);
+            for (i = 0; i < _version.Length; i++)
+            {
+                string logMsg = $"[version]{_version[i]}";
+                Globalo.LogPrint("fw", logMsg);
+            }
 
-                /*
-                 Result_Code
-                    Socket_Num
-                    Version
-                    Result
-                    Barcode
-                    Heater_Current
+            for (i = 0; i < _sensorId.Length; i++)
+            {
+                string logMsg = $"[sensorid]{_sensorId[i]}";
+                Globalo.LogPrint("fw", logMsg);
+            }
+            //ReadFirmware  = VERSION 읽어서 conf.ini  에서 FIRMWARE_VERSION = 0xa2 와 비교하고
+            //SENSER ID 읽어서 SKARLRL
 
-                 */
-                await Task.Delay(10);
-            });
+            /*
+             Result_Code
+                Socket_Num
+                Version
+                Result
+                Barcode
+                Heater_Current
+
+             */
         }
 
         public string getHeater_Current(string _Lot, string fwResult)
@@ -268,6 +279,7 @@ namespace ZenTester.Fxa
                 string strFWVersion = string.Format("i2cget -y -f 9 {0} 0x01", mcuAddress[i]);
                 var fwversion = client.CreateCommand(strFWVersion).Execute();
 
+                version[i] = fwversion;
                 ////
                 /////
                 /////
@@ -284,14 +296,15 @@ namespace ZenTester.Fxa
                 sensorID = string.Join(",", idLines);
                 sensorID = string.Concat(idLines.Select(x => x.Replace("0x", "").PadLeft(2, '0')));
 
+                sensorid[i] = sensorID;
                 //strResult += (version + ",");
-                strResult += $"P{i} => FW: {fwversion}, SensorID: {sensorID}\n";
+                //strResult += $"P{i} => FW: {fwversion}, SensorID: {sensorID}\n";
             }
             //szLog = $"[AUTO] PIN COUNT CHECK OVER: {Globalo.yamlManager.taskDataYaml.TaskData.PintCount} / {Globalo.yamlManager.configData.DrivingSettings.PinCountMax} [STEP : {nRetStep}]";
             //Globalo.LogPrint("", szLog, Globalo.eMessageName.M_WARNING);
 
 
-            Globalo.LogPrint("FW Version Check", strResult);//, Globalo.eMessageName.M_WARNING);
+            //Globalo.LogPrint("FW Version Check", strResult);//, Globalo.eMessageName.M_WARNING);
 
             client.CreateCommand("bash /home/root/utils/cam_power/turn_on_cameras.sh 0v 'all' 0 9").Execute();
 
@@ -308,7 +321,7 @@ namespace ZenTester.Fxa
 
             string jsonContent = File.ReadAllText(jsonFilePath);
             var result = JsonConvert.DeserializeObject<TestResult>(jsonContent);
-
+            
             return result;
         }
 
