@@ -33,6 +33,13 @@ namespace ZenTester.Dlg
 
             string szLog = $"[WRITE] PATH3 PATH : {txtpath}";
             Globalo.LogPrint("ManualControl", szLog);
+
+
+            //test
+            string _date = DateTime.Now.ToString("yyyyMMddHH");
+            string filename = $"{"D125227T2100059"}_{"P1656620-0L-B-SLGM250230D00159"}_{_date}_EEPROM-MES.txt";
+            string folder = Globalo.FxaBoardManager.fxaEEpromWrite.gettxtFilePath();
+            string txtFilePath = Path.Combine(folder, filename);
         }
 
         private void button_WSet_Crc_Cal_Click(object sender, EventArgs e)
@@ -115,7 +122,8 @@ namespace ZenTester.Dlg
                 string datfilename = fileNameWithoutExtension;/// "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
                 //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
 
-                string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
+                //string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
+                string result = Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
                 //"[SUCCESS]\nCamera EEPROM flash: PASS"
                 // 대소문자 구분 없이 포함 여부 확인
 
@@ -178,38 +186,7 @@ namespace ZenTester.Dlg
             bManualWriteRun = false;
         }
 
-        private async void button1_Click(object sender, EventArgs e)            //lim Write 버튼
-        {
-            //EEPROM Write I2C Flash
-            string datfilename = "P1656620-0L-B-SLGM250230D00158_20250620_072939"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
-            //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
-
-            string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
-
-            if (result.StartsWith("[ERROR]"))
-            {
-                string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
-
-                Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail, Globalo.eMessageName.M_ERROR);
-
-                // → 필요 시: 에러 유형별 분기
-                if (errorDetail.Contains("Can't open config"))
-                { 
-                    Globalo.LogPrint("원인", "flash_conf.ini 접근 실패", Globalo.eMessageName.M_WARNING);
-                }
-                else if (errorDetail.Contains("I2C"))
-                {
-                    Globalo.LogPrint("원인", "I2C 통신 오류", Globalo.eMessageName.M_WARNING);
-                }
-                
-            }
-            else
-            {
-                string successLog = result.Replace("[SUCCESS]", "").Trim();
-                Globalo.LogPrint("EEPROM I2C Write Flash 성공", successLog, Globalo.eMessageName.M_INFO);
-            }
-
-        }
+        
 
         private void button_WSet_Dat_Create_Click(object sender, EventArgs e)
         {

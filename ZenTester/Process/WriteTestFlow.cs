@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -192,11 +193,26 @@ namespace ZenTester.Process
                     case 20:
                         //스페셜 data로 txt만들기 CommandParameter
 
-                        
-                        string txtFilePath = "";
-                        txtFilePath = Globalo.FxaBoardManager.fxaEEpromWrite.gettxtFilePath();
-                        Fxa.CrcClass.crcToTxtSave(CommandParameter, txtFilePath);
+                        //D125227T2100059_P1656620-0L-B-SLGM250230D00159_2025040119_EEPROM-MES
+                        string _date = DateTime.Now.ToString("yyyyMMddHH");
+                        string filename = $"{wLotId}_{writetestData.Barcode}_{_date}_EEPROM-MES.txt";
+                        string folder = Globalo.FxaBoardManager.fxaEEpromWrite.gettxtFilePath();
+                        string txtFilePath = Path.Combine(folder, filename);
 
+
+
+
+                        bool bSave = Fxa.CrcClass.crcToTxtSave(CommandParameter, txtFilePath);
+                        if (bSave)
+                        {
+                            szLog = $"{txtFilePath} Save Ok";
+                            Globalo.LogPrint("WriteFlow", szLog);
+                        }
+                        else
+                        {
+                            szLog = $"{txtFilePath} Save Fail";
+                            Globalo.LogPrint("WriteFlow", szLog);
+                        }
                         //Globalo.FxaBoardManager.fxaEEpromWrite.sa
 
                         //1.Special Data로 Crc 계산
@@ -217,21 +233,53 @@ namespace ZenTester.Process
                         //PATH3=  이경로에서 TXT파일을 갖고온다.
                         //DAT를 만들기하면
                         //SAVE_PATH=D:\test = 이경로에 DAT파일이 생성된다.
-                        
+
 
                         //1.Dat만들기
                         //Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00158", "B825114T1100345");
 
+                        szLog = $"Dat Create ;{writetestData.Barcode}/{wLotId}";
+                        Globalo.LogPrint("WriteFlow", szLog);
+
                         Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite(writetestData.Barcode, wLotId);
+                        Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate = -1;
+
+                        nRetStep = 35;
+                        nTimeTick = Environment.TickCount;
+                        break;
+                    case 35:
+                        if (Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate == 0)
+                        {
+                            nRetStep = 40;
+                        }
+                        else if (Environment.TickCount - nTimeTick > 30000)
+                        {
+                            nRetStep *= -1;
+                            Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Timeout 30s.");
+                            break;
+                        }
                         break;
                     case 40:
+                        if(Environment.TickCount - nTimeTick > 500)     //dat 생성후 바로 체크 안되는듯 딜레이 추가
+                        {
+                            nRetStep = 50;
+                        }
+                        
+                        break;
+                    case 50:
 
                         //2.write 진행
                         //EEPROM Write I2C Flash
-                        string datfilename = "P1656620-0L-B-SLGM250230D00158_20250626_111146"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
-                                                                                               //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+                        //string datfilename = "P1656620-0L-B-SLGM250230D00158_20250626_111146"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+                        //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
 
-                        string result = "";// Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
+                        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath);
+
+                        string datfilename = fileNameWithoutExtension;/// "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+                        //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+
+
+                        string result = Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
 
                         if (result.StartsWith("[ERROR]"))
                         {
@@ -251,7 +299,10 @@ namespace ZenTester.Process
                             Globalo.LogPrint("EEPROM I2C Write Flash 성공", successLog, Globalo.eMessageName.M_INFO);
                         }
                         break;
-                    case 50:
+                    case 60:
+
+                        break;
+                    case 70:
 
                         nRetStep = 900;
                         break;

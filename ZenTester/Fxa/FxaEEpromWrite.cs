@@ -34,36 +34,57 @@ namespace ZenTester.Fxa
             //ipc 통신으로 넘어오는 부분
             //[10:17:44.2] D:\test\P1656620-0L-B-SLGM250230D00158_20250620_011740.dat@1750349860@1750349860@434209840218070890010D@A7FC@4AEF@01DC@6AE9@E9FE@BEF8@10F0@10F0
         }
-        public async void test111()
+        
+        public string RunEEPROMWriteCommandAsync(string datFileName)
         {
-            //EEPROM Write I2C Flash
-            string datfilename = "P1656620-0L-B-SLGM250230D00158_20250620_072939"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
-            //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
 
+            //string args = $"/c cd /d D:\\EVMS\\TP\\ENV\\ti_cam_eeprom_flasher && ti_cam_eeprom_flasher.exe {datFileName}";  //OPAL
 
-            string result = await RunEEPROMWriteCommandAsync(datfilename);
+            //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_EEPROM_exe
+            string workingDir = @"D:\EVMS\TP\ENV\lgit_eeprom_flash";        //trinity
+            string exeName = "cam_eeprom_flasher.exe";
 
-            if (result.StartsWith("[ERROR]"))
+            //string workingDir = @"D:\EVMS\TP\ENV\ti_cam_eeprom_flasher";          //opal
+            //string exeName = "ti_cam_eeprom_flasher.exe";
+
+            string args = $"/c cd /d {workingDir} && {exeName} {datFileName}";
+
+            var psi = new ProcessStartInfo
             {
-                string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
+                FileName = "cmd.exe",
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
 
-                Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail, Globalo.eMessageName.M_ERROR);
-
-                // → 필요 시: 에러 유형별 분기
-                if (errorDetail.Contains("Can't open config"))
-                    Globalo.LogPrint("원인", "flash_conf.ini 접근 실패", Globalo.eMessageName.M_WARNING);
-                else if (errorDetail.Contains("I2C"))
-                    Globalo.LogPrint("원인", "I2C 통신 오류", Globalo.eMessageName.M_WARNING);
-            }
-            else
+            using (var process = new System.Diagnostics.Process { StartInfo = psi })
             {
-                string successLog = result.Replace("[SUCCESS]", "").Trim();
-                Globalo.LogPrint("EEPROM I2C Write Flash 성공", successLog, Globalo.eMessageName.M_INFO);
+                process.Start();
+
+                //Task<string> outputTask = process.StandardOutput.ReadToEndAsync();
+                //Task<string> errorTask = process.StandardError.ReadToEndAsync();
+                string output = process.StandardOutput.ReadToEnd();
+                string error = process.StandardError.ReadToEnd();
+
+                process.WaitForExit();
+
+                process.WaitForExit();
+
+                //string output = await outputTask;
+                //string error = await errorTask;
+
+                if (!string.IsNullOrWhiteSpace(error))
+                {
+                    return $"[ERROR]\n{error.Trim()}";
+                }
+
+                return $"[SUCCESS]\n{output.Trim()}";
             }
         }
-
         //RunEEPROMWriteCommandAsync  = eeprom i2c 보내는 것 flash
-        public async Task<string> RunEEPROMWriteCommandAsync(string datFileName)
+        public async Task<string> Old__RunEEPROMWriteCommandAsync(string datFileName)
         {
 
             //string args = $"/c cd /d D:\\EVMS\\TP\\ENV\\ti_cam_eeprom_flasher && ti_cam_eeprom_flasher.exe {datFileName}";  //OPAL
