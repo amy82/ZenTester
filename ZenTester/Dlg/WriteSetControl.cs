@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,8 +19,8 @@ namespace ZenTester.Dlg
         public const int WM_COPYDATA = 0x004A;
 
         [DllImport("user32.dll", SetLastError = true)]
-
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref Fxa.COPYDATASTRUCT lParam);
+        public bool bManualWriteRun = false;
         public WriteSetControl()
         {
             InitializeComponent();
@@ -48,119 +49,133 @@ namespace ZenTester.Dlg
             //DAT를 만들기하면
             //SAVE_PATH=D:\test = 이경로에 DAT파일이 생성된다.
 
-            //---------------------------------------------------------------------------------------------------------------------------
-            //
-            //
-            //
-            //  1.Dat만들기
-            //  Run_DatCreation_EEPROMWrite  <---에서 결과 바로 리턴
-            //
-            //
-            //---------------------------------------------------------------------------------------------------------------------------
-            //
-            Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
-            Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate = -1;
-            int nWriteTimeTick = 0;
-            nWriteTimeTick = Environment.TickCount;
-            while (true)
+            if (bManualWriteRun)
             {
-                if (Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate == 0)
-                {
-                    break;
-                }
-                if (Environment.TickCount - nWriteTimeTick > 10000)
-                {
-                    Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Timeout 10s.");
-                    break;
-                }
-            }
-            if (Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate == -1)
-            {
-
-                Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Fail.");
-                //Dat 파일 생성 실패
+                Console.WriteLine("Manual Write Run...");
                 return;
             }
-
-            //---------------------------------------------------------------------------------------------------------------------------
-            //
-            //
-            //
-            //  2.생성된 Dat파일로 Write 진행
-            //RunEEPROMWriteCommandAsync  <---에서 결과 바로 리턴
-            //
-            //
-            //---------------------------------------------------------------------------------------------------------------------------
-            //2.write 진행
-            //cam_eeprom_flasher.exe 같은 폴더에 있는 flash_conf.ini 파일안에
-            // dat_path = D:\lgit_eeprom\dat_files   이경로에 dat가 생성이 돼야된다.
-            //ThunderEEPROMCreationTool.exe 같은 폴더에 잇는 Configuration.ini 파일안에
-            //SAVE_PATH=D:\lgit_eeprom\dat_files  하고 맞혀야 될듯?
-            //EEPROM Write I2C Flash
-            // 파일 이름만 가져오고 확장자는 제거
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath);
-
-            string datfilename = fileNameWithoutExtension;/// "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
-            //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
-
-            string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
-            //"[SUCCESS]\nCamera EEPROM flash: PASS"
-            // 대소문자 구분 없이 포함 여부 확인
-
-
-            bool hasSuccess = result.Contains("SUCCESS");
-            bool hasPass = result.Contains("PASS");
-            if (hasSuccess || hasPass)
+            //_ = Task.Run(async () =>
+            await Task.Run(async () =>
             {
-                //EEPROM I2C Write Flash 성공
-                //string successLog = result.Replace("[SUCCESS]", "").Trim();
-                Globalo.LogPrint("Write Flash", result);//, Globalo.eMessageName.M_INFO);
-            }
-            else
-            {
-                string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
 
-                Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail);//, Globalo.eMessageName.M_ERROR);
-
-                // → 필요 시: 에러 유형별 분기
-
-                if (errorDetail.Contains("Can't open config"))
+                bManualWriteRun = true;
+                //---------------------------------------------------------------------------------------------------------------------------
+                //
+                //
+                //
+                //  1.Dat만들기
+                //  Run_DatCreation_EEPROMWrite  <---에서 결과 바로 리턴
+                //
+                //
+                //---------------------------------------------------------------------------------------------------------------------------
+                //
+                Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
+                Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate = -1;
+                int nWriteTimeTick = 0;
+                nWriteTimeTick = Environment.TickCount;
+                while (true)
                 {
-                    Globalo.LogPrint("fxaEEpromWrite", "flash_conf.ini 접근 실패");//, Globalo.eMessageName.M_WARNING);
+                    if (Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate == 0)
+                    {
+                        break;
+                    }
+                    if (Environment.TickCount - nWriteTimeTick > 20000)
+                    {
+                        Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Timeout 20s.");
+                        break;
+                    }
                 }
-                else if (errorDetail.Contains("I2C"))
-                {
-                    Globalo.LogPrint("fxaEEpromWrite", "I2C 통신 오류");//, Globalo.eMessageName.M_WARNING);
-                }
-            }
-            //if (result.StartsWith("[ERROR]"))
 
-            //---------------------------------------------------------------------------------------------------------------------------
-            //
-            //
-            //
-            //
-            //  3.dat 확장자를 txt로 만들기
-            //생성된 dat파일을 그위치에서 txt로 확장자 바꿔준다.
-            //
-            //
-            //
-            //---------------------------------------------------------------------------------------------------------------------------
-            if (File.Exists(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath))
-            {
-                string newPath = Path.ChangeExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath, ".txt");
+                if (Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate == -1)
+                {
+                    bManualWriteRun = false;
+                    Globalo.LogPrint("fxaEEpromWrite", "Dat File Create Fail.");
+                    //Dat 파일 생성 실패
+                    return;
+                }
+                Thread.Sleep(300);
+                //---------------------------------------------------------------------------------------------------------------------------
+                //
+                //
+                //
+                //  2.생성된 Dat파일로 Write 진행
+                //RunEEPROMWriteCommandAsync  <---에서 결과 바로 리턴
+                //
+                //
+                //---------------------------------------------------------------------------------------------------------------------------
+                //2.write 진행
+                //cam_eeprom_flasher.exe 같은 폴더에 있는 flash_conf.ini 파일안에
+                // dat_path = D:\lgit_eeprom\dat_files   이경로에 dat가 생성이 돼야된다.
+                //ThunderEEPROMCreationTool.exe 같은 폴더에 잇는 Configuration.ini 파일안에
+                //SAVE_PATH=D:\lgit_eeprom\dat_files  하고 맞혀야 될듯?
+                //EEPROM Write I2C Flash
+                // 파일 이름만 가져오고 확장자는 제거
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath);
+
+                string datfilename = fileNameWithoutExtension;/// "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+                //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+
+                string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
+                //"[SUCCESS]\nCamera EEPROM flash: PASS"
+                // 대소문자 구분 없이 포함 여부 확인
+
+
+                bool hasSuccess = result.Contains("SUCCESS");
+                bool hasPass = result.Contains("PASS");
+                if (hasSuccess || hasPass)
+                {
+                    //EEPROM I2C Write Flash 성공
+                    //string successLog = result.Replace("[SUCCESS]", "").Trim();
+                    Globalo.LogPrint("Write Flash", result);//, Globalo.eMessageName.M_INFO);
+                }
+                else
+                {
+                    string errorDetail = result.Replace("[ERROR]", "").Trim();  // 에러 메시지 원문 추출
+
+                    Globalo.LogPrint("EEPROM I2C Write Flash 실패", errorDetail);//, Globalo.eMessageName.M_ERROR);
+
+                    // → 필요 시: 에러 유형별 분기
+
+                    if (errorDetail.Contains("Can't open config"))
+                    {
+                        Globalo.LogPrint("fxaEEpromWrite", "flash_conf.ini 접근 실패");//, Globalo.eMessageName.M_WARNING);
+                    }
+                    else if (errorDetail.Contains("I2C"))
+                    {
+                        Globalo.LogPrint("fxaEEpromWrite", "I2C 통신 오류");//, Globalo.eMessageName.M_WARNING);
+                    }
+                }
+                //if (result.StartsWith("[ERROR]"))
+
+                //---------------------------------------------------------------------------------------------------------------------------
+                //
+                //
+                //
+                //
+                //  3.dat 확장자를 txt로 만들기
+                //생성된 dat파일을 그위치에서 txt로 확장자 바꿔준다.
+                //
+                //
+                //
+                //---------------------------------------------------------------------------------------------------------------------------
                 if (File.Exists(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath))
                 {
-                    File.Move(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath, newPath); // 실제로 이름 변경 (확장자 변경)
+                    string newPath = Path.ChangeExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath, ".txt");
+                    if (File.Exists(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath))
+                    {
+                        File.Move(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath, newPath); // 실제로 이름 변경 (확장자 변경)
+                    }
                 }
-            }
-            else
-            {
-                Console.WriteLine($"{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath} 파일이 존재하지 않습니다.");
-            }
-            // 확장자를 .csv로 바꾸기
-            
+                else
+                {
+                    Console.WriteLine($"{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath} 파일이 존재하지 않습니다.");
+                }
+                    // 확장자를 .csv로 바꾸기
 
+                await Task.Delay(10);
+            });
+            Console.WriteLine("Manual Write End...");
+            bManualWriteRun = false;
         }
 
         private async void button1_Click(object sender, EventArgs e)            //lim Write 버튼

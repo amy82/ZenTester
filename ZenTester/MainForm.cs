@@ -475,6 +475,17 @@ namespace ZenTester  //ApsMotionControl
                             Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath = receivedParse[i];
                             logstr = $"Get Dat Path:{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath}";
                             Globalo.LogPrint("WndProc", logstr);
+
+
+                            if (Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath.Length > 0)
+                            {
+                                if (Path.GetExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath).Equals(".dat", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Globalo.FxaBoardManager.fxaEEpromWrite.recvDataCreate = 0;
+                                }
+                                    
+                            }
+                            
                         }
                     }
 
