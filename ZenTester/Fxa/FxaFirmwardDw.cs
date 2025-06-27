@@ -24,10 +24,12 @@ namespace ZenTester.Fxa
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
 
         public const string strConfINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+
         public FxaFirmwardDw()
         {
 
             //1.FirmwareDownLoadForCamAsync 
+
             //2.결과 확인
             //3.json 파일이 passed , fail 확인
             //4. json 파일 내용
@@ -35,14 +37,21 @@ namespace ZenTester.Fxa
 
         public void test111()
         {
+            //1. 스페셜 DATA에서 받은 파일명하고
+            //conf.ini에서 FIRMWARE_FILE = TRI_0xA2_interrupt_fix.cyacd  파일명하고 비교해야된다.
+
+
+
             //lot앞에 CAM1_붙여주기
 
+            // string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
             string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
             string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
             //result 결과 나오면 json 읽기
             //apd 보고
             //"$T,01,CAM1_P1637042-00-C-SLGM250434C00283,05,02,,00,03,,00,04,CAM3_P1637042-00-C-SLGM250434C00283\r,03"
             Globalo.LogPrint("FW : ", result, Globalo.eMessageName.M_INFO);
+
             //Globalo.gFXABoard.ReadFirmware(); //펌웨어 read
 
             //index , LOT , 결과
@@ -53,6 +62,19 @@ namespace ZenTester.Fxa
             string[] _version = new string[4];
 
             ReadFirmware(ref _version, ref _sensorId);
+
+            //ReadFirmware  = VERSION 읽어서 conf.ini  에서 FIRMWARE_VERSION = 0xa2 와 비교하고
+            //SENSER ID 읽어서 SKARLRL
+
+            /*
+             Result_Code
+                Socket_Num
+                Version
+                Result
+                Barcode
+                Heater_Current
+
+             */
         }
 
         public string getHeater_Current(string _Lot, string fwResult)
@@ -218,18 +240,23 @@ namespace ZenTester.Fxa
 
             return result;
         }
+
         public string FirmwareDownLoadForCamAsync(string[] lotId)
         {
             //FXA 보드에 업로드 되어있는 펌웨어 CAM 으로 다운로드 
 
-            const string exeName = "cypress_cam_flashing"; // 확장자 없이
+            string exeName = "cypress_cam_flashing"; // 확장자 없이
             //const string workingDir = @"D:\PG\FXABoard\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+            //D:\EVMS\TP\ENV\fwexe\TeslaEXE\FXA.EXE\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111
 
-            const string workingDir = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
-            const string exePath = workingDir + @"\cypress_cam_flashing.exe";
 
-            const string host = "127.0.0.1";
-            const int port = 5000;
+            string workingDir = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\FXA.EXE\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+
+            string exePath = workingDir + @"\cypress_cam_flashing.exe";
+
+            string host = "127.0.0.1";
+            int port = 5000;
+
             //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111
             try
             {

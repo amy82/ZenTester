@@ -455,6 +455,8 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.LogPrint("Write .dat Creation 결과", received);//, Globalo.eMessageName.M_INFO);
                 //Globalo.LogPrint("Checksum", string.Join("\n", Tockens));//, Globalo.eMessageName.M_INFO);
 
+
+
                 string[] tokens = ExtractAtTokens(received);
                 foreach (string token in tokens)
                 {

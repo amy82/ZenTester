@@ -31,8 +31,15 @@ namespace ZenTester.Dlg
 
         private void button_FdSet_JsonRead_Click(object sender, EventArgs e)
         {
+            //CAM다음 숫자는 소켓 번호일수도...
             string tempLot = "CAM1_P1637042-00-C-SLGM250434C00283";
-            Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(tempLot, "1");
+            string heart = Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(tempLot, "1");
+
+            string strlog = string.Empty;
+
+            strlog = $"getHeater_Current:{heart}";
+
+            Globalo.LogPrint("fxaEEpromWrite", strlog); 
         }
 
     }
