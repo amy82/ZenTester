@@ -178,7 +178,7 @@ namespace ZenTester.Dlg
                 {
                     Console.WriteLine($"{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath} 파일이 존재하지 않습니다.");
                 }
-                    // 확장자를 .csv로 바꾸기
+                // 확장자를 .txt로 바꾸기
 
                 await Task.Delay(10);
             });
