@@ -57,7 +57,7 @@ namespace ZenTester.TaskClass
             verifyTestFlow.verifytestData.init();
             verifyTestFlow.verifytestData.Barcode = data.LotId[0];
             verifyTestFlow.verifytestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
-
+            verifyTestFlow.vLotId = data.DataID;
             //verify는 착공을 secsgem으로 바로 걸기 때문에 special Data는 secsgem으로부터 받아야된다.
 
             Console.WriteLine($"Verify Task Start SocketNum-------{verifyTestFlow.verifytestData.Socket_Num}");

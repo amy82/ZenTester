@@ -43,11 +43,11 @@ namespace ZenTester.Dlg
             EEPRROM_LAST_UPDATED_UTC
             MANUFACTURED_TIMESTAMP_UTC
             IMAGER_UUID
-            CHECKSUM_EEPROM_VERSION
-            CHECKSUM_IMAGER_INFO
-            CHECKSUM_PART_INFO
-            CHECKSUM_INTRINSIC_PARAMETER
-            CHECKSUM_LSC
+            CHECKSUM_EEPROM_VERSION          - apd0
+            CHECKSUM_IMAGER_INFO             - apd1
+            CHECKSUM_PART_INFO               - apd2
+            CHECKSUM_INTRINSIC_PARAMETER     - apd3
+            CHECKSUM_LSC                     - apd4
             CHECKSUM_FLAG_BLOCK
             CHECKSUM_TBD1_BLOCK
             CHECKSUM_TBD2_BLOCK

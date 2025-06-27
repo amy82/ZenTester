@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,9 +25,11 @@ namespace ZenTester.Process
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
         public List<TcpSocket.EquipmentParameterInfo> CommandParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
         private int m_nTestFinalResult;
+        public string vLotId;
         public VerifyTestFlow()
         {
             verifyTask = Task.FromResult(1);
+            vLotId = string.Empty;
         }
 
         public int VerifyAutoProcess(int nStep)
@@ -247,15 +250,47 @@ namespace ZenTester.Process
                         //끝
                         //Globalo.FxaBoardManager.fxaEEpromVerify.mmdEEpromData
 
-                        string txtpath = Globalo.FxaBoardManager.fxaEEpromVerify.gettxtFilePath();
 
-                        Fxa.CrcClass.crcToTxtSave(Globalo.taskWork.CommandParameter, "D:\\aaa");
-                        Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.LotID, sendEqipData.DataID);
+                        string _date = DateTime.Now.ToString("yyyyMMddHH");
+                        string filename = $"{vLotId}_{verifytestData.Barcode}_{_date}_EEPROM-MES.txt";
+                        string folder = Globalo.FxaBoardManager.fxaEEpromVerify.gettxtFilePath();
+                        string txtFilePath = Path.Combine(folder, filename);
+
+
+                        bool bSave = Fxa.CrcClass.crcToTxtSave(Globalo.taskWork.CommandParameter, txtFilePath);
+
+                        if (bSave)
+                        {
+                            szLog = $"{txtFilePath} Save Ok";
+                            Globalo.LogPrint("WriteFlow", szLog);
+                        }
+                        else
+                        {
+                            m_nTestFinalResult = 0;
+                            szLog = $"{txtFilePath} Save Fail";
+                            Globalo.LogPrint("WriteFlow", szLog);
+                        }
+
+
                         //RunEEPROMVerifycation  -----> WndProc 이쪽으로 결과 들어온다
                         //
+                        nTimeTick = Environment.TickCount;
                         nRetStep = 30;
                         break;
                     case 30:
+                        if (Environment.TickCount - nTimeTick > 500)     //dat 생성후 바로 체크 안되는듯 딜레이 추가
+                        {
+                            nRetStep = 40;
+                        }
+                        
+                        break;
+                    case 40:
+
+                        Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.LotID, sendEqipData.DataID);
+                        nRetStep = 50;
+                        break;
+                    case 50:
+
                         nRetStep = 900;
                         break;
                     case 900:
