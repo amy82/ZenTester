@@ -451,6 +451,7 @@ namespace ZenTester  //ApsMotionControl
                 //
                 //		+		Tockens	{string[11]}	string[]
                 //"EEPROM FXA Board Link Error NG@1750986742@1750986742@C342090304180708DA000F@@@@@@@@"
+                //"EEPROM FXA Board Link Error NG@1750986742@1750986742@C342090304180708DA000F@@@@@@@@"
                 Globalo.LogPrint("Write .dat Creation 결과", received);//, Globalo.eMessageName.M_INFO);
                 //Globalo.LogPrint("Checksum", string.Join("\n", Tockens));//, Globalo.eMessageName.M_INFO);
 
