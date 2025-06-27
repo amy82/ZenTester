@@ -51,11 +51,9 @@ namespace ZenTester.Fxa
 
                 string[] lotarr = { "CAM1_P1637042-00-C-SLGM250434C00283","", "", "" };
 
-
-
                 string result = FirmwareDownLoadForCamAsync(lotarr); //CAM1 = 포트 그 뒤엔 BCR ":" -> "-" 으로 변경해서 넣어야 함 save파일명
 
-                strLog = $"FirmwareDownLoadForCamAsync:{result}";
+                strLog = $"Firmware DownLoad ForCamAsync:{result}";
 
                 if (result == "-1")
                 {
@@ -109,7 +107,7 @@ namespace ZenTester.Fxa
 
                 for (i = 0; i < lotarr.Length; i++)
                 {
-                    int nResult = 1;
+                    int nResult = int.Parse(rtnFinalArr[i]);
                     getfwResultFromJson(lotarr[i], nResult);
                 }
             
@@ -180,7 +178,7 @@ namespace ZenTester.Fxa
             string resultLog = "D:\\tmp\\";     //conf.ini에서 가져와라 LOG_PATH = D:\tmp\
             string final = "";
 
-            if (nResult == 1)
+            if (nResult == 0 && lotId.Length > 0)
             {
                 final = "PASSED_";
             }
@@ -193,6 +191,11 @@ namespace ZenTester.Fxa
 
 
             string jsonFilePath = Path.Combine(resultLog, final + _Bcr + ".json");
+            if (File.Exists(jsonFilePath) == false)
+            {
+                Console.WriteLine($"{jsonFilePath} File Empty");
+                return;
+            }
             var result = ReadJsonResult(jsonFilePath); //경로\\제품 BCR   ///"D:\\tmp\\PASSED_CAM1_P1637042-00-C-SLGM250434C00283.json";
 
             //string temp = result.parameters["imager_temperature_sensor_test"].name;
@@ -231,7 +234,6 @@ namespace ZenTester.Fxa
                 //Opal: ti
                 model = "'ti'";
             }
-            //string cmddddd = "bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m 'cypress'";
 
             string cmddddd = $"bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m {model}";
 
@@ -280,6 +282,7 @@ namespace ZenTester.Fxa
                 // 줄바꿈 제거 및 콤마로 구분된 hex string으로 변환
                 var idLines = sensorID.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 sensorID = string.Join(",", idLines);
+                sensorID = string.Concat(idLines.Select(x => x.Replace("0x", "").PadLeft(2, '0')));
 
                 //strResult += (version + ",");
                 strResult += $"P{i} => FW: {fwversion}, SensorID: {sensorID}\n";
@@ -288,7 +291,7 @@ namespace ZenTester.Fxa
             //Globalo.LogPrint("", szLog, Globalo.eMessageName.M_WARNING);
 
 
-            Globalo.LogPrint("FW Version Check", strResult, Globalo.eMessageName.M_WARNING);
+            Globalo.LogPrint("FW Version Check", strResult);//, Globalo.eMessageName.M_WARNING);
 
             client.CreateCommand("bash /home/root/utils/cam_power/turn_on_cameras.sh 0v 'all' 0 9").Execute();
 
@@ -329,7 +332,8 @@ namespace ZenTester.Fxa
             try
             {
                 // EXE가 실행 중인지 확인
-                if (System.Diagnostics.Process.GetProcessesByName(exeName).Length == 0)
+                int cnt = System.Diagnostics.Process.GetProcessesByName(exeName).Length;
+                if (cnt == 0)
                 {
                     var psi = new ProcessStartInfo
                     {
@@ -339,23 +343,44 @@ namespace ZenTester.Fxa
                         UseShellExecute = false,
                         CreateNoWindow = true
                     };
-                    System.Diagnostics.Process.Start(psi);
-
-                    Thread.Sleep(100);
-
-                    string command = $"$H,01,{lotId[0]},02,{lotId[1]},03,{lotId[2]},04,{lotId[3]}";
-
-
-                    using (TcpClient client = new TcpClient(host, port))
-                    using (NetworkStream stream = client.GetStream())
+                    //System.Diagnostics.Process.Start(psi);
+                    // Process 실행 및 종료 대기
+                    string fdrtn = string.Empty;
+                    using (var process = System.Diagnostics.Process.Start(psi))
                     {
-                        byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
-                        stream.Write(data, 0, data.Length);
+                        Thread.Sleep(100);
 
-                        byte[] buffer = new byte[1024];
-                        int bytes = stream.Read(buffer, 0, buffer.Length);
+                        string command = $"$H,01,{lotId[0]},02,{lotId[1]},03,{lotId[2]},04,{lotId[3]}";
 
-                        return Encoding.ASCII.GetString(buffer, 0, bytes).Trim();
+
+                        using (TcpClient client = new TcpClient(host, port))
+                        {
+                            using (NetworkStream stream = client.GetStream())
+                            {
+                                byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
+                                stream.Write(data, 0, data.Length);
+
+                                byte[] buffer = new byte[1024];
+                                int bytes = stream.Read(buffer, 0, buffer.Length);
+                                fdrtn = Encoding.ASCII.GetString(buffer, 0, bytes).Trim();
+                                stream.Close();
+                            }
+                            client.Close();
+                        }
+                        //process.WaitForExit();  // 프로세스가 종료될 때까지 기다림
+
+                        //if (!process.WaitForExit(5000))  // 5초만 기다림
+                        //{
+                        //    Console.WriteLine("프로세스가 종료되지 않음. 강제 종료.");
+                        //    process.Kill();  // 자식 포함 강제 종료
+                        //}
+                        //process.Kill(true);  // 자식 포함 강제 종료
+                        // 종료 코드 확인 (옵션)
+                        int exitCode = process.ExitCode;
+                        Console.WriteLine($"프로세스 종료됨. 코드: {exitCode}");
+
+                        return fdrtn;
+
                     }
                 }
                 else
