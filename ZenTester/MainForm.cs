@@ -459,7 +459,7 @@ namespace ZenTester  //ApsMotionControl
                 {
                     Console.WriteLine($"token → {token}");
                 }
-
+                string logstr = string.Empty;
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
                 {
                     //생성된 Dat 경로 받아야된다.
@@ -473,6 +473,8 @@ namespace ZenTester  //ApsMotionControl
                         if (i == 0)
                         {
                             Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath = receivedParse[i];
+                            logstr = $"Get Dat Path:{Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath}";
+                            Globalo.LogPrint("WndProc", logstr);
                         }
                     }
 

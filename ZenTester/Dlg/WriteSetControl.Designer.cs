@@ -33,6 +33,7 @@ namespace ZenTester.Dlg
             this.button_WSet_ConfRead = new System.Windows.Forms.Button();
             this.button_WSet_Crc_Cal = new System.Windows.Forms.Button();
             this.button_WSet_Run = new System.Windows.Forms.Button();
+            this.button_WSet_Dat_Create = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_WriteSetTest_Title
@@ -78,7 +79,7 @@ namespace ZenTester.Dlg
             this.button_WSet_Run.BackColor = System.Drawing.Color.Tan;
             this.button_WSet_Run.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_WSet_Run.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_WSet_Run.Location = new System.Drawing.Point(285, 123);
+            this.button_WSet_Run.Location = new System.Drawing.Point(285, 298);
             this.button_WSet_Run.Name = "button_WSet_Run";
             this.button_WSet_Run.Size = new System.Drawing.Size(180, 57);
             this.button_WSet_Run.TabIndex = 110;
@@ -86,10 +87,24 @@ namespace ZenTester.Dlg
             this.button_WSet_Run.UseVisualStyleBackColor = false;
             this.button_WSet_Run.Click += new System.EventHandler(this.button_WSet_Run_Click);
             // 
+            // button_WSet_Dat_Create
+            // 
+            this.button_WSet_Dat_Create.BackColor = System.Drawing.Color.Tan;
+            this.button_WSet_Dat_Create.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_WSet_Dat_Create.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_WSet_Dat_Create.Location = new System.Drawing.Point(285, 123);
+            this.button_WSet_Dat_Create.Name = "button_WSet_Dat_Create";
+            this.button_WSet_Dat_Create.Size = new System.Drawing.Size(180, 57);
+            this.button_WSet_Dat_Create.TabIndex = 111;
+            this.button_WSet_Dat_Create.Text = "Dat Create";
+            this.button_WSet_Dat_Create.UseVisualStyleBackColor = false;
+            this.button_WSet_Dat_Create.Click += new System.EventHandler(this.button_WSet_Dat_Create_Click);
+            // 
             // WriteSetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_WSet_Dat_Create);
             this.Controls.Add(this.button_WSet_Run);
             this.Controls.Add(this.button_WSet_Crc_Cal);
             this.Controls.Add(this.button_WSet_ConfRead);
@@ -106,5 +121,6 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Button button_WSet_ConfRead;
         private System.Windows.Forms.Button button_WSet_Crc_Cal;
         private System.Windows.Forms.Button button_WSet_Run;
+        private System.Windows.Forms.Button button_WSet_Dat_Create;
     }
 }

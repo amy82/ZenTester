@@ -29,7 +29,7 @@ namespace ZenTester.Dlg
             //Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName();
             string txtpath = Globalo.FxaBoardManager.fxaEEpromWrite.gettxtFilePath();
 
-            string szLog = $"[WRITE] TXT PATH : {txtpath}";
+            string szLog = $"[WRITE] PATH3 PATH : {txtpath}";
             Globalo.LogPrint("ManualControl", szLog);
         }
 
@@ -49,12 +49,22 @@ namespace ZenTester.Dlg
 
 
             //1.Dat만들기
-            Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
+            //Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
 
-             
+
             //2.write 진행
+            //cam_eeprom_flasher.exe 같은 폴더에 있는 flash_conf.ini 파일안에
+            // dat_path = D:\lgit_eeprom\dat_files   이경로에 dat가 생성이 돼야된다.
+            //ThunderEEPROMCreationTool.exe 같은 폴더에 잇는 Configuration.ini 파일안에
+            //SAVE_PATH=D:\lgit_eeprom\dat_files  하고 맞혀야 될듯?
+
+
+
             //EEPROM Write I2C Flash
-            string datfilename = "P1656620-0L-B-SLGM250230D00158_20250626_111146"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
+            // 파일 이름만 가져오고 확장자는 제거
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath);
+
+            string datfilename = "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
             //string datfilename = "P1656620-0R-B-SLGM250230D00169_20250619_051049"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 
 
             string result = await Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteCommandAsync(datfilename);
@@ -77,7 +87,9 @@ namespace ZenTester.Dlg
                 Globalo.LogPrint("EEPROM I2C Write Flash 성공", successLog, Globalo.eMessageName.M_INFO);
             }
 
+            //
             //3.dat 확장자를 txt로 만들기
+            //생성된 dat파일을 그위치에서 txt로 확장자 바꿔준다.
         }
 
         private async void button1_Click(object sender, EventArgs e)            //lim Write 버튼
@@ -112,6 +124,20 @@ namespace ZenTester.Dlg
             }
 
         }
-        
+
+        private void button_WSet_Dat_Create_Click(object sender, EventArgs e)
+        {
+            //스페셜 DATA를 TXT파일로 만들어서 PATH3= 에 저장해야된다.
+            //[D125227T2100059_P1656620-0L-B-SLGM250230D00158_2025040119_EEPROM-MES.txt]
+            //
+            //PATH3=  이경로에서 TXT파일을 갖고온다.
+            //DAT를 만들기하면
+            //SAVE_PATH=D:\test = 이경로에 DAT파일이 생성된다.
+            //생성된 dat 풀경로는 WndProc 이쪽으로 들어온다. Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath
+
+            //1.Dat만들기
+            Globalo.FxaBoardManager.fxaEEpromWrite.RunEEPROMWriteDatCreation("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
+
+        }
     }
 }
