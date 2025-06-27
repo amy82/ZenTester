@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -21,9 +22,22 @@ namespace ZenTester.Dlg
 
         private void button_FdSet_ConfRead_Click(object sender, EventArgs e)
         {
-            string fwStr = "";
-            fwStr = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_FILE");
-            fwStr = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
+            string fwFileStr = "";
+            string fwVerStr = "";
+            fwFileStr = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_FILE");
+            fwVerStr = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
+
+            string szLog = "";
+
+
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fwFileStr);
+
+
+
+            szLog = $"[conf]FIRMWARE_FILE:{fileNameWithoutExtension}";
+            Globalo.LogPrint("fw :", szLog);
+            szLog = $"[conf]FIRMWARE_VERSION:{fwVerStr}";
+            Globalo.LogPrint("fw :", szLog);
         }
 
         private async void button_FdSet_Test_Click(object sender, EventArgs e)

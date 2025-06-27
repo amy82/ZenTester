@@ -236,11 +236,15 @@ namespace ZenTester.Process
                         break;
                     case 20:
                         //fwtestData.Version = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("FIRMWARE_VERSION");
-                        fwtestData.LogPath = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("LOG_PATH");
+                        fwtestData.LogPath = Globalo.FxaBoardManager.fxaFirmwardDw.getFirmwareFileName("LOG_PATH"); //<--완료후 json 파일 생성 위치
 
                         // 쉼표로 분리
                         
                         string fwRtn = Globalo.FxaBoardManager.fxaFirmwardDw.FirmwareDownLoadForCamAsync(fwtestData.arrBcr);
+                        string[] receivedParse = fwRtn.Split(',');     //총 13개
+
+
+
 
                         szLog = $"[FW] Firmware Result:{fwRtn} [STEP : {nRetStep}]";
                         Globalo.LogPrint("ManualControl", szLog);
@@ -254,27 +258,51 @@ namespace ZenTester.Process
                         fwtestData.Result_Code[2] = items[9];
                         fwtestData.Result_Code[3] = items[12];
 
-
+                        nTimeTick = Environment.TickCount;
+                        nRetStep = 25;
+                        break;
+                    case 25:
+                        if (Environment.TickCount - nTimeTick > 300)
+                        {
+                            nRetStep = 30;
+                        }
+                        break;
+                    case 30:
                         for (i = 0; i < 4; i++)
                         {
-                            if (fwtestData.Result_Code[i] == "00")
+                            if (int.Parse(fwtestData.Result_Code[i]) == 0)
                             {
                                 fwtestData.Result[i] = "1";
+                                szLog = $"Cam{i + 1} Firmware Download ok -{fwtestData.Result_Code[i]}";
+
+                                int nResult = int.Parse(fwtestData.Result_Code[i]);
+                                Globalo.FxaBoardManager.fxaFirmwardDw.getfwResultFromJson(fwtestData.arrBcr[i], nResult);
                             }
                             else
                             {
                                 //ng
                                 fwtestData.Result[i] = "0";
+                                //fail
+                                szLog = $"Cam{i + 1} Firmware Download fail -{fwtestData.Result_Code[i]}";
                             }
 
+
+                            //
                             fwtestData.Heater_Current[i] = Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(fwtestData.arrBcr[i], fwtestData.Result[i]);
                         }
 
+                        nRetStep = 40;
+                        break;
+                    case 40:
+
+                        nRetStep = 50;
+                        break;
+                    case 50:
                         string[] _sensorId = new string[4];
                         string[] _version = new string[4];
 
                         //ReadFirmware
-                        Globalo.FxaBoardManager.fxaFirmwardDw.ReadFirmware(ref _version , ref _sensorId);
+                        Globalo.FxaBoardManager.fxaFirmwardDw.ReadFirmware(ref _version, ref _sensorId);
                         for (i = 0; i < 4; i++)
                         {
                             fwtestData.Version[i] = _version[i];
@@ -283,11 +311,9 @@ namespace ZenTester.Process
                             szLog = $"[FW] Version: {fwtestData.Version[i]} SensorId:{fwtestData.Sensorid[i]} [STEP : {nRetStep}]";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
-                            
-
-                        nRetStep = 30;
+                        nRetStep = 60;
                         break;
-                    case 30:
+                    case 60:
                         nRetStep = 900;
                         break;
                     case 900:
