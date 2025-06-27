@@ -492,7 +492,8 @@ namespace ZenTester  //ApsMotionControl
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                 {
-                    
+                    //EEPROM Write OK
+                    //EEPROM Compare NG
                 }
                 // 여기서 구분 처리
                 //switch (senderProc)
