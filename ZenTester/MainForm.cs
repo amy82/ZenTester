@@ -494,6 +494,18 @@ namespace ZenTester  //ApsMotionControl
                 {
                     //EEPROM Write OK
                     //EEPROM Compare NG
+                    bool hasOkSuccess = received.Contains("OK");
+                    bool hasNGSuccess = received.Contains("NG");
+                    Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = -1;
+                    
+                    if (hasOkSuccess)
+                    {
+                        Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = 0;
+                    }
+                    if (hasNGSuccess)
+                    {
+                        Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = 1;
+                    }
                 }
                 // 여기서 구분 처리
                 //switch (senderProc)

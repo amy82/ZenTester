@@ -29,7 +29,7 @@ namespace ZenTester.Fxa
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
         public List<byte> mmdEEpromData;    //Special Data -> Hex Data
         public string defaultCrc;
-
+        public int recvDataFinal;
         public FxaEEpromVerify()
         {
             mmdEEpromData = new List<byte>();
