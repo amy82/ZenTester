@@ -43,24 +43,20 @@ namespace ZenTester.Dlg
 
                 
 
-                if (result == "-1")
-                {
-                    Globalo.LogPrint("fw :", "Firmware Download Fail");
-                    return;
-                }
+                //if (result == "-1")
+                //{
+                //    Globalo.LogPrint("fw :", "Firmware Download Fail");
+                //    return;
+                //}
                 strLog = $"Firmware DownLoad ForCamAsync:{result}";
-                Globalo.LogPrint("fw :", "Firmware Download Fail");
+                Globalo.LogPrint("fw :", strLog);
 
                 string[] receivedParse = result.Split(',');     //총 13개
                 Globalo.LogPrint("fw :", strLog);//, Globalo.eMessageName.M_INFO);
 
-                string[] rtnBcrArr = new string[4];
-                string[] rtnFinalArr = new string[4];
-                for (i = 0; i < rtnBcrArr.Length; i++)
-                {
-                    rtnBcrArr[i] = string.Empty;
-                    rtnFinalArr[i] = string.Empty;
-                }
+                string[] rtnBcrArr = { "", "", "", "" };
+                string[] rtnFinalArr = { "", "", "", "" };
+                
 
                 if (receivedParse.Length >= 13)
                 {
@@ -74,7 +70,22 @@ namespace ZenTester.Dlg
                     rtnFinalArr[2] = receivedParse[9];
                     rtnFinalArr[3] = receivedParse[12];
                 }
+                for (i = 0; i < rtnBcrArr.Length; i++)
+                {
+                    if (int.Parse(rtnFinalArr[i]) == 0)
+                    {
+                        //ok
+                        strLog = $"Cam{i+1} Firmware Download ok -{rtnFinalArr[i]}";
+                    }
+                    else
+                    {
+                        //fail
+                        strLog = $"Cam{i + 1} Firmware Download fail -{rtnFinalArr[i]}";
+                    }
 
+                    
+                    Globalo.LogPrint("fw :", strLog);
+                }
 
                 //Globalo.FxaBoardManager.fxaFirmwardDw.Manual_Fw_DownLoad();
                 bManualFwRun = false;
@@ -97,5 +108,24 @@ namespace ZenTester.Dlg
             Globalo.LogPrint("fxaEEpromWrite", strlog); 
         }
 
+        private void button_FdSet_Read_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            string[] _version = new string[4];
+            string[] _sensorId = new string[4];
+
+            Globalo.FxaBoardManager.fxaFirmwardDw.ReadFirmware(ref _version, ref _sensorId);
+            for (i = 0; i < _version.Length; i++)
+            {
+                string logMsg = $"[version]{_version[i]}";
+                Globalo.LogPrint("fw", logMsg);
+            }
+
+            for (i = 0; i < _sensorId.Length; i++)
+            {
+                string logMsg = $"[sensorid]{_sensorId[i]}";
+                Globalo.LogPrint("fw", logMsg);
+            }
+        }
     }
 }

@@ -372,7 +372,7 @@ namespace ZenTester.Fxa
                 {
                     using (NetworkStream stream = client.GetStream())
                     {
-                        byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
+                        byte[] data = Encoding.ASCII.GetBytes(command);// + "\r\n");
                         stream.Write(data, 0, data.Length);
 
                         byte[] buffer = new byte[1024];

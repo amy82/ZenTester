@@ -33,6 +33,7 @@ namespace ZenTester.Dlg
             this.button_FdSet_ConfRead = new System.Windows.Forms.Button();
             this.button_FdSet_Test = new System.Windows.Forms.Button();
             this.button_FdSet_JsonRead = new System.Windows.Forms.Button();
+            this.button_FdSet_Read = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_FwSetTest_Title
@@ -86,10 +87,24 @@ namespace ZenTester.Dlg
             this.button_FdSet_JsonRead.UseVisualStyleBackColor = false;
             this.button_FdSet_JsonRead.Click += new System.EventHandler(this.button_FdSet_JsonRead_Click);
             // 
+            // button_FdSet_Read
+            // 
+            this.button_FdSet_Read.BackColor = System.Drawing.Color.Tan;
+            this.button_FdSet_Read.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_FdSet_Read.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_FdSet_Read.Location = new System.Drawing.Point(310, 182);
+            this.button_FdSet_Read.Name = "button_FdSet_Read";
+            this.button_FdSet_Read.Size = new System.Drawing.Size(180, 57);
+            this.button_FdSet_Read.TabIndex = 111;
+            this.button_FdSet_Read.Text = "Read version/sensorid";
+            this.button_FdSet_Read.UseVisualStyleBackColor = false;
+            this.button_FdSet_Read.Click += new System.EventHandler(this.button_FdSet_Read_Click);
+            // 
             // FwSetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_FdSet_Read);
             this.Controls.Add(this.button_FdSet_JsonRead);
             this.Controls.Add(this.button_FdSet_Test);
             this.Controls.Add(this.button_FdSet_ConfRead);
@@ -106,5 +121,6 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Button button_FdSet_ConfRead;
         private System.Windows.Forms.Button button_FdSet_Test;
         private System.Windows.Forms.Button button_FdSet_JsonRead;
+        private System.Windows.Forms.Button button_FdSet_Read;
     }
 }
