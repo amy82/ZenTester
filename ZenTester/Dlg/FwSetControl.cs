@@ -148,5 +148,102 @@ namespace ZenTester.Dlg
                 Globalo.LogPrint("fw", logMsg);
             }
         }
+
+        private void button_FdSet_Path_Set_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "실행 파일을 선택하세요";
+                ofd.Filter = "실행 파일 (*.exe)|*.exe"; // ✅ exe만 표시
+                ofd.CheckFileExists = true;             // ✅ 실제 존재하는 파일만 선택 가능
+                ofd.Multiselect = false;                // 다중 선택 금지 (원하면 true로 변경)
+                ofd.InitialDirectory = @button_FdSet_Path_Val.Text;// "D:\EVMS\TP\ENV"; // ✅ 초기 폴더 지정
+
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = ofd.FileName;
+                    string selectedFolderPath = Path.GetDirectoryName(selectedFilePath);
+
+                    string teslaExeName = string.Empty;
+
+                    
+                    if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                    {
+                        teslaExeName = "cypress_cam_flashing.exe";
+                    }
+                    else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                    {
+                        teslaExeName = "ThunderEEPROMCreationTool.exe";
+                    }
+                    else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                    {
+                        teslaExeName = "ThunderEEPROMVerificationTool.exe";
+                    }
+                    string targetFile = Path.Combine(selectedFolderPath, teslaExeName);  // 찾을 파일 이름
+                    if (File.Exists(targetFile))
+                    {
+                        //MessageBox.Show($" 파일 존재: {targetFile}");
+
+                        button_FdSet_Path_Val.Text = selectedFolderPath;
+                        Console.WriteLine($"파일 존재: {targetFile}");
+                    }
+                    else
+                    {
+                        //MessageBox.Show($" 파일 없음: {targetFile}");
+                        Console.WriteLine($"파일 없음: {targetFile}");
+                    }
+                    ///MessageBox.Show("선택한 exe 경로:\n" + selectedFilePath +"\n\nexe가 있는 폴더:\n" + selectedFolderPath);
+                }
+            }
+
+            //using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            //{
+            //    fbd.Description = "폴더를 선택하세요";
+            //    fbd.SelectedPath = @button_FdSet_Path_Val.Text;// "D:\EVMS\TP\ENV"; // 시작 위치 설정
+            //    fbd.ShowNewFolderButton = true; // 새 폴더 생성 허용
+
+            //    if (fbd.ShowDialog() == DialogResult.OK)
+            //    {
+            //        string selectedFolder = fbd.SelectedPath;
+            //        //MessageBox.Show("선택한 폴더 경로:\n" + selectedFolder);
+
+
+            //        //FW = cypress_cam_flashing.exe 파일이 있어야 되고
+            //        //WRITE = ThunderEEPROMCreationTool.exe
+            //        //VERIFY = ThunderEEPROMVerificationTool.exe
+
+            //        string teslaExeName = string.Empty;
+
+            //        if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            //        {
+            //            teslaExeName = "cypress_cam_flashing.exe";
+            //        }
+            //        else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            //        {
+            //            teslaExeName = "ThunderEEPROMCreationTool.exe";
+            //        }
+            //        else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            //        {
+            //            teslaExeName = "ThunderEEPROMVerificationTool.exe";
+            //        }
+
+            //        string targetFile = Path.Combine(selectedFolder, teslaExeName);  // 찾을 파일 이름
+
+            //        if (File.Exists(targetFile))
+            //        {
+            //            //MessageBox.Show($" 파일 존재: {targetFile}");
+
+            //            button_FdSet_Path_Val.Text = selectedFolder;
+            //            Console.WriteLine($"파일 존재: {targetFile}");
+            //        }
+            //        else
+            //        {
+            //            //MessageBox.Show($" 파일 없음: {targetFile}");
+            //            Console.WriteLine($"파일 없음: {targetFile}");
+            //        }
+            //    }
+            //}
+        }
     }
 }

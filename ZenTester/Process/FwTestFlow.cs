@@ -60,6 +60,7 @@ namespace ZenTester.Process
                     
 
                     bRtn = Globalo.FxaBoardManager.fxaFirmwardDw.chkfwExeFileCheck(fwFileName);
+                    //
                     
                     //250623 파일 유무만 확인 Ftp 없음 xx
                     //if (fwFileName == serverfwFileName)
