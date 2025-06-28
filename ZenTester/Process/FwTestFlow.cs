@@ -137,7 +137,7 @@ namespace ZenTester.Process
                             pInfo.Name = apdList[j];
                             if(pInfo.Name == apdList[0])
                             {
-                                pInfo.Value = fwtestData.Result_Code[j];
+                                pInfo.Value = fwtestData.Result_Code[j].ToString();
                             }
                             else if (pInfo.Name == apdList[1])
                             {
@@ -253,10 +253,10 @@ namespace ZenTester.Process
 
                         //3번째 , 6번째, 9번째, 12번째
 
-                        fwtestData.Result_Code[0] = items[3];
-                        fwtestData.Result_Code[1] = items[6];
-                        fwtestData.Result_Code[2] = items[9];
-                        fwtestData.Result_Code[3] = items[12];
+                        fwtestData.Result_Code[0] = int.Parse(items[3]) + 30;
+                        fwtestData.Result_Code[1] = int.Parse(items[6]) + 30;
+                        fwtestData.Result_Code[2] = int.Parse(items[9]) + 30;
+                        fwtestData.Result_Code[3] = int.Parse(items[12]) + 30;
 
                         nTimeTick = Environment.TickCount;
                         nRetStep = 25;
@@ -270,12 +270,12 @@ namespace ZenTester.Process
                     case 30:
                         for (i = 0; i < 4; i++)
                         {
-                            if (int.Parse(fwtestData.Result_Code[i]) == 0)
+                            if (fwtestData.Result_Code[i] == 30)    //0)
                             {
                                 fwtestData.Result[i] = "1";
                                 szLog = $"Cam{i + 1} Firmware Download ok -{fwtestData.Result_Code[i]}";
 
-                                int nResult = int.Parse(fwtestData.Result_Code[i]);
+                                int nResult = 0;
                                 Globalo.FxaBoardManager.fxaFirmwardDw.getfwResultFromJson(fwtestData.arrBcr[i], nResult);
                             }
                             else

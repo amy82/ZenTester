@@ -118,7 +118,7 @@ namespace ZenTester.TcpSocket
         public string[] Result { get; set; }
         public string[] Version { get; set; }
         public string[] Sensorid { get; set; }
-        public string[] Result_Code { get; set; }
+        public int[] Result_Code { get; set; }
         public string[] Heater_Current { get; set; }
         public string[] arrBcr { get; set; } = new string[4];
         public void init()
@@ -129,7 +129,7 @@ namespace ZenTester.TcpSocket
             for (int i = 0; i < arrBcr.Length; i++)
             {
                 Result[i] = string.Empty;
-                Result_Code[i] = string.Empty;
+                Result_Code[i] = 0;
                 arrBcr[i] = string.Empty;
                 Heater_Current[i] = string.Empty;
                 Version[i] = string.Empty;
