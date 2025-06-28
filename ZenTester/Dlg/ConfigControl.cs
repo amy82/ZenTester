@@ -185,8 +185,7 @@ namespace ZenTester.Dlg
             //Save
             GetConfigData();
             Globalo.yamlManager.configDataSave();
-            //Data.TaskDataYaml.TaskSave_Layout(Globalo.motionManager.transferMachine.productLayout, Machine.TransferMachine.LayoutPath);
-            //Globalo.motionManager.transferMachine
+
             //
             RefreshConfig();
 

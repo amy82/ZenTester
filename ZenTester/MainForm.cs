@@ -156,7 +156,8 @@ namespace ZenTester  //ApsMotionControl
 
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configData.DrivingSettings.HandlerPort);
 
-            Globalo.tcpManager.SetVerifyClient("127.0.0.1", 5000);
+           // Globalo.tcpManager.SetVerifyClient("127.0.0.1", 5000);
+            Globalo.tcpManager.SetVerifyClient(Globalo.yamlManager.configData.DrivingSettings.SecsgemIp, Globalo.yamlManager.configData.DrivingSettings.SecsgemPort);
 
             Globalo.taskManager = new TaskClass.TaskManager();
 

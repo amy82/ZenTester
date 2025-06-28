@@ -25,7 +25,11 @@ namespace ZenTester.Data
     {
         public string Light { get; set; }
     }
-
+    public class _TeslaData     //fw,eeprom exe 폴더 경로
+    {
+        public string path { get; set; }
+        public string exeName { get; set; }
+    }
     public class _DrivingSettings
     {
         public bool IdleReportPass { get; set; }
@@ -45,6 +49,7 @@ namespace ZenTester.Data
     public class ConfigData
     {
         public int MachineId { get; set; }
+        public _TeslaData TeslaData { get; set; }
         public _SerialPort SerialPort { get; set; }
         public _DrivingSettings DrivingSettings { get; set; }
         public _CamSettings CamSettings { get; set; }

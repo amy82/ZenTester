@@ -23,16 +23,16 @@ namespace ZenTester.Fxa
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
 
-        public const string strConfINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+        public string strConfINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
 
         public FxaFirmwardDw()
         {
 
-            //1.FirmwareDownLoadForCamAsync 
+            //1.FirmwareDownLoadForCamAsync
 
-            //2.결과 확인
-            //3.json 파일이 passed , fail 확인
-            //4. json 파일 내용
+                    //2.결과 확인
+                    //3.json 파일이 passed , fail 확인
+                    //4. json 파일 내용
         }
 
         public void Manual_Fw_DownLoad()
