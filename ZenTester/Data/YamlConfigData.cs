@@ -27,8 +27,14 @@ namespace ZenTester.Data
     }
     public class _TeslaData     //fw,eeprom exe 폴더 경로
     {
-        public string path { get; set; }
-        public string exeName { get; set; }
+        public string Fpath { get; set; }
+        public string FexeName { get; set; }
+        public string Wpath { get; set; }
+        public string WexeNameKim { get; set; }
+        public string WexeNameTrinity { get; set; }
+        public string WexeNameOpal { get; set; }
+        public string Vpath { get; set; }
+        public string VexeName { get; set; }
     }
     public class _DrivingSettings
     {

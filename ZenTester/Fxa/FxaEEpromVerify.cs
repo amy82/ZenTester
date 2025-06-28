@@ -19,7 +19,7 @@ namespace ZenTester.Fxa
         //public const string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\ThunderEEPROMVerificationTool_250526_1111";
 
 
-        public const string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111";
+        //public string strVerifyINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111";
 
         //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111
         public const int WM_COPYDATA = 0x004A;
@@ -34,6 +34,9 @@ namespace ZenTester.Fxa
         {
             mmdEEpromData = new List<byte>();
             defaultCrc = string.Empty;
+
+
+            
         }
 
 
@@ -77,9 +80,11 @@ namespace ZenTester.Fxa
             StringBuilder fwFileName = new StringBuilder(256);
             string rtnFwName = string.Empty;
 
-            string sourcePath = Path.Combine(strVerifyINIPath, "Configuration.ini");
+
+            string sourcePath = Path.Combine(Globalo.yamlManager.configData.TeslaData.Fpath, "Configuration.ini");
 
             GetPrivateProfileString("CONFIG", "PATH3", "", fwFileName, fwFileName.Capacity, sourcePath);
+
             //GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);
             //D:\EVMS\TP\ENV\fwexe\ThunderEEPROMVerificationTool_250526_1111
 

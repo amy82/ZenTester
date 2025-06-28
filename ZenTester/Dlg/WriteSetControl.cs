@@ -119,6 +119,7 @@ namespace ZenTester.Dlg
                 //SAVE_PATH=D:\lgit_eeprom\dat_files  하고 맞혀야 될듯?
                 //EEPROM Write I2C Flash
                 // 파일 이름만 가져오고 확장자는 제거
+
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Globalo.FxaBoardManager.fxaEEpromWrite.datFullPath);
 
                 string datfilename = fileNameWithoutExtension;/// "P1656620-0L-B-SLGM250230D00159_20250627_013133"; //.dat 파일명 바코드 뒤에 생성 시간까지 포함 시켜야함 

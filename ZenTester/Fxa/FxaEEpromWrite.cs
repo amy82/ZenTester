@@ -19,7 +19,7 @@ namespace ZenTester.Fxa
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
-        public const string strWriteINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMCreationTool_250526_1111";
+        //public const string strWriteINIPath = @"D:\EVMS\TP\ENV\fwexe\ThunderEEPROMCreationTool_250526_1111";
 
         public List<byte> mmdEEpromData;    //Special Data -> Hex Data
         public string defaultCrc;
@@ -43,10 +43,25 @@ namespace ZenTester.Fxa
 
             //string args = $"/c cd /d D:\\EVMS\\TP\\ENV\\ti_cam_eeprom_flasher && ti_cam_eeprom_flasher.exe {datFileName}";  //OPAL
 
-            //D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_EEPROM_exe
-            string workingDir = @"D:\EVMS\TP\ENV\lgit_eeprom_flash";        //trinity
-            string exeName = "cam_eeprom_flasher.exe";
+            //string workingDir = @"D:\EVMS\TP\ENV\lgit_eeprom_flash";        //trinity
+            //string exeName = "cam_eeprom_flasher.exe";
+            //--------------------------------------------------------------------------------------------------------------
+            //
+            // trinity
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------
+            string workingDir = @Globalo.yamlManager.configData.TeslaData.Wpath;        //trinity
+            string exeName = Globalo.yamlManager.configData.TeslaData.WexeNameTrinity;
 
+            //--------------------------------------------------------------------------------------------------------------
+            //
+            // Opal
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------
+
+            exeName = Globalo.yamlManager.configData.TeslaData.WexeNameOpal;
             //string workingDir = @"D:\EVMS\TP\ENV\ti_cam_eeprom_flasher";          //opal
             //string exeName = "ti_cam_eeprom_flasher.exe";
 
@@ -172,7 +187,7 @@ namespace ZenTester.Fxa
             StringBuilder fwFileName = new StringBuilder(256);
             string rtnFwName = string.Empty;
 
-            string sourcePath = Path.Combine(strWriteINIPath, "Configuration.ini");
+            string sourcePath = Path.Combine(Globalo.yamlManager.configData.TeslaData.Wpath, "Configuration.ini");
 
             GetPrivateProfileString("CONFIG", "PATH3", "", fwFileName, fwFileName.Capacity, sourcePath);
             //GetPrivateProfileString("DEFAULT", "FIRMWARE_FILE", "", fwFileName, fwFileName.Capacity, sourcePath);

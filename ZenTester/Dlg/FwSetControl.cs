@@ -19,8 +19,8 @@ namespace ZenTester.Dlg
         {
             InitializeComponent();
 
-            button_FdSet_Path_Val.Text = Globalo.yamlManager.configData.TeslaData.path;
-            button_FdSet_Exe_Val.Text = Globalo.yamlManager.configData.TeslaData.exeName;
+            button_FdSet_Path_Val.Text = Globalo.yamlManager.configData.TeslaData.Fpath;
+            button_FdSet_Exe_Val.Text = Globalo.yamlManager.configData.TeslaData.FexeName;
         }
         public void SetData()
         {
@@ -187,13 +187,14 @@ namespace ZenTester.Dlg
                         teslaExeName = "ThunderEEPROMVerificationTool.exe";
                     }
                     string targetFile = Path.Combine(selectedFolderPath, teslaExeName);  // 찾을 파일 이름
+
                     if (File.Exists(targetFile))
                     {
                         button_FdSet_Path_Val.Text = selectedFolderPath;
                         Console.WriteLine($"파일 존재: {targetFile}");
 
-                        Globalo.yamlManager.configData.TeslaData.path = selectedFolderPath;
-                        Globalo.yamlManager.configData.TeslaData.exeName = teslaExeName;
+                        Globalo.yamlManager.configData.TeslaData.Fpath = selectedFolderPath;
+                        Globalo.yamlManager.configData.TeslaData.FexeName = teslaExeName;
 
                         Globalo.yamlManager.configDataSave();
                     }

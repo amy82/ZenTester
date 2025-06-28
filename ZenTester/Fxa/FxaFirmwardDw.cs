@@ -334,9 +334,11 @@ namespace ZenTester.Fxa
             //D:\EVMS\TP\ENV\fwexe\TeslaEXE\FXA.EXE\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111
 
 
-            string workingDir = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\FXA.EXE\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+            //string workingDir = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\FXA.EXE\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
+            //string exePath = workingDir + @"\cypress_cam_flashing.exe";
 
-            string exePath = workingDir + @"\cypress_cam_flashing.exe";
+            string workingDir = @Globalo.yamlManager.configData.TeslaData.Fpath;
+            string exePath = workingDir + @Globalo.yamlManager.configData.TeslaData.FexeName;
 
             string host = "127.0.0.1";
             int port = 5000;
