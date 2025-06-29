@@ -210,53 +210,54 @@ namespace ZenTester.TcpSocket
             }
             if (data.Cmd == "RECV_SECS_RECIPE")
             {
-                string ppid = data.DataID;
-                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
-                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
-                {
-                    //Data.RcmdParameter parameter = new Data.RcmdParameter();
-                    //parameter.name = paramInfo.Name;
-                    //parameter.value = paramInfo.Value;
+                //string ppid = data.DataID;
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                //foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                //{
+                //    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                //}
 
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
-                }
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["RECIPE"]);
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+                //Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                //if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                //{
+                //    Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
+                //}
 
-                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
-                Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
-                                                                                           //TODO: 받아서 레시피 파일로 저장을 하자
+                //Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                //Globalo.yamlManager.secsGemDataYaml.MesSave();
 
+                ////설정 부분 다시 로드해야된다. 
+                ////SetControl
 
-                Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
-                Globalo.yamlManager.secsGemDataYaml.MesSave();
-
-
-
-                //설정 부분 다시 로드해야된다. 
-                //SetControl
-
-                _syncContext.Send(_ =>
-                {
-                    Globalo.productionInfo.ShowRecipeName();
-                    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
-                    Globalo.setTestControl.manualTest.SetSmallMark();
-                    Globalo.setTestControl.manualConfig.RefreshConfig();
-                    Globalo.setTestControl.manualTest.RefreshTest();
-                }, null);
-
-
-
-
-                //szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
-                //Globalo.LogPrint("LotProcess", szLog);
-                Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
+                //_syncContext.Send(_ =>
+                //{
+                //    Globalo.productionInfo.ShowRecipeName();
+                //    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+                //    Globalo.setTestControl.manualTest.SetSmallMark();
+                //    Globalo.setTestControl.manualConfig.RefreshConfig();
+                //    Globalo.setTestControl.manualTest.RefreshTest();
+                //}, null);
+                //Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
             }
             if (data.Cmd == "RECV_SECS_MODEL")
             {
                 string model = data.Model;
                 string fwmodel = data.DataID;
                 int fwOpalUse = data.Step;
+                string ppid = data.RecipeID;
+
+                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                {
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                }
+
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                {
+                    Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
+                }
+
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
 
