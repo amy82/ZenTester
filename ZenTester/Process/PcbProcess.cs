@@ -157,7 +157,7 @@ namespace ZenTester.Process
 
                     TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
                     sendEqipData.Command = "OBJECT_ID_REPORT";
-                    sendEqipData.LotID = Globalo.dataManage.TaskWork.m_szChipID;
+                    sendEqipData.BcrId = Globalo.dataManage.TaskWork.m_szChipID;
 
                     Globalo.tcpManager.SendMessageToClient(sendEqipData);
 
@@ -609,7 +609,7 @@ namespace ZenTester.Process
                     
                     TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
                     sendEqipData.Command = "LOT_APD_REPORT";
-                    sendEqipData.LotID = Globalo.dataManage.TaskWork.m_szChipID;
+                    sendEqipData.BcrId = Globalo.dataManage.TaskWork.m_szChipID;
                     sendEqipData.Judge = Globalo.taskWork.m_nTestFinalResult;
 
                     int tCount = Globalo.dataManage.eepromData.EEpromDataList.Count;

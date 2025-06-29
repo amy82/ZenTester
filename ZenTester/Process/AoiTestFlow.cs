@@ -96,7 +96,7 @@ namespace ZenTester.Process
                     EqipData.Type = "EquipmentData";
                     sendEqipData.Command = "LOT_APD_REPORT";
                     sendEqipData.DataID = aoitestData.Socket_Num;
-                    sendEqipData.LotID = aoitestData.Barcode;
+                    sendEqipData.BcrId = aoitestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
                     sendEqipData.CommandParameter.Clear();
                     string[] apdList = { 
@@ -133,7 +133,7 @@ namespace ZenTester.Process
 
                     //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     TcpSocket.TesterData resultData = new TcpSocket.TesterData();
-                    resultData.LotId[0] = aoitestData.Barcode;
+                    resultData.BcrId[0] = aoitestData.Barcode;
                     resultData.Cmd = "CMD_RESULT";// "APS_LOT_FINISH";
                     resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();

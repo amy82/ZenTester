@@ -83,10 +83,10 @@ namespace ZenTester.Dlg
 
             label_Handler_Port.Text = Globalo.yamlManager.configData.DrivingSettings.HandlerPort.ToString();
 
-            label_Secsgem_Ip1.Text = Handlerparts[0];
-            label_Secsgem_Ip2.Text = Handlerparts[1];
-            label_Secsgem_Ip3.Text = Handlerparts[2];
-            label_Secsgem_Ip4.Text = Handlerparts[3];
+            label_Secsgem_Ip1.Text = Secsgemparts[0];
+            label_Secsgem_Ip2.Text = Secsgemparts[1];
+            label_Secsgem_Ip3.Text = Secsgemparts[2];
+            label_Secsgem_Ip4.Text = Secsgemparts[3];
 
             label_Secsgem_Port.Text = Globalo.yamlManager.configData.DrivingSettings.SecsgemPort.ToString();
 
@@ -101,15 +101,7 @@ namespace ZenTester.Dlg
             //label_PinCountMax.Text = Globalo.yamlManager.configData.DrivingSettings.PinCountMax.ToString();
             //label_CsvScanMax.Text = Globalo.yamlManager.configData.DrivingSettings.CsvScanMonth.ToString();
 
-
-
-
             //label_Config_Tray_GapX_Val.Text = Globalo.motionManager.transferMachine.productLayout.TrayGap.GapX.ToString("0.0##");
-            //label_Config_Tray_GapY_Val.Text = Globalo.motionManager.transferMachine.productLayout.TrayGap.GapY.ToString("0.0##");
-            //label_Config_Socket_GapX_Val.Text = Globalo.motionManager.transferMachine.productLayout.SocketGap.GapX.ToString("0.0##");
-            //label_Config_Socket_GapY_Val.Text = Globalo.motionManager.transferMachine.productLayout.SocketGap.GapY.ToString("0.0##");
-            //label_Config_Ng_GapX_Val.Text = Globalo.motionManager.transferMachine.productLayout.NgGap.GapX.ToString("0.0##");
-            //label_Config_Ng_GapY_Val.Text = Globalo.motionManager.transferMachine.productLayout.NgGap.GapY.ToString("0.0##");
         }
         public void ShowComPort()
         {

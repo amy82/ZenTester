@@ -477,7 +477,7 @@ namespace ZenTester.TcpSocket
 
             if (data.Command == SecsGemData.LGIT_EEPROM_FAIL)
             {
-                Globalo.dataManage.mesData.rEEprom_Fail.LotIdValue = data.LotID;
+                Globalo.dataManage.mesData.rEEprom_Fail.LotIdValue = data.BcrId;
                 Globalo.dataManage.mesData.rEEprom_Fail.CodeValue = data.ErrCode;
                 Globalo.dataManage.mesData.rEEprom_Fail.TextValue = data.ErrText;
 

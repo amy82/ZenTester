@@ -23,6 +23,7 @@ namespace ZenTester.Process
         public TcpSocket.VerifyApdData verifytestData = new TcpSocket.VerifyApdData();
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+        private TcpSocket.TesterData sendTesterData = new TcpSocket.TesterData();
         public List<TcpSocket.EquipmentParameterInfo> CommandParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
         private int m_nTestFinalResult;
         public string vLotId;
@@ -53,8 +54,9 @@ namespace ZenTester.Process
                     
                     EqipData.Type = "EquipmentData";
                     sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
-                    sendEqipData.LotID = verifytestData.Barcode;
+                    sendEqipData.BcrId = verifytestData.Barcode;
                     sendEqipData.DataID = verifytestData.Socket_Num;
+                    //
                     EqipData.Data = sendEqipData;
 
                     Globalo.tcpManager.nRecv_Ack = -1;
@@ -115,7 +117,7 @@ namespace ZenTester.Process
                 case 200:
                     EqipData.Type = "EquipmentData";
                     sendEqipData.Command = "LOT_APD_REPORT";
-                    sendEqipData.LotID = verifytestData.Barcode;
+                    sendEqipData.BcrId = verifytestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
                     sendEqipData.DataID = verifytestData.Socket_Num;
 
@@ -175,7 +177,7 @@ namespace ZenTester.Process
 
                     TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     LotstartData.Command = "APS_LOT_FINISH";
-                    LotstartData.LotID = verifytestData.Barcode;
+                    LotstartData.BcrId = verifytestData.Barcode;
                     LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
 
                     objectData.Data = LotstartData;
@@ -286,7 +288,7 @@ namespace ZenTester.Process
                         break;
                     case 40:
                         Globalo.FxaBoardManager.fxaEEpromVerify.recvDataFinal = -1;
-                        Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.LotID, sendEqipData.DataID);
+                        Globalo.FxaBoardManager.fxaEEpromVerify.RunEEPROMVerifycation(sendEqipData.BcrId, sendEqipData.DataID);
                         nRetStep = 50;
                         nTimeTick = Environment.TickCount;
                         break;

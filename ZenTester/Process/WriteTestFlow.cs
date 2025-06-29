@@ -86,7 +86,7 @@ namespace ZenTester.Process
                 case 200:
                     EqipData.Type = "EquipmentData";
                     sendEqipData.Command = "LOT_APD_REPORT";
-                    sendEqipData.LotID = writetestData.Barcode;
+                    sendEqipData.BcrId = writetestData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
 
                     //1.Socket_Num
@@ -156,7 +156,7 @@ namespace ZenTester.Process
 
                     TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     LotstartData.Command = "APS_LOT_FINISH";
-                    LotstartData.LotID = writetestData.Barcode;
+                    LotstartData.BcrId = writetestData.Barcode;
                     LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
 
                     objectData.Data = LotstartData;

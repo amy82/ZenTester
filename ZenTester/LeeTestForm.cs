@@ -151,14 +151,14 @@ namespace ZenTester
 
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
             sendEqipData.Command = "VERIFY_OBJECT_REPORT";
-            sendEqipData.LotID = "testLot-1";
+            sendEqipData.BcrId = "testLot-1";
             sendEqipData.DataID = "1";
             EqipData.Data = sendEqipData;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
 
             Thread.Sleep(100);
 
-            sendEqipData.LotID = "testLot-222";
+            sendEqipData.BcrId = "testLot-222";
             sendEqipData.DataID = "1";
             EqipData.Data = sendEqipData;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
@@ -172,7 +172,7 @@ namespace ZenTester
 
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
             sendEqipData.Command = "LOT_APD_REPORT";
-            sendEqipData.LotID = "testLot"; //Globalo.dataManage.TaskWork.m_szChipID;
+            sendEqipData.BcrId = "testLot"; //Globalo.dataManage.TaskWork.m_szChipID;
             sendEqipData.Judge = 1;         /// Globalo.taskWork.m_nTestFinalResult;
 
             //1.Socket_Num
@@ -200,8 +200,8 @@ namespace ZenTester
         private void button24_Click(object sender, EventArgs e)
         {
             TcpSocket.TesterData data = new TcpSocket.TesterData();
-            data.LotId = new string[1];
-            data.LotId[0] = "manual lot";
+            data.BcrId = new string[1];
+            data.BcrId[0] = "manual lot";
             data.socketNum = 1;
             Globalo.taskManager.Aoi_TestRun(data);
         }

@@ -27,7 +27,7 @@ namespace ZenTester.TaskClass
             int nStep = 100;
             string szLog = string.Empty;
             aoiTestFlow.aoitestData.init();     //AOI 결과값 초기화
-            aoiTestFlow.aoitestData.Barcode = data.LotId[0];
+            aoiTestFlow.aoitestData.Barcode = data.BcrId[0];
             aoiTestFlow.aoitestData.Socket_Num = data.socketNum.ToString();     //1,2,3,4 들어올 듯
 
             Console.WriteLine($"Aoi Task Start SocketNum------------- {aoiTestFlow.aoitestData.Socket_Num}");
@@ -55,7 +55,7 @@ namespace ZenTester.TaskClass
             int nStep = 100;
             string szLog = string.Empty;
             verifyTestFlow.verifytestData.init();
-            verifyTestFlow.verifytestData.Barcode = data.LotId[0];
+            verifyTestFlow.verifytestData.Barcode = data.BcrId[0];
             verifyTestFlow.verifytestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
             verifyTestFlow.vLotId = data.DataID;
             //verify는 착공을 secsgem으로 바로 걸기 때문에 special Data는 secsgem으로부터 받아야된다.
@@ -86,7 +86,7 @@ namespace ZenTester.TaskClass
             int nStep = 100;
             string szLog = string.Empty;
             writeTestFlow.writetestData.init();
-            writeTestFlow.writetestData.Barcode = data.LotId[0];
+            writeTestFlow.writetestData.Barcode = data.BcrId[0];
             writeTestFlow.wLotId = data.DataID;
 
             writeTestFlow.writetestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
@@ -120,12 +120,12 @@ namespace ZenTester.TaskClass
             int nStep = 100;
             string szLog = string.Empty;
             fwTestFlow.fwtestData.init();
-            fwTestFlow.fwtestData.Barcode = data.LotId[0];
+            fwTestFlow.fwtestData.Barcode = data.BcrId[0];
 
-            fwTestFlow.fwtestData.arrBcr[0] = data.LotId[0];
-            fwTestFlow.fwtestData.arrBcr[1] = data.LotId[1];
-            fwTestFlow.fwtestData.arrBcr[2] = data.LotId[2];
-            fwTestFlow.fwtestData.arrBcr[3] = data.LotId[3];
+            fwTestFlow.fwtestData.arrBcr[0] = data.BcrId[0];
+            fwTestFlow.fwtestData.arrBcr[1] = data.BcrId[1];
+            fwTestFlow.fwtestData.arrBcr[2] = data.BcrId[2];
+            fwTestFlow.fwtestData.arrBcr[3] = data.BcrId[3];
 
 
             fwTestFlow.fwtestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯

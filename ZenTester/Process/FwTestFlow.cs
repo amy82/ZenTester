@@ -128,7 +128,7 @@ namespace ZenTester.Process
 
                         EqipData.Type = "EquipmentData";
                         sendEqipData.Command = "LOT_APD_REPORT";
-                        sendEqipData.LotID = fwtestData.arrBcr[i];
+                        sendEqipData.BcrId = fwtestData.arrBcr[i];
                         sendEqipData.ErrCode = "";      //DefectCode
                         sendEqipData.Judge = int.Parse(fwtestData.Result[i]);
 
@@ -202,7 +202,7 @@ namespace ZenTester.Process
 
                     TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     LotstartData.Command = "APS_LOT_FINISH";
-                    LotstartData.LotID = fwtestData.Barcode;
+                    LotstartData.BcrId = fwtestData.Barcode;
                     LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
 
                     objectData.Data = LotstartData;

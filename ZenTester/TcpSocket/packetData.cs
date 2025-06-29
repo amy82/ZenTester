@@ -36,7 +36,7 @@ namespace ZenTester.TcpSocket
         public bool bBuzzer { get; set; }
         public string RecipeID { get; set; }
         public string MaterialID { get; set; }
-        public string LotID { get; set; }
+        public string BcrId { get; set; }
         public int CallType { get; set; }
         public string ErrCode { get; set; }     //Defect 코드로 활용
         public string ErrText { get; set; }
@@ -51,7 +51,7 @@ namespace ZenTester.TcpSocket
         public string Model { get; set; }
         public string RecipeID { get; set; }
         public string DataID { get; set; }
-        public string[] LotId { get; set; }       //"LOT20240601"
+        public string[] BcrId { get; set; }       //"LOT20240601"
         public int socketNum { get; set; }    //
         public int[] States { get; set; }       //{ 1, 1, 1, 1}  EEPROM ,AOI는 0번 index만 사용
         public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
