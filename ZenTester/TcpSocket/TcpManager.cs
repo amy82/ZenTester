@@ -105,8 +105,8 @@ namespace ZenTester.TcpSocket
             {
                 _Server.Stop();
             }
-            
         }
+
         public void ReqRecipeToSecsgem()
         {
             if (Program.TEST_PG_SELECT == TESTER_PG.FW)
@@ -121,6 +121,7 @@ namespace ZenTester.TcpSocket
             EqipData.Data = sendTesterata;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
+
         public void ReqModelToSecsgem()
         {
             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
@@ -130,6 +131,7 @@ namespace ZenTester.TcpSocket
             EqipData.Data = sendTesterata;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
+
         public void SendAlarmReport(string nAlarmID)
         {
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
@@ -142,7 +144,6 @@ namespace ZenTester.TcpSocket
             {
                 sendEqipData.ErrCode = "L";
             }
-            
             sendEqipData.ErrText = nAlarmID;
             SendMessageToClient(sendEqipData);
         }
@@ -207,10 +208,55 @@ namespace ZenTester.TcpSocket
                 //FW
                 //0 한번만 들어오는 lot이 차례대로 4개 들어올듯
             }
+            if (data.Cmd == "RECV_SECS_RECIPE")
+            {
+                string ppid = data.DataID;
+                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                {
+                    //Data.RcmdParameter parameter = new Data.RcmdParameter();
+                    //parameter.name = paramInfo.Name;
+                    //parameter.value = paramInfo.Value;
 
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                }
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["RECIPE"]);
+                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
+                                                                                           //TODO: 받아서 레시피 파일로 저장을 하자
+
+
+                Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
+                Globalo.yamlManager.secsGemDataYaml.MesSave();
+
+
+
+                //설정 부분 다시 로드해야된다. 
+                //SetControl
+
+                _syncContext.Send(_ =>
+                {
+                    Globalo.productionInfo.ShowRecipeName();
+                    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+                    Globalo.setTestControl.manualTest.SetSmallMark();
+                    Globalo.setTestControl.manualConfig.RefreshConfig();
+                    Globalo.setTestControl.manualTest.RefreshTest();
+                }, null);
+
+
+
+
+                //szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
+                //Globalo.LogPrint("LotProcess", szLog);
+                Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
+            }
             if (data.Cmd == "RECV_SECS_MODEL")
             {
-                string model = data.DataID;
+                string model = data.Model;
+                string fwmodel = data.DataID;
+                int fwOpalUse = data.Step;
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
 
@@ -239,50 +285,7 @@ namespace ZenTester.TcpSocket
             //Console.WriteLine($"장비 ID: {data.EQPID}, 레시피 ID: {data.RECIPEID}");
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //
-            if (data.Command == "RECV_SECS_RECIPE")
-            {
-                string ppid = data.RecipeID;
-                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
-                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
-                {
-                    //Data.RcmdParameter parameter = new Data.RcmdParameter();
-                    //parameter.name = paramInfo.Name;
-                    //parameter.value = paramInfo.Value;
-
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
-                }
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = Convert.ToString(data["RECIPE"]);
-                //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
-
-                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
-                Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
-                                                                                           //TODO: 받아서 레시피 파일로 저장을 하자
-
-
-                Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpecEquip);
-                Globalo.yamlManager.secsGemDataYaml.MesSave();
-
-                
-
-                //설정 부분 다시 로드해야된다. 
-                //SetControl
-
-                _syncContext.Send(_ =>
-                {
-                    Globalo.productionInfo.ShowRecipeName();
-                    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
-                    Globalo.setTestControl.manualTest.SetSmallMark();
-                    Globalo.setTestControl.manualConfig.RefreshConfig();
-                    Globalo.setTestControl.manualTest.RefreshTest();
-                }, null);
-                
-
-
-
-                //szLog = $"[Http] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}";
-                //Globalo.LogPrint("LotProcess", szLog);
-                Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
-            }
+            
             
             if (data.Command == "LOT_START_CMD")
             {
@@ -775,7 +778,7 @@ namespace ZenTester.TcpSocket
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+                    Console.WriteLine($"host MessageParse 처리 중 예외 발생: {ex.Message}");
                 }
 
             }
@@ -818,7 +821,7 @@ namespace ZenTester.TcpSocket
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+                    Console.WriteLine($"host MessageParse 처리 중 예외 발생: {ex.Message}");
                 }
 
             }

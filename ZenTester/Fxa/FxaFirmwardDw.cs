@@ -172,7 +172,7 @@ namespace ZenTester.Fxa
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+                Console.WriteLine($"host Message Parse 처리 중 예외 발생: {ex.Message}");
             }
             return "-1";
         }
