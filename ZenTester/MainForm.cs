@@ -385,6 +385,7 @@ namespace ZenTester  //ApsMotionControl
             //Globalo.trayStateInfo.Location = new System.Drawing.Point(Globalo.socketStateInfo.Location.X + Globalo.socketStateInfo.Width+10, Globalo.pickerInfo.Location.Y + Globalo.pickerInfo.Height + MainBtnHGap);
 
             //Globalo.mCCdPanel.Visible = false;
+            Globalo.mManualPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
             Globalo.mlogControl.Visible = true;

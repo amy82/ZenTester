@@ -268,15 +268,15 @@ namespace ZenTester.TcpSocket
         }
         private void AttemptReconnect()
         {
-            Console.WriteLine($"Attempting to reconnect to {_ip}:{_port}...");
+            //Console.WriteLine($"Attempting to reconnect to {_ip}:{_port}...");
             if (Connect())
             {
-                Console.WriteLine($"Attempting to reconnect to Ok");
+                //Console.WriteLine($"Attempting to reconnect to Ok");
 
                 
                 return;
             }
-            Console.WriteLine($"Attempting to reconnect to Fail");
+            //Console.WriteLine($"Attempting to reconnect to Fail");
         }
     }
 }

@@ -114,22 +114,20 @@ namespace ZenTester.TcpSocket
                 return;
             }
             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-            EqipData.Type = "EquipmentData";
+            EqipData.Type = "TesterData";
+            TcpSocket.TesterData sendTesterata = new TcpSocket.TesterData();
+            sendTesterata.Cmd = "REQ_RECIPE";
 
-            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-            sendEqipData.Command = "REQ_RECIPE";
-
-            EqipData.Data = sendEqipData;
+            EqipData.Data = sendTesterata;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
         public void ReqModelToSecsgem()
         {
             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-            EqipData.Type = "EquipmentData";
-
-            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-            sendEqipData.Command = "REQ_MODEL";
-            EqipData.Data = sendEqipData;
+            EqipData.Type = "TesterData";
+            TcpSocket.TesterData sendTesterata = new TcpSocket.TesterData();
+            sendTesterata.Cmd = "REQ_MODEL";
+            EqipData.Data = sendTesterata;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
         public void SendAlarmReport(string nAlarmID)
@@ -210,6 +208,24 @@ namespace ZenTester.TcpSocket
                 //0 한번만 들어오는 lot이 차례대로 4개 들어올듯
             }
 
+            if (data.Cmd == "RECV_SECS_MODEL")
+            {
+                string model = data.DataID;
+                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
+                Globalo.yamlManager.secsGemDataYaml.MesSave();
+
+                _syncContext.Send(_ =>
+                {
+                    Globalo.productionInfo.ShowModelName();
+
+                }, null);
+
+
+                //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
+                Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+
+            }
+
         }
         private void hostMessageParse(EquipmentData data)
         {
@@ -267,23 +283,7 @@ namespace ZenTester.TcpSocket
                 //Globalo.LogPrint("LotProcess", szLog);
                 Console.WriteLine($"[tcp] Recv Recipe : {Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid}");
             }
-            if (data.Command == "RECV_SECS_MODEL")
-            {
-                string model = data.DataID;
-                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
-                Globalo.yamlManager.secsGemDataYaml.MesSave();
-
-                _syncContext.Send(_ =>
-                {
-                    Globalo.productionInfo.ShowModelName();
-
-                }, null);
-                
-
-                //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
-                Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
-
-            }
+            
             if (data.Command == "LOT_START_CMD")
             {
                 //착공 진행 신호
@@ -799,7 +799,6 @@ namespace ZenTester.TcpSocket
                 //EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
                 var wrapper = serializer.Deserialize<MessageWrapper>(reader);
                 
-
                 try
                 {
                     switch (wrapper.Type)

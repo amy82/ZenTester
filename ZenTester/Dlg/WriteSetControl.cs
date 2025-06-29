@@ -203,7 +203,46 @@ namespace ZenTester.Dlg
 
             //1.Dat만들기
             Globalo.FxaBoardManager.fxaEEpromWrite.Run_DatCreation_EEPROMWrite("P1656620-0L-B:SLGM250230D00159", "D125227T2100059");
+        }
 
+        private void button_WSet_Path_Set_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "실행 파일을 선택하세요";
+                ofd.Filter = "실행 파일 (*.exe)|*.exe"; //  exe만 표시
+                ofd.CheckFileExists = true;             //  실제 존재하는 파일만 선택 가능
+                ofd.Multiselect = false;                // 다중 선택 금지 (원하면 true로 변경)
+                ofd.InitialDirectory = @button_WSet_Path_Val.Text;      // "D:\EVMS\TP\ENV"; //  초기 폴더 지정
+
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = ofd.FileName;
+                    string selectedFolderPath = Path.GetDirectoryName(selectedFilePath);
+
+                    string teslaExeName = "ThunderEEPROMVerificationTool.exe";      //Verify 공정
+
+                    string targetFile = Path.Combine(selectedFolderPath, teslaExeName);  // 찾을 파일 이름
+
+                    if (File.Exists(targetFile))
+                    {
+                        //button_WSet_Exe_Val1.Text = selectedFolderPath;
+                        Console.WriteLine($"Verify exe File exists: {targetFile}");
+
+                        Globalo.yamlManager.configData.TeslaData.Fpath = selectedFolderPath;
+                        Globalo.yamlManager.configData.TeslaData.FexeName = teslaExeName;
+
+                        Globalo.yamlManager.configDataSave();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Verify exe No file: {targetFile}");
+                    }
+
+                    ///MessageBox.Show("선택한 exe 경로:\n" + selectedFilePath +"\n\nexe가 있는 폴더:\n" + selectedFolderPath);
+                }
+            }
         }
     }
 }

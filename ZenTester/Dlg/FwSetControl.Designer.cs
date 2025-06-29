@@ -35,11 +35,11 @@ namespace ZenTester.Dlg
             this.button_FdSet_JsonRead = new System.Windows.Forms.Button();
             this.button_FdSet_Read = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button_FdSet_Exe_Val = new System.Windows.Forms.Label();
+            this.button_FdSet_Exe_Title = new System.Windows.Forms.Label();
+            this.button_FdSet_Path_Val = new System.Windows.Forms.Label();
             this.button_FdSet_Path_Set = new System.Windows.Forms.Button();
             this.button_FdSet_Path_Title = new System.Windows.Forms.Label();
-            this.button_FdSet_Path_Val = new System.Windows.Forms.Label();
-            this.button_FdSet_Exe_Title = new System.Windows.Forms.Label();
-            this.button_FdSet_Exe_Val = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,6 +121,40 @@ namespace ZenTester.Dlg
             this.groupBox5.TabIndex = 112;
             this.groupBox5.TabStop = false;
             // 
+            // button_FdSet_Exe_Val
+            // 
+            this.button_FdSet_Exe_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.button_FdSet_Exe_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_FdSet_Exe_Val.Location = new System.Drawing.Point(111, 84);
+            this.button_FdSet_Exe_Val.Name = "button_FdSet_Exe_Val";
+            this.button_FdSet_Exe_Val.Size = new System.Drawing.Size(286, 25);
+            this.button_FdSet_Exe_Val.TabIndex = 37;
+            this.button_FdSet_Exe_Val.Text = "cypress_cam_flashing.exe";
+            this.button_FdSet_Exe_Val.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button_FdSet_Exe_Title
+            // 
+            this.button_FdSet_Exe_Title.BackColor = System.Drawing.Color.Transparent;
+            this.button_FdSet_Exe_Title.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_FdSet_Exe_Title.ForeColor = System.Drawing.Color.Black;
+            this.button_FdSet_Exe_Title.Location = new System.Drawing.Point(11, 84);
+            this.button_FdSet_Exe_Title.Name = "button_FdSet_Exe_Title";
+            this.button_FdSet_Exe_Title.Size = new System.Drawing.Size(94, 23);
+            this.button_FdSet_Exe_Title.TabIndex = 36;
+            this.button_FdSet_Exe_Title.Text = "Tesla exe:";
+            this.button_FdSet_Exe_Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button_FdSet_Path_Val
+            // 
+            this.button_FdSet_Path_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.button_FdSet_Path_Val.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_FdSet_Path_Val.Location = new System.Drawing.Point(11, 42);
+            this.button_FdSet_Path_Val.Name = "button_FdSet_Path_Val";
+            this.button_FdSet_Path_Val.Size = new System.Drawing.Size(792, 29);
+            this.button_FdSet_Path_Val.TabIndex = 35;
+            this.button_FdSet_Path_Val.Text = "D:\\EVMS\\TP\\ENV\\fwexe\\TeslaEXE\\Tesla_FW_exe\\Trinity_FW_Download_20250421_1111";
+            this.button_FdSet_Path_Val.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // button_FdSet_Path_Set
             // 
             this.button_FdSet_Path_Set.BackColor = System.Drawing.Color.Tan;
@@ -147,40 +181,6 @@ namespace ZenTester.Dlg
             this.button_FdSet_Path_Title.Text = "Tesla exe Path";
             this.button_FdSet_Path_Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // button_FdSet_Path_Val
-            // 
-            this.button_FdSet_Path_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.button_FdSet_Path_Val.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_FdSet_Path_Val.Location = new System.Drawing.Point(11, 42);
-            this.button_FdSet_Path_Val.Name = "button_FdSet_Path_Val";
-            this.button_FdSet_Path_Val.Size = new System.Drawing.Size(792, 29);
-            this.button_FdSet_Path_Val.TabIndex = 35;
-            this.button_FdSet_Path_Val.Text = "D:\\EVMS\\TP\\ENV\\fwexe\\TeslaEXE\\Tesla_FW_exe\\Trinity_FW_Download_20250421_1111";
-            this.button_FdSet_Path_Val.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button_FdSet_Exe_Title
-            // 
-            this.button_FdSet_Exe_Title.BackColor = System.Drawing.Color.Transparent;
-            this.button_FdSet_Exe_Title.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_FdSet_Exe_Title.ForeColor = System.Drawing.Color.Black;
-            this.button_FdSet_Exe_Title.Location = new System.Drawing.Point(11, 84);
-            this.button_FdSet_Exe_Title.Name = "button_FdSet_Exe_Title";
-            this.button_FdSet_Exe_Title.Size = new System.Drawing.Size(94, 23);
-            this.button_FdSet_Exe_Title.TabIndex = 36;
-            this.button_FdSet_Exe_Title.Text = "Tesla exe:";
-            this.button_FdSet_Exe_Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button_FdSet_Exe_Val
-            // 
-            this.button_FdSet_Exe_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.button_FdSet_Exe_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_FdSet_Exe_Val.Location = new System.Drawing.Point(111, 84);
-            this.button_FdSet_Exe_Val.Name = "button_FdSet_Exe_Val";
-            this.button_FdSet_Exe_Val.Size = new System.Drawing.Size(286, 25);
-            this.button_FdSet_Exe_Val.TabIndex = 37;
-            this.button_FdSet_Exe_Val.Text = "cypress_cam_flashing.exe";
-            this.button_FdSet_Exe_Val.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // FwSetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -192,7 +192,7 @@ namespace ZenTester.Dlg
             this.Controls.Add(this.button_FdSet_ConfRead);
             this.Controls.Add(this.label_FwSetTest_Title);
             this.Name = "FwSetControl";
-            this.Size = new System.Drawing.Size(1260, 568);
+            this.Size = new System.Drawing.Size(1100, 568);
             this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
