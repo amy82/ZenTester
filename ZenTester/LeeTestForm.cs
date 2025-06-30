@@ -150,7 +150,7 @@ namespace ZenTester
             EqipData.Type = "EquipmentData";
 
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-            sendEqipData.Command = "VERIFY_OBJECT_REPORT";
+            sendEqipData.Command = "OBJECT_ID_REPORT";
             sendEqipData.BcrId = "testLot-1";
             sendEqipData.DataID = "1";
             EqipData.Data = sendEqipData;
@@ -158,10 +158,10 @@ namespace ZenTester
 
             Thread.Sleep(100);
 
-            sendEqipData.BcrId = "testLot-222";
-            sendEqipData.DataID = "1";
-            EqipData.Data = sendEqipData;
-            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
+            //sendEqipData.BcrId = "testLot-222";
+            //sendEqipData.DataID = "1";
+            //EqipData.Data = sendEqipData;
+            //Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
         }
 
         private void button23_Click(object sender, EventArgs e)
@@ -288,6 +288,40 @@ namespace ZenTester
 
 
             Globalo.visionManager.aoiTopTester.Housing_EdgeFind_Test(index, src);     //Fakra 안쪽 원 찾기
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "LOT_APD_REPORT";
+            sendEqipData.BcrId = "testLot"; //Globalo.dataManage.TaskWork.m_szChipID;
+            sendEqipData.Judge = 1;         /// Globalo.taskWork.m_nTestFinalResult;
+            sendEqipData.DataID = "1";
+            //1.Socket_Num
+            //2.Result
+            //3.Barcode
+            //4.SensorID
+            int tCount = 4;
+            //string[] apdList = { "Socket_Num", "Result", "Barcode", "SensorID" };
+            //string[] apdResult = { "11", "22", "33", "44" };
+            string[] apdList = {"Checksum0", "Checksum1", "Checksum2", "Checksum3", "Checksum4", "Socket_Num", "Result", "Barcode", "SensorID", "Time" };
+            string[] apdResult = { "01"};
+
+            for (int i = 0; i < tCount; i++)
+            {
+                TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                pInfo.Name = apdList[i];
+                pInfo.Value = "01";
+
+                sendEqipData.CommandParameter.Add(pInfo);
+            }
+
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
     }
 }

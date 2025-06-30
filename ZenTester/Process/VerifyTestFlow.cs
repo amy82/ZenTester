@@ -68,7 +68,7 @@ namespace ZenTester.Process
                 case 111:
                     //착공 대기 or verify 진행
                     //if (Globalo.tcpManager.nRecv_Ack == 0)
-                    if (Globalo.taskWork.bRecv_Client_LotStart == 0)
+                    if (Globalo.taskWork.bRecv_Client_LotStart == 0)    
                     {
                         nRetStep = 120;
                     }
