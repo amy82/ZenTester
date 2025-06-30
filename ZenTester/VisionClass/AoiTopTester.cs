@@ -1222,15 +1222,17 @@ namespace ZenTester.VisionClass
             }
 
         }
-        public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, bool bAutorun = false)
+        public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, OpenCvSharp.Point centerPos, bool bAutorun = false)
         {
             // 측정 시작
             bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Fakra_Test Test Start");
-            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
             string str = "";
             List<OpenCvSharp.Point> FakraPoints = new List<OpenCvSharp.Point>();
+            int imageCenterX = centerPos.X;// 1306;    // binary.Width / 2;
+            int imageCenterY = centerPos.Y;// 1289;    // binary.Height / 2;
             //
             //
             //
@@ -1244,7 +1246,7 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             var edges = new Mat();
             //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            Cv2.MedianBlur(srcImage, blurred, 1);
+            Cv2.MedianBlur(srcImage, blurred, 2);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -1298,8 +1300,7 @@ namespace ZenTester.VisionClass
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
             // 3. Contours 찾기
-            int imageCenterX = 1306;// binary.Width / 2;
-            int imageCenterY = 1289;// binary.Height / 2;
+            
 
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
@@ -1420,8 +1421,8 @@ namespace ZenTester.VisionClass
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
 
-                centerPos.X = (int)maxCircle.center.X;
-                centerPos.Y = (int)maxCircle.center.Y;
+                //centerPos.X = (int)maxCircle.center.X;
+                //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
@@ -1527,7 +1528,7 @@ namespace ZenTester.VisionClass
 
             return FakraPoints;
         }
-        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, bool bDentTest = false, bool bAutorun = false)
+        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, OpenCvSharp.Point centerPos, bool bDentTest = false, bool bAutorun = false)
         {
             //roiIndex = 0 (외경)
             //roiIndex = 1 (내경)
@@ -1535,10 +1536,13 @@ namespace ZenTester.VisionClass
             bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
-            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
             string str = "";
             List<OpenCvSharp.Point> HousingPoints = new List<OpenCvSharp.Point>();
-            //
+            int imageCenterX = centerPos.X; // 1294;// binary.Width / 2;
+            int imageCenterY = centerPos.Y; //1298;// binary.Height / 2;
+
+
             //안쪽원 마스크 처리하기
 
             OpenCvSharp.Point circleCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/2, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index]/2);
@@ -1617,8 +1621,7 @@ namespace ZenTester.VisionClass
                 Cv2.WaitKey(0);
             }
             // 3. Contours 찾기
-            int imageCenterX = 1294;// binary.Width / 2;
-            int imageCenterY = 1298;// binary.Height / 2;
+            
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
             //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -1724,8 +1727,8 @@ namespace ZenTester.VisionClass
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
 
-                centerPos.X = (int)maxCircle.center.X;
-                centerPos.Y = (int)maxCircle.center.Y;
+                //centerPos.X = (int)maxCircle.center.X;
+                //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경

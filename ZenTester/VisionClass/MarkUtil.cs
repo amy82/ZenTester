@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
     
     public enum eMarkList
     {
-        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_KEY, MAX_MARK_LIST
+        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, TOP_KEY, MAX_MARK_LIST
     }
     public enum eCamType
     {
@@ -63,7 +63,7 @@ namespace ZenTester.VisionClass
         {
             int i = 0;
 
-            m_MilModModel = new MIL_ID[4];
+            m_MilModModel = new MIL_ID[(int)eMarkList.MAX_MARK_LIST];
 
             for (i = 0; i < (int)eCamType.MAX_CAM_TYPE; i++)
             {

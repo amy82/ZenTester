@@ -204,9 +204,24 @@ namespace ZenTester.Dlg
             List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
 
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //Center Find
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
 
-            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src);     //Fakra 안쪽 원 찾기
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src, markPos);     //Fakra 안쪽 원 찾기
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
             if (FakraCenter.Count < 2)
             {
@@ -318,8 +333,19 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //Center Find
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+
+
+
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos,  true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex, 0);
 
@@ -339,7 +365,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
-            System.Drawing.Point markPos = new System.Drawing.Point();
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point();
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
 
 
@@ -371,7 +397,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
-            System.Drawing.Point markPos = new System.Drawing.Point();
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point();
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
 
 
@@ -562,5 +588,21 @@ namespace ZenTester.Dlg
             
         }
 
+        private void button_Mark_Top_Center_Find_Click(object sender, EventArgs e)
+        {
+            parentDlg.manualConfig.checkBox_AllRelease();
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
+            int dataSize = sizeX * sizeY;
+
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point(0,0);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+
+        }
     }
 }

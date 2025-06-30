@@ -50,6 +50,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test = new System.Windows.Forms.Label();
             this.label_SetTest_Manual_Top_Test = new System.Windows.Forms.Label();
             this.button_Pogo_Find_Test = new System.Windows.Forms.Button();
+            this.button_Mark_Top_Center_Find = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Manual_Mark_Roi_Save
@@ -324,11 +325,25 @@ namespace ZenTester.Dlg
             this.button_Pogo_Find_Test.UseVisualStyleBackColor = false;
             this.button_Pogo_Find_Test.Click += new System.EventHandler(this.button_Pogo_Find_Test_Click);
             // 
+            // button_Mark_Top_Center_Find
+            // 
+            this.button_Mark_Top_Center_Find.BackColor = System.Drawing.Color.Tan;
+            this.button_Mark_Top_Center_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mark_Top_Center_Find.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Mark_Top_Center_Find.Location = new System.Drawing.Point(29, 459);
+            this.button_Mark_Top_Center_Find.Name = "button_Mark_Top_Center_Find";
+            this.button_Mark_Top_Center_Find.Size = new System.Drawing.Size(180, 51);
+            this.button_Mark_Top_Center_Find.TabIndex = 115;
+            this.button_Mark_Top_Center_Find.Text = "MARK FIND CENTER ";
+            this.button_Mark_Top_Center_Find.UseVisualStyleBackColor = false;
+            this.button_Mark_Top_Center_Find.Click += new System.EventHandler(this.button_Mark_Top_Center_Find_Click);
+            // 
             // ManualTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Mark_Top_Center_Find);
             this.Controls.Add(this.button_Pogo_Find_Test);
             this.Controls.Add(this.button_Set_Height_Test);
             this.Controls.Add(this.button_Set_Cone_Test);
@@ -380,5 +395,6 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_SetTest_Manual_Side_Test;
         public System.Windows.Forms.Label label_SetTest_Manual_Top_Test;
         private System.Windows.Forms.Button button_Pogo_Find_Test;
+        private System.Windows.Forms.Button button_Mark_Top_Center_Find;
     }
 }

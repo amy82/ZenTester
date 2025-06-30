@@ -208,7 +208,7 @@ namespace ZenTester
 
         private void button25_Click(object sender, EventArgs e)
         {
-            System.Drawing.Point ConePos = new System.Drawing.Point();
+            OpenCvSharp.Point ConePos = new OpenCvSharp.Point();
             Globalo.visionManager.milLibrary.ClearOverlay(1);
 
             Globalo.visionManager.milLibrary.SetGrabOn(1, false);
