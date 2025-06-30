@@ -27,7 +27,7 @@ namespace ZenTester
         public static MainForm MainForm;
         ///public LgitLibrary.LgitLibrary LgitDll = new LgitLibrary.LgitLibrary();
 
-        public static LgitLibrary.LgitLibrary GrabberDll = new LgitLibrary.LgitLibrary();
+        //public static LgitLibrary.LgitLibrary GrabberDll = new LgitLibrary.LgitLibrary();
 
         public static CLaonGrabberClass mLaonGrabberClass = new CLaonGrabberClass();
 

@@ -363,7 +363,7 @@ namespace ZenTester.Data
                 maxReadLength = (ushort)readDataLength;
             }
 
-            int errorCode = 0;
+            //int errorCode = 0;
             int endAddress = readDataLength;//// 0xE0;  //       241
             //0x513;     //1299
 
@@ -392,13 +392,13 @@ namespace ZenTester.Data
 
                         maxReadLength = (ushort)((endAddress - i) + 0);    //120 ~ 129 는 10개라서 + 1
                     }
-                    errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, (ushort)maxReadLength);
-                    if (errorCode != 0)
-                    {
-                        bRtn = false;
-                        Console.WriteLine("mReadI2CBurst errorCode");
-                        break;
-                    }
+                    //errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, (ushort)maxReadLength);
+                    //if (errorCode != 0)
+                    //{
+                    //    bRtn = false;
+                    //    Console.WriteLine("mReadI2CBurst errorCode");
+                    //    break;
+                    //}
                 }
             }
 

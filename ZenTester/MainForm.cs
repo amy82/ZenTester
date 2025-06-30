@@ -13,7 +13,7 @@ using System.Threading;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace ZenTester  //ApsMotionControl
+namespace ZenTester
 {
     public partial class MainForm : Form
     {
@@ -637,7 +637,7 @@ namespace ZenTester  //ApsMotionControl
                 Globalo.motionManager.MotionClose();
             }
 
-            Globalo.GrabberDll = null;
+            //Globalo.GrabberDll = null;
             //
             //foreach (Form form in Application.OpenForms)
             //{

@@ -33,8 +33,8 @@ namespace ZenTester.FThread
         protected override void ThreadInit()
         {
             RawInit();
-            mWidth = Globalo.GrabberDll.mGetWidth();
-            mHeight = Globalo.GrabberDll.mGetHeight();
+            //mWidth = Globalo.GrabberDll.mGetWidth();
+            //mHeight = Globalo.GrabberDll.mGetHeight();
 
 
             imageItp?.Dispose();
@@ -59,25 +59,15 @@ namespace ZenTester.FThread
                     return;
                 }
 
-                if (Globalo.GrabberDll.mGetFrame((byte*)RawPtr.ToPointer(), (byte*)BmpPtr.ToPointer()) == true)
-                {
+                //if (Globalo.GrabberDll.mGetFrame((byte*)RawPtr.ToPointer(), (byte*)BmpPtr.ToPointer()) == true)
+                //{
 
-                    IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
+                //    IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
 
-                    // 데이터를 Mat에 복사
-                    Marshal.Copy(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0, Globalo.mLaonGrabberClass.imageItp.Data, mHeight * mWidth * 3);
-                    // Grab 버퍼에 저장
-
-                    // imageItp의 데이터를 기존 m_pGrabBuff에 복사 (Clone 대신)
-                    //Globalo.mLaonGrabberClass.imageItp.CopyTo(Globalo.mLaonGrabberClass.m_pGrabBuff[Globalo.vision.m_nGrabIndex[0]]);
-
-                    //Globalo.vision.m_nCvtColorReadyIndex[0] = Globalo.vision.m_nGrabIndex[0];
-                    //Globalo.vision.m_nGrabIndex[0]++;
-                    //if (Globalo.vision.m_nGrabIndex[0] >= 3)
-                    //{
-                    //    Globalo.vision.m_nGrabIndex[0] = 0;
-                    //}
-                }
+                //    // 데이터를 Mat에 복사
+                //    Marshal.Copy(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0, Globalo.mLaonGrabberClass.imageItp.Data, mHeight * mWidth * 3);
+                //    // Grab 버퍼에 저장
+                //}
                 
             }
             catch (ThreadInterruptedException err)

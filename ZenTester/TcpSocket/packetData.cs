@@ -28,6 +28,7 @@ namespace ZenTester.TcpSocket
     {
         public string Cmd { get; set; }
     }
+
     public class EquipmentData
     {
         public string Command { get; set; } //LGIT_LOT_ID_FAIL
@@ -42,6 +43,7 @@ namespace ZenTester.TcpSocket
         public string ErrText { get; set; }
         public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
     }
+
     public class TesterData         //검사 시작, 검사 종료 , Apd 보고 , AOI(Z축 이동), 
     {
         public string Name { get; set; }

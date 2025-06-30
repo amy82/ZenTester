@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using OpenCvSharp;
-using LgitLibrary;
+//using LgitLibrary;
 using System.IO;
 
 namespace ZenTester
@@ -163,13 +163,13 @@ namespace ZenTester
         public bool CloseDevice()
         {
             M_bOpen = false;
-            if (Globalo.GrabberDll.mIsGrabStarted() == true)
-            {
-                //stopGrab
-                Globalo.GrabberDll.mGrabStop();
+            //if (Globalo.GrabberDll.mIsGrabStarted() == true)
+            //{
+            //    //stopGrab
+            //    Globalo.GrabberDll.mGrabStop();
                 
-            }
-            Globalo.GrabberDll.mCloseBoard();
+            //}
+            //Globalo.GrabberDll.mCloseBoard();
             //closeDevice
             //eLogSender("GrabberDll", $"[CCD]Laon Close");
             m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
@@ -178,56 +178,56 @@ namespace ZenTester
         }
         public bool StopGrab()
         {
-            if (Globalo.GrabberDll.mIsGrabStarted() == true)
-            {
-                //stopGrab
-                Globalo.GrabberDll.mGrabStop();
-            }
+            //if (Globalo.GrabberDll.mIsGrabStarted() == true)
+            //{
+            //    //stopGrab
+            //    Globalo.GrabberDll.mGrabStop();
+            //}
             //eLogSender("GrabberDll", $"[CCD]Laon Stop");
             m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
             return true;
         }
         public bool StartGrab()
         {
-            m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
-            if (Globalo.GrabberDll.mGrabStart() == 0)
-            {
-                //ok
-                m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_LIVE;
-                //eLogSender("GrabberDll", $"[CCD]Laon Start Ok");
-            }
-            else
-            {
-                //fail
-                //eLogSender("GrabberDll", $"[CCD]Laon Start Fail");
-                return false;
-            }
+            //m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
+            //if (Globalo.GrabberDll.mGrabStart() == 0)
+            //{
+            //    //ok
+            //    m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_LIVE;
+            //    //eLogSender("GrabberDll", $"[CCD]Laon Start Ok");
+            //}
+            //else
+            //{
+            //    //fail
+            //    //eLogSender("GrabberDll", $"[CCD]Laon Start Fail");
+            //    return false;
+            //}
             
             return true;
         }
         public int OpenDevice()
         {
-            if (M_bOpen)
-            {
-                return 0;
-            }
-            m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
-            if (Globalo.GrabberDll.mIsGrabStarted() == true)
-            {
-                //stopGrab
-                Globalo.GrabberDll.mGrabStop();
-                Globalo.GrabberDll.mCloseBoard();
-                //closeDevice
-            }
-            int nErrorCode = -1;
-            nErrorCode = Globalo.GrabberDll.mOpenBoard((sbyte)m_cBoardIndex);
-            if(nErrorCode > 0)
-            {
-                //error
-                //eLogSender("GrabberDll",  $"[CCD] Laon Err:" + nErrorCode.ToString());
-                return nErrorCode;
-            }
-            M_bOpen = true;
+            //if (M_bOpen)
+            //{
+            //    return 0;
+            //}
+            //m_nCurrentCcdState = (int)CCD_GRAB_MODE.CCD_GRAB_STOP;
+            //if (Globalo.GrabberDll.mIsGrabStarted() == true)
+            //{
+            //    //stopGrab
+            //    Globalo.GrabberDll.mGrabStop();
+            //    Globalo.GrabberDll.mCloseBoard();
+            //    //closeDevice
+            //}
+            //int nErrorCode = -1;
+            //nErrorCode = Globalo.GrabberDll.mOpenBoard((sbyte)m_cBoardIndex);
+            //if(nErrorCode > 0)
+            //{
+            //    //error
+            //    //eLogSender("GrabberDll",  $"[CCD] Laon Err:" + nErrorCode.ToString());
+            //    return nErrorCode;
+            //}
+            //M_bOpen = true;
             //eLogSender("GrabberDll", $"[CCD] Laon Open Ok");
             return 0;
         }
@@ -274,7 +274,7 @@ namespace ZenTester
                     fixed (byte* p = bytes)
                     {
                         sbyte* sp = (sbyte*)p;
-                        Globalo.GrabberDll.mSetINIFile(sp);
+                        //Globalo.GrabberDll.mSetINIFile(sp);
 
                         //SP is now what you want
                     }
@@ -290,23 +290,23 @@ namespace ZenTester
         }
         public void SelectSensor()
         {
-            string logstr = "";
+            //string logstr = "";
 
-            m_nWidth = Globalo.GrabberDll.mGetWidth();
-            m_nHeight = Globalo.GrabberDll.mGetHeight();
+            //m_nWidth = Globalo.GrabberDll.mGetWidth();
+            //m_nHeight = Globalo.GrabberDll.mGetHeight();
 
-            logstr = $"Width:{m_nWidth} Height {m_nHeight} ";
+            //logstr = $"Width:{m_nWidth} Height {m_nHeight} ";
 
-            //eLogSender("GrabberDll", logstr);
-            nFrameRawSize = Globalo.GrabberDll.mGetFrameRawSize(); 
-            nBmpSize = Globalo.GrabberDll.mGetFrameBMPSize();
+            ////eLogSender("GrabberDll", logstr);
+            //nFrameRawSize = Globalo.GrabberDll.mGetFrameRawSize(); 
+            //nBmpSize = Globalo.GrabberDll.mGetFrameBMPSize();
 
-            mGrabSpec.eOutMode = (EOUTMODE)Globalo.GrabberDll.mGetOutMode();
-            mGrabSpec.eDataFormat = (EDATAFORMAT)Globalo.GrabberDll.mGetDataFormat();
-            mGrabSpec.eSensorType = (ESENSORTYPE)Globalo.GrabberDll.mGetSensorType();
+            //mGrabSpec.eOutMode = (EOUTMODE)Globalo.GrabberDll.mGetOutMode();
+            //mGrabSpec.eDataFormat = (EDATAFORMAT)Globalo.GrabberDll.mGetDataFormat();
+            //mGrabSpec.eSensorType = (ESENSORTYPE)Globalo.GrabberDll.mGetSensorType();
 
-            mGrabSpec.eDemosaicMethod = EDEMOSAICMETHOD.DEMOSAICMETHOD_GRADIENT;
-            mGrabSpec.nBlackLevel = 0;
+            //mGrabSpec.eDemosaicMethod = EDEMOSAICMETHOD.DEMOSAICMETHOD_GRADIENT;
+            //mGrabSpec.nBlackLevel = 0;
         }
         public void AllocImageBuff()
         {
@@ -393,7 +393,7 @@ namespace ZenTester
                 {
                     //IntPtr ptr = (IntPtr)pData; // 포인터를 IntPtr로 변환
 
-                    errorCode = Globalo.GrabberDll.mWriteI2CBurst(SlaveAddr, AddrArr[i], 2, pData + i, 1);
+                    //errorCode = Globalo.GrabberDll.mWriteI2CBurst(SlaveAddr, AddrArr[i], 2, pData + i, 1);
                     if (errorCode != 0)
                     {
                         return false;
@@ -406,7 +406,7 @@ namespace ZenTester
             Array.Clear(pReadData, 0, pReadData.Length);
             fixed (byte* pData = pReadData)
             {
-                errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, checkAddr, 2, pData, 1);
+                //errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, checkAddr, 2, pData, 1);
                 if(pData[0] != 0x99)
                 {
                     return false;
@@ -433,7 +433,7 @@ namespace ZenTester
                 Thread.Sleep(writeDelay);
                 fixed (byte* pData = Data)
                 {
-                    errorCode = Globalo.GrabberDll.mWriteI2CBurst(SlaveAddr, AddrArr[i], 2, pData + i, 1);
+                    //errorCode = Globalo.GrabberDll.mWriteI2CBurst(SlaveAddr, AddrArr[i], 2, pData + i, 1);
                     if (errorCode != 0)
                     {
                         return false;
@@ -448,7 +448,7 @@ namespace ZenTester
             Array.Clear(pReadData, 0, pReadData.Length);
             fixed (byte* pData = pReadData)
             {
-                errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, checkAddr, 2, pData, 1);
+                //errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, checkAddr, 2, pData, 1);
                 if (pData[0] != 0x99)
                 {
                     return false;
@@ -480,7 +480,7 @@ namespace ZenTester
                 Thread.Sleep(writeDelay);
                 fixed (byte* pData = Data)
                 {
-                    errorCode = Globalo.GrabberDll.mWriteI2CBurst(SlaveAddr, AddrArr[i], 2, pData + i, 1);
+                    //errorCode = Globalo.GrabberDll.mWriteI2CBurst(SlaveAddr, AddrArr[i], 2, pData + i, 1);
                     if (errorCode != 0)
                     {
                         return false;
@@ -496,7 +496,7 @@ namespace ZenTester
             Array.Clear(pReadData, 0, pReadData.Length);
             fixed (byte* pData = pReadData)
             {
-                errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, checkAddr, 2, pData, 1);
+                //errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, checkAddr, 2, pData, 1);
                 if (pData[0] != 0x99)
                 {
                     return false;
@@ -511,7 +511,7 @@ namespace ZenTester
             string sensor = "";
             fixed (byte* pData = pSensorData)
             {
-                errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, 0x3C07, 2, pData, snReadLength);
+                //errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, 0x3C07, 2, pData, snReadLength);
                 if(errorCode != 0)
                 {
                     return false;

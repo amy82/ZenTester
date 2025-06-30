@@ -32,13 +32,13 @@ namespace ZenTester.FThread
             //IntPtr RawPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameRawBuffer, 0);
             //IntPtr BmpPtr = Marshal.UnsafeAddrOfPinnedArrayElement(Globalo.mLaonGrabberClass.m_pFrameBMPBuffer, 0);
 
-            int mWidth = Globalo.GrabberDll.mGetWidth();
-            int mHeight = Globalo.GrabberDll.mGetHeight();
+            //int mWidth = Globalo.GrabberDll.mGetWidth();
+            //int mHeight = Globalo.GrabberDll.mGetHeight();
 
 
             //dZoomX = ((double)Globalo.camControl.CcdPanel.Width / (double)mWidth);
             //dZoomY = ((double)Globalo.camControl.CcdPanel.Height / (double)mHeight);
-            bytes2 = new byte[mWidth * mHeight];
+            //bytes2 = new byte[mWidth * mHeight];
         }
         //protected override void ProcessRun()
         protected override void ThreadRun()

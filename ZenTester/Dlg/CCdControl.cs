@@ -617,7 +617,7 @@ namespace ZenTester.Dlg
                 IntPtr structPtr = Marshal.AllocHGlobal(Marshal.SizeOf<TDATASPEC>());
                 Marshal.StructureToPtr(tSpec, structPtr, false);
 
-                Globalo.GrabberDll.mxMakeBMP((byte*)RawPtr.ToPointer(), (byte*)BmpPtr.ToPointer(), Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight, structPtr);
+                //Globalo.GrabberDll.mxMakeBMP((byte*)RawPtr.ToPointer(), (byte*)BmpPtr.ToPointer(), Globalo.mLaonGrabberClass.m_nWidth, Globalo.mLaonGrabberClass.m_nHeight, structPtr);
             }
 
 
@@ -789,7 +789,7 @@ namespace ZenTester.Dlg
 
             
             //Int32.Parse(input);
-            int errorCode = 0;
+            //int errorCode = 0;
 
 
             int endAddress = readDataLength;//// 0xE0;  //       241
@@ -837,12 +837,12 @@ namespace ZenTester.Dlg
 
                         maxReadLength = (ushort)((endAddress - i) + 0);    //120 ~ 129 는 10개라서 + 1
                     }
-                    errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, (ushort)maxReadLength);
-                    if (errorCode != 0)
-                    {
-                        Console.WriteLine("mReadI2CBurst errorCode");
-                        break;
-                    }
+                    //errorCode = Globalo.GrabberDll.mReadI2CBurst(SlaveAddr, (ushort)(StartAddr + i), 2, pData + i, (ushort)maxReadLength);
+                    //if (errorCode != 0)
+                    //{
+                    //    Console.WriteLine("mReadI2CBurst errorCode");
+                    //    break;
+                    //}
                 }
             }
 
