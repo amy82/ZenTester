@@ -159,7 +159,7 @@ namespace ZenTester
             this.BTN_TOP_MES.Name = "BTN_TOP_MES";
             this.BTN_TOP_MES.Size = new System.Drawing.Size(101, 27);
             this.BTN_TOP_MES.TabIndex = 11;
-            this.BTN_TOP_MES.Text = "MES";
+            this.BTN_TOP_MES.Text = "Secs Gem";
             this.BTN_TOP_MES.UseVisualStyleBackColor = false;
             this.BTN_TOP_MES.Click += new System.EventHandler(this.BTN_TOP_MES_Click);
             // 

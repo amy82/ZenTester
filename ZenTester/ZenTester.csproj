@@ -475,6 +475,7 @@
     <Compile Include="Serial\SerialPortManager.cs" />
     <Compile Include="TaskClass\TaskManager.cs" />
     <Compile Include="TcpSocket\packetData.cs" />
+    <Compile Include="TcpSocket\TcpClientSecsGem.cs" />
     <Compile Include="TcpSocket\TcpClientHandler.cs" />
     <Compile Include="TcpSocket\TcpManager.cs" />
     <Compile Include="TcpSocket\TcpServer.cs" />

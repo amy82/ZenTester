@@ -17,7 +17,7 @@ namespace ZenTester.TcpSocket
         private CancellationTokenSource _cts;
 
         private TcpClientHandler _HandlerClient;       //Handler로 연결
-        private TcpClientHandler _SecsGem_Client;       //Secsgem으로 연결
+        private TcpClientSecsGem _SecsGem_Client;       //Secsgem으로 연결
 
         public int nRecv_Ack;//bRecv_S6F12_Lot_Apd
         public TcpManager()//string ip, int port)
@@ -36,17 +36,18 @@ namespace ZenTester.TcpSocket
         {
             StopServer();
         }
+
         public void SetClient(string ip, int port)
         {
             _HandlerClient = new TcpClientHandler(ip, port, this);
             _HandlerClient.OnMessageReceivedAsync += HandleClientMessageAsync;
-            _HandlerClient.Connect();
+            _HandlerClient.HandlerConnect();
         }
         public void SetVerifyClient(string ip, int port)
         {
-            _SecsGem_Client = new TcpClientHandler(ip, port, this);
+            _SecsGem_Client = new TcpClientSecsGem(ip, port, this);
             _SecsGem_Client.OnMessageReceivedAsync += SecsGemClientMessageAsync;
-            _SecsGem_Client.Connect();
+            _SecsGem_Client.SecsGemConnect();
         }
 
         public async void SendMessageToHost(EquipmentData data) //ResultData

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace ZenTester.TcpSocket
 {
-    public class TcpClientHandler   //Handler 프로그램과 연결
+    public class TcpClientSecsGem   //SecsGem 프로그램과 연결
     {
         private readonly SynchronizationContext _syncContext;
         private readonly TcpManager _tcpManager;  // TcpManager 참조
@@ -31,7 +31,7 @@ namespace ZenTester.TcpSocket
         private System.Timers.Timer _reconnectTimer;
 
 
-        public TcpClientHandler(string ip, int port, TcpManager manager)
+        public TcpClientSecsGem(string ip, int port, TcpManager manager)
         {
             _tcpManager = manager;
             _syncContext = SynchronizationContext.Current;
@@ -45,7 +45,7 @@ namespace ZenTester.TcpSocket
         private void OnPgExitCall(object sender, EventArgs e)
         {
             // 이벤트 처리
-            Console.WriteLine("TcpClientHandler - OnPgExitCall");
+            Console.WriteLine("TcpClientSecsGem - OnPgExitCall");
             if (_reconnectTimer != null)
             {
                 _reconnectTimer.Stop();
@@ -57,8 +57,8 @@ namespace ZenTester.TcpSocket
         {
             return bConnected;
         }
-
-        public bool HandlerConnect()
+       
+        public bool SecsGemConnect()
         {
             try
             {
@@ -269,12 +269,10 @@ namespace ZenTester.TcpSocket
         }
         private void AttemptReconnect()
         {
-            Console.WriteLine($"Handler Attempting to reconnect to {_ip}:{_port}...");
-            if (HandlerConnect() == true)
+            Console.WriteLine($"Secsgem Attempting to reconnect to {_ip}:{_port}...");
+            if (SecsGemConnect() == true)
             {
                 //Console.WriteLine($"Attempting to reconnect to Ok");
-
-                
                 return;
             }
             //Console.WriteLine($"Attempting to reconnect to Fail");
