@@ -201,7 +201,7 @@ namespace ZenTester.Process
                     objectData.Type = "EquipmentData";
 
                     TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
-                    LotstartData.Command = "APS_LOT_FINISH";
+                    LotstartData.Command = "APS_LOT_JUDGE";
                     LotstartData.BcrId = fwtestData.Barcode;
                     LotstartData.Judge = Globalo.tcpManager.nRecv_Ack;
 

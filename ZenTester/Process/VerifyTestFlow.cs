@@ -53,7 +53,7 @@ namespace ZenTester.Process
                     //Tester에서 Secsgem으로 착공 거는 공정은 Verify 공정만..
                     
                     EqipData.Type = "EquipmentData";
-                    sendEqipData.Command = "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
+                    sendEqipData.Command = "OBJECT_ID_REPORT";// "VERIFY_OBJECT_REPORT";//"OBJECT_ID_REPORT";
                     sendEqipData.BcrId = verifytestData.Barcode;
                     sendEqipData.DataID = verifytestData.Socket_Num;
                     //
