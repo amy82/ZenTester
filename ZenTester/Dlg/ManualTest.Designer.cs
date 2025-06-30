@@ -59,7 +59,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Roi_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_Roi_Save.Location = new System.Drawing.Point(565, 579);
             this.label_SetTest_Manual_Mark_Roi_Save.Name = "label_SetTest_Manual_Mark_Roi_Save";
-            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(90, 38);
+            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Mark_Roi_Save.TabIndex = 103;
             this.label_SetTest_Manual_Mark_Roi_Save.Text = "ROI SAVE";
             this.label_SetTest_Manual_Mark_Roi_Save.UseVisualStyleBackColor = false;
@@ -112,7 +112,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(565, 653);
             this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
-            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(90, 38);
+            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Image_Load.TabIndex = 99;
             this.label_SetTest_Manual_Image_Load.Text = "IMAGE LOAD";
             this.label_SetTest_Manual_Image_Load.UseVisualStyleBackColor = false;
@@ -125,7 +125,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(565, 616);
             this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
-            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(90, 38);
+            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Image_Save.TabIndex = 98;
             this.label_SetTest_Manual_Image_Save.Text = "IMAGE SAVE";
             this.label_SetTest_Manual_Image_Save.UseVisualStyleBackColor = false;
@@ -138,7 +138,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Find.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_Find.Location = new System.Drawing.Point(565, 423);
             this.label_SetTest_Manual_Mark_Find.Name = "label_SetTest_Manual_Mark_Find";
-            this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(90, 75);
+            this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(98, 75);
             this.label_SetTest_Manual_Mark_Find.TabIndex = 97;
             this.label_SetTest_Manual_Mark_Find.Text = "MARK FIND";
             this.label_SetTest_Manual_Mark_Find.UseVisualStyleBackColor = false;
@@ -151,7 +151,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(565, 541);
             this.label_SetTest_Manual_Mark_View.Name = "label_SetTest_Manual_Mark_View";
-            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(90, 39);
+            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(98, 39);
             this.label_SetTest_Manual_Mark_View.TabIndex = 96;
             this.label_SetTest_Manual_Mark_View.Text = "VIEW";
             this.label_SetTest_Manual_Mark_View.UseVisualStyleBackColor = false;
@@ -164,7 +164,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Regist.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(565, 497);
             this.label_SetTest_Manual_Mark_Regist.Name = "label_SetTest_Manual_Mark_Regist";
-            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(90, 45);
+            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(98, 45);
             this.label_SetTest_Manual_Mark_Regist.TabIndex = 95;
             this.label_SetTest_Manual_Mark_Regist.Text = "REGIST";
             this.label_SetTest_Manual_Mark_Regist.UseVisualStyleBackColor = false;
@@ -187,7 +187,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Image.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Mark_Image.Location = new System.Drawing.Point(248, 393);
             this.label_SetTest_Manual_Mark_Image.Name = "label_SetTest_Manual_Mark_Image";
-            this.label_SetTest_Manual_Mark_Image.Size = new System.Drawing.Size(407, 29);
+            this.label_SetTest_Manual_Mark_Image.Size = new System.Drawing.Size(415, 29);
             this.label_SetTest_Manual_Mark_Image.TabIndex = 93;
             this.label_SetTest_Manual_Mark_Image.Text = "Mark Image";
             this.label_SetTest_Manual_Mark_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -391,7 +391,7 @@ namespace ZenTester.VisionClass
                 MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilChildLow);
 
                 //MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, markBinarizeData, MIL.M_NULL);
-                MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
+                //MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
 
                 MIL.MmodFind(m_MilModModel[nNo], MilChildLow, m_MilModResult[index]);
                 if (MilChildLow != MIL.M_NULL)
@@ -471,13 +471,11 @@ namespace ZenTester.VisionClass
             m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Width;
             m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Height;
             //HeightHeight
-
-
-
+            
             bFind = FindModel(index , MarkNo, true, m_clRoi, ref dScore, ref dAngle, ref dFindPos);
             if (bFind)
             {
-                if (dScore > 70.0)
+                if (dScore > 60.0)
                 {
                     dAlign.X = dFindPos.X;
                     dAlign.Y = dFindPos.Y;
@@ -509,8 +507,6 @@ namespace ZenTester.VisionClass
 
             if (MarkDraw)
             {
-
-            
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
 
@@ -616,21 +612,6 @@ namespace ZenTester.VisionClass
 
                     MIL.MdispControl(m_MilMarkDisplay[0], MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
                 }
-
-                //if (m_bInitMarkOverlay)
-                //{
-                //    if (m_bEnableMarkOverlay == false)
-                //    {
-                //        MdispControl(m_MilMarkDisplay[0], M_OVERLAY_SHOW, M_ENABLE);
-                //    }
-                //    else
-                //    {
-                //        MdispControl(m_MilMarkDisplay[0], M_OVERLAY_SHOW, M_DISABLE);
-                //        m_bEnableMarkOverlay = FALSE;
-                //    }
-
-                //    m_bInitMarkOverlay = FALSE;
-                //}
             }
         }
     }

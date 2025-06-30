@@ -1136,7 +1136,7 @@ namespace ZenTester.VisionClass
 
 
             MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 200.0, MIL.M_NULL);     //250615 less Size 5.0
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_LESS, 250.0, MIL.M_NULL); //250615 greater Size 30.0
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_LESS, 230.0, MIL.M_NULL); //250615 greater Size 30.0
             MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_LESS, 0.5, MIL.M_NULL); //250615 greater Size 30.0
 
 
@@ -1271,11 +1271,11 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 43;// 77;// 19; // 반드시 홀수
+            int blockSize = 55;// 77;// 19; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 30; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 32; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //큰원 26
             //작은원 30
             //int minThresh = 70;
