@@ -1203,9 +1203,10 @@ namespace ZenTester.VisionClass
                 for (int i = 0; i < NumResults; i++)
                 {
                     per = (EdgeCircleFitError[i] / EdgeCircleFitRadius[i]) * 100.0;///(error / radius) * 100.0;
-                    Console.WriteLine($"{i + 1} Circle Fit :{EdgeCircleFitCx[i]},{EdgeCircleFitCy[i]}%");
+                    Console.WriteLine($"{i + 1} Circle Fit :{per}%");
                 }
-
+                //평균 제곱 오차 (Average Quadratic Error, RMS) 입니다
+                //각 엣지 포인트가 피팅된 원에서 얼마나 벗어났는지를 제곱합 후 평균낸 값이에요.
                 str = $"[CONE] Edge Count:{NumResults}";
 
 
