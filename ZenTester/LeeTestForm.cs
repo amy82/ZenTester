@@ -256,5 +256,38 @@ namespace ZenTester
             Globalo.visionManager.aoiTopTester.OpencvKeytest(roiMilImage);
 
         }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            bool rtn = true;
+
+            int index = 0;
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(index, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(index);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[index], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(index, true);
+
+
+
+            List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
+            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+
+
+            Globalo.visionManager.aoiTopTester.Housing_EdgeFind_Test(index, src);     //Fakra 안쪽 원 찾기
+        }
     }
 }

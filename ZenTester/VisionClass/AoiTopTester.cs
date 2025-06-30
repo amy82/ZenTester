@@ -1039,7 +1039,188 @@ namespace ZenTester.VisionClass
             return gaskerLight;
 
         }
-        //public OpenCvSharp.Point Housing_Fakra_Test(int index, Mat srcImage)
+        public void Housing_EdgeFind_Test(int index, Mat srcImage, bool bAutorun = false)
+        {
+            bool IMG_VIEW = false;
+            int startTime = Environment.TickCount;
+            int nRtn = 0;
+
+            const int CONTOUR_MAX_RESULTS = 5;
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_ID tempMilImage = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
+            MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
+
+            double[] EdgeCircleFitCx = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitCy = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitError = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitCoverage = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitRadius = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeSize = new double[CONTOUR_MAX_RESULTS];
+
+
+            int startX = 0;// Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X + (int)offsetX;
+            int startY = 0;// Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y + (int)offsetY;
+
+            int OffsetWidth = 2400;     // Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Width;
+            int OffsetHeight = 2100;    // Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Height;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
+
+            //MIL_INT ImageSizeX = MIL.MbufInquire(Globalo.visionManager.milLibrary.MilProcImageChild[index], MIL.M_SIZE_X, MIL.M_NULL);
+            //MIL_INT ImageSizeY = MIL.MbufInquire(Globalo.visionManager.milLibrary.MilProcImageChild[index], MIL.M_SIZE_Y, MIL.M_NULL);
+
+            //MIL.MgraArcFill(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[index], ImageSizeX/2, ImageSizeY/2, 1200, 800, 0, 360);
+
+
+            //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], startX, startY, OffsetWidth, OffsetHeight, ref tempMilImage);
+            //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+
+
+            MIL.MbufExport($"d:\\Edge_Housing.BMP", MIL.M_BMP, tempMilImage);
+            MIL.MgraColor(MIL.M_DEFAULT, 0);
+
+            /* Allocate a graphic list to hold the subpixel annotations to draw. */
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+            /* Associate the graphic list to the display for annotations. */
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            // Allocate a Edge Finder context.
+            MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
+
+            // Allocate a result buffer.
+            MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
+
+            // Enable features to compute.
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_CENTER_X, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_CENTER_Y, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_ERROR, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_SIZE, MIL.M_ENABLE);
+
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT, MIL.M_ENABLE);
+
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_TYPE, MIL.M_SHEN);//MIL.M_DERICHE); M_SOBEL
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FLOAT_MODE, MIL.M_DISABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_SMOOTHNESS, 80.0);
+            // Calculate edges and features.
+            MIL.MedgeCalculate(MilEdgeContext, tempMilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
+
+
+
+
+
+            MIL_INT NumEdgeFound = 0;// Number of edges found.
+
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
+
+
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //불필요한 edge 제거하기
+            //
+            //
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //double CONTOUR_MAXIMUM_ELONGATION = 0.8;
+            // Exclude elongated edges.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_MOMENT_ELONGATION, MIL.M_LESS, CONTOUR_MAXIMUM_ELONGATION, MIL.M_NULL);
+            // Exclude inner chains.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
+
+
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 200.0, MIL.M_NULL);     //250615 less Size 5.0
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_LESS, 250.0, MIL.M_NULL); //250615 greater Size 30.0
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_LESS, 0.5, MIL.M_NULL); //250615 greater Size 30.0
+
+
+            // Draw edges in the source image to show the result.
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            MIL.MedgeControl(MilEdgeResult, 319L, (double)-startX);
+            MIL.MedgeControl(MilEdgeResult, 320L, (double)-startY);
+
+
+            MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
+            MIL.MedgeControl(MilEdgeResult, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);
+            if (bAutorun)
+            {
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
+            else
+            {
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
+
+            //M_DRAW_BOX + M_DRAW_POSITION + M_DRAW_EDGES + M_DRAW_AXIS
+
+            MIL_INT NumResults = 0;                                         // Number of results found.
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+            int minIndex = 0;
+            int maxIndex = 0;
+            double CircleCx = 0.0;
+            double CircleErr = 0.0;
+            string str = "";
+            Rectangle m_clRect = new Rectangle((int)(startX), (int)(startY), OffsetWidth, OffsetHeight);
+            // If the right number of edges were found.
+
+            Color ConeColor;
+            System.Drawing.Point textPoint;
+            Console.Write($"Key Edge Count:{NumResults}\n");
+            if (NumResults <= CONTOUR_MAX_RESULTS)
+            {
+                // Draw the index of each edge.
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+                // Get the mean Feret diameters.
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_X, EdgeCircleFitCx);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_Y, EdgeCircleFitCy);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_ERROR, EdgeCircleFitError);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_COVERAGE, EdgeCircleFitCoverage);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_RADIUS, EdgeCircleFitRadius);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_SIZE, EdgeSize);
+
+
+
+                //str = $"#{1}";
+                //textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
+
+                for (int i = 0; i < NumResults; i++)
+                {
+                    Console.WriteLine($"{i+1} Center xy :{EdgeCircleFitCx[i]},{EdgeCircleFitCy[i]}");
+                }
+                double per = 0;
+                for (int i = 0; i < NumResults; i++)
+                {
+                    per = (EdgeCircleFitError[i] / EdgeCircleFitRadius[i]) * 100.0;///(error / radius) * 100.0;
+                    Console.WriteLine($"{i + 1} Circle Fit :{EdgeCircleFitCx[i]},{EdgeCircleFitCy[i]}%");
+                }
+
+                str = $"[CONE] Edge Count:{NumResults}";
+
+
+            }
+            else
+            {
+                Console.Write("Edges have not been found or the number of found edges is greater than\n");
+                Console.Write("the specified maximum number of edges !\n\n");
+
+
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
+                nRtn = 0;
+            }
+
+        }
         public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, bool bAutorun = false)
         {
             // 측정 시작

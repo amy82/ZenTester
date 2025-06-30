@@ -267,7 +267,7 @@ namespace ZenTester.TcpSocket
 
         private void AttemptReconnect()
         {
-            Console.WriteLine($"Handler Attempting to reconnect to {_ip}:{_port}...");
+            //Console.WriteLine($"Handler Attempting to reconnect to {_ip}:{_port}...");
             if (HandlerConnect() == true)
             {
                 //Console.WriteLine($"Attempting to reconnect to Ok");
