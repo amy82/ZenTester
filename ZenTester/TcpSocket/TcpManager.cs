@@ -43,6 +43,7 @@ namespace ZenTester.TcpSocket
             _HandlerClient.OnMessageReceivedAsync += HandleClientMessageAsync;
             _HandlerClient.HandlerConnect();
         }
+
         public void SetVerifyClient(string ip, int port)
         {
             _SecsGem_Client = new TcpClientSecsGem(ip, port, this);

@@ -758,7 +758,7 @@ namespace ZenTester.VisionClass
                 
                 for (i = 0; i < TotalCamCount; i++)
                 {
-                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref tempDigitizer);
+                    MIL.MdigAlloc(MilSystem, MIL.M_DEV0+i, "M_DEFAULT", MIL.M_DEFAULT, ref tempDigitizer);
 
                     StringBuilder cameraModel = new StringBuilder(256);
                     MIL.MdigInquire(tempDigitizer, MIL.M_CAMERA_MODEL, cameraModel); // 또는 M_CAMERA_MODEL

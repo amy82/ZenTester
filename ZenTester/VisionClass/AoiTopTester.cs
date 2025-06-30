@@ -49,6 +49,24 @@ namespace ZenTester.VisionClass
 
             return rtn;
         }
+        public bool Mark_Find_Standard(int index, VisionClass.eMarkList MarkPos, ref System.Drawing.Point conePos, ref double dScore)        //사이드 카메라 기준점 찾기 - 
+        {
+            bool bRtn = true;
+            //Mark Find
+            VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
+            int MarkIndex = 0;
+            MarkIndex = (int)MarkPos;
+
+            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, ref dScore, true);
+
+            conePos.X = (int)dAlign.X;
+            conePos.Y = (int)dAlign.Y;
+            Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
+
+            return bRtn;
+
+        }
+
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos, bool autoRun = false)
         {
             bool IMG_VIEW = true;
@@ -117,8 +135,8 @@ namespace ZenTester.VisionClass
             Mat colorImage = new Mat();
             Cv2.CvtColor(srcImage, colorImage, ColorConversionCodes.GRAY2BGR);  // 1채널 → 3채널 변환
 
-            int imageCenterX = thresh.Width / 2;
-            int imageCenterY = thresh.Height / 2;
+            int imageCenterX = 1172;//thresh.Width / 2;
+            int imageCenterY = 1427;//thresh.Height / 2;
 
             // 가장 큰 원을 찾기
             foreach (var contour in contours)
@@ -155,8 +173,8 @@ namespace ZenTester.VisionClass
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
                 //if (radius > 600 && radius < 1100)  //큰원- 실제 원 반지름 조건에 맞게 큰원
-                if (radius > 700 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
-                //if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
+                //if (radius > 700 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
+                if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
                 {
                     centerPos.X = (int)center.X;
                     centerPos.Y = (int)center.Y;
@@ -905,9 +923,11 @@ namespace ZenTester.VisionClass
             //Cv2.NamedWindow("GasketTest binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
             //Cv2.ImShow("GasketTest binary ", binary);
             //Cv2.WaitKey(0);
-            int radiusOuter = 830;// 700;
-            int radiusInner = 580;// 430;
-                
+            //int radiusOuter = 830;        //큰원
+            //int radiusInner = 580;        //큰원
+            int radiusOuter = 440;          //작은원
+            int radiusInner = 310;          //작은원
+
 
             // 이미지 크기에 맞는 빈 마스크
             Mat mask = Mat.Zeros(srcImage.Size(), MatType.CV_8UC1);
@@ -1042,7 +1062,7 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             var edges = new Mat();
             //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            Cv2.MedianBlur(srcImage, blurred, 3);
+            Cv2.MedianBlur(srcImage, blurred, 1);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -1069,11 +1089,11 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 55;// 77;// 19; // 반드시 홀수
+            int blockSize = 43;// 77;// 19; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 54; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 30; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //큰원 26
             //작은원 30
             //int minThresh = 70;
@@ -1092,12 +1112,12 @@ namespace ZenTester.VisionClass
             }
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
             // 3. Contours 찾기
-            int imageCenterX = 1172;// binary.Width / 2;
-            int imageCenterY = 1427;// binary.Height / 2;
+            int imageCenterX = 1306;// binary.Width / 2;
+            int imageCenterY = 1289;// binary.Height / 2;
 
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
@@ -1376,7 +1396,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 1.0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1391,11 +1411,11 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 77;// 77; // 반드시 홀수
+            int blockSize = 53;// 77; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 35;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 30;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //작은원 30
             //큰원 18
             //int minThresh = 70;
@@ -1404,7 +1424,7 @@ namespace ZenTester.VisionClass
             Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));//(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
 
@@ -1415,8 +1435,8 @@ namespace ZenTester.VisionClass
                 Cv2.WaitKey(0);
             }
             // 3. Contours 찾기
-            int imageCenterX = 1172;// binary.Width / 2;
-            int imageCenterY = 1427;// binary.Height / 2;
+            int imageCenterX = 1294;// binary.Width / 2;
+            int imageCenterY = 1298;// binary.Height / 2;
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
             //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -1486,7 +1506,7 @@ namespace ZenTester.VisionClass
 
 
                 //if (radius < 600 || radius > 1000)//890)
-                if (radius < 280 || radius > 550)//890)
+                if (radius < 320 || radius > 560)//890)
                 {
                     continue;
                 }
@@ -1604,7 +1624,7 @@ namespace ZenTester.VisionClass
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
                 Console.WriteLine($"Dentest circularity: {circularity}");
 
-                int drawRadius = 35;
+                int drawRadius = 15;// 35;
 
                 double dentSpec = Globalo.yamlManager.configData.CamSettings.DentLimit;
                 //for (int i = 0; i < maxContour.Length; i += 17)

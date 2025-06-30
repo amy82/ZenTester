@@ -64,7 +64,7 @@ namespace ZenTester.Dlg
         private void button_Set_Mark_Next_Click(object sender, EventArgs e)
         {
             //Next
-            //public enum eMarkList{SIDE_CONTACT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, MAX_MARK_LIST}
+            //public enum eMarkList{SIDE_CONTACT = 0, SIDE_CONE, SIDE_ORING, TOP_KEY, MAX_MARK_LIST}
             int kk = (int)VisionClass.eMarkList.MAX_MARK_LIST;
 
             if (MarkIndex < MaxMarkCount - 1)
@@ -116,46 +116,46 @@ namespace ZenTester.Dlg
             //A ~ D: 2개씩
             //E 타입만 1개
             string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
-            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
-            Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
 
             int key1Rtn = 0;
             int key2Rtn = 0;
             double offsetx = 0.0;
             double offsety = 0.0;
+            double dKeyScore = 0.0;
 
             byte[] ImageBuffer = new byte[dataSize];
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
-
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex], true);     //가장 작은 원의 중심 찾기
-            if (rtn)
-            {
-                offsetx = TopCenterPos[parentDlg.CamIndex].X - parentDlg.centerPos[parentDlg.CamIndex].X;
-                offsety = TopCenterPos[parentDlg.CamIndex].Y - parentDlg.centerPos[parentDlg.CamIndex].Y;
-            }
+            //rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex], true);     //가장 작은 원의 중심 찾기
+            //if (rtn)
+            //{
+            //    offsetx = TopCenterPos[parentDlg.CamIndex].X - parentDlg.centerPos[parentDlg.CamIndex].X;
+            //    offsety = TopCenterPos[parentDlg.CamIndex].Y - parentDlg.centerPos[parentDlg.CamIndex].Y;
+            //}
 
 
+            System.Drawing.Point markPos = new System.Drawing.Point();
+            bool bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
-
-            key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 0, keyType, offsetx, offsety);        //키검사
-            if (keyType != "E")
-            {
-                key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 1, keyType, offsetx, offsety);        //키검사
-            }
+            //key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 0, keyType, offsetx, offsety);        //키검사
+            //if (keyType != "E")
+            //{
+            //    key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 1, keyType, offsetx, offsety);        //키검사
+            //}
 
 
 
             string str = string.Empty;
             System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex] - 300);
-            str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
-            if (key1Rtn == 1 && key2Rtn == 1)
+            //str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+            if (bRtn)//key1Rtn == 1 && key2Rtn == 1)
             {
                 //성공
 
@@ -167,7 +167,7 @@ namespace ZenTester.Dlg
             }
 
 
-            //Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
+            
 
 
 
@@ -197,7 +197,7 @@ namespace ZenTester.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
 
 
@@ -205,7 +205,7 @@ namespace ZenTester.Dlg
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
 
 
-            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src);     //Fakra 안쪽 원 찾기
+            //FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src);     //Fakra 안쪽 원 찾기
             HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
             if (FakraCenter.Count < 2)
@@ -278,6 +278,7 @@ namespace ZenTester.Dlg
 
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
 
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
@@ -315,7 +316,7 @@ namespace ZenTester.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
             HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
@@ -456,6 +457,7 @@ namespace ZenTester.Dlg
 
         private void label_SetTest_Manual_Mark_Find_Click(object sender, EventArgs e)
         {
+            double dScore = 0.0;
             VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
 
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
@@ -463,12 +465,14 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            //
 
 
-            Globalo.visionManager.markUtil.CalcSingleMarkAlign(parentDlg.CamIndex, MarkIndex, ref dAlign);
+            Globalo.visionManager.markUtil.CalcSingleMarkAlign(parentDlg.CamIndex, MarkIndex, ref dAlign, ref dScore);
 
             Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
+
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
         }
 
 

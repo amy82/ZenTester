@@ -160,7 +160,6 @@ namespace ZenTester.TcpSocket
                         Console.WriteLine("취소 요청이 발생했습니다.");
                         break;
                     }
-
                     if (bytesRead > 0)
                     {
                         string receivedChunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
@@ -250,7 +249,6 @@ namespace ZenTester.TcpSocket
             {
                 return;
             }
-
             _isReconnecting = true;
             OnReconnecting?.Invoke();
             if (_reconnectTimer != null)
@@ -265,16 +263,14 @@ namespace ZenTester.TcpSocket
             {
                 _reconnectTimer.Stop();
             }
-                
         }
+
         private void AttemptReconnect()
         {
             Console.WriteLine($"Handler Attempting to reconnect to {_ip}:{_port}...");
             if (HandlerConnect() == true)
             {
                 //Console.WriteLine($"Attempting to reconnect to Ok");
-
-                
                 return;
             }
             //Console.WriteLine($"Attempting to reconnect to Fail");
