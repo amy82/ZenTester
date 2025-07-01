@@ -20,6 +20,8 @@ namespace ZenTester.Data
         public int KeyEdgeSpecCount { get; set; }
         public double DentLimit { get; set; }
         public int DentTotalCount { get; set; }
+        public int TopRetry { get; set; }
+        public int SideRetry { get; set; }
     }
     public class _SerialPort
     {

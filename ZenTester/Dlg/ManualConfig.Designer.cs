@@ -66,6 +66,10 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Limit = new System.Windows.Forms.Label();
             this.label_Set_TopCam_Dent_Count_Val = new System.Windows.Forms.Label();
             this.label_Set_TopCam_Dent_Count = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Test_Retry_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Test_Retry = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_Test_Retry_Val = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_Test_Retry = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Top_Light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Side_Light)).BeginInit();
             this.SuspendLayout();
@@ -76,7 +80,7 @@ namespace ZenTester.Dlg
             this.button_Set_Top_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Top_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Top_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(189, 207);
+            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(189, 237);
             this.button_Set_Top_Resol_Save.Name = "button_Set_Top_Resol_Save";
             this.button_Set_Top_Resol_Save.Size = new System.Drawing.Size(106, 46);
             this.button_Set_Top_Resol_Save.TabIndex = 85;
@@ -146,7 +150,7 @@ namespace ZenTester.Dlg
             this.button_Set_Side_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Side_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(192, 429);
+            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(190, 550);
             this.button_Set_Side_Resol_Save.Name = "button_Set_Side_Resol_Save";
             this.button_Set_Side_Resol_Save.Size = new System.Drawing.Size(103, 46);
             this.button_Set_Side_Resol_Save.TabIndex = 90;
@@ -162,7 +166,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(4, 392);
+            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(3, 513);
             this.label_Set_SideCam_ResolY_Val.Name = "label_Set_SideCam_ResolY_Val";
             this.label_Set_SideCam_ResolY_Val.Size = new System.Drawing.Size(96, 28);
             this.label_Set_SideCam_ResolY_Val.TabIndex = 89;
@@ -178,7 +182,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(4, 337);
+            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(3, 458);
             this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
             this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(96, 28);
             this.label_Set_SideCam_ResolX_Val.TabIndex = 87;
@@ -191,7 +195,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(4, 365);
+            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(3, 486);
             this.label_Set_SideCam_ResolY.Name = "label_Set_SideCam_ResolY";
             this.label_Set_SideCam_ResolY.Size = new System.Drawing.Size(96, 27);
             this.label_Set_SideCam_ResolY.TabIndex = 88;
@@ -203,7 +207,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_SideCam_ResolX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(4, 310);
+            this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(3, 431);
             this.label_Set_SideCam_ResolX.Name = "label_Set_SideCam_ResolX";
             this.label_Set_SideCam_ResolX.Size = new System.Drawing.Size(96, 27);
             this.label_Set_SideCam_ResolX.TabIndex = 86;
@@ -231,7 +235,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(3, 278);
+            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(4, 399);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
             this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(292, 29);
             this.label_SetTest_Manual_Side_Test.TabIndex = 92;
@@ -244,7 +248,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Cam_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Cam_Save.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Cam_Save.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Cam_Save.Location = new System.Drawing.Point(601, 97);
+            this.label_SetTest_Manual_Top_Cam_Save.Location = new System.Drawing.Point(615, 97);
             this.label_SetTest_Manual_Top_Cam_Save.Name = "label_SetTest_Manual_Top_Cam_Save";
             this.label_SetTest_Manual_Top_Cam_Save.Size = new System.Drawing.Size(72, 39);
             this.label_SetTest_Manual_Top_Cam_Save.TabIndex = 115;
@@ -257,7 +261,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Data.BackColor = System.Drawing.Color.White;
             this.label_SetTest_Manual_Top_Light_Data.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Top_Light_Data.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Top_Light_Data.Location = new System.Drawing.Point(601, 53);
+            this.label_SetTest_Manual_Top_Light_Data.Location = new System.Drawing.Point(615, 53);
             this.label_SetTest_Manual_Top_Light_Data.Name = "label_SetTest_Manual_Top_Light_Data";
             this.label_SetTest_Manual_Top_Light_Data.Size = new System.Drawing.Size(72, 40);
             this.label_SetTest_Manual_Top_Light_Data.TabIndex = 114;
@@ -267,7 +271,7 @@ namespace ZenTester.Dlg
             // 
             // trackBar_Top_Light
             // 
-            this.trackBar_Top_Light.Location = new System.Drawing.Point(312, 98);
+            this.trackBar_Top_Light.Location = new System.Drawing.Point(326, 98);
             this.trackBar_Top_Light.Name = "trackBar_Top_Light";
             this.trackBar_Top_Light.Size = new System.Drawing.Size(283, 45);
             this.trackBar_Top_Light.TabIndex = 113;
@@ -278,7 +282,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Val3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Light_Val3.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Light_Val3.ForeColor = System.Drawing.Color.White;
-            this.label_SetTest_Manual_Top_Light_Val3.Location = new System.Drawing.Point(522, 53);
+            this.label_SetTest_Manual_Top_Light_Val3.Location = new System.Drawing.Point(536, 53);
             this.label_SetTest_Manual_Top_Light_Val3.Name = "label_SetTest_Manual_Top_Light_Val3";
             this.label_SetTest_Manual_Top_Light_Val3.Size = new System.Drawing.Size(66, 39);
             this.label_SetTest_Manual_Top_Light_Val3.TabIndex = 112;
@@ -292,7 +296,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Val2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Light_Val2.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Light_Val2.ForeColor = System.Drawing.Color.White;
-            this.label_SetTest_Manual_Top_Light_Val2.Location = new System.Drawing.Point(403, 53);
+            this.label_SetTest_Manual_Top_Light_Val2.Location = new System.Drawing.Point(417, 53);
             this.label_SetTest_Manual_Top_Light_Val2.Name = "label_SetTest_Manual_Top_Light_Val2";
             this.label_SetTest_Manual_Top_Light_Val2.Size = new System.Drawing.Size(115, 39);
             this.label_SetTest_Manual_Top_Light_Val2.TabIndex = 111;
@@ -306,7 +310,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Val1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Light_Val1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Light_Val1.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Light_Val1.Location = new System.Drawing.Point(319, 53);
+            this.label_SetTest_Manual_Top_Light_Val1.Location = new System.Drawing.Point(333, 53);
             this.label_SetTest_Manual_Top_Light_Val1.Name = "label_SetTest_Manual_Top_Light_Val1";
             this.label_SetTest_Manual_Top_Light_Val1.Size = new System.Drawing.Size(80, 39);
             this.label_SetTest_Manual_Top_Light_Val1.TabIndex = 110;
@@ -321,7 +325,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Cam_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Cam_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Cam_Light.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Cam_Light.Location = new System.Drawing.Point(317, 15);
+            this.label_SetTest_Manual_Top_Cam_Light.Location = new System.Drawing.Point(331, 15);
             this.label_SetTest_Manual_Top_Cam_Light.Name = "label_SetTest_Manual_Top_Cam_Light";
             this.label_SetTest_Manual_Top_Cam_Light.Size = new System.Drawing.Size(356, 29);
             this.label_SetTest_Manual_Top_Cam_Light.TabIndex = 109;
@@ -334,7 +338,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Light_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Light_Save.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Side_Light_Save.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Light_Save.Location = new System.Drawing.Point(603, 354);
+            this.label_SetTest_Manual_Side_Light_Save.Location = new System.Drawing.Point(615, 244);
             this.label_SetTest_Manual_Side_Light_Save.Name = "label_SetTest_Manual_Side_Light_Save";
             this.label_SetTest_Manual_Side_Light_Save.Size = new System.Drawing.Size(72, 39);
             this.label_SetTest_Manual_Side_Light_Save.TabIndex = 120;
@@ -344,7 +348,7 @@ namespace ZenTester.Dlg
             // 
             // trackBar_Side_Light
             // 
-            this.trackBar_Side_Light.Location = new System.Drawing.Point(314, 355);
+            this.trackBar_Side_Light.Location = new System.Drawing.Point(328, 245);
             this.trackBar_Side_Light.Name = "trackBar_Side_Light";
             this.trackBar_Side_Light.Size = new System.Drawing.Size(283, 45);
             this.trackBar_Side_Light.TabIndex = 119;
@@ -354,7 +358,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Light_Data.BackColor = System.Drawing.Color.White;
             this.label_SetTest_Manual_Side_Light_Data.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Side_Light_Data.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Side_Light_Data.Location = new System.Drawing.Point(603, 310);
+            this.label_SetTest_Manual_Side_Light_Data.Location = new System.Drawing.Point(615, 200);
             this.label_SetTest_Manual_Side_Light_Data.Name = "label_SetTest_Manual_Side_Light_Data";
             this.label_SetTest_Manual_Side_Light_Data.Size = new System.Drawing.Size(72, 40);
             this.label_SetTest_Manual_Side_Light_Data.TabIndex = 118;
@@ -368,7 +372,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Light_Val1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Light_Val1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Side_Light_Val1.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Light_Val1.Location = new System.Drawing.Point(319, 310);
+            this.label_SetTest_Manual_Side_Light_Val1.Location = new System.Drawing.Point(333, 200);
             this.label_SetTest_Manual_Side_Light_Val1.Name = "label_SetTest_Manual_Side_Light_Val1";
             this.label_SetTest_Manual_Side_Light_Val1.Size = new System.Drawing.Size(117, 39);
             this.label_SetTest_Manual_Side_Light_Val1.TabIndex = 117;
@@ -383,7 +387,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Cam_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Cam_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Cam_Light.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Cam_Light.Location = new System.Drawing.Point(317, 278);
+            this.label_SetTest_Manual_Side_Cam_Light.Location = new System.Drawing.Point(331, 168);
             this.label_SetTest_Manual_Side_Cam_Light.Name = "label_SetTest_Manual_Side_Cam_Light";
             this.label_SetTest_Manual_Side_Cam_Light.Size = new System.Drawing.Size(356, 29);
             this.label_SetTest_Manual_Side_Cam_Light.TabIndex = 116;
@@ -395,7 +399,7 @@ namespace ZenTester.Dlg
             this.button_Set_Roi_Save.BackColor = System.Drawing.Color.Olive;
             this.button_Set_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Roi_Save.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Roi_Save.Location = new System.Drawing.Point(229, 577);
+            this.button_Set_Roi_Save.Location = new System.Drawing.Point(595, 431);
             this.button_Set_Roi_Save.Name = "button_Set_Roi_Save";
             this.button_Set_Roi_Save.Size = new System.Drawing.Size(90, 43);
             this.button_Set_Roi_Save.TabIndex = 126;
@@ -410,9 +414,9 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Roi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Roi.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Roi.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(17, 545);
+            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(331, 399);
             this.label_SetTest_Manual_Roi.Name = "label_SetTest_Manual_Roi";
-            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(302, 29);
+            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(354, 29);
             this.label_SetTest_Manual_Roi.TabIndex = 125;
             this.label_SetTest_Manual_Roi.Text = "Roi Set";
             this.label_SetTest_Manual_Roi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -423,7 +427,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Key.Location = new System.Drawing.Point(17, 577);
+            this.checkBox_Roi_Key.Location = new System.Drawing.Point(331, 431);
             this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
             this.checkBox_Roi_Key.Size = new System.Drawing.Size(127, 25);
             this.checkBox_Roi_Key.TabIndex = 124;
@@ -437,7 +441,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_ORing.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_ORing.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_ORing.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(17, 605);
+            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(331, 459);
             this.checkBox_Roi_ORing.Name = "checkBox_Roi_ORing";
             this.checkBox_Roi_ORing.Size = new System.Drawing.Size(127, 25);
             this.checkBox_Roi_ORing.TabIndex = 123;
@@ -451,7 +455,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_Cone.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Cone.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Cone.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(17, 633);
+            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(331, 487);
             this.checkBox_Roi_Cone.Name = "checkBox_Roi_Cone";
             this.checkBox_Roi_Cone.Size = new System.Drawing.Size(129, 25);
             this.checkBox_Roi_Cone.TabIndex = 122;
@@ -465,7 +469,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_Height.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Height.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Height.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Height.Location = new System.Drawing.Point(17, 661);
+            this.checkBox_Roi_Height.Location = new System.Drawing.Point(331, 515);
             this.checkBox_Roi_Height.Name = "checkBox_Roi_Height";
             this.checkBox_Roi_Height.Size = new System.Drawing.Size(135, 25);
             this.checkBox_Roi_Height.TabIndex = 121;
@@ -479,7 +483,7 @@ namespace ZenTester.Dlg
             this.checkBox_Measure.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Measure.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Measure.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Measure.Location = new System.Drawing.Point(17, 514);
+            this.checkBox_Measure.Location = new System.Drawing.Point(331, 368);
             this.checkBox_Measure.Name = "checkBox_Measure";
             this.checkBox_Measure.Size = new System.Drawing.Size(200, 28);
             this.checkBox_Measure.TabIndex = 127;
@@ -572,11 +576,71 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Count.Text = "Dent Count";
             this.label_Set_TopCam_Dent_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label_Set_TopCam_Test_Retry_Val
+            // 
+            this.label_Set_TopCam_Test_Retry_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_Test_Retry_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_Test_Retry_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_Test_Retry_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Test_Retry_Val.Location = new System.Drawing.Point(174, 191);
+            this.label_Set_TopCam_Test_Retry_Val.Name = "label_Set_TopCam_Test_Retry_Val";
+            this.label_Set_TopCam_Test_Retry_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_Test_Retry_Val.TabIndex = 135;
+            this.label_Set_TopCam_Test_Retry_Val.Text = "0";
+            this.label_Set_TopCam_Test_Retry_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_Test_Retry_Val.Click += new System.EventHandler(this.label_Set_TopCam_Test_Retry_Val_Click);
+            // 
+            // label_Set_TopCam_Test_Retry
+            // 
+            this.label_Set_TopCam_Test_Retry.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_TopCam_Test_Retry.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Test_Retry.Location = new System.Drawing.Point(174, 164);
+            this.label_Set_TopCam_Test_Retry.Name = "label_Set_TopCam_Test_Retry";
+            this.label_Set_TopCam_Test_Retry.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_Test_Retry.TabIndex = 134;
+            this.label_Set_TopCam_Test_Retry.Text = "Retry";
+            this.label_Set_TopCam_Test_Retry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_SideCam_Test_Retry_Val
+            // 
+            this.label_Set_SideCam_Test_Retry_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_SideCam_Test_Retry_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_SideCam_Test_Retry_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_SideCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_SideCam_Test_Retry_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_Test_Retry_Val.Location = new System.Drawing.Point(175, 458);
+            this.label_Set_SideCam_Test_Retry_Val.Name = "label_Set_SideCam_Test_Retry_Val";
+            this.label_Set_SideCam_Test_Retry_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_SideCam_Test_Retry_Val.TabIndex = 137;
+            this.label_Set_SideCam_Test_Retry_Val.Text = "0";
+            this.label_Set_SideCam_Test_Retry_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_SideCam_Test_Retry_Val.Click += new System.EventHandler(this.label_Set_SideCam_Test_Retry_Val_Click);
+            // 
+            // label_Set_SideCam_Test_Retry
+            // 
+            this.label_Set_SideCam_Test_Retry.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_SideCam_Test_Retry.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_Test_Retry.Location = new System.Drawing.Point(175, 431);
+            this.label_Set_SideCam_Test_Retry.Name = "label_Set_SideCam_Test_Retry";
+            this.label_Set_SideCam_Test_Retry.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_SideCam_Test_Retry.TabIndex = 136;
+            this.label_Set_SideCam_Test_Retry.Text = "Retry";
+            this.label_Set_SideCam_Test_Retry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // ManualConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_Set_SideCam_Test_Retry_Val);
+            this.Controls.Add(this.label_Set_SideCam_Test_Retry);
+            this.Controls.Add(this.label_Set_TopCam_Test_Retry_Val);
+            this.Controls.Add(this.label_Set_TopCam_Test_Retry);
             this.Controls.Add(this.label_Set_TopCam_Dent_Count_Val);
             this.Controls.Add(this.label_Set_TopCam_Dent_Count);
             this.Controls.Add(this.label_Set_TopCam_Dent_Limit_Val);
@@ -663,5 +727,9 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Label label_Set_TopCam_Dent_Limit;
         public System.Windows.Forms.Label label_Set_TopCam_Dent_Count_Val;
         private System.Windows.Forms.Label label_Set_TopCam_Dent_Count;
+        public System.Windows.Forms.Label label_Set_TopCam_Test_Retry_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_Test_Retry;
+        public System.Windows.Forms.Label label_Set_SideCam_Test_Retry_Val;
+        private System.Windows.Forms.Label label_Set_SideCam_Test_Retry;
     }
 }

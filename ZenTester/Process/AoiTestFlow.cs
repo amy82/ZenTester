@@ -575,13 +575,19 @@ namespace ZenTester.Process
 
         #endregion
         #region [SIDE CAM TEST]
-        private int SideCamFlow()
+        public int SideCamFlow(bool bAutorun = true)
         {
             int nRtn = -1;
             bool bRtn = false;
             string szLog = "";
             const int sideCamIndex = 1;
             int nRetStep = 10;
+            if (bAutorun == false)
+            {
+                aoitestData.Socket_Num = "0";
+                CancelToken?.Dispose();
+                CancelToken = new CancellationTokenSource();    //
+            }
             while (true)
             {
                 if (CancelToken.Token.IsCancellationRequested)      //정지시 while 빠져나가는 부분
@@ -600,6 +606,11 @@ namespace ZenTester.Process
                         nRetStep = 12;
                         break;
                     case 12:
+                        if (bAutorun == false)
+                        {
+                            nRetStep = 20;
+                            break;
+                        }
                         if (Globalo.serialPortManager.LightControl.recvCheck == 1)
                         {
                             nRetStep = 20;

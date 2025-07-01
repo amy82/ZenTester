@@ -660,6 +660,34 @@ namespace ZenTester.Dlg
             //
             //
             //--------------------------------------------------------------------------------------------------------------
+
+            lock (AoiTaskLock)
+            {
+                // 이미 실행 중이면 무시
+                if (AoiTask != null && !AoiTask.IsCompleted)
+                {
+                    Console.WriteLine("이미 검사 중입니다.");
+                    return;
+                }
+
+                AoiTask = Task.Run(() =>
+                {
+                    Console.WriteLine("SIDE MANUAL AUTO START");
+                    int waitverify = 1;
+
+                    try
+                    {
+                        Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
+                        Globalo.threadControl.testAutoThread.aoiTestFlow.SideCamFlow(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("예외 발생: " + ex.Message);
+                    }
+
+                    return waitverify;
+                }, CancelToken.Token);
+            }
         }
     }
 }

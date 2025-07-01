@@ -81,6 +81,7 @@ namespace ZenTester.Dlg
             Globalo.yamlManager.configData.CamSettings.KeyEdgeSpecCount = int.Parse(label_Set_TopCam_Key_EdgeCount_Val.Text);
             Globalo.yamlManager.configData.CamSettings.DentLimit = double.Parse(label_Set_TopCam_Dent_Limit_Val.Text);
             Globalo.yamlManager.configData.CamSettings.DentTotalCount = int.Parse(label_Set_TopCam_Dent_Count_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.TopRetry = int.Parse(label_Set_SideCam_Test_Retry_Val.Text);
 
 
             Globalo.yamlManager.configDataSave();
@@ -109,7 +110,8 @@ namespace ZenTester.Dlg
             label_Set_TopCam_Dent_Limit_Val.Text = Globalo.yamlManager.configData.CamSettings.DentLimit.ToString("0.0");
             label_Set_TopCam_Dent_Count_Val.Text = Globalo.yamlManager.configData.CamSettings.DentTotalCount.ToString();
 
-
+            label_Set_TopCam_Test_Retry_Val.Text = Globalo.yamlManager.configData.CamSettings.TopRetry.ToString();
+            label_Set_SideCam_Test_Retry_Val.Text = Globalo.yamlManager.configData.CamSettings.SideRetry.ToString();
         }
         public void showLight()
         {
@@ -123,6 +125,7 @@ namespace ZenTester.Dlg
         {
             Globalo.yamlManager.configData.CamSettings.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
             Globalo.yamlManager.configData.CamSettings.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.SideRetry = int.Parse(label_Set_SideCam_Test_Retry_Val.Text);
 
             Globalo.yamlManager.configDataSave();
             if (checkBox_Measure.Checked)
@@ -680,6 +683,60 @@ namespace ZenTester.Dlg
                     dNumData = 500;
                 }
                 label_Set_TopCam_Dent_Count_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Test_Retry_Val_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Set_TopCam_Test_Retry_Val.Text;
+            decimal decimalValue = 0;
+
+
+            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 0)
+                {
+                    dNumData = 0;
+                }
+                if (dNumData > 10)
+                {
+                    dNumData = 10;
+                }
+                label_Set_TopCam_Test_Retry_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_SideCam_Test_Retry_Val_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Set_SideCam_Test_Retry_Val.Text;
+            decimal decimalValue = 0;
+
+
+            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 0)
+                {
+                    dNumData = 0;
+                }
+                if (dNumData > 10)
+                {
+                    dNumData = 10;
+                }
+                label_Set_SideCam_Test_Retry_Val.Text = dNumData.ToString();
             }
         }
     }
