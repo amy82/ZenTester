@@ -21,7 +21,7 @@ namespace ZenTester
     {
         public const string VERSION_INFO = "H1.0.0.1";
         public const string BUILD_DATE = "25-06-04";        //16:00
-        public const TESTER_PG TEST_PG_SELECT = TESTER_PG.FW;     //AOI , EEPROM_WRITE, EEPROM_VERIFY , FW         //MEMO: 여기서 프로그램 선택
+        public const TESTER_PG TEST_PG_SELECT = TESTER_PG.AOI;     //AOI , EEPROM_WRITE, EEPROM_VERIFY , FW         //MEMO: 여기서 프로그램 선택
 
 
         [STAThread]
