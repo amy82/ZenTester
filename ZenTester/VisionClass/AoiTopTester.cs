@@ -49,7 +49,7 @@ namespace ZenTester.VisionClass
 
             return rtn;
         }
-        public bool Mark_Find_Standard(int index, VisionClass.eMarkList MarkPos, ref System.Drawing.Point conePos, ref double dScore)        //사이드 카메라 기준점 찾기 - 
+        public bool Mark_Find_Standard(int index, VisionClass.eMarkList MarkPos, ref OpenCvSharp.Point conePos, ref double dScore)        //사이드 카메라 기준점 찾기 - 
         {
             bool bRtn = true;
             //Mark Find

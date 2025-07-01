@@ -146,7 +146,7 @@ namespace ZenTester.Dlg
             //}
 
 
-            System.Drawing.Point markPos = new System.Drawing.Point();
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point();
             bool bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
             //key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 0, keyType, offsetx, offsety);        //키검사

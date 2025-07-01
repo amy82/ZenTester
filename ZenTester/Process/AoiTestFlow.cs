@@ -401,7 +401,7 @@ namespace ZenTester.Process
                         //    key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety, true);        //키검사
                         //}
                         double dKeyScore = 0.0;
-                        System.Drawing.Point markPos = new System.Drawing.Point();
+                        OpenCvSharp.Point markPos = new OpenCvSharp.Point();
                         bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
                         //if (key1Rtn == 0 || key2Rtn == 0)
@@ -663,6 +663,7 @@ namespace ZenTester.Process
                         //
                         //Oring 유무
                         //
+                        //
                         //-------------------------------------------------------------------------------------------
                         bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
 
@@ -676,8 +677,10 @@ namespace ZenTester.Process
                             OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
 
                         }
-                        bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
-                        if (bOringRtn)
+                        double dSideScore = 0.0;
+                        //bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
+                        bool bOringRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dSideScore);
+                        if (dSideScore > 65.0)
                         {
                             aoitestData.ORing = "1";
                         }
@@ -691,9 +694,10 @@ namespace ZenTester.Process
                         //
                         //Cone 유무
                         //
+                        //
                         //-------------------------------------------------------------------------------------------
                         bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
-
+ 
 
                         OffsetPos.X = 0;
                         OffsetPos.Y = 0;
@@ -704,8 +708,10 @@ namespace ZenTester.Process
                             OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
 
                         }
-                        bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
-                        if (bConeRtn)
+
+                        //bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
+                        bool bConeRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
+                        if (dSideScore > 65.0)
                         {
                             aoitestData.Cone = "1";
                         }
