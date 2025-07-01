@@ -1246,7 +1246,7 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             var edges = new Mat();
             //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            Cv2.MedianBlur(srcImage, blurred, 2);
+            Cv2.MedianBlur(srcImage, blurred, 1);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -1277,7 +1277,7 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 32; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 21; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //큰원 26
             //작은원 30
             //int minThresh = 70;
@@ -1343,7 +1343,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 300)//350)
+                if (distance > 100)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1381,7 +1381,7 @@ namespace ZenTester.VisionClass
                     continue;
                 }
                 Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.01)//0.01)
+                if (circularity < 0.001)//0.01)
                 {
                     continue;
                 }
@@ -1582,7 +1582,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 1.0);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(1, 1), 0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1597,11 +1597,11 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 53;// 77; // 반드시 홀수
+            int blockSize = 51;// 77; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 30;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 20;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //작은원 30
             //큰원 18
             //int minThresh = 70;
@@ -1610,7 +1610,7 @@ namespace ZenTester.VisionClass
             Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));//(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
 
@@ -1663,7 +1663,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 300)//200)
+                if (distance > 200)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1696,7 +1696,7 @@ namespace ZenTester.VisionClass
                     continue;
                 }
                 Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.01)
+                if (circularity < 0.001)
                 {
                     continue;
                 }

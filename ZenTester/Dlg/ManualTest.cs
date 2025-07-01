@@ -213,7 +213,7 @@ namespace ZenTester.Dlg
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
 
-
+            
             //----------------------------------------------------------------------------------------------------------------------------------------------
             //
             //
