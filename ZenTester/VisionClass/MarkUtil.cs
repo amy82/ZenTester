@@ -512,7 +512,7 @@ namespace ZenTester.VisionClass
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
             }
 
-            if (MarkDraw)
+            if (true)//MarkDraw)
             {
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y

@@ -1873,11 +1873,12 @@ namespace ZenTester.VisionClass
 
                 //ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[CamIndex] - 520);
                 System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 450);// Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
-                str = $"Dent Test: {DentUnderCount} / {sampleCount}";
+                int specCount = Globalo.yamlManager.configData.CamSettings.KeyEdgeSpecCount;
+                str = $"Dent Test: {DentUnderCount} [ {specCount}/{sampleCount}]";
 
                 if (bAutorun == false)
                 {
-                    if (DentUnderCount > 15)
+                    if (DentUnderCount > specCount)
                     {
                         //Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.Red, 20);
                         Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.Red, 13);

@@ -154,6 +154,8 @@ namespace ZenTester.Process
             string szLog = "";
             int data1 = 0;
             int data2 = 0;
+            int dentCount = 0;
+            int dentMaxCount = 0;
             const int topCamIndex = 0;
             int nRetStep = 10;
             if (bAutorun == false)
@@ -360,8 +362,12 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, aoiCenterPos[topCamIndex], true, true);   //true 일때 Dent(찌그러짐)검사
+                        dentCount = 0;
+                        dentMaxCount = 0;
                         if (HousingCenter.Count > 0)
                         {
+                            dentCount = HousingCenter[0].X;
+                            dentMaxCount = HousingCenter[0].Y;
                             int denUnderCnt = HousingCenter[0].X;
                             if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
                             {
@@ -524,7 +530,10 @@ namespace ZenTester.Process
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 700);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Dent :{aoitestData.CircleDented}";
+                        //dentCount = HousingCenter[0].X;
+                        //dentMaxCount = HousingCenter[0].Y;
+
+                        resultStr = $"Dent :{aoitestData.CircleDented} -[{dentCount} / {dentMaxCount}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
@@ -640,8 +649,7 @@ namespace ZenTester.Process
 
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
                         bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos, ref dScore);
-
-
+                        
                         System.Drawing.Point OffsetPos = new System.Drawing.Point(0,0);
                         double[] heightData = new double[3];
                         if (bRtn)
@@ -656,8 +664,8 @@ namespace ZenTester.Process
                         heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, true);
 
                         aoitestData.LH = heightData[0].ToString("0.0##");
-                        aoitestData.MH = heightData[0].ToString("0.0##");
-                        aoitestData.RH = heightData[0].ToString("0.0##");
+                        aoitestData.MH = heightData[1].ToString("0.0##");
+                        aoitestData.RH = heightData[2].ToString("0.0##");
                         //-------------------------------------------------------------------------------------------
                         //
                         //
