@@ -244,6 +244,10 @@ namespace ZenTester.TcpSocket
             }
             if (data.Cmd == "RECV_SECS_MODEL")
             {
+                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                {
+                    return;
+                }
                 string model = data.Model;
                 string fwmodel = data.DataID;
                 int fwOpalUse = data.Step;
@@ -278,20 +282,23 @@ namespace ZenTester.TcpSocket
             if (data.Cmd == "RECV_SECS_OPAL")
             {
                 string temp = "";
+                Globalo.yamlManager.vOpalModelList.OpalList.Clear();
+
                 foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
                 {
-                    temp = paramInfo.Name;
-                    temp = paramInfo.Value;
+                    Data.cOpal opal = new Data.cOpal();
 
-                    Globalo.yamlManager.vOpalModelList.OpalList[0].name = paramInfo.Name;
-                    if (paramInfo.Value == "true")
+                    opal.name = paramInfo.Name;
+                    if (paramInfo.Value == "True")
                     {
-                        Globalo.yamlManager.vOpalModelList.OpalList[0].use = true;
+                        opal.use = true;
                     }
                     else
                     {
-                        Globalo.yamlManager.vOpalModelList.OpalList[0].use = false;
+                        opal.use = false;
                     }
+                    Globalo.yamlManager.vOpalModelList.OpalList.Add(opal);
+
                     
                 }
 

@@ -53,6 +53,7 @@ namespace ZenTester.Data
             modelLIstData = new ModelListData();
 
             vOpalModelList = new OpalModelClass();
+            vOpalModelList.OpalList = new List<cOpal>();
         }
         public bool RecipeYamlFileCopy(string copyPPid, string createPPid)
         {
