@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
     
     public enum eMarkList
     {
-        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, MAX_MARK_LIST
+        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_KEY, MAX_MARK_LIST
     }
     public enum eCamType
     {
@@ -452,7 +452,7 @@ namespace ZenTester.VisionClass
             //dFitError = Find_FitError[maxObjNum];
             return true;
         }
-        public bool CalcSingleMarkAlign(int index, int MarkNo, ref CDMotor dAlign, bool MarkDraw = true)
+        public bool CalcSingleMarkAlign(int index, int MarkNo, ref CDMotor dAlign, ref double dScore, bool MarkDraw = true)
         {
             int startTime = Environment.TickCount;
             bool bFind = false;

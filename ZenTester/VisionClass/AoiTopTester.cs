@@ -49,6 +49,24 @@ namespace ZenTester.VisionClass
 
             return rtn;
         }
+        public bool Mark_Find_Standard(int index, VisionClass.eMarkList MarkPos, ref System.Drawing.Point conePos, ref double dScore)        //사이드 카메라 기준점 찾기 - 
+        {
+            bool bRtn = true;
+            //Mark Find
+            VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
+            int MarkIndex = 0;
+            MarkIndex = (int)MarkPos;
+
+            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, ref dScore, true);
+
+            conePos.X = (int)dAlign.X;
+            conePos.Y = (int)dAlign.Y;
+            Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
+
+            return bRtn;
+
+        }
+
         public bool FindCircleCenter(int index, Mat srcImage, ref OpenCvSharp.Point centerPos, bool autoRun = false)
         {
             bool IMG_VIEW = true;
@@ -117,8 +135,8 @@ namespace ZenTester.VisionClass
             Mat colorImage = new Mat();
             Cv2.CvtColor(srcImage, colorImage, ColorConversionCodes.GRAY2BGR);  // 1채널 → 3채널 변환
 
-            int imageCenterX = thresh.Width / 2;
-            int imageCenterY = thresh.Height / 2;
+            int imageCenterX = 1172;//thresh.Width / 2;
+            int imageCenterY = 1427;//thresh.Height / 2;
 
             // 가장 큰 원을 찾기
             foreach (var contour in contours)
@@ -155,8 +173,8 @@ namespace ZenTester.VisionClass
                 Cv2.MinEnclosingCircle(contour, out center, out radius);
 
                 //if (radius > 600 && radius < 1100)  //큰원- 실제 원 반지름 조건에 맞게 큰원
-                if (radius > 700 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
-                //if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
+                //if (radius > 700 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
+                if (radius > 400 && radius < 850)     //작은원 - 실제 원 반지름 조건에 맞게 
                 {
                     centerPos.X = (int)center.X;
                     centerPos.Y = (int)center.Y;
@@ -905,9 +923,11 @@ namespace ZenTester.VisionClass
             //Cv2.NamedWindow("GasketTest binary ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
             //Cv2.ImShow("GasketTest binary ", binary);
             //Cv2.WaitKey(0);
-            int radiusOuter = 830;// 700;
-            int radiusInner = 580;// 430;
-                
+            //int radiusOuter = 830;        //큰원
+            //int radiusInner = 580;        //큰원
+            int radiusOuter = 440;          //작은원
+            int radiusInner = 310;          //작은원
+
 
             // 이미지 크기에 맞는 빈 마스크
             Mat mask = Mat.Zeros(srcImage.Size(), MatType.CV_8UC1);
@@ -1604,7 +1624,7 @@ namespace ZenTester.VisionClass
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
                 Console.WriteLine($"Dentest circularity: {circularity}");
 
-                int drawRadius = 35;
+                int drawRadius = 15;// 35;
 
                 double dentSpec = Globalo.yamlManager.configData.CamSettings.DentLimit;
                 //for (int i = 0; i < maxContour.Length; i += 17)

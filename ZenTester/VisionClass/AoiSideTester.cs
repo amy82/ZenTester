@@ -26,6 +26,7 @@ namespace ZenTester.VisionClass
             VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
             //Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
             int MarkIndex = 0;
+            double dScore = 0.0;
             //0 = TopCenter
             //1 = sideCone
             //2 = sideContact
@@ -33,7 +34,7 @@ namespace ZenTester.VisionClass
             //
             MarkIndex = (int)MarkPos;   // VisionClass.eMarkList.SIDE_HEIGHT;
 
-            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, false);
+            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, ref dScore, false);
 
             conePos.X = (int)dAlign.X;
             conePos.Y = (int)dAlign.Y;
