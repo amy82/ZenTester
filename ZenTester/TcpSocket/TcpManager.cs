@@ -244,33 +244,32 @@ namespace ZenTester.TcpSocket
             }
             if (data.Cmd == "RECV_SECS_MODEL")
             {
+                string model = data.Model;
+                string fwmodel = "";
+
+                //int fwOpalUse = data.Step;
+                string ppid = "";
+
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
                 {
-                    return;
+                    fwmodel = data.DataID;       //Trinity or Opal
+                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = fwmodel;
                 }
-                string model = data.Model;
-                string fwmodel = data.DataID;       //Trinity or Opal
-
-                int fwOpalUse = data.Step;
-                string ppid = data.RecipeID;
-
-                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
-                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                else
                 {
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                    ppid = data.RecipeID;
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                    foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                    {
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                    }
+
+                    Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
                 }
-
-                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
-
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
                     Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
                 }
-                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
-                {
-                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = fwmodel;
-                }
-                
 
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
