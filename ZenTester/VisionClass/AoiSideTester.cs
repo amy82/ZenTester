@@ -18,15 +18,14 @@ namespace ZenTester.VisionClass
         {
 
         }
-
-        public bool Mark_Pos_Standard(int index, VisionClass.eMarkList MarkPos, ref OpenCvSharp.Point centerPos, bool bDraw = false)        //사이드 카메라 기준점 찾기 - 
+        //public bool Mark_Find_Standard(int index, VisionClass.eMarkList MarkPos, ref OpenCvSharp.Point conePos, ref double dScore)
+        public bool Mark_Pos_Standard(int index, VisionClass.eMarkList MarkPos, ref OpenCvSharp.Point centerPos, ref double dScore, bool bDraw = false)        //사이드 카메라 기준점 찾기 - 
         {
             bool bRtn = true;
             //Mark Find
             VisionClass.CDMotor dAlign = new VisionClass.CDMotor();
             //Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
             int MarkIndex = 0;
-            double dScore = 0.0;
             centerPos.X = 0;
             centerPos.Y = 0;
 
@@ -748,7 +747,8 @@ namespace ZenTester.VisionClass
 
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(index, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(index, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos, ref score);
 
 
             System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);

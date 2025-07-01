@@ -147,7 +147,7 @@ namespace ZenTester.Dlg
 
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
             //key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 0, keyType, offsetx, offsety);        //키검사
             //if (keyType != "E")
@@ -216,7 +216,8 @@ namespace ZenTester.Dlg
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score);
 
             
             //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -345,7 +346,8 @@ namespace ZenTester.Dlg
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, true);
 
 
 
@@ -371,7 +373,8 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score);
 
 
             System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
@@ -403,7 +406,8 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref score);
 
 
             System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
@@ -606,7 +610,8 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0,0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, true);
 
         }
 

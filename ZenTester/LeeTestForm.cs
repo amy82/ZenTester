@@ -215,7 +215,8 @@ namespace ZenTester
             Globalo.visionManager.milLibrary.GetSnapImage(1);
             //
             //
-            Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(1, VisionClass.eMarkList.SIDE_HEIGHT, ref ConePos);
+            double score = 0.0;
+            Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(1, VisionClass.eMarkList.SIDE_HEIGHT, ref ConePos, ref score);
 
             Console.WriteLine($"x:{ConePos.X},y:{ConePos.Y}");
         }

@@ -272,7 +272,7 @@ namespace ZenTester.Process
                         double con_InMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
                         double con_OutMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
                         double con_OutMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
-
+                        double dScore = 0.0;
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
                         //
@@ -284,7 +284,7 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         //bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex], true);
-                        bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER, ref aoiCenterPos[topCamIndex]);
+                        bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER, ref aoiCenterPos[topCamIndex], ref dScore);
                         if (rtn)
                         {
                             szLog = $"[TOP CAM] CENTER FIND OK ({aoiCenterPos[topCamIndex].X},{aoiCenterPos[topCamIndex].Y})";
@@ -402,7 +402,7 @@ namespace ZenTester.Process
                         //}
                         double dKeyScore = 0.0;
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-                        bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
                         //if (key1Rtn == 0 || key2Rtn == 0)
                         if (dKeyScore < 60.0)
@@ -582,6 +582,7 @@ namespace ZenTester.Process
             string szLog = "";
             const int sideCamIndex = 1;
             int nRetStep = 10;
+            double dScore = 0.0;
             if (bAutorun == false)
             {
                 aoitestData.Socket_Num = "0";
@@ -638,7 +639,7 @@ namespace ZenTester.Process
                         ////Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos, ref dScore);
 
 
                         System.Drawing.Point OffsetPos = new System.Drawing.Point(0,0);
@@ -665,7 +666,7 @@ namespace ZenTester.Process
                         //
                         //
                         //-------------------------------------------------------------------------------------------
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dScore);
 
 
                         OffsetPos.X = 0;
@@ -679,7 +680,7 @@ namespace ZenTester.Process
                         }
                         double dSideScore = 0.0;
                         //bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
-                        bool bOringRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dSideScore);
+                        bool bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dSideScore);
                         if (dSideScore > 65.0)
                         {
                             aoitestData.ORing = "1";
@@ -696,7 +697,7 @@ namespace ZenTester.Process
                         //
                         //
                         //-------------------------------------------------------------------------------------------
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
  
 
                         OffsetPos.X = 0;
@@ -710,7 +711,7 @@ namespace ZenTester.Process
                         }
 
                         //bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
-                        bool bConeRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
+                        bool bConeRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
                         if (dSideScore > 65.0)
                         {
                             aoitestData.Cone = "1";
@@ -743,7 +744,7 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
                         resultStr = $"Cone :{aoitestData.Cone}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 450);
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
         
