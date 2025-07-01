@@ -115,6 +115,7 @@ namespace ZenTester.TcpSocket
             {
                 return;
             }
+
             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
             EqipData.Type = "TesterData";
             TcpSocket.TesterData sendTesterata = new TcpSocket.TesterData();
@@ -272,6 +273,18 @@ namespace ZenTester.TcpSocket
 
                 //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
                 Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+
+            }
+            if (data.Cmd == "RECV_SECS_OPAL")
+            {
+                string temp = "";
+                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                {
+                    temp = paramInfo.Name;
+                    temp = paramInfo.Value;
+
+                    //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                }
 
             }
 
