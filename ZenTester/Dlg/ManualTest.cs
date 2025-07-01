@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Matrox.MatroxImagingLibrary;
@@ -25,6 +26,10 @@ namespace ZenTester.Dlg
 
         private System.Drawing.Point roiStart;
         private System.Drawing.Point roiEnd;
+
+        private object AoiTaskLock = new object();
+        private Task AoiTask = null;
+        private CancellationTokenSource CancelToken = new CancellationTokenSource();
 
         public ManualTest(SetTestControl _parent)
         {
@@ -211,7 +216,7 @@ namespace ZenTester.Dlg
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos);
 
             
             //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -603,6 +608,58 @@ namespace ZenTester.Dlg
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0,0);
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
 
+        }
+
+        private void button_Top_Manual_Auto_Click(object sender, EventArgs e)
+        {
+            //--------------------------------------------------------------------------------------------------------------
+            //
+            //
+            // TOP MANUAL AUTO
+            //
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------
+
+            lock (AoiTaskLock)
+            {
+                // 이미 실행 중이면 무시
+                if (AoiTask != null && !AoiTask.IsCompleted)
+                {
+                    Console.WriteLine("이미 검사 중입니다.");
+                    return;
+                }
+
+                AoiTask = Task.Run(() =>
+                {
+                    Console.WriteLine("TOP MANUAL AUTO START");
+                    int waitverify = 1;
+
+                    try
+                    {
+                        Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
+                        Globalo.threadControl.testAutoThread.aoiTestFlow.TopCamFlow(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("예외 발생: " + ex.Message);
+                    }
+
+                    return waitverify;
+                }, CancelToken.Token);
+            }
+        }
+
+        private void button_Side_Manual_Auto_Click(object sender, EventArgs e)
+        {
+            //--------------------------------------------------------------------------------------------------------------
+            //
+            //
+            // SIDE MANUAL AUTO
+            //
+            //
+            //
+            //--------------------------------------------------------------------------------------------------------------
         }
     }
 }

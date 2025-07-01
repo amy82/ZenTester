@@ -912,6 +912,10 @@ namespace ZenTester.VisionClass
         {
             //가스켓 밝기 계산
             bool IMG_VIEW = false;
+            if (bAutorun == true)
+            {
+                IMG_VIEW = false;
+            }
             int startTime = Environment.TickCount;
 
             //Mat binary = new Mat();
@@ -1226,6 +1230,10 @@ namespace ZenTester.VisionClass
         {
             // 측정 시작
             bool IMG_VIEW = true;
+            if (bAutorun == true)
+            {
+                IMG_VIEW = false;
+            }
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Fakra_Test Test Start");
             //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
@@ -1534,6 +1542,10 @@ namespace ZenTester.VisionClass
             //roiIndex = 1 (내경)
             // 측정 시작
             bool IMG_VIEW = true;
+            if (bAutorun == true)
+            {
+                IMG_VIEW = false;
+            }
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
             //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();

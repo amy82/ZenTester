@@ -147,7 +147,7 @@ namespace ZenTester.Process
         }
 
         #region [TOP CAM TEST]
-        private int TopCamFlow()
+        public int TopCamFlow(bool bAutorun = true)
         {
             int nRtn = -1;
             bool bRtn = false;
@@ -156,6 +156,12 @@ namespace ZenTester.Process
             int data2 = 0;
             const int topCamIndex = 0;
             int nRetStep = 10;
+            if (bAutorun == false)
+            {
+                aoitestData.Socket_Num = "0";
+                CancelToken?.Dispose();
+                CancelToken = new CancellationTokenSource();    //
+            }
             while (true)
             {
                 if (CancelToken.Token.IsCancellationRequested)      //정지시 while 빠져나가는 부분
@@ -197,6 +203,11 @@ namespace ZenTester.Process
                         break;
 
                     case 50:
+                        if (bAutorun == false)
+                        {
+                            nRetStep = 100;
+                            break;
+                        }
                         if (Globalo.serialPortManager.LightControl.recvCheck == -1)
                         {
                             break;
@@ -383,18 +394,22 @@ namespace ZenTester.Process
                         double offsetx = aoiCenterPos[topCamIndex].X - cx;
                         double offsety = aoiCenterPos[topCamIndex].Y - cy;
 
-                        key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 0, keyType, offsetx, offsety, true);        //키검사
+                        //key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 0, keyType, offsetx, offsety, true);        //키검사
 
-                        if (keyType != "E")
-                        {
-                            key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety, true);        //키검사
-                        }
+                        //if (keyType != "E")
+                        //{
+                        //    key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety, true);        //키검사
+                        //}
+                        double dKeyScore = 0.0;
+                        System.Drawing.Point markPos = new System.Drawing.Point();
+                        bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
-                        if (key1Rtn == 0 || key2Rtn == 0)
+                        //if (key1Rtn == 0 || key2Rtn == 0)
+                        if (dKeyScore < 60.0)
                         {
                             //ng
                             aoitestData.Result = "0";
-                            aoitestData.KeyType = "null";
+                            aoitestData.KeyType = "Empty";//"Null";
                             szLog = $"[TOP CAM] {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
                         }

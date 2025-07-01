@@ -51,6 +51,8 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Test = new System.Windows.Forms.Label();
             this.button_Pogo_Find_Test = new System.Windows.Forms.Button();
             this.button_Mark_Top_Center_Find = new System.Windows.Forms.Button();
+            this.button_Top_Manual_Auto = new System.Windows.Forms.Button();
+            this.button_Side_Manual_Auto = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Manual_Mark_Roi_Save
@@ -317,7 +319,7 @@ namespace ZenTester.Dlg
             this.button_Pogo_Find_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Pogo_Find_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Pogo_Find_Test.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(29, 22);
+            this.button_Pogo_Find_Test.Location = new System.Drawing.Point(507, 14);
             this.button_Pogo_Find_Test.Name = "button_Pogo_Find_Test";
             this.button_Pogo_Find_Test.Size = new System.Drawing.Size(180, 39);
             this.button_Pogo_Find_Test.TabIndex = 114;
@@ -330,7 +332,7 @@ namespace ZenTester.Dlg
             this.button_Mark_Top_Center_Find.BackColor = System.Drawing.Color.Tan;
             this.button_Mark_Top_Center_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Mark_Top_Center_Find.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Mark_Top_Center_Find.Location = new System.Drawing.Point(29, 459);
+            this.button_Mark_Top_Center_Find.Location = new System.Drawing.Point(29, 14);
             this.button_Mark_Top_Center_Find.Name = "button_Mark_Top_Center_Find";
             this.button_Mark_Top_Center_Find.Size = new System.Drawing.Size(180, 51);
             this.button_Mark_Top_Center_Find.TabIndex = 115;
@@ -338,11 +340,39 @@ namespace ZenTester.Dlg
             this.button_Mark_Top_Center_Find.UseVisualStyleBackColor = false;
             this.button_Mark_Top_Center_Find.Click += new System.EventHandler(this.button_Mark_Top_Center_Find_Click);
             // 
+            // button_Top_Manual_Auto
+            // 
+            this.button_Top_Manual_Auto.BackColor = System.Drawing.Color.Tan;
+            this.button_Top_Manual_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Top_Manual_Auto.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Top_Manual_Auto.Location = new System.Drawing.Point(29, 472);
+            this.button_Top_Manual_Auto.Name = "button_Top_Manual_Auto";
+            this.button_Top_Manual_Auto.Size = new System.Drawing.Size(180, 51);
+            this.button_Top_Manual_Auto.TabIndex = 116;
+            this.button_Top_Manual_Auto.Text = "MANUAL TOP AUTO";
+            this.button_Top_Manual_Auto.UseVisualStyleBackColor = false;
+            this.button_Top_Manual_Auto.Click += new System.EventHandler(this.button_Top_Manual_Auto_Click);
+            // 
+            // button_Side_Manual_Auto
+            // 
+            this.button_Side_Manual_Auto.BackColor = System.Drawing.Color.Tan;
+            this.button_Side_Manual_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Side_Manual_Auto.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Side_Manual_Auto.Location = new System.Drawing.Point(29, 529);
+            this.button_Side_Manual_Auto.Name = "button_Side_Manual_Auto";
+            this.button_Side_Manual_Auto.Size = new System.Drawing.Size(180, 51);
+            this.button_Side_Manual_Auto.TabIndex = 117;
+            this.button_Side_Manual_Auto.Text = "MANUAL SIDE AUTO";
+            this.button_Side_Manual_Auto.UseVisualStyleBackColor = false;
+            this.button_Side_Manual_Auto.Click += new System.EventHandler(this.button_Side_Manual_Auto_Click);
+            // 
             // ManualTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Side_Manual_Auto);
+            this.Controls.Add(this.button_Top_Manual_Auto);
             this.Controls.Add(this.button_Mark_Top_Center_Find);
             this.Controls.Add(this.button_Pogo_Find_Test);
             this.Controls.Add(this.button_Set_Height_Test);
@@ -396,5 +426,7 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_SetTest_Manual_Top_Test;
         private System.Windows.Forms.Button button_Pogo_Find_Test;
         private System.Windows.Forms.Button button_Mark_Top_Center_Find;
+        private System.Windows.Forms.Button button_Top_Manual_Auto;
+        private System.Windows.Forms.Button button_Side_Manual_Auto;
     }
 }
