@@ -25,14 +25,16 @@ namespace ZenTester.Fxa
 
         public string strConfINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
 
+
+        public string fwHeatingModel;
         public FxaFirmwardDw()
         {
-
             //1.FirmwareDownLoadForCamAsync
 
-                    //2.결과 확인
-                    //3.json 파일이 passed , fail 확인
-                    //4. json 파일 내용
+            //2.결과 확인
+            //3.json 파일이 passed , fail 확인
+            //4. json 파일 내용
+            fwHeatingModel = string.Empty;
         }
 
         public void Manual_Fw_DownLoad()

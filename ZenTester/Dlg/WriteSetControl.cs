@@ -221,17 +221,21 @@ namespace ZenTester.Dlg
                     string selectedFilePath = ofd.FileName;
                     string selectedFolderPath = Path.GetDirectoryName(selectedFilePath);
 
-                    string teslaExeName = "ThunderEEPROMVerificationTool.exe";      //Verify 공정
+                    string teslaExeName1 = "ThunderEEPROMCreationTool.exe";       //Write Trinity 공정
+                    string teslaExeName2 = "cam_eeprom_flasher.exe";              //Write Trinity 공정
+                    string teslaExeName3 = "ti_cam_eeprom_flasher.exe";           //Write Opal 공정
 
-                    string targetFile = Path.Combine(selectedFolderPath, teslaExeName);  // 찾을 파일 이름
+                    string targetFile = Path.Combine(selectedFolderPath, teslaExeName1);  // 찾을 파일 이름
 
                     if (File.Exists(targetFile))
                     {
                         //button_WSet_Exe_Val1.Text = selectedFolderPath;
                         Console.WriteLine($"Verify exe File exists: {targetFile}");
 
-                        Globalo.yamlManager.configData.TeslaData.Fpath = selectedFolderPath;
-                        Globalo.yamlManager.configData.TeslaData.FexeName = teslaExeName;
+                        Globalo.yamlManager.configData.TeslaData.Wpath = selectedFolderPath;
+                        Globalo.yamlManager.configData.TeslaData.WexeNameKim = teslaExeName1;
+                        Globalo.yamlManager.configData.TeslaData.WexeNameTrinity = teslaExeName2;
+                        Globalo.yamlManager.configData.TeslaData.WexeNameOpal = teslaExeName3;
 
                         Globalo.yamlManager.configDataSave();
                     }

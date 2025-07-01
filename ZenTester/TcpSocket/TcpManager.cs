@@ -249,7 +249,8 @@ namespace ZenTester.TcpSocket
                     return;
                 }
                 string model = data.Model;
-                string fwmodel = data.DataID;
+                string fwmodel = data.DataID;       //Trinity or Opal
+
                 int fwOpalUse = data.Step;
                 string ppid = data.RecipeID;
 
@@ -260,10 +261,16 @@ namespace ZenTester.TcpSocket
                 }
 
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
                     Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
                 }
+                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                {
+                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = fwmodel;
+                }
+                
 
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
@@ -276,7 +283,7 @@ namespace ZenTester.TcpSocket
 
 
                 //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
-                Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+                Console.WriteLine($"[Tcp] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
 
             }
             if (data.Cmd == "RECV_SECS_OPAL")
