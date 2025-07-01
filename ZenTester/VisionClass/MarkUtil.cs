@@ -540,7 +540,8 @@ namespace ZenTester.VisionClass
                 textPoint = new System.Drawing.Point(20, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 100);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
 
-                str = $"[Mark] HEIGHT MARK";
+                str = $"[Mark] {Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].name}"; // HEIGHT MARK";
+
                 textPoint = new System.Drawing.Point(20, 30);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 15);
 

@@ -125,8 +125,12 @@ namespace ZenTester.Data
                 Data.AoiRoiConfig data = Data.YamlManager.LoadYaml<Data.AoiRoiConfig>(filePath);
                 if (data == null)
                 {
-
                     return new Data.AoiRoiConfig();
+                }
+
+                for (int i = 0; i < data.markData.Count; i++)
+                {
+                    data.markData[i].name = Enum.GetName(typeof(VisionClass.eMarkList), i);
                 }
                 return data;
             }
