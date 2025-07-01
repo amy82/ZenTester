@@ -771,7 +771,7 @@ namespace ZenTester.TcpSocket
                             hostMessageParse(edata);
                             break;
 
-                        case "Tester":
+                        case "TesterData":
                             //SocketTestState sdata = serializer.Deserialize<SocketTestState>(reader);
                             TesterData socketState = JsonConvert.DeserializeObject<TesterData>(wrapper.Data.ToString());
                             socketMessageParse(socketState);

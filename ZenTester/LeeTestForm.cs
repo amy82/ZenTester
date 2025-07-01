@@ -150,7 +150,7 @@ namespace ZenTester
             EqipData.Type = "EquipmentData";
 
             TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
-            sendEqipData.Command = "VERIFY_OBJECT_REPORT";
+            sendEqipData.Command = "OBJECT_ID_REPORT";
             sendEqipData.BcrId = "testLot-1";
             sendEqipData.DataID = "1";
             EqipData.Data = sendEqipData;
@@ -158,10 +158,10 @@ namespace ZenTester
 
             Thread.Sleep(100);
 
-            sendEqipData.BcrId = "testLot-222";
-            sendEqipData.DataID = "1";
-            EqipData.Data = sendEqipData;
-            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
+            //sendEqipData.BcrId = "testLot-222";
+            //sendEqipData.DataID = "1";
+            //EqipData.Data = sendEqipData;
+            //Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test 
         }
 
         private void button23_Click(object sender, EventArgs e)
@@ -208,7 +208,7 @@ namespace ZenTester
 
         private void button25_Click(object sender, EventArgs e)
         {
-            System.Drawing.Point ConePos = new System.Drawing.Point();
+            OpenCvSharp.Point ConePos = new OpenCvSharp.Point();
             Globalo.visionManager.milLibrary.ClearOverlay(1);
 
             Globalo.visionManager.milLibrary.SetGrabOn(1, false);
@@ -255,6 +255,73 @@ namespace ZenTester
 
             Globalo.visionManager.aoiTopTester.OpencvKeytest(roiMilImage);
 
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            bool rtn = true;
+
+            int index = 0;
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[index];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[index];
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(index, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(index);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[index], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(index, true);
+
+
+
+            List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
+            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+
+
+            Globalo.visionManager.aoiTopTester.Housing_EdgeFind_Test(index, src);     //Fakra 안쪽 원 찾기
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
+            sendEqipData.Command = "LOT_APD_REPORT";
+            sendEqipData.BcrId = "testLot"; //Globalo.dataManage.TaskWork.m_szChipID;
+            sendEqipData.Judge = 1;         /// Globalo.taskWork.m_nTestFinalResult;
+            sendEqipData.DataID = "1";
+            //1.Socket_Num
+            //2.Result
+            //3.Barcode
+            //4.SensorID
+            int tCount = 4;
+            //string[] apdList = { "Socket_Num", "Result", "Barcode", "SensorID" };
+            //string[] apdResult = { "11", "22", "33", "44" };
+            string[] apdList = {"Checksum0", "Checksum1", "Checksum2", "Checksum3", "Checksum4", "Socket_Num", "Result", "Barcode", "SensorID", "Time" };
+            string[] apdResult = { "01"};
+
+            for (int i = 0; i < tCount; i++)
+            {
+                TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                pInfo.Name = apdList[i];
+                pInfo.Value = "01";
+
+                sendEqipData.CommandParameter.Add(pInfo);
+            }
+
+            EqipData.Data = sendEqipData;
+            Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
     }
 }

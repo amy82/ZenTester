@@ -1039,16 +1039,200 @@ namespace ZenTester.VisionClass
             return gaskerLight;
 
         }
-        //public OpenCvSharp.Point Housing_Fakra_Test(int index, Mat srcImage)
-        public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, bool bAutorun = false)
+        public void Housing_EdgeFind_Test(int index, Mat srcImage, bool bAutorun = false)
+        {
+            bool IMG_VIEW = false;
+            int startTime = Environment.TickCount;
+            int nRtn = 0;
+
+            const int CONTOUR_MAX_RESULTS = 5;
+            MIL_ID MilDisplay = MIL.M_NULL;
+            MIL_ID tempMilImage = MIL.M_NULL;
+            MIL_ID MilImage = MIL.M_NULL;
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID MilEdgeResult = MIL.M_NULL;                              // Edge result identifier.
+            MIL_ID MilEdgeContext = MIL.M_NULL;                             // Edge context.
+
+            double[] EdgeCircleFitCx = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitCy = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitError = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitCoverage = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeCircleFitRadius = new double[CONTOUR_MAX_RESULTS];
+            double[] EdgeSize = new double[CONTOUR_MAX_RESULTS];
+
+
+            int startX = 0;// Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].X + (int)offsetX;
+            int startY = 0;// Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Y + (int)offsetY;
+
+            int OffsetWidth = 2400;     // Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Width;
+            int OffsetHeight = 2100;    // Globalo.yamlManager.aoiRoiConfig.KEY_ROI[roiIndex].Height;
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, OffsetWidth, OffsetHeight, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempMilImage);
+
+            //MIL_INT ImageSizeX = MIL.MbufInquire(Globalo.visionManager.milLibrary.MilProcImageChild[index], MIL.M_SIZE_X, MIL.M_NULL);
+            //MIL_INT ImageSizeY = MIL.MbufInquire(Globalo.visionManager.milLibrary.MilProcImageChild[index], MIL.M_SIZE_Y, MIL.M_NULL);
+
+            //MIL.MgraArcFill(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[index], ImageSizeX/2, ImageSizeY/2, 1200, 800, 0, 360);
+
+
+            //MIL.MbufCopy(Globalo.visionManager.milLibrary.MilCamGrabImageChild[index], tempMilImage);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], startX, startY, OffsetWidth, OffsetHeight, ref tempMilImage);
+            //MIL.MbufChild2d(tempMilImage, OffsetX, OffsetY, OffsetWidth, OffsetHeight, ref MilImage);
+
+
+            MIL.MbufExport($"d:\\Edge_Housing.BMP", MIL.M_BMP, tempMilImage);
+            MIL.MgraColor(MIL.M_DEFAULT, 0);
+
+            /* Allocate a graphic list to hold the subpixel annotations to draw. */
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+            /* Associate the graphic list to the display for annotations. */
+            MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+            // Allocate a Edge Finder context.
+            MIL.MedgeAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_CONTOUR, MIL.M_DEFAULT, ref MilEdgeContext);
+
+            // Allocate a result buffer.
+            MIL.MedgeAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref MilEdgeResult);
+
+            // Enable features to compute.
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_CENTER_X, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_CENTER_Y, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_ERROR, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_ENABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_SIZE, MIL.M_ENABLE);
+
+            MIL.MedgeControl(MilEdgeContext, MIL.M_CIRCLE_FIT, MIL.M_ENABLE);
+
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_TYPE, MIL.M_SHEN);//MIL.M_DERICHE); M_SOBEL
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FLOAT_MODE, MIL.M_DISABLE);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_SMOOTHNESS, 80.0);
+            // Calculate edges and features.
+            MIL.MedgeCalculate(MilEdgeContext, tempMilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
+
+
+
+
+
+            MIL_INT NumEdgeFound = 0;// Number of edges found.
+
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
+
+
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //불필요한 edge 제거하기
+            //
+            //
+            //-----------------------------------------------------------------------------------------------------------------------------
+            //
+            //double CONTOUR_MAXIMUM_ELONGATION = 0.8;
+            // Exclude elongated edges.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_MOMENT_ELONGATION, MIL.M_LESS, CONTOUR_MAXIMUM_ELONGATION, MIL.M_NULL);
+            // Exclude inner chains.
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_INCLUDED_EDGES, MIL.M_INSIDE_BOX, MIL.M_NULL, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_BOX_Y_MIN, MIL.M_LESS, 580.0, MIL.M_NULL);
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
+
+
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 200.0, MIL.M_NULL);     //250615 less Size 5.0
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_LESS, 230.0, MIL.M_NULL); //250615 greater Size 30.0
+            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_LESS, 0.5, MIL.M_NULL); //250615 greater Size 30.0
+
+
+            // Draw edges in the source image to show the result.
+            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+            MIL.MedgeControl(MilEdgeResult, 319L, (double)-startX);
+            MIL.MedgeControl(MilEdgeResult, 320L, (double)-startY);
+
+
+            MIL.MedgeControl(MilEdgeResult, 3203L, Globalo.visionManager.milLibrary.xReduce[index]);
+            MIL.MedgeControl(MilEdgeResult, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);
+            if (bAutorun)
+            {
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
+            else
+            {
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            }
+
+            //M_DRAW_BOX + M_DRAW_POSITION + M_DRAW_EDGES + M_DRAW_AXIS
+
+            MIL_INT NumResults = 0;                                         // Number of results found.
+            // Get the number of edges found.
+            MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+            int minIndex = 0;
+            int maxIndex = 0;
+            double CircleCx = 0.0;
+            double CircleErr = 0.0;
+            string str = "";
+            Rectangle m_clRect = new Rectangle((int)(startX), (int)(startY), OffsetWidth, OffsetHeight);
+            // If the right number of edges were found.
+
+            Color ConeColor;
+            System.Drawing.Point textPoint;
+            Console.Write($"Key Edge Count:{NumResults}\n");
+            if (NumResults <= CONTOUR_MAX_RESULTS)
+            {
+                // Draw the index of each edge.
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+
+                // Get the mean Feret diameters.
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_X, EdgeCircleFitCx);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_CENTER_Y, EdgeCircleFitCy);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_ERROR, EdgeCircleFitError);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_COVERAGE, EdgeCircleFitCoverage);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_CIRCLE_FIT_RADIUS, EdgeCircleFitRadius);
+                MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_SIZE, EdgeSize);
+
+
+
+                //str = $"#{1}";
+                //textPoint = new System.Drawing.Point(m_clRect.X, m_clRect.Y);
+
+                for (int i = 0; i < NumResults; i++)
+                {
+                    Console.WriteLine($"{i+1} Center xy :{EdgeCircleFitCx[i]},{EdgeCircleFitCy[i]}");
+                }
+                double per = 0;
+                for (int i = 0; i < NumResults; i++)
+                {
+                    per = (EdgeCircleFitError[i] / EdgeCircleFitRadius[i]) * 100.0;///(error / radius) * 100.0;
+                    Console.WriteLine($"{i + 1} Circle Fit :{per}%");
+                }
+                //평균 제곱 오차 (Average Quadratic Error, RMS) 입니다
+                //각 엣지 포인트가 피팅된 원에서 얼마나 벗어났는지를 제곱합 후 평균낸 값이에요.
+                str = $"[CONE] Edge Count:{NumResults}";
+
+
+            }
+            else
+            {
+                Console.Write("Edges have not been found or the number of found edges is greater than\n");
+                Console.Write("the specified maximum number of edges !\n\n");
+
+
+                Globalo.visionManager.milLibrary.DrawOverlayBox(0, m_clRect, Color.Red, 2);
+                nRtn = 0;
+            }
+
+        }
+        public List<OpenCvSharp.Point> Housing_Fakra_Test(int index, Mat srcImage, OpenCvSharp.Point centerPos, bool bAutorun = false)
         {
             // 측정 시작
             bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Fakra_Test Test Start");
-            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
             string str = "";
             List<OpenCvSharp.Point> FakraPoints = new List<OpenCvSharp.Point>();
+            int imageCenterX = centerPos.X;// 1306;    // binary.Width / 2;
+            int imageCenterY = centerPos.Y;// 1289;    // binary.Height / 2;
             //
             //
             //
@@ -1062,7 +1246,7 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             var edges = new Mat();
             //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            Cv2.MedianBlur(srcImage, blurred, 3);
+            Cv2.MedianBlur(srcImage, blurred, 1);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -1093,7 +1277,7 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 54; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 21; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //큰원 26
             //작은원 30
             //int minThresh = 70;
@@ -1112,12 +1296,11 @@ namespace ZenTester.VisionClass
             }
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
             // 3. Contours 찾기
-            int imageCenterX = 1172;// binary.Width / 2;
-            int imageCenterY = 1427;// binary.Height / 2;
+            
 
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
@@ -1160,7 +1343,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 300)//350)
+                if (distance > 100)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1198,7 +1381,7 @@ namespace ZenTester.VisionClass
                     continue;
                 }
                 Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.01)//0.01)
+                if (circularity < 0.001)//0.01)
                 {
                     continue;
                 }
@@ -1238,8 +1421,8 @@ namespace ZenTester.VisionClass
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
 
-                centerPos.X = (int)maxCircle.center.X;
-                centerPos.Y = (int)maxCircle.center.Y;
+                //centerPos.X = (int)maxCircle.center.X;
+                //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
@@ -1345,7 +1528,7 @@ namespace ZenTester.VisionClass
 
             return FakraPoints;
         }
-        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, bool bDentTest = false, bool bAutorun = false)
+        public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, OpenCvSharp.Point centerPos, bool bDentTest = false, bool bAutorun = false)
         {
             //roiIndex = 0 (외경)
             //roiIndex = 1 (내경)
@@ -1353,10 +1536,13 @@ namespace ZenTester.VisionClass
             bool IMG_VIEW = true;
             int startTime = Environment.TickCount;
             Console.WriteLine($"Housing_Dent_Test Test Start");
-            OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
+            //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
             string str = "";
             List<OpenCvSharp.Point> HousingPoints = new List<OpenCvSharp.Point>();
-            //
+            int imageCenterX = centerPos.X; // 1294;// binary.Width / 2;
+            int imageCenterY = centerPos.Y; //1298;// binary.Height / 2;
+
+
             //안쪽원 마스크 처리하기
 
             OpenCvSharp.Point circleCenter = new OpenCvSharp.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index]/2, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index]/2);
@@ -1396,7 +1582,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(1, 1), 0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1411,11 +1597,11 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 77;// 77; // 반드시 홀수
+            int blockSize = 51;// 77; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 35;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 20;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //작은원 30
             //큰원 18
             //int minThresh = 70;
@@ -1424,7 +1610,7 @@ namespace ZenTester.VisionClass
             Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));//(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
 
@@ -1435,8 +1621,7 @@ namespace ZenTester.VisionClass
                 Cv2.WaitKey(0);
             }
             // 3. Contours 찾기
-            int imageCenterX = 1172;// binary.Width / 2;
-            int imageCenterY = 1427;// binary.Height / 2;
+            
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
             //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -1478,7 +1663,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 300)//200)
+                if (distance > 200)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1506,12 +1691,12 @@ namespace ZenTester.VisionClass
 
 
                 //if (radius < 600 || radius > 1000)//890)
-                if (radius < 280 || radius > 550)//890)
+                if (radius < 320 || radius > 560)//890)
                 {
                     continue;
                 }
                 Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.01)
+                if (circularity < 0.001)
                 {
                     continue;
                 }
@@ -1542,8 +1727,8 @@ namespace ZenTester.VisionClass
                 var minCircle = circles.OrderBy(c => c.radius).First();
                 var maxCircle = circles.OrderByDescending(c => c.radius).First();
 
-                centerPos.X = (int)maxCircle.center.X;
-                centerPos.Y = (int)maxCircle.center.Y;
+                //centerPos.X = (int)maxCircle.center.X;
+                //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경

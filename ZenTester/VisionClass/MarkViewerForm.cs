@@ -70,11 +70,6 @@ namespace ZenTester.VisionClass
 
             if (Globalo.visionManager.markUtil.m_MilMarkImage[1] != MIL.M_NULL)
             {
-                if (Globalo.visionManager.markUtil.m_MilMarkDisplay[1] == MIL.M_NULL)
-                {
-                    
-
-                }
                 MIL.MbufClear(Globalo.visionManager.markUtil.m_MilMarkDisplay[1], 0);
 
                 Globalo.visionManager.markUtil.m_MilMarkDisplay[1] = MIL.M_NULL;
@@ -131,8 +126,7 @@ namespace ZenTester.VisionClass
             if (m_MilMask != MIL.M_NULL)
             {
                 m_pMaskBuff = new byte[m_iSizeX * m_iSizeY];
-                // m_pMaskBuff = (unsigned char*)malloc(m_iSizeX * m_iSizeY * sizeof(unsigned char));
-                //memset(m_pMaskBuff, 0, (m_iSizeX * m_iSizeY * sizeof(unsigned char)));
+                Array.Clear(m_pMaskBuff, 0, m_pMaskBuff.Length);
             }
             // 센터라인 그리기
             DrawCenterLine(m_clCdCenter);
@@ -334,17 +328,24 @@ namespace ZenTester.VisionClass
             }
         }
 
-        private void button_Mask_Close_Click(object sender, EventArgs e)
+        public void MarkviewClose()
         {
             if (m_MilMask != MIL.M_NULL)
             {
                 MIL.MbufFree(m_MilMask);
                 m_MilMask = MIL.M_NULL;
             }
-
+            if (m_pMaskBuff != null)
+            {
+                m_pMaskBuff = null;
+            }
             ///Globalo.visionManager.markUtil.LoadMark("A_MODEL", 0, 0);
             Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);//, CurrentCamIndex);/// (int)eCamType.SIDE_CAM);
             this.Close();
+        }
+        private void button_Mask_Close_Click(object sender, EventArgs e)
+        {
+            MarkviewClose();
         }
 
         private void trackBar_Mask_Brush_Size_Scroll(object sender, EventArgs e)
@@ -376,10 +377,13 @@ namespace ZenTester.VisionClass
             if (m_pMaskBuff != null)
             {
                 Array.Clear(m_pMaskBuff, 0, m_pMaskBuff.Length);
+
                 MIL.MbufPut(m_MilMask, m_pMaskBuff);
 
                 MIL.MmodMask(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, m_MilMask, MIL.M_DONT_CARE, MIL.M_DEFAULT);//<---왜 들어가있지?
+
                 DrawCenterLine(m_clCdCenter);
+
                 Array.Clear(m_pMaskBuff, 0, m_pMaskBuff.Length);
             }
         }
@@ -437,18 +441,18 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.markUtil.DisplaySmallMarkView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentMarkNo, (double)DispSize.X, (double)DispSize.Y);     //Mask Popup Save
 
 
-            if (m_MilMask != MIL.M_NULL)
-            {
-                MIL.MbufFree(m_MilMask);
-                m_MilMask = MIL.M_NULL;
-            }
+            //if (m_MilMask != MIL.M_NULL)
+            //{
+            //    MIL.MbufFree(m_MilMask);
+            //    m_MilMask = MIL.M_NULL;
+            //}
 
             //Globalo.visionManager.markUtil.LoadMark_mod("A_MODEL", 0);
             //if (m_pMaskBuff != null)
             //{
             //    free(m_pMaskBuff);
             //}
-            this.Close();
+            MarkviewClose();
         }
 
         private void label_Mask_Edge_Smooth_Val_Click(object sender, EventArgs e)

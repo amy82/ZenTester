@@ -269,7 +269,7 @@ namespace ZenTester.TcpSocket
         }
         private void AttemptReconnect()
         {
-            Console.WriteLine($"Secsgem Attempting to reconnect to {_ip}:{_port}...");
+            //Console.WriteLine($"Secsgem Attempting to reconnect to {_ip}:{_port}...");
             if (SecsGemConnect() == true)
             {
                 //Console.WriteLine($"Attempting to reconnect to Ok");

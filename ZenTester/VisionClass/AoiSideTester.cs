@@ -19,7 +19,7 @@ namespace ZenTester.VisionClass
 
         }
 
-        public bool Mark_Pos_Standard(int index, VisionClass.eMarkList MarkPos, ref System.Drawing.Point conePos)        //사이드 카메라 기준점 찾기 - 
+        public bool Mark_Pos_Standard(int index, VisionClass.eMarkList MarkPos, ref OpenCvSharp.Point centerPos, bool bDraw = false)        //사이드 카메라 기준점 찾기 - 
         {
             bool bRtn = true;
             //Mark Find
@@ -27,18 +27,15 @@ namespace ZenTester.VisionClass
             //Globalo.yamlManager.aoiRoiConfig.markData[MarkIndex].name;
             int MarkIndex = 0;
             double dScore = 0.0;
-            //0 = TopCenter
-            //1 = sideCone
-            //2 = sideContact
-            //3 = sidelens
-            //
+            centerPos.X = 0;
+            centerPos.Y = 0;
+
             MarkIndex = (int)MarkPos;   // VisionClass.eMarkList.SIDE_HEIGHT;
 
-            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, ref dScore, false);
+            bRtn = Globalo.visionManager.markUtil.CalcSingleMarkAlign(index, MarkIndex, ref dAlign, ref dScore, bDraw);
 
-            conePos.X = (int)dAlign.X;
-            conePos.Y = (int)dAlign.Y;
-            //X 위치반 센터 대비 얼마나 떨어졌는지로 체크?
+            centerPos.X = (int)dAlign.X;
+            centerPos.Y = (int)dAlign.Y;
 
             Console.WriteLine($"X:{dAlign.X},Y: {dAlign.Y}, T:{dAlign.T}");
 
@@ -750,7 +747,7 @@ namespace ZenTester.VisionClass
             double[] heightData = new double[3];
 
 
-            System.Drawing.Point markPos = new System.Drawing.Point();
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point();
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(index, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
 
 

@@ -50,6 +50,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test = new System.Windows.Forms.Label();
             this.label_SetTest_Manual_Top_Test = new System.Windows.Forms.Label();
             this.button_Pogo_Find_Test = new System.Windows.Forms.Button();
+            this.button_Mark_Top_Center_Find = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Manual_Mark_Roi_Save
@@ -59,7 +60,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Roi_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_Roi_Save.Location = new System.Drawing.Point(565, 579);
             this.label_SetTest_Manual_Mark_Roi_Save.Name = "label_SetTest_Manual_Mark_Roi_Save";
-            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(90, 38);
+            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Mark_Roi_Save.TabIndex = 103;
             this.label_SetTest_Manual_Mark_Roi_Save.Text = "ROI SAVE";
             this.label_SetTest_Manual_Mark_Roi_Save.UseVisualStyleBackColor = false;
@@ -112,7 +113,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(565, 653);
             this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
-            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(90, 38);
+            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Image_Load.TabIndex = 99;
             this.label_SetTest_Manual_Image_Load.Text = "IMAGE LOAD";
             this.label_SetTest_Manual_Image_Load.UseVisualStyleBackColor = false;
@@ -125,7 +126,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(565, 616);
             this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
-            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(90, 38);
+            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Image_Save.TabIndex = 98;
             this.label_SetTest_Manual_Image_Save.Text = "IMAGE SAVE";
             this.label_SetTest_Manual_Image_Save.UseVisualStyleBackColor = false;
@@ -138,7 +139,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Find.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_Find.Location = new System.Drawing.Point(565, 423);
             this.label_SetTest_Manual_Mark_Find.Name = "label_SetTest_Manual_Mark_Find";
-            this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(90, 75);
+            this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(98, 75);
             this.label_SetTest_Manual_Mark_Find.TabIndex = 97;
             this.label_SetTest_Manual_Mark_Find.Text = "MARK FIND";
             this.label_SetTest_Manual_Mark_Find.UseVisualStyleBackColor = false;
@@ -151,7 +152,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(565, 541);
             this.label_SetTest_Manual_Mark_View.Name = "label_SetTest_Manual_Mark_View";
-            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(90, 39);
+            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(98, 39);
             this.label_SetTest_Manual_Mark_View.TabIndex = 96;
             this.label_SetTest_Manual_Mark_View.Text = "VIEW";
             this.label_SetTest_Manual_Mark_View.UseVisualStyleBackColor = false;
@@ -164,7 +165,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Regist.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(565, 497);
             this.label_SetTest_Manual_Mark_Regist.Name = "label_SetTest_Manual_Mark_Regist";
-            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(90, 45);
+            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(98, 45);
             this.label_SetTest_Manual_Mark_Regist.TabIndex = 95;
             this.label_SetTest_Manual_Mark_Regist.Text = "REGIST";
             this.label_SetTest_Manual_Mark_Regist.UseVisualStyleBackColor = false;
@@ -187,7 +188,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Image.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Mark_Image.Location = new System.Drawing.Point(248, 393);
             this.label_SetTest_Manual_Mark_Image.Name = "label_SetTest_Manual_Mark_Image";
-            this.label_SetTest_Manual_Mark_Image.Size = new System.Drawing.Size(407, 29);
+            this.label_SetTest_Manual_Mark_Image.Size = new System.Drawing.Size(415, 29);
             this.label_SetTest_Manual_Mark_Image.TabIndex = 93;
             this.label_SetTest_Manual_Mark_Image.Text = "Mark Image";
             this.label_SetTest_Manual_Mark_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -324,11 +325,25 @@ namespace ZenTester.Dlg
             this.button_Pogo_Find_Test.UseVisualStyleBackColor = false;
             this.button_Pogo_Find_Test.Click += new System.EventHandler(this.button_Pogo_Find_Test_Click);
             // 
+            // button_Mark_Top_Center_Find
+            // 
+            this.button_Mark_Top_Center_Find.BackColor = System.Drawing.Color.Tan;
+            this.button_Mark_Top_Center_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Mark_Top_Center_Find.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Mark_Top_Center_Find.Location = new System.Drawing.Point(29, 459);
+            this.button_Mark_Top_Center_Find.Name = "button_Mark_Top_Center_Find";
+            this.button_Mark_Top_Center_Find.Size = new System.Drawing.Size(180, 51);
+            this.button_Mark_Top_Center_Find.TabIndex = 115;
+            this.button_Mark_Top_Center_Find.Text = "MARK FIND CENTER ";
+            this.button_Mark_Top_Center_Find.UseVisualStyleBackColor = false;
+            this.button_Mark_Top_Center_Find.Click += new System.EventHandler(this.button_Mark_Top_Center_Find_Click);
+            // 
             // ManualTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.button_Mark_Top_Center_Find);
             this.Controls.Add(this.button_Pogo_Find_Test);
             this.Controls.Add(this.button_Set_Height_Test);
             this.Controls.Add(this.button_Set_Cone_Test);
@@ -380,5 +395,6 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_SetTest_Manual_Side_Test;
         public System.Windows.Forms.Label label_SetTest_Manual_Top_Test;
         private System.Windows.Forms.Button button_Pogo_Find_Test;
+        private System.Windows.Forms.Button button_Mark_Top_Center_Find;
     }
 }

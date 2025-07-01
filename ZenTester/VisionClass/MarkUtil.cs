@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
     
     public enum eMarkList
     {
-        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_KEY, MAX_MARK_LIST
+        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, TOP_KEY, MAX_MARK_LIST
     }
     public enum eCamType
     {
@@ -63,7 +63,7 @@ namespace ZenTester.VisionClass
         {
             int i = 0;
 
-            m_MilModModel = new MIL_ID[4];
+            m_MilModModel = new MIL_ID[(int)eMarkList.MAX_MARK_LIST];
 
             for (i = 0; i < (int)eCamType.MAX_CAM_TYPE; i++)
             {
@@ -391,7 +391,7 @@ namespace ZenTester.VisionClass
                 MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[index], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilChildLow);
 
                 //MIL.MimBinarize(MilChildLow, MilChildLow, MIL.M_FIXED + MIL.M_GREATER, markBinarizeData, MIL.M_NULL);
-                MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
+                //MIL.MbufExport("D:\\__MilChildLow.BMP", MIL.M_BMP, MilChildLow);
 
                 MIL.MmodFind(m_MilModModel[nNo], MilChildLow, m_MilModResult[index]);
                 if (MilChildLow != MIL.M_NULL)
@@ -471,23 +471,21 @@ namespace ZenTester.VisionClass
             m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Width;
             m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.markData[MarkNo].Height;
             //HeightHeight
-
-
-
+            
             bFind = FindModel(index , MarkNo, true, m_clRoi, ref dScore, ref dAngle, ref dFindPos);
             if (bFind)
             {
-                if (dScore > 70.0)
+                if (dScore > 60.0)
                 {
                     dAlign.X = dFindPos.X;
                     dAlign.Y = dFindPos.Y;
                     dAlign.T = dAngle;
-                    MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);//M_COLOR_MAGENTA
+                    
                 }
                 else
                 {
-                    MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
 
+                    bFind = false;
                     str = $"MACHING FAIL!";
                     textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 1000, 500);
                     Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
@@ -505,12 +503,17 @@ namespace ZenTester.VisionClass
                 textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 500, 500);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
             }
-
+            if (bFind)
+            {
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_YELLOW);
+            }
+            else
+            {
+                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+            }
 
             if (MarkDraw)
             {
-
-            
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y
 
@@ -616,21 +619,6 @@ namespace ZenTester.VisionClass
 
                     MIL.MdispControl(m_MilMarkDisplay[0], MIL.M_OVERLAY_SHOW, MIL.M_ENABLE);
                 }
-
-                //if (m_bInitMarkOverlay)
-                //{
-                //    if (m_bEnableMarkOverlay == false)
-                //    {
-                //        MdispControl(m_MilMarkDisplay[0], M_OVERLAY_SHOW, M_ENABLE);
-                //    }
-                //    else
-                //    {
-                //        MdispControl(m_MilMarkDisplay[0], M_OVERLAY_SHOW, M_DISABLE);
-                //        m_bEnableMarkOverlay = FALSE;
-                //    }
-
-                //    m_bInitMarkOverlay = FALSE;
-                //}
             }
         }
     }

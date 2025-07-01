@@ -272,7 +272,8 @@ namespace ZenTester.Process
                         //
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-                        bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex], true);
+                        //bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex], true);
+                        bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER, ref aoiCenterPos[topCamIndex], true);
                         if (rtn)
                         {
                             szLog = $"[TOP CAM] CENTER FIND OK ({aoiCenterPos[topCamIndex].X},{aoiCenterPos[topCamIndex].Y})";
@@ -347,7 +348,7 @@ namespace ZenTester.Process
                         //
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, true, true);   //true 일때 Dent(찌그러짐)검사
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, aoiCenterPos[topCamIndex], true, true);   //true 일때 Dent(찌그러짐)검사
                         if (HousingCenter.Count > 0)
                         {
                             int denUnderCnt = HousingCenter[0].X;
@@ -426,8 +427,8 @@ namespace ZenTester.Process
                         float dist1 = 0.0f;
                         float dist2 = 0.0f;
 
-                        FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, true); //Fakra 안쪽 원 찾기
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+                        FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, aoiCenterPos[topCamIndex], true); //Fakra 안쪽 원 찾기
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, aoiCenterPos[topCamIndex], false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
                         //내원 2개 , 외원 2개씩 찾아야 진행된다.
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
@@ -610,7 +611,7 @@ namespace ZenTester.Process
                         //Right Height
                         ////Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
-                        System.Drawing.Point markPos = new System.Drawing.Point();
+                        OpenCvSharp.Point markPos = new OpenCvSharp.Point();
                         bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
 
 
