@@ -245,19 +245,16 @@ namespace ZenTester.TcpSocket
             if (data.Cmd == "RECV_SECS_MODEL")
             {
                 string model = data.Model;
-                string fwmodel = "";
 
                 //int fwOpalUse = data.Step;
-                string ppid = "";
 
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
-                {
-                    fwmodel = data.DataID;       //Trinity or Opal
-                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = fwmodel;
+                { 
+                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = data.DataID; //Trinity or Opal  두 모델만 구분
                 }
                 else
                 {
-                    ppid = data.RecipeID;
+                    string ppid = data.RecipeID;
                     Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
                     foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
                     {
