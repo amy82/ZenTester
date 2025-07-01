@@ -283,7 +283,16 @@ namespace ZenTester.TcpSocket
                     temp = paramInfo.Name;
                     temp = paramInfo.Value;
 
-                    //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                    Globalo.yamlManager.vOpalModelList.OpalList[0].name = paramInfo.Name;
+                    if (paramInfo.Value == "true")
+                    {
+                        Globalo.yamlManager.vOpalModelList.OpalList[0].use = true;
+                    }
+                    else
+                    {
+                        Globalo.yamlManager.vOpalModelList.OpalList[0].use = false;
+                    }
+                    
                 }
 
             }
