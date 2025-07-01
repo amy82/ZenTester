@@ -43,6 +43,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.BTN_CONFIG_SAVE = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label_Secsgem_Ip4 = new System.Windows.Forms.Label();
+            this.label_Secsgem_Ip1 = new System.Windows.Forms.Label();
+            this.label_Secsgem_Port = new System.Windows.Forms.Label();
+            this.label_Config_Secsgem_Port = new System.Windows.Forms.Label();
+            this.label_Config_Secsgem_Ip = new System.Windows.Forms.Label();
+            this.label_Secsgem_Ip3 = new System.Windows.Forms.Label();
+            this.label_Secsgem_Ip2 = new System.Windows.Forms.Label();
             this.label_Handler_Ip4 = new System.Windows.Forms.Label();
             this.label_Handler_Ip1 = new System.Windows.Forms.Label();
             this.label_Handler_Port = new System.Windows.Forms.Label();
@@ -61,13 +68,6 @@
             this.checkBox_BcrGo = new System.Windows.Forms.CheckBox();
             this.checkBox_IdleReportPass = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label_Secsgem_Ip4 = new System.Windows.Forms.Label();
-            this.label_Secsgem_Ip1 = new System.Windows.Forms.Label();
-            this.label_Secsgem_Port = new System.Windows.Forms.Label();
-            this.label_Config_Secsgem_Port = new System.Windows.Forms.Label();
-            this.label_Config_Secsgem_Ip = new System.Windows.Forms.Label();
-            this.label_Secsgem_Ip3 = new System.Windows.Forms.Label();
-            this.label_Secsgem_Ip2 = new System.Windows.Forms.Label();
             this.ManualPanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -143,7 +143,7 @@
             this.label_Config_Tray_GapY.BackColor = System.Drawing.SystemColors.Window;
             this.label_Config_Tray_GapY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Config_Tray_GapY.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Tray_GapY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Tray_GapY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Tray_GapY.ForeColor = System.Drawing.Color.Black;
             this.label_Config_Tray_GapY.Location = new System.Drawing.Point(17, 316);
             this.label_Config_Tray_GapY.Name = "label_Config_Tray_GapY";
@@ -157,7 +157,7 @@
             this.label_Config_Tray_GapX.BackColor = System.Drawing.SystemColors.Window;
             this.label_Config_Tray_GapX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Config_Tray_GapX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Tray_GapX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Tray_GapX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Tray_GapX.ForeColor = System.Drawing.Color.Black;
             this.label_Config_Tray_GapX.Location = new System.Drawing.Point(17, 285);
             this.label_Config_Tray_GapX.Name = "label_Config_Tray_GapX";
@@ -170,7 +170,7 @@
             // 
             this.ComboBox_Language.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ComboBox_Language.DropDownHeight = 120;
-            this.ComboBox_Language.Font = new System.Drawing.Font("나눔고딕", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ComboBox_Language.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ComboBox_Language.FormattingEnabled = true;
             this.ComboBox_Language.IntegralHeight = false;
             this.ComboBox_Language.ItemHeight = 20;
@@ -184,7 +184,7 @@
             this.label5.BackColor = System.Drawing.SystemColors.Window;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label5.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(18, 111);
             this.label5.Name = "label5";
@@ -211,7 +211,7 @@
             this.label4.BackColor = System.Drawing.SystemColors.Window;
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(7, 391);
             this.label4.Name = "label4";
@@ -238,7 +238,7 @@
             this.label2.BackColor = System.Drawing.SystemColors.Window;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label2.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(17, 28);
             this.label2.Name = "label2";
@@ -251,7 +251,7 @@
             // 
             this.BTN_CONFIG_SAVE.BackColor = System.Drawing.Color.Tan;
             this.BTN_CONFIG_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_CONFIG_SAVE.Font = new System.Drawing.Font("나눔고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_CONFIG_SAVE.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_CONFIG_SAVE.ForeColor = System.Drawing.Color.White;
             this.BTN_CONFIG_SAVE.Location = new System.Drawing.Point(551, 614);
             this.BTN_CONFIG_SAVE.Name = "BTN_CONFIG_SAVE";
@@ -289,11 +289,109 @@
             this.groupBox1.TabIndex = 46;
             this.groupBox1.TabStop = false;
             // 
+            // label_Secsgem_Ip4
+            // 
+            this.label_Secsgem_Ip4.BackColor = System.Drawing.Color.White;
+            this.label_Secsgem_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Secsgem_Ip4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Secsgem_Ip4.ForeColor = System.Drawing.Color.Black;
+            this.label_Secsgem_Ip4.Location = new System.Drawing.Point(175, 138);
+            this.label_Secsgem_Ip4.Name = "label_Secsgem_Ip4";
+            this.label_Secsgem_Ip4.Size = new System.Drawing.Size(50, 40);
+            this.label_Secsgem_Ip4.TabIndex = 136;
+            this.label_Secsgem_Ip4.Text = "100";
+            this.label_Secsgem_Ip4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Secsgem_Ip4.Click += new System.EventHandler(this.label_Secsgem_Ip4_Click);
+            // 
+            // label_Secsgem_Ip1
+            // 
+            this.label_Secsgem_Ip1.BackColor = System.Drawing.Color.White;
+            this.label_Secsgem_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Secsgem_Ip1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Secsgem_Ip1.ForeColor = System.Drawing.Color.Black;
+            this.label_Secsgem_Ip1.Location = new System.Drawing.Point(22, 138);
+            this.label_Secsgem_Ip1.Name = "label_Secsgem_Ip1";
+            this.label_Secsgem_Ip1.Size = new System.Drawing.Size(50, 40);
+            this.label_Secsgem_Ip1.TabIndex = 135;
+            this.label_Secsgem_Ip1.Text = "100";
+            this.label_Secsgem_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Secsgem_Ip1.Click += new System.EventHandler(this.label_Secsgem_Ip1_Click);
+            // 
+            // label_Secsgem_Port
+            // 
+            this.label_Secsgem_Port.BackColor = System.Drawing.Color.White;
+            this.label_Secsgem_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Secsgem_Port.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Secsgem_Port.ForeColor = System.Drawing.Color.Black;
+            this.label_Secsgem_Port.Location = new System.Drawing.Point(230, 138);
+            this.label_Secsgem_Port.Name = "label_Secsgem_Port";
+            this.label_Secsgem_Port.Size = new System.Drawing.Size(77, 40);
+            this.label_Secsgem_Port.TabIndex = 134;
+            this.label_Secsgem_Port.Text = "2001";
+            this.label_Secsgem_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Secsgem_Port.Click += new System.EventHandler(this.label_Secsgem_Port_Click);
+            // 
+            // label_Config_Secsgem_Port
+            // 
+            this.label_Config_Secsgem_Port.BackColor = System.Drawing.Color.LightGray;
+            this.label_Config_Secsgem_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Config_Secsgem_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Config_Secsgem_Port.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Secsgem_Port.ForeColor = System.Drawing.Color.Black;
+            this.label_Config_Secsgem_Port.Location = new System.Drawing.Point(230, 110);
+            this.label_Config_Secsgem_Port.Name = "label_Config_Secsgem_Port";
+            this.label_Config_Secsgem_Port.Size = new System.Drawing.Size(77, 28);
+            this.label_Config_Secsgem_Port.TabIndex = 133;
+            this.label_Config_Secsgem_Port.Text = "PORT";
+            this.label_Config_Secsgem_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Config_Secsgem_Ip
+            // 
+            this.label_Config_Secsgem_Ip.BackColor = System.Drawing.Color.LightGray;
+            this.label_Config_Secsgem_Ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Config_Secsgem_Ip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Config_Secsgem_Ip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Secsgem_Ip.ForeColor = System.Drawing.Color.Black;
+            this.label_Config_Secsgem_Ip.Location = new System.Drawing.Point(22, 110);
+            this.label_Config_Secsgem_Ip.Name = "label_Config_Secsgem_Ip";
+            this.label_Config_Secsgem_Ip.Size = new System.Drawing.Size(203, 28);
+            this.label_Config_Secsgem_Ip.TabIndex = 132;
+            this.label_Config_Secsgem_Ip.Text = "SECSGEM IP ADDRESS";
+            this.label_Config_Secsgem_Ip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Secsgem_Ip3
+            // 
+            this.label_Secsgem_Ip3.BackColor = System.Drawing.Color.White;
+            this.label_Secsgem_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Secsgem_Ip3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Secsgem_Ip3.ForeColor = System.Drawing.Color.Black;
+            this.label_Secsgem_Ip3.Location = new System.Drawing.Point(124, 138);
+            this.label_Secsgem_Ip3.Name = "label_Secsgem_Ip3";
+            this.label_Secsgem_Ip3.Size = new System.Drawing.Size(50, 40);
+            this.label_Secsgem_Ip3.TabIndex = 131;
+            this.label_Secsgem_Ip3.Text = "100";
+            this.label_Secsgem_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Secsgem_Ip3.Click += new System.EventHandler(this.label_Secsgem_Ip3_Click);
+            // 
+            // label_Secsgem_Ip2
+            // 
+            this.label_Secsgem_Ip2.BackColor = System.Drawing.Color.White;
+            this.label_Secsgem_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Secsgem_Ip2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Secsgem_Ip2.ForeColor = System.Drawing.Color.Black;
+            this.label_Secsgem_Ip2.Location = new System.Drawing.Point(73, 138);
+            this.label_Secsgem_Ip2.Name = "label_Secsgem_Ip2";
+            this.label_Secsgem_Ip2.Size = new System.Drawing.Size(50, 40);
+            this.label_Secsgem_Ip2.TabIndex = 130;
+            this.label_Secsgem_Ip2.Text = "100";
+            this.label_Secsgem_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Secsgem_Ip2.Click += new System.EventHandler(this.label_Secsgem_Ip2_Click);
+            // 
             // label_Handler_Ip4
             // 
             this.label_Handler_Ip4.BackColor = System.Drawing.Color.White;
             this.label_Handler_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip4.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Ip4.ForeColor = System.Drawing.Color.Black;
             this.label_Handler_Ip4.Location = new System.Drawing.Point(175, 67);
             this.label_Handler_Ip4.Name = "label_Handler_Ip4";
@@ -307,7 +405,7 @@
             // 
             this.label_Handler_Ip1.BackColor = System.Drawing.Color.White;
             this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Ip1.ForeColor = System.Drawing.Color.Black;
             this.label_Handler_Ip1.Location = new System.Drawing.Point(22, 67);
             this.label_Handler_Ip1.Name = "label_Handler_Ip1";
@@ -321,7 +419,7 @@
             // 
             this.label_Handler_Port.BackColor = System.Drawing.Color.White;
             this.label_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Port.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Port.ForeColor = System.Drawing.Color.Black;
             this.label_Handler_Port.Location = new System.Drawing.Point(230, 67);
             this.label_Handler_Port.Name = "label_Handler_Port";
@@ -336,7 +434,7 @@
             this.label_Config_Handler_Port.BackColor = System.Drawing.Color.LightGray;
             this.label_Config_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Config_Handler_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Handler_Port.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Handler_Port.ForeColor = System.Drawing.Color.Black;
             this.label_Config_Handler_Port.Location = new System.Drawing.Point(230, 39);
             this.label_Config_Handler_Port.Name = "label_Config_Handler_Port";
@@ -350,7 +448,7 @@
             this.label_Config_Handler_Ip.BackColor = System.Drawing.Color.LightGray;
             this.label_Config_Handler_Ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Config_Handler_Ip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Handler_Ip.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Handler_Ip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Handler_Ip.ForeColor = System.Drawing.Color.Black;
             this.label_Config_Handler_Ip.Location = new System.Drawing.Point(22, 39);
             this.label_Config_Handler_Ip.Name = "label_Config_Handler_Ip";
@@ -363,7 +461,7 @@
             // 
             this.label_Handler_Ip3.BackColor = System.Drawing.Color.White;
             this.label_Handler_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip3.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Ip3.ForeColor = System.Drawing.Color.Black;
             this.label_Handler_Ip3.Location = new System.Drawing.Point(124, 67);
             this.label_Handler_Ip3.Name = "label_Handler_Ip3";
@@ -377,7 +475,7 @@
             // 
             this.label_Handler_Ip2.BackColor = System.Drawing.Color.White;
             this.label_Handler_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip2.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Handler_Ip2.ForeColor = System.Drawing.Color.Black;
             this.label_Handler_Ip2.Location = new System.Drawing.Point(73, 67);
             this.label_Handler_Ip2.Name = "label_Handler_Ip2";
@@ -391,7 +489,7 @@
             // 
             this.poisonComboBox_Light_Port.Cursor = System.Windows.Forms.Cursors.Hand;
             this.poisonComboBox_Light_Port.DropDownHeight = 120;
-            this.poisonComboBox_Light_Port.Font = new System.Drawing.Font("나눔고딕", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.poisonComboBox_Light_Port.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.poisonComboBox_Light_Port.FormattingEnabled = true;
             this.poisonComboBox_Light_Port.IntegralHeight = false;
             this.poisonComboBox_Light_Port.ItemHeight = 20;
@@ -433,7 +531,7 @@
             this.label_Config_Light.BackColor = System.Drawing.SystemColors.Window;
             this.label_Config_Light.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Config_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Config_Light.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Config_Light.ForeColor = System.Drawing.Color.Black;
             this.label_Config_Light.Location = new System.Drawing.Point(22, 197);
             this.label_Config_Light.Name = "label_Config_Light";
@@ -514,7 +612,7 @@
             this.checkBox_BcrGo.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.checkBox_BcrGo.FlatAppearance.BorderSize = 2;
             this.checkBox_BcrGo.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-            this.checkBox_BcrGo.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_BcrGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_BcrGo.Location = new System.Drawing.Point(29, 212);
             this.checkBox_BcrGo.Name = "checkBox_BcrGo";
             this.checkBox_BcrGo.Size = new System.Drawing.Size(194, 21);
@@ -529,7 +627,7 @@
             this.checkBox_IdleReportPass.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.checkBox_IdleReportPass.FlatAppearance.BorderSize = 2;
             this.checkBox_IdleReportPass.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-            this.checkBox_IdleReportPass.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_IdleReportPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_IdleReportPass.Location = new System.Drawing.Point(29, 185);
             this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
             this.checkBox_IdleReportPass.Size = new System.Drawing.Size(194, 21);
@@ -549,104 +647,6 @@
             this.label3.TabIndex = 26;
             this.label3.Text = "운전 설정";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Secsgem_Ip4
-            // 
-            this.label_Secsgem_Ip4.BackColor = System.Drawing.Color.White;
-            this.label_Secsgem_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Secsgem_Ip4.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Secsgem_Ip4.ForeColor = System.Drawing.Color.Black;
-            this.label_Secsgem_Ip4.Location = new System.Drawing.Point(175, 138);
-            this.label_Secsgem_Ip4.Name = "label_Secsgem_Ip4";
-            this.label_Secsgem_Ip4.Size = new System.Drawing.Size(50, 40);
-            this.label_Secsgem_Ip4.TabIndex = 136;
-            this.label_Secsgem_Ip4.Text = "100";
-            this.label_Secsgem_Ip4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Secsgem_Ip4.Click += new System.EventHandler(this.label_Secsgem_Ip4_Click);
-            // 
-            // label_Secsgem_Ip1
-            // 
-            this.label_Secsgem_Ip1.BackColor = System.Drawing.Color.White;
-            this.label_Secsgem_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Secsgem_Ip1.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Secsgem_Ip1.ForeColor = System.Drawing.Color.Black;
-            this.label_Secsgem_Ip1.Location = new System.Drawing.Point(22, 138);
-            this.label_Secsgem_Ip1.Name = "label_Secsgem_Ip1";
-            this.label_Secsgem_Ip1.Size = new System.Drawing.Size(50, 40);
-            this.label_Secsgem_Ip1.TabIndex = 135;
-            this.label_Secsgem_Ip1.Text = "100";
-            this.label_Secsgem_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Secsgem_Ip1.Click += new System.EventHandler(this.label_Secsgem_Ip1_Click);
-            // 
-            // label_Secsgem_Port
-            // 
-            this.label_Secsgem_Port.BackColor = System.Drawing.Color.White;
-            this.label_Secsgem_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Secsgem_Port.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Secsgem_Port.ForeColor = System.Drawing.Color.Black;
-            this.label_Secsgem_Port.Location = new System.Drawing.Point(230, 138);
-            this.label_Secsgem_Port.Name = "label_Secsgem_Port";
-            this.label_Secsgem_Port.Size = new System.Drawing.Size(77, 40);
-            this.label_Secsgem_Port.TabIndex = 134;
-            this.label_Secsgem_Port.Text = "2001";
-            this.label_Secsgem_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Secsgem_Port.Click += new System.EventHandler(this.label_Secsgem_Port_Click);
-            // 
-            // label_Config_Secsgem_Port
-            // 
-            this.label_Config_Secsgem_Port.BackColor = System.Drawing.Color.LightGray;
-            this.label_Config_Secsgem_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Secsgem_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Secsgem_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Secsgem_Port.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Secsgem_Port.Location = new System.Drawing.Point(230, 110);
-            this.label_Config_Secsgem_Port.Name = "label_Config_Secsgem_Port";
-            this.label_Config_Secsgem_Port.Size = new System.Drawing.Size(77, 28);
-            this.label_Config_Secsgem_Port.TabIndex = 133;
-            this.label_Config_Secsgem_Port.Text = "PORT";
-            this.label_Config_Secsgem_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Config_Secsgem_Ip
-            // 
-            this.label_Config_Secsgem_Ip.BackColor = System.Drawing.Color.LightGray;
-            this.label_Config_Secsgem_Ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Config_Secsgem_Ip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Config_Secsgem_Ip.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Config_Secsgem_Ip.ForeColor = System.Drawing.Color.Black;
-            this.label_Config_Secsgem_Ip.Location = new System.Drawing.Point(22, 110);
-            this.label_Config_Secsgem_Ip.Name = "label_Config_Secsgem_Ip";
-            this.label_Config_Secsgem_Ip.Size = new System.Drawing.Size(203, 28);
-            this.label_Config_Secsgem_Ip.TabIndex = 132;
-            this.label_Config_Secsgem_Ip.Text = "HANDLER IP ADDRESS";
-            this.label_Config_Secsgem_Ip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Secsgem_Ip3
-            // 
-            this.label_Secsgem_Ip3.BackColor = System.Drawing.Color.White;
-            this.label_Secsgem_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Secsgem_Ip3.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Secsgem_Ip3.ForeColor = System.Drawing.Color.Black;
-            this.label_Secsgem_Ip3.Location = new System.Drawing.Point(124, 138);
-            this.label_Secsgem_Ip3.Name = "label_Secsgem_Ip3";
-            this.label_Secsgem_Ip3.Size = new System.Drawing.Size(50, 40);
-            this.label_Secsgem_Ip3.TabIndex = 131;
-            this.label_Secsgem_Ip3.Text = "100";
-            this.label_Secsgem_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Secsgem_Ip3.Click += new System.EventHandler(this.label_Secsgem_Ip3_Click);
-            // 
-            // label_Secsgem_Ip2
-            // 
-            this.label_Secsgem_Ip2.BackColor = System.Drawing.Color.White;
-            this.label_Secsgem_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Secsgem_Ip2.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Secsgem_Ip2.ForeColor = System.Drawing.Color.Black;
-            this.label_Secsgem_Ip2.Location = new System.Drawing.Point(73, 138);
-            this.label_Secsgem_Ip2.Name = "label_Secsgem_Ip2";
-            this.label_Secsgem_Ip2.Size = new System.Drawing.Size(50, 40);
-            this.label_Secsgem_Ip2.TabIndex = 130;
-            this.label_Secsgem_Ip2.Text = "100";
-            this.label_Secsgem_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label_Secsgem_Ip2.Click += new System.EventHandler(this.label_Secsgem_Ip2_Click);
             // 
             // ConfigControl
             // 
