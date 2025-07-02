@@ -284,12 +284,25 @@ namespace ZenTester.Process
                                 //ng
                                 fwtestData.Result[i] = "0";
                                 //fail
-                                szLog = $"Cam{i + 1} Firmware Download fail -{fwtestData.Result_Code[i]}";
+                                szLog = $"Cam{i + 1} Firmware Download fail - {fwtestData.Result_Code[i]}";
                             }
 
+                            fwtestData.Heater_Current[i] = "0";
 
-                            //
-                            fwtestData.Heater_Current[i] = Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(fwtestData.arrBcr[i], fwtestData.Result[i]);
+                            bool bchkopal = false;
+                            foreach (var item in Globalo.yamlManager.modelLIstData.OpalModelData.OpalModelList)
+                            {
+                                if(Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel == item.Model)
+                                {
+                                    bchkopal = true;
+                                }
+                            }
+                            //Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel
+                            if(bchkopal)
+                            {
+                                fwtestData.Heater_Current[i] = Globalo.FxaBoardManager.fxaFirmwardDw.getHeater_Current(fwtestData.arrBcr[i], fwtestData.Result[i]);
+                            }
+                            
                         }
 
                         nRetStep = 40;
