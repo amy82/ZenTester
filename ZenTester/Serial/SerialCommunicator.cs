@@ -152,6 +152,7 @@ namespace ZenTester.Serial
             {
                 if (!_serialPort.IsOpen)
                 {
+                    _serialPort.PortName = Globalo.yamlManager.configData.SerialPort.Light;
                     _serialPort.Open();
                     _serialPort.DiscardInBuffer();  // 연결 전에 버퍼 비우기
 

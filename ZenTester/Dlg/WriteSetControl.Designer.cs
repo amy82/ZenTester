@@ -42,6 +42,8 @@ namespace ZenTester.Dlg
             this.button_WSet_Path_Val = new System.Windows.Forms.Label();
             this.button_WSet_Path_Set = new System.Windows.Forms.Button();
             this.button_WSet_Path_Title = new System.Windows.Forms.Label();
+            this.button_WSet_Exe_Val3 = new System.Windows.Forms.Label();
+            this.button_WSet_Exe_Title3 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +64,7 @@ namespace ZenTester.Dlg
             this.button_WSet_ConfRead.BackColor = System.Drawing.Color.Tan;
             this.button_WSet_ConfRead.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_WSet_ConfRead.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_WSet_ConfRead.Location = new System.Drawing.Point(25, 433);
+            this.button_WSet_ConfRead.Location = new System.Drawing.Point(25, 474);
             this.button_WSet_ConfRead.Name = "button_WSet_ConfRead";
             this.button_WSet_ConfRead.Size = new System.Drawing.Size(180, 57);
             this.button_WSet_ConfRead.TabIndex = 108;
@@ -75,7 +77,7 @@ namespace ZenTester.Dlg
             this.button_WSet_Crc_Cal.BackColor = System.Drawing.Color.Tan;
             this.button_WSet_Crc_Cal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_WSet_Crc_Cal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_WSet_Crc_Cal.Location = new System.Drawing.Point(25, 370);
+            this.button_WSet_Crc_Cal.Location = new System.Drawing.Point(25, 411);
             this.button_WSet_Crc_Cal.Name = "button_WSet_Crc_Cal";
             this.button_WSet_Crc_Cal.Size = new System.Drawing.Size(180, 57);
             this.button_WSet_Crc_Cal.TabIndex = 109;
@@ -88,7 +90,7 @@ namespace ZenTester.Dlg
             this.button_WSet_Run.BackColor = System.Drawing.Color.Tan;
             this.button_WSet_Run.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_WSet_Run.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_WSet_Run.Location = new System.Drawing.Point(25, 307);
+            this.button_WSet_Run.Location = new System.Drawing.Point(25, 348);
             this.button_WSet_Run.Name = "button_WSet_Run";
             this.button_WSet_Run.Size = new System.Drawing.Size(180, 57);
             this.button_WSet_Run.TabIndex = 110;
@@ -101,7 +103,7 @@ namespace ZenTester.Dlg
             this.button_WSet_Dat_Create.BackColor = System.Drawing.Color.Tan;
             this.button_WSet_Dat_Create.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_WSet_Dat_Create.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_WSet_Dat_Create.Location = new System.Drawing.Point(25, 244);
+            this.button_WSet_Dat_Create.Location = new System.Drawing.Point(25, 285);
             this.button_WSet_Dat_Create.Name = "button_WSet_Dat_Create";
             this.button_WSet_Dat_Create.Size = new System.Drawing.Size(180, 57);
             this.button_WSet_Dat_Create.TabIndex = 111;
@@ -112,6 +114,8 @@ namespace ZenTester.Dlg
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.Color.White;
+            this.groupBox5.Controls.Add(this.button_WSet_Exe_Val3);
+            this.groupBox5.Controls.Add(this.button_WSet_Exe_Title3);
             this.groupBox5.Controls.Add(this.button_WSet_Exe_Val2);
             this.groupBox5.Controls.Add(this.button_WSet_Exe_Title2);
             this.groupBox5.Controls.Add(this.button_WSet_Exe_Val1);
@@ -121,7 +125,7 @@ namespace ZenTester.Dlg
             this.groupBox5.Controls.Add(this.button_WSet_Path_Title);
             this.groupBox5.Location = new System.Drawing.Point(25, 66);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(809, 152);
+            this.groupBox5.Size = new System.Drawing.Size(809, 189);
             this.groupBox5.TabIndex = 114;
             this.groupBox5.TabStop = false;
             // 
@@ -145,7 +149,7 @@ namespace ZenTester.Dlg
             this.button_WSet_Exe_Title2.Name = "button_WSet_Exe_Title2";
             this.button_WSet_Exe_Title2.Size = new System.Drawing.Size(94, 23);
             this.button_WSet_Exe_Title2.TabIndex = 38;
-            this.button_WSet_Exe_Title2.Text = "Tesla exe:";
+            this.button_WSet_Exe_Title2.Text = "Trinity exe:";
             this.button_WSet_Exe_Title2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // button_WSet_Exe_Val1
@@ -188,7 +192,7 @@ namespace ZenTester.Dlg
             this.button_WSet_Path_Set.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_WSet_Path_Set.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_WSet_Path_Set.ForeColor = System.Drawing.Color.White;
-            this.button_WSet_Path_Set.Location = new System.Drawing.Point(719, 98);
+            this.button_WSet_Path_Set.Location = new System.Drawing.Point(719, 139);
             this.button_WSet_Path_Set.Name = "button_WSet_Path_Set";
             this.button_WSet_Path_Set.Size = new System.Drawing.Size(84, 36);
             this.button_WSet_Path_Set.TabIndex = 31;
@@ -207,6 +211,29 @@ namespace ZenTester.Dlg
             this.button_WSet_Path_Title.TabIndex = 26;
             this.button_WSet_Path_Title.Text = "Tesla exe Path";
             this.button_WSet_Path_Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button_WSet_Exe_Val3
+            // 
+            this.button_WSet_Exe_Val3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.button_WSet_Exe_Val3.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_WSet_Exe_Val3.Location = new System.Drawing.Point(111, 139);
+            this.button_WSet_Exe_Val3.Name = "button_WSet_Exe_Val3";
+            this.button_WSet_Exe_Val3.Size = new System.Drawing.Size(322, 25);
+            this.button_WSet_Exe_Val3.TabIndex = 41;
+            this.button_WSet_Exe_Val3.Text = "ti_cam_eeprom_flasher.exe";
+            this.button_WSet_Exe_Val3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button_WSet_Exe_Title3
+            // 
+            this.button_WSet_Exe_Title3.BackColor = System.Drawing.Color.Transparent;
+            this.button_WSet_Exe_Title3.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_WSet_Exe_Title3.ForeColor = System.Drawing.Color.Black;
+            this.button_WSet_Exe_Title3.Location = new System.Drawing.Point(11, 139);
+            this.button_WSet_Exe_Title3.Name = "button_WSet_Exe_Title3";
+            this.button_WSet_Exe_Title3.Size = new System.Drawing.Size(94, 23);
+            this.button_WSet_Exe_Title3.TabIndex = 40;
+            this.button_WSet_Exe_Title3.Text = "Opal exe:";
+            this.button_WSet_Exe_Title3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // WriteSetControl
             // 
@@ -240,5 +267,7 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Label button_WSet_Path_Title;
         private System.Windows.Forms.Label button_WSet_Exe_Val2;
         private System.Windows.Forms.Label button_WSet_Exe_Title2;
+        private System.Windows.Forms.Label button_WSet_Exe_Val3;
+        private System.Windows.Forms.Label button_WSet_Exe_Title3;
     }
 }

@@ -154,6 +154,8 @@ namespace ZenTester.Process
             string szLog = "";
             int data1 = 0;
             int data2 = 0;
+            int dentCount = 0;
+            int dentMaxCount = 0;
             const int topCamIndex = 0;
             int nRetStep = 10;
             if (bAutorun == false)
@@ -272,7 +274,7 @@ namespace ZenTester.Process
                         double con_InMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
                         double con_OutMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
                         double con_OutMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
-
+                        double dScore = 0.0;
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
                         //
@@ -284,7 +286,7 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         //bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex], true);
-                        bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER, ref aoiCenterPos[topCamIndex]);
+                        bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER, ref aoiCenterPos[topCamIndex], ref dScore);
                         if (rtn)
                         {
                             szLog = $"[TOP CAM] CENTER FIND OK ({aoiCenterPos[topCamIndex].X},{aoiCenterPos[topCamIndex].Y})";
@@ -360,8 +362,12 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, aoiCenterPos[topCamIndex], true, true);   //true 일때 Dent(찌그러짐)검사
+                        dentCount = 0;
+                        dentMaxCount = 0;
                         if (HousingCenter.Count > 0)
                         {
+                            dentCount = HousingCenter[0].X;
+                            dentMaxCount = HousingCenter[0].Y;
                             int denUnderCnt = HousingCenter[0].X;
                             if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
                             {
@@ -400,9 +406,10 @@ namespace ZenTester.Process
                         //{
                         //    key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(topCamIndex, 1, keyType, offsetx, offsety, true);        //키검사
                         //}
+
                         double dKeyScore = 0.0;
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-                        bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
                         //if (key1Rtn == 0 || key2Rtn == 0)
                         if (dKeyScore < 60.0)
@@ -524,7 +531,10 @@ namespace ZenTester.Process
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 700);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Dent :{aoitestData.CircleDented}";
+                        //dentCount = HousingCenter[0].X;
+                        //dentMaxCount = HousingCenter[0].Y;
+
+                        resultStr = $"Dent :{aoitestData.CircleDented} -[{dentCount} / {dentMaxCount}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
@@ -582,6 +592,9 @@ namespace ZenTester.Process
             string szLog = "";
             const int sideCamIndex = 1;
             int nRetStep = 10;
+            double dOringScore = 0.0;
+            double dHeightScore = 0.0;
+            double dConeScore = 0.0;
             if (bAutorun == false)
             {
                 aoitestData.Socket_Num = "0";
@@ -638,9 +651,8 @@ namespace ZenTester.Process
                         ////Globalo.visionManager.aoiSideTester.HeightTest(sideCamIndex);
 
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos);
-
-
+                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos, ref dHeightScore);
+                        
                         System.Drawing.Point OffsetPos = new System.Drawing.Point(0,0);
                         double[] heightData = new double[3];
                         if (bRtn)
@@ -655,8 +667,8 @@ namespace ZenTester.Process
                         heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, true);
 
                         aoitestData.LH = heightData[0].ToString("0.0##");
-                        aoitestData.MH = heightData[0].ToString("0.0##");
-                        aoitestData.RH = heightData[0].ToString("0.0##");
+                        aoitestData.MH = heightData[1].ToString("0.0##");
+                        aoitestData.RH = heightData[2].ToString("0.0##");
                         //-------------------------------------------------------------------------------------------
                         //
                         //
@@ -665,22 +677,22 @@ namespace ZenTester.Process
                         //
                         //
                         //-------------------------------------------------------------------------------------------
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
+                        //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
 
 
-                        OffsetPos.X = 0;
-                        OffsetPos.Y = 0;
+                        //OffsetPos.X = 0;
+                        //OffsetPos.Y = 0;
 
-                        if (bRtn)
-                        {
-                            OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
-                            OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
+                        //if (bRtn)
+                        //{
+                        //    OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
+                        //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
 
-                        }
-                        double dSideScore = 0.0;
+                        //}
+                        
                         //bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
-                        bool bOringRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dSideScore);
-                        if (dSideScore > 65.0)
+                        bool bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
+                        if (dOringScore > 65.0)
                         {
                             aoitestData.ORing = "1";
                         }
@@ -696,22 +708,22 @@ namespace ZenTester.Process
                         //
                         //
                         //-------------------------------------------------------------------------------------------
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
+                        //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
  
 
-                        OffsetPos.X = 0;
-                        OffsetPos.Y = 0;
+                        //OffsetPos.X = 0;
+                        //OffsetPos.Y = 0;
 
-                        if (bRtn)
-                        {
-                            OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
-                            OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
+                        //if (bRtn)
+                        //{
+                        //    OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
+                        //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
 
-                        }
+                        //}
 
                         //bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
-                        bool bConeRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
-                        if (dSideScore > 65.0)
+                        bool bConeRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dConeScore);
+                        if (dConeScore > 65.0)
                         {
                             aoitestData.Cone = "1";
                         }
@@ -738,12 +750,12 @@ namespace ZenTester.Process
                         }, null);
                         
 
-                        resultStr = $"O-Ring :{aoitestData.ORing}";
+                        resultStr = $"O-Ring :{aoitestData.ORing} / {dOringScore.ToString("0.0#")}%";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Cone :{aoitestData.Cone}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 450);
+                        resultStr = $"Cone :{aoitestData.Cone} / {dConeScore.ToString("0.0#")}%";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
         

@@ -498,9 +498,16 @@ namespace ZenTester.VisionClass
 
                 //_stprintf_s(szTemp, SIZE_OF_100BYTE, _T("[ FIND FAIL!]"));
                 //this->DrawMOverlayText(m_nUnit, CCD1_CAM_SIZE_X / 2 - 500, CCD1_CAM_SIZE_Y / 2 - 200, szTemp, M_COLOR_RED, _T("Arial"), 100, 40, FALSE, VIDEO_CAM);
-
-                str = $"FIND FAIL!";
-                textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 500, 500);
+                if (MarkNo == (int)VisionClass.eMarkList.TOP_KEY)
+                {
+                    str = $"KEY FIND FAIL!";
+                }
+                else
+                {
+                    str = $"FIND FAIL!";
+                }
+                
+                textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 600, 500);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
             }
             if (bFind)
@@ -512,7 +519,7 @@ namespace ZenTester.VisionClass
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
             }
 
-            if (MarkDraw)
+            if (true)//MarkDraw)
             {
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 319L, m_clRoi.X * -1);//M_DRAW_RELATIVE_ORIGIN_X	//- ROI 영역 Offset
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 320L, m_clRoi.Y * -1);//M_DRAW_RELATIVE_ORIGIN_Y

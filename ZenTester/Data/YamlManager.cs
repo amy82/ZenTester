@@ -25,6 +25,8 @@ namespace ZenTester.Data
         public RootRecipe vPPRecipeSpecEquip { get; set; }
 
         public RootRecipe vPPRecipeSpec__Host { get; set; }
+
+        public OpalModelClass vOpalModelList { get; set; }
         public ConfigData configData { get; private set; }
 
         public List<string> recipeYamlFiles = new List<string>();
@@ -53,6 +55,9 @@ namespace ZenTester.Data
             taskDataYaml = new TaskDataYaml();
 
             modelLIstData = new ModelListData();
+
+            vOpalModelList = new OpalModelClass();
+            vOpalModelList.OpalList = new List<cOpal>();
         }
         public bool RecipeYamlFileCopy(string copyPPid, string createPPid)
         {

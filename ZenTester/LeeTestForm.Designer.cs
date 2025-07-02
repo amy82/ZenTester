@@ -60,6 +60,7 @@ namespace ZenTester
             this.button26 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
             this.button28 = new System.Windows.Forms.Button();
+            this.button29 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -372,7 +373,7 @@ namespace ZenTester
             this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button22.ForeColor = System.Drawing.Color.White;
-            this.button22.Location = new System.Drawing.Point(12, 396);
+            this.button22.Location = new System.Drawing.Point(3, 304);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(116, 34);
             this.button22.TabIndex = 24;
@@ -386,7 +387,7 @@ namespace ZenTester
             this.button23.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button23.ForeColor = System.Drawing.Color.White;
-            this.button23.Location = new System.Drawing.Point(12, 436);
+            this.button23.Location = new System.Drawing.Point(3, 344);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(116, 34);
             this.button23.TabIndex = 25;
@@ -425,7 +426,7 @@ namespace ZenTester
             this.button26.BackColor = System.Drawing.Color.PeachPuff;
             this.button26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button26.ForeColor = System.Drawing.Color.Black;
-            this.button26.Location = new System.Drawing.Point(167, 325);
+            this.button26.Location = new System.Drawing.Point(167, 264);
             this.button26.Name = "button26";
             this.button26.Size = new System.Drawing.Size(127, 34);
             this.button26.TabIndex = 28;
@@ -438,7 +439,7 @@ namespace ZenTester
             this.button27.BackColor = System.Drawing.Color.IndianRed;
             this.button27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button27.ForeColor = System.Drawing.Color.White;
-            this.button27.Location = new System.Drawing.Point(3, 262);
+            this.button27.Location = new System.Drawing.Point(3, 232);
             this.button27.Name = "button27";
             this.button27.Size = new System.Drawing.Size(145, 34);
             this.button27.TabIndex = 29;
@@ -452,7 +453,7 @@ namespace ZenTester
             this.button28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button28.ForeColor = System.Drawing.Color.White;
-            this.button28.Location = new System.Drawing.Point(143, 396);
+            this.button28.Location = new System.Drawing.Point(12, 402);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(116, 34);
             this.button28.TabIndex = 30;
@@ -460,11 +461,26 @@ namespace ZenTester
             this.button28.UseVisualStyleBackColor = false;
             this.button28.Click += new System.EventHandler(this.button28_Click);
             // 
+            // button29
+            // 
+            this.button29.BackColor = System.Drawing.Color.Black;
+            this.button29.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button29.ForeColor = System.Drawing.Color.White;
+            this.button29.Location = new System.Drawing.Point(153, 436);
+            this.button29.Name = "button29";
+            this.button29.Size = new System.Drawing.Size(116, 34);
+            this.button29.TabIndex = 31;
+            this.button29.Text = "aoi apd";
+            this.button29.UseVisualStyleBackColor = false;
+            this.button29.Click += new System.EventHandler(this.button29_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 482);
+            this.Controls.Add(this.button29);
             this.Controls.Add(this.button28);
             this.Controls.Add(this.button27);
             this.Controls.Add(this.button26);
@@ -536,5 +552,6 @@ namespace ZenTester
         private System.Windows.Forms.Button button26;
         private System.Windows.Forms.Button button27;
         private System.Windows.Forms.Button button28;
+        private System.Windows.Forms.Button button29;
     }
 }

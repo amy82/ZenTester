@@ -115,6 +115,7 @@ namespace ZenTester.TcpSocket
             {
                 return;
             }
+
             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
             EqipData.Type = "TesterData";
             TcpSocket.TesterData sendTesterata = new TcpSocket.TesterData();
@@ -244,17 +245,24 @@ namespace ZenTester.TcpSocket
             if (data.Cmd == "RECV_SECS_MODEL")
             {
                 string model = data.Model;
-                string fwmodel = data.DataID;
-                int fwOpalUse = data.Step;
-                string ppid = data.RecipeID;
 
-                Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
-                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
-                {
-                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                //int fwOpalUse = data.Step;
+
+                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                { 
+                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = data.DataID; //Trinity or Opal  두 모델만 구분
                 }
+                else
+                {
+                    string ppid = data.RecipeID;
+                    Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
+                    foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                    {
+                        Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
+                    }
 
-                Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                    Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
+                }
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
                     Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
@@ -271,7 +279,31 @@ namespace ZenTester.TcpSocket
 
 
                 //szLog = $"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
-                Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+                Console.WriteLine($"[Tcp] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
+
+            }
+            if (data.Cmd == "RECV_SECS_OPAL")
+            {
+                string temp = "";
+                Globalo.yamlManager.vOpalModelList.OpalList.Clear();
+
+                foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                {
+                    Data.cOpal opal = new Data.cOpal();
+
+                    opal.name = paramInfo.Name;
+                    if (paramInfo.Value == "True")
+                    {
+                        opal.use = true;
+                    }
+                    else
+                    {
+                        opal.use = false;
+                    }
+                    Globalo.yamlManager.vOpalModelList.OpalList.Add(opal);
+
+                    
+                }
 
             }
             if (Program.TEST_PG_SELECT == TESTER_PG.FW)

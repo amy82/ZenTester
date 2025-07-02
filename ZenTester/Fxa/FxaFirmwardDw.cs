@@ -25,14 +25,16 @@ namespace ZenTester.Fxa
 
         public string strConfINIPath = @"D:\EVMS\TP\ENV\fwexe\TeslaEXE\Tesla_FW_exe\Trinity_FW_Download_20250421_1111";
 
+
+        public string fwHeatingModel;
         public FxaFirmwardDw()
         {
-
             //1.FirmwareDownLoadForCamAsync
 
-                    //2.결과 확인
-                    //3.json 파일이 passed , fail 확인
-                    //4. json 파일 내용
+            //2.결과 확인
+            //3.json 파일이 passed , fail 확인
+            //4. json 파일 내용
+            fwHeatingModel = string.Empty;
         }
 
         public void Manual_Fw_DownLoad()
@@ -235,15 +237,14 @@ namespace ZenTester.Fxa
 
             // FPD Link Setup
             string model = "";
-            if (true)
+
+            if (Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel == "trinity")
             {
-                //Trinity: cypress
-                model = "'cypress'";
+                model = "'cypress'";    //Trinity
             }
             else
             {
-                //Opal: ti
-                model = "'ti'";
+                model = "'ti'";         //Opal
             }
 
             string cmddddd = $"bash /home/root/camera_init_codes/fpd_link_setup.sh -d 9 -p '0 1 2 3' -s \"971\" -m {model}";

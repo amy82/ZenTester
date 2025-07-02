@@ -24,4 +24,15 @@ namespace ZenTester.Data
         public PPRecipeSpec RECIPE { get; set; }
     }
 
+
+    public class cOpal
+    {
+        public string name { get; set; }
+        public bool use { get; set; }
+    }
+    public class OpalModelClass
+    {
+        public List<cOpal> OpalList { get; set; }
+    }
+
 }

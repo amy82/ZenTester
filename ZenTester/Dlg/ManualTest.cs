@@ -147,7 +147,7 @@ namespace ZenTester.Dlg
 
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiTopTester.Mark_Find_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
             //key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 0, keyType, offsetx, offsety);        //키검사
             //if (keyType != "E")
@@ -216,7 +216,8 @@ namespace ZenTester.Dlg
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score);
 
             
             //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -304,8 +305,9 @@ namespace ZenTester.Dlg
 
 
 
-
-            bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
+            double dScore = 0.0;
+            //bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
+            bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref TopCenterPos[parentDlg.CamIndex], ref dScore);
             if (rtn)
             {
                 Globalo.visionManager.aoiTopTester.GasketTest(parentDlg.CamIndex, src, TopCenterPos[parentDlg.CamIndex]);     //가스켓 검사
@@ -345,7 +347,8 @@ namespace ZenTester.Dlg
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, true);
 
 
 
@@ -360,6 +363,10 @@ namespace ZenTester.Dlg
         #region [SIDE CAMERA MANUAL TEST]
         private void button_Set_Oring_Test_Click(object sender, EventArgs e)
         {
+            if (parentDlg.CamIndex == 0)
+            {
+                return;
+            }
             parentDlg.manualConfig.checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
@@ -371,27 +378,32 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos);
-
+            double score = 0.0;
+            //bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score, true);
 
             System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
-            if (bRtn)
-            {
-                OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
-                OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
+            //if (bRtn)
+            //{
+            //    OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
+            //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
 
-            }
-            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
+            //}
+            //Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
-            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
+            //Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
-            Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
+            //Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
 
         private void button_Set_Cone_Test_Click(object sender, EventArgs e)
         {
+            if (parentDlg.CamIndex == 0)
+            {
+                return;
+            }
             parentDlg.manualConfig.checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
@@ -403,26 +415,31 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos);
+            double score = 0.0;
+            ///bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref score);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref score, true);
 
+            //System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
+            //if (bRtn)
+            //{
+            //    OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
+            //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
+            //}
+            //Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
-            System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
-            if (bRtn)
-            {
-                OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Width / 2));
-                OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
-            }
-            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
-
-            Globalo.visionManager.aoiSideTester.MilEdgeConeTest(parentDlg.CamIndex, 0, OffsetPos);//, src);
+            //Globalo.visionManager.aoiSideTester.MilEdgeConeTest(parentDlg.CamIndex, 0, OffsetPos);//, src);
 
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
-            Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
+            //Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
 
         private void button_Set_Height_Test_Click(object sender, EventArgs e)
         {
+            if (parentDlg.CamIndex == 0)
+            {
+                return;
+            }
             parentDlg.manualConfig.checkBox_AllRelease();
 
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
@@ -606,7 +623,8 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0,0);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, true);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, true);
 
         }
 
@@ -620,7 +638,10 @@ namespace ZenTester.Dlg
             //
             //
             //--------------------------------------------------------------------------------------------------------------
-
+            if (parentDlg.CamIndex == 1)
+            {
+                return;
+            }
             lock (AoiTaskLock)
             {
                 // 이미 실행 중이면 무시
@@ -652,6 +673,10 @@ namespace ZenTester.Dlg
 
         private void button_Side_Manual_Auto_Click(object sender, EventArgs e)
         {
+            if (parentDlg.CamIndex == 0)
+            {
+                return;
+            }
             //--------------------------------------------------------------------------------------------------------------
             //
             //

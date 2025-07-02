@@ -173,19 +173,21 @@ namespace ZenTester.Dlg
 
                     string teslaExeName = string.Empty;
 
-                    
-                    if (Program.TEST_PG_SELECT == TESTER_PG.FW)
-                    {
-                        teslaExeName = "cypress_cam_flashing.exe";
-                    }
-                    else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
-                    {
-                        teslaExeName = "ThunderEEPROMCreationTool.exe";
-                    }
-                    else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-                    {
-                        teslaExeName = "ThunderEEPROMVerificationTool.exe";
-                    }
+
+                    //if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                    //{
+                    //    teslaExeName = "cypress_cam_flashing.exe";
+                    //}
+                    //else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                    //{
+                    //    teslaExeName = "ThunderEEPROMCreationTool.exe";
+                    //}
+                    //else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                    //{
+                    //    teslaExeName = "ThunderEEPROMVerificationTool.exe";
+                    //}
+
+                    teslaExeName = "cypress_cam_flashing.exe";
                     string targetFile = Path.Combine(selectedFolderPath, teslaExeName);  // 찾을 파일 이름
 
                     if (File.Exists(targetFile))
