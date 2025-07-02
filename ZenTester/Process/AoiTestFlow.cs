@@ -260,8 +260,7 @@ namespace ZenTester.Process
                         List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
                         List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
 
-                        int IsOring = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value);
-                        int IsCone = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value);
+                        
                         int IsGasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value);
 
                         string specKey = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
@@ -318,7 +317,7 @@ namespace ZenTester.Process
                             if (IsGasket == 1)
                             {
                                 //ng
-                                aoitestData.Result = "0";
+                                aoitestData.Result = "NG";
 
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
@@ -336,7 +335,7 @@ namespace ZenTester.Process
                             if (IsGasket == 0)
                             {
                                 //ng
-                                aoitestData.Result = "0";
+                                aoitestData.Result = "NG";
 
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
@@ -415,7 +414,7 @@ namespace ZenTester.Process
                         if (dKeyScore < 60.0)
                         {
                             //ng
-                            aoitestData.Result = "0";
+                            aoitestData.Result = "NG";
                             aoitestData.KeyType = "Empty";//"Null";
                             szLog = $"[TOP CAM] {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
@@ -493,12 +492,12 @@ namespace ZenTester.Process
 
                         if (con1Result < con_InMin || con1Result > con_InMax)
                         {
-                            aoitestData.Result = "0";
+                            aoitestData.Result = "NG";
                         }
 
                         if (con2Result < con_OutMin || con2Result > con_OutMax)
                         {
-                            aoitestData.Result = "0";
+                            aoitestData.Result = "NG";
                         }
 
                         
@@ -652,14 +651,14 @@ namespace ZenTester.Process
 
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
                         bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_HEIGHT, ref markPos, ref dHeightScore);
-                        
-                        System.Drawing.Point OffsetPos = new System.Drawing.Point(0,0);
+
+                        System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
                         double[] heightData = new double[3];
                         if (bRtn)
                         {
                             OffsetPos.X = markPos.X - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].X;
                             OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
-                            
+
                         }
 
                         heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, true);
@@ -677,6 +676,8 @@ namespace ZenTester.Process
                         //
                         //
                         //-------------------------------------------------------------------------------------------
+                        int IsOring = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value);
+
                         //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
 
 
@@ -689,17 +690,26 @@ namespace ZenTester.Process
                         //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
 
                         //}
-                        
+
                         //bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
                         bool bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
-                        if (dOringScore > 65.0)
+                        if (IsOring == 1)
                         {
-                            aoitestData.ORing = "1";
+                            if (dOringScore > 65.0)
+                            {
+                                aoitestData.ORing = "1";
+                            }
+                            else
+                            {
+                                aoitestData.Result = "NG";
+                                aoitestData.ORing = "0";
+                            }
                         }
                         else
                         {
                             aoitestData.ORing = "0";
                         }
+                        
                         //-------------------------------------------------------------------------------------------
                         //
                         //
@@ -708,8 +718,9 @@ namespace ZenTester.Process
                         //
                         //
                         //-------------------------------------------------------------------------------------------
+                        int IsCone = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value);
                         //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dSideScore);
- 
+
 
                         //OffsetPos.X = 0;
                         //OffsetPos.Y = 0;
@@ -723,14 +734,25 @@ namespace ZenTester.Process
 
                         //bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
                         bool bConeRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dConeScore);
-                        if (dConeScore > 65.0)
+                        if (IsCone == 1)
                         {
-                            aoitestData.Cone = "1";
+                            if (dConeScore > 65.0)
+                            {
+                                aoitestData.Cone = "1";
+                            }
+                            else
+                            {
+
+                                aoitestData.Result = "NG";
+                                aoitestData.Cone = "0";
+                            }
                         }
                         else
                         {
+
                             aoitestData.Cone = "0";
                         }
+                        
                         
                         
                         nRetStep = 50;
