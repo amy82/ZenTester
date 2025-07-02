@@ -274,6 +274,28 @@ namespace ZenTester.TcpSocket
                 Console.WriteLine($"[Http] Recv Model : {Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}");
 
             }
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                if (data.Cmd == "RECV_SECS_OPAL")
+                {
+                    foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
+                    {
+                        Data._OpalDataInfo opdata = new Data._OpalDataInfo();
+                        if(paramInfo.Value == "1")
+                        {
+                            opdata.Use = true;
+                        }
+                        else
+                        {
+                            opdata.Use = false;
+                        }
+                        opdata.Model = paramInfo.Name;
+                        Globalo.yamlManager.modelLIstData.OpalModelData.OpalModelList.Add(opdata);
+
+                    }
+                }
+            }
+                
 
         }
         private void hostMessageParse(EquipmentData data)

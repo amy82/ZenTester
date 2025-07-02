@@ -45,9 +45,13 @@ namespace ZenTester.Data
             _deserializer = new DeserializerBuilder()
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
+
             secsGemDataYaml = new SecGemDataYaml();
+
             teachData = new TeachingDataYaml();
+
             taskDataYaml = new TaskDataYaml();
+
             modelLIstData = new ModelListData();
         }
         public bool RecipeYamlFileCopy(string copyPPid, string createPPid)

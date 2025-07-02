@@ -13,7 +13,15 @@ namespace ZenTester.Data
         public string CurrentModelName { get; set; }       //현재 사용중인 모델 명
         public List<string> Modellist { get; set; }
     }
-
+    public class _OpalDataInfo
+    {
+        public string Model { get; set; }
+        public bool Use { get; set; }
+    }
+    public class _OpalData
+    {
+        public List<_OpalDataInfo> OpalModelList { get; set; }
+    }
     public class RootModelData
     {
         public _ModelData ModelData { get; set; }
@@ -22,8 +30,8 @@ namespace ZenTester.Data
     public class ModelListData
     {
         public _ModelData ModelData { get; set; }
+        public _OpalData OpalModelData { get; set; }
 
-        
         public bool ModelLoad()
         {
             //string filePath = CPath.yamlFilePathModel;
