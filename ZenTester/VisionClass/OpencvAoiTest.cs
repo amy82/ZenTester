@@ -387,8 +387,8 @@ namespace ZenTester.VisionClass
 
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
                 // 외접 원 그리기
-                Point2f center;
-                float radius;
+                Point2f center = new Point2f();
+                float radius = 0.0f;
                 if (contour.Length >= 5)
                 {
                     try
