@@ -66,7 +66,7 @@ namespace ZenTester.VisionClass
 
             // 블러 후 이진화
             var blurred = new Mat();
-            Cv2.GaussianBlur(roiKeyMat, blurred, new OpenCvSharp.Size(1, 1), 0);
+            Cv2.GaussianBlur(roiKeyMat, blurred, new OpenCvSharp.Size(3, 3), 0);
             var binary = new Mat();
             //Cv2.Threshold(blurred, binary, 0, 255, ThresholdTypes.BinaryInv | ThresholdTypes.Otsu);
             int blockSize = 13;// 21; // 반드시 홀수
@@ -391,7 +391,16 @@ namespace ZenTester.VisionClass
                 float radius;
                 if (contour.Length >= 5)
                 {
-                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    try
+                    {
+                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
+                        continue;
+                    }
+                    
                 }
   
                 double dx = centerX - center.X;

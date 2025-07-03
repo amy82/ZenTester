@@ -172,7 +172,15 @@ namespace ZenTester.VisionClass
                 float radius;
                 if (contour.Length >= 5)
                 {
-                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    try
+                    {
+                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
+                        continue;
+                    }
                 }
                     
 
@@ -285,7 +293,15 @@ namespace ZenTester.VisionClass
                 float radius;
                 if (contour.Length >= 5)
                 {
-                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    try
+                    {
+                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
+                        continue;
+                    }
                 }
 
                 double dx = binary.Width / 2 - center.X;
@@ -1384,7 +1400,15 @@ namespace ZenTester.VisionClass
 
                 if (contour.Length >= 5)
                 {
-                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    try
+                    {
+                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
+                        continue;
+                    }
                 }
 
                 if (radius > 100 && radius < 600)
@@ -1711,7 +1735,15 @@ namespace ZenTester.VisionClass
 
                 if (contour.Length >= 5)
                 {
-                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    try
+                    {
+                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
+                        continue;
+                    }
                 }
    
 
