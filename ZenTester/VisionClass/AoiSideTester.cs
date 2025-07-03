@@ -579,7 +579,7 @@ namespace ZenTester.VisionClass
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 150, MIL.M_NULL);
+            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 150, MIL.M_NULL);//150
 
             MilImage = tempMilImage;
 
@@ -726,7 +726,7 @@ namespace ZenTester.VisionClass
                 System.Drawing.Point textPoint = new System.Drawing.Point(OffsetX + (OffsetWidth / 2) - txtOffsetX, textCenterY - txtOffsetY);
 
                 dHeight = (maxValue - minValue) * CamResolY;
-                string str = $"{dHeight.ToString("0.0##")}(mm)";
+                string str = $"{dHeight.ToString("0.0###")}(mm)";
                 //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Yellow, 11);
                 Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", Color.Yellow, 11);
 
@@ -769,7 +769,7 @@ namespace ZenTester.VisionClass
             string str = "";
             string csvLine = $"{heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
 
-            string filePath = "data.csv";
+            string filePath = "_HEIGHT_data.csv";
             // 파일이 없으면 헤더 추가
             if (!File.Exists(filePath))
             {

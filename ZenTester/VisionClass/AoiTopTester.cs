@@ -1013,7 +1013,7 @@ namespace ZenTester.VisionClass
                 else
                 {
                     //Globalo.visionManager.milLibrary.DrawOverlayText(index, clPoint, str, Color.GreenYellow, 20);
-                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
+                    Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(clPoint, str, "나눔고딕", Color.Yellow, 13);
                 }
             }
             
@@ -1613,7 +1613,7 @@ namespace ZenTester.VisionClass
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
-            int C = 20;// 18; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int C = 13;// 13; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
             //작은원 30
             //큰원 18
             //int minThresh = 70;
@@ -1703,7 +1703,7 @@ namespace ZenTester.VisionClass
 
 
                 //if (radius < 600 || radius > 1000)//890)
-                if (radius < 320 || radius > 560)//890)
+                if (radius < 350 || radius > 560)//890)
                 {
                     continue;
                 }

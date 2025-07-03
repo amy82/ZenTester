@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -31,6 +32,7 @@ namespace ZenTester.Process
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
         private int m_nTestFinalResult;
+        private int sidecount = 0;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -549,6 +551,38 @@ namespace ZenTester.Process
 
                         Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
 
+
+                        //
+                        //
+                        int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
+                        int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
+                        int dataSize2 = sizeX2 * sizeY2;
+                        byte[] ImageBuffer2 = new byte[dataSize2];
+                        //
+                        MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer2);
+                        Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
+                        Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
+                        string sidepath = $"d:\\srcImage_{sidecount}.jpg";
+                        Cv2.ImWrite(sidepath, src2);
+                        sidecount++;
+                        string autostr = "";
+                        string csvLine = $"{aoitestData.Concentrycity_A},{aoitestData.Concentrycity_D},{aoitestData.CircleDented},{aoitestData.Gasket},{aoitestData.KeyType}";
+
+                        string filePath = "top_test.csv";
+                        // 파일이 없으면 헤더 추가
+                        if (!File.Exists(filePath))
+                        {
+                            File.AppendAllText(filePath, "CON1, CON2, DENT, GASKET, KEYTYPE" + Environment.NewLine);
+                        }
+                        try
+                        {
+                            File.AppendAllText(filePath, csvLine + Environment.NewLine);
+                        }
+                        catch (IOException)
+                        {
+
+                        }
+
                         nRetStep = 1000;
                         break;
                     default:
@@ -784,6 +818,44 @@ namespace ZenTester.Process
 
                         Globalo.visionManager.milLibrary.DrawOverlayAll(sideCamIndex);
                         Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, true);
+
+
+
+                        int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[sideCamIndex];
+                        int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex];
+                        int dataSize = sizeX * sizeY;
+                        byte[] ImageBuffer = new byte[dataSize];
+
+                        //
+                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
+                        Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
+                        //
+                        //
+                        //test
+                        //
+                        MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[sideCamIndex], ImageBuffer);
+                        Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+                        Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+                        string sidepath = $"d:\\srcImage_{sidecount}.jpg";
+                        Cv2.ImWrite(sidepath, src);
+                        sidecount++;
+                        string autostr = "";
+                        string csvLine = $"{aoitestData.LH},{aoitestData.MH},{aoitestData.RH},{aoitestData.Cone},{aoitestData.ORing}";
+
+                        string filePath = "side_test.csv";
+                        // 파일이 없으면 헤더 추가
+                        if (!File.Exists(filePath))
+                        {
+                            File.AppendAllText(filePath, "LH,MH,RH,CONE,ORING" + Environment.NewLine);
+                        }
+                        try
+                        {
+                            File.AppendAllText(filePath, csvLine + Environment.NewLine);
+                        }
+                        catch (IOException)
+                        {
+
+                        }
                         nRetStep = 1000;
                         break;
                     default:

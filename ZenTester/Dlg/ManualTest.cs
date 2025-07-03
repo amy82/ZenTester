@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -267,6 +268,7 @@ namespace ZenTester.Dlg
 
             dx = c1.X - c3.X;
             dy = c1.Y - c3.Y;
+
             dist = (float)Math.Sqrt(dx * dx + dy * dy);
 
             con2Result = dist * CamResolX;
@@ -279,6 +281,26 @@ namespace ZenTester.Dlg
 
 
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
+
+
+
+            string str22 = "";
+            string csvLine = $"{con1Result}, {con2Result}";
+
+            string filePath = "CONdata.csv";
+            // 파일이 없으면 헤더 추가
+            if (!File.Exists(filePath))
+            {
+                File.AppendAllText(filePath, "CON1, CON2" + Environment.NewLine);
+            }
+            try
+            {
+                File.AppendAllText(filePath, csvLine + Environment.NewLine);
+            }
+            catch (IOException)
+            {
+
+            }
         }
 
         private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
@@ -660,6 +682,7 @@ namespace ZenTester.Dlg
                     {
                         Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
                         Globalo.threadControl.testAutoThread.aoiTestFlow.TopCamFlow(false);
+                        Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
                     }
                     catch (Exception ex)
                     {
@@ -704,6 +727,7 @@ namespace ZenTester.Dlg
                     {
                         Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
                         Globalo.threadControl.testAutoThread.aoiTestFlow.SideCamFlow(false);
+                        Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
                     }
                     catch (Exception ex)
                     {
