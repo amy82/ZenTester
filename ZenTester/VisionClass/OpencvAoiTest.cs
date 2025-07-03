@@ -389,8 +389,11 @@ namespace ZenTester.VisionClass
                 // 외접 원 그리기
                 Point2f center;
                 float radius;
-                Cv2.MinEnclosingCircle(contour, out center, out radius);
-
+                if (contour.Length >= 5)
+                {
+                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                }
+  
                 double dx = centerX - center.X;
                 double dy = centerY - center.Y;
                 double distance = Math.Sqrt(dx * dx + dy * dy);

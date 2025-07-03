@@ -170,7 +170,11 @@ namespace ZenTester.VisionClass
 
                 Point2f center;
                 float radius;
-                Cv2.MinEnclosingCircle(contour, out center, out radius);
+                if (contour.Length >= 5)
+                {
+                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                }
+                    
 
                 //if (radius > 600 && radius < 1100)  //큰원- 실제 원 반지름 조건에 맞게 큰원
                 //if (radius > 700 && radius < 1000)  //큰원- 실제 원 반지름 조건에 맞게 큰원
@@ -279,7 +283,10 @@ namespace ZenTester.VisionClass
                 // 외접 원 그리기
                 Point2f center;
                 float radius;
-                Cv2.MinEnclosingCircle(contour, out center, out radius);
+                if (contour.Length >= 5)
+                {
+                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                }
 
                 double dx = binary.Width / 2 - center.X;
                 double dy = binary.Height / 2 - center.Y;
@@ -1375,7 +1382,10 @@ namespace ZenTester.VisionClass
                 Point2f center;
                 float radius = 0.0f;
 
-                Cv2.MinEnclosingCircle(contour, out center, out radius);
+                if (contour.Length >= 5)
+                {
+                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                }
 
                 if (radius > 100 && radius < 600)
                 {
@@ -1699,8 +1709,11 @@ namespace ZenTester.VisionClass
                 Point2f center;
                 float radius = 0.0f;
 
-                Cv2.MinEnclosingCircle(contour, out center, out radius);
-
+                if (contour.Length >= 5)
+                {
+                    Cv2.MinEnclosingCircle(contour, out center, out radius);
+                }
+   
 
                 //if (radius < 600 || radius > 1000)//890)
                 if (radius < 350 || radius > 560)//890)
