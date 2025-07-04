@@ -682,7 +682,7 @@ namespace ZenTester.Dlg
                     {
                         Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
                         Globalo.threadControl.testAutoThread.aoiTestFlow.TopCamFlow(false);
-                        Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+                        
                     }
                     catch (Exception ex)
                     {

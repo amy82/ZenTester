@@ -590,7 +590,7 @@ namespace ZenTester.Process
                         //{
 
                         //}
-
+                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
                         nRetStep = 1000;
                         break;
                     default:

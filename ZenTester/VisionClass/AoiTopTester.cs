@@ -1132,7 +1132,7 @@ namespace ZenTester.VisionClass
 
             MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_TYPE, MIL.M_SHEN);//MIL.M_DERICHE); M_SOBEL
             MIL.MedgeControl(MilEdgeContext, MIL.M_FLOAT_MODE, MIL.M_DISABLE);
-            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_SMOOTHNESS, 80.0);
+            MIL.MedgeControl(MilEdgeContext, MIL.M_FILTER_SMOOTHNESS, 80.0);//80.0);
             // Calculate edges and features.
             MIL.MedgeCalculate(MilEdgeContext, tempMilImage, MIL.M_NULL, MIL.M_NULL, MIL.M_NULL, MilEdgeResult, MIL.M_DEFAULT);
 
@@ -1231,6 +1231,10 @@ namespace ZenTester.VisionClass
                 {
                     per = (EdgeCircleFitError[i] / EdgeCircleFitRadius[i]) * 100.0;///(error / radius) * 100.0;
                     Console.WriteLine($"{i + 1} Circle Fit :{per}%");
+                }
+                for (int i = 0; i < NumResults; i++)
+                {
+                    Console.WriteLine($"{i + 1} Size :{EdgeSize[i]}");
                 }
                 //평균 제곱 오차 (Average Quadratic Error, RMS) 입니다
                 //각 엣지 포인트가 피팅된 원에서 얼마나 벗어났는지를 제곱합 후 평균낸 값이에요.
