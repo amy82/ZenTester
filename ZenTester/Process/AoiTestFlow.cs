@@ -827,7 +827,7 @@ namespace ZenTester.Process
                         byte[] ImageBuffer = new byte[dataSize];
 
                         //
-                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
+                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);//lee
                         Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
                         //
                         //
