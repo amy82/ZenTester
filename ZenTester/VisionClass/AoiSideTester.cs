@@ -543,10 +543,15 @@ namespace ZenTester.VisionClass
             return bRtn;
         }
 
-        public double MilEdgeHeight(int index, int roiIndex, System.Drawing.Point OffsetPos, bool bAutoRun = false)
+        public double MilEdgeHeight(int index, int roiIndex, System.Drawing.Point OffsetPos, Mat ResultImg = null, bool bAutoRun = false)
         {
             double dHeight = 0.0;
-
+            if (ResultImg == null || ResultImg.Empty())
+            {
+                // 이미지가 없을 때 기본 처리 (예: -1 리턴, 예외 발생 등)
+                Console.WriteLine("ResultImg가 null이거나 비어 있습니다.");
+                return -1; // 또는 0, double.NaN 등
+            }
             const int CONTOUR_MAX_RESULTS = 10;
             MIL_ID MilDisplay = MIL.M_NULL;
             MIL_ID tempMilImage = MIL.M_NULL;
@@ -579,7 +584,7 @@ namespace ZenTester.VisionClass
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 150, MIL.M_NULL);//150
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 150, MIL.M_NULL);//150
 
             MilImage = tempMilImage;
 
@@ -698,6 +703,24 @@ namespace ZenTester.VisionClass
                 Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + minValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + minValue), Color.Yellow, 1);
                 Globalo.visionManager.milLibrary.DrawOverlayLine(index, (int)OffsetX, (int)(OffsetY + maxValue), (int)(OffsetX + OffsetWidth), (int)(OffsetY + maxValue), Color.Yellow, 1);
                 Globalo.visionManager.milLibrary.DrawOverlayArrow(index, OffsetX + (OffsetWidth/2), (int)(OffsetY + minValue), OffsetX + (OffsetWidth / 2), (int)(OffsetY + maxValue), Color.Yellow, 1);
+
+
+                // 선 두 줄
+                Cv2.Line(ResultImg, new OpenCvSharp.Point(OffsetX, OffsetY + minValue),
+                                      new OpenCvSharp.Point(OffsetX + OffsetWidth, OffsetY + minValue),
+                         Scalar.Yellow, 1);
+
+                Cv2.Line(ResultImg, new OpenCvSharp.Point(OffsetX, OffsetY + maxValue),
+                                      new OpenCvSharp.Point(OffsetX + OffsetWidth, OffsetY + maxValue),
+                         Scalar.Yellow, 1);
+
+                // 중앙 화살표 (위 -> 아래 방향)
+                Cv2.ArrowedLine(ResultImg,
+                    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + minValue),
+                    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + maxValue),
+                    Scalar.Yellow, 1, LineTypes.AntiAlias, 0, 0.2);  // 마지막 인자는 화살표 크기
+                //ResultImg
+
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
 

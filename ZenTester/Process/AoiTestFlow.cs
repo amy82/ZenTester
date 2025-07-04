@@ -39,6 +39,8 @@ namespace ZenTester.Process
 
             TopCamTask = Task.FromResult(1);      //<--실제 실행하지않고,즉시 완료된 상태로 반환
             SideCamTask = Task.FromResult(1);      //<--실제 실행하지않고,즉시 완료된 상태로 반환
+
+            aoiApdData.init();
         }
 
         public int AoiAutoProcess(int nStep)
@@ -124,7 +126,8 @@ namespace ZenTester.Process
                     nTimeTick = Environment.TickCount;
 
 
-                    Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData); //TcpSocket.AoiApdData
+                    
+                    Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
 
                     nRetStep = 220;    //1000이상이면 종료
                     break;
@@ -253,8 +256,8 @@ namespace ZenTester.Process
 
                         byte[] ImageBuffer = new byte[dataSize];
                         MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer);
-                        Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-                        Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+                        Mat TopMatImage = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+                        Marshal.Copy(ImageBuffer, 0, TopMatImage.Data, dataSize);
 
                         //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
                         //Gasket - 유무 검사
@@ -313,7 +316,7 @@ namespace ZenTester.Process
                         // 유무에 따라서 검사해야된다.  0일때 있으면 ng , 1일때 없으면 ng
                         //
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
-                        int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, src, aoiCenterPos[topCamIndex], true);
+                        int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], true);
 
 
                         if (gasketLight < specGasketMin)// || gasketLight > specGasketMax)
@@ -365,7 +368,7 @@ namespace ZenTester.Process
                         //
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, aoiCenterPos[topCamIndex], true, true);   //true 일때 Dent(찌그러짐)검사
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], true, true);   //true 일때 Dent(찌그러짐)검사
                         dentCount = 0;
                         dentMaxCount = 0;
                         if (HousingCenter.Count > 0)
@@ -453,8 +456,8 @@ namespace ZenTester.Process
                         float dist1 = 0.0f;
                         float dist2 = 0.0f;
 
-                        FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, src, aoiCenterPos[topCamIndex], true); //Fakra 안쪽 원 찾기
-                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, src, aoiCenterPos[topCamIndex], false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+                        FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], true); //Fakra 안쪽 원 찾기
+                        HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
                         //내원 2개 , 외원 2개씩 찾아야 진행된다.
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
@@ -505,8 +508,9 @@ namespace ZenTester.Process
                             aoiApdData.Result = "NG";
                         }
 
-                        
-                        
+                        //
+                        Globalo.visionManager.aoiTester.FinalImageSave("top", aoiApdData.Barcode, TopMatImage);
+
                         nRetStep = 900;
                         break;
                     case 900:
@@ -555,36 +559,37 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
 
 
+                        Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
                         //
                         //
-                        int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
-                        int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
-                        int dataSize2 = sizeX2 * sizeY2;
-                        byte[] ImageBuffer2 = new byte[dataSize2];
-                        //
-                        MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer2);
-                        Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
-                        Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
-                        string sidepath = $"d:\\srcImage_{sidecount}.jpg";
-                        Cv2.ImWrite(sidepath, src2);
-                        sidecount++;
-                        string autostr = "";
-                        string csvLine = $"{aoiApdData.Concentrycity_A}, {aoiApdData.Concentrycity_D}, {aoiApdData.CircleDented}, {aoiApdData.Gasket}, {aoiApdData.KeyType}";
+                        //int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
+                        //int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
+                        //int dataSize2 = sizeX2 * sizeY2;
+                        //byte[] ImageBuffer2 = new byte[dataSize2];
+                        ////
+                        //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer2);
+                        //Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
+                        //Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
+                        //string sidepath = $"d:\\srcImage_{sidecount}.jpg";
+                        //Cv2.ImWrite(sidepath, src2);
+                        //sidecount++;
+                        //string autostr = "";
+                        //string csvLine = $"{aoiApdData.Concentrycity_A}, {aoiApdData.Concentrycity_D}, {aoiApdData.CircleDented}, {aoiApdData.Gasket}, {aoiApdData.KeyType}";
 
-                        string filePath = "top_test.csv";
-                        // 파일이 없으면 헤더 추가
-                        if (!File.Exists(filePath))
-                        {
-                            File.AppendAllText(filePath, "CON1, CON2, DENT, GASKET, KEYTYPE" + Environment.NewLine);
-                        }
-                        try
-                        {
-                            File.AppendAllText(filePath, csvLine + Environment.NewLine);
-                        }
-                        catch (IOException)
-                        {
+                        //string filePath = "top_test.csv";
+                        //// 파일이 없으면 헤더 추가
+                        //if (!File.Exists(filePath))
+                        //{
+                        //    File.AppendAllText(filePath, "CON1, CON2, DENT, GASKET, KEYTYPE" + Environment.NewLine);
+                        //}
+                        //try
+                        //{
+                        //    File.AppendAllText(filePath, csvLine + Environment.NewLine);
+                        //}
+                        //catch (IOException)
+                        //{
 
-                        }
+                        //}
 
                         nRetStep = 1000;
                         break;
@@ -681,6 +686,17 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
                         Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
                         //-------------------------------------------------------------------------------------------
+
+                        int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[sideCamIndex];
+                        int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex];
+                        int dataSize = sizeX * sizeY;
+
+                        byte[] ImageBuffer = new byte[dataSize];
+                        MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[sideCamIndex], ImageBuffer);
+                        Mat SideMatImage = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+                        Marshal.Copy(ImageBuffer, 0, SideMatImage.Data, dataSize);
+
+
                         //Left Height
                         //Center Height
                         //Right Height
@@ -698,9 +714,9 @@ namespace ZenTester.Process
 
                         }
 
-                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, true);
-                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, true);
-                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, true);
+                        heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, SideMatImage, true);
+                        heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, SideMatImage, true);
+                        heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, SideMatImage, true);
 
                         aoiApdData.LH = heightData[0].ToString("0.0##");
                         aoiApdData.MH = heightData[1].ToString("0.0##");
@@ -789,9 +805,9 @@ namespace ZenTester.Process
 
                             aoiApdData.Cone = "0";
                         }
-                        
-                        
-                        
+
+                        Globalo.visionManager.aoiTester.FinalImageSave("Side", aoiApdData.Barcode, SideMatImage);
+
                         nRetStep = 50;
                         break;
                     case 50:
@@ -824,41 +840,42 @@ namespace ZenTester.Process
 
 
 
-                        int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[sideCamIndex];
-                        int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex];
-                        int dataSize = sizeX * sizeY;
-                        byte[] ImageBuffer = new byte[dataSize];
+                        //int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[sideCamIndex];
+                        //int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex];
+                        //int dataSize = sizeX * sizeY;
+                        //byte[] ImageBuffer = new byte[dataSize];
 
                         //
                         Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);//lee
                         Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
+
                         //
                         //
                         //test
                         //
-                        MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[sideCamIndex], ImageBuffer);
-                        Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
-                        Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-                        string sidepath = $"d:\\srcImage_{sidecount}.jpg";
-                        Cv2.ImWrite(sidepath, src);
-                        sidecount++;
-                        string autostr = "";
-                        string csvLine = $"{aoiApdData.LH},{aoiApdData.MH},{aoiApdData.RH},{aoiApdData.Cone},{aoiApdData.ORing}";
+                        //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[sideCamIndex], ImageBuffer);
+                        //Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+                        //Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+                        //string sidepath = $"d:\\srcImage_{sidecount}.jpg";
+                        //Cv2.ImWrite(sidepath, src);
+                        //sidecount++;
+                        //string autostr = "";
+                        //string csvLine = $"{aoiApdData.LH},{aoiApdData.MH},{aoiApdData.RH},{aoiApdData.Cone},{aoiApdData.ORing}";
 
-                        string filePath = "side_test.csv";
-                        // 파일이 없으면 헤더 추가
-                        if (!File.Exists(filePath))
-                        {
-                            File.AppendAllText(filePath, "LH,MH,RH,CONE,ORING" + Environment.NewLine);
-                        }
-                        try
-                        {
-                            File.AppendAllText(filePath, csvLine + Environment.NewLine);
-                        }
-                        catch (IOException)
-                        {
+                        //string filePath = "side_test.csv";
+                        //// 파일이 없으면 헤더 추가
+                        //if (!File.Exists(filePath))
+                        //{
+                        //    File.AppendAllText(filePath, "LH,MH,RH,CONE,ORING" + Environment.NewLine);
+                        //}
+                        //try
+                        //{
+                        //    File.AppendAllText(filePath, csvLine + Environment.NewLine);
+                        //}
+                        //catch (IOException)
+                        //{
 
-                        }
+                        //}
                         nRetStep = 1000;
                         break;
                     default:

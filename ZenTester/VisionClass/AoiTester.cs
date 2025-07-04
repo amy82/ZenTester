@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Matrox.MatroxImagingLibrary;
+using OpenCvSharp;
 
 namespace ZenTester.VisionClass
 {
@@ -18,25 +19,52 @@ namespace ZenTester.VisionClass
 
         }
 
+
+        public void FinalImageSave(string postion, string imageName, Mat ResultImage)
+        {
+            string FinalLogPath = Data.CPath.BASE_LOG_PATH;
+            string MiddleLogPath = "AoiResult";
+            string currentDate = DateTime.Now.ToString("yyyyMMdd");
+
+            string timeStr = DateTime.Now.ToString("HHmmss");
+            string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.jpg";
+
+            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
+
+            string directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            //image Save
+
+            Cv2.ImWrite(filePath, ResultImage);
+        }
+ 
         public void FinalLogSave(TcpSocket.AoiApdData finalData)
         {
-            string FinalLogPath = Data.CPath.BASE_TP_PATH;
+            string FinalLogPath = Data.CPath.BASE_LOG_PATH;
             string MiddleLogPath = "AoiResult";
             string currentDate = DateTime.Now.ToString("yyyy_MM_dd");
+            string timeStr = DateTime.Now.ToString("HHmmss");
             string FinalLogName = $"AoiFinalLog_{currentDate}.csv";
 
             string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
 
-            if (!Directory.Exists(filePath))
+            string directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
             {
-                Directory.CreateDirectory(filePath);
+                Directory.CreateDirectory(directoryPath);
             }
 
-            string[] logTitle = { "Barcode", "LH", "MH", "RH", "Gasket", "KeyType", "CircleDented", "Concentrycity_A", 
+            string[] logTitle = {"Date", "Time","Barcode", "LH", "MH", "RH", "Gasket", "KeyType", "CircleDented", "Concentrycity_A", 
                 "Concentrycity_D", "Cone", "ORing", "SocketNumber", "Result" };
 
             // 값들을 배열로 저장
             string[] logValues = {
+                currentDate,
+                timeStr,
                 finalData.Barcode.ToString(),
                 finalData.LH.ToString(),
                 finalData.MH.ToString(),
