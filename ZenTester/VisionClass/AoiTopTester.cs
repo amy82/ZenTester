@@ -1164,7 +1164,7 @@ namespace ZenTester.VisionClass
 
             MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 200.0, MIL.M_NULL);     //250615 less Size 5.0
             MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_RADIUS, MIL.M_LESS, 230.0, MIL.M_NULL); //250615 greater Size 30.0
-            MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_LESS, 0.5, MIL.M_NULL); //250615 greater Size 30.0
+            //MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_CIRCLE_FIT_COVERAGE, MIL.M_LESS, 0.5, MIL.M_NULL); //250615 greater Size 30.0
 
 
             // Draw edges in the source image to show the result.
@@ -1308,11 +1308,16 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 55;// 77;// 19; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
+#if _BIG_IMAGE
+            int blockSize = 39;// 77;// 19; // 반드시 홀수
+            int C = 15; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+#else
+            int blockSize = 55;// 77;// 19; // 반드시 홀수
             int C = 21; //c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+#endif
             //큰원 26
             //작은원 30
             //int minThresh = 70;
@@ -1378,7 +1383,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 100)//350)
+                if (distance > 200)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1402,7 +1407,7 @@ namespace ZenTester.VisionClass
                 Point2f center = new Point2f();
                 float radius = 0.0f;
 
-                if (contour.Length >= 5)
+                if (contour.Length >= 3)//5)
                 {
                     try
                     {
@@ -1416,7 +1421,7 @@ namespace ZenTester.VisionClass
                 }
 
 #if _BIG_IMAGE      //Fakra
-                if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+                if (radius < 300 || radius > 500)   //안쪽원 377정도나옴
 #else
                 if (radius < 120 || radius > 280)
 #endif
@@ -1631,7 +1636,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(1, 1), 0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1646,11 +1651,16 @@ namespace ZenTester.VisionClass
             //}
 
             ///Cv2.EqualizeHist(srcImage, srcImage);
-            int blockSize = 51;// 77; // 반드시 홀수
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
+#if _BIG_IMAGE
+            int blockSize = 77;// 77; // 반드시 홀수
+            int C = 10;// 13; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+#else
+            int blockSize = 51;// 77; // 반드시 홀수
             int C = 13;// 13; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+#endif
             //작은원 30
             //큰원 18
             //int minThresh = 70;
@@ -1712,15 +1722,11 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-#if _BIG_IMAGE      //Out Housing
-
-#else
-                if (distance > 200)//200)
+                if (distance > 150)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
                 }
-#endif
                 double area = Cv2.ContourArea(contour);
                 double perimeter = Cv2.ArcLength(contour, true);
 
@@ -1740,7 +1746,7 @@ namespace ZenTester.VisionClass
                 Point2f center = new Point2f();
                 float radius = 0.0f;
 
-                if (contour.Length >= 5)
+                if (contour.Length >= 3)//5)
                 {
                     try
                     {
@@ -1754,7 +1760,7 @@ namespace ZenTester.VisionClass
                 }
 
 #if _BIG_IMAGE      ////Out Housing
-                if (radius < 600 || radius > 1000)  //890)
+                if (radius < 550 || radius > 1000)  //890)
 #else
                 if (radius < 350 || radius > 560)   //890)
 #endif
