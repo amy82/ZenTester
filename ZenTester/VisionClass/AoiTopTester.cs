@@ -1655,8 +1655,8 @@ namespace ZenTester.VisionClass
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
 #if _BIG_IMAGE
-            int blockSize = 77;// 77; // 반드시 홀수
-            int C = 10;// 13; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
+            int blockSize = 71;// 77; // 반드시 홀수
+            int C = 11;// 13; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
 #else
             int blockSize = 51;// 77; // 반드시 홀수
             int C = 13;// 13; //30//c가 크면 검은 영역 강화, 작으면 흰색 영역 강화
@@ -1722,7 +1722,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 150)//200)
+                if (distance > 100)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시

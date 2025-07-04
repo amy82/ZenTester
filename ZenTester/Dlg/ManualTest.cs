@@ -243,7 +243,7 @@ namespace ZenTester.Dlg
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src, markPos, true);     //Fakra 안쪽 원 찾기
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos, false, false);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos, false, true);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
             if (FakraCenter.Count < 2)
             {
