@@ -695,7 +695,8 @@ namespace ZenTester.Process
                         MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[sideCamIndex], ImageBuffer);
                         Mat SideMatImage = new Mat(sizeY, sizeX, MatType.CV_8UC1);
                         Marshal.Copy(ImageBuffer, 0, SideMatImage.Data, dataSize);
-
+                        // 3채널로 변환
+                        Cv2.CvtColor(SideMatImage, SideMatImage, ColorConversionCodes.GRAY2BGR);
 
                         //Left Height
                         //Center Height

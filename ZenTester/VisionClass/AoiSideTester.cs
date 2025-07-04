@@ -706,21 +706,21 @@ namespace ZenTester.VisionClass
 
 
                 // 선 두 줄
-                Cv2.Line(ResultImg, new OpenCvSharp.Point(OffsetX, OffsetY + minValue),
-                                      new OpenCvSharp.Point(OffsetX + OffsetWidth, OffsetY + minValue),
-                         Scalar.Yellow, 1);
+                //Cv2.Line(ResultImg, new OpenCvSharp.Point(OffsetX, OffsetY + minValue),new OpenCvSharp.Point(OffsetX + OffsetWidth, OffsetY + minValue),Scalar.Yellow, 2);
 
-                Cv2.Line(ResultImg, new OpenCvSharp.Point(OffsetX, OffsetY + maxValue),
-                                      new OpenCvSharp.Point(OffsetX + OffsetWidth, OffsetY + maxValue),
-                         Scalar.Yellow, 1);
+                //Cv2.Line(ResultImg, new OpenCvSharp.Point(OffsetX, OffsetY + maxValue),new OpenCvSharp.Point(OffsetX + OffsetWidth, OffsetY + maxValue),Scalar.Yellow, 2);
 
-                // 중앙 화살표 (위 -> 아래 방향)
-                Cv2.ArrowedLine(ResultImg,
-                    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + minValue),
-                    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + maxValue),
-                    Scalar.Yellow, 1, LineTypes.AntiAlias, 0, 0.2);  // 마지막 인자는 화살표 크기
+                //// 중앙 화살표 (위 -> 아래 방향)
+                //Cv2.ArrowedLine(ResultImg,
+                //    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + minValue),
+                //    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + maxValue),
+                //    Scalar.Yellow, 1, LineTypes.AntiAlias, 0, 0.2);  // 마지막 인자는 화살표 크기
+
                 //ResultImg
+                OpenCvSharp.Point start = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue);
+                OpenCvSharp.Point end = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + maxValue);
 
+                DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 2);
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
 
@@ -837,6 +837,40 @@ namespace ZenTester.VisionClass
                     return true;
             }
             return false;
+        }
+
+        public void DrawDoubleArrow(Mat img, OpenCvSharp.Point pt1, OpenCvSharp.Point pt2, Scalar color, int thickness = 1)
+        {
+            // 중심 선
+            Cv2.Line(img, pt1, pt2, color, thickness, LineTypes.AntiAlias);
+
+            // 화살촉 크기
+            int arrowSize = 10;
+
+            // 위쪽 화살촉
+            DrawArrowHead(img, pt1, pt2, color, arrowSize, thickness);
+
+            // 아래쪽 화살촉 (방향 반대로)
+            DrawArrowHead(img, pt2, pt1, color, arrowSize, thickness);
+        }
+
+        private void DrawArrowHead(Mat img, OpenCvSharp.Point from, OpenCvSharp.Point to, Scalar color, int size, int thickness)
+        {
+            double angle = Math.Atan2(from.Y - to.Y, from.X - to.X); // 방향 계산
+
+            // 삼각형 꼭짓점 계산
+            OpenCvSharp.Point p1 = new OpenCvSharp.Point(
+                (int)(from.X - size * Math.Cos(angle - Math.PI / 6)),
+                (int)(from.Y - size * Math.Sin(angle - Math.PI / 6))
+            );
+            OpenCvSharp.Point p2 = new OpenCvSharp.Point(
+                (int)(from.X - size * Math.Cos(angle + Math.PI / 6)),
+                (int)(from.Y - size * Math.Sin(angle + Math.PI / 6))
+            );
+
+            // 삼각형 화살촉 그리기
+            OpenCvSharp.Point[] triangle = new OpenCvSharp.Point[] { from, p1, p2 };
+            Cv2.FillConvexPoly(img, triangle, color, LineTypes.AntiAlias);
         }
     }
 }
