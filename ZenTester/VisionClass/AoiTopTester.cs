@@ -1312,7 +1312,7 @@ namespace ZenTester.VisionClass
             //큰원 26
             //작은원 30
             //int minThresh = 70;
-            //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
+            //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);
             Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
             //Cv2.AdaptiveThreshold(absLap, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
             //Cv2.AdaptiveThreshold(edges, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
@@ -1411,14 +1411,12 @@ namespace ZenTester.VisionClass
                     }
                 }
 
-                if (radius > 100 && radius < 600)
-                {
-                    Console.WriteLine($"Fakra radius:{radius}");
-                }
-
-
-                //if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+#if _BIG_IMAGE      //Fakra
+                if (radius < 300 || radius > 600)   //안쪽원 377정도나옴
+#else
                 if (radius < 120 || radius > 280)
+#endif
+
                 {
                     continue;
                 }
@@ -1585,8 +1583,9 @@ namespace ZenTester.VisionClass
             //OpenCvSharp.Point centerPos = new OpenCvSharp.Point();
             string str = "";
             List<OpenCvSharp.Point> HousingPoints = new List<OpenCvSharp.Point>();
-            int imageCenterX = centerPos.X; // 1294;// binary.Width / 2;
-            int imageCenterY = centerPos.Y; //1298;// binary.Height / 2;
+
+            int imageCenterX = centerPos.X;         // 1294;// binary.Width / 2;
+            int imageCenterY = centerPos.Y;         //1298;// binary.Height / 2;
 
 
             //안쪽원 마스크 처리하기
@@ -1628,7 +1627,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(1, 1), 0);
+            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(3, 3), 0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1709,11 +1708,15 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
+#if _BIG_IMAGE      //Out Housing
+
+#else
                 if (distance > 200)//200)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
                 }
+#endif
                 double area = Cv2.ContourArea(contour);
                 double perimeter = Cv2.ArcLength(contour, true);
 
@@ -1745,10 +1748,12 @@ namespace ZenTester.VisionClass
                         continue;
                     }
                 }
-   
 
-                //if (radius < 600 || radius > 1000)//890)
-                if (radius < 350 || radius > 560)//890)
+#if _BIG_IMAGE      ////Out Housing
+                if (radius < 600 || radius > 1000)  //890)
+#else
+                if (radius < 350 || radius > 560)   //890)
+#endif
                 {
                     continue;
                 }
@@ -1779,6 +1784,7 @@ namespace ZenTester.VisionClass
             double CamResolY = 0.0;
             CamResolX = Globalo.yamlManager.configData.CamSettings.TopResolution.X;   // 0.0186f;
             CamResolY = Globalo.yamlManager.configData.CamSettings.TopResolution.Y;   //0.0186f;
+
             if (circles.Count > 0 && bDentTest == false)
             {
                 var minCircle = circles.OrderBy(c => c.radius).First();

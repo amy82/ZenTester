@@ -327,9 +327,9 @@ namespace ZenTester
 
         private void button29_Click(object sender, EventArgs e)
         {
-            TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
-            aoitestData.Socket_Num = "1";
-            aoitestData.Barcode = "lot123";
+            TcpSocket.AoiApdData _testData = new TcpSocket.AoiApdData();
+            _testData.Socket_Num = "1";
+            _testData.Barcode = "lot123";
 
 
 
@@ -338,17 +338,17 @@ namespace ZenTester
             EqipData.Type = "EquipmentData";
             sendEqipData.Command = "LOT_APD_REPORT";
 
-            sendEqipData.DataID = aoitestData.Socket_Num;
-            sendEqipData.BcrId = aoitestData.Barcode;
+            sendEqipData.DataID = _testData.Socket_Num;
+            sendEqipData.BcrId = _testData.Barcode;
             sendEqipData.Judge = 1;
             sendEqipData.CommandParameter.Clear();
             string[] apdList = {
                         "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
                         , "Result" , "Barcode", "Socket_Num" };
 
-            string[] apdResult = { aoitestData.LH, aoitestData.RH, aoitestData.MH,
-                        aoitestData.Gasket, aoitestData.KeyType,aoitestData.CircleDented, aoitestData.Concentrycity_A, aoitestData.Concentrycity_D,
-                        aoitestData.Cone, aoitestData.ORing, aoitestData.Result ,aoitestData.Barcode, aoitestData.Socket_Num};
+            string[] apdResult = { _testData.LH, _testData.RH, _testData.MH,
+                        _testData.Gasket, _testData.KeyType,_testData.CircleDented, _testData.Concentrycity_A, _testData.Concentrycity_D,
+                        _testData.Cone, _testData.ORing, _testData.Result ,_testData.Barcode, _testData.Socket_Num};
 
             for (int i = 0; i < apdResult.Length; i++)
             {

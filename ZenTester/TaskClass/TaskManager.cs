@@ -26,13 +26,13 @@ namespace ZenTester.TaskClass
         {
             int nStep = 100;
             string szLog = string.Empty;
-            aoiTestFlow.aoitestData.init();     //AOI 결과값 초기화
-            aoiTestFlow.aoitestData.Barcode = data.BcrId[0];
-            aoiTestFlow.aoitestData.Socket_Num = data.socketNum.ToString();     //1,2,3,4 들어올 듯
+            aoiTestFlow.aoiApdData.init();     //AOI 결과값 초기화
+            aoiTestFlow.aoiApdData.Barcode = data.BcrId[0];
+            aoiTestFlow.aoiApdData.Socket_Num = data.socketNum.ToString();     //1,2,3,4 들어올 듯
 
-            Console.WriteLine($"Aoi Task Start SocketNum------------- {aoiTestFlow.aoitestData.Socket_Num}");
+            Console.WriteLine($"Aoi Task Start SocketNum------------- {aoiTestFlow.aoiApdData.Socket_Num}");
 
-            szLog = $"[AOI] TEST START :{aoiTestFlow.aoitestData.Barcode}/{aoiTestFlow.aoitestData.Socket_Num}";
+            szLog = $"[AOI] TEST START :{aoiTestFlow.aoiApdData.Barcode}/{aoiTestFlow.aoiApdData.Socket_Num}";
             Globalo.LogPrint("TaskManager", szLog);
 
             _ = Task.Run(async () =>

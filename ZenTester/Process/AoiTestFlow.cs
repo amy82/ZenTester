@@ -27,7 +27,7 @@ namespace ZenTester.Process
         public int nLoadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
         public int nUnloadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
 
-        public TcpSocket.AoiApdData aoitestData = new TcpSocket.AoiApdData();
+        public TcpSocket.AoiApdData aoiApdData = new TcpSocket.AoiApdData();
         private OpenCvSharp.Point[] aoiCenterPos = new OpenCvSharp.Point[2];
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
@@ -93,21 +93,21 @@ namespace ZenTester.Process
                     //
                     //
                     //Apd 보고 -> SecsGem Clinet -> 결과는 Handler로 전송
-                    //Http.HttpService.LotApdReport(aoitestData);     //<----바꾸자 HANDLER로 보내는걸로
+                    //Http.HttpService.LotApdReport(aoiApdData);     //<----바꾸자 HANDLER로 보내는걸로
 
                     EqipData.Type = "EquipmentData";
                     sendEqipData.Command = "LOT_APD_REPORT";
-                    sendEqipData.DataID = aoitestData.Socket_Num;
-                    sendEqipData.BcrId = aoitestData.Barcode;
+                    sendEqipData.DataID = aoiApdData.Socket_Num;
+                    sendEqipData.BcrId = aoiApdData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
                     sendEqipData.CommandParameter.Clear();
                     string[] apdList = { 
                         "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
                         , "Result" , "Barcode", "Socket_Num" };
 
-                    string[] apdResult = { aoitestData.LH, aoitestData.RH, aoitestData.MH, 
-                        aoitestData.Gasket, aoitestData.KeyType,aoitestData.CircleDented, aoitestData.Concentrycity_A, aoitestData.Concentrycity_D,
-                        aoitestData.Cone, aoitestData.ORing, aoitestData.Result ,aoitestData.Barcode, aoitestData.Socket_Num};
+                    string[] apdResult = { aoiApdData.LH, aoiApdData.RH, aoiApdData.MH,
+                        aoiApdData.Gasket, aoiApdData.KeyType,aoiApdData.CircleDented, aoiApdData.Concentrycity_A, aoiApdData.Concentrycity_D,
+                        aoiApdData.Cone, aoiApdData.ORing, aoiApdData.Result ,aoiApdData.Barcode, aoiApdData.Socket_Num};
 
                     for (int i = 0; i < apdResult.Length; i++)
                     {
@@ -123,6 +123,9 @@ namespace ZenTester.Process
                     Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
 
+
+                    Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData); //TcpSocket.AoiApdData
+
                     nRetStep = 220;    //1000이상이면 종료
                     break;
                 case 220:
@@ -135,7 +138,7 @@ namespace ZenTester.Process
 
                     //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     TcpSocket.TesterData resultData = new TcpSocket.TesterData();
-                    resultData.BcrId[0] = aoitestData.Barcode;
+                    resultData.BcrId[0] = aoiApdData.Barcode;
                     resultData.Cmd = "CMD_RESULT";// "APS_LOT_FINISH";
                     resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
@@ -162,7 +165,7 @@ namespace ZenTester.Process
             int nRetStep = 10;
             if (bAutorun == false)
             {
-                aoitestData.Socket_Num = "0";
+                aoiApdData.Socket_Num = "0";
                 CancelToken?.Dispose();
                 CancelToken = new CancellationTokenSource();    //
             }
@@ -177,11 +180,11 @@ namespace ZenTester.Process
                 switch (nRetStep)
                 {
                     case 10:
-                        aoitestData.Gasket = "1";           //없거나,못찾으면 0 , 있으면 1
-                        aoitestData.KeyType = "A";          //찾으면 타입기록 , 못 찾으면 null기록
-                        aoitestData.CircleDented = "1";     //찌그러진 개수
-                        aoitestData.Concentrycity_A = "0.1";
-                        aoitestData.Concentrycity_D = "0.1";
+                        aoiApdData.Gasket = "1";           //없거나,못찾으면 0 , 있으면 1
+                        aoiApdData.KeyType = "A";          //찾으면 타입기록 , 못 찾으면 null기록
+                        aoiApdData.CircleDented = "1";     //찌그러진 개수
+                        aoiApdData.Concentrycity_A = "0.1";
+                        aoiApdData.Concentrycity_D = "0.1";
                         //조명 변경
                         Globalo.setTestControl.manualConfig.checkBox_AllRelease();
                         //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
@@ -319,7 +322,7 @@ namespace ZenTester.Process
                             if (IsGasket == 1)
                             {
                                 //ng
-                                aoitestData.Result = "NG";
+                                aoiApdData.Result = "NG";
 
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
@@ -337,7 +340,7 @@ namespace ZenTester.Process
                             if (IsGasket == 0)
                             {
                                 //ng
-                                aoitestData.Result = "NG";
+                                aoiApdData.Result = "NG";
 
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
@@ -350,7 +353,7 @@ namespace ZenTester.Process
                             
                         }
 
-                        aoitestData.Gasket = gasketLight.ToString();
+                        aoiApdData.Gasket = gasketLight.ToString();
 
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
@@ -372,16 +375,16 @@ namespace ZenTester.Process
                             int denUnderCnt = HousingCenter[0].X;
                             if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
                             {
-                                aoitestData.CircleDented = "0";
+                                aoiApdData.CircleDented = "0";
                             }
                             else
                             {
-                                aoitestData.CircleDented = "1";
+                                aoiApdData.CircleDented = "1";
                             }
                         }
                         else
                         {
-                            aoitestData.CircleDented = "0";
+                            aoiApdData.CircleDented = "0";
                         }
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
@@ -416,14 +419,14 @@ namespace ZenTester.Process
                         if (dKeyScore < 60.0)
                         {
                             //ng
-                            aoitestData.Result = "NG";
-                            aoitestData.KeyType = "Empty";//"Null";
+                            aoiApdData.Result = "NG";
+                            aoiApdData.KeyType = "Empty";//"Null";
                             szLog = $"[TOP CAM] {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
                         else
                         {
-                            aoitestData.KeyType = keyType;
+                            aoiApdData.KeyType = keyType;
                             szLog = $"[TOP CAM] {keyType} FIND PASS";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
@@ -481,25 +484,25 @@ namespace ZenTester.Process
                             con1Result = dist1 * CamResolX;
                             con2Result = dist2 * CamResolX;
 
-                            aoitestData.Concentrycity_A = con1Result.ToString("0.00#");
-                            aoitestData.Concentrycity_D = con2Result.ToString("0.00#");
+                            aoiApdData.Concentrycity_A = con1Result.ToString("0.00#");
+                            aoiApdData.Concentrycity_D = con2Result.ToString("0.00#");
                         }
                         else
                         {
-                            aoitestData.Concentrycity_A = "0.0";
-                            aoitestData.Concentrycity_D = "0.0";
+                            aoiApdData.Concentrycity_A = "0.0";
+                            aoiApdData.Concentrycity_D = "0.0";
                         }
                         
 
 
                         if (con1Result < con_InMin || con1Result > con_InMax)
                         {
-                            aoitestData.Result = "NG";
+                            aoiApdData.Result = "NG";
                         }
 
                         if (con2Result < con_OutMin || con2Result > con_OutMax)
                         {
-                            aoitestData.Result = "NG";
+                            aoiApdData.Result = "NG";
                         }
 
                         
@@ -517,34 +520,34 @@ namespace ZenTester.Process
                         System.Drawing.Point txtPoint = new System.Drawing.Point();
                         string resultStr = string.Empty;
 
-                        resultStr = aoitestData.Gasket + "," + aoitestData.KeyType + "," + aoitestData.CircleDented + "," + aoitestData.Concentrycity_A + "," + aoitestData.Concentrycity_D;
+                        resultStr = aoiApdData.Gasket + "," + aoiApdData.KeyType + "," + aoiApdData.CircleDented + "," + aoiApdData.Concentrycity_A + "," + aoiApdData.Concentrycity_D;
                         
                         _syncContext.Send(_ =>
                         {
-                            Globalo.cameraControl.setTopTestResult(int.Parse(aoitestData.Socket_Num), resultStr);
+                            Globalo.cameraControl.setTopTestResult(int.Parse(aoiApdData.Socket_Num), resultStr);
                         }, null);
 
-                        resultStr = $"Con1 :{aoitestData.Concentrycity_A}";
+                        resultStr = $"Con1 :{aoiApdData.Concentrycity_A}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 800);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Con2 :{aoitestData.Concentrycity_D}";
+                        resultStr = $"Con2 :{aoiApdData.Concentrycity_D}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 700);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
                         //dentCount = HousingCenter[0].X;
                         //dentMaxCount = HousingCenter[0].Y;
 
-                        resultStr = $"Dent :{aoitestData.CircleDented} -[{dentCount} / {dentMaxCount}]";
+                        resultStr = $"Dent :{aoiApdData.CircleDented} -[{dentCount} / {dentMaxCount}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Gasket :{aoitestData.Gasket}";
+                        resultStr = $"Gasket :{aoiApdData.Gasket}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        //resultStr = $"Key :{aoitestData.KeyType}";  //$"Key {keyType} - {key1Rtn} / {key2Rtn} ";
-                        resultStr = $"Key :{aoitestData.KeyType}";// - {key1Rtn} / {key2Rtn}";
+                        //resultStr = $"Key :{aoiApdData.KeyType}";  //$"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+                        resultStr = $"Key :{aoiApdData.KeyType}";// - {key1Rtn} / {key2Rtn}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 400);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
@@ -566,7 +569,7 @@ namespace ZenTester.Process
                         Cv2.ImWrite(sidepath, src2);
                         sidecount++;
                         string autostr = "";
-                        string csvLine = $"{aoitestData.Concentrycity_A},{aoitestData.Concentrycity_D},{aoitestData.CircleDented},{aoitestData.Gasket},{aoitestData.KeyType}";
+                        string csvLine = $"{aoiApdData.Concentrycity_A}, {aoiApdData.Concentrycity_D}, {aoiApdData.CircleDented}, {aoiApdData.Gasket}, {aoiApdData.KeyType}";
 
                         string filePath = "top_test.csv";
                         // 파일이 없으면 헤더 추가
@@ -630,7 +633,7 @@ namespace ZenTester.Process
             double dConeScore = 0.0;
             if (bAutorun == false)
             {
-                aoitestData.Socket_Num = "0";
+                aoiApdData.Socket_Num = "0";
                 CancelToken?.Dispose();
                 CancelToken = new CancellationTokenSource();    //
             }
@@ -699,9 +702,9 @@ namespace ZenTester.Process
                         heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, true);
                         heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, true);
 
-                        aoitestData.LH = heightData[0].ToString("0.0##");
-                        aoitestData.MH = heightData[1].ToString("0.0##");
-                        aoitestData.RH = heightData[2].ToString("0.0##");
+                        aoiApdData.LH = heightData[0].ToString("0.0##");
+                        aoiApdData.MH = heightData[1].ToString("0.0##");
+                        aoiApdData.RH = heightData[2].ToString("0.0##");
                         //-------------------------------------------------------------------------------------------
                         //
                         //
@@ -731,17 +734,17 @@ namespace ZenTester.Process
                         {
                             if (dOringScore > 65.0)
                             {
-                                aoitestData.ORing = "1";
+                                aoiApdData.ORing = "1";
                             }
                             else
                             {
-                                aoitestData.Result = "NG";
-                                aoitestData.ORing = "0";
+                                aoiApdData.Result = "NG";
+                                aoiApdData.ORing = "0";
                             }
                         }
                         else
                         {
-                            aoitestData.ORing = "0";
+                            aoiApdData.ORing = "0";
                         }
                         
                         //-------------------------------------------------------------------------------------------
@@ -772,19 +775,19 @@ namespace ZenTester.Process
                         {
                             if (dConeScore > 65.0)
                             {
-                                aoitestData.Cone = "1";
+                                aoiApdData.Cone = "1";
                             }
                             else
                             {
 
-                                aoitestData.Result = "NG";
-                                aoitestData.Cone = "0";
+                                aoiApdData.Result = "NG";
+                                aoiApdData.Cone = "0";
                             }
                         }
                         else
                         {
 
-                            aoitestData.Cone = "0";
+                            aoiApdData.Cone = "0";
                         }
                         
                         
@@ -799,18 +802,18 @@ namespace ZenTester.Process
                         string resultStr = string.Empty;
 
 
-                        resultStr = aoitestData.LH + "," + aoitestData.MH + "," + aoitestData.RH + "," + aoitestData.Cone + "," + aoitestData.ORing;
+                        resultStr = aoiApdData.LH + "," + aoiApdData.MH + "," + aoiApdData.RH + "," + aoiApdData.Cone + "," + aoiApdData.ORing;
                         _syncContext.Send(_ =>
                         {
-                            Globalo.cameraControl.setSideTestResult(int.Parse(aoitestData.Socket_Num), resultStr);
+                            Globalo.cameraControl.setSideTestResult(int.Parse(aoiApdData.Socket_Num), resultStr);
                         }, null);
                         
 
-                        resultStr = $"O-Ring :{aoitestData.ORing} / {dOringScore.ToString("0.0#")}%";
+                        resultStr = $"O-Ring :{aoiApdData.ORing} / {dOringScore.ToString("0.0#")}%";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Cone :{aoitestData.Cone} / {dConeScore.ToString("0.0#")}%";
+                        resultStr = $"Cone :{aoiApdData.Cone} / {dConeScore.ToString("0.0#")}%";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
@@ -840,7 +843,7 @@ namespace ZenTester.Process
                         Cv2.ImWrite(sidepath, src);
                         sidecount++;
                         string autostr = "";
-                        string csvLine = $"{aoitestData.LH},{aoitestData.MH},{aoitestData.RH},{aoitestData.Cone},{aoitestData.ORing}";
+                        string csvLine = $"{aoiApdData.LH},{aoiApdData.MH},{aoiApdData.RH},{aoiApdData.Cone},{aoiApdData.ORing}";
 
                         string filePath = "side_test.csv";
                         // 파일이 없으면 헤더 추가

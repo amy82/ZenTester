@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,6 +17,62 @@ namespace ZenTester.VisionClass
         {
 
         }
+
+        public void FinalLogSave(TcpSocket.AoiApdData finalData)
+        {
+            string FinalLogPath = Data.CPath.BASE_TP_PATH;
+            string MiddleLogPath = "AoiResult";
+            string currentDate = DateTime.Now.ToString("yyyy_MM_dd");
+            string FinalLogName = $"AoiFinalLog_{currentDate}.csv";
+
+            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            string[] logTitle = { "Barcode", "LH", "MH", "RH", "Gasket", "KeyType", "CircleDented", "Concentrycity_A", 
+                "Concentrycity_D", "Cone", "ORing", "SocketNumber", "Result" };
+
+            // 값들을 배열로 저장
+            string[] logValues = {
+                finalData.Barcode.ToString(),
+                finalData.LH.ToString(),
+                finalData.MH.ToString(),
+                finalData.RH.ToString(),
+                finalData.Gasket.ToString(),
+                finalData.KeyType.ToString(),
+                finalData.CircleDented.ToString(),
+                finalData.Concentrycity_A.ToString(),
+                finalData.Concentrycity_D.ToString(),
+                finalData.Cone.ToString(),
+                finalData.ORing.ToString(),
+                finalData.Socket_Num.ToString(),
+                finalData.Result.ToString()
+            };
+            // 파일이 없으면 헤더 추가
+            if (!File.Exists(filePath))
+            {
+                string header = string.Join(",", logTitle);
+                File.AppendAllText(filePath, header + Environment.NewLine);
+            }
+            try
+            {
+                // CSV 라인 생성
+                string csvLine = string.Join(",", logValues);
+
+                // 파일에 추가
+                File.AppendAllText(filePath, csvLine + Environment.NewLine);
+            }
+            catch (IOException)
+            {
+
+            }
+
+        }
+
+
         public void CirCleFind(int index)
         {
             Console.WriteLine("CirCleFind");
