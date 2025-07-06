@@ -64,9 +64,10 @@ namespace ZenTester.Process
                     break;
                 case 110:
                     //조명
-                    int tData = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
 
-                    Globalo.serialPortManager.LightControl.AllctrlLedVolume(tData, 0);      //1,2 채널 동시 변경
+                    int sData = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
+
+                    Globalo.serialPortManager.LightControl.AllctrlLedVolume(0, sData);      //1,2 채널 동시 변경
                     nTimeTick = Environment.TickCount;
                     nRetStep = 112;
                     break;
@@ -107,11 +108,11 @@ namespace ZenTester.Process
                     }
                     break;
                 case 116:
-                    //TOP 캡처
-                    Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.TOP_INDEX);
-                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
-                    Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
-                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+                    //SIDE 캡처 - 이때 Top꺼져야된다.
+                    Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.SIDE_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
+                    Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
                     nRetStep = 120;
                     break;
                 case 120:
@@ -121,9 +122,9 @@ namespace ZenTester.Process
 
                 case 130:
                     Globalo.serialPortManager.LightControl.recvCheck = -1;
-                    int sData = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
-
-                    Globalo.serialPortManager.LightControl.AllctrlLedVolume(0, sData);      //1,2 채널 동시 변경
+                    int tData = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
+                    int sData2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
+                    Globalo.serialPortManager.LightControl.AllctrlLedVolume(tData, sData2);      //1,2 채널 동시 변경
                     nTimeTick = Environment.TickCount;
                     nRetStep = 132;
                     break;
@@ -165,11 +166,12 @@ namespace ZenTester.Process
                     }
                     break;
                 case 140:
-                    //SIDE 캡처 - 이때 Top꺼져야된다.
-                    Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.SIDE_INDEX);
-                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
-                    Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
-                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
+                    
+                    //TOP 캡처
+                    Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.TOP_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
+                    Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
                     nRetStep = 150;
                     break;
                 case 150:
@@ -335,8 +337,8 @@ namespace ZenTester.Process
                         
                         //Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
 
-                        szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
-                        Globalo.LogPrint("ManualControl", szLog);
+                        //szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
+                        //Globalo.LogPrint("ManualControl", szLog);
 
                         //Side Light Set, Ch:2
                         //Val 0: Side Common - 사용 안 할 수도
