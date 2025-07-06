@@ -14,6 +14,8 @@ namespace ZenTester.VisionClass
     public class AoiTester
     {
         public readonly MIL_INT MODEL_MAX_OCCURRENCES = 23L;
+        public const int TOP_INDEX = 0;
+        public const int SIDE_INDEX = 0;
         public AoiTester()
         {
 

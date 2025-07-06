@@ -430,7 +430,7 @@ namespace ZenTester.Dlg
             //}
             //Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
-            //Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
+           // Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 

@@ -53,13 +53,68 @@ namespace ZenTester.Process
                     Globalo.serialPortManager.LightControl.recvCheck = -1;
                     m_nTestFinalResult = 1;
                     Globalo.visionManager.milLibrary.RunModeChange(true);
+
                     waitTopCam = -1;
                     waitSideCam = -1;
                     TopCamTask = null;
                     SideCamTask = null;
                     CancelToken?.Dispose();
-                    CancelToken = new CancellationTokenSource();    //
-                    
+                    CancelToken = new CancellationTokenSource();
+                    nRetStep = 110;
+                    break;
+                case 110:
+                    //조명
+                    int tData = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
+
+                    Globalo.serialPortManager.LightControl.AllctrlLedVolume(tData, 0);      //1,2 채널 동시 변경
+                    nTimeTick = Environment.TickCount;
+                    nRetStep = 115;
+                    break;
+                case 115:
+                    //조명
+                    if (Environment.TickCount - nTimeTick > 600)
+                    {
+                        nRetStep = 120;
+                    }
+                    break;
+                case 120:
+                    //TOP 캡처
+                    Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.TOP_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
+                    Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+                    nRetStep = 130;
+                    break;
+
+                case 130:
+                    int sData = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
+
+                    Globalo.serialPortManager.LightControl.AllctrlLedVolume(0, sData);      //1,2 채널 동시 변경
+                    nTimeTick = Environment.TickCount;
+                    nRetStep = 115;
+                    nRetStep = 140;
+                    break;
+
+                case 140:
+                    //SIDE 캡처 - 이때 Top꺼져야된다.
+                    Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.SIDE_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
+                    Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
+                    nRetStep = 140;
+                    break;
+                case 150:
+
+                    break;
+                case 160:
+
+                    break;
+                case 190:
+                    //----------------------------------------------------------------------------------------------------------------------------------
+                    //
+                    //
+                    //
+                    //
                     TopCamTask = Task.Run(() =>
                     {
                         waitTopCam = 1;
@@ -67,7 +122,8 @@ namespace ZenTester.Process
                         Console.WriteLine($"-------------- TopCam Task - end {waitTopCam}");
                         return waitTopCam;
                     }, CancelToken.Token);
-
+                    //
+                    //
                     SideCamTask = Task.Run(() =>
                     {
                         waitSideCam = 1;
@@ -76,6 +132,12 @@ namespace ZenTester.Process
                         return waitSideCam;
                     }, CancelToken.Token);
 
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //----------------------------------------------------------------------------------------------------------------------------------
                     nRetStep = 200;
 
                     nTimeTick = Environment.TickCount;
@@ -103,6 +165,7 @@ namespace ZenTester.Process
                     sendEqipData.BcrId = aoiApdData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
                     sendEqipData.CommandParameter.Clear();
+
                     string[] apdList = { 
                         "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
                         , "Result" , "Barcode", "Socket_Num" };
@@ -135,19 +198,19 @@ namespace ZenTester.Process
                     //Verify 공정은 Secsgem으로 apd보고해야된다 . 나머지는 Handler로
                     //완공다되면 Handler로도 보내줘야된다.
 
-
                     TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
                     objectData.Type = "EquipmentData";
 
                     //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     TcpSocket.TesterData resultData = new TcpSocket.TesterData();
                     resultData.BcrId[0] = aoiApdData.Barcode;
-                    resultData.Cmd = "CMD_RESULT";// "APS_LOT_FINISH";
+                    resultData.Cmd = "CMD_RESULT";  // "APS_LOT_FINISH";
                     resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
                     objectData.Data = resultData;
                     Globalo.tcpManager.SendMessage_To_Handler(objectData);
+                    nRetStep = 1000;
                     break;
             }
             return nRetStep;
@@ -747,9 +810,9 @@ namespace ZenTester.Process
 
                         //bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
                         bool bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
-                        if (IsOring == 1)
+                        if (IsOring == 1 && bOringRtn)
                         {
-                            if (dOringScore > 65.0)
+                            if (dOringScore > 70.0)
                             {
                                 aoiApdData.ORing = "1";
                             }

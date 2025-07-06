@@ -546,12 +546,7 @@ namespace ZenTester.VisionClass
         public double MilEdgeHeight(int index, int roiIndex, System.Drawing.Point OffsetPos, Mat ResultImg = null, bool bAutoRun = false)
         {
             double dHeight = 0.0;
-            if (ResultImg == null || ResultImg.Empty())
-            {
-                // 이미지가 없을 때 기본 처리 (예: -1 리턴, 예외 발생 등)
-                Console.WriteLine("ResultImg가 null이거나 비어 있습니다.");
-                return -1; // 또는 0, double.NaN 등
-            }
+           
             const int CONTOUR_MAX_RESULTS = 10;
             MIL_ID MilDisplay = MIL.M_NULL;
             MIL_ID tempMilImage = MIL.M_NULL;
@@ -717,10 +712,15 @@ namespace ZenTester.VisionClass
                 //    Scalar.Yellow, 1, LineTypes.AntiAlias, 0, 0.2);  // 마지막 인자는 화살표 크기
 
                 //ResultImg
-                OpenCvSharp.Point start = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue);
-                OpenCvSharp.Point end = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + maxValue);
+                if (ResultImg != null )//|| !ResultImg.Empty())
+                {
+                    // 이미지가 없을 때 기본 처리 (예: -1 리턴, 예외 발생 등)
+                    OpenCvSharp.Point start = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue);
+                    OpenCvSharp.Point end = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + maxValue);
 
-                DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 2);
+                    DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 2);
+                }
+                
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
 
