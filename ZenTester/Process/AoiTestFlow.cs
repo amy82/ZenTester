@@ -46,7 +46,7 @@ namespace ZenTester.Process
         public int AoiAutoProcess(int nStep)
         {
             int nRetStep = nStep;
-
+            string szLog = "";
             switch (nRetStep)
             {
                 case 100:
@@ -68,46 +68,115 @@ namespace ZenTester.Process
 
                     Globalo.serialPortManager.LightControl.AllctrlLedVolume(tData, 0);      //1,2 채널 동시 변경
                     nTimeTick = Environment.TickCount;
-                    nRetStep = 115;
+                    nRetStep = 112;
                     break;
-                case 115:
+                case 112:
                     //조명
-                    if (Environment.TickCount - nTimeTick > 600)
+                    if (Globalo.serialPortManager.LightControl.recvCheck == -1)
                     {
-                        nRetStep = 120;
+                        break;
+                    }
+                    else if (Environment.TickCount - nTopTimeTick > 3000)
+                    {
+                        szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                        nRetStep *= -1;
+                        break;
+                    }
+
+                    if (Globalo.serialPortManager.LightControl.recvCheck == 0)
+                    {
+                        //조명 정상 변경 실패
+                        szLog = $"[LIGHT] LIGHT DATA CHANGE FAIL [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
+                        nRetStep *= -1;
+                        break;
+                    }
+
+                    //조명 정상 변경 완료
+                    szLog = $"[LIGHT] LIGHT DATA CHANGE OK [STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
+
+                    nRetStep = 114;
+                    nTimeTick = Environment.TickCount;
+                    break;
+                case 114:
+                    if (Environment.TickCount - nTimeTick > 500)
+                    {
+                        nRetStep = 116;
                     }
                     break;
-                case 120:
+                case 116:
                     //TOP 캡처
                     Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.TOP_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+                    nRetStep = 116;
+                    break;
+                case 120:
+                    
                     nRetStep = 130;
                     break;
 
                 case 130:
+                    Globalo.serialPortManager.LightControl.recvCheck = -1;
                     int sData = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
 
                     Globalo.serialPortManager.LightControl.AllctrlLedVolume(0, sData);      //1,2 채널 동시 변경
                     nTimeTick = Environment.TickCount;
-                    nRetStep = 115;
-                    nRetStep = 140;
+                    nRetStep = 132;
+                    break;
+                case 132:
+                    //조명
+                    if (Globalo.serialPortManager.LightControl.recvCheck == -1)
+                    {
+                        break;
+                    }
+                    else if (Environment.TickCount - nTopTimeTick > 3000)
+                    {
+                        szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                        nRetStep *= -1;
+                        break;
+                    }
+
+                    if (Globalo.serialPortManager.LightControl.recvCheck == 0)
+                    {
+                        //조명 정상 변경 실패
+                        szLog = $"[LIGHT] LIGHT DATA CHANGE FAIL [STEP : {nRetStep}]";
+                        Globalo.LogPrint("ManualControl", szLog);
+                        nRetStep *= -1;
+                        break;
+                    }
+
+                    //조명 정상 변경 완료
+                    szLog = $"[LIGHT] LIGHT DATA CHANGE OK [STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
+
+                    nRetStep = 134;
+                    nTimeTick = Environment.TickCount;
                     break;
 
+                case 134:
+                    if (Environment.TickCount - nTimeTick > 500)
+                    {
+                        nRetStep = 140;
+                    }
+                    break;
                 case 140:
                     //SIDE 캡처 - 이때 Top꺼져야된다.
                     Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.SIDE_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
-                    nRetStep = 140;
+                    nRetStep = 150;
                     break;
                 case 150:
-
+                    nRetStep = 160;
                     break;
                 case 160:
-
+                    nRetStep = 190;
                     break;
                 case 190:
                     //----------------------------------------------------------------------------------------------------------------------------------
@@ -260,11 +329,11 @@ namespace ZenTester.Process
                         //Val 1 : Key/Gasket  밝게
                         //Val 2 : Dent 0번과 비슷하게?
 
-                        data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
-                        data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
+                        //data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
+                        //data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
                         //Globalo.serialPortManager.LightControl.ctrlLedVolume(1, data1);
                         
-                        Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
+                        //Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
 
                         szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
                         Globalo.LogPrint("ManualControl", szLog);
@@ -276,35 +345,35 @@ namespace ZenTester.Process
                         break;
 
                     case 50:
-                        if (bAutorun == false)
-                        {
-                            nRetStep = 100;
-                            break;
-                        }
-                        if (Globalo.serialPortManager.LightControl.recvCheck == -1)
-                        {
-                            break;
-                        }
-                        else if (Environment.TickCount - nTopTimeTick > 3000)
-                        {
-                            szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
-                            Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
-                            nRetStep *= -1;
-                            break;
-                        }
+                        //if (bAutorun == false)
+                        //{
+                        //    nRetStep = 100;
+                        //    break;
+                        //}
+                        //if (Globalo.serialPortManager.LightControl.recvCheck == -1)
+                        //{
+                        //    break;
+                        //}
+                        //else if (Environment.TickCount - nTopTimeTick > 3000)
+                        //{
+                        //    szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
+                        //    Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
+                        //    nRetStep *= -1;
+                        //    break;
+                        //}
 
-                        if (Globalo.serialPortManager.LightControl.recvCheck == 0)
-                        {
-                            //조명 정상 변경 실패
-                            szLog = $"[LIGHT] LIGHT DATA CHANGE FAIL [STEP : {nRetStep}]";
-                            Globalo.LogPrint("ManualControl", szLog);
-                            nRetStep *= -1;
-                            break;
-                        }
+                        //if (Globalo.serialPortManager.LightControl.recvCheck == 0)
+                        //{
+                        //    //조명 정상 변경 실패
+                        //    szLog = $"[LIGHT] LIGHT DATA CHANGE FAIL [STEP : {nRetStep}]";
+                        //    Globalo.LogPrint("ManualControl", szLog);
+                        //    nRetStep *= -1;
+                        //    break;
+                        //}
 
-                        //조명 정상 변경 완료
-                        szLog = $"[LIGHT] LIGHT DATA CHANGE OK [STEP : {nRetStep}]";
-                        Globalo.LogPrint("ManualControl", szLog);
+                        ////조명 정상 변경 완료
+                        //szLog = $"[LIGHT] LIGHT DATA CHANGE OK [STEP : {nRetStep}]";
+                        //Globalo.LogPrint("ManualControl", szLog);
                         nRetStep = 100;
                         break;
 
