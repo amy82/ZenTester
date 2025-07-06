@@ -76,7 +76,7 @@ namespace ZenTester.Process
                     {
                         break;
                     }
-                    else if (Environment.TickCount - nTopTimeTick > 3000)
+                    else if (Environment.TickCount - nTimeTick > 3000)
                     {
                         szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
                         Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
@@ -112,7 +112,7 @@ namespace ZenTester.Process
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
-                    nRetStep = 116;
+                    nRetStep = 120;
                     break;
                 case 120:
                     
@@ -133,7 +133,7 @@ namespace ZenTester.Process
                     {
                         break;
                     }
-                    else if (Environment.TickCount - nTopTimeTick > 3000)
+                    else if (Environment.TickCount - nTimeTick > 3000)
                     {
                         szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
                         Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
@@ -382,9 +382,9 @@ namespace ZenTester.Process
                         int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex];
                         int dataSize = sizeX * sizeY;
 
-                        Globalo.visionManager.milLibrary.ClearOverlay(topCamIndex);
-                        Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, false);
-                        Globalo.visionManager.milLibrary.GetSnapImage(topCamIndex);
+                        //Globalo.visionManager.milLibrary.ClearOverlay(topCamIndex);
+                        //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, false);
+                        //Globalo.visionManager.milLibrary.GetSnapImage(topCamIndex);
 
                         byte[] ImageBuffer = new byte[dataSize];
                         MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer);
@@ -814,9 +814,9 @@ namespace ZenTester.Process
 
                         //== 높이 측정 기준 Mark 찾기
 
-                        Globalo.visionManager.milLibrary.ClearOverlay(sideCamIndex);
-                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
-                        Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
+                        //Globalo.visionManager.milLibrary.ClearOverlay(sideCamIndex);
+                        //Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);
+                        //Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
                         //-------------------------------------------------------------------------------------------
 
                         int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[sideCamIndex];
