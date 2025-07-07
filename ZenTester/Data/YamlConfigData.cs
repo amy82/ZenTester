@@ -12,11 +12,19 @@ namespace ZenTester.Data
         public double X { get; set; }
         public double Y { get; set; }
     }
+    public class SpecRadius
+    {
+        public double min { get; set; }
+        public double max { get; set; }
+    }
     public class _CamSettings
     {
         public Resolution TopResolution { get; set; }
         public Resolution SideResolution { get; set; }
-
+        //
+        public SpecRadius smallCircle { get; set; }
+        public SpecRadius bigCircle { get; set; }
+        //
         public int KeyEdgeSpecCount { get; set; }
         public double DentLimit { get; set; }
         public int DentTotalCount { get; set; }
@@ -54,7 +62,7 @@ namespace ZenTester.Data
         public int SecsgemPort { get; set; }
 
     }
-    public class ConfigData
+    public class ConfigData     //Config.yaml 파일
     {
         public int MachineId { get; set; }
         public _TeslaData TeslaData { get; set; }

@@ -1321,7 +1321,7 @@ namespace ZenTester.VisionClass
 #endif
             //큰원 26
             //작은원 30
-            int minThresh = 50;
+            int minThresh = 160;
             Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Binary);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
@@ -1383,7 +1383,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 200)//350)
+                if (distance > 100)//350)
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1423,13 +1423,12 @@ namespace ZenTester.VisionClass
 #if _BIG_IMAGE      //Fakra
                 if (radius < 300 || radius > 500)   //안쪽원 377정도나옴
 #else
-                if (radius < 120 || radius > 280)
+                if (radius < 200 || radius > 270)//if (radius < 120 || radius > 280)
 #endif
-
                 {
                     continue;
                 }
-                Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
+                Console.Write($"[small Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
                 if (circularity < 0.001)//0.01)
                 {
                     continue;
@@ -1491,8 +1490,8 @@ namespace ZenTester.VisionClass
                 {
                     Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
                 }
-                
-                
+                //srcImage
+                Cv2.Circle(srcImage, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Yellow, 3);
 
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
@@ -1504,8 +1503,8 @@ namespace ZenTester.VisionClass
                 {
                     Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
                 }
-                
-                    
+                Cv2.Circle(srcImage, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Yellow, 3);
+
 
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
 
@@ -1821,7 +1820,9 @@ namespace ZenTester.VisionClass
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
                 Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
-                
+
+                Cv2.Circle(srcImage, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Yellow, 3);
+                Cv2.Circle(srcImage, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Yellow, 3);
 
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
                 
