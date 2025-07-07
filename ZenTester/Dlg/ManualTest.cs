@@ -455,7 +455,6 @@ namespace ZenTester.Dlg
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
             double score = 0.0;
-            ///bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref score);
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref score, true);
 
             //System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
