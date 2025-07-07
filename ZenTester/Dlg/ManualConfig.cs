@@ -770,7 +770,7 @@ namespace ZenTester.Dlg
 
         private void label_Set_TopCam_Big_Min_Val_Click(object sender, EventArgs e)
         {
-            string formattedValue = label_Set_TopCam_Small_Max_Val.Text;
+            string formattedValue = label_Set_TopCam_Big_Min_Val.Text;
             NumPadForm popupForm = new NumPadForm(formattedValue);
 
             DialogResult dialogResult = popupForm.ShowDialog();
@@ -787,7 +787,7 @@ namespace ZenTester.Dlg
                 {
                     dNumData = 900;
                 }
-                label_Set_TopCam_Small_Max_Val.Text = dNumData.ToString();
+                label_Set_TopCam_Big_Min_Val.Text = dNumData.ToString();
             }
         }
 

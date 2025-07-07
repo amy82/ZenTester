@@ -1321,7 +1321,7 @@ namespace ZenTester.VisionClass
 #endif
             //큰원 26
             //작은원 30
-            int minThresh = 120;
+            int minThresh = 150;//120;
             Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
@@ -1665,8 +1665,8 @@ namespace ZenTester.VisionClass
 #endif
             //작은원 30
             //큰원 18
-            int minThresh = 120;
-            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);
+            int minThresh = 150;
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);//Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
