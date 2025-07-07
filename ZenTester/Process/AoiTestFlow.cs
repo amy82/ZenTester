@@ -597,7 +597,7 @@ namespace ZenTester.Process
 
                             aoiApdData.Result = "NG";
                             ResultAoiAPdData.KeyType = "NG";
-                            aoiApdData.KeyType = "Empty";//"Null";
+                            aoiApdData.KeyType = "Null";
                             szLog = $"[TOP CAM] {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
                         }

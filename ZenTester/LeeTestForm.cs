@@ -364,5 +364,123 @@ namespace ZenTester
             Globalo.tcpManager.nRecv_Ack = -1;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
         }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            //작은원 동심도
+            bool rtn = true;
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(VisionClass.AoiTester.TOP_INDEX);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[VisionClass.AoiTester.TOP_INDEX];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.TOP_INDEX];
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[VisionClass.AoiTester.TOP_INDEX];
+            int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.TOP_INDEX];
+            int dataSize2 = sizeX2 * sizeY2;
+            byte[] ImageBuffer2 = new byte[dataSize2];
+            //
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], ImageBuffer2);
+            //Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
+            //string sidepath = $"d:\\srcImage_{topcount}.jpg";
+            //Cv2.ImWrite(sidepath, src2);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+
+
+
+            List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
+            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //Center Find
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(VisionClass.AoiTester.TOP_INDEX, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score);
+
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(VisionClass.AoiTester.TOP_INDEX, src, markPos, false);     //Fakra 안쪽 원 찾기
+        }
+
+        private void button31_Click(object sender, EventArgs e)
+        {
+            //큰원 동심도
+            bool rtn = true;
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(VisionClass.AoiTester.TOP_INDEX);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[VisionClass.AoiTester.TOP_INDEX];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.TOP_INDEX];
+            int dataSize = sizeX * sizeY;
+
+
+            byte[] ImageBuffer = new byte[dataSize];
+
+            //
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], ImageBuffer);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[VisionClass.AoiTester.TOP_INDEX];
+            int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.TOP_INDEX];
+            int dataSize2 = sizeX2 * sizeY2;
+            byte[] ImageBuffer2 = new byte[dataSize2];
+            //
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], ImageBuffer2);
+            //Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
+            //string sidepath = $"d:\\srcImage_{topcount}.jpg";
+            //Cv2.ImWrite(sidepath, src2);
+
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+
+
+
+            List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
+            List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //Center Find
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
+            double score = 0.0;
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(VisionClass.AoiTester.TOP_INDEX, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score);
+
+
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            //
+            //
+            //
+            //
+            //----------------------------------------------------------------------------------------------------------------------------------------------
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(VisionClass.AoiTester.TOP_INDEX, src, markPos, false, true);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+        }
     }
 }

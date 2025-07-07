@@ -203,21 +203,21 @@ namespace ZenTester.Dlg
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
 
-            int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
-            int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
-            int dataSize2 = sizeX2 * sizeY2;
-            byte[] ImageBuffer2 = new byte[dataSize2];
-            //
-            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer2);
-            Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
-            Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
-            string sidepath = $"d:\\srcImage_{topcount}.jpg";
-            Cv2.ImWrite(sidepath, src2);
-            topcount++;
-            if(topcount > 30)
-            {
-                topcount = 0;
-            }
+            //int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
+            //int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
+            //int dataSize2 = sizeX2 * sizeY2;
+            //byte[] ImageBuffer2 = new byte[dataSize2];
+            ////
+            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer2);
+            //Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
+            //Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
+            //string sidepath = $"d:\\srcImage_{topcount}.jpg";
+            //Cv2.ImWrite(sidepath, src2);
+            //topcount++;
+            //if(topcount > 30)
+            //{
+            //    topcount = 0;
+            //}
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
 

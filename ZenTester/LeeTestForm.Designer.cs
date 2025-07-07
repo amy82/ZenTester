@@ -61,6 +61,8 @@ namespace ZenTester
             this.button27 = new System.Windows.Forms.Button();
             this.button28 = new System.Windows.Forms.Button();
             this.button29 = new System.Windows.Forms.Button();
+            this.button30 = new System.Windows.Forms.Button();
+            this.button31 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -359,7 +361,7 @@ namespace ZenTester
             this.button21.BackColor = System.Drawing.Color.Black;
             this.button21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button21.ForeColor = System.Drawing.Color.White;
-            this.button21.Location = new System.Drawing.Point(342, 402);
+            this.button21.Location = new System.Drawing.Point(1, 432);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(127, 34);
             this.button21.TabIndex = 23;
@@ -373,7 +375,7 @@ namespace ZenTester
             this.button22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button22.ForeColor = System.Drawing.Color.White;
-            this.button22.Location = new System.Drawing.Point(3, 304);
+            this.button22.Location = new System.Drawing.Point(3, 272);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(116, 34);
             this.button22.TabIndex = 24;
@@ -387,7 +389,7 @@ namespace ZenTester
             this.button23.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button23.ForeColor = System.Drawing.Color.White;
-            this.button23.Location = new System.Drawing.Point(3, 344);
+            this.button23.Location = new System.Drawing.Point(3, 312);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(116, 34);
             this.button23.TabIndex = 25;
@@ -400,7 +402,7 @@ namespace ZenTester
             this.button24.BackColor = System.Drawing.Color.Black;
             this.button24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button24.ForeColor = System.Drawing.Color.White;
-            this.button24.Location = new System.Drawing.Point(342, 362);
+            this.button24.Location = new System.Drawing.Point(149, 432);
             this.button24.Name = "button24";
             this.button24.Size = new System.Drawing.Size(127, 34);
             this.button24.TabIndex = 26;
@@ -413,7 +415,7 @@ namespace ZenTester
             this.button25.BackColor = System.Drawing.Color.Black;
             this.button25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button25.ForeColor = System.Drawing.Color.White;
-            this.button25.Location = new System.Drawing.Point(341, 293);
+            this.button25.Location = new System.Drawing.Point(132, 379);
             this.button25.Name = "button25";
             this.button25.Size = new System.Drawing.Size(127, 34);
             this.button25.TabIndex = 27;
@@ -453,7 +455,7 @@ namespace ZenTester
             this.button28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button28.ForeColor = System.Drawing.Color.White;
-            this.button28.Location = new System.Drawing.Point(12, 402);
+            this.button28.Location = new System.Drawing.Point(3, 352);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(116, 34);
             this.button28.TabIndex = 30;
@@ -467,7 +469,7 @@ namespace ZenTester
             this.button29.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button29.ForeColor = System.Drawing.Color.White;
-            this.button29.Location = new System.Drawing.Point(153, 436);
+            this.button29.Location = new System.Drawing.Point(3, 392);
             this.button29.Name = "button29";
             this.button29.Size = new System.Drawing.Size(116, 34);
             this.button29.TabIndex = 31;
@@ -475,11 +477,39 @@ namespace ZenTester
             this.button29.UseVisualStyleBackColor = false;
             this.button29.Click += new System.EventHandler(this.button29_Click);
             // 
+            // button30
+            // 
+            this.button30.BackColor = System.Drawing.Color.Black;
+            this.button30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button30.ForeColor = System.Drawing.Color.White;
+            this.button30.Location = new System.Drawing.Point(341, 312);
+            this.button30.Name = "button30";
+            this.button30.Size = new System.Drawing.Size(127, 34);
+            this.button30.TabIndex = 32;
+            this.button30.Text = "Small Circle";
+            this.button30.UseVisualStyleBackColor = false;
+            this.button30.Click += new System.EventHandler(this.button30_Click);
+            // 
+            // button31
+            // 
+            this.button31.BackColor = System.Drawing.Color.Black;
+            this.button31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button31.ForeColor = System.Drawing.Color.White;
+            this.button31.Location = new System.Drawing.Point(342, 352);
+            this.button31.Name = "button31";
+            this.button31.Size = new System.Drawing.Size(127, 34);
+            this.button31.TabIndex = 33;
+            this.button31.Text = "Big Circle";
+            this.button31.UseVisualStyleBackColor = false;
+            this.button31.Click += new System.EventHandler(this.button31_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 482);
+            this.Controls.Add(this.button31);
+            this.Controls.Add(this.button30);
             this.Controls.Add(this.button29);
             this.Controls.Add(this.button28);
             this.Controls.Add(this.button27);
@@ -553,5 +583,7 @@ namespace ZenTester
         private System.Windows.Forms.Button button27;
         private System.Windows.Forms.Button button28;
         private System.Windows.Forms.Button button29;
+        private System.Windows.Forms.Button button30;
+        private System.Windows.Forms.Button button31;
     }
 }

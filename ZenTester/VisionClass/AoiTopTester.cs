@@ -1320,11 +1320,9 @@ namespace ZenTester.VisionClass
 #endif
             //큰원 26
             //작은원 30
-            //int minThresh = 70;
-            //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);
-            Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
-            //Cv2.AdaptiveThreshold(absLap, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
-            //Cv2.AdaptiveThreshold(edges, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            int minThresh = 50;
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Binary);
+            //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 5. (선택) 이진화로 엣지 강화
             //Cv2.Threshold(blurred, binary, 80, 255, ThresholdTypes.Binary);
