@@ -427,6 +427,9 @@ namespace ZenTester.Process
                         MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[topCamIndex], ImageBuffer);
                         Mat TopMatImage = new Mat(sizeY, sizeX, MatType.CV_8UC1);
                         Marshal.Copy(ImageBuffer, 0, TopMatImage.Data, dataSize);
+                        // 3채널로 변환
+                        Cv2.CvtColor(TopMatImage, TopMatImage, ColorConversionCodes.GRAY2BGR);
+
 
                         //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
                         //Gasket - 유무 검사

@@ -1268,20 +1268,21 @@ namespace ZenTester.VisionClass
             List<OpenCvSharp.Point> FakraPoints = new List<OpenCvSharp.Point>();
             int imageCenterX = centerPos.X;// 1306;    // binary.Width / 2;
             int imageCenterY = centerPos.Y;// 1289;    // binary.Height / 2;
-            //
-            //
-            //
-            
+                                           //
+                                           //
+                                           //
 
-            
 
+
+            Mat gray = new Mat();
+            Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
 
             // 2. Threshold (밝은 점을 강조)
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
             //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            Cv2.MedianBlur(srcImage, blurred, 1);
+            Cv2.MedianBlur(gray, blurred, 1);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -1358,8 +1359,9 @@ namespace ZenTester.VisionClass
             // 3. 각 컨투어 중심을 평균
             ///List<Point2d> centers = new List<Point2d>();
 
-            Mat colorView = new Mat();
-            Cv2.CvtColor(srcImage, colorView, ColorConversionCodes.GRAY2BGR);
+            //Mat colorView = new Mat();
+            //Cv2.CvtColor(srcImage, colorView, ColorConversionCodes.GRAY2BGR);
+            Mat colorView = srcImage.Clone();  // or new Mat(srcImage)      //srcImage 가 이미 3채널
 
             List<(OpenCvSharp.Point2f center, float radius)> circles = new List<(Point2f center, float radius)>();
 
@@ -1615,7 +1617,7 @@ namespace ZenTester.VisionClass
             //Cv2.Rectangle(mask, maskRect, Scalar.White, -1, LineTypes.AntiAlias);
 
             // 안쪽 원을 검정으로 덮기 (원 내부 제거)
-           // Cv2.Circle(mask, circleCenter, 580, Scalar.Black, -1, LineTypes.AntiAlias);
+            // Cv2.Circle(mask, circleCenter, 580, Scalar.Black, -1, LineTypes.AntiAlias);
 
             // 2. 테두리만 추출
             //Cv2.Subtract(outerMask, innerMask, mask);
@@ -1631,10 +1633,12 @@ namespace ZenTester.VisionClass
             //Cv2.WaitKey(0);
             //
             // 2. Threshold (밝은 점을 강조)
+            Mat gray = new Mat();
+            Cv2.CvtColor(srcImage, gray, ColorConversionCodes.BGR2GRAY);
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(1, 1), 0);
+            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(1, 1), 0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1697,8 +1701,9 @@ namespace ZenTester.VisionClass
             // 3. 각 컨투어 중심을 평균
             ///List<Point2d> centers = new List<Point2d>();
 
-            Mat colorView = new Mat();
-            Cv2.CvtColor(srcImage, colorView, ColorConversionCodes.GRAY2BGR);
+            //Mat colorView = new Mat();
+            //Cv2.CvtColor(srcImage, colorView, ColorConversionCodes.GRAY2BGR);
+            Mat colorView = srcImage.Clone();  // or new Mat(srcImage)      //srcImage 가 이미 3채널
 
             List<(OpenCvSharp.Point2f center, float radius)> circles = new List<(Point2f center, float radius)>();
 
