@@ -1281,8 +1281,9 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-            //Cv2.GaussianBlur(srcImage, blurred, new OpenCvSharp.Size(5, 5), 0.5);// 0.7);
-            Cv2.MedianBlur(gray, blurred, 1);
+
+            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0);// 0.7);
+            //Cv2.MedianBlur(gray, blurred, 9);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //Mat lap = new Mat();
@@ -1321,8 +1322,9 @@ namespace ZenTester.VisionClass
 #endif
             //큰원 26
             //작은원 30
-            int minThresh = 150;//120;
-            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);
+            int minThresh = 180;//120;
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero); //ThresholdTypes.Tozero);//Tozero);
+            //Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Binary | ThresholdTypes.Otsu); //ThresholdTypes.Tozero);//Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 5. (선택) 이진화로 엣지 강화
@@ -1665,8 +1667,9 @@ namespace ZenTester.VisionClass
 #endif
             //작은원 30
             //큰원 18
-            int minThresh = 150;
+            int minThresh = 180;
             Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);//Tozero);
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero); //ThresholdTypes.Tozero);//Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
