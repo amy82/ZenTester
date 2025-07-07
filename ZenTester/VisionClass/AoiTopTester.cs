@@ -1665,10 +1665,10 @@ namespace ZenTester.VisionClass
 #endif
             //작은원 30
             //큰원 18
-            //int minThresh = 70;
-            //Cv2.Threshold(edges, binary, minThresh, 255, ThresholdTypes.Binary);     //
+            int minThresh = 120;
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
-            Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
+            //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
             Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));//(5, 5));

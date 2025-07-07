@@ -481,7 +481,7 @@ namespace ZenTester
             //
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(VisionClass.AoiTester.TOP_INDEX, src, markPos, false, true);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(VisionClass.AoiTester.TOP_INDEX, src, markPos, false, false);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
         }
     }
 }
