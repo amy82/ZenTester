@@ -202,7 +202,8 @@ namespace ZenTester.Dlg
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
+            // 3채널로 변환
+            Cv2.CvtColor(src, src, ColorConversionCodes.GRAY2BGR);
             //int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
             //int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
             //int dataSize2 = sizeX2 * sizeY2;
@@ -376,7 +377,8 @@ namespace ZenTester.Dlg
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
             Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
-
+            // 3채널로 변환
+            Cv2.CvtColor(src, src, ColorConversionCodes.GRAY2BGR);
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
             //----------------------------------------------------------------------------------------------------------------------------------------------
