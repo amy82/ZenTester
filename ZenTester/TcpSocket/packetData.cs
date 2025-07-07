@@ -58,6 +58,20 @@ namespace ZenTester.TcpSocket
         public int[] States { get; set; }       //{ 1, 1, 1, 1}  EEPROM ,AOI는 0번 index만 사용
         public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
 
+        public void init()
+        {
+            Name = string.Empty;
+            Cmd = string.Empty;
+            Step = 0;
+            result = 0;
+            Model = string.Empty;
+            RecipeID = string.Empty;
+            DataID = string.Empty;
+            socketNum = 0;
+            BcrId = new string[4];
+            States = new int[4];
+            CommandParameter.Clear();
+        }
         //TESTER  --> H /  REQ_APD_REPORT,
         //HANDLER --> T /  RESP_APD_REPORT,
         //TESTER  --> H /  CMD_Z_MOVE_STEP1, CMD_Z_MOVE_STEP2,

@@ -797,6 +797,7 @@ namespace ZenTester
             if (ProgramState.NORINDA_MODE == true)
             {
                 LeeTestForm popupForm = new LeeTestForm();
+                popupForm.Location = new Point(1300, 400);
                 popupForm.Show();
             }
                 

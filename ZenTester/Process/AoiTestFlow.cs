@@ -303,8 +303,10 @@ namespace ZenTester.Process
 
                     //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     TcpSocket.TesterData resultData = new TcpSocket.TesterData();
+                    resultData.init();
                     resultData.BcrId[0] = aoiApdData.Barcode;
-                    resultData.Cmd = "CMD_RESULT";  // "APS_LOT_FINISH";
+                    resultData.Cmd = "CMD_RESULT";
+
                     resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
@@ -890,7 +892,7 @@ namespace ZenTester.Process
                         //-------------------------------------------------------------------------------------------
                         //
                         //
-                        //
+                        //%%
                         //Oring 유무
                         //
                         //

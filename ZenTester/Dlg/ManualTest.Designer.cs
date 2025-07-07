@@ -60,9 +60,10 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Roi_Save.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Mark_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Mark_Roi_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Mark_Roi_Save.Location = new System.Drawing.Point(565, 579);
+            this.label_SetTest_Manual_Mark_Roi_Save.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label_SetTest_Manual_Mark_Roi_Save.Location = new System.Drawing.Point(565, 499);
             this.label_SetTest_Manual_Mark_Roi_Save.Name = "label_SetTest_Manual_Mark_Roi_Save";
-            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(98, 38);
+            this.label_SetTest_Manual_Mark_Roi_Save.Size = new System.Drawing.Size(98, 58);
             this.label_SetTest_Manual_Mark_Roi_Save.TabIndex = 103;
             this.label_SetTest_Manual_Mark_Roi_Save.Text = "ROI SAVE";
             this.label_SetTest_Manual_Mark_Roi_Save.UseVisualStyleBackColor = false;
@@ -113,7 +114,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image_Load.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Image_Load.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(565, 653);
+            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(111, 623);
             this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
             this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Image_Load.TabIndex = 99;
@@ -126,7 +127,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image_Save.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Image_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(565, 616);
+            this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(111, 586);
             this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
             this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Image_Save.TabIndex = 98;
@@ -139,6 +140,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Find.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Mark_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Mark_Find.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_Find.ForeColor = System.Drawing.Color.GreenYellow;
             this.label_SetTest_Manual_Mark_Find.Location = new System.Drawing.Point(565, 423);
             this.label_SetTest_Manual_Mark_Find.Name = "label_SetTest_Manual_Mark_Find";
             this.label_SetTest_Manual_Mark_Find.Size = new System.Drawing.Size(98, 75);
@@ -151,10 +153,10 @@ namespace ZenTester.Dlg
             // 
             this.label_SetTest_Manual_Mark_View.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Mark_View.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(565, 541);
+            this.label_SetTest_Manual_Mark_View.Font = new System.Drawing.Font("나눔명조 ExtraBold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Mark_View.Location = new System.Drawing.Point(565, 609);
             this.label_SetTest_Manual_Mark_View.Name = "label_SetTest_Manual_Mark_View";
-            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(98, 39);
+            this.label_SetTest_Manual_Mark_View.Size = new System.Drawing.Size(98, 45);
             this.label_SetTest_Manual_Mark_View.TabIndex = 96;
             this.label_SetTest_Manual_Mark_View.Text = "VIEW";
             this.label_SetTest_Manual_Mark_View.UseVisualStyleBackColor = false;
@@ -165,9 +167,9 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Regist.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Mark_Regist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Mark_Regist.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(565, 497);
+            this.label_SetTest_Manual_Mark_Regist.Location = new System.Drawing.Point(565, 555);
             this.label_SetTest_Manual_Mark_Regist.Name = "label_SetTest_Manual_Mark_Regist";
-            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(98, 45);
+            this.label_SetTest_Manual_Mark_Regist.Size = new System.Drawing.Size(98, 56);
             this.label_SetTest_Manual_Mark_Regist.TabIndex = 95;
             this.label_SetTest_Manual_Mark_Regist.Text = "REGIST";
             this.label_SetTest_Manual_Mark_Regist.UseVisualStyleBackColor = false;

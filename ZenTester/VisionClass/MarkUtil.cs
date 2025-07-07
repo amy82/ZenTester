@@ -345,8 +345,8 @@ namespace ZenTester.VisionClass
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_DETAIL_LEVEL, MIL.M_MEDIUM);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_CONTEXT, MIL.M_FILTER_MODE, MIL.M_RECURSIVE);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE, 0);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 10);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 10);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_NEG, 5);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ANGLE_DELTA_POS, 5);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE, 1.0);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, 0.85);//0.99);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, 1.15);//1.2);
@@ -354,9 +354,10 @@ namespace ZenTester.VisionClass
             /////MIL.MmodControl(m_MilModModel[nUnit][nNo], M_DEFAULT, M_SCALE_MAX_FACTOR, 1.01);
             ///
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 90);//90);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 80);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_ACCEPTANCE_TARGET, 90);
             MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY, 90);//90);
-            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 80);
+            MIL.MmodControl(m_MilModModel[markNo], MIL.M_DEFAULT, MIL.M_CERTAINTY_TARGET, 90);
+
         }
 
         //FindModel(int nUnit, int nNo, bool bAreaFlag, CDPoint& clFindPos, double& dScore, double& dAngle, double& dFitError, CDPoint& clMarkSize, CDPoint& clMarkCenter)
@@ -506,9 +507,13 @@ namespace ZenTester.VisionClass
                 {
                     str = $"FIND FAIL!";
                 }
+
+                if (MarkDraw)
+                {
+                    textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 600, 500);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
+                }
                 
-                textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 600, 500);
-                Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Red, 50);
             }
             if (bFind)
             {
