@@ -77,6 +77,8 @@ namespace ZenTester.Dlg
             this.label_Aoi_Result_Mh2 = new System.Windows.Forms.Label();
             this.label_Aoi_Result_Lh_Val2 = new System.Windows.Forms.Label();
             this.label_Aoi_Result_Lh2 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -136,24 +138,22 @@ namespace ZenTester.Dlg
             // 
             // btn_TopCam_Image_Load
             // 
-            this.btn_TopCam_Image_Load.Location = new System.Drawing.Point(1136, 718);
+            this.btn_TopCam_Image_Load.Location = new System.Drawing.Point(576, 718);
             this.btn_TopCam_Image_Load.Name = "btn_TopCam_Image_Load";
             this.btn_TopCam_Image_Load.Size = new System.Drawing.Size(72, 29);
             this.btn_TopCam_Image_Load.TabIndex = 7;
             this.btn_TopCam_Image_Load.Text = "Load";
             this.btn_TopCam_Image_Load.UseVisualStyleBackColor = true;
-            this.btn_TopCam_Image_Load.Visible = false;
             this.btn_TopCam_Image_Load.Click += new System.EventHandler(this.btn_TopCam_Image_Load_Click);
             // 
             // btn_TopCam_Image_Save
             // 
-            this.btn_TopCam_Image_Save.Location = new System.Drawing.Point(1065, 718);
+            this.btn_TopCam_Image_Save.Location = new System.Drawing.Point(498, 718);
             this.btn_TopCam_Image_Save.Name = "btn_TopCam_Image_Save";
             this.btn_TopCam_Image_Save.Size = new System.Drawing.Size(72, 29);
             this.btn_TopCam_Image_Save.TabIndex = 8;
             this.btn_TopCam_Image_Save.Text = "Save";
             this.btn_TopCam_Image_Save.UseVisualStyleBackColor = true;
-            this.btn_TopCam_Image_Save.Visible = false;
             this.btn_TopCam_Image_Save.Click += new System.EventHandler(this.btn_TopCam_Image_Save_Click);
             // 
             // panelCam2
@@ -663,10 +663,32 @@ namespace ZenTester.Dlg
             this.label_Aoi_Result_Lh2.Text = "LH (12.390)";
             this.label_Aoi_Result_Lh2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1101, 732);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(72, 29);
+            this.button1.TabIndex = 74;
+            this.button1.Text = "Save";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btn_SideCam_Image_Save_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1179, 732);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(72, 29);
+            this.button2.TabIndex = 73;
+            this.button2.Text = "Load";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btn_SideCam_Image_Load_Click);
+            // 
             // CameraControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label_Aoi_Result_ConD_Val2);
             this.Controls.Add(this.label_Aoi_Result_ConD2);
             this.Controls.Add(this.label_Aoi_Result_ConA_Val2);
@@ -771,5 +793,7 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_Aoi_Result_Mh2;
         private System.Windows.Forms.Label label_Aoi_Result_Lh_Val2;
         public System.Windows.Forms.Label label_Aoi_Result_Lh2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

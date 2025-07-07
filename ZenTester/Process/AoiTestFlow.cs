@@ -33,6 +33,8 @@ namespace ZenTester.Process
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
         private int m_nTestFinalResult;
         private int sidecount = 0;
+
+        private int captureDelay = 1000;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -50,7 +52,7 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
-                    Globalo.serialPortManager.LightControl.recvCheck = -1;
+                    
                     m_nTestFinalResult = 1;
                     Globalo.visionManager.milLibrary.RunModeChange(true);
 
@@ -66,13 +68,18 @@ namespace ZenTester.Process
                     //조명
 
                     int sData = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
-
+                    Globalo.serialPortManager.LightControl.recvCheck = -1;
                     Globalo.serialPortManager.LightControl.AllctrlLedVolume(0, sData);      //1,2 채널 동시 변경
                     nTimeTick = Environment.TickCount;
                     nRetStep = 112;
                     break;
                 case 112:
                     //조명
+                    if (Program.nRunState == RUN_STATE.MANUAL)
+                    {
+                        nRetStep = 116;
+                        break;
+                    }
                     if (Globalo.serialPortManager.LightControl.recvCheck == -1)
                     {
                         break;
@@ -102,7 +109,7 @@ namespace ZenTester.Process
                     nTimeTick = Environment.TickCount;
                     break;
                 case 114:
-                    if (Environment.TickCount - nTimeTick > 500)
+                    if (Environment.TickCount - nTimeTick > captureDelay)
                     {
                         nRetStep = 116;
                     }
@@ -112,6 +119,7 @@ namespace ZenTester.Process
                     Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.SIDE_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
+                    Globalo.visionManager.aoiTester.FinalBmpImageSave("Side", aoiApdData.Barcode, Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.SIDE_INDEX]);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
                     nRetStep = 120;
                     break;
@@ -130,6 +138,11 @@ namespace ZenTester.Process
                     break;
                 case 132:
                     //조명
+                    if (Program.nRunState == RUN_STATE.MANUAL)
+                    {
+                        nRetStep = 140;
+                        break;
+                    }
                     if (Globalo.serialPortManager.LightControl.recvCheck == -1)
                     {
                         break;
@@ -160,7 +173,7 @@ namespace ZenTester.Process
                     break;
 
                 case 134:
-                    if (Environment.TickCount - nTimeTick > 500)
+                    if (Environment.TickCount - nTimeTick > captureDelay)
                     {
                         nRetStep = 140;
                     }
@@ -171,6 +184,7 @@ namespace ZenTester.Process
                     Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.TOP_INDEX);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
+                    Globalo.visionManager.aoiTester.FinalBmpImageSave("Top", aoiApdData.Barcode, Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX]);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
                     nRetStep = 150;
                     break;
@@ -189,7 +203,15 @@ namespace ZenTester.Process
                     TopCamTask = Task.Run(() =>
                     {
                         waitTopCam = 1;
-                        waitTopCam = TopCamFlow();      //0 or -1 Return
+                        if (Program.nRunState == RUN_STATE.MANUAL)
+                        {
+                            waitTopCam = TopCamFlow(false);      //0 or -1 Return
+                        }
+                        else
+                        {
+                            waitTopCam = TopCamFlow();      //0 or -1 Return
+                        }
+                        
                         Console.WriteLine($"-------------- TopCam Task - end {waitTopCam}");
                         return waitTopCam;
                     }, CancelToken.Token);
@@ -198,11 +220,18 @@ namespace ZenTester.Process
                     SideCamTask = Task.Run(() =>
                     {
                         waitSideCam = 1;
-                        waitSideCam = SideCamFlow();      //0 or -1 Return
+                        if (Program.nRunState == RUN_STATE.MANUAL)
+                        {
+                            waitSideCam = SideCamFlow(false);      //0 or -1 Return
+                        }
+                        else
+                        {
+                            waitSideCam = SideCamFlow();      //0 or -1 Return
+                        }
+                           
                         Console.WriteLine($"-------------- SideCam Task - end {waitSideCam}");
                         return waitSideCam;
                     }, CancelToken.Token);
-
                     //
                     //
                     //
@@ -643,7 +672,7 @@ namespace ZenTester.Process
                         }
 
                         //
-                        Globalo.visionManager.aoiTester.FinalImageSave("top", aoiApdData.Barcode, TopMatImage);
+                        Globalo.visionManager.aoiTester.FinalJpgImageSave("top", aoiApdData.Barcode, TopMatImage);
 
                         nRetStep = 900;
                         break;
@@ -694,6 +723,8 @@ namespace ZenTester.Process
 
 
                         Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
+
+
                         //
                         //
                         //int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex];
@@ -941,7 +972,7 @@ namespace ZenTester.Process
                             aoiApdData.Cone = "0";
                         }
 
-                        Globalo.visionManager.aoiTester.FinalImageSave("Side", aoiApdData.Barcode, SideMatImage);
+                        Globalo.visionManager.aoiTester.FinalJpgImageSave("Side", aoiApdData.Barcode, SideMatImage);
 
                         nRetStep = 50;
                         break;

@@ -199,6 +199,7 @@ namespace ZenTester
 
         private void button24_Click(object sender, EventArgs e)
         {
+            
             TcpSocket.TesterData data = new TcpSocket.TesterData();
             data.BcrId = new string[1];
             data.BcrId[0] = "manual lot";

@@ -187,7 +187,8 @@ namespace ZenTester.Dlg
                 {
                     Globalo.visionManager.milLibrary.ClearOverlay(0);
                     string selectedFilePath = openFileDialog.FileName;
-                    Globalo.visionManager.SetLoadBmp(0, selectedFilePath);
+                    Globalo.visionManager.SetLoadBmp(VisionClass.AoiTester.TOP_INDEX, selectedFilePath);
+
                     Console.WriteLine("선택한 이미지 경로:\n" + selectedFilePath);
                 }
                 else

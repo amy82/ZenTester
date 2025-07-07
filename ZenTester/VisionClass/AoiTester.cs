@@ -22,7 +22,28 @@ namespace ZenTester.VisionClass
         }
 
 
-        public void FinalImageSave(string postion, string imageName, Mat ResultImage)
+        public void FinalBmpImageSave(string postion, string imageName, MIL_ID MilImage)
+        {
+            string FinalLogPath = Data.CPath.BASE_LOG_PATH;
+            string MiddleLogPath = "AoiResult";
+            string currentDate = DateTime.Now.ToString("yyyyMMdd");
+
+            string timeStr = DateTime.Now.ToString("HHmmss");
+            string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.BMP";
+
+            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
+
+            string directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            //image Save
+
+            MIL.MbufExport("d:\\oring.BMP", MIL.M_BMP, MilImage);
+        }
+        public void FinalJpgImageSave(string postion, string imageName, Mat ResultImage)
         {
             string FinalLogPath = Data.CPath.BASE_LOG_PATH;
             string MiddleLogPath = "AoiResult";
@@ -43,7 +64,6 @@ namespace ZenTester.VisionClass
 
             Cv2.ImWrite(filePath, ResultImage);
         }
- 
         public void FinalLogSave(TcpSocket.AoiApdData finalData)
         {
             string FinalLogPath = Data.CPath.BASE_LOG_PATH;
