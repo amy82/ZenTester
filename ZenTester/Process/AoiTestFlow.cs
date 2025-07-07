@@ -590,10 +590,13 @@ namespace ZenTester.Process
                         bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
                         //if (key1Rtn == 0 || key2Rtn == 0)
+                        ResultAoiAPdData.KeyType = string.Empty;
                         if (dKeyScore < 60.0)
                         {
                             //ng
+
                             aoiApdData.Result = "NG";
+                            ResultAoiAPdData.KeyType = "NG";
                             aoiApdData.KeyType = "Empty";//"Null";
                             szLog = $"[TOP CAM] {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
@@ -631,6 +634,8 @@ namespace ZenTester.Process
                         HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], false,true); //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
                         //내원 2개 , 외원 2개씩 찾아야 진행된다.
+                        ResultAoiAPdData.Concentrycity_A = string.Empty;
+                        ResultAoiAPdData.Concentrycity_D = string.Empty;
                         if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
                         {
                             Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
@@ -669,14 +674,18 @@ namespace ZenTester.Process
                         
 
 
-                        if (con1Result < con_InMin || con1Result > con_InMax)
+                        //if (con1Result < con_InMin || con1Result > con_InMax)
+                        if (con1Result > con_InMax)
                         {
                             aoiApdData.Result = "NG";
+                            ResultAoiAPdData.Concentrycity_A = "NG";
                         }
 
-                        if (con2Result < con_OutMin || con2Result > con_OutMax)
+                        //if (con2Result < con_OutMin || con2Result > con_OutMax)
+                        if (con2Result > con_OutMax)
                         {
                             aoiApdData.Result = "NG";
+                            ResultAoiAPdData.Concentrycity_D = "NG";
                         }
 
                         //
@@ -702,13 +711,34 @@ namespace ZenTester.Process
                             Globalo.cameraControl.setTopTestResult(int.Parse(aoiApdData.Socket_Num), resultStr);
                         }, null);
 
-                        resultStr = $"Con1 :{aoiApdData.Concentrycity_A}";
-                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 800);
-                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        double con_InMin2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value);
+                        double con_InMax2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
+                        double con_OutMin2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
+                        double con_OutMax2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
 
-                        resultStr = $"Con2 :{aoiApdData.Concentrycity_D}";
+                        resultStr = $"Con1 :{aoiApdData.Concentrycity_A} [~{con_InMax2}]";
+                        txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 800);
+                        if (ResultAoiAPdData.Concentrycity_A == "NG")
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Red, 13);
+                        }
+                        else
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        }
+                        
+
+                        resultStr = $"Con2 :{aoiApdData.Concentrycity_D} [~{con_OutMax2}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 700);
-                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        if (ResultAoiAPdData.Concentrycity_D == "NG")
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Red, 13);
+                        }
+                        else
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        }
+                        
 
                         //dentCount = HousingCenter[0].X;
                         //dentMaxCount = HousingCenter[0].Y;
@@ -737,7 +767,15 @@ namespace ZenTester.Process
                         //resultStr = $"Key :{aoiApdData.KeyType}";  //$"Key {keyType} - {key1Rtn} / {key2Rtn} ";
                         resultStr = $"Key :{aoiApdData.KeyType} [{specKey2}]";// - {key1Rtn} / {key2Rtn}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 400);
-                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        if (ResultAoiAPdData.KeyType == "NG")
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Red, 13);
+                        }
+                        else
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        }
+                        
 
 
                         Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
