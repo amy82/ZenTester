@@ -29,7 +29,7 @@ namespace ZenTester.VisionClass
             string currentDate = DateTime.Now.ToString("yyyyMMdd");
 
             string timeStr = DateTime.Now.ToString("HHmmss");
-            string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.BMP";
+            string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.bmp";
 
             string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
 
@@ -41,7 +41,7 @@ namespace ZenTester.VisionClass
 
             //image Save
 
-            MIL.MbufExport("d:\\oring.BMP", MIL.M_BMP, MilImage);
+            MIL.MbufExport(filePath, MIL.M_BMP, MilImage);
         }
         public void FinalJpgImageSave(string postion, string imageName, Mat ResultImage)
         {

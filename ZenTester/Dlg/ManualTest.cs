@@ -161,20 +161,20 @@ namespace ZenTester.Dlg
             string str = string.Empty;
             System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex] - 300);
             //str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+
+
+
             if (bRtn)//key1Rtn == 1 && key2Rtn == 1)
             {
                 //성공
-
+                str = $"Key :{1}";
                 Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
             }
             else
             {
+                str = $"Key :{0}";
                 Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
             }
-
-
-            
-
 
 
 

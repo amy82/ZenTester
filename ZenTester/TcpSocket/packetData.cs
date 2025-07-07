@@ -190,4 +190,34 @@ namespace ZenTester.TcpSocket
             Socket_Num = "1";
         }
     }
+
+
+    public class ResultAoiData
+    {
+        public string LH { get; set; }
+        public string RH { get; set; }
+        public string MH { get; set; }
+        public string Gasket { get; set; }
+        public string KeyType { get; set; }
+        public string CircleDented { get; set; }
+        public string Concentrycity_A { get; set; }
+        public string Concentrycity_D { get; set; }
+        public string Cone { get; set; }
+        public string ORing { get; set; }
+        public string Result { get; set; }
+        public void init()
+        {
+            LH = "0.0";
+            RH = "0.0";
+            MH = "0.0";
+            Gasket = "0.0";
+            KeyType = "A";
+            CircleDented = "0.0";
+            Concentrycity_A = "0.0";
+            Concentrycity_D = "0.0";
+            Cone = "1";
+            ORing = "1";
+            Result = "1";
+        }
+    }
 }

@@ -533,15 +533,17 @@ namespace ZenTester.VisionClass
                 MIL.MmodControl(m_MilModResult[index], MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[index]);//M_DRAW_SCALE_Y
 
                 MIL.MmodDraw(MIL.M_DEFAULT, m_MilModResult[index], Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION + MIL.M_DRAW_EDGES + MIL.M_DRAW_AXIS, MIL.M_DEFAULT, MIL.M_DEFAULT);
-            }
 
-            if (MarkDraw)
-            {
                 str = $"[ROI] (mm)";
                 textPoint = new System.Drawing.Point(m_clRoi.X, m_clRoi.Y + 50);
                 Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 11);
 
                 Globalo.visionManager.milLibrary.DrawOverlayBox(index, m_clRoi, Color.Blue, 1);
+            }
+
+            if (MarkDraw)
+            {
+                
 
 
                 str = $"Center X={dFindPos.X.ToString("0.0#")}";

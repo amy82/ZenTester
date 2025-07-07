@@ -28,6 +28,9 @@ namespace ZenTester.Process
         public int nUnloadTimeTick = 0;           //<-----동시 동작일대 같이 쓰면 안될듯
 
         public TcpSocket.AoiApdData aoiApdData = new TcpSocket.AoiApdData();
+        //
+        public TcpSocket.ResultAoiData ResultAoiAPdData = new TcpSocket.ResultAoiData();
+
         private OpenCvSharp.Point[] aoiCenterPos = new OpenCvSharp.Point[2];
         private TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
@@ -43,6 +46,7 @@ namespace ZenTester.Process
             SideCamTask = Task.FromResult(1);      //<--실제 실행하지않고,즉시 완료된 상태로 반환
 
             aoiApdData.init();
+            ResultAoiAPdData.init();
         }
 
         public int AoiAutoProcess(int nStep)
@@ -483,7 +487,7 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], true);
 
-
+                        ResultAoiAPdData.Gasket = string.Empty;
                         if (gasketLight < specGasketMin)// || gasketLight > specGasketMax)
                         {
                             //검사 결과 : 없다. X
@@ -492,6 +496,7 @@ namespace ZenTester.Process
                                 //ng
                                 aoiApdData.Result = "NG";
 
+                                ResultAoiAPdData.Gasket = "NG";
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
@@ -510,6 +515,7 @@ namespace ZenTester.Process
                                 //ng
                                 aoiApdData.Result = "NG";
 
+                                ResultAoiAPdData.Gasket = "NG";
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
@@ -711,12 +717,25 @@ namespace ZenTester.Process
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Gasket :{aoiApdData.Gasket}";
+
+                        int Is_Gasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value);
+                        int specGasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
+                        resultStr = $"Gasket :{aoiApdData.Gasket} [{Is_Gasket}/{specGasket}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 500);
-                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        if (ResultAoiAPdData.Gasket == "NG")
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Red, 13);
+                        }
+                        else
+                        {
+                            Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
+                        }
+
+
+                        string specKey2 = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
 
                         //resultStr = $"Key :{aoiApdData.KeyType}";  //$"Key {keyType} - {key1Rtn} / {key2Rtn} ";
-                        resultStr = $"Key :{aoiApdData.KeyType}";// - {key1Rtn} / {key2Rtn}";
+                        resultStr = $"Key :{aoiApdData.KeyType} [{specKey2}]";// - {key1Rtn} / {key2Rtn}";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 400);
                         Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 

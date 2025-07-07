@@ -711,15 +711,7 @@ namespace ZenTester.VisionClass
                 //    new OpenCvSharp.Point(OffsetX + OffsetWidth / 2, OffsetY + maxValue),
                 //    Scalar.Yellow, 1, LineTypes.AntiAlias, 0, 0.2);  // 마지막 인자는 화살표 크기
 
-                //ResultImg
-                if (ResultImg != null )//|| !ResultImg.Empty())
-                {
-                    // 이미지가 없을 때 기본 처리 (예: -1 리턴, 예외 발생 등)
-                    OpenCvSharp.Point start = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue);
-                    OpenCvSharp.Point end = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + maxValue);
-
-                    DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 2);
-                }
+                
                 
 
                 int textCenterY = (int)((OffsetY + maxValue) - ((OffsetY + maxValue) - (OffsetY + minValue)) / 2);
@@ -760,6 +752,26 @@ namespace ZenTester.VisionClass
                 Console.Write("the specified maximum number of edges !\n\n");
             }
 
+
+            if (ResultImg != null)//|| !ResultImg.Empty())
+            {
+                // 이미지가 없을 때 기본 처리 (예: -1 리턴, 예외 발생 등)
+                OpenCvSharp.Point start = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue);
+                OpenCvSharp.Point end = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + maxValue);
+
+                DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 2);
+
+                string txtstr = $"{dHeight.ToString("0.0###")}(mm)";
+
+                OpenCvSharp.Point position = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue +100); // 텍스트 위치
+                Scalar color = new Scalar(0, 255, 0); // 빨간색 (B, G, R)
+                HersheyFonts fontFace = HersheyFonts.HersheySimplex;
+                double fontScale = 1.0;
+                int thickness = 2;
+
+                // 이미지에 텍스트 추가
+                Cv2.PutText(ResultImg, txtstr, position, fontFace, fontScale, color, thickness);
+            }
             return dHeight;
         }
         public bool HeightTest(int index)
