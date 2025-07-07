@@ -14,8 +14,8 @@ namespace ZenTester.Data
     }
     public class SpecRadius
     {
-        public double min { get; set; }
-        public double max { get; set; }
+        public int min { get; set; }
+        public int max { get; set; }
     }
     public class _CamSettings
     {

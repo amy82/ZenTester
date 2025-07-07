@@ -84,6 +84,12 @@ namespace ZenTester.Dlg
             Globalo.yamlManager.configData.CamSettings.TopRetry = int.Parse(label_Set_SideCam_Test_Retry_Val.Text);
 
 
+            Globalo.yamlManager.configData.CamSettings.smallCircle.min = int.Parse(label_Set_TopCam_Small_Min_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.smallCircle.max = int.Parse(label_Set_TopCam_Small_Max_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.bigCircle.min = int.Parse(label_Set_TopCam_Big_Min_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.bigCircle.max = int.Parse(label_Set_TopCam_Big_Max_Val.Text);
+
+
             Globalo.yamlManager.configDataSave();
             if (checkBox_Measure.Checked)
             {
@@ -112,6 +118,13 @@ namespace ZenTester.Dlg
 
             label_Set_TopCam_Test_Retry_Val.Text = Globalo.yamlManager.configData.CamSettings.TopRetry.ToString();
             label_Set_SideCam_Test_Retry_Val.Text = Globalo.yamlManager.configData.CamSettings.SideRetry.ToString();
+
+
+
+            label_Set_TopCam_Small_Min_Val.Text = Globalo.yamlManager.configData.CamSettings.smallCircle.min.ToString();
+            label_Set_TopCam_Small_Max_Val.Text = Globalo.yamlManager.configData.CamSettings.smallCircle.max.ToString();
+            label_Set_TopCam_Big_Min_Val.Text = Globalo.yamlManager.configData.CamSettings.bigCircle.min.ToString();
+            label_Set_TopCam_Big_Max_Val.Text = Globalo.yamlManager.configData.CamSettings.bigCircle.max.ToString();
         }
         public void showLight()
         {
@@ -661,11 +674,7 @@ namespace ZenTester.Dlg
 
         private void label_Set_TopCam_Dent_Count_Val_Click(object sender, EventArgs e)
         {
-            string labelValue = label_Set_TopCam_Dent_Count_Val.Text;
-            decimal decimalValue = 0;
-
-
-            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            string formattedValue = label_Set_TopCam_Dent_Count_Val.Text;
             NumPadForm popupForm = new NumPadForm(formattedValue);
 
             DialogResult dialogResult = popupForm.ShowDialog();
@@ -688,11 +697,7 @@ namespace ZenTester.Dlg
 
         private void label_Set_TopCam_Test_Retry_Val_Click(object sender, EventArgs e)
         {
-            string labelValue = label_Set_TopCam_Test_Retry_Val.Text;
-            decimal decimalValue = 0;
-
-
-            string formattedValue = label_SetTest_Manual_Top_Light_Data.Text;
+            string formattedValue = label_Set_TopCam_Test_Retry_Val.Text;
             NumPadForm popupForm = new NumPadForm(formattedValue);
 
             DialogResult dialogResult = popupForm.ShowDialog();
@@ -737,6 +742,98 @@ namespace ZenTester.Dlg
                     dNumData = 10;
                 }
                 label_Set_SideCam_Test_Retry_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Small_Min_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_TopCam_Small_Min_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 100)
+                {
+                    dNumData = 100;
+                }
+                if (dNumData > 500)
+                {
+                    dNumData = 500;
+                }
+                label_Set_TopCam_Small_Min_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Big_Min_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_TopCam_Small_Max_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 250)
+                {
+                    dNumData = 250;
+                }
+                if (dNumData > 900)
+                {
+                    dNumData = 900;
+                }
+                label_Set_TopCam_Small_Max_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Small_Max_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_TopCam_Small_Max_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 100)
+                {
+                    dNumData = 100;
+                }
+                if (dNumData > 500)
+                {
+                    dNumData = 500;
+                }
+                label_Set_TopCam_Small_Max_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Big_Max_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_TopCam_Big_Max_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 250)
+                {
+                    dNumData = 250;
+                }
+                if (dNumData > 900)
+                {
+                    dNumData = 900;
+                }
+                label_Set_TopCam_Big_Max_Val.Text = dNumData.ToString();
             }
         }
     }

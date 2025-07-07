@@ -1321,8 +1321,8 @@ namespace ZenTester.VisionClass
 #endif
             //큰원 26
             //작은원 30
-            int minThresh = 160;
-            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Binary);
+            int minThresh = 120;
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 5. (선택) 이진화로 엣지 강화
@@ -1423,13 +1423,14 @@ namespace ZenTester.VisionClass
 #if _BIG_IMAGE      //Fakra
                 if (radius < 300 || radius > 500)   //안쪽원 377정도나옴
 #else
-                if (radius < 200 || radius > 270)//if (radius < 120 || radius > 280)
+                //if (radius < 200 || radius > 270)//if (radius < 120 || radius > 280)
+                if (radius < Globalo.yamlManager.configData.CamSettings.smallCircle.min || radius > Globalo.yamlManager.configData.CamSettings.smallCircle.max)
 #endif
                 {
                     continue;
                 }
                 Console.Write($"[small Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
-                if (circularity < 0.001)//0.01)
+                if (circularity < 0.0001)//0.01)
                 {
                     continue;
                 }
@@ -1473,8 +1474,8 @@ namespace ZenTester.VisionClass
                 //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
-                Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
-                Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 2);  // 외경
+                Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 3);   // 내경
+                Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 3);  // 외경
 
                 Console.Write($"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n");
                 Console.Write($"[maxCircle] {maxCircle.center.X},{maxCircle.center.Y}, radius: {maxCircle.radius}\n");
@@ -1764,7 +1765,8 @@ namespace ZenTester.VisionClass
 #if _BIG_IMAGE      ////Out Housing
                 if (radius < 550 || radius > 1000)  //890)
 #else
-                if (radius < 350 || radius > 560)   //890)
+                if (radius < Globalo.yamlManager.configData.CamSettings.bigCircle.min || radius > Globalo.yamlManager.configData.CamSettings.bigCircle.max)
+                //if (radius < 350 || radius > 560)   //890)
 #endif
                 {
                     continue;

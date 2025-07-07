@@ -70,6 +70,14 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Test_Retry = new System.Windows.Forms.Label();
             this.label_Set_SideCam_Test_Retry_Val = new System.Windows.Forms.Label();
             this.label_Set_SideCam_Test_Retry = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Small_Min_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Small_Min = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Small_Max_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Small_Max = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Big_Max_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Big_Max = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Big_Min_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Big_Min = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Top_Light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Side_Light)).BeginInit();
             this.SuspendLayout();
@@ -96,9 +104,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(2, 136);
+            this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(94, 80);
             this.label_Set_TopCam_ResolY_Val.Name = "label_Set_TopCam_ResolY_Val";
-            this.label_Set_TopCam_ResolY_Val.Size = new System.Drawing.Size(96, 28);
+            this.label_Set_TopCam_ResolY_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_TopCam_ResolY_Val.TabIndex = 84;
             this.label_Set_TopCam_ResolY_Val.Text = "0.0";
             this.label_Set_TopCam_ResolY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -114,7 +122,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_ResolX_Val.Location = new System.Drawing.Point(3, 80);
             this.label_Set_TopCam_ResolX_Val.Name = "label_Set_TopCam_ResolX_Val";
-            this.label_Set_TopCam_ResolX_Val.Size = new System.Drawing.Size(96, 28);
+            this.label_Set_TopCam_ResolX_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_TopCam_ResolX_Val.TabIndex = 82;
             this.label_Set_TopCam_ResolX_Val.Text = "0.0";
             this.label_Set_TopCam_ResolX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -125,9 +133,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolY.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_TopCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolY.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(2, 109);
+            this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(94, 53);
             this.label_Set_TopCam_ResolY.Name = "label_Set_TopCam_ResolY";
-            this.label_Set_TopCam_ResolY.Size = new System.Drawing.Size(96, 27);
+            this.label_Set_TopCam_ResolY.Size = new System.Drawing.Size(85, 27);
             this.label_Set_TopCam_ResolY.TabIndex = 83;
             this.label_Set_TopCam_ResolY.Text = "Resoltion y";
             this.label_Set_TopCam_ResolY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -139,7 +147,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolX.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_ResolX.Location = new System.Drawing.Point(3, 53);
             this.label_Set_TopCam_ResolX.Name = "label_Set_TopCam_ResolX";
-            this.label_Set_TopCam_ResolX.Size = new System.Drawing.Size(96, 27);
+            this.label_Set_TopCam_ResolX.Size = new System.Drawing.Size(85, 27);
             this.label_Set_TopCam_ResolX.TabIndex = 81;
             this.label_Set_TopCam_ResolX.Text = "Resoltion x";
             this.label_Set_TopCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -166,9 +174,9 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(3, 513);
+            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(92, 458);
             this.label_Set_SideCam_ResolY_Val.Name = "label_Set_SideCam_ResolY_Val";
-            this.label_Set_SideCam_ResolY_Val.Size = new System.Drawing.Size(96, 28);
+            this.label_Set_SideCam_ResolY_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_SideCam_ResolY_Val.TabIndex = 89;
             this.label_Set_SideCam_ResolY_Val.Text = "0.0";
             this.label_Set_SideCam_ResolY_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -182,9 +190,9 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(3, 458);
+            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(3, 459);
             this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
-            this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(96, 28);
+            this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_SideCam_ResolX_Val.TabIndex = 87;
             this.label_Set_SideCam_ResolX_Val.Text = "0.0";
             this.label_Set_SideCam_ResolX_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -195,9 +203,9 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(3, 486);
+            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(92, 431);
             this.label_Set_SideCam_ResolY.Name = "label_Set_SideCam_ResolY";
-            this.label_Set_SideCam_ResolY.Size = new System.Drawing.Size(96, 27);
+            this.label_Set_SideCam_ResolY.Size = new System.Drawing.Size(85, 27);
             this.label_Set_SideCam_ResolY.TabIndex = 88;
             this.label_Set_SideCam_ResolY.Text = "Resoltion y";
             this.label_Set_SideCam_ResolY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -209,7 +217,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(3, 431);
             this.label_Set_SideCam_ResolX.Name = "label_Set_SideCam_ResolX";
-            this.label_Set_SideCam_ResolX.Size = new System.Drawing.Size(96, 27);
+            this.label_Set_SideCam_ResolX.Size = new System.Drawing.Size(85, 27);
             this.label_Set_SideCam_ResolX.TabIndex = 86;
             this.label_Set_SideCam_ResolX.Text = "Resoltion x";
             this.label_Set_SideCam_ResolX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -223,7 +231,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Test.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(3, 15);
             this.label_SetTest_Manual_Top_Test.Name = "label_SetTest_Manual_Top_Test";
-            this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(292, 29);
+            this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(267, 29);
             this.label_SetTest_Manual_Top_Test.TabIndex = 91;
             this.label_SetTest_Manual_Top_Test.Text = "Top Cam Manual Test";
             this.label_SetTest_Manual_Top_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -237,7 +245,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(4, 399);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
-            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(292, 29);
+            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(266, 29);
             this.label_SetTest_Manual_Side_Test.TabIndex = 92;
             this.label_SetTest_Manual_Side_Test.Text = "Side Cam Manual Test";
             this.label_SetTest_Manual_Side_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -500,9 +508,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Key_EdgeCount_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Key_EdgeCount_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Key_EdgeCount_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Key_EdgeCount_Val.Location = new System.Drawing.Point(174, 80);
+            this.label_Set_TopCam_Key_EdgeCount_Val.Location = new System.Drawing.Point(12, 290);
             this.label_Set_TopCam_Key_EdgeCount_Val.Name = "label_Set_TopCam_Key_EdgeCount_Val";
-            this.label_Set_TopCam_Key_EdgeCount_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_Key_EdgeCount_Val.Size = new System.Drawing.Size(106, 28);
             this.label_Set_TopCam_Key_EdgeCount_Val.TabIndex = 129;
             this.label_Set_TopCam_Key_EdgeCount_Val.Text = "0";
             this.label_Set_TopCam_Key_EdgeCount_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -513,9 +521,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Key_EdgeCount.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_TopCam_Key_EdgeCount.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Key_EdgeCount.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Key_EdgeCount.Location = new System.Drawing.Point(174, 53);
+            this.label_Set_TopCam_Key_EdgeCount.Location = new System.Drawing.Point(12, 263);
             this.label_Set_TopCam_Key_EdgeCount.Name = "label_Set_TopCam_Key_EdgeCount";
-            this.label_Set_TopCam_Key_EdgeCount.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_Key_EdgeCount.Size = new System.Drawing.Size(106, 27);
             this.label_Set_TopCam_Key_EdgeCount.TabIndex = 128;
             this.label_Set_TopCam_Key_EdgeCount.Text = "Key Spec Count";
             this.label_Set_TopCam_Key_EdgeCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -528,9 +536,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Limit_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Dent_Limit_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Limit_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Limit_Val.Location = new System.Drawing.Point(174, 136);
+            this.label_Set_TopCam_Dent_Limit_Val.Location = new System.Drawing.Point(185, 80);
             this.label_Set_TopCam_Dent_Limit_Val.Name = "label_Set_TopCam_Dent_Limit_Val";
-            this.label_Set_TopCam_Dent_Limit_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_Dent_Limit_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_TopCam_Dent_Limit_Val.TabIndex = 131;
             this.label_Set_TopCam_Dent_Limit_Val.Text = "0.0";
             this.label_Set_TopCam_Dent_Limit_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -541,9 +549,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Limit.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_TopCam_Dent_Limit.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Limit.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Limit.Location = new System.Drawing.Point(174, 109);
+            this.label_Set_TopCam_Dent_Limit.Location = new System.Drawing.Point(185, 53);
             this.label_Set_TopCam_Dent_Limit.Name = "label_Set_TopCam_Dent_Limit";
-            this.label_Set_TopCam_Dent_Limit.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_Dent_Limit.Size = new System.Drawing.Size(85, 27);
             this.label_Set_TopCam_Dent_Limit.TabIndex = 130;
             this.label_Set_TopCam_Dent_Limit.Text = "Dent Limit";
             this.label_Set_TopCam_Dent_Limit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -556,9 +564,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Count_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Dent_Count_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Count_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Count_Val.Location = new System.Drawing.Point(1, 192);
+            this.label_Set_TopCam_Dent_Count_Val.Location = new System.Drawing.Point(3, 143);
             this.label_Set_TopCam_Dent_Count_Val.Name = "label_Set_TopCam_Dent_Count_Val";
-            this.label_Set_TopCam_Dent_Count_Val.Size = new System.Drawing.Size(96, 28);
+            this.label_Set_TopCam_Dent_Count_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_TopCam_Dent_Count_Val.TabIndex = 133;
             this.label_Set_TopCam_Dent_Count_Val.Text = "0";
             this.label_Set_TopCam_Dent_Count_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -569,9 +577,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Count.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_TopCam_Dent_Count.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Count.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Count.Location = new System.Drawing.Point(1, 165);
+            this.label_Set_TopCam_Dent_Count.Location = new System.Drawing.Point(3, 116);
             this.label_Set_TopCam_Dent_Count.Name = "label_Set_TopCam_Dent_Count";
-            this.label_Set_TopCam_Dent_Count.Size = new System.Drawing.Size(96, 27);
+            this.label_Set_TopCam_Dent_Count.Size = new System.Drawing.Size(85, 27);
             this.label_Set_TopCam_Dent_Count.TabIndex = 132;
             this.label_Set_TopCam_Dent_Count.Text = "Dent Count";
             this.label_Set_TopCam_Dent_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -584,9 +592,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Test_Retry_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Test_Retry_Val.Location = new System.Drawing.Point(174, 191);
+            this.label_Set_TopCam_Test_Retry_Val.Location = new System.Drawing.Point(3, 203);
             this.label_Set_TopCam_Test_Retry_Val.Name = "label_Set_TopCam_Test_Retry_Val";
-            this.label_Set_TopCam_Test_Retry_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_TopCam_Test_Retry_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_TopCam_Test_Retry_Val.TabIndex = 135;
             this.label_Set_TopCam_Test_Retry_Val.Text = "0";
             this.label_Set_TopCam_Test_Retry_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -597,9 +605,9 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Test_Retry.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_TopCam_Test_Retry.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Test_Retry.Location = new System.Drawing.Point(174, 164);
+            this.label_Set_TopCam_Test_Retry.Location = new System.Drawing.Point(3, 176);
             this.label_Set_TopCam_Test_Retry.Name = "label_Set_TopCam_Test_Retry";
-            this.label_Set_TopCam_Test_Retry.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_TopCam_Test_Retry.Size = new System.Drawing.Size(85, 27);
             this.label_Set_TopCam_Test_Retry.TabIndex = 134;
             this.label_Set_TopCam_Test_Retry.Text = "Retry";
             this.label_Set_TopCam_Test_Retry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -612,9 +620,9 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_Test_Retry_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_Test_Retry_Val.Location = new System.Drawing.Point(175, 458);
+            this.label_Set_SideCam_Test_Retry_Val.Location = new System.Drawing.Point(182, 458);
             this.label_Set_SideCam_Test_Retry_Val.Name = "label_Set_SideCam_Test_Retry_Val";
-            this.label_Set_SideCam_Test_Retry_Val.Size = new System.Drawing.Size(121, 28);
+            this.label_Set_SideCam_Test_Retry_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_SideCam_Test_Retry_Val.TabIndex = 137;
             this.label_Set_SideCam_Test_Retry_Val.Text = "0";
             this.label_Set_SideCam_Test_Retry_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -625,18 +633,138 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Test_Retry.BackColor = System.Drawing.Color.DarkGray;
             this.label_Set_SideCam_Test_Retry.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_Test_Retry.Location = new System.Drawing.Point(175, 431);
+            this.label_Set_SideCam_Test_Retry.Location = new System.Drawing.Point(182, 431);
             this.label_Set_SideCam_Test_Retry.Name = "label_Set_SideCam_Test_Retry";
-            this.label_Set_SideCam_Test_Retry.Size = new System.Drawing.Size(121, 27);
+            this.label_Set_SideCam_Test_Retry.Size = new System.Drawing.Size(85, 27);
             this.label_Set_SideCam_Test_Retry.TabIndex = 136;
             this.label_Set_SideCam_Test_Retry.Text = "Retry";
             this.label_Set_SideCam_Test_Retry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_TopCam_Small_Min_Val
+            // 
+            this.label_Set_TopCam_Small_Min_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_Small_Min_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_Small_Min_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_Small_Min_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_Small_Min_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Min_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Small_Min_Val.Location = new System.Drawing.Point(94, 143);
+            this.label_Set_TopCam_Small_Min_Val.Name = "label_Set_TopCam_Small_Min_Val";
+            this.label_Set_TopCam_Small_Min_Val.Size = new System.Drawing.Size(85, 28);
+            this.label_Set_TopCam_Small_Min_Val.TabIndex = 139;
+            this.label_Set_TopCam_Small_Min_Val.Text = "0";
+            this.label_Set_TopCam_Small_Min_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_Small_Min_Val.Click += new System.EventHandler(this.label_Set_TopCam_Small_Min_Val_Click);
+            // 
+            // label_Set_TopCam_Small_Min
+            // 
+            this.label_Set_TopCam_Small_Min.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_TopCam_Small_Min.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Min.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Small_Min.Location = new System.Drawing.Point(94, 116);
+            this.label_Set_TopCam_Small_Min.Name = "label_Set_TopCam_Small_Min";
+            this.label_Set_TopCam_Small_Min.Size = new System.Drawing.Size(85, 27);
+            this.label_Set_TopCam_Small_Min.TabIndex = 138;
+            this.label_Set_TopCam_Small_Min.Text = "In min R";
+            this.label_Set_TopCam_Small_Min.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_TopCam_Small_Max_Val
+            // 
+            this.label_Set_TopCam_Small_Max_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_Small_Max_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_Small_Max_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_Small_Max_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_Small_Max_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Max_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Small_Max_Val.Location = new System.Drawing.Point(185, 143);
+            this.label_Set_TopCam_Small_Max_Val.Name = "label_Set_TopCam_Small_Max_Val";
+            this.label_Set_TopCam_Small_Max_Val.Size = new System.Drawing.Size(85, 28);
+            this.label_Set_TopCam_Small_Max_Val.TabIndex = 141;
+            this.label_Set_TopCam_Small_Max_Val.Text = "0";
+            this.label_Set_TopCam_Small_Max_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_Small_Max_Val.Click += new System.EventHandler(this.label_Set_TopCam_Small_Max_Val_Click);
+            // 
+            // label_Set_TopCam_Small_Max
+            // 
+            this.label_Set_TopCam_Small_Max.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_TopCam_Small_Max.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Max.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Small_Max.Location = new System.Drawing.Point(185, 116);
+            this.label_Set_TopCam_Small_Max.Name = "label_Set_TopCam_Small_Max";
+            this.label_Set_TopCam_Small_Max.Size = new System.Drawing.Size(85, 27);
+            this.label_Set_TopCam_Small_Max.TabIndex = 140;
+            this.label_Set_TopCam_Small_Max.Text = "In max R";
+            this.label_Set_TopCam_Small_Max.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_TopCam_Big_Max_Val
+            // 
+            this.label_Set_TopCam_Big_Max_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_Big_Max_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_Big_Max_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_Big_Max_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_Big_Max_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Max_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Big_Max_Val.Location = new System.Drawing.Point(185, 203);
+            this.label_Set_TopCam_Big_Max_Val.Name = "label_Set_TopCam_Big_Max_Val";
+            this.label_Set_TopCam_Big_Max_Val.Size = new System.Drawing.Size(85, 28);
+            this.label_Set_TopCam_Big_Max_Val.TabIndex = 145;
+            this.label_Set_TopCam_Big_Max_Val.Text = "0";
+            this.label_Set_TopCam_Big_Max_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_Big_Max_Val.Click += new System.EventHandler(this.label_Set_TopCam_Big_Max_Val_Click);
+            // 
+            // label_Set_TopCam_Big_Max
+            // 
+            this.label_Set_TopCam_Big_Max.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_TopCam_Big_Max.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Max.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Big_Max.Location = new System.Drawing.Point(185, 176);
+            this.label_Set_TopCam_Big_Max.Name = "label_Set_TopCam_Big_Max";
+            this.label_Set_TopCam_Big_Max.Size = new System.Drawing.Size(85, 27);
+            this.label_Set_TopCam_Big_Max.TabIndex = 144;
+            this.label_Set_TopCam_Big_Max.Text = "Out max R";
+            this.label_Set_TopCam_Big_Max.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Set_TopCam_Big_Min_Val
+            // 
+            this.label_Set_TopCam_Big_Min_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_Big_Min_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_Big_Min_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_Big_Min_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_Big_Min_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Min_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Big_Min_Val.Location = new System.Drawing.Point(94, 203);
+            this.label_Set_TopCam_Big_Min_Val.Name = "label_Set_TopCam_Big_Min_Val";
+            this.label_Set_TopCam_Big_Min_Val.Size = new System.Drawing.Size(85, 28);
+            this.label_Set_TopCam_Big_Min_Val.TabIndex = 143;
+            this.label_Set_TopCam_Big_Min_Val.Text = "0";
+            this.label_Set_TopCam_Big_Min_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_Big_Min_Val.Click += new System.EventHandler(this.label_Set_TopCam_Big_Min_Val_Click);
+            // 
+            // label_Set_TopCam_Big_Min
+            // 
+            this.label_Set_TopCam_Big_Min.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_TopCam_Big_Min.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Min.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Big_Min.Location = new System.Drawing.Point(94, 176);
+            this.label_Set_TopCam_Big_Min.Name = "label_Set_TopCam_Big_Min";
+            this.label_Set_TopCam_Big_Min.Size = new System.Drawing.Size(85, 27);
+            this.label_Set_TopCam_Big_Min.TabIndex = 142;
+            this.label_Set_TopCam_Big_Min.Text = "Out min R";
+            this.label_Set_TopCam_Big_Min.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ManualConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_Set_TopCam_Big_Max_Val);
+            this.Controls.Add(this.label_Set_TopCam_Big_Max);
+            this.Controls.Add(this.label_Set_TopCam_Big_Min_Val);
+            this.Controls.Add(this.label_Set_TopCam_Big_Min);
+            this.Controls.Add(this.label_Set_TopCam_Small_Max_Val);
+            this.Controls.Add(this.label_Set_TopCam_Small_Max);
+            this.Controls.Add(this.label_Set_TopCam_Small_Min_Val);
+            this.Controls.Add(this.label_Set_TopCam_Small_Min);
             this.Controls.Add(this.label_Set_SideCam_Test_Retry_Val);
             this.Controls.Add(this.label_Set_SideCam_Test_Retry);
             this.Controls.Add(this.label_Set_TopCam_Test_Retry_Val);
@@ -731,5 +859,13 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Label label_Set_TopCam_Test_Retry;
         public System.Windows.Forms.Label label_Set_SideCam_Test_Retry_Val;
         private System.Windows.Forms.Label label_Set_SideCam_Test_Retry;
+        public System.Windows.Forms.Label label_Set_TopCam_Small_Min_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_Small_Min;
+        public System.Windows.Forms.Label label_Set_TopCam_Small_Max_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_Small_Max;
+        public System.Windows.Forms.Label label_Set_TopCam_Big_Max_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_Big_Max;
+        public System.Windows.Forms.Label label_Set_TopCam_Big_Min_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_Big_Min;
     }
 }
