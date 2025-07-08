@@ -60,6 +60,7 @@ namespace ZenTester.Dlg
             if (this.InvokeRequired)
             {
                 parentDlg.Invoke(new Action(() => parentDlg.isRoiChecked = -1));
+                checkBox_Measure.Invoke(new Action(() => checkBox_Measure.Checked = false));
                 checkBox_Roi_Key.Invoke(new Action(() => checkBox_Roi_Key.Checked = false));
                 checkBox_Roi_ORing.Invoke(new Action(() => checkBox_Roi_ORing.Checked = false));
                 checkBox_Roi_Cone.Invoke(new Action(() => checkBox_Roi_Cone.Checked = false));
@@ -68,6 +69,7 @@ namespace ZenTester.Dlg
             else
             {
                 parentDlg.isRoiChecked = -1;
+                checkBox_Measure.Checked = false;
                 checkBox_Roi_Key.Checked = false;
                 checkBox_Roi_ORing.Checked = false;
                 checkBox_Roi_Cone.Checked = false;
@@ -91,6 +93,7 @@ namespace ZenTester.Dlg
 
 
             Globalo.yamlManager.configDataSave();
+
             if (checkBox_Measure.Checked)
             {
                 DrawDistnace();
@@ -98,6 +101,7 @@ namespace ZenTester.Dlg
         }
         public void ClearCheckbox()
         {
+            checkBox_Measure.Checked = false;
             checkBox_Roi_Key.Checked = false;
             checkBox_Roi_ORing.Checked = false;
             checkBox_Roi_Cone.Checked = false;
@@ -608,7 +612,7 @@ namespace ZenTester.Dlg
             }
             else
             {
-                checkBox_Measure.Checked = false;
+                
                 ClearCheckbox();
                 parentDlg.m_bDrawMeasureLine = false;
                 parentDlg.isRoiChecked = -1;
