@@ -36,7 +36,7 @@ namespace ZenTester.Process
         private TcpSocket.EquipmentData sendEqipData = new TcpSocket.EquipmentData();
         private int m_nTestFinalResult;
         private int sidecount = 0;
-
+        private string aoiDefectCode = "";
         private int captureDelay = 500;
         public AoiTestFlow()
         {
@@ -59,6 +59,7 @@ namespace ZenTester.Process
                     szLog = $"[AOI] TEST START [STEP : {nRetStep}]";
                     Globalo.LogPrint("ManualControl", szLog);
                     m_nTestFinalResult = 1;
+                    aoiDefectCode = "";
                     Globalo.visionManager.milLibrary.RunModeChange(true);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
@@ -270,6 +271,14 @@ namespace ZenTester.Process
                     sendEqipData.DataID = aoiApdData.Socket_Num;
                     sendEqipData.BcrId = aoiApdData.Barcode;
                     sendEqipData.Judge = m_nTestFinalResult;
+                    if(m_nTestFinalResult == 1)
+                    {
+                        sendEqipData.ErrCode = "";
+                    }
+                    else
+                    {
+                        sendEqipData.ErrCode = aoiDefectCode;
+                    }
                     sendEqipData.CommandParameter.Clear();
 
                     string[] apdList = { 
@@ -511,7 +520,7 @@ namespace ZenTester.Process
                             {
                                 //ng
                                 aoiApdData.Result = "NG";
-
+                                aoiDefectCode = "14";
                                 ResultAoiAPdData.Gasket = "NG";
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
@@ -532,7 +541,7 @@ namespace ZenTester.Process
                             {
                                 //ng
                                 aoiApdData.Result = "NG";
-
+                                aoiDefectCode = "14";
                                 ResultAoiAPdData.Gasket = "NG";
                                 szLog = $"[TOP CAM] GASKET LIGHT FAIL: {gasketLight} ({specGasketMin})";//({specGasketMin} ~ {specGasketMax})";
                                 Globalo.LogPrint("ManualControl", szLog);
@@ -562,6 +571,8 @@ namespace ZenTester.Process
                             int denUnderCnt = HousingCenter[0].X;
                             if (denUnderCnt < specDentMin || denUnderCnt > specDentMax)
                             {
+                                aoiDefectCode = "11";
+                                aoiApdData.Result = "NG";
                                 aoiApdData.CircleDented = "0";
                             }
                             else
@@ -571,6 +582,7 @@ namespace ZenTester.Process
                         }
                         else
                         {
+                            aoiApdData.Result = "NG";
                             aoiApdData.CircleDented = "0";
                         }
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -607,7 +619,7 @@ namespace ZenTester.Process
                         if (dKeyScore < 60.0)
                         {
                             //ng
-
+                            aoiDefectCode = "15";
                             aoiApdData.Result = "NG";
                             ResultAoiAPdData.KeyType = "NG";
                             aoiApdData.KeyType = "Null";
@@ -681,6 +693,7 @@ namespace ZenTester.Process
                         }
                         else
                         {
+                            aoiDefectCode = "8";
                             aoiApdData.Concentrycity_A = "0.0";
                             aoiApdData.Concentrycity_D = "0.0";
                         }
@@ -690,6 +703,7 @@ namespace ZenTester.Process
                         //if (con1Result < con_InMin || con1Result > con_InMax)
                         if (con1Result > con_InMax)
                         {
+                            aoiDefectCode = "12";
                             aoiApdData.Result = "NG";
                             ResultAoiAPdData.Concentrycity_A = "NG";
                         }
@@ -697,6 +711,7 @@ namespace ZenTester.Process
                         //if (con2Result < con_OutMin || con2Result > con_OutMax)
                         if (con2Result > con_OutMax)
                         {
+                            aoiDefectCode = "13";
                             aoiApdData.Result = "NG";
                             ResultAoiAPdData.Concentrycity_D = "NG";
                         }
@@ -951,14 +966,36 @@ namespace ZenTester.Process
                             OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
 
                         }
+                        double Spec_Lh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value);
+                        double Spec_Lh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value);
+                        double Spec_Mh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value);
+                        double Spec_Mh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value);
+                        double Spec_Rh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value);
+                        double Spec_Rh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value);
 
                         heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, SideMatImage, true);
                         heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, SideMatImage, true);
                         heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, SideMatImage, true);
-
+                        if (heightData[0] < Spec_Lh_Min || heightData[0] < Spec_Lh_Max)
+                        {
+                            aoiDefectCode = "4";
+                            aoiApdData.Result = "NG";
+                        }
+                        if (heightData[1] < Spec_Mh_Min || heightData[10] < Spec_Mh_Max)
+                        {
+                            aoiDefectCode = "5";
+                            aoiApdData.Result = "NG";
+                        }
+                        if (heightData[2] < Spec_Rh_Min || heightData[2] < Spec_Rh_Max)
+                        {
+                            aoiDefectCode = "6";
+                            aoiApdData.Result = "NG";
+                        }
                         aoiApdData.LH = heightData[0].ToString("0.0##");
                         aoiApdData.MH = heightData[1].ToString("0.0##");
                         aoiApdData.RH = heightData[2].ToString("0.0##");
+
+                        //aoiDefectCode = "4,5,6";
                         //-------------------------------------------------------------------------------------------
                         //
                         //
@@ -992,6 +1029,7 @@ namespace ZenTester.Process
                             }
                             else
                             {
+                                aoiDefectCode = "7";
                                 aoiApdData.Result = "NG";
                                 aoiApdData.ORing = "0";
                             }
@@ -1033,7 +1071,7 @@ namespace ZenTester.Process
                             }
                             else
                             {
-
+                                aoiDefectCode = "16";
                                 aoiApdData.Result = "NG";
                                 aoiApdData.Cone = "0";
                             }
