@@ -698,9 +698,13 @@ namespace ZenTester.Dlg
 
                     try
                     {
+                        Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
+                        Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+
                         Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
                         Globalo.threadControl.testAutoThread.aoiTestFlow.TopCamFlow(false);
-                        
+                        Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+
                     }
                     catch (Exception ex)
                     {
@@ -743,6 +747,9 @@ namespace ZenTester.Dlg
 
                     try
                     {
+                        Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
+                        Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+
                         Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
                         Globalo.threadControl.testAutoThread.aoiTestFlow.SideCamFlow(false);
                         Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);

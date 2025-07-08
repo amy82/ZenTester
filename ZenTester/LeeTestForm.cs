@@ -201,7 +201,8 @@ namespace ZenTester
         {
             
             TcpSocket.TesterData data = new TcpSocket.TesterData();
-            data.BcrId = new string[1];
+            data.init();
+            //data.BcrId = new string[1];
             data.BcrId[0] = "manual lot";
             data.socketNum[0] = 1;
             Globalo.taskManager.Aoi_TestRun(data);
