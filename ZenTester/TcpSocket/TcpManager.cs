@@ -265,15 +265,17 @@ namespace ZenTester.TcpSocket
                 }
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
+                    Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
                     Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
                 }
-
+                //Load_AoiConfig 없으면 복사해서 생성해야된다.
                 Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel = model;
                 Globalo.yamlManager.secsGemDataYaml.MesSave();
 
                 _syncContext.Send(_ =>
                 {
                     Globalo.productionInfo.ShowModelName();
+                    Globalo.productionInfo.ShowRecipeName();
 
                 }, null);
 
