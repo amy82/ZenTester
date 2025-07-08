@@ -92,7 +92,7 @@ namespace ZenTester.TaskClass
             writeTestFlow.writetestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
             //foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter)
 
-            writeTestFlow.CommandParameter = data.CommandParameter.Select(item => item.DeepCopy()).ToList();
+            writeTestFlow.CommandParameter = data.CommandParameter[0].Select(item => item.DeepCopy()).ToList();
 
             Console.WriteLine($"Write Task Start SocketNum-------{writeTestFlow.writetestData.Socket_Num}");
 
@@ -130,7 +130,7 @@ namespace ZenTester.TaskClass
 
             fwTestFlow.fwtestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
 
-            foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter)
+            foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter[0])
             {
                 if(paramInfo.Name =="FW_FILENAME")
                 {

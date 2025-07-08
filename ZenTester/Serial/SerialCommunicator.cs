@@ -232,6 +232,10 @@ namespace ZenTester.Serial
         // 데이터 전송
         public void SendData(string data)
         {
+            if (_serialPort == null || _serialPort.IsOpen == false)
+            {
+                return;
+            }
             _serialPort.DiscardInBuffer(); // 입력 버퍼를 비웁니다.
             receiveBuffer.Clear();
             if (_serialPort.IsOpen)

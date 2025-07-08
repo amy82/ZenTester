@@ -203,7 +203,7 @@ namespace ZenTester
             TcpSocket.TesterData data = new TcpSocket.TesterData();
             data.BcrId = new string[1];
             data.BcrId[0] = "manual lot";
-            data.socketNum = 1;
+            data.socketNum[0] = 1;
             Globalo.taskManager.Aoi_TestRun(data);
         }
 
@@ -482,6 +482,24 @@ namespace ZenTester
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
             HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(VisionClass.AoiTester.TOP_INDEX, src, markPos, false, false);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+            TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+            objectData.Type = "EquipmentData";
+
+            //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+            TcpSocket.TesterData resultData = new TcpSocket.TesterData();
+            resultData.init();
+            resultData.BcrId[0] = "testLog1";
+            resultData.Cmd = "CMD_RESULT";
+
+            resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
+            //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+
+            objectData.Data = resultData;
+            Globalo.tcpManager.SendMessage_To_Handler(objectData);
         }
     }
 }
