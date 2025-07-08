@@ -67,11 +67,8 @@ namespace ZenTester
 
             Globalo.yamlManager.AlarmLoad();
 
-
             Globalo.yamlManager.secsGemDataYaml.MesLoad();
-
-
-
+            
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
 

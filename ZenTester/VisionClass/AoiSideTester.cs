@@ -661,6 +661,7 @@ namespace ZenTester.VisionClass
 
                 minValue = EdgeBoxMinY[0];
                 maxValue = EdgeBoxMaxY[0];
+
                 for (int i = 0; i < NumResults; i++)
                 {
                     //Console.Write("{0,-11}{1,-13:0.00}\n", i, MeanFeretDiameter[i]);
@@ -802,22 +803,22 @@ namespace ZenTester.VisionClass
 
 
             string str = "";
-            string csvLine = $"{heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
+            //string csvLine = $"{heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
 
-            string filePath = "_HEIGHT_data.csv";
-            // 파일이 없으면 헤더 추가
-            if (!File.Exists(filePath))
-            {
-                File.AppendAllText(filePath, "LH,MH,RH" + Environment.NewLine);
-            }
-            try
-            {
-                File.AppendAllText(filePath, csvLine + Environment.NewLine);
-            }
-            catch (IOException)
-            {
+            //string filePath = "_HEIGHT_data.csv";
+            //// 파일이 없으면 헤더 추가
+            //if (!File.Exists(filePath))
+            //{
+            //    File.AppendAllText(filePath, "LH,MH,RH" + Environment.NewLine);
+            //}
+            //try
+            //{
+            //    File.AppendAllText(filePath, csvLine + Environment.NewLine);
+            //}
+            //catch (IOException)
+            //{
 
-            }
+            //}
 
 
             int elapsedMs = Environment.TickCount - startTime;

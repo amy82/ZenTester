@@ -225,6 +225,7 @@ namespace ZenTester.Data
         /// YAML 데이터를 불러옵니다.
         /// </summary>
         
+
         public bool configDataSave()
         {
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathConfig);
@@ -242,6 +243,8 @@ namespace ZenTester.Data
                 return false;
             }
         }
+
+
         public bool configDataLoad()
         {
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathConfig);
