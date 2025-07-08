@@ -52,7 +52,7 @@ namespace ZenTester.TcpSocket
         public int result { get; set; }
         public string Model { get; set; }
         public string RecipeID { get; set; }
-        public string DataID { get; set; }
+        public string[] DataID { get; set; }
         public string[] BcrId { get; set; }       //"LOT20240601"
         public int[] socketNum { get; set; }    //
         public string[] DefectCode { get; set; }    //
@@ -68,7 +68,7 @@ namespace ZenTester.TcpSocket
             result = 0;
             Model = string.Empty;
             RecipeID = string.Empty;
-            DataID = string.Empty;
+            DataID = new string[4];
             socketNum = new int[4];
             BcrId = new string[4];
             States = new int[4];

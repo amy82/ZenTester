@@ -173,7 +173,6 @@ namespace ZenTester.TcpSocket
                     {
                         Globalo.taskManager.testRun = true;
                         Globalo.taskManager.Aoi_TestRun(data);
-                        
                     }
                     if (nStep == 1)
                     {
@@ -250,7 +249,7 @@ namespace ZenTester.TcpSocket
 
                 if (Program.TEST_PG_SELECT == TESTER_PG.FW)
                 { 
-                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = data.DataID; //Trinity or Opal  두 모델만 구분
+                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = data.DataID[0]; //Trinity or Opal  두 모델만 구분
                 }
                 else
                 {
