@@ -801,9 +801,9 @@ namespace ZenTester.VisionClass
             heightData[1] = MilEdgeHeight(index, 1, OffsetPos);
             heightData[2] = MilEdgeHeight(index, 2, OffsetPos);
 
-
-            string str = "";
-            //string csvLine = $"{heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
+            
+            string str = $"Height Data: {heightData[0]:F3},{heightData[1]:F3},{heightData[2]:F3}";
+            Globalo.LogPrint("height", str);
 
             //string filePath = "_HEIGHT_data.csv";
             //// 파일이 없으면 헤더 추가
