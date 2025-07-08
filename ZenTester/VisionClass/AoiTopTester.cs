@@ -1421,6 +1421,10 @@ namespace ZenTester.VisionClass
                         continue;
                     }
                 }
+                else
+                {
+                    continue;
+                }
 
 #if _BIG_IMAGE      //Fakra
                 if (radius < 300 || radius > 500)   //안쪽원 377정도나옴
@@ -1763,6 +1767,10 @@ namespace ZenTester.VisionClass
                         Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
                         continue;
                     }
+                }
+                else
+                {
+                    continue;
                 }
 
 #if _BIG_IMAGE      ////Out Housing

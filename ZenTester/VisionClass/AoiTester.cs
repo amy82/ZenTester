@@ -31,7 +31,7 @@ namespace ZenTester.VisionClass
             string timeStr = DateTime.Now.ToString("HHmmss");
             string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.bmp";
 
-            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
+            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, imageName, FinalLogName);
 
             string directoryPath = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directoryPath))
@@ -52,7 +52,7 @@ namespace ZenTester.VisionClass
             string timeStr = DateTime.Now.ToString("HHmmss");
             string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.jpg";
 
-            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, FinalLogName);
+            string filePath = Path.Combine(FinalLogPath, MiddleLogPath, imageName, FinalLogName);
 
             string directoryPath = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directoryPath))

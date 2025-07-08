@@ -37,7 +37,7 @@ namespace ZenTester.Process
         private int m_nTestFinalResult;
         private int sidecount = 0;
 
-        private int captureDelay = 1000;
+        private int captureDelay = 500;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -56,10 +56,12 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
-                    
+                    szLog = $"[AOI] TEST START [STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
                     m_nTestFinalResult = 1;
                     Globalo.visionManager.milLibrary.RunModeChange(true);
-
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
+                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
                     waitTopCam = -1;
                     waitSideCam = -1;
                     TopCamTask = null;
@@ -316,6 +318,11 @@ namespace ZenTester.Process
 
                     objectData.Data = resultData;
                     Globalo.tcpManager.SendMessage_To_Handler(objectData);
+
+
+
+                    szLog = $"[AOI] TEST END [STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
                     nRetStep = 1000;
                     break;
             }
