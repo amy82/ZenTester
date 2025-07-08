@@ -120,15 +120,19 @@ namespace ZenTester.TaskClass
             int nStep = 100;
             string szLog = string.Empty;
             fwTestFlow.fwtestData.init();
-            fwTestFlow.fwtestData.Barcode = data.BcrId[0];
+            //fwTestFlow.fwtestData.Barcode = data.BcrId[0];
 
             fwTestFlow.fwtestData.arrBcr[0] = data.BcrId[0];
             fwTestFlow.fwtestData.arrBcr[1] = data.BcrId[1];
             fwTestFlow.fwtestData.arrBcr[2] = data.BcrId[2];
             fwTestFlow.fwtestData.arrBcr[3] = data.BcrId[3];
 
+            fwTestFlow.fwtestData.Socket_Num[0] = data.socketNum[0].ToString();
+            fwTestFlow.fwtestData.Socket_Num[1] = data.socketNum[1].ToString();
+            fwTestFlow.fwtestData.Socket_Num[2] = data.socketNum[2].ToString();
+            fwTestFlow.fwtestData.Socket_Num[3] = data.socketNum[3].ToString();
 
-            fwTestFlow.fwtestData.Socket_Num = data.socketNum.ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
+            /// fwTestFlow.fwtestData. = data.[0].ToString();   //1,2,3,4 / 5,6,7,8  다 들어올듯
 
             foreach (TcpSocket.EquipmentParameterInfo paramInfo in data.CommandParameter[0])
             {
@@ -137,7 +141,7 @@ namespace ZenTester.TaskClass
                     fwTestFlow.serverfwFileName = paramInfo.Value;
                 }
             }
-                Console.WriteLine($"Fw Task Start SocketNum-------{fwTestFlow.fwtestData.Socket_Num}");
+                //Console.WriteLine($"Fw Task Start SocketNum-------{fwTestFlow.fwtestData.Socket_Num}");
 
             szLog = $"[FW] TEST START :{fwTestFlow.fwtestData.Barcode}/{fwTestFlow.fwtestData.Socket_Num}";
             Globalo.LogPrint("TaskManager", szLog);

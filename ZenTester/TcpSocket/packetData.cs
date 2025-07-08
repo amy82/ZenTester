@@ -55,6 +55,7 @@ namespace ZenTester.TcpSocket
         public string DataID { get; set; }
         public string[] BcrId { get; set; }       //"LOT20240601"
         public int[] socketNum { get; set; }    //
+        public string[] DefectCode { get; set; }    //
         public int[] States { get; set; }       //{ 1, 1, 1, 1}  EEPROM ,AOI는 0번 index만 사용
        // public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
         public List<EquipmentParameterInfo>[] CommandParameter { get; set; }
@@ -71,6 +72,7 @@ namespace ZenTester.TcpSocket
             socketNum = new int[4];
             BcrId = new string[4];
             States = new int[4];
+            DefectCode = new string[4];
             //CommandParameter.Clear();
             CommandParameter = new List<EquipmentParameterInfo>[4];
 
@@ -135,7 +137,7 @@ namespace ZenTester.TcpSocket
     public class FwapdData
     {
         //string[] apdList = { "Result_Code", "Socket_Num", "Version", "Result", "Barcode", "Heater_Current" };
-        public string Socket_Num { get; set; }
+        public string[] Socket_Num { get; set; } = new string[4];
         public string LogPath { get; set; }
         public string Barcode { get; set; }
 
@@ -148,12 +150,13 @@ namespace ZenTester.TcpSocket
         public string[] arrBcr { get; set; } = new string[4];
         public void init()
         {
-            Socket_Num = String.Empty;
+            
             Barcode = String.Empty;
 
             for (int i = 0; i < arrBcr.Length; i++)
             {
                 Result[i] = string.Empty;
+                Socket_Num[i] = String.Empty;
                 Result_Code[i] = 0;
                 arrBcr[i] = string.Empty;
                 Heater_Current[i] = string.Empty;

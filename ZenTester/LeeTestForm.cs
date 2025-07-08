@@ -488,15 +488,28 @@ namespace ZenTester
         private void button32_Click(object sender, EventArgs e)
         {
             TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
-            objectData.Type = "EquipmentData";
+            objectData.Type = "TesterData";
 
             //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
             TcpSocket.TesterData resultData = new TcpSocket.TesterData();
             resultData.init();
             resultData.BcrId[0] = "testLog1";
+            resultData.BcrId[1] = "testLog2";
+            resultData.BcrId[2] = "testLog3";
+            resultData.BcrId[3] = "testLog4";
             resultData.Cmd = "CMD_RESULT";
-
-            resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
+            resultData.socketNum[0] = 1;
+            resultData.socketNum[1] = 2;
+            resultData.socketNum[2] = 3;
+            resultData.socketNum[3] = 4;
+            resultData.DefectCode[0] = "0";
+            resultData.DefectCode[1] = "0";
+            resultData.DefectCode[2] = "1";
+            resultData.DefectCode[3] = "0";
+            resultData.States[0] = 1;//Globalo.tcpManager.nRecv_Ack;
+            resultData.States[1] = 0;
+            resultData.States[2] = 1;
+            resultData.States[3] = 1;
             //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
             objectData.Data = resultData;

@@ -142,7 +142,7 @@ namespace ZenTester.Process
                             }
                             else if (pInfo.Name == apdList[1])
                             {
-                                pInfo.Value = fwtestData.Socket_Num;
+                                pInfo.Value = fwtestData.Socket_Num[i];
                             }
                             else if (pInfo.Name == apdList[2])
                             {
