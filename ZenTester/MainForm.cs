@@ -71,7 +71,7 @@ namespace ZenTester
             
             Globalo.yamlManager.configDataLoad();
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
-
+            
 
             Globalo.yamlManager.modelLIstData.ModelLoad();
             Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();      //ModelLoad 다음에 로드해라
