@@ -54,9 +54,10 @@ namespace ZenTester.TcpSocket
         public string RecipeID { get; set; }
         public string DataID { get; set; }
         public string[] BcrId { get; set; }       //"LOT20240601"
-        public int socketNum { get; set; }    //
+        public int[] socketNum { get; set; }    //
         public int[] States { get; set; }       //{ 1, 1, 1, 1}  EEPROM ,AOI는 0번 index만 사용
-        public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
+       // public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
+        public List<EquipmentParameterInfo>[] CommandParameter { get; set; }
 
         public void init()
         {
@@ -67,10 +68,16 @@ namespace ZenTester.TcpSocket
             Model = string.Empty;
             RecipeID = string.Empty;
             DataID = string.Empty;
-            socketNum = 0;
+            socketNum = new int[4];
             BcrId = new string[4];
             States = new int[4];
-            CommandParameter.Clear();
+            //CommandParameter.Clear();
+            CommandParameter = new List<EquipmentParameterInfo>[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                CommandParameter[i] = new List<EquipmentParameterInfo>();
+            }
         }
         //TESTER  --> H /  REQ_APD_REPORT,
         //HANDLER --> T /  RESP_APD_REPORT,
@@ -133,11 +140,11 @@ namespace ZenTester.TcpSocket
         public string Barcode { get; set; }
 
 
-        public string[] Result { get; set; }
-        public string[] Version { get; set; }
-        public string[] Sensorid { get; set; }
-        public int[] Result_Code { get; set; }
-        public string[] Heater_Current { get; set; }
+        public string[] Result { get; set; } = new string[4];
+        public string[] Version { get; set; } = new string[4];
+        public string[] Sensorid { get; set; } = new string[4];
+        public int[] Result_Code { get; set; } = new int[4];
+        public string[] Heater_Current { get; set; } = new string[4];
         public string[] arrBcr { get; set; } = new string[4];
         public void init()
         {
