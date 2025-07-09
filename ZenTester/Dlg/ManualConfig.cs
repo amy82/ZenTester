@@ -286,7 +286,7 @@ namespace ZenTester.Dlg
             if (decimal.TryParse(labelValue, out decimalValue))
             {
                 // 소수점 형식으로 변환
-                string formattedValue = decimalValue.ToString("0.000###");
+                string formattedValue = decimalValue.ToString("0.000####");
                 NumPadForm popupForm = new NumPadForm(formattedValue, false);
 
                 DialogResult dialogResult = popupForm.ShowDialog();
@@ -296,7 +296,7 @@ namespace ZenTester.Dlg
                 {
                     double dNumData = Double.Parse(popupForm.NumPadResult);
 
-                    OffsetLabel.Text = dNumData.ToString("0.000###");
+                    OffsetLabel.Text = dNumData.ToString("0.000####");
                 }
             }
         }
