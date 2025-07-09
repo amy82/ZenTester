@@ -1491,11 +1491,11 @@ namespace ZenTester.VisionClass
                 clPoint = new System.Drawing.Point((int)(minCircle.center.X - minCircle.radius), (int)(minCircle.center.Y - minCircle.radius));
                 if (bAutorun == false)
                 {
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
                 else
                 {
-                    Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+                    Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(minCircle.radius * 2), 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
                 }
                 //srcImage
                 Cv2.Circle(srcImage, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Yellow, 3);
@@ -1504,11 +1504,11 @@ namespace ZenTester.VisionClass
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
                 if (bAutorun == false)
                 {
-                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
+                    Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 1, System.Drawing.Drawing2D.DashStyle.Solid);
                 }
                 else
                 {
-                    Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 2, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
+                    Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
                 }
                 Cv2.Circle(srcImage, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Yellow, 3);
 
@@ -1829,10 +1829,10 @@ namespace ZenTester.VisionClass
                 //Rectangle m_clRect2 = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
                 
                 clPoint = new System.Drawing.Point((int)(minCircle.center.X - minCircle.radius), (int)(minCircle.center.Y - minCircle.radius));
-                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(minCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 clPoint = new System.Drawing.Point((int)(maxCircle.center.X - maxCircle.radius), (int)(maxCircle.center.Y - maxCircle.radius));
-                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 3, System.Drawing.Drawing2D.DashStyle.Solid);
+                Globalo.visionManager.milLibrary.DrawOverlayCircle(index, clPoint, (int)(maxCircle.radius * 2), Color.Blue, 2, System.Drawing.Drawing2D.DashStyle.Solid);
 
                 Cv2.Circle(srcImage, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Yellow, 3);
                 Cv2.Circle(srcImage, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Yellow, 3);
