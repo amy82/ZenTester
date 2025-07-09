@@ -196,7 +196,7 @@ namespace ZenTester.Dlg
             byte[] ImageBuffer = new byte[dataSize];
 
             //
-            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
+            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
@@ -277,7 +277,7 @@ namespace ZenTester.Dlg
             System.Drawing.Point ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex] - 590);
             con1Result = dist * CamResolX;
 
-            str = $"Con1:{con1Result.ToString("0.00#")}";
+            str = $"Con1:{con1Result.ToString("0.00###")}";
             //Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, ConePoint, str, Color.GreenYellow, 13);
             Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(ConePoint, str, "나눔고딕", Color.GreenYellow, 13);
             Console.WriteLine($"Con1:{dist * CamResolX}");
@@ -291,7 +291,7 @@ namespace ZenTester.Dlg
             Console.WriteLine($"Con2:{con2Result}");
 
             ConePoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex] - 520);
-            str = $"Con2:{con2Result.ToString("0.00#")}";
+            str = $"Con2:{con2Result.ToString("0.00###")}";
             //Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, ConePoint, str, Color.GreenYellow, 13);
             Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(ConePoint, str, "나눔고딕", Color.GreenYellow, 13);
 
