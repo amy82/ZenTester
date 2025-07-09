@@ -124,7 +124,7 @@ namespace ZenTester.Process
                 case 116:
                     //SIDE 캡처 - 이때 Top꺼져야된다.
                     Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.SIDE_INDEX);
-                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
+                    //Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
                     Globalo.visionManager.aoiTester.FinalBmpImageSave("Side", aoiApdData.Barcode, Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.SIDE_INDEX]);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
@@ -189,7 +189,7 @@ namespace ZenTester.Process
                     
                     //TOP 캡처
                     Globalo.visionManager.milLibrary.ClearOverlay(VisionClass.AoiTester.TOP_INDEX);
-                    Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
+                    //Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
                     Globalo.visionManager.aoiTester.FinalBmpImageSave("Top", aoiApdData.Barcode, Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX]);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
@@ -981,7 +981,7 @@ namespace ZenTester.Process
                             aoiDefectCode = "4";
                             aoiApdData.Result = "NG";
                         }
-                        if (heightData[1] < Spec_Mh_Min || heightData[10] < Spec_Mh_Max)
+                        if (heightData[1] < Spec_Mh_Min || heightData[1] < Spec_Mh_Max)
                         {
                             aoiDefectCode = "5";
                             aoiApdData.Result = "NG";
