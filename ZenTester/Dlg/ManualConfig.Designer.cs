@@ -86,9 +86,9 @@ namespace ZenTester.Dlg
             // 
             this.button_Set_Top_Resol_Save.BackColor = System.Drawing.Color.Olive;
             this.button_Set_Top_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Set_Top_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Top_Resol_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Top_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(189, 237);
+            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(164, 245);
             this.button_Set_Top_Resol_Save.Name = "button_Set_Top_Resol_Save";
             this.button_Set_Top_Resol_Save.Size = new System.Drawing.Size(106, 46);
             this.button_Set_Top_Resol_Save.TabIndex = 85;
@@ -102,7 +102,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_ResolY_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolY_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(94, 80);
             this.label_Set_TopCam_ResolY_Val.Name = "label_Set_TopCam_ResolY_Val";
@@ -118,7 +118,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_ResolX_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolX_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_ResolX_Val.Location = new System.Drawing.Point(3, 80);
             this.label_Set_TopCam_ResolX_Val.Name = "label_Set_TopCam_ResolX_Val";
@@ -131,7 +131,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_ResolY
             // 
             this.label_Set_TopCam_ResolY.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolY.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(94, 53);
             this.label_Set_TopCam_ResolY.Name = "label_Set_TopCam_ResolY";
@@ -143,7 +143,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_ResolX
             // 
             this.label_Set_TopCam_ResolX.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_ResolX.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_ResolX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolX.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_ResolX.Location = new System.Drawing.Point(3, 53);
             this.label_Set_TopCam_ResolX.Name = "label_Set_TopCam_ResolX";
@@ -156,9 +156,9 @@ namespace ZenTester.Dlg
             // 
             this.button_Set_Side_Resol_Save.BackColor = System.Drawing.Color.Olive;
             this.button_Set_Side_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Side_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(190, 550);
+            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(167, 506);
             this.button_Set_Side_Resol_Save.Name = "button_Set_Side_Resol_Save";
             this.button_Set_Side_Resol_Save.Size = new System.Drawing.Size(103, 46);
             this.button_Set_Side_Resol_Save.TabIndex = 90;
@@ -172,7 +172,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_SideCam_ResolY_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_SideCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(92, 458);
             this.label_Set_SideCam_ResolY_Val.Name = "label_Set_SideCam_ResolY_Val";
@@ -188,7 +188,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_SideCam_ResolX_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(3, 459);
             this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
@@ -201,7 +201,7 @@ namespace ZenTester.Dlg
             // label_Set_SideCam_ResolY
             // 
             this.label_Set_SideCam_ResolY.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(92, 431);
             this.label_Set_SideCam_ResolY.Name = "label_Set_SideCam_ResolY";
@@ -213,7 +213,7 @@ namespace ZenTester.Dlg
             // label_Set_SideCam_ResolX
             // 
             this.label_Set_SideCam_ResolX.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_SideCam_ResolX.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_ResolX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(3, 431);
             this.label_Set_SideCam_ResolX.Name = "label_Set_SideCam_ResolX";
@@ -227,7 +227,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Test.BackColor = System.Drawing.SystemColors.Window;
             this.label_SetTest_Manual_Top_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Top_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Test.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(3, 15);
             this.label_SetTest_Manual_Top_Test.Name = "label_SetTest_Manual_Top_Test";
@@ -241,7 +241,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test.BackColor = System.Drawing.SystemColors.Window;
             this.label_SetTest_Manual_Side_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(4, 399);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
@@ -268,7 +268,7 @@ namespace ZenTester.Dlg
             // 
             this.label_SetTest_Manual_Top_Light_Data.BackColor = System.Drawing.Color.White;
             this.label_SetTest_Manual_Top_Light_Data.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_SetTest_Manual_Top_Light_Data.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Top_Light_Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Light_Data.Location = new System.Drawing.Point(615, 53);
             this.label_SetTest_Manual_Top_Light_Data.Name = "label_SetTest_Manual_Top_Light_Data";
             this.label_SetTest_Manual_Top_Light_Data.Size = new System.Drawing.Size(72, 40);
@@ -331,7 +331,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Cam_Light.BackColor = System.Drawing.SystemColors.Window;
             this.label_SetTest_Manual_Top_Cam_Light.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Top_Cam_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Top_Cam_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Top_Cam_Light.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Cam_Light.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Top_Cam_Light.Location = new System.Drawing.Point(331, 15);
             this.label_SetTest_Manual_Top_Cam_Light.Name = "label_SetTest_Manual_Top_Cam_Light";
@@ -365,7 +365,7 @@ namespace ZenTester.Dlg
             // 
             this.label_SetTest_Manual_Side_Light_Data.BackColor = System.Drawing.Color.White;
             this.label_SetTest_Manual_Side_Light_Data.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_SetTest_Manual_Side_Light_Data.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Side_Light_Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Light_Data.Location = new System.Drawing.Point(615, 200);
             this.label_SetTest_Manual_Side_Light_Data.Name = "label_SetTest_Manual_Side_Light_Data";
             this.label_SetTest_Manual_Side_Light_Data.Size = new System.Drawing.Size(72, 40);
@@ -393,7 +393,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Cam_Light.BackColor = System.Drawing.SystemColors.Window;
             this.label_SetTest_Manual_Side_Cam_Light.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Side_Cam_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Side_Cam_Light.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Side_Cam_Light.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Cam_Light.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Side_Cam_Light.Location = new System.Drawing.Point(331, 168);
             this.label_SetTest_Manual_Side_Cam_Light.Name = "label_SetTest_Manual_Side_Cam_Light";
@@ -406,7 +406,7 @@ namespace ZenTester.Dlg
             // 
             this.button_Set_Roi_Save.BackColor = System.Drawing.Color.Olive;
             this.button_Set_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Set_Roi_Save.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Set_Roi_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Roi_Save.Location = new System.Drawing.Point(595, 431);
             this.button_Set_Roi_Save.Name = "button_Set_Roi_Save";
             this.button_Set_Roi_Save.Size = new System.Drawing.Size(90, 43);
@@ -420,7 +420,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Roi.BackColor = System.Drawing.SystemColors.Window;
             this.label_SetTest_Manual_Roi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Roi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Roi.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Roi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Roi.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(331, 399);
             this.label_SetTest_Manual_Roi.Name = "label_SetTest_Manual_Roi";
@@ -433,11 +433,11 @@ namespace ZenTester.Dlg
             // 
             this.checkBox_Roi_Key.AutoSize = true;
             this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_Key.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Key.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
             this.checkBox_Roi_Key.Location = new System.Drawing.Point(331, 431);
             this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
-            this.checkBox_Roi_Key.Size = new System.Drawing.Size(127, 25);
+            this.checkBox_Roi_Key.Size = new System.Drawing.Size(140, 28);
             this.checkBox_Roi_Key.TabIndex = 124;
             this.checkBox_Roi_Key.Text = "ROI KEY     ";
             this.checkBox_Roi_Key.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -447,11 +447,11 @@ namespace ZenTester.Dlg
             // 
             this.checkBox_Roi_ORing.AutoSize = true;
             this.checkBox_Roi_ORing.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_ORing.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_ORing.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_ORing.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(331, 459);
+            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(331, 462);
             this.checkBox_Roi_ORing.Name = "checkBox_Roi_ORing";
-            this.checkBox_Roi_ORing.Size = new System.Drawing.Size(127, 25);
+            this.checkBox_Roi_ORing.Size = new System.Drawing.Size(135, 28);
             this.checkBox_Roi_ORing.TabIndex = 123;
             this.checkBox_Roi_ORing.Text = "ROI ORING";
             this.checkBox_Roi_ORing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -461,11 +461,11 @@ namespace ZenTester.Dlg
             // 
             this.checkBox_Roi_Cone.AutoSize = true;
             this.checkBox_Roi_Cone.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_Cone.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Cone.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Cone.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(331, 487);
+            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(331, 493);
             this.checkBox_Roi_Cone.Name = "checkBox_Roi_Cone";
-            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(129, 25);
+            this.checkBox_Roi_Cone.Size = new System.Drawing.Size(141, 28);
             this.checkBox_Roi_Cone.TabIndex = 122;
             this.checkBox_Roi_Cone.Text = "ROI CONE  ";
             this.checkBox_Roi_Cone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -475,11 +475,11 @@ namespace ZenTester.Dlg
             // 
             this.checkBox_Roi_Height.AutoSize = true;
             this.checkBox_Roi_Height.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Roi_Height.Font = new System.Drawing.Font("나눔고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Roi_Height.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Height.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Height.Location = new System.Drawing.Point(331, 515);
+            this.checkBox_Roi_Height.Location = new System.Drawing.Point(331, 524);
             this.checkBox_Roi_Height.Name = "checkBox_Roi_Height";
-            this.checkBox_Roi_Height.Size = new System.Drawing.Size(135, 25);
+            this.checkBox_Roi_Height.Size = new System.Drawing.Size(147, 28);
             this.checkBox_Roi_Height.TabIndex = 121;
             this.checkBox_Roi_Height.Text = "ROI HEIGHT";
             this.checkBox_Roi_Height.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -489,11 +489,11 @@ namespace ZenTester.Dlg
             // 
             this.checkBox_Measure.AutoSize = true;
             this.checkBox_Measure.BackColor = System.Drawing.Color.Cornsilk;
-            this.checkBox_Measure.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBox_Measure.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Measure.ForeColor = System.Drawing.Color.Black;
             this.checkBox_Measure.Location = new System.Drawing.Point(331, 368);
             this.checkBox_Measure.Name = "checkBox_Measure";
-            this.checkBox_Measure.Size = new System.Drawing.Size(200, 28);
+            this.checkBox_Measure.Size = new System.Drawing.Size(221, 29);
             this.checkBox_Measure.TabIndex = 127;
             this.checkBox_Measure.Text = "Measure Distance";
             this.checkBox_Measure.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -506,7 +506,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Key_EdgeCount_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Key_EdgeCount_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Key_EdgeCount_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Key_EdgeCount_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Key_EdgeCount_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Key_EdgeCount_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Key_EdgeCount_Val.Location = new System.Drawing.Point(12, 290);
             this.label_Set_TopCam_Key_EdgeCount_Val.Name = "label_Set_TopCam_Key_EdgeCount_Val";
@@ -519,7 +519,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Key_EdgeCount
             // 
             this.label_Set_TopCam_Key_EdgeCount.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Key_EdgeCount.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Key_EdgeCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Key_EdgeCount.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Key_EdgeCount.Location = new System.Drawing.Point(12, 263);
             this.label_Set_TopCam_Key_EdgeCount.Name = "label_Set_TopCam_Key_EdgeCount";
@@ -534,7 +534,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Limit_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Dent_Limit_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Dent_Limit_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Dent_Limit_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Dent_Limit_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Limit_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Dent_Limit_Val.Location = new System.Drawing.Point(185, 80);
             this.label_Set_TopCam_Dent_Limit_Val.Name = "label_Set_TopCam_Dent_Limit_Val";
@@ -547,7 +547,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Dent_Limit
             // 
             this.label_Set_TopCam_Dent_Limit.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Dent_Limit.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Dent_Limit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Limit.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Dent_Limit.Location = new System.Drawing.Point(185, 53);
             this.label_Set_TopCam_Dent_Limit.Name = "label_Set_TopCam_Dent_Limit";
@@ -562,7 +562,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Count_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Dent_Count_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Dent_Count_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Dent_Count_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Dent_Count_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Count_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Dent_Count_Val.Location = new System.Drawing.Point(3, 143);
             this.label_Set_TopCam_Dent_Count_Val.Name = "label_Set_TopCam_Dent_Count_Val";
@@ -575,7 +575,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Dent_Count
             // 
             this.label_Set_TopCam_Dent_Count.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Dent_Count.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Dent_Count.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Count.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Dent_Count.Location = new System.Drawing.Point(3, 116);
             this.label_Set_TopCam_Dent_Count.Name = "label_Set_TopCam_Dent_Count";
@@ -590,7 +590,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Test_Retry_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Test_Retry_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Test_Retry_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Test_Retry_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Test_Retry_Val.Location = new System.Drawing.Point(3, 203);
             this.label_Set_TopCam_Test_Retry_Val.Name = "label_Set_TopCam_Test_Retry_Val";
@@ -603,7 +603,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Test_Retry
             // 
             this.label_Set_TopCam_Test_Retry.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Test_Retry.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Test_Retry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Test_Retry.Location = new System.Drawing.Point(3, 176);
             this.label_Set_TopCam_Test_Retry.Name = "label_Set_TopCam_Test_Retry";
@@ -618,7 +618,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Test_Retry_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_SideCam_Test_Retry_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_SideCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_SideCam_Test_Retry_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_Test_Retry_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_Test_Retry_Val.Location = new System.Drawing.Point(182, 458);
             this.label_Set_SideCam_Test_Retry_Val.Name = "label_Set_SideCam_Test_Retry_Val";
@@ -631,7 +631,7 @@ namespace ZenTester.Dlg
             // label_Set_SideCam_Test_Retry
             // 
             this.label_Set_SideCam_Test_Retry.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_SideCam_Test_Retry.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_Test_Retry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
             this.label_Set_SideCam_Test_Retry.Location = new System.Drawing.Point(182, 431);
             this.label_Set_SideCam_Test_Retry.Name = "label_Set_SideCam_Test_Retry";
@@ -646,7 +646,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Small_Min_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Small_Min_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Small_Min_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Small_Min_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Min_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Min_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Small_Min_Val.Location = new System.Drawing.Point(94, 143);
             this.label_Set_TopCam_Small_Min_Val.Name = "label_Set_TopCam_Small_Min_Val";
@@ -659,7 +659,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Small_Min
             // 
             this.label_Set_TopCam_Small_Min.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Small_Min.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Min.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Min.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Small_Min.Location = new System.Drawing.Point(94, 116);
             this.label_Set_TopCam_Small_Min.Name = "label_Set_TopCam_Small_Min";
@@ -674,7 +674,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Small_Max_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Small_Max_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Small_Max_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Small_Max_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Max_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Max_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Small_Max_Val.Location = new System.Drawing.Point(185, 143);
             this.label_Set_TopCam_Small_Max_Val.Name = "label_Set_TopCam_Small_Max_Val";
@@ -687,7 +687,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Small_Max
             // 
             this.label_Set_TopCam_Small_Max.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Small_Max.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Small_Max.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Max.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Small_Max.Location = new System.Drawing.Point(185, 116);
             this.label_Set_TopCam_Small_Max.Name = "label_Set_TopCam_Small_Max";
@@ -702,7 +702,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Big_Max_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Big_Max_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Big_Max_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Big_Max_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Max_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Max_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Big_Max_Val.Location = new System.Drawing.Point(185, 203);
             this.label_Set_TopCam_Big_Max_Val.Name = "label_Set_TopCam_Big_Max_Val";
@@ -715,7 +715,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Big_Max
             // 
             this.label_Set_TopCam_Big_Max.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Big_Max.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Max.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Max.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Big_Max.Location = new System.Drawing.Point(185, 176);
             this.label_Set_TopCam_Big_Max.Name = "label_Set_TopCam_Big_Max";
@@ -730,7 +730,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Big_Min_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Set_TopCam_Big_Min_Val.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_Set_TopCam_Big_Min_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Set_TopCam_Big_Min_Val.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Min_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Min_Val.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Big_Min_Val.Location = new System.Drawing.Point(94, 203);
             this.label_Set_TopCam_Big_Min_Val.Name = "label_Set_TopCam_Big_Min_Val";
@@ -743,7 +743,7 @@ namespace ZenTester.Dlg
             // label_Set_TopCam_Big_Min
             // 
             this.label_Set_TopCam_Big_Min.BackColor = System.Drawing.Color.DarkGray;
-            this.label_Set_TopCam_Big_Min.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Big_Min.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Min.ForeColor = System.Drawing.Color.Black;
             this.label_Set_TopCam_Big_Min.Location = new System.Drawing.Point(94, 176);
             this.label_Set_TopCam_Big_Min.Name = "label_Set_TopCam_Big_Min";

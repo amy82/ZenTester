@@ -123,29 +123,6 @@ namespace ZenTester.VisionClass
         {
             _cameraDisplayHandles[cameraIndex] = handle;
         }
-        private void StartGrabCamera()
-        {
-            camera1TokenSource = new CancellationTokenSource();
-            CancellationToken token = camera1TokenSource.Token;
-            try
-            {
-                Task.Run(() =>
-                {
-                    while (!token.IsCancellationRequested)
-                    {
-                        milLibrary.MilGrabRun(0);
-                        
-                        Thread.Sleep(10); // 혹은 FPS에 맞춰 조절
-                    }
-                }, token);
-            }
-            catch (ThreadInterruptedException err)
-            {
-                Console.WriteLine("ThreadInterruptedException StartCamera1 :" + err);
-            }
-
-            Console.WriteLine("StartCamera1 end");
-        }
         private void StartCamera1()
         {
             camera1TokenSource = new CancellationTokenSource();
@@ -157,7 +134,7 @@ namespace ZenTester.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(0);
-                        Thread.Sleep(10); // 혹은 FPS에 맞춰 조절
+                        Thread.Sleep(5); // 혹은 FPS에 맞춰 조절
                     }
                 }, token);
             }
@@ -180,7 +157,7 @@ namespace ZenTester.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(1);
-                        Thread.Sleep(10);
+                        Thread.Sleep(5);//10);
                     }
                 }, token);
             }

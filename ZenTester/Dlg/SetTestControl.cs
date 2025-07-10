@@ -206,10 +206,10 @@ namespace ZenTester.Dlg
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
             //Set_panelCam.Handle
+            CamIndex = 0;
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
             button_SetTest_TopCam.BackColor = Color.Black;
             button_SetTest_SideCam.BackColor = Color.DarkGray;
-            CamIndex = 0;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
             manualConfig.checkBox_AllRelease();
@@ -219,10 +219,10 @@ namespace ZenTester.Dlg
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
+            CamIndex = 1;
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
             button_SetTest_SideCam.BackColor = Color.Black;
             button_SetTest_TopCam.BackColor = Color.DarkGray;
-            CamIndex = 1;
             Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
 
             Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);

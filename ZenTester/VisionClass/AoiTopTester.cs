@@ -1511,11 +1511,7 @@ namespace ZenTester.VisionClass
                     Globalo.visionManager.milLibrary.m_clMilDrawCircle[index].AddList(clPoint.X, clPoint.Y, (int)(maxCircle.radius * 2), 1, System.Drawing.Drawing2D.DashStyle.Solid, Color.Blue);
                 }
                 Cv2.Circle(srcImage, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Yellow, 3);
-
-
                 System.Drawing.Point HousingPoint = new System.Drawing.Point();
-
-
                 HousingPoint = new System.Drawing.Point(850, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 410);
                 str = $"Fakra In  X:{(minCircle.center.X * CamResolX).ToString("0.00#")},Y:{(minCircle.center.Y * CamResolY).ToString("0.00#")},R:{(minCircle.radius * CamResolX).ToString("0.00#")}";
                 Globalo.LogPrint("ManualControl", str);
@@ -1537,12 +1533,8 @@ namespace ZenTester.VisionClass
 
                 }
                 
-
-
-
                 FakraPoints.Add((OpenCvSharp.Point)minCircle.center);
                 FakraPoints.Add((OpenCvSharp.Point)maxCircle.center);
-
             }
 
 

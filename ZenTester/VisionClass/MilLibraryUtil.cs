@@ -268,19 +268,6 @@ namespace ZenTester.VisionClass
 
         }
 
-        public void MilNewGrabRun(int index)
-        {
-            if (bGrabOnFlag[1] == true && MilDigitizerList[1] != MIL.M_NULL)
-            {
-                MIL.MdigGrab(MilDigitizerList[1], MilCamGrabImage[1]);
-
-                MIL.MdigGrabWait(MilDigitizerList[1], MIL.M_GRAB_END);
-
-                MIL.MimResize(MilCamGrabImageChild[1], MilCamSmallImageChild[1], xReduce[1], yReduce[1], MIL.M_DEFAULT);
-                Thread.Sleep(1);
-            }
-
-        }
         public void EnableCamOverlay(int index)
         {
             MIL_INT DisplayType = MIL.MdispInquire(MilCamDisplay[index], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
