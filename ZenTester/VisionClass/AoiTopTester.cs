@@ -1532,7 +1532,6 @@ namespace ZenTester.VisionClass
                     Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
 
                 }
-                
                 FakraPoints.Add((OpenCvSharp.Point)minCircle.center);
                 FakraPoints.Add((OpenCvSharp.Point)maxCircle.center);
             }
