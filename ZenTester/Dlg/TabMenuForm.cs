@@ -22,6 +22,8 @@ namespace ZenTester.Dlg
         public bool MenuChangeInterLock = false;
         private int parentW = 0;
         private int parentH = 0;
+
+        public TABFORM CurrentTab;
         public TabMenuForm(int _w , int _h)
         {
             InitializeComponent();
@@ -30,14 +32,17 @@ namespace ZenTester.Dlg
             this.Height = _h;
             uiSet();
 
-
+            CurrentTab = TABFORM.MAIN_FORM;
             Run_Mode_Change(ProgramState.eRunMode.ENGINEER);//OPERATOR);
             //MenuButtonSet(TABFORM.MAIN_FORM);
         }
         public void MenuButtonSet(TABFORM index)
         {
             if (MenuChangeInterLock) return;        //모터 이동에 메뉴 이동안되는 용도로 일단 추가만
-
+            if(CurrentTab == index)
+            {
+                return;
+            }
             int i = 0;
             //Globalo.mMainPanel.Visible = false;
             //Globalo.mTeachPanel.Visible = false;
@@ -54,6 +59,8 @@ namespace ZenTester.Dlg
             Globalo.fwSetControl.Visible = false;
             Globalo.WriteSetControl.Visible = false;
             Globalo.VerifySetControl.Visible = false;
+
+            CurrentTab = index;
             switch (index)
             {
                 case TABFORM.MAIN_FORM:

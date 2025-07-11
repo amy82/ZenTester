@@ -515,5 +515,23 @@ namespace ZenTester
             objectData.Data = resultData;
             Globalo.tcpManager.SendMessage_To_Handler(objectData);
         }
+
+        private void button33_Click(object sender, EventArgs e)
+        {
+            TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+            objectData.Type = "TesterData";
+
+            //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+            TcpSocket.TesterData resultData = new TcpSocket.TesterData();
+            resultData.init();
+            resultData.BcrId[0] = "1111";// aoiApdData.Barcode;
+            resultData.Cmd = "CMD_RESULT";
+            resultData.socketNum[0] = 1;// int.Parse(aoiApdData.Socket_Num);
+            resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
+            //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+
+            objectData.Data = resultData;
+            Globalo.tcpManager.SendMessage_To_Handler(objectData);
+        }
     }
 }

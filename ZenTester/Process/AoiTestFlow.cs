@@ -56,6 +56,7 @@ namespace ZenTester.Process
             switch (nRetStep)
             {
                 case 100:
+                    Globalo.tabMenuForm.MenuButtonSet(Dlg.TabMenuForm.TABFORM.MAIN_FORM);
                     szLog = $"[AOI] TEST START [STEP : {nRetStep}]";
                     Globalo.LogPrint("ManualControl", szLog);
                     m_nTestFinalResult = 1;
@@ -314,14 +315,14 @@ namespace ZenTester.Process
                     //완공다되면 Handler로도 보내줘야된다.
 
                     TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
-                    objectData.Type = "EquipmentData";
+                    objectData.Type = "TesterData";
 
                     //TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     TcpSocket.TesterData resultData = new TcpSocket.TesterData();
                     resultData.init();
                     resultData.BcrId[0] = aoiApdData.Barcode;
                     resultData.Cmd = "CMD_RESULT";
-
+                    resultData.socketNum[0] = int.Parse(aoiApdData.Socket_Num);
                     resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 

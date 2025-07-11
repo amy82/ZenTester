@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
             string FinalLogPath = Data.CPath.BASE_LOG_PATH;
             string MiddleLogPath = "AoiResult";
             string currentDate = DateTime.Now.ToString("yyyyMMdd");
-
+            imageName = imageName.Replace(":", "-");
             string timeStr = DateTime.Now.ToString("HHmmss");
             string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.bmp";
 
@@ -48,7 +48,7 @@ namespace ZenTester.VisionClass
             string FinalLogPath = Data.CPath.BASE_LOG_PATH;
             string MiddleLogPath = "AoiResult";
             string currentDate = DateTime.Now.ToString("yyyyMMdd");
-
+            imageName = imageName.Replace(":", "-");
             string timeStr = DateTime.Now.ToString("HHmmss");
             string FinalLogName = $"{imageName}_{postion}_{currentDate}_{timeStr}.jpg";
 

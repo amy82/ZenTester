@@ -64,6 +64,7 @@ namespace ZenTester
             this.button30 = new System.Windows.Forms.Button();
             this.button31 = new System.Windows.Forms.Button();
             this.button32 = new System.Windows.Forms.Button();
+            this.button33 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -518,11 +519,25 @@ namespace ZenTester
             this.button32.UseVisualStyleBackColor = false;
             this.button32.Click += new System.EventHandler(this.button32_Click);
             // 
+            // button33
+            // 
+            this.button33.BackColor = System.Drawing.Color.Black;
+            this.button33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button33.ForeColor = System.Drawing.Color.White;
+            this.button33.Location = new System.Drawing.Point(158, 312);
+            this.button33.Name = "button33";
+            this.button33.Size = new System.Drawing.Size(127, 34);
+            this.button33.TabIndex = 35;
+            this.button33.Text = "cmd result";
+            this.button33.UseVisualStyleBackColor = false;
+            this.button33.Click += new System.EventHandler(this.button33_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 482);
+            this.Controls.Add(this.button33);
             this.Controls.Add(this.button32);
             this.Controls.Add(this.button31);
             this.Controls.Add(this.button30);
@@ -602,5 +617,6 @@ namespace ZenTester
         private System.Windows.Forms.Button button30;
         private System.Windows.Forms.Button button31;
         private System.Windows.Forms.Button button32;
+        private System.Windows.Forms.Button button33;
     }
 }
