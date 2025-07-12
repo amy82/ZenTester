@@ -579,7 +579,7 @@ namespace ZenTester.VisionClass
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-            //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 150, MIL.M_NULL);//150
+           // MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 180, MIL.M_NULL);//150
 
             MilImage = tempMilImage;
 
