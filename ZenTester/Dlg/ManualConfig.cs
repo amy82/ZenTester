@@ -91,6 +91,7 @@ namespace ZenTester.Dlg
             Globalo.yamlManager.configData.CamSettings.bigCircle.min = int.Parse(label_Set_TopCam_Big_Min_Val.Text);
             Globalo.yamlManager.configData.CamSettings.bigCircle.max = int.Parse(label_Set_TopCam_Big_Max_Val.Text);
 
+            Globalo.yamlManager.configData.CamSettings.ConThreshold = int.Parse(label_Set_TopCam_Con_Threshold_Val.Text);
 
             Globalo.yamlManager.configDataSave();
 
@@ -129,6 +130,10 @@ namespace ZenTester.Dlg
             label_Set_TopCam_Small_Max_Val.Text = Globalo.yamlManager.configData.CamSettings.smallCircle.max.ToString();
             label_Set_TopCam_Big_Min_Val.Text = Globalo.yamlManager.configData.CamSettings.bigCircle.min.ToString();
             label_Set_TopCam_Big_Max_Val.Text = Globalo.yamlManager.configData.CamSettings.bigCircle.max.ToString();
+
+
+            label_Set_TopCam_Con_Threshold_Val.Text = Globalo.yamlManager.configData.CamSettings.ConThreshold.ToString();
+            //Globalo.yamlManager.configData.CamSettings.ConThreshold = int.Parse(.Text);
         }
         public void showLight()
         {
@@ -843,6 +848,29 @@ namespace ZenTester.Dlg
                     dNumData = 900;
                 }
                 label_Set_TopCam_Big_Max_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Con_Threshold_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_TopCam_Con_Threshold_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 255)
+                {
+                    dNumData = 255;
+                }
+                label_Set_TopCam_Con_Threshold_Val.Text = dNumData.ToString();
             }
         }
     }

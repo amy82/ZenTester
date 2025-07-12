@@ -30,6 +30,8 @@ namespace ZenTester.Data
         public int DentTotalCount { get; set; }
         public int TopRetry { get; set; }
         public int SideRetry { get; set; }
+
+        public int ConThreshold { get; set; }
     }
     public class _SerialPort
     {
