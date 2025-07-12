@@ -1669,7 +1669,7 @@ namespace ZenTester.VisionClass
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(9, 9));//(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(5, 5));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
 

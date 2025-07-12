@@ -283,7 +283,7 @@ namespace ZenTester.Dlg
             {
                 if (isRoiChecked >= 0)   //roi 영역 클릭했는지 판단
                 {
-                    moveStartMousePos = e.Location;
+                    moveStartMousePos = e.Location; 
                     Console.WriteLine($"{e.Location.X} , {e.Location.Y}");
                     
                     isRoiNo = checkNoRoi(isRoiChecked, e.Location);
@@ -546,7 +546,7 @@ namespace ZenTester.Dlg
             else if (isDragging)
             {
                 roiEnd = e.Location;
-                Rectangle roi = GetRoiRect();//roiStart, roiEnd);
+                Rectangle roi = GetRoiRect();
                 Rectangle m_clRect = new Rectangle((int)(roi.X * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Y * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5),
                     (int)(roi.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5), (int)(roi.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5));
 
@@ -580,13 +580,20 @@ namespace ZenTester.Dlg
         {
             isResizing = false;
             resizeDir = ResizeDirection.None;
-            isMovingRoi = false;
+            
+            if(isMovingRoi)
+            {
+                roiStart = new System.Drawing.Point(DrawRoiBox.Location.X, DrawRoiBox.Location.Y); 
+                roiEnd = new System.Drawing.Point(DrawRoiBox.Location.X+ DrawRoiBox.Width, DrawRoiBox.Location.Y + DrawRoiBox.Height);
+                isMovingRoi = false;
+            }
+            
             if (isDragging)
             {
                 isDragging = false;
                 
                 roiEnd = e.Location;
-                DrawRoiBox = GetRoiRect();//roiStart, roiEnd);
+                DrawRoiBox = GetRoiRect();
 
                 int dragw = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[CamIndex] + 0.5);
                 int dragh = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[CamIndex] + 0.5);
