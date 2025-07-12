@@ -134,7 +134,7 @@ namespace ZenTester.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(0);
-                        Thread.Sleep(5); // 혹은 FPS에 맞춰 조절
+                        Thread.Sleep(10);
                     }
                 }, token);
             }
@@ -157,7 +157,7 @@ namespace ZenTester.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(1);
-                        Thread.Sleep(5);//10);
+                        Thread.Sleep(10);
                     }
                 }, token);
             }

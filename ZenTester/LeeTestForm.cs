@@ -203,7 +203,7 @@ namespace ZenTester
             TcpSocket.TesterData data = new TcpSocket.TesterData();
             data.init();
             //data.BcrId = new string[1];
-            data.BcrId[0] = "manual lot";
+            data.BcrId[0] = textBoxBcr.Text;
             data.socketNum[0] = 1;
             Globalo.taskManager.Aoi_TestRun(data);
         }
@@ -532,6 +532,38 @@ namespace ZenTester
 
             objectData.Data = resultData;
             Globalo.tcpManager.SendMessage_To_Handler(objectData);
+        }
+
+        private void button34_Click(object sender, EventArgs e)
+        {
+            //=C12/D12*E12
+            //Globalo.yamlManager.configData.CamSettings.TopResolution.X
+            //Globalo.yamlManager.configData.CamSettings.TopResolution.Y
+
+            //Globalo.yamlManager.configData.CamSettings.SideResolution.X
+            //Globalo.yamlManager.configData.CamSettings.SideResolution.Y
+
+            //string cal = 40 / 현재길이 * 현재 설정값
+
+            double target = 40.0;    //Target 값
+
+
+
+            double curx = 39.618852;    //현재값 길이
+            double cury = 39.618852;    //현재값 길이
+
+
+
+            double resulx = 0.021462;// Globalo.yamlManager.configData.CamSettings.TopResolution.X;    //resoultion
+            double resuly = 0.021462;// Globalo.yamlManager.configData.CamSettings.TopResolution.X;    //resoultion
+
+            double calDatax = target / curx * resulx;
+            double calDatay = target / cury * resuly;
+
+            string cal = "";
+
+            textBox_calx.Text = calDatax.ToString();
+            textBox_caly.Text = calDatay.ToString();
         }
     }
 }

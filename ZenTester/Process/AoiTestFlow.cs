@@ -61,7 +61,6 @@ namespace ZenTester.Process
                     Globalo.LogPrint("ManualControl", szLog);
                     m_nTestFinalResult = 1;
                     aoiDefectCode = "";
-                    Globalo.visionManager.milLibrary.RunModeChange(true);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
                     waitTopCam = -1;
@@ -283,8 +282,7 @@ namespace ZenTester.Process
                     sendEqipData.CommandParameter.Clear();
 
                     string[] apdList = { 
-                        "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing"
-                        , "Result" , "Barcode", "Socket_Num" };
+                        "LH", "RH", "MH",  "Gasket", "KeyType", "CircleDented" , "Concentrycity_A", "Concentrycity_D", "Cone", "ORing", "Result" , "Barcode", "Socket_Num" };
 
                     string[] apdResult = { aoiApdData.LH, aoiApdData.RH, aoiApdData.MH,
                         aoiApdData.Gasket, aoiApdData.KeyType,aoiApdData.CircleDented, aoiApdData.Concentrycity_A, aoiApdData.Concentrycity_D,
@@ -299,6 +297,7 @@ namespace ZenTester.Process
 
                         sendEqipData.CommandParameter.Add(pInfo);
                     }
+
                     EqipData.Data = sendEqipData;
                     Globalo.tcpManager.nRecv_Ack = -1;
                     Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
@@ -324,6 +323,7 @@ namespace ZenTester.Process
                     resultData.Cmd = "CMD_RESULT";
                     resultData.socketNum[0] = int.Parse(aoiApdData.Socket_Num);
                     resultData.States[0] = Globalo.tcpManager.nRecv_Ack;
+
                     //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
                     objectData.Data = resultData;
@@ -810,7 +810,7 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
 
 
-                        Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
+                        //Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
 
 
                         //
@@ -992,9 +992,9 @@ namespace ZenTester.Process
                             aoiDefectCode = "6";
                             aoiApdData.Result = "NG";
                         }
-                        aoiApdData.LH = heightData[0].ToString("0.0##");
-                        aoiApdData.MH = heightData[1].ToString("0.0##");
-                        aoiApdData.RH = heightData[2].ToString("0.0##");
+                        aoiApdData.LH = heightData[0].ToString("0.0###");
+                        aoiApdData.MH = heightData[1].ToString("0.0###");
+                        aoiApdData.RH = heightData[2].ToString("0.0###");
 
                         //aoiDefectCode = "4,5,6";
                         //-------------------------------------------------------------------------------------------

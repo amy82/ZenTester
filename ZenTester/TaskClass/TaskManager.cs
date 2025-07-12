@@ -35,6 +35,7 @@ namespace ZenTester.TaskClass
             szLog = $"[AOI] TEST START :{aoiTestFlow.aoiApdData.Barcode}/{aoiTestFlow.aoiApdData.Socket_Num}";
             Globalo.LogPrint("TaskManager", szLog);
             Globalo.productionInfo.BcrSet(aoiTestFlow.aoiApdData.Barcode);
+            Globalo.visionManager.milLibrary.RunModeChange(true);
             _ = Task.Run(async () =>
             {
                 while (true)

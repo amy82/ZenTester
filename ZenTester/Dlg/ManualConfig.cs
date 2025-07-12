@@ -286,7 +286,7 @@ namespace ZenTester.Dlg
             if (decimal.TryParse(labelValue, out decimalValue))
             {
                 // 소수점 형식으로 변환
-                string formattedValue = decimalValue.ToString("0.000####");
+                string formattedValue = decimalValue.ToString("0.000######");
                 NumPadForm popupForm = new NumPadForm(formattedValue, false);
 
                 DialogResult dialogResult = popupForm.ShowDialog();
@@ -296,7 +296,7 @@ namespace ZenTester.Dlg
                 {
                     double dNumData = Double.Parse(popupForm.NumPadResult);
 
-                    OffsetLabel.Text = dNumData.ToString("0.000####");
+                    OffsetLabel.Text = dNumData.ToString("0.000######");
                 }
             }
         }
@@ -407,12 +407,17 @@ namespace ZenTester.Dlg
             System.Drawing.Point textPoint;
 
             string str = $"[Distance x:{Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].X - parentDlg.DistLineX[parentDlg.CamIndex, 1].X) * CamResolX}";
+            Console.WriteLine($"{str}");
             textPoint = new System.Drawing.Point(10, parentDlg.CamH[parentDlg.CamIndex] - 250);
             Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Blue, 15);
 
             str = $"[Distance y:{Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y - parentDlg.DistLineX[parentDlg.CamIndex, 1].Y) * CamResolY}";
+            Console.WriteLine($"{str}");
             textPoint = new System.Drawing.Point(10, parentDlg.CamH[parentDlg.CamIndex] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Blue, 15);
+
+
+
 
         }
         private void label_SetTest_Manual_Top_Light_Data_Click(object sender, EventArgs e)
