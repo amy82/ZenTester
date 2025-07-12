@@ -134,7 +134,7 @@ namespace ZenTester.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(0);
-                        Thread.Sleep(10);
+                        Thread.Sleep(300);
                     }
                 }, token);
             }
@@ -157,7 +157,7 @@ namespace ZenTester.VisionClass
                     while (!token.IsCancellationRequested)
                     {
                         milLibrary.MilGrabRun(1);
-                        Thread.Sleep(10);
+                        Thread.Sleep(300);
                     }
                 }, token);
             }

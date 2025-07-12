@@ -996,6 +996,9 @@ namespace ZenTester.Process
                         aoiApdData.MH = heightData[1].ToString("0.0###");
                         aoiApdData.RH = heightData[2].ToString("0.0###");
 
+
+                        szLog = $"[SIDE CAM] LH: {aoiApdData.LH} ,MH: {aoiApdData.MH} ,RH: {aoiApdData.RH}";
+                        Globalo.LogPrint("ManualControl", szLog);
                         //aoiDefectCode = "4,5,6";
                         //-------------------------------------------------------------------------------------------
                         //
