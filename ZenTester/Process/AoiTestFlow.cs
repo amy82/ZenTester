@@ -37,7 +37,7 @@ namespace ZenTester.Process
         private int m_nTestFinalResult;
         private int sidecount = 0;
         private string aoiDefectCode = "";
-        private int captureDelay = 500;
+        private int captureDelay = 1000;//500;
         public AoiTestFlow()
         {
             _syncContext = SynchronizationContext.Current;
@@ -1126,8 +1126,8 @@ namespace ZenTester.Process
                         //byte[] ImageBuffer = new byte[dataSize];
 
                         //
-                        Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);//lee
-                        Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
+                        //Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, false);//lee
+                        //Globalo.visionManager.milLibrary.GetSnapImage(sideCamIndex);
 
                         //
                         //
