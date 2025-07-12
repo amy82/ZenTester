@@ -1323,25 +1323,25 @@ namespace ZenTester.VisionClass
             //큰원 26
             //작은원 30
             int minThresh = Globalo.yamlManager.configData.CamSettings.ConThreshold;// 140;//150;
-            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero); //ThresholdTypes.Tozero);//Tozero);
+            Cv2.Threshold(gray, binary, minThresh, 255, ThresholdTypes.Tozero); //ThresholdTypes.Tozero);//Tozero);
             //Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Binary | ThresholdTypes.Otsu); //ThresholdTypes.Tozero);//Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 5. (선택) 이진화로 엣지 강화
             //Cv2.Threshold(blurred, binary, 80, 255, ThresholdTypes.Binary);
+            
+            // 2. 커널 생성 (원형 커널 추천)
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));//1, 1));
+            Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
+            Cv2.Dilate(binary, binary, kernel);
+            // 3. Contours 찾기
+
             if (IMG_VIEW)
             {
                 Cv2.NamedWindow("Detected binary1 ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
                 Cv2.ImShow("Detected binary1 ", binary);
                 Cv2.WaitKey(0);
             }
-
-            // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));
-            Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            Cv2.Dilate(binary, binary, kernel);
-            // 3. Contours 찾기
-            
 
             Cv2.FindContours(binary, out OpenCvSharp.Point[][] contours, out _, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
 
@@ -1635,7 +1635,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             //var edges = new Mat();
-            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(1, 1), 0);
+            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(5, 5), 0.0);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1663,13 +1663,13 @@ namespace ZenTester.VisionClass
             //작은원 30
             //큰원 18
             int minThresh = Globalo.yamlManager.configData.CamSettings.ConThreshold;// 140;//150;
-            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);//Tozero);
+            Cv2.Threshold(gray, binary, minThresh, 255, ThresholdTypes.Tozero);//Tozero);
             //Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero); //ThresholdTypes.Tozero);//Tozero);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
             //Cv2.AdaptiveThreshold(blurred, binary, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, blockSize, C);
 
             // 2. 커널 생성 (원형 커널 추천)
-            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(1, 1));//(5, 5));
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(9, 9));//(5, 5));
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.Dilate(binary, binary, kernel);
 
@@ -1723,7 +1723,7 @@ namespace ZenTester.VisionClass
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 100)//200)
+                if (distance > 100)//200)100
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1733,13 +1733,13 @@ namespace ZenTester.VisionClass
 
                 //if (perimeter == 0) continue; // 나누기 에러 방지
 
-                double minArea = 1841053.5;
-                double maxArea = 2136083.5;
+                //double minArea = 1841053.5;
+                //double maxArea = 2136083.5;
 
-                if (area > minArea && area < maxArea)
-                {
-                    //continue;
-                }
+                //if (area > minArea && area < maxArea)
+                //{
+                //    //continue;
+                //}
                 
 
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
