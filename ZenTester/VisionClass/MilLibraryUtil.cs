@@ -123,12 +123,12 @@ namespace ZenTester.VisionClass
         }
         public bool Load_pat(string ModelName)
         {
-            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"ey.pat");       //LOT DATA
+            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"key.pat");       //LOT DATA
 
             if (File.Exists(filePath))
             {
                 Console.WriteLine($"{filePath} Load Complete");
-                MIL.MmodRestore(filePath, MilSystem, MIL.M_DEFAULT, ref m_MilPatModel[0]);
+                MIL.MpatRestore(filePath, MilSystem, MIL.M_DEFAULT, ref m_MilPatModel[0]);
             }
             else
             {

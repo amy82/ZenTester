@@ -571,7 +571,7 @@ namespace ZenTester
             //패턴 등록
             MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
             MIL_ID GraphicList = MIL.M_NULL;
-            MIL_ID ContextId = MIL.M_NULL;              // ContextId identifier.
+            //MIL_ID ContextId = MIL.M_NULL;              // ContextId identifier.
             MIL_ID MilDisplay = MIL.M_NULL;         // Display identifier.
             MIL_ID Result = MIL.M_NULL;                 // Result identifier.
             MIL_INT NumResults = 0;                     // Number of results found.
@@ -612,8 +612,9 @@ namespace ZenTester
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], 0, 0, sizeX, sizeY, ref MilImage);
 
 
+            Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
 
-            MIL.MpatRestore("d:\\patpat.pat", Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref ContextId); 
+            //MIL.MpatRestore("d:\\patpat.pat", Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref ContextId); 
             //MIL_ID MpatRestore(MIL_INT FileName, MIL_ID SysId, long ControlFlag, ref MIL_ID ContextPatIdPtr);
 
             // Display the image buffer.
@@ -631,30 +632,30 @@ namespace ZenTester
             //MIL.MpatDefine(ContextId, MIL.M_REGULAR_MODEL, MilImage, FIND_MODEL_X_POS, FIND_MODEL_Y_POS, FIND_MODEL_WIDTH, FIND_MODEL_HEIGHT, MIL.M_DEFAULT);
 
             // Set the search accuracy to high.
-           MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
+           MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
 
             // Set the search model speed to high.
-            MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);
 
             // Activate the search model angle mode.
-            MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
 
             // Set the search model range angle.
-            MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 20);
-            MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 20);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 20);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 20);
 
             // Set the search model angle accuracy.
-            MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
 
             // Set the search model angle interpolation mode to bilinear.
             //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_INTERPOLATION_MODE, MIL.M_BILINEAR);
 
             // Preprocess the model.
-            MIL.MpatPreprocess(ContextId, MIL.M_DEFAULT, MilImage);
+            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MilImage);
 
             // Draw a box around the model in the model image.
             MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
-            MIL.MpatDraw(MIL.M_DEFAULT, ContextId, GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
+            MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
 
             // Clear annotations.
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
@@ -663,11 +664,11 @@ namespace ZenTester
             MIL.MpatAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref Result);
 
             // Dummy first call for bench measure purpose only (bench stabilization, cache effect, etc...). This first call is NOT required by the application.
-            MIL.MpatFind(ContextId, MilImage, Result);
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], MilImage, Result);
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_RESET + MIL.M_SYNCHRONOUS, MIL.M_NULL);
 
             // Find the model in the target buffer.
-            MIL.MpatFind(ContextId, MilImage, Result);
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], MilImage, Result);
 
             // Read the time spent in MpatFindModel.
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_READ + MIL.M_SYNCHRONOUS, ref Time);
@@ -687,8 +688,8 @@ namespace ZenTester
                 // Calculate the position errors in X and Y and inquire original model position.
                 ErrX = Math.Abs((FIND_MODEL_X_CENTER + FIND_SHIFT_X) - x);
                 ErrY = Math.Abs((FIND_MODEL_Y_CENTER + FIND_SHIFT_Y) - y);
-                MIL.MpatInquire(ContextId, MIL.M_DEFAULT, MIL.M_ORIGINAL_X, ref XOrg);
-                MIL.MpatInquire(ContextId, MIL.M_DEFAULT, MIL.M_ORIGINAL_Y, ref YOrg);
+                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ORIGINAL_X, ref XOrg);
+                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ORIGINAL_Y, ref YOrg);
 
                 // Print out the search result of the model in the original image.
                 Console.Write("Search results:\n");

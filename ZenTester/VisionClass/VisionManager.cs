@@ -80,7 +80,8 @@ namespace ZenTester.VisionClass
             milLibrary.AllocMilSetCamDisplay(_cameraDisplayHandles[2]);
             milLibrary.EnableSetCamOverlay();
 
-            
+            milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+
             markUtil = new MarkUtil();
             
             markUtil.InitMarkViewDlg();
