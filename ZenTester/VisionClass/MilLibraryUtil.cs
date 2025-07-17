@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -21,6 +22,7 @@ namespace ZenTester.VisionClass
         private bool AutoRunMode = true;
         public bool[] bGrabOnFlag = new bool[2];
 
+
         //GRAB IMAGE
         public MIL_ID[] MilCamGrabImage;
         public MIL_ID[] MilCamGrabImageChild;
@@ -39,6 +41,8 @@ namespace ZenTester.VisionClass
         public MIL_ID[] MilSetCamSmallImage;
         public MIL_ID[] MilSetCamSmallImageChild;
 
+        public MIL_ID[] m_MilPatModel;
+
         public MIL_ID MilSetCamOverlay;
         public MIL_INT MilSetCamTransparent;
 
@@ -54,10 +58,12 @@ namespace ZenTester.VisionClass
         private MIL_INT[] m_nMilSizeX = new MIL_INT[2];
         private MIL_INT[] m_nMilSizeY = new MIL_INT[2];
 
+
         private int CamControlWidth = 100;          //픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
         private int CamControlHeight = 100;         //픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
         private int SetCamControlWidth = 100;       //세팅용 픽처 컨트롤 가로 사이즈 , 보여지는 사이즈
         private int SetCamControlHeight = 100;      //세팅용 픽처 컨트롤 세로 사이즈 , 보여지는 사이즈
+
 
         public double[] xReduce = new double[2];
         public double[] yReduce = new double[2];
@@ -73,12 +79,15 @@ namespace ZenTester.VisionClass
             MilDigitizerList[0] = MIL.M_NULL;
             MilDigitizerList[1] = MIL.M_NULL;
 
+            m_MilPatModel = new MIL_ID[1];
+            m_MilPatModel[0] = MIL.M_NULL;
 
             CAM_SIZE_X[0] = 4024;   //Top
             CAM_SIZE_Y[0] = 3036;
 
             CAM_SIZE_X[1] = 4096;   //Side
             CAM_SIZE_Y[1] = 3000;
+
             for (i = 0; i < 2; i++)
             {
                 m_clMilDrawBox[i] = new CMilDrawBox();
@@ -97,7 +106,37 @@ namespace ZenTester.VisionClass
 
             
         }
+        public bool Save_pat(string ModelName)
+        {
+            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName);       //LOT DATA
+            if (!Directory.Exists(filePath)) // 폴더가 존재하지 않으면
+            {
+                Directory.CreateDirectory(filePath); // 폴더 생성
+            }
 
+            filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.pat");       //LOT DATA
+
+
+
+            MIL.MpatSave(filePath, m_MilPatModel[0], MIL.M_DEFAULT);
+            return true;
+        }
+        public bool Load_pat(string ModelName)
+        {
+            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"ey.pat");       //LOT DATA
+
+            if (File.Exists(filePath))
+            {
+                Console.WriteLine($"{filePath} Load Complete");
+                MIL.MmodRestore(filePath, MilSystem, MIL.M_DEFAULT, ref m_MilPatModel[0]);
+            }
+            else
+            {
+                Console.WriteLine($"{filePath} Load Fail");
+                return false;
+            }
+            return true;
+        }
         public void RunModeChange(bool flag)
         {
             AutoRunMode = flag;
@@ -647,6 +686,8 @@ namespace ZenTester.VisionClass
         {
             //MIL.MdispAlloc(MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_DEFAULT, ref MilCamDisplay[index]);
             MIL.MdispAlloc(MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, ref MilCamDisplay[index]);
+
+
             if (MilCamDisplay[index] != MIL.M_NULL)
             {
                 MIL_INT DisplayType = MIL.MdispInquire(MilCamDisplay[index], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
@@ -661,6 +702,8 @@ namespace ZenTester.VisionClass
 
                 MIL.MdispSelectWindow(MilCamDisplay[index], MilCamSmallImageChild[index], myPicHandler);
             }
+
+
         }
 
         public void AllocMilSetCamDisplay(IntPtr myPicHandler)
@@ -711,6 +754,12 @@ namespace ZenTester.VisionClass
             //
             MIL.MbufChild2d(MilCamSmallImage[index], 0, 0, CamControlWidth, CamControlHeight, ref MilCamSmallImageChild[index]);
             MIL.MbufClear(MilCamSmallImageChild[index], MIL.M_COLOR_BLACK);
+
+
+            //PATTERN
+
+            // Allocate a normalized pattern matching context.
+            ///MIL.MpatAlloc(MilSystem, MIL.M_NORMALIZED, MIL.M_DEFAULT, ref m_MilPatModel[0]);
 
         }
         public void AllocMilSetCamBuffer(int index, int _CamW, int _CamH)

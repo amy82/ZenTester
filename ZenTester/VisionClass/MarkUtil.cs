@@ -38,6 +38,8 @@ namespace ZenTester.VisionClass
         private Stopwatch TeststopWatch = new Stopwatch();
         public MIL_ID[] m_MilModModel;  //4개
 
+        
+
         public MIL_ID[] m_MilModResult = new MIL_ID[2];     //SIDE , TOP 2개
         public MIL_ID[] m_MilMarkOverlay = new MIL_ID[2];   //SIDE , TOP 2개
         public MIL_ID[] m_MilMarkImage = new MIL_ID[2];     //small mark , mask zoom mark 2개
@@ -64,7 +66,7 @@ namespace ZenTester.VisionClass
             int i = 0;
 
             m_MilModModel = new MIL_ID[(int)eMarkList.MAX_MARK_LIST];
-
+            
             for (i = 0; i < (int)eCamType.MAX_CAM_TYPE; i++)
             {
                 m_MilMarkImage[i] = MIL.M_NULL;
@@ -76,7 +78,11 @@ namespace ZenTester.VisionClass
             {
                 m_MilModModel[i] = MIL.M_NULL;
             }
+
             
+
+
+
             m_lTransparentColor = MIL.M_NULL;
             
 
@@ -172,6 +178,7 @@ namespace ZenTester.VisionClass
             //m_nMarkNo = nMarkNo;
             //g_clTaskWork[m_nUnit].m_ManualMarkIndex = m_nMarkNo;
         }
+        
         public bool SaveMark_mod(string ModelName, int camIndex, int nNo)
         {
             string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, ModelName);       //LOT DATA
