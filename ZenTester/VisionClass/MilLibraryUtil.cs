@@ -166,6 +166,16 @@ namespace ZenTester.VisionClass
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[camIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[camIndex];
             int dataSize = sizeX * sizeY;
+            Rectangle m_clRectRoi = new Rectangle();
+            m_clRectRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[0].roix;
+            m_clRectRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[0].roiy;
+            m_clRectRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth;
+            m_clRectRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].roiHeight;
+
+
+            MIL_ID MilPat = MIL.M_NULL;
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, m_clRectRoi.Width, m_clRectRoi.Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilPat);
+            MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilPat);
 
             //MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
 
@@ -174,7 +184,7 @@ namespace ZenTester.VisionClass
             //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], 0, 0, sizeX, sizeY, ref MilImage);
 
 
-            Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+            ///Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
 
             //MIL.MpatRestore("d:\\patpat.pat", Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref ContextId); 
             //MIL_ID MpatRestore(MIL_INT FileName, MIL_ID SysId, long ControlFlag, ref MIL_ID ContextPatIdPtr);
@@ -206,11 +216,15 @@ namespace ZenTester.VisionClass
             // Set the search model angle accuracy.
             MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
 
+            //MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SCALE, MIL.M_ENABLE);
+            //MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, Globalo.visionManager.milLibrary.xReduce[camIndex]); // 최소 80%
+            //MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, Globalo.visionManager.milLibrary.yReduce[camIndex]); // 최대 120%
+
             // Set the search model angle interpolation mode to bilinear.
             //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_INTERPOLATION_MODE, MIL.M_BILINEAR);
 
             // Preprocess the model.
-            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
+            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MilPat);// Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
 
             // Draw a box around the model in the model image.
             MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
@@ -223,11 +237,11 @@ namespace ZenTester.VisionClass
             MIL.MpatAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref Result);
 
             // Dummy first call for bench measure purpose only (bench stabilization, cache effect, etc...). This first call is NOT required by the application.
-            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Result);
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], MilPat, Result);
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_RESET + MIL.M_SYNCHRONOUS, MIL.M_NULL);
 
             // Find the model in the target buffer.
-            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Result);
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], MilPat, Result);
 
             // Read the time spent in MpatFindModel.
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_READ + MIL.M_SYNCHRONOUS, ref Time);
@@ -245,11 +259,12 @@ namespace ZenTester.VisionClass
                 MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_POSITION_Y, ref y);
                 MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_SCORE, ref Score);
 
-                MIL.MpatControl(Result, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[camIndex]);//M_DRAW_SCALE_X
-                MIL.MpatControl(Result, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[camIndex]);//M_DRAW_SCALE_Y
+                
+                //MIL.MpatControl(Result, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[camIndex]);//M_DRAW_SCALE_X
+                //MIL.MpatControl(Result, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[camIndex]);//M_DRAW_SCALE_Y
 
                 //MIL.MpatDraw(MIL.M_DEFAULT, Result, GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);
-                MIL.MpatDraw(MIL.M_DEFAULT, Result, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);//+ MIL.M_DRAW_EDGES
+                //MIL.MpatDraw(MIL.M_DEFAULT, Result, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);//+ MIL.M_DRAW_EDGES
 
                 // Calculate the position errors in X and Y and inquire original model position.
                 //ErrX = Math.Abs((FIND_MODEL_X_CENTER + FIND_SHIFT_X) - x);
@@ -267,10 +282,10 @@ namespace ZenTester.VisionClass
 
             }
             
-            m_clRoi.Width = 800;
-            m_clRoi.Height = 800;
-            m_clRoi.X = (int)x - (m_clRoi.Width / 2);
-            m_clRoi.Y = (int)y - (m_clRoi.Height / 2);
+            m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
+            m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
+            m_clRoi.X = (int)x + m_clRectRoi.X - (m_clRoi.Width / 2);
+            m_clRoi.Y = (int)y + m_clRectRoi.Y - (m_clRoi.Height / 2);
             Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, Color.Blue, 1);
 
 

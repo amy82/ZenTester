@@ -614,7 +614,7 @@ namespace ZenTester
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], 0, 0, sizeX, sizeY, ref MilImage);
 
 
-            Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+            ///Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
 
             //MIL.MpatRestore("d:\\patpat.pat", Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref ContextId); 
             //MIL_ID MpatRestore(MIL_INT FileName, MIL_ID SysId, long ControlFlag, ref MIL_ID ContextPatIdPtr);

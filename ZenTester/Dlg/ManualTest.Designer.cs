@@ -40,9 +40,9 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Regist = new System.Windows.Forms.Button();
             this.panel_Mark = new System.Windows.Forms.Panel();
             this.label_SetTest_Manual_Mark_Image = new System.Windows.Forms.Label();
-            this.button_Set_Height_Test = new System.Windows.Forms.Button();
-            this.button_Set_Cone_Test = new System.Windows.Forms.Button();
-            this.button_Set_Oring_Test = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Pat_Find = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Pat_Regist = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Pat_Roi_Save = new System.Windows.Forms.Button();
             this.button_Set_Dent_Test = new System.Windows.Forms.Button();
             this.button_Set_Gasket_Test = new System.Windows.Forms.Button();
             this.button_Set_Housing_Test = new System.Windows.Forms.Button();
@@ -199,47 +199,44 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Mark_Image.Text = "Mark Image";
             this.label_SetTest_Manual_Mark_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button_Set_Height_Test
+            // label_SetTest_Manual_Pat_Find
             // 
-            this.button_Set_Height_Test.BackColor = System.Drawing.Color.Tan;
-            this.button_Set_Height_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Set_Height_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Height_Test.Location = new System.Drawing.Point(599, 298);
-            this.button_Set_Height_Test.Name = "button_Set_Height_Test";
-            this.button_Set_Height_Test.Size = new System.Drawing.Size(98, 70);
-            this.button_Set_Height_Test.TabIndex = 112;
-            this.button_Set_Height_Test.Text = "HEIGHT TEST";
-            this.button_Set_Height_Test.UseVisualStyleBackColor = false;
-            this.button_Set_Height_Test.Visible = false;
-            this.button_Set_Height_Test.Click += new System.EventHandler(this.button_Set_Height_Test_Click);
+            this.label_SetTest_Manual_Pat_Find.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Pat_Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Pat_Find.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold);
+            this.label_SetTest_Manual_Pat_Find.Location = new System.Drawing.Point(565, 108);
+            this.label_SetTest_Manual_Pat_Find.Name = "label_SetTest_Manual_Pat_Find";
+            this.label_SetTest_Manual_Pat_Find.Size = new System.Drawing.Size(98, 56);
+            this.label_SetTest_Manual_Pat_Find.TabIndex = 112;
+            this.label_SetTest_Manual_Pat_Find.Text = "PAT FIND";
+            this.label_SetTest_Manual_Pat_Find.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Pat_Find.Click += new System.EventHandler(this.label_SetTest_Manual_Pat_Find_Click);
             // 
-            // button_Set_Cone_Test
+            // label_SetTest_Manual_Pat_Regist
             // 
-            this.button_Set_Cone_Test.BackColor = System.Drawing.Color.Tan;
-            this.button_Set_Cone_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Set_Cone_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Cone_Test.Location = new System.Drawing.Point(599, 292);
-            this.button_Set_Cone_Test.Name = "button_Set_Cone_Test";
-            this.button_Set_Cone_Test.Size = new System.Drawing.Size(98, 70);
-            this.button_Set_Cone_Test.TabIndex = 111;
-            this.button_Set_Cone_Test.Text = "CONE TEST";
-            this.button_Set_Cone_Test.UseVisualStyleBackColor = false;
-            this.button_Set_Cone_Test.Visible = false;
-            this.button_Set_Cone_Test.Click += new System.EventHandler(this.button_Set_Cone_Test_Click);
+            this.label_SetTest_Manual_Pat_Regist.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Pat_Regist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Pat_Regist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold);
+            this.label_SetTest_Manual_Pat_Regist.Location = new System.Drawing.Point(565, 163);
+            this.label_SetTest_Manual_Pat_Regist.Name = "label_SetTest_Manual_Pat_Regist";
+            this.label_SetTest_Manual_Pat_Regist.Size = new System.Drawing.Size(98, 50);
+            this.label_SetTest_Manual_Pat_Regist.TabIndex = 111;
+            this.label_SetTest_Manual_Pat_Regist.Text = "REGIST";
+            this.label_SetTest_Manual_Pat_Regist.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Pat_Regist.Click += new System.EventHandler(this.label_SetTest_Manual_Pat_Regist_Click);
             // 
-            // button_Set_Oring_Test
+            // label_SetTest_Manual_Pat_Roi_Save
             // 
-            this.button_Set_Oring_Test.BackColor = System.Drawing.Color.Tan;
-            this.button_Set_Oring_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Set_Oring_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Oring_Test.Location = new System.Drawing.Point(599, 274);
-            this.button_Set_Oring_Test.Name = "button_Set_Oring_Test";
-            this.button_Set_Oring_Test.Size = new System.Drawing.Size(98, 70);
-            this.button_Set_Oring_Test.TabIndex = 110;
-            this.button_Set_Oring_Test.Text = "ORING TEST";
-            this.button_Set_Oring_Test.UseVisualStyleBackColor = false;
-            this.button_Set_Oring_Test.Visible = false;
-            this.button_Set_Oring_Test.Click += new System.EventHandler(this.button_Set_Oring_Test_Click);
+            this.label_SetTest_Manual_Pat_Roi_Save.BackColor = System.Drawing.Color.Tan;
+            this.label_SetTest_Manual_Pat_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Pat_Roi_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold);
+            this.label_SetTest_Manual_Pat_Roi_Save.Location = new System.Drawing.Point(565, 212);
+            this.label_SetTest_Manual_Pat_Roi_Save.Name = "label_SetTest_Manual_Pat_Roi_Save";
+            this.label_SetTest_Manual_Pat_Roi_Save.Size = new System.Drawing.Size(98, 51);
+            this.label_SetTest_Manual_Pat_Roi_Save.TabIndex = 110;
+            this.label_SetTest_Manual_Pat_Roi_Save.Text = "ROI SAVE";
+            this.label_SetTest_Manual_Pat_Roi_Save.UseVisualStyleBackColor = false;
+            this.label_SetTest_Manual_Pat_Roi_Save.Click += new System.EventHandler(this.label_SetTest_Manual_Pat_Roi_Save_Click);
             // 
             // button_Set_Dent_Test
             // 
@@ -393,7 +390,7 @@ namespace ZenTester.Dlg
             this.panel_Pat.BackColor = System.Drawing.Color.Gray;
             this.panel_Pat.Location = new System.Drawing.Point(250, 108);
             this.panel_Pat.Name = "panel_Pat";
-            this.panel_Pat.Size = new System.Drawing.Size(254, 202);
+            this.panel_Pat.Size = new System.Drawing.Size(314, 202);
             this.panel_Pat.TabIndex = 95;
             // 
             // ManualTest
@@ -407,9 +404,9 @@ namespace ZenTester.Dlg
             this.Controls.Add(this.button_Top_Manual_Auto);
             this.Controls.Add(this.button_Mark_Top_Center_Find);
             this.Controls.Add(this.button_Pogo_Find_Test);
-            this.Controls.Add(this.button_Set_Height_Test);
-            this.Controls.Add(this.button_Set_Cone_Test);
-            this.Controls.Add(this.button_Set_Oring_Test);
+            this.Controls.Add(this.label_SetTest_Manual_Pat_Find);
+            this.Controls.Add(this.label_SetTest_Manual_Pat_Regist);
+            this.Controls.Add(this.label_SetTest_Manual_Pat_Roi_Save);
             this.Controls.Add(this.button_Set_Dent_Test);
             this.Controls.Add(this.button_Set_Gasket_Test);
             this.Controls.Add(this.button_Set_Housing_Test);
@@ -447,9 +444,9 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Button label_SetTest_Manual_Mark_Regist;
         public System.Windows.Forms.Panel panel_Mark;
         public System.Windows.Forms.Label label_SetTest_Manual_Mark_Image;
-        private System.Windows.Forms.Button button_Set_Height_Test;
-        private System.Windows.Forms.Button button_Set_Cone_Test;
-        private System.Windows.Forms.Button button_Set_Oring_Test;
+        private System.Windows.Forms.Button label_SetTest_Manual_Pat_Find;
+        private System.Windows.Forms.Button label_SetTest_Manual_Pat_Regist;
+        private System.Windows.Forms.Button label_SetTest_Manual_Pat_Roi_Save;
         private System.Windows.Forms.Button button_Set_Dent_Test;
         private System.Windows.Forms.Button button_Set_Gasket_Test;
         private System.Windows.Forms.Button button_Set_Housing_Test;

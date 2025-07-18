@@ -540,21 +540,7 @@ namespace ZenTester.Dlg
                 KEY_TEST();
             }
         }
-        private void button_Set_Oring_Test_Click(object sender, EventArgs e)
-        {
-            
-        }
 
-        private void button_Set_Cone_Test_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button_Set_Height_Test_Click(object sender, EventArgs e)
-        {
-            
-            
-        }
         
         public void showMark()
         {
@@ -819,6 +805,50 @@ namespace ZenTester.Dlg
 
                     return waitverify;
                 }, CancelToken.Token);
+            }
+        }
+
+        private void label_SetTest_Manual_Pat_Find_Click(object sender, EventArgs e)
+        {
+            //패턴 찾기
+            Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX);
+        }
+
+        private void label_SetTest_Manual_Pat_Regist_Click(object sender, EventArgs e)
+        {
+            //패턴 등록
+            Globalo.visionManager.milLibrary.AddPattern(VisionClass.AoiTester.TOP_INDEX);
+
+            Rectangle DrawRoiBox = parentDlg.GetRoiRect();
+            if (Globalo.yamlManager.aoiRoiConfig.patData.Count > 0)
+            {
+                Globalo.yamlManager.aoiRoiConfig.patData[0].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.patData[0].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
+
+                Data.TaskDataYaml.Save_AoiConfig();
+            }
+        }
+
+        private void label_SetTest_Manual_Pat_Roi_Save_Click(object sender, EventArgs e)
+        {
+            //패턴 ROI SAVE
+
+            DialogResult result = DialogResult.None;
+            result = Globalo.MessageAskPopup("PAT ROI영역 등록하시겠습니까?");
+
+            if (result == DialogResult.Yes)
+            {
+                Rectangle DrawRoiBox = parentDlg.GetRoiRect();
+                if (Globalo.yamlManager.aoiRoiConfig.patData.Count > 0)
+                {
+                    Globalo.yamlManager.aoiRoiConfig.patData[0].roix = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[0].roiy = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[0].roiHeight = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
+
+                    Data.TaskDataYaml.Save_AoiConfig();
+                }
+                
             }
         }
     }

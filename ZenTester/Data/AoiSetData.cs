@@ -19,6 +19,16 @@ namespace ZenTester.Data
         public int Height { get; set; }
         public int Smooth { get; set; }
     }
+    public class PatData
+    {
+        public string name { get; set; }
+        public int roix { get; set; }
+        public int roiy { get; set; }
+        public int roiWidth { get; set; }
+        public int roiHeight { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
     public class LightData
     {
         public string name { get; set; }
@@ -52,6 +62,7 @@ namespace ZenTester.Data
         public List<Roi> ORING_ROI { get; set; }
 
         public List<MarkData> markData { get; set; } = new List<MarkData>();
+        public List<PatData> patData { get; set; } = new List<PatData>();
 
         public List<LightData> topLightData { get; set; } = new List<LightData>();
         public List<LightData> sideLightData { get; set; } = new List<LightData>();
