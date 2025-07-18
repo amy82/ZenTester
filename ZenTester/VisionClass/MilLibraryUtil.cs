@@ -137,7 +137,7 @@ namespace ZenTester.VisionClass
             }
             return true;
         }
-        public bool FindPattern(int camIndex)
+        public double FindPattern(int camIndex)
         {
             //패턴 등록
             MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
@@ -272,7 +272,9 @@ namespace ZenTester.VisionClass
             m_clRoi.X = (int)x - (m_clRoi.Width / 2);
             m_clRoi.Y = (int)y - (m_clRoi.Height / 2);
             Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, Color.Blue, 1);
-            return true;
+
+
+            return Score;
         }
         public bool AddPattern(int camIndex)
         {

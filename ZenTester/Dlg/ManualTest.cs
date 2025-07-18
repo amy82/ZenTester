@@ -38,7 +38,25 @@ namespace ZenTester.Dlg
             parentDlg = _parent;
             MaxMarkCount = Globalo.yamlManager.aoiRoiConfig.markData.Count;
         }
-
+        public void setManualView(int index)
+        {
+            if (index == VisionClass.AoiTester.TOP_INDEX)
+            {
+                label_SetTest_Manual_Top_Test.Text = "Top Cam Manual Test";
+                button_Set_Housing_Test.Text = "HOUSING TEST";
+                button_Set_Gasket_Test.Text = "GASKET TEST";
+                button_Set_Dent_Test.Text = "DENT TEST";
+                button_Set_Key_Test.Visible = true;
+            }
+            else
+            {
+                label_SetTest_Manual_Top_Test.Text = "Side Cam Manual Test";
+                button_Set_Housing_Test.Text = "ORING TEST";
+                button_Set_Gasket_Test.Text = "CONE TEST";
+                button_Set_Dent_Test.Text = "HEIGHT TEST";
+                button_Set_Key_Test.Visible = false;
+            }
+        }
         public void SetSmallMark()
         {
             VisionClass.eMarkList mark = (VisionClass.eMarkList)MarkIndex;
@@ -108,7 +126,7 @@ namespace ZenTester.Dlg
             bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
         }
         #region [TOP CAMERA MANUAL TEST]
-        private void button_Set_Key_Test_Click(object sender, EventArgs e)
+        private void KEY_TEST()
         {
             bool rtn = true;
             parentDlg.manualConfig.checkBox_AllRelease();
@@ -179,10 +197,9 @@ namespace ZenTester.Dlg
 
 
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex, 0);
-
         }
-
-        private void button_Set_Housing_Test_Click(object sender, EventArgs e)
+        
+        private void HOUSEING_TEST()
         {
             bool rtn = true;
             parentDlg.manualConfig.checkBox_AllRelease();
@@ -196,7 +213,6 @@ namespace ZenTester.Dlg
             byte[] ImageBuffer = new byte[dataSize];
 
             //
-            //Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
             MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
@@ -204,24 +220,8 @@ namespace ZenTester.Dlg
             Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
             // 3채널로 변환
             Cv2.CvtColor(src, src, ColorConversionCodes.GRAY2BGR);
-            //int sizeX2 = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
-            //int sizeY2 = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
-            //int dataSize2 = sizeX2 * sizeY2;
-            //byte[] ImageBuffer2 = new byte[dataSize2];
-            ////
-            //MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer2);
-            //Mat src2 = new Mat(sizeY2, sizeX2, MatType.CV_8UC1);
-            //Marshal.Copy(ImageBuffer2, 0, src2.Data, dataSize2);
-            //string sidepath = $"d:\\srcImage_{topcount}.jpg";
-            //Cv2.ImWrite(sidepath, src2);
-            //topcount++;
-            //if(topcount > 30)
-            //{
-            //    topcount = 0;
-            //}
+
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
-
-
 
             List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
@@ -236,7 +236,7 @@ namespace ZenTester.Dlg
             double score = 0.0;
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score);
 
-            
+
             //----------------------------------------------------------------------------------------------------------------------------------------------
             //
             //
@@ -300,28 +300,25 @@ namespace ZenTester.Dlg
 
 
 
-            string str22 = "";
-            string csvLine = $"{con1Result}, {con2Result}";
+            //string str22 = "";
+            //string csvLine = $"{con1Result}, {con2Result}";
 
-            string filePath = "CONdata.csv";
-            // 파일이 없으면 헤더 추가
-            if (!File.Exists(filePath))
-            {
-                File.AppendAllText(filePath, "CON1, CON2" + Environment.NewLine);
-            }
-            try
-            {
-                File.AppendAllText(filePath, csvLine + Environment.NewLine);
-            }
-            catch (IOException)
-            {
+            //string filePath = "CONdata.csv";
+            //// 파일이 없으면 헤더 추가
+            //if (!File.Exists(filePath))
+            //{
+            //    File.AppendAllText(filePath, "CON1, CON2" + Environment.NewLine);
+            //}
+            //try
+            //{
+            //    File.AppendAllText(filePath, csvLine + Environment.NewLine);
+            //}
+            //catch (IOException)
+            //{
 
-            }
-
-            
+            //}
         }
-
-        private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
+        private void GASKET_TEST()
         {
             parentDlg.manualConfig.checkBox_AllRelease();
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
@@ -356,8 +353,7 @@ namespace ZenTester.Dlg
 
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
-
-        private void button_Set_Dent_Test_Click(object sender, EventArgs e)
+        private void DENT_TEST()
         {
             bool rtn = true;
             parentDlg.manualConfig.checkBox_AllRelease();
@@ -394,15 +390,16 @@ namespace ZenTester.Dlg
 
 
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
-            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos,  true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
+            HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos, true);  //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
             Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex, 0);
-
         }
-        #endregion
 
-        #region [SIDE CAMERA MANUAL TEST]
-        private void button_Set_Oring_Test_Click(object sender, EventArgs e)
+        #endregion
+        
+        
+#region [SIDE CAMERA MANUAL TEST]
+        private void ORING_TEST()
         {
             if (parentDlg.CamIndex == 0)
             {
@@ -432,14 +429,13 @@ namespace ZenTester.Dlg
             //}
             //Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
-           // Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
+            // Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
             //Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
-
-        private void button_Set_Cone_Test_Click(object sender, EventArgs e)
+        private void CONE_TEST()
         {
             if (parentDlg.CamIndex == 0)
             {
@@ -473,8 +469,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
             //Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
-
-        private void button_Set_Height_Test_Click(object sender, EventArgs e)
+        private void HEIGHT_TEST()
         {
             if (parentDlg.CamIndex == 0)
             {
@@ -492,12 +487,75 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
 
-           
-            Globalo.visionManager.aoiSideTester.HeightTest(parentDlg.CamIndex); 
+
+            Globalo.visionManager.aoiSideTester.HeightTest(parentDlg.CamIndex);
             //
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
         }
         #endregion
+        private void button_Set_Housing_Test_Click(object sender, EventArgs e)
+        {
+            // #1 TEST BUTTON
+            if (parentDlg.CamIndex == VisionClass.AoiTester.TOP_INDEX)
+            {
+                HOUSEING_TEST();
+            }
+            else
+            {
+                ORING_TEST();
+            }
+            
+        }
+        private void button_Set_Gasket_Test_Click(object sender, EventArgs e)
+        {
+            // #2 TEST BUTTON
+            if (parentDlg.CamIndex == VisionClass.AoiTester.TOP_INDEX)
+            {
+                GASKET_TEST();
+            }
+            else
+            {
+                CONE_TEST();
+            }
+            
+        }
+        private void button_Set_Dent_Test_Click(object sender, EventArgs e)
+        {
+            // #3 TEST BUTTON
+            if (parentDlg.CamIndex == VisionClass.AoiTester.TOP_INDEX)
+            {
+                DENT_TEST();
+            }
+            else
+            {
+                HEIGHT_TEST();
+            }
+            
+        }
+        private void button_Set_Key_Test_Click(object sender, EventArgs e)
+        {
+            //ONLY TOP TEST
+            if (parentDlg.CamIndex == VisionClass.AoiTester.TOP_INDEX)
+            {
+                KEY_TEST();
+            }
+        }
+        private void button_Set_Oring_Test_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button_Set_Cone_Test_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button_Set_Height_Test_Click(object sender, EventArgs e)
+        {
+            
+            
+        }
+        
         public void showMark()
         {
             VisionClass.eMarkList mark = (VisionClass.eMarkList)MarkIndex;

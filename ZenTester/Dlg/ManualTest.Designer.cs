@@ -53,6 +53,8 @@ namespace ZenTester.Dlg
             this.button_Mark_Top_Center_Find = new System.Windows.Forms.Button();
             this.button_Top_Manual_Auto = new System.Windows.Forms.Button();
             this.button_Side_Manual_Auto = new System.Windows.Forms.Button();
+            this.label_SetTest_Manual_Pat_Image = new System.Windows.Forms.Label();
+            this.panel_Pat = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // label_SetTest_Manual_Mark_Roi_Save
@@ -202,12 +204,13 @@ namespace ZenTester.Dlg
             this.button_Set_Height_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Height_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Height_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Height_Test.Location = new System.Drawing.Point(349, 246);
+            this.button_Set_Height_Test.Location = new System.Drawing.Point(599, 298);
             this.button_Set_Height_Test.Name = "button_Set_Height_Test";
-            this.button_Set_Height_Test.Size = new System.Drawing.Size(180, 70);
+            this.button_Set_Height_Test.Size = new System.Drawing.Size(98, 70);
             this.button_Set_Height_Test.TabIndex = 112;
             this.button_Set_Height_Test.Text = "HEIGHT TEST";
             this.button_Set_Height_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Height_Test.Visible = false;
             this.button_Set_Height_Test.Click += new System.EventHandler(this.button_Set_Height_Test_Click);
             // 
             // button_Set_Cone_Test
@@ -215,12 +218,13 @@ namespace ZenTester.Dlg
             this.button_Set_Cone_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Cone_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Cone_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Cone_Test.Location = new System.Drawing.Point(349, 176);
+            this.button_Set_Cone_Test.Location = new System.Drawing.Point(599, 292);
             this.button_Set_Cone_Test.Name = "button_Set_Cone_Test";
-            this.button_Set_Cone_Test.Size = new System.Drawing.Size(180, 70);
+            this.button_Set_Cone_Test.Size = new System.Drawing.Size(98, 70);
             this.button_Set_Cone_Test.TabIndex = 111;
             this.button_Set_Cone_Test.Text = "CONE TEST";
             this.button_Set_Cone_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Cone_Test.Visible = false;
             this.button_Set_Cone_Test.Click += new System.EventHandler(this.button_Set_Cone_Test_Click);
             // 
             // button_Set_Oring_Test
@@ -228,12 +232,13 @@ namespace ZenTester.Dlg
             this.button_Set_Oring_Test.BackColor = System.Drawing.Color.Tan;
             this.button_Set_Oring_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Oring_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Oring_Test.Location = new System.Drawing.Point(349, 106);
+            this.button_Set_Oring_Test.Location = new System.Drawing.Point(599, 274);
             this.button_Set_Oring_Test.Name = "button_Set_Oring_Test";
-            this.button_Set_Oring_Test.Size = new System.Drawing.Size(180, 70);
+            this.button_Set_Oring_Test.Size = new System.Drawing.Size(98, 70);
             this.button_Set_Oring_Test.TabIndex = 110;
             this.button_Set_Oring_Test.Text = "ORING TEST";
             this.button_Set_Oring_Test.UseVisualStyleBackColor = false;
+            this.button_Set_Oring_Test.Visible = false;
             this.button_Set_Oring_Test.Click += new System.EventHandler(this.button_Set_Oring_Test_Click);
             // 
             // button_Set_Dent_Test
@@ -295,12 +300,13 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(349, 68);
+            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(599, 290);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
-            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(180, 38);
+            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(98, 38);
             this.label_SetTest_Manual_Side_Test.TabIndex = 105;
             this.label_SetTest_Manual_Side_Test.Text = "Side Cam Manual Test";
             this.label_SetTest_Manual_Side_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_SetTest_Manual_Side_Test.Visible = false;
             // 
             // label_SetTest_Manual_Top_Test
             // 
@@ -368,11 +374,35 @@ namespace ZenTester.Dlg
             this.button_Side_Manual_Auto.UseVisualStyleBackColor = false;
             this.button_Side_Manual_Auto.Click += new System.EventHandler(this.button_Side_Manual_Auto_Click);
             // 
+            // label_SetTest_Manual_Pat_Image
+            // 
+            this.label_SetTest_Manual_Pat_Image.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Pat_Image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_SetTest_Manual_Pat_Image.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Pat_Image.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Pat_Image.ForeColor = System.Drawing.Color.Black;
+            this.label_SetTest_Manual_Pat_Image.Location = new System.Drawing.Point(250, 76);
+            this.label_SetTest_Manual_Pat_Image.Name = "label_SetTest_Manual_Pat_Image";
+            this.label_SetTest_Manual_Pat_Image.Size = new System.Drawing.Size(415, 29);
+            this.label_SetTest_Manual_Pat_Image.TabIndex = 118;
+            this.label_SetTest_Manual_Pat_Image.Text = "Pattern Image";
+            this.label_SetTest_Manual_Pat_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel_Pat
+            // 
+            this.panel_Pat.BackColor = System.Drawing.Color.Gray;
+            this.panel_Pat.Location = new System.Drawing.Point(250, 108);
+            this.panel_Pat.Name = "panel_Pat";
+            this.panel_Pat.Size = new System.Drawing.Size(254, 202);
+            this.panel_Pat.TabIndex = 95;
+            // 
             // ManualTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.panel_Pat);
+            this.Controls.Add(this.label_SetTest_Manual_Pat_Image);
             this.Controls.Add(this.button_Side_Manual_Auto);
             this.Controls.Add(this.button_Top_Manual_Auto);
             this.Controls.Add(this.button_Mark_Top_Center_Find);
@@ -430,5 +460,7 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Button button_Mark_Top_Center_Find;
         private System.Windows.Forms.Button button_Top_Manual_Auto;
         private System.Windows.Forms.Button button_Side_Manual_Auto;
+        public System.Windows.Forms.Label label_SetTest_Manual_Pat_Image;
+        public System.Windows.Forms.Panel panel_Pat;
     }
 }

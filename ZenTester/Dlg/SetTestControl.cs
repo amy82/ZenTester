@@ -202,34 +202,37 @@ namespace ZenTester.Dlg
             }
 
         }
+        private void setTestView(int index)
+        {
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(index);
+            Globalo.visionManager.ChangeSettingDisplayHandle(index, Set_panelCam);
+            Globalo.visionManager.milLibrary.SetGrabOn(index, true);
+            if (index == 0)
+            {
+                button_SetTest_TopCam.BackColor = Color.Black;
+                button_SetTest_SideCam.BackColor = Color.DarkGray;
+                label_SetTest_Title.Text = "Top Setting Camera";
+            }
+            else
+            {
+                button_SetTest_SideCam.BackColor = Color.Black;
+                button_SetTest_TopCam.BackColor = Color.DarkGray;
+                label_SetTest_Title.Text = "Side Setting Camera";
+            }
 
+            manualTest.setManualView(index);
+            manualConfig.checkBox_AllRelease();
+        }
         private void button_SetTest_TopCam_Click(object sender, EventArgs e)
         {
-            //Set_panelCam.Handle
             CamIndex = 0;
-            Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
-            button_SetTest_TopCam.BackColor = Color.Black;
-            button_SetTest_SideCam.BackColor = Color.DarkGray;
-            Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-            manualConfig.checkBox_AllRelease();
-
-            label_SetTest_Title.Text = "Top Setting Camera";
+            setTestView(CamIndex);
         }
 
         private void button_SetTest_SideCam_Click(object sender, EventArgs e)
         {
             CamIndex = 1;
-            Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
-            button_SetTest_SideCam.BackColor = Color.Black;
-            button_SetTest_TopCam.BackColor = Color.DarkGray;
-            Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
-
-            Globalo.visionManager.milLibrary.SetGrabOn(CamIndex, true);
-            manualConfig.checkBox_AllRelease();
-
-            label_SetTest_Title.Text = "Side Setting Camera";
-            //roi 다시 그리기
+            setTestView(CamIndex);
         }
 
         
