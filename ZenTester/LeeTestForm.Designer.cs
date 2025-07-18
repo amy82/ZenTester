@@ -592,7 +592,7 @@ namespace ZenTester
             this.button36.BackColor = System.Drawing.Color.IndianRed;
             this.button36.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button36.ForeColor = System.Drawing.Color.White;
-            this.button36.Location = new System.Drawing.Point(304, 208);
+            this.button36.Location = new System.Drawing.Point(375, 224);
             this.button36.Name = "button36";
             this.button36.Size = new System.Drawing.Size(92, 34);
             this.button36.TabIndex = 41;

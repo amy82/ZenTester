@@ -568,7 +568,9 @@ namespace ZenTester
 
         private void button35_Click(object sender, EventArgs e)
         {
-            //패턴 등록
+            Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX);
+            return;
+
             MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
             MIL_ID GraphicList = MIL.M_NULL;
             //MIL_ID ContextId = MIL.M_NULL;              // ContextId identifier.
@@ -703,8 +705,12 @@ namespace ZenTester
 
         }
 
-        private void button36_Click(object sender, EventArgs e)
+        private void button36_Click(object sender, EventArgs e) //패턴 등록하기
         {
+
+            Globalo.visionManager.milLibrary.AddPattern(VisionClass.AoiTester.TOP_INDEX);
+
+            return;
             MIL_INT NumResults = 0;                     // Number of results found.
             double Time = 0.0;                          // Model search time.
             MIL_ID Result = MIL.M_NULL;                 // Result identifier.

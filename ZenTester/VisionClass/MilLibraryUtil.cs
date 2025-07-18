@@ -137,6 +137,240 @@ namespace ZenTester.VisionClass
             }
             return true;
         }
+        public bool FindPattern(int camIndex)
+        {
+            //패턴 등록
+            MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
+            MIL_ID GraphicList = MIL.M_NULL;
+            //MIL_ID ContextId = MIL.M_NULL;              // ContextId identifier.
+            MIL_ID MilDisplay = MIL.M_NULL;         // Display identifier.
+            MIL_ID Result = MIL.M_NULL;                 // Result identifier.
+            MIL_INT NumResults = 0;                     // Number of results found.
+
+            double XOrg = 0.0;                          // Original model position.
+            double YOrg = 0.0;
+            double x = 0.0;                             // Model position.
+            double y = 0.0;
+            double ErrX = 0.0;                          // Model error position.
+            double ErrY = 0.0;
+            double Score = 0.0;                         // Model correlation score.
+            double Time = 0.0;                          // Model search time.
+
+
+
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(camIndex);
+            Globalo.visionManager.milLibrary.GetSnapImage(camIndex);
+            Globalo.visionManager.milLibrary.SetGrabOn(camIndex, false);
+
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[camIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[camIndex];
+            int dataSize = sizeX * sizeY;
+
+            //MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+
+            //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, 0, 0, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+
+            //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], 0, 0, sizeX, sizeY, ref MilImage);
+
+
+            Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+
+            //MIL.MpatRestore("d:\\patpat.pat", Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref ContextId); 
+            //MIL_ID MpatRestore(MIL_INT FileName, MIL_ID SysId, long ControlFlag, ref MIL_ID ContextPatIdPtr);
+
+            // Display the image buffer.
+            //MIL.MdispSelect(MilDisplay, MilImage);
+
+            // Allocate a graphic list to hold the subpixel annotations to draw.
+            MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            // Associate the graphic list to the display for annotations.
+            //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+
+
+
+            // Set the search accuracy to high.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
+
+            // Set the search model speed to high.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);
+
+            // Activate the search model angle mode.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
+
+            // Set the search model range angle.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 20);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 20);
+
+            // Set the search model angle accuracy.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
+
+            // Set the search model angle interpolation mode to bilinear.
+            //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_INTERPOLATION_MODE, MIL.M_BILINEAR);
+
+            // Preprocess the model.
+            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
+
+            // Draw a box around the model in the model image.
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
+            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
+
+            // Clear annotations.
+            //MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
+
+            // Allocate result buffer.
+            MIL.MpatAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref Result);
+
+            // Dummy first call for bench measure purpose only (bench stabilization, cache effect, etc...). This first call is NOT required by the application.
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Result);
+            MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_RESET + MIL.M_SYNCHRONOUS, MIL.M_NULL);
+
+            // Find the model in the target buffer.
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Result);
+
+            // Read the time spent in MpatFindModel.
+            MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_READ + MIL.M_SYNCHRONOUS, ref Time);
+
+            // If one model was found above the acceptance threshold.
+            MIL.MpatGetResult(Result, MIL.M_GENERAL, MIL.M_NUMBER + MIL.M_TYPE_MIL_INT, ref NumResults);
+
+
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
+            Rectangle m_clRoi = new Rectangle();
+            if (NumResults == 1)
+            {
+                // Read results and draw a box around the model occurrence.
+                MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_POSITION_X, ref x);
+                MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_POSITION_Y, ref y);
+                MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_SCORE, ref Score);
+
+                MIL.MpatControl(Result, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[camIndex]);//M_DRAW_SCALE_X
+                MIL.MpatControl(Result, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[camIndex]);//M_DRAW_SCALE_Y
+
+                //MIL.MpatDraw(MIL.M_DEFAULT, Result, GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);
+                MIL.MpatDraw(MIL.M_DEFAULT, Result, Globalo.visionManager.milLibrary.MilSetCamOverlay, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);//+ MIL.M_DRAW_EDGES
+
+                // Calculate the position errors in X and Y and inquire original model position.
+                //ErrX = Math.Abs((FIND_MODEL_X_CENTER + FIND_SHIFT_X) - x);
+                //ErrY = Math.Abs((FIND_MODEL_Y_CENTER + FIND_SHIFT_Y) - y);
+                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ORIGINAL_X, ref XOrg);
+                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ORIGINAL_Y, ref YOrg);
+
+                // Print out the search result of the model in the original image.
+                Console.Write("Search results:\n");
+                Console.Write("---------------------------------------------------\n");
+                Console.Write("The model is found to be shifted by \tX:{0:0.00}, Y:{1:0.00}.\n", x - XOrg, y - YOrg);
+                //Console.Write("The model position error is \t\tX:{0:0.00}, Y:{1:0.00}\n", ErrX, ErrY);
+                Console.Write("The model match score is \t\t{0:0.0}\n", Score);
+                //Console.Write("The search time is \t\t\t{0:0.000} ms\n\n", Time * 1000.0);
+
+            }
+            
+            m_clRoi.Width = 800;
+            m_clRoi.Height = 800;
+            m_clRoi.X = (int)x - (m_clRoi.Width / 2);
+            m_clRoi.Y = (int)y - (m_clRoi.Height / 2);
+            Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, Color.Blue, 1);
+            return true;
+        }
+        public bool AddPattern(int camIndex)
+        {
+            MIL_ID Result = MIL.M_NULL;                 // Result identifier.
+            int FIND_MODEL_X_POS = 0;
+            int FIND_MODEL_Y_POS = 0;
+            int FIND_MODEL_WIDTH = 0;
+            int FIND_MODEL_HEIGHT = 0;
+
+
+            Rectangle DrawRoiBox = Globalo.setTestControl.GetRoiRect();
+            FIND_MODEL_X_POS = DrawRoiBox.X;
+            FIND_MODEL_Y_POS = DrawRoiBox.Y;
+
+            FIND_MODEL_WIDTH = DrawRoiBox.Width;
+            FIND_MODEL_HEIGHT = DrawRoiBox.Height;
+
+            FIND_MODEL_X_POS = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[camIndex]); //VisionClass.AoiTester.TOP_INDEX
+            FIND_MODEL_Y_POS = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[camIndex]);
+
+            FIND_MODEL_WIDTH = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[camIndex]);
+            FIND_MODEL_HEIGHT = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[camIndex]);
+
+
+            double FIND_MODEL_X_CENTER = (FIND_MODEL_X_POS + (FIND_MODEL_WIDTH - 1) / 2.0);
+            double FIND_MODEL_Y_CENTER = (FIND_MODEL_Y_POS + (FIND_MODEL_HEIGHT - 1) / 2.0);
+
+
+            //패턴 찾기
+            MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
+            MIL_ID GraphicList = MIL.M_NULL;
+            MIL_ID ContextId = MIL.M_NULL;              // ContextId identifier.
+            MIL_ID MilDisplay = MIL.M_NULL;         // Display identifier.
+            bool rtn = true;
+
+
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(camIndex);
+            Globalo.visionManager.milLibrary.GetSnapImage(camIndex);
+            Globalo.visionManager.milLibrary.SetGrabOn(camIndex, false);
+
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[camIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[camIndex];
+            int dataSize = sizeX * sizeY;
+
+            //MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
+
+           // MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, 0, 0, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
+
+            //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], 0, 0, sizeX, sizeY, ref MilImage);
+
+
+
+            // Display the image buffer.
+            //MIL.MdispSelect(MilDisplay, MilImage);
+
+            // Allocate a graphic list to hold the subpixel annotations to draw.
+            //MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
+
+            // Associate the graphic list to the display for annotations.
+            //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
+
+            // Allocate a normalized pattern matching context.
+            MIL.MpatAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_NORMALIZED, MIL.M_DEFAULT, ref Globalo.visionManager.milLibrary.m_MilPatModel[0]);
+
+            // Define a regular model.
+            MIL.MpatDefine(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_REGULAR_MODEL, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], FIND_MODEL_X_POS, FIND_MODEL_Y_POS, FIND_MODEL_WIDTH, FIND_MODEL_HEIGHT, MIL.M_DEFAULT);
+
+            // Set the search accuracy to high.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
+
+            // Set the search model speed to high.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);
+
+            // Activate the search model angle mode.
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
+
+            // Set the search model range angle.
+            //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 10);
+            //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 10);
+
+            // Set the search model angle accuracy.
+            //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.25);
+
+            // Set the search model angle interpolation mode to bilinear.
+            //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_INTERPOLATION_MODE, MIL.M_BILINEAR);
+
+            // Preprocess the model.
+            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
+
+            // Draw a box around the model in the model image.
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
+
+            MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
+
+            Globalo.visionManager.milLibrary.Save_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+            return true;
+        }
         public void RunModeChange(bool flag)
         {
             AutoRunMode = flag;
