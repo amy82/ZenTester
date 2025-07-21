@@ -134,8 +134,7 @@ namespace ZenTester.VisionClass
 
                 MarkEnableOverlay();
             }
-
-
+            
             zoomDispSize.X = Globalo.markViewer.GetDispSize(0);
             zoomDispSize.Y = Globalo.markViewer.GetDispSize(1);
 
@@ -145,8 +144,11 @@ namespace ZenTester.VisionClass
         }
         public void InitPatViewDlg()
         {
-            long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
-            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
+            //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
+
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem,
+                PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED),
+                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
 
             if (Globalo.visionManager.milLibrary.m_MilPatImage[0] != MIL.M_NULL)
             {
@@ -176,16 +178,23 @@ namespace ZenTester.VisionClass
             string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.bmp");       //LOT DATA
             //MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
 
-            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[nPatNo], 192);      //작은 마크 이미지
+            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[nPatNo], 100);      //작은 마크 이미지
 
             if (File.Exists(filePath))
             {
                 MIL_ID tempPatimage = MIL.M_NULL;
 
-                MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1,
-                    Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width, Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, 
-                    (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage);
+                //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L,
+                //    Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width, Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, 
+                //    (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage); // MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP
 
+                MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem,
+                Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width,
+                Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, (8 + MIL.M_UNSIGNED),
+                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage);
+
+                MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref tempPatimage);
+                MIL.MbufRestore(filePath, Globalo.visionManager.milLibrary.MilSystem, ref tempPatimage);
                 double dZoomX = 0.0;
                 double dZoomY = 0.0;
                 dZoomX = PatSmallDispSize.X / (double)Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width;
