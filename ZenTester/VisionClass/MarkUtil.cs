@@ -193,7 +193,7 @@ namespace ZenTester.VisionClass
                 Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, (8 + MIL.M_UNSIGNED),
                 MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage);
 
-                MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref tempPatimage);
+                ////MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref tempPatimage);
                 MIL.MbufRestore(filePath, Globalo.visionManager.milLibrary.MilSystem, ref tempPatimage);
                 double dZoomX = 0.0;
                 double dZoomY = 0.0;

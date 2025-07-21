@@ -153,7 +153,7 @@ namespace ZenTester.VisionClass
             }
             return true;
         }
-        public double FindPattern(int camIndex)
+        public double FindPattern(int camIndex, bool bAutoRun = false)
         {
             //패턴 등록
             MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
@@ -296,13 +296,21 @@ namespace ZenTester.VisionClass
                 Console.Write("The model match score is \t\t{0:0.0}\n", Score);
                 //Console.Write("The search time is \t\t\t{0:0.000} ms\n\n", Time * 1000.0);
 
+
+                m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
+                m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
+                m_clRoi.X = (int)x + m_clRectRoi.X - (m_clRoi.Width / 2);
+                m_clRoi.Y = (int)y + m_clRectRoi.Y - (m_clRoi.Height / 2);
+
+                Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, Color.Blue, 1);
             }
-            
-            m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
-            m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
-            m_clRoi.X = (int)x + m_clRectRoi.X - (m_clRoi.Width / 2);
-            m_clRoi.Y = (int)y + m_clRectRoi.Y - (m_clRoi.Height / 2);
-            Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, Color.Blue, 1);
+
+
+
+            if (bAutoRun == false)
+            {
+
+            }
 
 
             return Score;
