@@ -27,7 +27,7 @@ namespace ZenTester
         public const string VERSION_INFO = "V.1.0.0.4";
         public const string BUILD_DATE = "25-07-11";        //16:00
         public const TESTER_PG TEST_PG_SELECT = TESTER_PG.AOI;     //AOI , EEPROM_WRITE, EEPROM_VERIFY , FW         //MEMO: 여기서 프로그램 선택
-        public const RUN_STATE nRunState = RUN_STATE.AUTO;
+        public const RUN_STATE nRunState = RUN_STATE.MANUAL;
 
         [STAThread]
         static void Main()

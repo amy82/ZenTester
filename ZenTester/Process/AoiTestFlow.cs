@@ -810,6 +810,22 @@ namespace ZenTester.Process
                         Globalo.visionManager.milLibrary.DrawOverlayAll(topCamIndex);
 
 
+                        //Display Info
+
+                        //Model
+                        //Date
+                        //Lot
+
+                        resultStr = $"Model :{Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
+                        txtPoint = new System.Drawing.Point(10, 10);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Yellow, 11);
+                        resultStr = $"Date :{DateTime.Now.ToString("yyyy_MM_dd")} {DateTime.Now.ToString("HH:mm:ss")}";
+                        txtPoint = new System.Drawing.Point(10, 110);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Yellow, 11);
+                        resultStr = $"Lot :{aoiApdData.Barcode}";
+                        txtPoint = new System.Drawing.Point(10, 210);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(topCamIndex, txtPoint, resultStr, Color.Yellow, 11);
+
                         //Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
 
 
@@ -1113,7 +1129,24 @@ namespace ZenTester.Process
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-        
+
+                        //Display Info
+
+                        //Model
+                        //Date
+                        //Lot
+
+                        resultStr = $"Model :{Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentModel}";
+                        txtPoint = new System.Drawing.Point(10, 10);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.Yellow, 11);
+                        resultStr = $"Date :{DateTime.Now.ToString("yyyy_MM_dd")} {DateTime.Now.ToString("HH:mm:ss")}";
+                        txtPoint = new System.Drawing.Point(10, 110);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.Yellow, 11);
+                        resultStr = $"Lot :{aoiApdData.Barcode}";
+                        txtPoint = new System.Drawing.Point(10, 210);
+                        Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.Yellow, 11);
+
+
 
                         Globalo.visionManager.milLibrary.DrawOverlayAll(sideCamIndex);
                         Globalo.visionManager.milLibrary.SetGrabOn(sideCamIndex, true);
