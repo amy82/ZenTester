@@ -118,18 +118,18 @@ namespace ZenTester.VisionClass
 
 
             MIL_ID MilTempPat = MIL.M_NULL;
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.yamlManager.aoiRoiConfig.patData[0].Width, Globalo.yamlManager.aoiRoiConfig.patData[0].Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilTempPat);
-            //MpatAllocModel(vision.MilSystem, vision.MilGrabImageChild[3], model.m_FieldPattern_Pos[i].x, model.m_FieldPattern_Pos[i].y, model.m_FieldPattern_Size[i].x, model.m_FieldPattern_Size[i].y, M_NORMALIZED, &vision.FieldPatternImage[i]);
-            //MIL.MpatAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_NORMALIZED, MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0]);
-            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
-            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_ORIGINAL);
-            MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_BOX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            //MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, 
+                Globalo.yamlManager.aoiRoiConfig.patData[0].Width, 
+                Globalo.yamlManager.aoiRoiConfig.patData[0].Height, (8 + MIL.M_UNSIGNED), 
+                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilTempPat);
+            MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_DEFAULT);
             //MIL.MpatSave(bmpPath, MIL.M_BMP, MilTempPat);
 
             MIL.MpatSave(filePath, m_MilPatModel[0], MIL.M_DEFAULT);
             //MIL.MpatSave(bmpPath, MilTempPat, MIL.M_DEFAULT);
 
-            MIL.MbufExport(bmpPath, MIL.M_BMP, MilTempPat);
+            MIL.MbufSave(bmpPath, MilTempPat);// MIL.M_BMP,
             return true;
         }
         public bool Load_pat(string ModelName)
@@ -368,7 +368,7 @@ namespace ZenTester.VisionClass
             // Allocate a normalized pattern matching context.
             MIL.MpatAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_NORMALIZED, MIL.M_DEFAULT, ref Globalo.visionManager.milLibrary.m_MilPatModel[0]);
 
-            // Define a regular model.
+            // Define a regular model. - M_AUTO_MODEL / M_REGULAR_MODEL
             MIL.MpatDefine(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_REGULAR_MODEL, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], FIND_MODEL_X_POS, FIND_MODEL_Y_POS, FIND_MODEL_WIDTH, FIND_MODEL_HEIGHT, MIL.M_DEFAULT);
 
             // Set the search accuracy to high.
@@ -394,9 +394,9 @@ namespace ZenTester.VisionClass
             MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
 
             // Draw a box around the model in the model image.
-            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
+            //MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
 
-            MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
+            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
 
             Globalo.visionManager.milLibrary.Save_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
             return true;
