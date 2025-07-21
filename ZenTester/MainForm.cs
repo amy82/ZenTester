@@ -140,6 +140,7 @@ namespace ZenTester
                 Globalo.visionManager.RegisterDisplayHandle(2, Globalo.setTestControl.Set_panelCam.Handle);
                 Globalo.visionManager.RegisterDisplayHandle(3, Globalo.setTestControl.manualTest.panel_Mark.Handle);
                 Globalo.visionManager.RegisterDisplayHandle(4, Globalo.markViewer.panel_MarkZoomImage.Handle);
+                Globalo.visionManager.RegisterDisplayHandle(5, Globalo.setTestControl.manualTest.panel_Pat.Handle);
 
                 Globalo.visionManager.MilSet();
 

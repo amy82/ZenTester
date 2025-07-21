@@ -126,7 +126,6 @@ namespace ZenTester.VisionClass
                 {
                     MIL.MdispFree(m_MilMarkDisplay[0]);
                     m_MilMarkDisplay[0] = MIL.M_NULL;
-
                 }
             }
             if (m_MilMarkDisplay[0] != MIL.M_NULL)
@@ -149,7 +148,6 @@ namespace ZenTester.VisionClass
             long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
             MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
 
-
             if (Globalo.visionManager.milLibrary.m_MilPatImage[0] != MIL.M_NULL)
             {
                 m_MilPatDisplay[0] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
@@ -160,20 +158,18 @@ namespace ZenTester.VisionClass
                 {
                     MIL.MdispFree(m_MilPatDisplay[0]);
                     m_MilPatDisplay[0] = MIL.M_NULL;
-
                 }
             }
+
+
             if (m_MilPatDisplay[0] != MIL.M_NULL)
             {
                 MIL.MdispSelectWindow(m_MilPatDisplay[0], Globalo.visionManager.milLibrary.m_MilPatImage[0], Globalo.setTestControl.manualTest.panel_Pat.Handle);
-
                 //MarkEnableOverlay();
             }
-
-
-            DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, 0, PatSmallDispSize.X, PatSmallDispSize.Y);
+            DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, 0);
         }
-        public void DisplaySmallPatView(string ModelName, int nPatNo, double dZoomMarkWidth, double dZoomMarkHeight)
+        public void DisplaySmallPatView(string ModelName, int nPatNo)//, double dZoomMarkWidth, double dZoomMarkHeight)
         {
             string szPath = "";
             //string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nMarkNo + 1}.bmp");       //LOT DATA
@@ -185,16 +181,10 @@ namespace ZenTester.VisionClass
             if (File.Exists(filePath))
             {
                 MIL_ID tempPatimage = MIL.M_NULL;
-                long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
+
                 MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1,
-                    Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width,
-                    Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, (8 + MIL.M_UNSIGNED), Attribute, ref tempPatimage);
-
-                //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, 
-                //    Globalo.yamlManager.aoiRoiConfig.patData[0].Width, 
-                //    Globalo.yamlManager.aoiRoiConfig.patData[0].Height, (8 + MIL.M_UNSIGNED), Attribute, ref tempPatimage);
-                //MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref tempPatimage);
-
+                    Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width, Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, 
+                    (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage);
 
                 double dZoomX = 0.0;
                 double dZoomY = 0.0;
