@@ -370,6 +370,7 @@ namespace ZenTester.VisionClass
             Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 25);
             return pogoFindFlag;
         }
+
         public double OpencvKeytest(MIL_ID tempMilImage,  bool bAutorun = false)
         {
             bool IMG_VIEW = true;
@@ -1062,7 +1063,6 @@ namespace ZenTester.VisionClass
                 //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 15);
                 Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(textPoint, str, "나눔고딕", Color.Blue, 15);
             }
-
             return gaskerLight;
 
         }
@@ -1573,6 +1573,19 @@ namespace ZenTester.VisionClass
                 
 
             return FakraPoints;
+        }
+        public bool Key_Pattern_Test(int index, bool bAutorun = false)
+        {
+            bool brtn = true;
+            double score = 0.0;
+            score = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, bAutorun);
+
+            if (score < 60.0)
+            {
+                brtn = false;
+            }
+
+            return brtn;
         }
         public List<OpenCvSharp.Point> Housing_Dent_Test(int index, Mat srcImage, OpenCvSharp.Point centerPos, bool bDentTest = false, bool bAutorun = false)
         {

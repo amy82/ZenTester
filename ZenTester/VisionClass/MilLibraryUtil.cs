@@ -171,13 +171,8 @@ namespace ZenTester.VisionClass
             double ErrY = 0.0;
             double Score = 0.0;                         // Model correlation score.
             double Time = 0.0;                          // Model search time.
-
-
-
+            
             Globalo.visionManager.milLibrary.ClearOverlay_Manual(camIndex);
-            Globalo.visionManager.milLibrary.GetSnapImage(camIndex);
-            Globalo.visionManager.milLibrary.SetGrabOn(camIndex, false);
-
 
             int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[camIndex];
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[camIndex];
@@ -242,7 +237,7 @@ namespace ZenTester.VisionClass
 
             Color roiColor = new Color();
             Rectangle m_clRoi = new Rectangle();
-
+            System.Drawing.Point textPoint = new System.Drawing.Point();
             m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[0].roix;
             m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[0].roiy;
             m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth;
@@ -281,24 +276,35 @@ namespace ZenTester.VisionClass
                 m_clPatRoi.X = (int)x + m_clRectRoi.X - (m_clPatRoi.Width / 2);
                 m_clPatRoi.Y = (int)y + m_clRectRoi.Y - (m_clPatRoi.Height / 2);
 
-                Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clPatRoi, Color.Blue, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clPatRoi, Color.Yellow, 1);
                 roiColor = Color.Blue;
             }
             else
             {
                 roiColor = Color.Red;
-                str = "PATTERN FIND FAIL";
+                str = "KEY FIND FAIL";
                 if (bAutoRun == false)
                 {
                     clPoint = new System.Drawing.Point(m_clRoi.X, m_clRoi.Y + m_clRoi.Height - 220);
                     //Globalo.visionManager.milLibrary.m_clMilDrawText[camIndex].AddList(clPoint, str, "나눔고딕", Color.OrangeRed, 13);
-                    Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, clPoint, str, Color.OrangeRed, 25);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, clPoint, str, Color.OrangeRed, 20);
                 }
             }
 
-            str = "PAT ROI";
-            System.Drawing.Point textPoint = new System.Drawing.Point(m_clRoi.X + 20, m_clRoi.Y + 20);
-            Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, textPoint, str, Color.Blue, 11);
+            if (bAutoRun == false)
+            {
+                str = $"[Pat] KEY"; // HEIGHT MARK";
+
+                textPoint = new System.Drawing.Point(20, 30);
+                Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, textPoint, str, Color.Yellow, 15);
+
+                str = $"SCORE: {Score.ToString("0.0#")}%";
+                textPoint = new System.Drawing.Point(20, 120);
+                Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, textPoint, str, Color.Yellow, 15);
+            }
+            str = "ROI";
+            textPoint = new System.Drawing.Point(m_clRoi.X + 20, m_clRoi.Y + 20);
+            Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, textPoint, str, roiColor, 11);
 
             Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, roiColor, 1);
 

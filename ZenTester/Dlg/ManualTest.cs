@@ -125,6 +125,7 @@ namespace ZenTester.Dlg
 
             bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
         }
+
         #region [TOP CAMERA MANUAL TEST]
         private void KEY_PAT_TEST()
         {
@@ -164,10 +165,12 @@ namespace ZenTester.Dlg
             //str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = true;
-            //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
-            if (bRtn)//key1Rtn == 1 && key2Rtn == 1)
+            bool bRtn = true;
+
+            bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(parentDlg.CamIndex);   // parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+
+            if (bRtn)
             {
                 //성공
                 str = $"Key :{1}";
