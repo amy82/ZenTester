@@ -126,6 +126,63 @@ namespace ZenTester.Dlg
             bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
         }
         #region [TOP CAMERA MANUAL TEST]
+        private void KEY_PAT_TEST()
+        {
+            bool rtn = true;
+            parentDlg.manualConfig.checkBox_AllRelease();
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[parentDlg.CamIndex];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex];
+            int dataSize = sizeX * sizeY;
+
+
+            //A ~ D: 2개씩
+            //E 타입만 1개
+            string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
+
+
+            int key1Rtn = 0;
+            int key2Rtn = 0;
+            double offsetx = 0.0;
+            double offsety = 0.0;
+            double dKeyScore = 0.0;
+
+            byte[] ImageBuffer = new byte[dataSize];
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[parentDlg.CamIndex], ImageBuffer);
+            Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+
+
+            string str = string.Empty;
+            System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[parentDlg.CamIndex] - 300);
+            //str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point();
+            bool bRtn = true;
+            //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+
+            if (bRtn)//key1Rtn == 1 && key2Rtn == 1)
+            {
+                //성공
+                str = $"Key :{1}";
+                Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
+            }
+            else
+            {
+                str = $"Key :{0}";
+                Globalo.visionManager.milLibrary.m_clMilDrawText[parentDlg.CamIndex].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
+            }
+
+
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex, 0);
+        }
         private void KEY_TEST()
         {
             bool rtn = true;
@@ -537,7 +594,8 @@ namespace ZenTester.Dlg
             //ONLY TOP TEST
             if (parentDlg.CamIndex == VisionClass.AoiTester.TOP_INDEX)
             {
-                KEY_TEST();
+                KEY_PAT_TEST();
+                //KEY_TEST();
             }
         }
 

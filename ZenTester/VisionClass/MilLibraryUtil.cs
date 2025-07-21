@@ -193,29 +193,9 @@ namespace ZenTester.VisionClass
             MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, m_clRectRoi.Width, m_clRectRoi.Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilPat);
             MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], m_clRectRoi.X, m_clRectRoi.Y, m_clRectRoi.Width, m_clRectRoi.Height, ref MilPat);
 
-            //MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, "M_DEFAULT", MIL.M_WINDOWED, ref MilDisplay);
-
-            //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, 0, 0, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilImage);
-
-            //MIL.MbufChild2d(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], 0, 0, sizeX, sizeY, ref MilImage);
-
-
-            ///Globalo.visionManager.milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
-
-            //MIL.MpatRestore("d:\\patpat.pat", Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref ContextId); 
-            //MIL_ID MpatRestore(MIL_INT FileName, MIL_ID SysId, long ControlFlag, ref MIL_ID ContextPatIdPtr);
-
-            // Display the image buffer.
-            //MIL.MdispSelect(MilDisplay, MilImage);
-
             // Allocate a graphic list to hold the subpixel annotations to draw.
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
-
-            // Associate the graphic list to the display for annotations.
-            //MIL.MdispControl(MilDisplay, MIL.M_ASSOCIATED_GRAPHIC_LIST_ID, GraphicList);
-
-
-
+            
             // Set the search accuracy to high.
             MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
 
@@ -232,22 +212,11 @@ namespace ZenTester.VisionClass
             // Set the search model angle accuracy.
             MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
 
-            //MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SCALE, MIL.M_ENABLE);
-            //MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SCALE_MIN_FACTOR, Globalo.visionManager.milLibrary.xReduce[camIndex]); // 최소 80%
-            //MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SCALE_MAX_FACTOR, Globalo.visionManager.milLibrary.yReduce[camIndex]); // 최대 120%
-
-            // Set the search model angle interpolation mode to bilinear.
-            //MIL.MpatControl(ContextId, MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_INTERPOLATION_MODE, MIL.M_BILINEAR);
-
             // Preprocess the model.
             MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MilPat);// Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
 
             // Draw a box around the model in the model image.
             MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
-            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
-
-            // Clear annotations.
-            //MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
 
             // Allocate result buffer.
             MIL.MpatAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref Result);
@@ -265,9 +234,19 @@ namespace ZenTester.VisionClass
             // If one model was found above the acceptance threshold.
             MIL.MpatGetResult(Result, MIL.M_GENERAL, MIL.M_NUMBER + MIL.M_TYPE_MIL_INT, ref NumResults);
 
-
+            System.Drawing.Point clPoint;
+            string str = "";
             MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
+            Rectangle m_clPatRoi = new Rectangle();
+
+
+            Color roiColor = new Color();
             Rectangle m_clRoi = new Rectangle();
+
+            m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[0].roix;
+            m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[0].roiy;
+            m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth;
+            m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].roiHeight;
             if (NumResults == 1)
             {
                 // Read results and draw a box around the model occurrence.
@@ -275,7 +254,7 @@ namespace ZenTester.VisionClass
                 MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_POSITION_Y, ref y);
                 MIL.MpatGetResult(Result, MIL.M_DEFAULT, MIL.M_SCORE, ref Score);
 
-                
+
                 //MIL.MpatControl(Result, MIL.M_DEFAULT, 3203L, Globalo.visionManager.milLibrary.xReduce[camIndex]);//M_DRAW_SCALE_X
                 //MIL.MpatControl(Result, MIL.M_DEFAULT, 3204L, Globalo.visionManager.milLibrary.yReduce[camIndex]);//M_DRAW_SCALE_Y
 
@@ -297,21 +276,31 @@ namespace ZenTester.VisionClass
                 //Console.Write("The search time is \t\t\t{0:0.000} ms\n\n", Time * 1000.0);
 
 
-                m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
-                m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
-                m_clRoi.X = (int)x + m_clRectRoi.X - (m_clRoi.Width / 2);
-                m_clRoi.Y = (int)y + m_clRectRoi.Y - (m_clRoi.Height / 2);
+                m_clPatRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
+                m_clPatRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
+                m_clPatRoi.X = (int)x + m_clRectRoi.X - (m_clPatRoi.Width / 2);
+                m_clPatRoi.Y = (int)y + m_clRectRoi.Y - (m_clPatRoi.Height / 2);
 
-                Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, Color.Blue, 1);
+                Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clPatRoi, Color.Blue, 1);
+                roiColor = Color.Blue;
             }
-
-
-
-            if (bAutoRun == false)
+            else
             {
-
+                roiColor = Color.Red;
+                str = "PATTERN FIND FAIL";
+                if (bAutoRun == false)
+                {
+                    clPoint = new System.Drawing.Point(m_clRoi.X, m_clRoi.Y + m_clRoi.Height - 220);
+                    //Globalo.visionManager.milLibrary.m_clMilDrawText[camIndex].AddList(clPoint, str, "나눔고딕", Color.OrangeRed, 13);
+                    Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, clPoint, str, Color.OrangeRed, 25);
+                }
             }
 
+            str = "PAT ROI";
+            System.Drawing.Point textPoint = new System.Drawing.Point(m_clRoi.X + 20, m_clRoi.Y + 20);
+            Globalo.visionManager.milLibrary.DrawOverlayText(camIndex, textPoint, str, Color.Blue, 11);
+
+            Globalo.visionManager.milLibrary.DrawOverlayBox(camIndex, m_clRoi, roiColor, 1);
 
             return Score;
         }
