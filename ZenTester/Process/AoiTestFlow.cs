@@ -613,8 +613,8 @@ namespace ZenTester.Process
 
                         double dKeyScore = 0.0;
                         OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-                        bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
-
+                        //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+                        bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(topCamIndex, ref dKeyScore, true);
                         //if (key1Rtn == 0 || key2Rtn == 0)
                         ResultAoiAPdData.KeyType = string.Empty;
                         if (dKeyScore < 60.0)

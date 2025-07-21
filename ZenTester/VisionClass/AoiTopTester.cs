@@ -1574,13 +1574,13 @@ namespace ZenTester.VisionClass
 
             return FakraPoints;
         }
-        public bool Key_Pattern_Test(int index, bool bAutorun = false)
+        public bool Key_Pattern_Test(int index, ref double dScore, bool bAutorun = false)
         {
             bool brtn = true;
-            double score = 0.0;
-            score = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, bAutorun);
+            dScore = 0.0;
+            dScore = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, bAutorun);
 
-            if (score < 60.0)
+            if (dScore < 1.0)
             {
                 brtn = false;
             }

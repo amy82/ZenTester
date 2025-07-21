@@ -167,10 +167,10 @@ namespace ZenTester.Dlg
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
 
             bool bRtn = true;
+            double dtempScore = 0.0;
+            bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(parentDlg.CamIndex, ref dtempScore);   // parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
-            bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(parentDlg.CamIndex);   // parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
-
-            if (bRtn)
+            if (bRtn && dtempScore >= 60.0)
             {
                 //성공
                 str = $"Key :{1}";
