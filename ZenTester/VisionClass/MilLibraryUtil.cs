@@ -42,6 +42,8 @@ namespace ZenTester.VisionClass
         public MIL_ID[] MilSetCamSmallImageChild;
 
         public MIL_ID[] m_MilPatModel;
+        public MIL_ID[] m_MilPatImage;     //small key image
+
 
         public MIL_ID MilSetCamOverlay;
         public MIL_INT MilSetCamTransparent;
@@ -81,6 +83,9 @@ namespace ZenTester.VisionClass
 
             m_MilPatModel = new MIL_ID[1];
             m_MilPatModel[0] = MIL.M_NULL;
+
+            m_MilPatImage = new MIL_ID[1];
+            m_MilPatImage[0] = MIL.M_NULL;
 
             CAM_SIZE_X[0] = 4024;   //Top
             CAM_SIZE_Y[0] = 3036;

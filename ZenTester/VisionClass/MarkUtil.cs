@@ -45,7 +45,7 @@ namespace ZenTester.VisionClass
         public MIL_ID[] m_MilMarkImage = new MIL_ID[2];     //small mark , mask zoom mark 2개
         public MIL_ID[] m_MilMarkDisplay = new MIL_ID[2];   //SIDE , TOP 2개
 
-        public MIL_ID[] m_MilPatImage = new MIL_ID[1];     //small key image
+       
         public MIL_ID[] m_MilPatDisplay = new MIL_ID[1];   //small key image
         public MIL_INT m_lTransparentColor;
 
@@ -78,7 +78,6 @@ namespace ZenTester.VisionClass
                 m_MilMarkOverlay[i] = MIL.M_NULL;
             }
 
-            m_MilPatImage[0] = MIL.M_NULL;
             m_MilPatDisplay[0] = MIL.M_NULL;
 
             for (i = 0; i < (int)eMarkList.MAX_MARK_LIST; i++)
@@ -148,10 +147,10 @@ namespace ZenTester.VisionClass
         public void InitPatViewDlg()
         {
             long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
-            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilPatImage[0]);
+            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
 
 
-            if (m_MilPatImage[0] != MIL.M_NULL)
+            if (Globalo.visionManager.milLibrary.m_MilPatImage[0] != MIL.M_NULL)
             {
                 m_MilPatDisplay[0] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
 
@@ -166,9 +165,40 @@ namespace ZenTester.VisionClass
             }
             if (m_MilPatDisplay[0] != MIL.M_NULL)
             {
-                MIL.MdispSelectWindow(m_MilPatDisplay[0], m_MilPatImage[0], Globalo.setTestControl.manualTest.panel_Pat.Handle);
+                MIL.MdispSelectWindow(m_MilPatDisplay[0], Globalo.visionManager.milLibrary.m_MilPatImage[0], Globalo.setTestControl.manualTest.panel_Pat.Handle);
 
                 //MarkEnableOverlay();
+            }
+
+
+            DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, 0, PatSmallDispSize.X, PatSmallDispSize.Y);
+        }
+        public void DisplaySmallPatView(string ModelName, int nMarkNo, double dZoomMarkWidth, double dZoomMarkHeight)
+        {
+            string szPath = "";
+            //string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nMarkNo + 1}.bmp");       //LOT DATA
+            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.bmp");       //LOT DATA
+            //MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
+
+            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[0], 192);      //작은 마크 이미지
+
+            if (File.Exists(filePath))
+            {
+                MIL_ID tempPatimage = MIL.M_NULL;
+                long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
+                MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, 
+                    Globalo.yamlManager.aoiRoiConfig.patData[0].Width, 
+                    Globalo.yamlManager.aoiRoiConfig.patData[0].Height, (8 + MIL.M_UNSIGNED), Attribute, ref tempPatimage);
+                MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref tempPatimage);
+
+
+                double dZoomX = 0.0;
+                double dZoomY = 0.0;
+                dZoomX = PatSmallDispSize.X / (double)Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
+                dZoomY = PatSmallDispSize.Y / (double)Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
+
+                //MIL.MimResize(m_MilMarkImage[1], m_MilMarkImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
+                MIL.MimResize(tempPatimage, Globalo.visionManager.milLibrary.m_MilPatImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
             }
         }
         public void ShowMarkNo()
@@ -544,8 +574,8 @@ namespace ZenTester.VisionClass
             }
             else
             {
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
-
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
                 //_stprintf_s(szTemp, SIZE_OF_100BYTE, _T("[ FIND FAIL!]"));
                 //this->DrawMOverlayText(m_nUnit, CCD1_CAM_SIZE_X / 2 - 500, CCD1_CAM_SIZE_Y / 2 - 200, szTemp, M_COLOR_RED, _T("Arial"), 100, 40, FALSE, VIDEO_CAM);
                 if (MarkNo == (int)VisionClass.eMarkList.TOP_KEY)
@@ -566,11 +596,13 @@ namespace ZenTester.VisionClass
             }
             if (bFind)
             {
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_YELLOW);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_YELLOW);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_YELLOW);
             }
             else
             {
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
             }
 
             if (true)//MarkDraw)
