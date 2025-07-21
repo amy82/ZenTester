@@ -45,6 +45,8 @@ namespace ZenTester.VisionClass
         public MIL_ID[] m_MilMarkImage = new MIL_ID[2];     //small mark , mask zoom mark 2개
         public MIL_ID[] m_MilMarkDisplay = new MIL_ID[2];   //SIDE , TOP 2개
 
+        public MIL_ID[] m_MilPatImage = new MIL_ID[1];     //small key image
+        public MIL_ID[] m_MilPatDisplay = new MIL_ID[1];   //small key image
         public MIL_INT m_lTransparentColor;
 
         //public MarkViewerForm markViewer;
@@ -52,6 +54,7 @@ namespace ZenTester.VisionClass
         public System.Drawing.Point m_clPtMarkSize = new System.Drawing.Point();
         public System.Drawing.Point m_clPtMarkStartPos = new System.Drawing.Point();
         public System.Drawing.Point smallDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
+        public System.Drawing.Point PatSmallDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
         public System.Drawing.Point zoomDispSize = new System.Drawing.Point();        //SetControl의 작은 마크 선택 사이즈
 
         public System.Drawing.Point dMarkCenterX = new System.Drawing.Point();
@@ -74,6 +77,10 @@ namespace ZenTester.VisionClass
                 m_MilMarkDisplay[i] = MIL.M_NULL;
                 m_MilMarkOverlay[i] = MIL.M_NULL;
             }
+
+            m_MilPatImage[0] = MIL.M_NULL;
+            m_MilPatDisplay[0] = MIL.M_NULL;
+
             for (i = 0; i < (int)eMarkList.MAX_MARK_LIST; i++)
             {
                 m_MilModModel[i] = MIL.M_NULL;
@@ -89,6 +96,12 @@ namespace ZenTester.VisionClass
             smallDispSize.X = Globalo.setTestControl.manualTest.panel_Mark.Width;
             smallDispSize.Y = Globalo.setTestControl.manualTest.panel_Mark.Height;
 
+            PatSmallDispSize.X = Globalo.setTestControl.manualTest.panel_Pat.Width;
+            PatSmallDispSize.Y = Globalo.setTestControl.manualTest.panel_Pat.Height;
+
+
+
+
             bool rtn = false;
 
 
@@ -97,8 +110,9 @@ namespace ZenTester.VisionClass
         }
         public void InitMarkViewDlg()
         {
-            int CamSizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];
+            int CamSizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[0];      //TODO: 사이즈 문제있음
             int CamSizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[0];
+
             long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
             MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, smallDispSize.X, smallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[0]);
             MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, CamSizeX, CamSizeY, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilMarkImage[1]);
@@ -130,6 +144,32 @@ namespace ZenTester.VisionClass
             DisplaySmallMarkView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, 0, zoomDispSize.X, zoomDispSize.Y);
 
             ShowMarkNo();
+        }
+        public void InitPatViewDlg()
+        {
+            long Attribute = MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP;
+            MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref m_MilPatImage[0]);
+
+
+            if (m_MilPatImage[0] != MIL.M_NULL)
+            {
+                m_MilPatDisplay[0] = MIL.MdispAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEV0, "M_DEFAULT", MIL.M_DEFAULT, MIL.M_NULL);
+
+                MIL_INT DisplayType = MIL.MdispInquire(m_MilPatDisplay[0], MIL.M_DISPLAY_TYPE, MIL.M_NULL);
+
+                if (DisplayType != MIL.M_WINDOWED)
+                {
+                    MIL.MdispFree(m_MilPatDisplay[0]);
+                    m_MilPatDisplay[0] = MIL.M_NULL;
+
+                }
+            }
+            if (m_MilPatDisplay[0] != MIL.M_NULL)
+            {
+                MIL.MdispSelectWindow(m_MilPatDisplay[0], m_MilPatImage[0], Globalo.setTestControl.manualTest.panel_Pat.Handle);
+
+                //MarkEnableOverlay();
+            }
         }
         public void ShowMarkNo()
         {
@@ -258,19 +298,21 @@ namespace ZenTester.VisionClass
             MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref m_clCdCenterX);
             MIL.MmodInquire(m_MilModModel[nNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref m_clCdCenterY);
 
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
             MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[nNo], m_MilMarkOverlay[0], MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);//<---노란 마스크 영역
 
 
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_MAGENTA);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_MAGENTA);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_MAGENTA);
             MIL.MmodControl(m_MilModModel[nNo], MIL.M_DEFAULT, 3203L, m_dZoomX);   //M_DRAW_SCALE_X
             MIL.MmodControl(m_MilModModel[nNo], MIL.M_DEFAULT, 3204L, m_dZoomY);   //M_DRAW_SCALE_Y
 
             MIL.MmodControl(m_MilModModel[nNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nSmooth);
             MIL.MmodDraw(MIL.M_DEFAULT, m_MilModModel[nNo], m_MilMarkOverlay[0], MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);//<-----EDGE 영역
 
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
-
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
 
             //	m_dZoomX = (double)g_clModelFinder.m_clPtSmallMarkDispSize.x / (double)g_clModelFinder.m_clPtZoomMarkDispSize.x;		//마크 이미지 축소 OR 확대
             //m_dZoomY = (double)g_clModelFinder.m_clPtSmallMarkDispSize.y / (double)g_clModelFinder.m_clPtZoomMarkDispSize.y;

@@ -817,14 +817,13 @@ namespace ZenTester.Dlg
         private void label_SetTest_Manual_Pat_Regist_Click(object sender, EventArgs e)
         {
             //패턴 등록
-            Globalo.visionManager.milLibrary.AddPattern(VisionClass.AoiTester.TOP_INDEX);
-
             Rectangle DrawRoiBox = parentDlg.GetRoiRect();
             if (Globalo.yamlManager.aoiRoiConfig.patData.Count > 0)
             {
                 Globalo.yamlManager.aoiRoiConfig.patData[0].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
                 Globalo.yamlManager.aoiRoiConfig.patData[0].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
 
+                Globalo.visionManager.milLibrary.AddPattern(VisionClass.AoiTester.TOP_INDEX);
                 Data.TaskDataYaml.Save_AoiConfig();
             }
         }

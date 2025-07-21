@@ -113,12 +113,23 @@ namespace ZenTester.VisionClass
             {
                 Directory.CreateDirectory(filePath); // 폴더 생성
             }
-
+            string bmpPath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.bmp");       //LOT DATA
             filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.pat");       //LOT DATA
 
 
+            MIL_ID MilTempPat = MIL.M_NULL;
+            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, Globalo.yamlManager.aoiRoiConfig.patData[0].Width, Globalo.yamlManager.aoiRoiConfig.patData[0].Height, (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref MilTempPat);
+            //MpatAllocModel(vision.MilSystem, vision.MilGrabImageChild[3], model.m_FieldPattern_Pos[i].x, model.m_FieldPattern_Pos[i].y, model.m_FieldPattern_Size[i].x, model.m_FieldPattern_Size[i].y, M_NORMALIZED, &vision.FieldPatternImage[i]);
+            //MIL.MpatAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_NORMALIZED, MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0]);
+            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
+            //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_IMAGE, MIL.M_DEFAULT, MIL.M_ORIGINAL);
+            MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], MilTempPat, MIL.M_DRAW_BOX, MIL.M_DEFAULT, MIL.M_DEFAULT);
+            //MIL.MpatSave(bmpPath, MIL.M_BMP, MilTempPat);
 
             MIL.MpatSave(filePath, m_MilPatModel[0], MIL.M_DEFAULT);
+            //MIL.MpatSave(bmpPath, MilTempPat, MIL.M_DEFAULT);
+
+            MIL.MbufExport(bmpPath, MIL.M_BMP, MilTempPat);
             return true;
         }
         public bool Load_pat(string ModelName)
@@ -317,6 +328,8 @@ namespace ZenTester.VisionClass
             double FIND_MODEL_X_CENTER = (FIND_MODEL_X_POS + (FIND_MODEL_WIDTH - 1) / 2.0);
             double FIND_MODEL_Y_CENTER = (FIND_MODEL_Y_POS + (FIND_MODEL_HEIGHT - 1) / 2.0);
 
+            Globalo.yamlManager.aoiRoiConfig.patData[0].Width = FIND_MODEL_WIDTH;
+            Globalo.yamlManager.aoiRoiConfig.patData[0].Height = FIND_MODEL_HEIGHT;
 
             //패턴 찾기
             MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.

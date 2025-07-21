@@ -83,8 +83,8 @@ namespace ZenTester.VisionClass
             milLibrary.Load_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
 
             markUtil = new MarkUtil();
-            
             markUtil.InitMarkViewDlg();
+            markUtil.InitPatViewDlg();
 
             StartCameras();
         }
