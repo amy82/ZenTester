@@ -170,7 +170,7 @@ namespace ZenTester.Dlg
             double dtempScore = 0.0;
             bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(parentDlg.CamIndex, ref dtempScore);   // parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
-            if (bRtn && dtempScore >= 60.0)
+            if (bRtn && dtempScore >= Globalo.yamlManager.configData.CamSettings.ScoreKey)  //60.0)
             {
                 //성공
                 str = $"Key :{1}";

@@ -133,6 +133,10 @@ namespace ZenTester.Dlg
 
 
             label_Set_TopCam_Con_Threshold_Val.Text = Globalo.yamlManager.configData.CamSettings.ConThreshold.ToString();
+
+            label_Set_Rate_Oring_Val.Text = Globalo.yamlManager.configData.CamSettings.ScoreOring.ToString();
+            label_Set_Rate_Cone_Val.Text = Globalo.yamlManager.configData.CamSettings.ScoreCone.ToString();
+            label_Set_Rate_Key_Val.Text = Globalo.yamlManager.configData.CamSettings.ScoreKey.ToString();
             //Globalo.yamlManager.configData.CamSettings.ConThreshold = int.Parse(.Text);
         }
         public void showLight()
@@ -871,6 +875,87 @@ namespace ZenTester.Dlg
                     dNumData = 255;
                 }
                 label_Set_TopCam_Con_Threshold_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void button_Set_Rate_Save_Click(object sender, EventArgs e)
+        {
+            Globalo.yamlManager.configData.CamSettings.ScoreOring = int.Parse(label_Set_Rate_Oring_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.ScoreCone = int.Parse(label_Set_Rate_Cone_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.ScoreKey = int.Parse(label_Set_Rate_Key_Val.Text);
+
+            Globalo.yamlManager.configDataSave();
+        }
+
+        private void label_Set_Rate_Oring_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_Rate_Oring_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                double tempData = double.Parse(popupForm.NumPadResult);
+                int dNumData = (int)tempData;
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 100)
+                {
+                    dNumData = 100;
+                }
+                label_Set_Rate_Oring_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_Rate_Cone_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_Rate_Cone_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                double tempData = double.Parse(popupForm.NumPadResult);
+                int dNumData = (int)tempData;
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 100)
+                {
+                    dNumData = 100;
+                }
+                label_Set_Rate_Cone_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_Rate_Key_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_Rate_Key_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                double tempData = double.Parse(popupForm.NumPadResult);
+                int dNumData = (int)tempData;
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 100)
+                {
+                    dNumData = 100;
+                }
+                label_Set_Rate_Key_Val.Text = dNumData.ToString();
             }
         }
     }

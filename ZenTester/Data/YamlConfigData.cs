@@ -32,6 +32,10 @@ namespace ZenTester.Data
         public int SideRetry { get; set; }
 
         public int ConThreshold { get; set; }
+
+        public int ScoreOring { get; set; }
+        public int ScoreCone { get; set; }
+        public int ScoreKey { get; set; }
     }
     public class _SerialPort
     {

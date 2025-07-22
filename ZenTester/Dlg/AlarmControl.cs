@@ -18,7 +18,7 @@ namespace ZenTester.Dlg
         //private ManualPcb manualPcb = new ManualPcb();
         //private ManualLens manualLens = new ManualLens();
 
-        private const int AlarmGridRowViewCount = 25;       //MAX ALARM COUNT
+        private const int AlarmGridRowViewCount = 20;//25;       //MAX ALARM COUNT
 
         private int CurrentAlarmPage;       //현재 알람 페이지
         private int TotalAlarmPage;           //총 알람 페이지 수
@@ -404,6 +404,11 @@ namespace ZenTester.Dlg
         {
             AlarmPageChange(2);
             
+        }
+
+        private void BTN_ALARM_CLEAR_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

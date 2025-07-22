@@ -55,7 +55,7 @@
             this.dataGridView_Alarm.Location = new System.Drawing.Point(17, 78);
             this.dataGridView_Alarm.Name = "dataGridView_Alarm";
             this.dataGridView_Alarm.RowTemplate.Height = 23;
-            this.dataGridView_Alarm.Size = new System.Drawing.Size(740, 810);
+            this.dataGridView_Alarm.Size = new System.Drawing.Size(740, 647);
             this.dataGridView_Alarm.TabIndex = 0;
             // 
             // BTN_MANUAL_PCB
@@ -93,7 +93,7 @@
             this.label_AlarmPage.BackColor = System.Drawing.Color.White;
             this.label_AlarmPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_AlarmPage.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_AlarmPage.Location = new System.Drawing.Point(298, 904);
+            this.label_AlarmPage.Location = new System.Drawing.Point(298, 732);
             this.label_AlarmPage.Name = "label_AlarmPage";
             this.label_AlarmPage.Size = new System.Drawing.Size(100, 50);
             this.label_AlarmPage.TabIndex = 40;
@@ -106,7 +106,7 @@
             this.BTN_ALARM_NEXT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_ALARM_NEXT.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_ALARM_NEXT.ForeColor = System.Drawing.Color.White;
-            this.BTN_ALARM_NEXT.Location = new System.Drawing.Point(404, 904);
+            this.BTN_ALARM_NEXT.Location = new System.Drawing.Point(404, 732);
             this.BTN_ALARM_NEXT.Name = "BTN_ALARM_NEXT";
             this.BTN_ALARM_NEXT.Size = new System.Drawing.Size(116, 50);
             this.BTN_ALARM_NEXT.TabIndex = 39;
@@ -119,7 +119,7 @@
             this.BTN_ALARM_PREV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_ALARM_PREV.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_ALARM_PREV.ForeColor = System.Drawing.Color.White;
-            this.BTN_ALARM_PREV.Location = new System.Drawing.Point(176, 904);
+            this.BTN_ALARM_PREV.Location = new System.Drawing.Point(176, 732);
             this.BTN_ALARM_PREV.Name = "BTN_ALARM_PREV";
             this.BTN_ALARM_PREV.Size = new System.Drawing.Size(116, 50);
             this.BTN_ALARM_PREV.TabIndex = 38;
@@ -132,12 +132,13 @@
             this.BTN_ALARM_CLEAR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_ALARM_CLEAR.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold);
             this.BTN_ALARM_CLEAR.ForeColor = System.Drawing.Color.White;
-            this.BTN_ALARM_CLEAR.Location = new System.Drawing.Point(645, 904);
+            this.BTN_ALARM_CLEAR.Location = new System.Drawing.Point(645, 732);
             this.BTN_ALARM_CLEAR.Name = "BTN_ALARM_CLEAR";
             this.BTN_ALARM_CLEAR.Size = new System.Drawing.Size(112, 50);
             this.BTN_ALARM_CLEAR.TabIndex = 37;
             this.BTN_ALARM_CLEAR.Text = "CLEAR";
             this.BTN_ALARM_CLEAR.UseVisualStyleBackColor = false;
+            this.BTN_ALARM_CLEAR.Click += new System.EventHandler(this.BTN_ALARM_CLEAR_Click);
             // 
             // AlarmControl
             // 
@@ -152,7 +153,7 @@
             this.Controls.Add(this.BTN_MANUAL_PCB);
             this.Controls.Add(this.ManualTitleLabel);
             this.Name = "AlarmControl";
-            this.Size = new System.Drawing.Size(770, 986);
+            this.Size = new System.Drawing.Size(770, 791);
             this.VisibleChanged += new System.EventHandler(this.AlarmControl_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Alarm)).EndInit();
             this.ResumeLayout(false);

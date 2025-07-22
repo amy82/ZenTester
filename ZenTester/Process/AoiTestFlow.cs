@@ -1060,7 +1060,7 @@ namespace ZenTester.Process
                         bool bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
                         if (IsOring == 1 && bOringRtn)
                         {
-                            if (dOringScore > 70.0)
+                            if (dOringScore > Globalo.yamlManager.configData.CamSettings.ScoreOring)  //70.0)
                             {
                                 aoiApdData.ORing = "1";
                             }
@@ -1102,7 +1102,7 @@ namespace ZenTester.Process
                         bool bConeRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dConeScore);
                         if (IsCone == 1)
                         {
-                            if (dConeScore > 65.0)
+                            if (dConeScore > Globalo.yamlManager.configData.CamSettings.ScoreCone)  //65.0)
                             {
                                 aoiApdData.Cone = "1";
                             }
