@@ -307,6 +307,23 @@ namespace ZenTester.Process
                     
                     Globalo.visionManager.aoiTester.FinalLogSave(aoiApdData);
 
+                    Globalo.yamlManager.taskDataYaml.TaskData.ProductionInfo.TotalCount++;
+                    _syncContext.Send(_ =>
+                    {
+                        if (m_nTestFinalResult == 1)
+                        {
+                            Globalo.yamlManager.taskDataYaml.TaskData.ProductionInfo.OkCount++;
+                        }
+                        else
+                        {
+                            Globalo.yamlManager.taskDataYaml.TaskData.ProductionInfo.NgCount++;
+                        }
+
+                        Globalo.yamlManager.taskDataYaml.TaskDataSave();
+                        Globalo.productionInfo.ProductionInfoSet();
+                    }, null);
+
+
                     nRetStep = 220;    //1000이상이면 종료
                     break;
                 case 220:

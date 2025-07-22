@@ -154,6 +154,7 @@ namespace ZenTester.Dlg
             this.textBox_ProcessState.TabIndex = 18;
             this.textBox_ProcessState.Text = "INIT";
             this.textBox_ProcessState.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_ProcessState.Visible = false;
             // 
             // label5
             // 
@@ -166,6 +167,7 @@ namespace ZenTester.Dlg
             this.label5.TabIndex = 17;
             this.label5.Text = "Process State";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label5.Visible = false;
             // 
             // BTN_MAIN_JUDGE_RESET
             // 
