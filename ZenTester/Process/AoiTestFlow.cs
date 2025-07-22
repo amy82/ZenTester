@@ -77,6 +77,9 @@ namespace ZenTester.Process
                     int sData = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
                     Globalo.serialPortManager.LightControl.recvCheck = -1;
                     Globalo.serialPortManager.LightControl.AllctrlLedVolume(0, sData);      //1,2 채널 동시 변경
+
+                    szLog = $"[LIGHT] SIDE LIGHT ON :{sData}[STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
                     nTimeTick = Environment.TickCount;
                     nRetStep = 112;
                     break;
@@ -143,6 +146,11 @@ namespace ZenTester.Process
                     int tData = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
                     int sData2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
                     Globalo.serialPortManager.LightControl.AllctrlLedVolume(tData, sData2);      //1,2 채널 동시 변경
+
+                    szLog = $"[LIGHT] TOP LIGHT ON :{tData}[STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
+                    szLog = $"[LIGHT] SIDE LIGHT ON :{sData2}[STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
                     nTimeTick = Environment.TickCount;
                     nRetStep = 132;
                     break;
@@ -561,16 +569,25 @@ namespace ZenTester.Process
                                 aoiDefectCode = "11";
                                 aoiApdData.Result = "NG";
                                 aoiApdData.CircleDented = "0";
+
+                                szLog = $"[TOP CAM] DENT NG :{denUnderCnt} [{specDentMin}~{specDentMax}])";
+                                Globalo.LogPrint("ManualControl", szLog);
                             }
                             else
                             {
                                 aoiApdData.CircleDented = "1";
+
+                                szLog = $"[TOP CAM] DENT OK :{denUnderCnt} [{specDentMin}~{specDentMax}])";
+                                Globalo.LogPrint("ManualControl", szLog);
                             }
                         }
                         else
                         {
                             aoiApdData.Result = "NG";
                             aoiApdData.CircleDented = "0";
+
+                            szLog = $"[TOP CAM] DENT FIND FAIL)";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
@@ -1082,7 +1099,7 @@ namespace ZenTester.Process
                             if (dOringScore > Globalo.yamlManager.configData.CamSettings.ScoreOring)  //70.0)
                             {
                                 aoiApdData.ORing = "1";
-                                szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}";
+                                szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
                             else
@@ -1090,12 +1107,15 @@ namespace ZenTester.Process
                                 aoiDefectCode = "7";
                                 aoiApdData.Result = "NG";
                                 aoiApdData.ORing = "0";
+
+                                szLog = $"[SIDE CAM] ORING NG: {aoiApdData.ORing}[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
+                                Globalo.LogPrint("ManualControl", szLog);
                             }
                         }
                         else
                         {
                             aoiApdData.ORing = "0";
-                            szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}";
+                            szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
 
@@ -1129,18 +1149,25 @@ namespace ZenTester.Process
                             if (dConeScore > Globalo.yamlManager.configData.CamSettings.ScoreCone)  //65.0)
                             {
                                 aoiApdData.Cone = "1";
+                                szLog = $"[SIDE CAM] CONE PASS: {aoiApdData.Cone}[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                                Globalo.LogPrint("ManualControl", szLog);
                             }
                             else
                             {
                                 aoiDefectCode = "16";
                                 aoiApdData.Result = "NG";
                                 aoiApdData.Cone = "0";
+
+                                szLog = $"[SIDE CAM] CONE NG: {aoiApdData.Cone}[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                                Globalo.LogPrint("ManualControl", szLog);
                             }
                         }
                         else
                         {
 
                             aoiApdData.Cone = "0";
+                            szLog = $"[SIDE CAM] CONE PASS: {aoiApdData.Cone}[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
 
                         Globalo.visionManager.aoiTester.FinalJpgImageSave("Side", aoiApdData.Barcode, SideMatImage);

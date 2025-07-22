@@ -247,7 +247,7 @@ namespace ZenTester.Dlg
             this.button_Set_Dent_Test.Name = "button_Set_Dent_Test";
             this.button_Set_Dent_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Dent_Test.TabIndex = 109;
-            this.button_Set_Dent_Test.Text = "DENT TEST";
+            this.button_Set_Dent_Test.Text = "DENT/Height TEST";
             this.button_Set_Dent_Test.UseVisualStyleBackColor = false;
             this.button_Set_Dent_Test.Click += new System.EventHandler(this.button_Set_Dent_Test_Click);
             // 
@@ -260,7 +260,7 @@ namespace ZenTester.Dlg
             this.button_Set_Gasket_Test.Name = "button_Set_Gasket_Test";
             this.button_Set_Gasket_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Gasket_Test.TabIndex = 108;
-            this.button_Set_Gasket_Test.Text = "GASKET TEST";
+            this.button_Set_Gasket_Test.Text = "GASKET/cone TEST";
             this.button_Set_Gasket_Test.UseVisualStyleBackColor = false;
             this.button_Set_Gasket_Test.Click += new System.EventHandler(this.button_Set_Gasket_Test_Click);
             // 
@@ -273,7 +273,7 @@ namespace ZenTester.Dlg
             this.button_Set_Housing_Test.Name = "button_Set_Housing_Test";
             this.button_Set_Housing_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Housing_Test.TabIndex = 107;
-            this.button_Set_Housing_Test.Text = "HOUSING TEST";
+            this.button_Set_Housing_Test.Text = "HOUSING/oring TEST";
             this.button_Set_Housing_Test.UseVisualStyleBackColor = false;
             this.button_Set_Housing_Test.Click += new System.EventHandler(this.button_Set_Housing_Test_Click);
             // 
