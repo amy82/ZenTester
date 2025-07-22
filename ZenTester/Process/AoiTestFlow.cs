@@ -57,7 +57,7 @@ namespace ZenTester.Process
             {
                 case 100:
                     Globalo.tabMenuForm.MenuButtonSet(Dlg.TabMenuForm.TABFORM.MAIN_FORM);
-                    szLog = $"[AOI] TEST START [STEP : {nRetStep}]";
+                    szLog = $"[AOI] TEST INIT [STEP : {nRetStep}]";
                     Globalo.LogPrint("ManualControl", szLog);
                     m_nTestFinalResult = 1;
                     aoiDefectCode = "";
@@ -128,6 +128,9 @@ namespace ZenTester.Process
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
                     Globalo.visionManager.aoiTester.FinalBmpImageSave("Side", aoiApdData.Barcode, Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.SIDE_INDEX]);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
+
+                    szLog = $"[LIGHT] SIDE CAM CAPTURE [STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
                     nRetStep = 120;
                     break;
                 case 120:
@@ -193,6 +196,9 @@ namespace ZenTester.Process
                     Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
                     Globalo.visionManager.aoiTester.FinalBmpImageSave("Top", aoiApdData.Barcode, Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX]);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+
+                    szLog = $"[LIGHT] TOP CAM CAPTURE [STEP : {nRetStep}]";
+                    Globalo.LogPrint("ManualControl", szLog);
                     nRetStep = 150;
                     break;
                 case 150:

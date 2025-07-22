@@ -32,7 +32,12 @@ namespace ZenTester.TaskClass
 
             Console.WriteLine($"Aoi Task Start SocketNum------------- {aoiTestFlow.aoiApdData.Socket_Num}");
 
-            szLog = $"[AOI] TEST START :{aoiTestFlow.aoiApdData.Barcode}/{aoiTestFlow.aoiApdData.Socket_Num}";
+            Globalo.LogPrint("TaskManager", "\n");
+            szLog = $"[AOI] TEST START";
+            Globalo.LogPrint("TaskManager", szLog);
+            szLog = $"[AOI] MODULE ID :{aoiTestFlow.aoiApdData.Barcode}";
+            Globalo.LogPrint("TaskManager", szLog);
+            szLog = $"[AOI] SOCKET NUMBER :{aoiTestFlow.aoiApdData.Socket_Num}";
             Globalo.LogPrint("TaskManager", szLog);
             Globalo.productionInfo.BcrSet(aoiTestFlow.aoiApdData.Barcode);
             Globalo.visionManager.milLibrary.RunModeChange(true);

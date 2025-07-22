@@ -61,7 +61,6 @@ namespace ZenTester.Data
         public int CsvScanMonth { get; set; }
         public bool ImageGrabUse { get; set; }
         public string Language { get; set; }
-
         public string HandlerIp { get; set; }
         public int HandlerPort { get; set; }
         public string SecsgemIp { get; set; }
