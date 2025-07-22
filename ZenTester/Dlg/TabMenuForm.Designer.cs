@@ -315,13 +315,14 @@ namespace ZenTester.Dlg
             this.BTN_BOTTOM_MANUAL.ForeColor = System.Drawing.Color.White;
             this.BTN_BOTTOM_MANUAL.Image = global::ZenTester.Properties.Resources.Teaching1;
             this.BTN_BOTTOM_MANUAL.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_BOTTOM_MANUAL.Location = new System.Drawing.Point(4, 87);
+            this.BTN_BOTTOM_MANUAL.Location = new System.Drawing.Point(3, 448);
             this.BTN_BOTTOM_MANUAL.Name = "BTN_BOTTOM_MANUAL";
             this.BTN_BOTTOM_MANUAL.Size = new System.Drawing.Size(133, 36);
             this.BTN_BOTTOM_MANUAL.TabIndex = 33;
             this.BTN_BOTTOM_MANUAL.Text = "  MODEL";
             this.BTN_BOTTOM_MANUAL.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BTN_BOTTOM_MANUAL.UseVisualStyleBackColor = false;
+            this.BTN_BOTTOM_MANUAL.Visible = false;
             this.BTN_BOTTOM_MANUAL.Click += new System.EventHandler(this.BTN_BOTTOM_MANUAL_Click);
             // 
             // TabMenuForm

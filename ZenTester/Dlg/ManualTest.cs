@@ -872,7 +872,8 @@ namespace ZenTester.Dlg
         private void label_SetTest_Manual_Pat_Find_Click(object sender, EventArgs e)
         {
             //패턴 찾기
-            Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX);
+            Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.FindPattern(parentDlg.CamIndex);
         }
 
         private void label_SetTest_Manual_Pat_Regist_Click(object sender, EventArgs e)
@@ -884,7 +885,7 @@ namespace ZenTester.Dlg
                 Globalo.yamlManager.aoiRoiConfig.patData[0].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
                 Globalo.yamlManager.aoiRoiConfig.patData[0].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
 
-                Globalo.visionManager.milLibrary.AddPattern(VisionClass.AoiTester.TOP_INDEX);
+                Globalo.visionManager.milLibrary.AddPattern(parentDlg.CamIndex);// VisionClass.AoiTester.TOP_INDEX);
                 Data.TaskDataYaml.Save_AoiConfig();
 
                 int CurrentMarkNo = 0;

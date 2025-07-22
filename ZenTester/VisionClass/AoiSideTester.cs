@@ -108,7 +108,8 @@ namespace ZenTester.VisionClass
             MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
 
             // Draw edges in the source image to show the result.
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             MIL.MedgeControl(MilEdgeResult, 319L, (double)-OffsetX);
@@ -129,7 +130,8 @@ namespace ZenTester.VisionClass
             //
             // Draw remaining edges and their index to show the result.
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             
 
@@ -150,7 +152,8 @@ namespace ZenTester.VisionClass
             if (NumResults <= CONTOUR_MAX_RESULTS)
             {
                 // Draw the index of each edge.
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 // Get the mean Feret diameters.
@@ -370,7 +373,8 @@ namespace ZenTester.VisionClass
             MIL.MedgeSelect(MilEdgeResult, MIL.M_EXCLUDE, MIL.M_SIZE, MIL.M_LESS, 100.0, MIL.M_NULL);
 
             // Draw edges in the source image to show the result.
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             MIL.MedgeControl(MilEdgeResult, 319L, (double)-OffsetX);
@@ -399,7 +403,8 @@ namespace ZenTester.VisionClass
             if (NumResults <= CONTOUR_MAX_RESULTS)
             {
                 // Draw the index of each edge.
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 // Get the mean Feret diameters.
@@ -610,7 +615,8 @@ namespace ZenTester.VisionClass
             MIL.MedgeGetResult(MilEdgeResult, MIL.M_DEFAULT, MIL.M_NUMBER_OF_CHAINS + MIL.M_TYPE_MIL_INT, ref NumEdgeFound);
 
             // Draw edges in the source image to show the result.
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             //-----------------------------------------------------------------------------------------------------------------------------
@@ -630,7 +636,8 @@ namespace ZenTester.VisionClass
 
             // Draw remaining edges and their index to show the result.
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
             MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
             MIL_INT NumResults = 0;                                         // Number of results found.
@@ -645,7 +652,8 @@ namespace ZenTester.VisionClass
             if ((NumResults >= 1) && (NumResults <= CONTOUR_MAX_RESULTS))
             {
                 // Draw the index of each edge.
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
                 MIL.MedgeDraw(MIL.M_DEFAULT, MilEdgeResult, GraphicList, MIL.M_DRAW_INDEX, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 // Get the mean Feret diameters.

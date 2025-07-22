@@ -189,12 +189,14 @@ namespace ZenTester.VisionClass
 
                 MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3203L, m_dZoomX);//M_DRAW_SCALE_X
                 MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_DEFAULT, 3204L, m_dZoomY);//M_DRAW_SCALE_Y
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);// M_COLOR_GREEN);M_COLOR_CYAN
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);// M_COLOR_GREEN);M_COLOR_CYAN
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
                 MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], m_MilMaskOverlay, MIL.M_DRAW_DONT_CARE, MIL.M_DEFAULT, MIL.M_DEFAULT);
 
                 if (m_bDrawEdge)
                 {
-                    MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_MAGENTA);
+                    //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_MAGENTA);
+                    MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_MAGENTA);
                     MIL.MmodControl(Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], MIL.M_CONTEXT, MIL.M_SMOOTHNESS, m_nEdgeSmooth);
                     MIL.MmodDraw(MIL.M_DEFAULT, Globalo.visionManager.markUtil.m_MilModModel[CurrentMarkNo], m_MilMaskOverlay, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
                 }
@@ -221,7 +223,8 @@ namespace ZenTester.VisionClass
                 rMask.Height = m_nBrushSize;
                 m_bMaskDrag = true;
 
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
 
                 if (m_pMaskBuff != null)
                 {
@@ -284,11 +287,13 @@ namespace ZenTester.VisionClass
 
                 if (m_bEraseMask)
                 {
-                    MIL.MgraColor(MIL.M_DEFAULT, 0x00);
+                    //MIL.MgraColor(MIL.M_DEFAULT, 0x00);
+                    MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, 0);
                 }
                 else
                 {
-                    MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                    //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                    MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
                 }
 
                 if (m_pMaskBuff != null)
@@ -360,12 +365,14 @@ namespace ZenTester.VisionClass
 
             DrawMask();
 
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
 
             MIL.MgraLine(MIL.M_DEFAULT, m_MilMaskOverlay, (int)(centerPoint.X * m_dZoomX + 0.5), 0, (int)(centerPoint.X * m_dZoomX + 0.5), (double)DispSize.Y);
             MIL.MgraLine(MIL.M_DEFAULT, m_MilMaskOverlay, 0, (int)(centerPoint.Y * m_dZoomY + 0.5), (double)DispSize.X, (int)(centerPoint.Y * m_dZoomY + 0.5));
 
-            MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+            //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
 
             int m_nCircleSize = 20;
             MIL.MgraArc(MIL.M_DEFAULT, m_MilMaskOverlay, centerPoint.X * m_dZoomX, centerPoint.Y * m_dZoomY, m_nCircleSize, m_nCircleSize, 0, 360);

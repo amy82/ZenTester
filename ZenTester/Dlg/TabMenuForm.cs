@@ -14,10 +14,10 @@ namespace ZenTester.Dlg
     {
         public enum TABFORM
         {
-            MAIN_FORM = 0, TEACH_FORM, MANUAL_FORM, IO_FORM, CONFIG_FORM, ALARM_FORM, LOG_FORM
+            MAIN_FORM = 0, TEACH_FORM, CONFIG_FORM, ALARM_FORM, LOG_FORM, MANUAL_FORM, IO_FORM
         };
         //CCD_FORM, 
-        public Button[] BtnArr = new Button[8];
+        public Button[] BtnArr = new Button[7];
 
         public bool MenuChangeInterLock = false;
         private int parentW = 0;
@@ -34,7 +34,10 @@ namespace ZenTester.Dlg
 
             CurrentTab = TABFORM.MAIN_FORM;
             Run_Mode_Change(ProgramState.eRunMode.ENGINEER);//OPERATOR);
-            //MenuButtonSet(TABFORM.MAIN_FORM);
+
+
+            BTN_BOTTOM_MAIN.BackColor = ColorTranslator.FromHtml("#F8F3F0");
+            BTN_BOTTOM_MAIN.ForeColor = Color.DimGray;
         }
         public void MenuButtonSet(TABFORM index)
         {
@@ -134,14 +137,14 @@ namespace ZenTester.Dlg
             //MAIN_FORM = 0, TEACH_FORM, MANUAL_FORM, IO_FORM, CONFIG_FORM, ALARM_FORM, LOG_FORM
             BtnArr[0] = BTN_BOTTOM_MAIN;
             BtnArr[1] = BTN_BOTTOM_TEACH;
-            BtnArr[2] = BTN_BOTTOM_MANUAL;
+            //BtnArr[2] = BTN_BOTTOM_MANUAL;
             //BtnArr[3] = BTN_BOTTOM_IO;
-            BtnArr[3] = BTN_BOTTOM_SETUP;
-            BtnArr[4] = BTN_BOTTOM_ALARM;
-            BtnArr[5] = BTN_BOTTOM_LOG;
+            BtnArr[2] = BTN_BOTTOM_SETUP;
+            BtnArr[3] = BTN_BOTTOM_ALARM;
+            BtnArr[4] = BTN_BOTTOM_LOG;
             //
-            BtnArr[6] = BTN_BOTTOM_WALLPAPER;   //바탕화면
-            BtnArr[7] = BTN_BOTTOM_EXIT;        //종료
+            BtnArr[5] = BTN_BOTTOM_WALLPAPER;   //바탕화면
+            BtnArr[6] = BTN_BOTTOM_EXIT;        //종료
 
             BTN_BOTTOM_CCD.Visible = false;
             BTN_BOTTOM_LIGHT.Visible = false;

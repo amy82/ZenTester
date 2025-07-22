@@ -335,7 +335,8 @@ namespace ZenTester.VisionClass
             MIL.MmetCalculate(MilMetrolContext, MilImage, MilMetrolResult, MIL.M_DEFAULT);
 
             // Draw region
-            MIL.MgraColor(MIL.M_DEFAULT, REGION_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, REGION_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, REGION_COLOR);
             MIL.MmetDraw(MIL.M_DEFAULT, MilMetrolResult, GraphicList, MIL.M_DRAW_REGION, MIL.M_DEFAULT, MIL.M_DEFAULT);
             Console.Write("Regions used to calculate measured features:\n");
             Console.Write("- two measured circles\n");
@@ -347,7 +348,8 @@ namespace ZenTester.VisionClass
             // Clear annotations.
             MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
 
-            MIL.MgraColor(MIL.M_DEFAULT, FEATURE_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, FEATURE_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, FEATURE_COLOR);
             MIL.MmetDraw(MIL.M_DEFAULT, MilMetrolResult, GraphicList, MIL.M_DRAW_FEATURE, MIL.M_DEFAULT, MIL.M_DEFAULT);
             Console.Write("Calculated features:\n");
 
@@ -418,12 +420,14 @@ namespace ZenTester.VisionClass
 
             if (Status == MIL.M_PASS)
             {
-                MIL.MgraColor(MIL.M_DEFAULT, PASS_COLOR);
+                //MIL.MgraColor(MIL.M_DEFAULT, PASS_COLOR);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, PASS_COLOR);
                 Console.Write("Perpendicularity between the two segments: {0:0.00} degrees.\n", Value);
             }
             else
             {
-                MIL.MgraColor(MIL.M_DEFAULT, FAIL_COLOR);
+                //MIL.MgraColor(MIL.M_DEFAULT, FAIL_COLOR);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, FAIL_COLOR);
                 Console.Write("Perpendicularity between the two segments - Fail.\n");
             }
             //MIL.MmetDraw(MIL.M_DEFAULT, MilMetrolResult, GraphicList, MIL.M_DRAW_TOLERANCE, MIL.M_TOLERANCE_INDEX(0), MIL.M_DEFAULT);
@@ -543,9 +547,11 @@ namespace ZenTester.VisionClass
                 MIL.MmodGetResult(MilResult, MIL.M_DEFAULT, MIL.M_SCORE, Score);
 
 
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
                 MIL.MmodDraw(MIL.M_DEFAULT, MilResult, GraphicList, MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_DEFAULT);
-                MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                //MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
+                MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
                 MIL.MmodDraw(MIL.M_DEFAULT, MilResult, GraphicList, MIL.M_DRAW_EDGES, MIL.M_DEFAULT, MIL.M_DEFAULT);
             }
 
@@ -764,7 +770,8 @@ namespace ZenTester.VisionClass
 
 
             // Display the bead in the overlay image.
-            MIL.MgraColor(MIL.M_DEFAULT, USER_TEMPLATE_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, USER_TEMPLATE_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, USER_TEMPLATE_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadContext, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_POSITION,
                MIL.M_USER, MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
@@ -772,7 +779,8 @@ namespace ZenTester.VisionClass
             MIL.MbeadTrain(MilBeadContext, MIL.M_NULL, MIL.M_DEFAULT);
 
             // Display the trained bead.
-            MIL.MgraColor(MIL.M_DEFAULT, TRAINED_BEAD_WIDTH_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, TRAINED_BEAD_WIDTH_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, TRAINED_BEAD_WIDTH_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadContext, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_SEARCH_BOX,
                MIL.M_TRAINED, MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
@@ -788,12 +796,14 @@ namespace ZenTester.VisionClass
             MIL.MdispControl(Globalo.visionManager.milLibrary.MilCamDisplay[index], MIL.M_OVERLAY_CLEAR, MIL.M_TRANSPARENT_COLOR);
 
             // Display the pass bead sections.
-            MIL.MgraColor(MIL.M_DEFAULT, PASS_BEAD_POSITION_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, PASS_BEAD_POSITION_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, PASS_BEAD_POSITION_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadResult, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_POSITION, MIL.M_PASS,
                MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
             // Display the offset bead sections.
-            MIL.MgraColor(MIL.M_DEFAULT, FAIL_EDGE_OFFSET_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, FAIL_EDGE_OFFSET_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, FAIL_EDGE_OFFSET_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadResult, Globalo.visionManager.milLibrary.MilCamOverlay[index], MIL.M_DRAW_POSITION, MIL.M_FAIL_OFFSET,
                MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
@@ -951,7 +961,8 @@ namespace ZenTester.VisionClass
             MIL.MbeadControl(MilBeadContext, MIL.M_ALL, MIL.M_OFFSET_MAX, MAX_CONTOUR_DEVIATION_OFFSET);
 
             // Display the bead in the overlay image.
-            MIL.MgraColor(MIL.M_DEFAULT, USER_TEMPLATE_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, USER_TEMPLATE_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, USER_TEMPLATE_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadContext, MilOverlayImage, MIL.M_DRAW_POSITION,
                MIL.M_USER, MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
@@ -959,7 +970,8 @@ namespace ZenTester.VisionClass
             MIL.MbeadTrain(MilBeadContext, MIL.M_NULL, MIL.M_DEFAULT);
 
             // Display the trained bead.
-            MIL.MgraColor(MIL.M_DEFAULT, TRAINED_BEAD_WIDTH_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, TRAINED_BEAD_WIDTH_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, TRAINED_BEAD_WIDTH_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadContext, MilOverlayImage, MIL.M_DRAW_SEARCH_BOX,
                MIL.M_TRAINED, MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
@@ -977,12 +989,14 @@ namespace ZenTester.VisionClass
             MIL.MdispControl(MilDisplay, MIL.M_OVERLAY_CLEAR, MIL.M_TRANSPARENT_COLOR);
 
             // Display the pass bead sections.
-            MIL.MgraColor(MIL.M_DEFAULT, PASS_BEAD_POSITION_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, PASS_BEAD_POSITION_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, PASS_BEAD_POSITION_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadResult, MilOverlayImage, MIL.M_DRAW_POSITION, MIL.M_PASS,
                MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 
             // Display the offset bead sections.
-            MIL.MgraColor(MIL.M_DEFAULT, FAIL_EDGE_OFFSET_COLOR);
+            //MIL.MgraColor(MIL.M_DEFAULT, FAIL_EDGE_OFFSET_COLOR);
+            MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, FAIL_EDGE_OFFSET_COLOR);
             MIL.MbeadDraw(MIL.M_DEFAULT, MilBeadResult, MilOverlayImage, MIL.M_DRAW_POSITION, MIL.M_FAIL_OFFSET,
                MIL.M_ALL, MIL.M_ALL, MIL.M_DEFAULT);
 

@@ -201,8 +201,8 @@ namespace ZenTester.VisionClass
             MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
 
             // Set the search model range angle.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 20);
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 20);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 10);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 10);
 
             // Set the search model angle accuracy.
             MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
