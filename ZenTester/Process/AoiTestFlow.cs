@@ -406,15 +406,6 @@ namespace ZenTester.Process
                         //Val 1 : Key/Gasket  밝게
                         //Val 2 : Dent 0번과 비슷하게?
 
-                        //data1 = Globalo.yamlManager.aoiRoiConfig.topLightData[0].data;
-                        //data2 = Globalo.yamlManager.aoiRoiConfig.sideLightData[0].data;
-                        //Globalo.serialPortManager.LightControl.ctrlLedVolume(1, data1);
-                        
-                        //Globalo.serialPortManager.LightControl.AllctrlLedVolume(data1, data2);      //1,2 채널 동시 변경
-
-                        //szLog = $"[LIGHT] LIGHT CH1,2 CHANGE COMMAND[STEP : {nRetStep}]";
-                        //Globalo.LogPrint("ManualControl", szLog);
-
                         //Side Light Set, Ch:2
                         //Val 0: Side Common - 사용 안 할 수도
                         nTopTimeTick = Environment.TickCount;
@@ -422,35 +413,7 @@ namespace ZenTester.Process
                         break;
 
                     case 50:
-                        //if (bAutorun == false)
-                        //{
-                        //    nRetStep = 100;
-                        //    break;
-                        //}
-                        //if (Globalo.serialPortManager.LightControl.recvCheck == -1)
-                        //{
-                        //    break;
-                        //}
-                        //else if (Environment.TickCount - nTopTimeTick > 3000)
-                        //{
-                        //    szLog = $"[LIGHT] LIGHT CONTROLLER RECV FAIL [STEP : {nRetStep}]";
-                        //    Globalo.LogPrint("ManualControl", szLog, Globalo.eMessageName.M_ERROR);
-                        //    nRetStep *= -1;
-                        //    break;
-                        //}
-
-                        //if (Globalo.serialPortManager.LightControl.recvCheck == 0)
-                        //{
-                        //    //조명 정상 변경 실패
-                        //    szLog = $"[LIGHT] LIGHT DATA CHANGE FAIL [STEP : {nRetStep}]";
-                        //    Globalo.LogPrint("ManualControl", szLog);
-                        //    nRetStep *= -1;
-                        //    break;
-                        //}
-
-                        ////조명 정상 변경 완료
-                        //szLog = $"[LIGHT] LIGHT DATA CHANGE OK [STEP : {nRetStep}]";
-                        //Globalo.LogPrint("ManualControl", szLog);
+                        
                         nRetStep = 100;
                         break;
 
@@ -531,7 +494,7 @@ namespace ZenTester.Process
                         int gasketLight = Globalo.visionManager.aoiTopTester.GasketTest(topCamIndex, TopMatImage, aoiCenterPos[topCamIndex], true);
 
                         ResultAoiAPdData.Gasket = string.Empty;
-                        if (gasketLight > specGasketMin)// || gasketLight > specGasketMax)
+                        if (gasketLight > specGasketMin)    // || gasketLight > specGasketMax)
                         {
                             //검사 결과 : 없다. X
                             if (IsGasket == 0)
@@ -620,6 +583,7 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         int key1Rtn = 0;
                         int key2Rtn = 0;
+
                         string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
                         int cx = Globalo.visionManager.milLibrary.CAM_SIZE_X[topCamIndex] / 2;
                         int cy = Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] / 2;
@@ -635,25 +599,29 @@ namespace ZenTester.Process
                         //}
 
                         double dKeyScore = 0.0;
-                        OpenCvSharp.Point markPos = new OpenCvSharp.Point();
+                        //OpenCvSharp.Point markPos = new OpenCvSharp.Point();
+
                         //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
-                        bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(topCamIndex, ref dKeyScore, true);
                         //if (key1Rtn == 0 || key2Rtn == 0)
+
+
+                        bRtn = Globalo.visionManager.aoiTopTester.Key_Pattern_Test(topCamIndex, ref dKeyScore, true);
                         ResultAoiAPdData.KeyType = string.Empty;
-                        if (dKeyScore < 60.0)
+
+                        if (dKeyScore >= Globalo.yamlManager.configData.CamSettings.ScoreKey)  //60.0)
+                        {
+                            aoiApdData.KeyType = keyType;
+                            szLog = $"[TOP CAM] KEY: {keyType} FIND PASS";
+                            Globalo.LogPrint("ManualControl", szLog);
+                        }
+                        else
                         {
                             //ng
                             aoiDefectCode = "15";
                             aoiApdData.Result = "NG";
                             ResultAoiAPdData.KeyType = "NG";
                             aoiApdData.KeyType = "Null";
-                            szLog = $"[TOP CAM] {keyType} FIND FAIL";
-                            Globalo.LogPrint("ManualControl", szLog);
-                        }
-                        else
-                        {
-                            aoiApdData.KeyType = keyType;
-                            szLog = $"[TOP CAM] {keyType} FIND PASS";
+                            szLog = $"[TOP CAM] KEY: {keyType} FIND FAIL";
                             Globalo.LogPrint("ManualControl", szLog);
                         }
 
@@ -685,7 +653,7 @@ namespace ZenTester.Process
                         //내원 2개 , 외원 2개씩 찾아야 진행된다.
                         ResultAoiAPdData.Concentrycity_A = string.Empty;
                         ResultAoiAPdData.Concentrycity_D = string.Empty;
-                        if (FakraCenter.Count > 1 && HousingCenter.Count > 1)
+                        if (FakraCenter.Count > 1 && HousingCenter.Count > 1) 
                         {
                             Console.WriteLine($"In Fakra Find Fail:{FakraCenter.Count}");
                             //return;
@@ -714,33 +682,52 @@ namespace ZenTester.Process
 
                             aoiApdData.Concentrycity_A = con1Result.ToString("0.00#");
                             aoiApdData.Concentrycity_D = con2Result.ToString("0.00#");
+
+                            if (con1Result > con_InMax)
+                            {
+                                aoiDefectCode = "12";
+                                aoiApdData.Result = "NG";
+                                ResultAoiAPdData.Concentrycity_A = "NG";
+
+                                szLog = $"[TOP CAM] CON1 NG: {con1Result} / {con_InMax}";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            else
+                            {
+                                szLog = $"[TOP CAM] CON1 PASS: {con1Result} / {con_InMax}";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+
+                            //if (con2Result < con_OutMin || con2Result > con_OutMax)
+                            if (con2Result > con_OutMax)
+                            {
+                                aoiDefectCode = "13";
+                                aoiApdData.Result = "NG";
+                                ResultAoiAPdData.Concentrycity_D = "NG";
+
+                                szLog = $"[TOP CAM] CON2 NG: {con2Result} / {con_OutMax}";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            else
+                            {
+                                szLog = $"[TOP CAM] CON2 PASS: {con2Result} / {con_OutMax}";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
                         }
                         else
                         {
                             aoiDefectCode = "8";
                             aoiApdData.Concentrycity_A = "0.0";
                             aoiApdData.Concentrycity_D = "0.0";
-                        }
-                        
 
-
-                        //if (con1Result < con_InMin || con1Result > con_InMax)
-                        if (con1Result > con_InMax)
-                        {
-                            aoiDefectCode = "12";
                             aoiApdData.Result = "NG";
                             ResultAoiAPdData.Concentrycity_A = "NG";
-                        }
-
-                        //if (con2Result < con_OutMin || con2Result > con_OutMax)
-                        if (con2Result > con_OutMax)
-                        {
-                            aoiDefectCode = "13";
-                            aoiApdData.Result = "NG";
                             ResultAoiAPdData.Concentrycity_D = "NG";
+
+                            szLog = $"[TOP CAM] CON FIND FAIL {FakraCenter.Count}/{HousingCenter.Count}";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
 
-                        //
                         Globalo.visionManager.aoiTester.FinalJpgImageSave("top", aoiApdData.Barcode, TopMatImage);
 
                         nRetStep = 900;
@@ -1016,28 +1003,54 @@ namespace ZenTester.Process
                         heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, SideMatImage, true);
                         heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, SideMatImage, true);
                         heightData[2] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 2, OffsetPos, SideMatImage, true);
+
+                        aoiApdData.LH = heightData[0].ToString("0.0##");
+                        aoiApdData.MH = heightData[1].ToString("0.0##");
+                        aoiApdData.RH = heightData[2].ToString("0.0##");
                         if (heightData[0] < Spec_Lh_Min || heightData[0] < Spec_Lh_Max)
                         {
                             aoiDefectCode = "4";
                             aoiApdData.Result = "NG";
+
+                            szLog = $"[SIDE CAM] LH NG: {aoiApdData.LH} [{Spec_Lh_Min}~{Spec_Lh_Max}] ";
+                            Globalo.LogPrint("ManualControl", szLog);
+                        }
+                        else
+                        {
+                            szLog = $"[SIDE CAM] LH PASS: {aoiApdData.LH} [{Spec_Lh_Min}~{Spec_Lh_Max}] ";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
                         if (heightData[1] < Spec_Mh_Min || heightData[1] < Spec_Mh_Max)
                         {
                             aoiDefectCode = "5";
                             aoiApdData.Result = "NG";
+
+                            szLog = $"[SIDE CAM] MH NG: {aoiApdData.MH} [{Spec_Mh_Min}~{Spec_Mh_Max}] ";
+                            Globalo.LogPrint("ManualControl", szLog);
+                        }
+                        else
+                        {
+                            szLog = $"[SIDE CAM] MH PASS: {aoiApdData.MH} [{Spec_Mh_Min}~{Spec_Mh_Max}] ";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
                         if (heightData[2] < Spec_Rh_Min || heightData[2] < Spec_Rh_Max)
                         {
                             aoiDefectCode = "6";
                             aoiApdData.Result = "NG";
+
+                            szLog = $"[SIDE CAM] RH NG: {aoiApdData.RH} [{Spec_Rh_Min}~{Spec_Rh_Max}] ";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
-                        aoiApdData.LH = heightData[0].ToString("0.0###");
-                        aoiApdData.MH = heightData[1].ToString("0.0###");
-                        aoiApdData.RH = heightData[2].ToString("0.0###");
+                        else
+                        {
+                            szLog = $"[SIDE CAM] RH PASS: {aoiApdData.RH} [{Spec_Rh_Min}~{Spec_Rh_Max}] ";
+                            Globalo.LogPrint("ManualControl", szLog);
+                        }
+                        
 
 
-                        szLog = $"[SIDE CAM] LH: {aoiApdData.LH} ,MH: {aoiApdData.MH} ,RH: {aoiApdData.RH}";
-                        Globalo.LogPrint("ManualControl", szLog);
+                        //szLog = $"[SIDE CAM] LH: {aoiApdData.LH} ,MH: {aoiApdData.MH} ,RH: {aoiApdData.RH}";
+                        //Globalo.LogPrint("ManualControl", szLog);
                         //aoiDefectCode = "4,5,6";
                         //-------------------------------------------------------------------------------------------
                         //
@@ -1069,6 +1082,8 @@ namespace ZenTester.Process
                             if (dOringScore > Globalo.yamlManager.configData.CamSettings.ScoreOring)  //70.0)
                             {
                                 aoiApdData.ORing = "1";
+                                szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}";
+                                Globalo.LogPrint("ManualControl", szLog);
                             }
                             else
                             {
@@ -1080,7 +1095,10 @@ namespace ZenTester.Process
                         else
                         {
                             aoiApdData.ORing = "0";
+                            szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}";
+                            Globalo.LogPrint("ManualControl", szLog);
                         }
+
                         
                         //-------------------------------------------------------------------------------------------
                         //
