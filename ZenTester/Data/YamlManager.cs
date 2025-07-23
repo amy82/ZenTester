@@ -141,24 +141,9 @@ namespace ZenTester.Data
         {
             //D:\\ EVMS \\ TP \\ ENV \\ AoiData \\ ACA05C005X_H180E \\ ACA05C005X_H180E.yaml
 
-            string pgPath = "";
+            string pgPath = "AoiData";
             RootRecipe tempRecipe = null;
-            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
-            {
-                pgPath = "AoiData";
-            }
-            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
-            {
-                pgPath = "WriteData";
-            }
-            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-            {
-                pgPath = "VerifyData";
-            }
-            else
-            {
-                return tempRecipe;
-            }
+            
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, recipeFilePPid, recipeFilePPid + ".yaml");
             
             try
@@ -182,23 +167,8 @@ namespace ZenTester.Data
         {
             //string filePath = Path.Combine(CPath.BASE_RECIPE_PATH, ppRecipe.RECIPE.Ppid +".yaml");//   CPath.yamlFilePathRecipe);
 
-            string pgPath = "";
-            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
-            {
-                pgPath = "AoiData";
-            }
-            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
-            {
-                pgPath = "WriteData";
-            }
-            else if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-            {
-                pgPath = "VerifyData";
-            }
-            else
-            {
-                return false;
-            }
+            string pgPath = "AoiData";
+            
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, ppRecipe.RECIPE.Ppid, ppRecipe.RECIPE.Ppid + ".yaml");
             try
             {

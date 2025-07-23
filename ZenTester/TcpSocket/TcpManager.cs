@@ -179,24 +179,24 @@ namespace ZenTester.TcpSocket
                         //Z축 이동후 다음 Step 검사
                     }
                 }
-                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
-                {
-                    // data.CommandParameter
-                    //data.socketNum = 1,2,3,4 // 5,6,7,8
-                }
-                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-                {
-                    //data.socketNum = 1,2,3,4 // 5,6,7,8  
-                    Globalo.taskManager.testRun = true;
-                    Globalo.taskManager.Verify_TestRun(data);
+                //if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                //{
+                //    // data.CommandParameter
+                //    //data.socketNum = 1,2,3,4 // 5,6,7,8
+                //}
+                //if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                //{
+                //    //data.socketNum = 1,2,3,4 // 5,6,7,8  
+                //    Globalo.taskManager.testRun = true;
+                //    Globalo.taskManager.Verify_TestRun(data);
 
-                    // data.CommandParameter
-                }
-                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
-                {
-                    //프로그램 하나에 소켓 4개 펌웨어 진행
-                    Globalo.taskManager.Fw_TestRun(data);
-                }
+                //    // data.CommandParameter
+                //}
+                //if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                //{
+                //    //프로그램 하나에 소켓 4개 펌웨어 진행
+                //    Globalo.taskManager.Fw_TestRun(data);
+                //}
 
                 //AOI 공정 - 0,1,2,3
                 //0번 Aoi Left 의 Left 소켓
