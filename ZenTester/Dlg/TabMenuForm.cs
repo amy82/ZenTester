@@ -81,18 +81,18 @@ namespace ZenTester.Dlg
                     {
                         Globalo.setTestControl.Visible = true;
                     }
-                    if (Program.TEST_PG_SELECT == TESTER_PG.FW)
-                    {
-                        Globalo.fwSetControl.Visible = true;
-                    }
-                    if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
-                    {
-                        Globalo.WriteSetControl.Visible = true;
-                    }
-                    if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-                    {
-                        Globalo.VerifySetControl.Visible = true;
-                    }
+                    //if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                    //{
+                    //    Globalo.fwSetControl.Visible = true;
+                    //}
+                    //if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                    //{
+                    //    Globalo.WriteSetControl.Visible = true;
+                    //}
+                    //if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                    //{
+                    //    Globalo.VerifySetControl.Visible = true;
+                    //}
                     break;
                 case TABFORM.CONFIG_FORM:
                     Globalo.mConfigPanel.Visible = true;

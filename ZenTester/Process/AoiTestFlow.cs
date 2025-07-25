@@ -451,19 +451,50 @@ namespace ZenTester.Process
                         List<OpenCvSharp.Point> FakraCenter = new List<OpenCvSharp.Point>();
                         List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
 
-                        
+
                         int IsGasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value);
+
+                        int specMinGasket = 0;// int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
+                        int specMaxGasket = 0;// int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
+
+                        if (int.TryParse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value, out specMinGasket))
+                        {
+                            // 성공적으로 숫자로 변환됨
+                            //Console.WriteLine("정수 값: " + result);
+                            IsGasket = 1;
+                        }
+                        else
+                        {
+                            // 숫자가 아닌 경우 (예: "NA")
+                            //Console.WriteLine("숫자 아님: " + input);
+                            // 필요하면 -1, 0 등 기본값 설정 가능
+                            specMinGasket = -1; // 또는 다른 처리
+                            IsGasket = 0;
+                        }
+                        if (int.TryParse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value, out specMaxGasket))
+                        {
+                            // 성공적으로 숫자로 변환됨
+                            //Console.WriteLine("정수 값: " + result);
+                        }
+                        else
+                        {
+                            // 숫자가 아닌 경우 (예: "NA")
+                            //Console.WriteLine("숫자 아님: " + input);
+                            // 필요하면 -1, 0 등 기본값 설정 가능
+                            specMaxGasket = -1; // 또는 다른 처리
+                        }
 
                         string specKey = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
 
                         int specGasketMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
                         int specGasketMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
-                        int specDentMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value);
-                        int specDentMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value);
-                        double con_InMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value);
-                        double con_InMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
-                        double con_OutMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
-                        double con_OutMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
+
+                        int specDentMin = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CIRCLEDENTED_MIN"].value);  //DENT_MIN
+                        int specDentMax = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CIRCLEDENTED_MAX"].value);  //DENT_MAX
+                        double con_InMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_A_MIN"].value);  //CONCENTRICITY_IN_MIN
+                        double con_InMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_A_MAX"].value);  //CONCENTRICITY_IN_MAX
+                        double con_OutMin = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_D_MIN"].value);  //CONCENTRICITY_OUT_MIN
+                        double con_OutMax = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_D_MAX"].value);  //CONCENTRICITY_OUT_MAX
                         double dScore = 0.0;
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
                         //
@@ -767,10 +798,10 @@ namespace ZenTester.Process
                             Globalo.cameraControl.setTopTestResult(int.Parse(aoiApdData.Socket_Num), resultStr);
                         }, null);
 
-                        double con_InMin2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value);
-                        double con_InMax2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value);
-                        double con_OutMin2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value);
-                        double con_OutMax2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value);
+                        double con_InMin2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_A_MIN"].value);
+                        double con_InMax2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_A_MAX"].value);
+                        double con_OutMin2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_D_MIN"].value);
+                        double con_OutMax2 = double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_D_MAX"].value);
 
                         resultStr = $"Con1 :{aoiApdData.Concentrycity_A} [~{con_InMax2}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 800);
@@ -806,7 +837,10 @@ namespace ZenTester.Process
 
                         int Is_Gasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value);
                         int specGasket = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
-                        resultStr = $"Gasket :{aoiApdData.Gasket} [{Is_Gasket}/{specGasket}]";
+
+                        int specGasketMin2 = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value);
+                        int specGasketMax2 = int.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value);
+                        resultStr = $"Gasket :{aoiApdData.Gasket} [{Is_Gasket}/{specGasketMin2}~{specGasketMax2}]";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[topCamIndex] - 500);
                         if (ResultAoiAPdData.Gasket == "NG")
                         {
@@ -1010,12 +1044,12 @@ namespace ZenTester.Process
                             OffsetPos.Y = markPos.Y - Globalo.yamlManager.aoiRoiConfig.HEIGHT_ROI[1].Y;
 
                         }
-                        double Spec_Lh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value);
-                        double Spec_Lh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value);
-                        double Spec_Mh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value);
-                        double Spec_Mh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value);
-                        double Spec_Rh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value);
-                        double Spec_Rh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value);
+                        double Spec_Lh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["LH_MIN"].value);
+                        double Spec_Lh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["LH_MAX"].value);
+                        double Spec_Mh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["MH_MIN"].value);
+                        double Spec_Mh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["MH_MAX"].value);
+                        double Spec_Rh_Min = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["RH_MIN"].value);
+                        double Spec_Rh_Max = Double.Parse(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["RH_MAX"].value);
 
                         heightData[0] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 0, OffsetPos, SideMatImage, true);
                         heightData[1] = Globalo.visionManager.aoiSideTester.MilEdgeHeight(sideCamIndex, 1, OffsetPos, SideMatImage, true);

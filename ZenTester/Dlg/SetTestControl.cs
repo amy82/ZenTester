@@ -245,6 +245,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.ClearOverlay_Manual(CamIndex);
                 Globalo.visionManager.ChangeSettingDisplayHandle(CamIndex, Set_panelCam);
 
+                manualTest.setManualView(CamIndex);
                 //drawCenterCross();
             }
             else

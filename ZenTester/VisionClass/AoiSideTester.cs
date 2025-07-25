@@ -775,8 +775,8 @@ namespace ZenTester.VisionClass
                 OpenCvSharp.Point position = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue +100); // 텍스트 위치
                 Scalar color = new Scalar(0, 255, 0); // 빨간색 (B, G, R)
                 HersheyFonts fontFace = HersheyFonts.HersheySimplex;
-                double fontScale = 1.0;
-                int thickness = 2;
+                double fontScale = 3.5;
+                int thickness = 10;
 
                 // 이미지에 텍스트 추가
                 Cv2.PutText(ResultImg, txtstr, position, fontFace, fontScale, color, thickness);
