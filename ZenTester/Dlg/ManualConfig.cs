@@ -19,6 +19,8 @@ namespace ZenTester.Dlg
         public int TopLIghtDataNo = 0;
         public int SideLIghtDataNo = 0;
 
+        private double currentLengx = 0.0;
+        private double currentLengy = 0.0;
 
         public ManualConfig(SetTestControl _parent)
         {
@@ -414,13 +416,14 @@ namespace ZenTester.Dlg
             Console.WriteLine($"CamResolY:{CamResolY}");
             //
             System.Drawing.Point textPoint;
-
-            string str = $"[Distance x:{Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].X - parentDlg.DistLineX[parentDlg.CamIndex, 1].X) * CamResolX}";
+            currentLengx = Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].X - parentDlg.DistLineX[parentDlg.CamIndex, 1].X) * CamResolX;
+            string str = $"[Distance x:{currentLengx}";
             Console.WriteLine($"{str}");
             textPoint = new System.Drawing.Point(10, parentDlg.CamH[parentDlg.CamIndex] - 250);
             Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Blue, 15);
 
-            str = $"[Distance y:{Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y - parentDlg.DistLineX[parentDlg.CamIndex, 1].Y) * CamResolY}";
+            currentLengy = Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y - parentDlg.DistLineX[parentDlg.CamIndex, 1].Y) * CamResolY;
+            str = $"[Distance y:{currentLengy}";
             Console.WriteLine($"{str}");
             textPoint = new System.Drawing.Point(10, parentDlg.CamH[parentDlg.CamIndex] - 150);
             Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Blue, 15);
@@ -956,6 +959,55 @@ namespace ZenTester.Dlg
                     dNumData = 100;
                 }
                 label_Set_Rate_Key_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void button_Set_Cal_Click(object sender, EventArgs e)
+        {
+            if (checkBox_Measure.Checked)
+            {
+                double target = 0.0;        //40.0;    //Target 값
+                if (double.TryParse(textBox_calTarget.Text, out target))
+                {
+                    double curx = currentLengx;// 39.618852;    //현재값 길이
+                    double cury = currentLengy;// 39.618852;    //현재값 길이
+
+                    double resulx = 0.0;
+                    double resuly = 0.0;
+
+                    if (parentDlg.CamIndex == 0)
+                    {
+                        resulx = Globalo.yamlManager.configData.CamSettings.TopResolution.X;
+                        resuly = Globalo.yamlManager.configData.CamSettings.TopResolution.X;
+                    }
+                    else
+                    {
+                        resulx = Globalo.yamlManager.configData.CamSettings.SideResolution.X;
+                        resuly = Globalo.yamlManager.configData.CamSettings.SideResolution.X;
+
+                    }
+
+
+                    double calDatax = target / curx * resulx;
+                    double calDatay = target / cury * resuly;
+
+                    textBox_calX.Text = calDatax.ToString("0.0000000##");
+                    textBox_calY.Text = calDatay.ToString("0.0000000##");
+                    //Globalo.visionManager.milLibrary.ClearOverlay(parentDlg.CamIndex);
+                    //System.Drawing.Point textPoint;
+
+                    //string str = $"calx:{calDatax}";
+                    //Console.WriteLine($"{str}");
+                    //textPoint = new System.Drawing.Point(20, 100);
+                    //Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Green, 25);
+
+                    //str = $"caly:{calDatay}";
+                    //Console.WriteLine($"{str}");
+                    //textPoint = new System.Drawing.Point(20, 230);
+                    //Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Green, 25);
+                }
+
+
             }
         }
     }

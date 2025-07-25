@@ -768,7 +768,7 @@ namespace ZenTester.VisionClass
                 OpenCvSharp.Point start = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + minValue);
                 OpenCvSharp.Point end = new OpenCvSharp.Point(OffsetX + (OffsetWidth / 2), OffsetY + maxValue);
 
-                DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 2);
+                DrawDoubleArrow(ResultImg, start, end, Scalar.Yellow, 5);
 
                 string txtstr = $"{dHeight.ToString("0.0###")}(mm)";
 
@@ -866,7 +866,7 @@ namespace ZenTester.VisionClass
             Cv2.Line(img, pt1, pt2, color, thickness, LineTypes.AntiAlias);
 
             // 화살촉 크기
-            int arrowSize = 10;
+            int arrowSize = 30;
 
             // 위쪽 화살촉
             DrawArrowHead(img, pt1, pt2, color, arrowSize, thickness);

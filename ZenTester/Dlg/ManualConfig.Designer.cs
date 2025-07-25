@@ -88,6 +88,14 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Key_Val = new System.Windows.Forms.Label();
             this.label_Set_Rate_Key = new System.Windows.Forms.Label();
             this.button_Set_Rate_Save = new System.Windows.Forms.Button();
+            this.button_Set_Cal = new System.Windows.Forms.Button();
+            this.textBox_calX = new System.Windows.Forms.TextBox();
+            this.label_SetTest_Manual_Cal = new System.Windows.Forms.Label();
+            this.textBox_calY = new System.Windows.Forms.TextBox();
+            this.label_calx = new System.Windows.Forms.Label();
+            this.label_caly = new System.Windows.Forms.Label();
+            this.label_cal_Target = new System.Windows.Forms.Label();
+            this.textBox_calTarget = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Top_Light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Side_Light)).BeginInit();
             this.SuspendLayout();
@@ -300,7 +308,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Val3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Light_Val3.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Light_Val3.ForeColor = System.Drawing.Color.White;
-            this.label_SetTest_Manual_Top_Light_Val3.Location = new System.Drawing.Point(619, 357);
+            this.label_SetTest_Manual_Top_Light_Val3.Location = new System.Drawing.Point(600, 286);
             this.label_SetTest_Manual_Top_Light_Val3.Name = "label_SetTest_Manual_Top_Light_Val3";
             this.label_SetTest_Manual_Top_Light_Val3.Size = new System.Drawing.Size(66, 39);
             this.label_SetTest_Manual_Top_Light_Val3.TabIndex = 112;
@@ -418,9 +426,9 @@ namespace ZenTester.Dlg
             this.button_Set_Roi_Save.BackColor = System.Drawing.Color.Olive;
             this.button_Set_Roi_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Roi_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button_Set_Roi_Save.Location = new System.Drawing.Point(595, 431);
+            this.button_Set_Roi_Save.Location = new System.Drawing.Point(567, 431);
             this.button_Set_Roi_Save.Name = "button_Set_Roi_Save";
-            this.button_Set_Roi_Save.Size = new System.Drawing.Size(90, 43);
+            this.button_Set_Roi_Save.Size = new System.Drawing.Size(118, 43);
             this.button_Set_Roi_Save.TabIndex = 126;
             this.button_Set_Roi_Save.Text = "ROI SAVE";
             this.button_Set_Roi_Save.UseVisualStyleBackColor = false;
@@ -905,11 +913,107 @@ namespace ZenTester.Dlg
             this.button_Set_Rate_Save.UseVisualStyleBackColor = false;
             this.button_Set_Rate_Save.Click += new System.EventHandler(this.button_Set_Rate_Save_Click);
             // 
+            // button_Set_Cal
+            // 
+            this.button_Set_Cal.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Cal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Cal.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Set_Cal.ForeColor = System.Drawing.Color.White;
+            this.button_Set_Cal.Location = new System.Drawing.Point(600, 601);
+            this.button_Set_Cal.Name = "button_Set_Cal";
+            this.button_Set_Cal.Size = new System.Drawing.Size(81, 91);
+            this.button_Set_Cal.TabIndex = 156;
+            this.button_Set_Cal.Text = "Cal";
+            this.button_Set_Cal.UseVisualStyleBackColor = false;
+            this.button_Set_Cal.Click += new System.EventHandler(this.button_Set_Cal_Click);
+            // 
+            // textBox_calX
+            // 
+            this.textBox_calX.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox_calX.Location = new System.Drawing.Point(396, 632);
+            this.textBox_calX.Name = "textBox_calX";
+            this.textBox_calX.Size = new System.Drawing.Size(198, 29);
+            this.textBox_calX.TabIndex = 157;
+            this.textBox_calX.Text = "0.0";
+            this.textBox_calX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label_SetTest_Manual_Cal
+            // 
+            this.label_SetTest_Manual_Cal.BackColor = System.Drawing.SystemColors.Window;
+            this.label_SetTest_Manual_Cal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_SetTest_Manual_Cal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_SetTest_Manual_Cal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Cal.ForeColor = System.Drawing.Color.Black;
+            this.label_SetTest_Manual_Cal.Location = new System.Drawing.Point(331, 569);
+            this.label_SetTest_Manual_Cal.Name = "label_SetTest_Manual_Cal";
+            this.label_SetTest_Manual_Cal.Size = new System.Drawing.Size(350, 29);
+            this.label_SetTest_Manual_Cal.TabIndex = 158;
+            this.label_SetTest_Manual_Cal.Text = "Cal";
+            this.label_SetTest_Manual_Cal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox_calY
+            // 
+            this.textBox_calY.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox_calY.Location = new System.Drawing.Point(396, 663);
+            this.textBox_calY.Name = "textBox_calY";
+            this.textBox_calY.Size = new System.Drawing.Size(198, 29);
+            this.textBox_calY.TabIndex = 159;
+            this.textBox_calY.Text = "0.0";
+            this.textBox_calY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label_calx
+            // 
+            this.label_calx.BackColor = System.Drawing.Color.White;
+            this.label_calx.Location = new System.Drawing.Point(335, 632);
+            this.label_calx.Name = "label_calx";
+            this.label_calx.Size = new System.Drawing.Size(55, 29);
+            this.label_calx.TabIndex = 160;
+            this.label_calx.Text = "Cal x";
+            this.label_calx.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_caly
+            // 
+            this.label_caly.BackColor = System.Drawing.Color.White;
+            this.label_caly.Location = new System.Drawing.Point(335, 663);
+            this.label_caly.Name = "label_caly";
+            this.label_caly.Size = new System.Drawing.Size(55, 29);
+            this.label_caly.TabIndex = 161;
+            this.label_caly.Text = "Cal y";
+            this.label_caly.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_cal_Target
+            // 
+            this.label_cal_Target.BackColor = System.Drawing.Color.White;
+            this.label_cal_Target.Location = new System.Drawing.Point(335, 601);
+            this.label_cal_Target.Name = "label_cal_Target";
+            this.label_cal_Target.Size = new System.Drawing.Size(55, 29);
+            this.label_cal_Target.TabIndex = 162;
+            this.label_cal_Target.Text = "target";
+            this.label_cal_Target.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox_calTarget
+            // 
+            this.textBox_calTarget.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox_calTarget.Location = new System.Drawing.Point(396, 602);
+            this.textBox_calTarget.Name = "textBox_calTarget";
+            this.textBox_calTarget.Size = new System.Drawing.Size(198, 29);
+            this.textBox_calTarget.TabIndex = 163;
+            this.textBox_calTarget.Text = "0.0";
+            this.textBox_calTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // ManualConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.textBox_calTarget);
+            this.Controls.Add(this.label_cal_Target);
+            this.Controls.Add(this.label_caly);
+            this.Controls.Add(this.label_calx);
+            this.Controls.Add(this.textBox_calY);
+            this.Controls.Add(this.label_SetTest_Manual_Cal);
+            this.Controls.Add(this.textBox_calX);
+            this.Controls.Add(this.button_Set_Cal);
             this.Controls.Add(this.button_Set_Rate_Save);
             this.Controls.Add(this.label_Set_Rate_Key_Val);
             this.Controls.Add(this.label_Set_Rate_Key);
@@ -1040,5 +1144,13 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_Set_Rate_Key_Val;
         private System.Windows.Forms.Label label_Set_Rate_Key;
         private System.Windows.Forms.Button button_Set_Rate_Save;
+        private System.Windows.Forms.Button button_Set_Cal;
+        private System.Windows.Forms.TextBox textBox_calX;
+        public System.Windows.Forms.Label label_SetTest_Manual_Cal;
+        private System.Windows.Forms.TextBox textBox_calY;
+        private System.Windows.Forms.Label label_calx;
+        private System.Windows.Forms.Label label_caly;
+        private System.Windows.Forms.Label label_cal_Target;
+        private System.Windows.Forms.TextBox textBox_calTarget;
     }
 }
