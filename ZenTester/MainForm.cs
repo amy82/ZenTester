@@ -148,6 +148,7 @@ namespace ZenTester
                 Globalo.setTestControl.setCamCenter();
                 Globalo.cameraControl.drawCenterCross();
             }
+
             Globalo.FxaBoardManager = new Fxa.FxaBoardManager();
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
@@ -166,14 +167,16 @@ namespace ZenTester
             //Globalo.mCCdPanel.SetSensorIni();
 
             MainUiSet();
+
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
                 SerialConnect();
             }
-           //// serverStart();      //SECS - GEM 연결
 
-            Globalo.tcpManager.ReqRecipeToSecsgem();
-            Globalo.tcpManager.ReqModelToSecsgem();
+            /// serverStart();      //SECS - GEM 연결
+
+            //Globalo.tcpManager.ReqRecipeToSecsgem();      //접속할 때 secsgem쪽에서 보내주는걸로 대체
+            //Globalo.tcpManager.ReqModelToSecsgem();
             //AOI 공정일 경우 시작할때, Secsgem으로 레시피 요청하기
             //
 

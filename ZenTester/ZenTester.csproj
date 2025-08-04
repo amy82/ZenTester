@@ -380,7 +380,6 @@
     <Compile Include="Fxa\FxaBoardManager.cs" />
     <Compile Include="Fxa\FxaEEpromVerify.cs" />
     <Compile Include="Fxa\FxaEEpromWrite.cs" />
-    <Compile Include="Http\HttpService.cs" />
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>
     </Compile>

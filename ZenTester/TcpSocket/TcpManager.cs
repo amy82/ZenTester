@@ -120,7 +120,8 @@ namespace ZenTester.TcpSocket
             EqipData.Type = "TesterData";
             TcpSocket.TesterData sendTesterata = new TcpSocket.TesterData();
             sendTesterata.Cmd = "REQ_RECIPE";
-
+            sendTesterata.CommandParameter = new List<EquipmentParameterInfo>[1];
+            sendTesterata.CommandParameter[0] = new List<EquipmentParameterInfo>();
             EqipData.Data = sendTesterata;
             Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);        //test
         }
@@ -244,29 +245,19 @@ namespace ZenTester.TcpSocket
             if (data.Cmd == "RECV_SECS_MODEL")
             {
                 string model = data.Model;
-
-                //int fwOpalUse = data.Step;
-
-                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
-                { 
-                    Globalo.FxaBoardManager.fxaFirmwardDw.fwHeatingModel = data.DataID[0]; //Trinity or Opal  두 모델만 구분
-                }
-                else
+                
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
                     string ppid = data.RecipeID;
                     Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid = ppid;
-
-                    //foreach (EquipmentParameterInfo paramInfo in data.CommandParameter)
 
                     foreach (EquipmentParameterInfo paramInfo in data.CommandParameter[0])
                     {
                         Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap[paramInfo.Name].value = paramInfo.Value;
                     }
 
-                    Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;
-                }
-                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
-                {
+                    Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe = ppid;     //TcpManager.cs
+
                     Globalo.visionManager.markUtil.LoadMark_mod(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
                     Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();     //roi load
                 }
