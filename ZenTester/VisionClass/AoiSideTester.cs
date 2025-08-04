@@ -585,8 +585,10 @@ namespace ZenTester.VisionClass
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 180, MIL.M_NULL);//150
-
+            if (Globalo.yamlManager.configData.CamSettings.HeightThreshold > 0)
+            {
+                MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, Globalo.yamlManager.configData.CamSettings.HeightThreshold, MIL.M_NULL);//180
+            }
             MilImage = tempMilImage;
 
             MIL.MbufExport($"d:\\MimBinarize{roiIndex}.BMP", MIL.M_BMP, MilImage);

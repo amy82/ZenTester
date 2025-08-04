@@ -126,6 +126,7 @@ namespace ZenTester.Dlg
             label_Set_TopCam_Test_Retry_Val.Text = Globalo.yamlManager.configData.CamSettings.TopRetry.ToString();
             label_Set_SideCam_Test_Retry_Val.Text = Globalo.yamlManager.configData.CamSettings.SideRetry.ToString();
 
+            label_Set_SideCam_Height_Threshold_Val.Text = Globalo.yamlManager.configData.CamSettings.HeightThreshold.ToString();
 
 
             label_Set_TopCam_Small_Min_Val.Text = Globalo.yamlManager.configData.CamSettings.smallCircle.min.ToString();
@@ -154,6 +155,7 @@ namespace ZenTester.Dlg
             Globalo.yamlManager.configData.CamSettings.SideResolution.X = double.Parse(label_Set_SideCam_ResolX_Val.Text);
             Globalo.yamlManager.configData.CamSettings.SideResolution.Y = double.Parse(label_Set_SideCam_ResolY_Val.Text);
             Globalo.yamlManager.configData.CamSettings.SideRetry = int.Parse(label_Set_SideCam_Test_Retry_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.HeightThreshold = int.Parse(label_Set_SideCam_Height_Threshold_Val.Text);
 
             Globalo.yamlManager.configDataSave();
             if (checkBox_Measure.Checked)
@@ -1008,6 +1010,33 @@ namespace ZenTester.Dlg
                 }
 
 
+            }
+        }
+
+        private void label_Set_SideCam_Height_Threshold_Val_Click(object sender, EventArgs e)
+        {
+            string labelValue = label_Set_SideCam_Test_Retry_Val.Text;
+            decimal decimalValue = 0;
+
+
+            string formattedValue = label_Set_SideCam_Height_Threshold_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 0)
+                {
+                    dNumData = 0;
+                }
+                if (dNumData > 255)
+                {
+                    dNumData = 255;
+                }
+                label_Set_SideCam_Height_Threshold_Val.Text = dNumData.ToString();
             }
         }
     }

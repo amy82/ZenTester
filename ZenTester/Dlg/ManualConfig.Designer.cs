@@ -96,6 +96,8 @@ namespace ZenTester.Dlg
             this.label_caly = new System.Windows.Forms.Label();
             this.label_cal_Target = new System.Windows.Forms.Label();
             this.textBox_calTarget = new System.Windows.Forms.TextBox();
+            this.label_Set_SideCam_Height_Threshold_Val = new System.Windows.Forms.Label();
+            this.label_Set_SideCam_Height_Threshold = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Top_Light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Side_Light)).BeginInit();
             this.SuspendLayout();
@@ -176,7 +178,7 @@ namespace ZenTester.Dlg
             this.button_Set_Side_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Side_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(167, 351);
+            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(258, 361);
             this.button_Set_Side_Resol_Save.Name = "button_Set_Side_Resol_Save";
             this.button_Set_Side_Resol_Save.Size = new System.Drawing.Size(103, 46);
             this.button_Set_Side_Resol_Save.TabIndex = 90;
@@ -208,7 +210,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(3, 320);
+            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(3, 319);
             this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
             this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(85, 28);
             this.label_Set_SideCam_ResolX_Val.TabIndex = 87;
@@ -263,7 +265,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(4, 260);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
-            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(266, 29);
+            this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(369, 29);
             this.label_SetTest_Manual_Side_Test.TabIndex = 92;
             this.label_SetTest_Manual_Side_Test.Text = "Side Cam Manual Test";
             this.label_SetTest_Manual_Side_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -441,9 +443,9 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Roi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Roi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Roi.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(331, 399);
+            this.label_SetTest_Manual_Roi.Location = new System.Drawing.Point(388, 399);
             this.label_SetTest_Manual_Roi.Name = "label_SetTest_Manual_Roi";
-            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(354, 29);
+            this.label_SetTest_Manual_Roi.Size = new System.Drawing.Size(297, 29);
             this.label_SetTest_Manual_Roi.TabIndex = 125;
             this.label_SetTest_Manual_Roi.Text = "Roi Set";
             this.label_SetTest_Manual_Roi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -454,7 +456,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_Key.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Key.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Key.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Key.Location = new System.Drawing.Point(331, 431);
+            this.checkBox_Roi_Key.Location = new System.Drawing.Point(388, 431);
             this.checkBox_Roi_Key.Name = "checkBox_Roi_Key";
             this.checkBox_Roi_Key.Size = new System.Drawing.Size(140, 28);
             this.checkBox_Roi_Key.TabIndex = 124;
@@ -468,7 +470,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_ORing.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_ORing.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_ORing.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(331, 462);
+            this.checkBox_Roi_ORing.Location = new System.Drawing.Point(388, 462);
             this.checkBox_Roi_ORing.Name = "checkBox_Roi_ORing";
             this.checkBox_Roi_ORing.Size = new System.Drawing.Size(135, 28);
             this.checkBox_Roi_ORing.TabIndex = 123;
@@ -482,7 +484,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_Cone.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Cone.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Cone.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(331, 493);
+            this.checkBox_Roi_Cone.Location = new System.Drawing.Point(388, 493);
             this.checkBox_Roi_Cone.Name = "checkBox_Roi_Cone";
             this.checkBox_Roi_Cone.Size = new System.Drawing.Size(141, 28);
             this.checkBox_Roi_Cone.TabIndex = 122;
@@ -496,7 +498,7 @@ namespace ZenTester.Dlg
             this.checkBox_Roi_Height.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Roi_Height.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Roi_Height.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Roi_Height.Location = new System.Drawing.Point(331, 524);
+            this.checkBox_Roi_Height.Location = new System.Drawing.Point(388, 524);
             this.checkBox_Roi_Height.Name = "checkBox_Roi_Height";
             this.checkBox_Roi_Height.Size = new System.Drawing.Size(147, 28);
             this.checkBox_Roi_Height.TabIndex = 121;
@@ -510,7 +512,7 @@ namespace ZenTester.Dlg
             this.checkBox_Measure.BackColor = System.Drawing.Color.Cornsilk;
             this.checkBox_Measure.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.checkBox_Measure.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_Measure.Location = new System.Drawing.Point(331, 368);
+            this.checkBox_Measure.Location = new System.Drawing.Point(390, 368);
             this.checkBox_Measure.Name = "checkBox_Measure";
             this.checkBox_Measure.Size = new System.Drawing.Size(221, 29);
             this.checkBox_Measure.TabIndex = 127;
@@ -930,9 +932,9 @@ namespace ZenTester.Dlg
             // textBox_calX
             // 
             this.textBox_calX.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_calX.Location = new System.Drawing.Point(396, 632);
+            this.textBox_calX.Location = new System.Drawing.Point(451, 632);
             this.textBox_calX.Name = "textBox_calX";
-            this.textBox_calX.Size = new System.Drawing.Size(198, 29);
+            this.textBox_calX.Size = new System.Drawing.Size(143, 29);
             this.textBox_calX.TabIndex = 157;
             this.textBox_calX.Text = "0.0";
             this.textBox_calX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -944,9 +946,9 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Cal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Cal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Cal.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Cal.Location = new System.Drawing.Point(331, 569);
+            this.label_SetTest_Manual_Cal.Location = new System.Drawing.Point(388, 569);
             this.label_SetTest_Manual_Cal.Name = "label_SetTest_Manual_Cal";
-            this.label_SetTest_Manual_Cal.Size = new System.Drawing.Size(350, 29);
+            this.label_SetTest_Manual_Cal.Size = new System.Drawing.Size(293, 29);
             this.label_SetTest_Manual_Cal.TabIndex = 158;
             this.label_SetTest_Manual_Cal.Text = "Cal";
             this.label_SetTest_Manual_Cal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -954,9 +956,9 @@ namespace ZenTester.Dlg
             // textBox_calY
             // 
             this.textBox_calY.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_calY.Location = new System.Drawing.Point(396, 663);
+            this.textBox_calY.Location = new System.Drawing.Point(451, 663);
             this.textBox_calY.Name = "textBox_calY";
-            this.textBox_calY.Size = new System.Drawing.Size(198, 29);
+            this.textBox_calY.Size = new System.Drawing.Size(143, 29);
             this.textBox_calY.TabIndex = 159;
             this.textBox_calY.Text = "0.0";
             this.textBox_calY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -964,7 +966,7 @@ namespace ZenTester.Dlg
             // label_calx
             // 
             this.label_calx.BackColor = System.Drawing.Color.White;
-            this.label_calx.Location = new System.Drawing.Point(335, 632);
+            this.label_calx.Location = new System.Drawing.Point(390, 632);
             this.label_calx.Name = "label_calx";
             this.label_calx.Size = new System.Drawing.Size(55, 29);
             this.label_calx.TabIndex = 160;
@@ -974,7 +976,7 @@ namespace ZenTester.Dlg
             // label_caly
             // 
             this.label_caly.BackColor = System.Drawing.Color.White;
-            this.label_caly.Location = new System.Drawing.Point(335, 663);
+            this.label_caly.Location = new System.Drawing.Point(390, 663);
             this.label_caly.Name = "label_caly";
             this.label_caly.Size = new System.Drawing.Size(55, 29);
             this.label_caly.TabIndex = 161;
@@ -984,7 +986,7 @@ namespace ZenTester.Dlg
             // label_cal_Target
             // 
             this.label_cal_Target.BackColor = System.Drawing.Color.White;
-            this.label_cal_Target.Location = new System.Drawing.Point(335, 601);
+            this.label_cal_Target.Location = new System.Drawing.Point(390, 601);
             this.label_cal_Target.Name = "label_cal_Target";
             this.label_cal_Target.Size = new System.Drawing.Size(55, 29);
             this.label_cal_Target.TabIndex = 162;
@@ -994,18 +996,48 @@ namespace ZenTester.Dlg
             // textBox_calTarget
             // 
             this.textBox_calTarget.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_calTarget.Location = new System.Drawing.Point(396, 602);
+            this.textBox_calTarget.Location = new System.Drawing.Point(451, 602);
             this.textBox_calTarget.Name = "textBox_calTarget";
-            this.textBox_calTarget.Size = new System.Drawing.Size(198, 29);
+            this.textBox_calTarget.Size = new System.Drawing.Size(143, 29);
             this.textBox_calTarget.TabIndex = 163;
             this.textBox_calTarget.Text = "0.0";
             this.textBox_calTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label_Set_SideCam_Height_Threshold_Val
+            // 
+            this.label_Set_SideCam_Height_Threshold_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_SideCam_Height_Threshold_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_SideCam_Height_Threshold_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_SideCam_Height_Threshold_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_SideCam_Height_Threshold_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_SideCam_Height_Threshold_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_Height_Threshold_Val.Location = new System.Drawing.Point(276, 319);
+            this.label_Set_SideCam_Height_Threshold_Val.Name = "label_Set_SideCam_Height_Threshold_Val";
+            this.label_Set_SideCam_Height_Threshold_Val.Size = new System.Drawing.Size(85, 28);
+            this.label_Set_SideCam_Height_Threshold_Val.TabIndex = 165;
+            this.label_Set_SideCam_Height_Threshold_Val.Text = "0";
+            this.label_Set_SideCam_Height_Threshold_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_SideCam_Height_Threshold_Val.Click += new System.EventHandler(this.label_Set_SideCam_Height_Threshold_Val_Click);
+            // 
+            // label_Set_SideCam_Height_Threshold
+            // 
+            this.label_Set_SideCam_Height_Threshold.BackColor = System.Drawing.Color.DarkGray;
+            this.label_Set_SideCam_Height_Threshold.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Set_SideCam_Height_Threshold.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_SideCam_Height_Threshold.Location = new System.Drawing.Point(276, 292);
+            this.label_Set_SideCam_Height_Threshold.Name = "label_Set_SideCam_Height_Threshold";
+            this.label_Set_SideCam_Height_Threshold.Size = new System.Drawing.Size(85, 27);
+            this.label_Set_SideCam_Height_Threshold.TabIndex = 164;
+            this.label_Set_SideCam_Height_Threshold.Text = "Height Thresh";
+            this.label_Set_SideCam_Height_Threshold.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ManualConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_Set_SideCam_Height_Threshold_Val);
+            this.Controls.Add(this.label_Set_SideCam_Height_Threshold);
             this.Controls.Add(this.textBox_calTarget);
             this.Controls.Add(this.label_cal_Target);
             this.Controls.Add(this.label_caly);
@@ -1152,5 +1184,7 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.Label label_caly;
         private System.Windows.Forms.Label label_cal_Target;
         private System.Windows.Forms.TextBox textBox_calTarget;
+        public System.Windows.Forms.Label label_Set_SideCam_Height_Threshold_Val;
+        private System.Windows.Forms.Label label_Set_SideCam_Height_Threshold;
     }
 }
