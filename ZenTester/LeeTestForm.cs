@@ -864,5 +864,39 @@ namespace ZenTester
 
             }
         }
+
+        private void button37_Click(object sender, EventArgs e)
+        {
+            //parentDlg.manualConfig.checkBox_AllRelease();
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(VisionClass.AoiTester.SIDE_INDEX);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[VisionClass.AoiTester.SIDE_INDEX];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.SIDE_INDEX];
+            int dataSize = sizeX * sizeY;
+
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.SIDE_INDEX);
+
+            OpenCvSharp.Point markPos = new OpenCvSharp.Point();
+            double score = 0.0;
+            //bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score);
+            //bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(VisionClass.AoiTester.SIDE_INDEX, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score, true);
+
+            System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
+            //if (bRtn)
+            //{
+            //    OffsetPos.X = markPos.X - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].X + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Width / 2));
+            //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
+
+            //}
+            //Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
+
+            Globalo.visionManager.aoiSideTester.MilEdgeOringTest(VisionClass.AoiTester.SIDE_INDEX, 0, OffsetPos);
+        }
+
+        private void button38_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
