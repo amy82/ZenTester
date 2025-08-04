@@ -30,7 +30,7 @@ namespace ZenTester.Data
     public class ModelListData
     {
         public _ModelData ModelData { get; set; }
-        public _OpalData OpalModelData { get; set; }
+        //public _OpalData OpalModelData { get; set; }
 
         public bool ModelLoad()
         {

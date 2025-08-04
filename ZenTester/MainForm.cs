@@ -73,8 +73,8 @@ namespace ZenTester
             Globalo.yamlManager.taskDataYaml.TaskDataLoad();
             
 
-            Globalo.yamlManager.modelLIstData.ModelLoad();
-            Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();      //ModelLoad 다음에 로드해라
+            //Globalo.yamlManager.modelLIstData.ModelLoad();
+            Globalo.yamlManager.aoiRoiConfig = Data.TaskDataYaml.Load_AoiConfig();
 
 
             //if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
@@ -88,7 +88,7 @@ namespace ZenTester
             //keyMessageFilter.KeyEvent += KeyMessageFilter_KeyEvent;
             Globalo.mlogControl = new Dlg.LogControl();// dRightPanelW, dRightPanelH);
             
-            Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
+            //Globalo.mManualPanel = new Dlg.ModelControl(dRightPanelW, dRightPanelH);
             Globalo.mConfigPanel = new Dlg.ConfigControl(dRightPanelW, dRightPanelH);
             Globalo.setTestControl = new Dlg.SetTestControl();
             Globalo.cameraControl = new Dlg.CameraControl();
@@ -376,7 +376,7 @@ namespace ZenTester
            
             Globalo.mConfigPanel.Location = new System.Drawing.Point(0, Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mAlarmPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
-            Globalo.mManualPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
+            //Globalo.mManualPanel.Location = new System.Drawing.Point(0 , Globalo.productionInfo.Height + MainBtnHGap);
             Globalo.mlogControl.Location = new System.Drawing.Point(logStartX, logStartY);// Globalo.productionInfo.Height + MainBtnHGap);
             
             //Globalo.pickerInfo.Location = new System.Drawing.Point(0, Globalo.operationPanel.Location.Y + MainBtnHGap);
@@ -384,7 +384,7 @@ namespace ZenTester
             //Globalo.trayStateInfo.Location = new System.Drawing.Point(Globalo.socketStateInfo.Location.X + Globalo.socketStateInfo.Width+10, Globalo.pickerInfo.Location.Y + Globalo.pickerInfo.Height + MainBtnHGap);
 
             //Globalo.mCCdPanel.Visible = false;
-            Globalo.mManualPanel.Visible = false;
+            //Globalo.mManualPanel.Visible = false;
             Globalo.mConfigPanel.Visible = false;
             Globalo.mAlarmPanel.Visible = false;
             Globalo.mlogControl.Visible = true;
@@ -393,7 +393,7 @@ namespace ZenTester
             //CenterPanel.Controls.Add(Globalo.mTeachPanel);
             //CenterPanel.Controls.Add(Globalo.mioPanel);
             //CenterPanel.Controls.Add(Globalo.mCCdPanel);
-            LeftPanel.Controls.Add(Globalo.mManualPanel);
+            //LeftPanel.Controls.Add(Globalo.mManualPanel);
             LeftPanel.Controls.Add(Globalo.mConfigPanel);
             LeftPanel.Controls.Add(Globalo.mAlarmPanel);
 

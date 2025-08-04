@@ -49,7 +49,7 @@ namespace ZenTester.Dlg
             int i = 0;
             //Globalo.mMainPanel.Visible = false;
             //Globalo.mTeachPanel.Visible = false;
-            Globalo.mManualPanel.Visible = false;
+            //Globalo.mManualPanel.Visible = false;
             //Globalo.mioPanel.Visible = false;
             //Globalo.mCCdPanel.Visible = false;
 

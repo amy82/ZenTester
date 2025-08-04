@@ -140,12 +140,8 @@ namespace ZenTester.Data
         }
         public static Data.AoiRoiConfig Load_AoiConfig()
         {
-            string pgPath = "";
+            string pgPath = "AoiData";
             string fileName = "AoiConfig.yaml";
-            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
-            {
-                pgPath = "AoiData";
-            }
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, pgPath, Globalo.yamlManager.secsGemDataYaml.ModelData.CurrentRecipe, fileName);       //TRAY DATA
             try
             {
