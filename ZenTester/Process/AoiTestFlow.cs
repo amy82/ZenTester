@@ -1125,15 +1125,15 @@ namespace ZenTester.Process
                         //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.ORING_ROI[0].Height / 2));
 
                         //}
-
-                        //bool bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
-                        bool bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
-                        if (IsOring == 1 && bOringRtn)
+                        bool bOringRtn = true;
+                        bOringRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(sideCamIndex, 0, OffsetPos, true);
+                        //bOringRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref dOringScore);
+                        if (IsOring == 1)
                         {
-                            if (dOringScore > Globalo.yamlManager.configData.CamSettings.ScoreOring)  //70.0)
+                            if (bOringRtn == true)      //dOringScore > Globalo.yamlManager.configData.CamSettings.ScoreOring)  //70.0)
                             {
                                 aoiApdData.ORing = "1";
-                                szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
+                                szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}"; //[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
                             else
@@ -1142,15 +1142,28 @@ namespace ZenTester.Process
                                 aoiApdData.Result = "NG";
                                 aoiApdData.ORing = "0";
 
-                                szLog = $"[SIDE CAM] ORING NG: {aoiApdData.ORing}[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
+                                szLog = $"[SIDE CAM] ORING NG: {aoiApdData.ORing}"; //[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
                         }
                         else
                         {
-                            aoiApdData.ORing = "0";
-                            szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
-                            Globalo.LogPrint("ManualControl", szLog);
+                            if (bOringRtn == false)
+                            {
+                                aoiApdData.ORing = "0";
+                                szLog = $"[SIDE CAM] ORING PASS: {aoiApdData.ORing}"; //[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            else
+                            {
+                                aoiDefectCode = "7";
+                                aoiApdData.Result = "NG";
+                                aoiApdData.ORing = "1";
+
+                                szLog = $"[SIDE CAM] ORING NG: {aoiApdData.ORing}"; //[{dOringScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreOring}]";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            
                         }
 
                         
@@ -1175,15 +1188,15 @@ namespace ZenTester.Process
                         //    OffsetPos.Y = markPos.Y - (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Y + (Globalo.yamlManager.aoiRoiConfig.CONE_ROI[0].Height / 2));
 
                         //}
-
-                        //bool bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
-                        bool bConeRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dConeScore);
+                        bool bConeRtn = true;
+                        bConeRtn = Globalo.visionManager.aoiSideTester.MilEdgeConeTest(sideCamIndex, 0, OffsetPos, true);//, src);
+                        //bConeRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(sideCamIndex, VisionClass.eMarkList.SIDE_CONE, ref markPos, ref dConeScore);
                         if (IsCone == 1)
                         {
-                            if (dConeScore > Globalo.yamlManager.configData.CamSettings.ScoreCone)  //65.0)
+                            if (bConeRtn == true)   //dConeScore > Globalo.yamlManager.configData.CamSettings.ScoreCone)  //65.0)
                             {
                                 aoiApdData.Cone = "1";
-                                szLog = $"[SIDE CAM] CONE PASS: {aoiApdData.Cone}[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                                szLog = $"[SIDE CAM] CONE PASS: {aoiApdData.Cone}"; //[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
                             else
@@ -1192,16 +1205,28 @@ namespace ZenTester.Process
                                 aoiApdData.Result = "NG";
                                 aoiApdData.Cone = "0";
 
-                                szLog = $"[SIDE CAM] CONE NG: {aoiApdData.Cone}[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                                szLog = $"[SIDE CAM] CONE NG: {aoiApdData.Cone}";   //[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
                                 Globalo.LogPrint("ManualControl", szLog);
                             }
                         }
                         else
                         {
+                            if (bConeRtn == false) 
+                            {
+                                aoiApdData.Cone = "0";
+                                szLog = $"[SIDE CAM] CONE PASS: {aoiApdData.Cone}"; //[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                            else
+                            {
+                                aoiDefectCode = "16";
+                                aoiApdData.Result = "NG";
+                                aoiApdData.Cone = "1";
 
-                            aoiApdData.Cone = "0";
-                            szLog = $"[SIDE CAM] CONE PASS: {aoiApdData.Cone}[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
-                            Globalo.LogPrint("ManualControl", szLog);
+                                szLog = $"[SIDE CAM] CONE NG: {aoiApdData.Cone}"; //[{dConeScore.ToString("0.0#")}/{Globalo.yamlManager.configData.CamSettings.ScoreCone}]";
+                                Globalo.LogPrint("ManualControl", szLog);
+                            }
+                                
                         }
 
                         Globalo.visionManager.aoiTester.FinalJpgImageSave("Side", aoiApdData.Barcode, SideMatImage);
@@ -1221,13 +1246,13 @@ namespace ZenTester.Process
                         {
                             Globalo.cameraControl.setSideTestResult(int.Parse(aoiApdData.Socket_Num), resultStr);
                         }, null);
-                        
 
-                        resultStr = $"O-Ring :{aoiApdData.ORing} / {dOringScore.ToString("0.0#")}%";
+
+                        resultStr = $"O-Ring : {aoiApdData.ORing}";// / {dOringScore.ToString("0.0#")}%";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 600);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 
-                        resultStr = $"Cone :{aoiApdData.Cone} / {dConeScore.ToString("0.0#")}%";
+                        resultStr = $"Cone :{aoiApdData.Cone}";// / {dConeScore.ToString("0.0#")}%";
                         txtPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[sideCamIndex] - 500);
                         Globalo.visionManager.milLibrary.DrawOverlayText(sideCamIndex, txtPoint, resultStr, Color.GreenYellow, 13);
 

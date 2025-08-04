@@ -77,10 +77,10 @@ namespace ZenTester.VisionClass
 
             MIL.MimBinarize(MilImage, MilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
 
-            MIL.MbufExport("d:\\oring.BMP", MIL.M_BMP, MilImage);
+            //MIL.MbufExport("d:\\oring.BMP", MIL.M_BMP, MilImage);
 
 
-            MIL.MbufExport("d:\\MilImage2.BMP", MIL.M_BMP, MilImage);
+            //MIL.MbufExport("d:\\MilImage2.BMP", MIL.M_BMP, MilImage);
             /* Allocate a graphic list to hold the subpixel annotations to draw. */
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
             /* Associate the graphic list to the display for annotations. */
@@ -144,7 +144,7 @@ namespace ZenTester.VisionClass
             int maxIndex = 0;
             double CircleCx = 0.0;
             double CircleErr = 0.0;
-            double circleSpec = 350.0;
+            double circleSpec = 500.0;// 350.0;
             string str = ""; 
             Color OringColor;
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
@@ -214,9 +214,10 @@ namespace ZenTester.VisionClass
 
                 str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
                 Console.WriteLine(str);
+                Globalo.LogPrint("", str);
                 //textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
                 //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
-                
+
                 if (bRtn)
                 {
                     str = $"O-RING - 1";
@@ -318,7 +319,7 @@ namespace ZenTester.VisionClass
 
             MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
 
-            MIL.MbufExport("d:\\cone.BMP", MIL.M_BMP, tempMilImage);
+            //MIL.MbufExport("d:\\cone.BMP", MIL.M_BMP, tempMilImage);
 
 
             MilImage = tempMilImage;
@@ -584,7 +585,7 @@ namespace ZenTester.VisionClass
 
             //MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
             // 1. 고정 임계값 128 이상만 흰색
-           // MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 180, MIL.M_NULL);//150
+            MIL.MimBinarize(tempMilImage, tempMilImage, MIL.M_FIXED + MIL.M_GREATER, 180, MIL.M_NULL);//150
 
             MilImage = tempMilImage;
 

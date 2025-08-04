@@ -477,8 +477,9 @@ namespace ZenTester.Dlg
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
             double score = 0.0;
-            //bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score);
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score, true);
+            bool bRtn = true;
+            //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score);
+            //bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.SIDE_ORING, ref markPos, ref score, true);
 
             System.Drawing.Point OffsetPos = new System.Drawing.Point(0, 0);
             //if (bRtn)
@@ -489,11 +490,11 @@ namespace ZenTester.Dlg
             //}
             //Globalo.visionManager.milLibrary.ClearOverlay_Manual(parentDlg.CamIndex);
 
-            // Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
+            bRtn = Globalo.visionManager.aoiSideTester.MilEdgeOringTest(parentDlg.CamIndex, 0, OffsetPos);
 
             Globalo.visionManager.milLibrary.SetGrabOn(parentDlg.CamIndex, true);
 
-            //Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.DrawOverlayAll(parentDlg.CamIndex);
         }
         private void CONE_TEST()
         {
