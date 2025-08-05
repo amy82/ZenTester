@@ -524,7 +524,7 @@ namespace ZenTester.VisionClass
             MIL.MbufExport($"d:\\org_Key{roiIndex}.BMP", MIL.M_BMP, tempMilImage);
             //MIL.MgraColor(MIL.M_DEFAULT, 0);
             MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, 0);
-            if (keyType == "A")
+            if (keyType == "A") //34.62도
             {
                 if (roiIndex == 0)
                 {
@@ -538,7 +538,7 @@ namespace ZenTester.VisionClass
                     MIL.MgraArcFill(MIL.M_DEFAULT, tempMilImage, 0, 0, OffsetWidth / 1.6, OffsetWidth / 1.5, 270, 360);
                 }
             }
-            if (keyType == "B")
+            if (keyType == "B") //47.88도
             {
                 if (roiIndex == 0)
                 {

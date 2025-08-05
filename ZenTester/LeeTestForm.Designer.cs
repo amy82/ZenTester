@@ -73,6 +73,7 @@ namespace ZenTester
             this.button36 = new System.Windows.Forms.Button();
             this.button37 = new System.Windows.Forms.Button();
             this.button38 = new System.Windows.Forms.Button();
+            this.button39 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Con1_Test
@@ -80,7 +81,7 @@ namespace ZenTester
             this.button_Con1_Test.BackColor = System.Drawing.Color.IndianRed;
             this.button_Con1_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Con1_Test.ForeColor = System.Drawing.Color.White;
-            this.button_Con1_Test.Location = new System.Drawing.Point(167, 203);
+            this.button_Con1_Test.Location = new System.Drawing.Point(119, 33);
             this.button_Con1_Test.Name = "button_Con1_Test";
             this.button_Con1_Test.Size = new System.Drawing.Size(76, 34);
             this.button_Con1_Test.TabIndex = 0;
@@ -93,7 +94,7 @@ namespace ZenTester
             this.button1.BackColor = System.Drawing.Color.IndianRed;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(167, 224);
+            this.button1.Location = new System.Drawing.Point(132, 33);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 34);
             this.button1.TabIndex = 1;
@@ -438,7 +439,7 @@ namespace ZenTester
             this.button26.BackColor = System.Drawing.Color.PeachPuff;
             this.button26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button26.ForeColor = System.Drawing.Color.Black;
-            this.button26.Location = new System.Drawing.Point(132, 264);
+            this.button26.Location = new System.Drawing.Point(149, 203);
             this.button26.Name = "button26";
             this.button26.Size = new System.Drawing.Size(127, 34);
             this.button26.TabIndex = 28;
@@ -532,7 +533,7 @@ namespace ZenTester
             this.button33.BackColor = System.Drawing.Color.Black;
             this.button33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button33.ForeColor = System.Drawing.Color.White;
-            this.button33.Location = new System.Drawing.Point(158, 312);
+            this.button33.Location = new System.Drawing.Point(3, 472);
             this.button33.Name = "button33";
             this.button33.Size = new System.Drawing.Size(127, 34);
             this.button33.TabIndex = 35;
@@ -630,11 +631,25 @@ namespace ZenTester
             this.button38.UseVisualStyleBackColor = false;
             this.button38.Click += new System.EventHandler(this.button38_Click);
             // 
+            // button39
+            // 
+            this.button39.BackColor = System.Drawing.Color.PeachPuff;
+            this.button39.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button39.ForeColor = System.Drawing.Color.Black;
+            this.button39.Location = new System.Drawing.Point(149, 264);
+            this.button39.Name = "button39";
+            this.button39.Size = new System.Drawing.Size(127, 34);
+            this.button39.TabIndex = 44;
+            this.button39.Text = "Key Edge Angle";
+            this.button39.UseVisualStyleBackColor = false;
+            this.button39.Click += new System.EventHandler(this.button39_Click);
+            // 
             // LeeTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 561);
+            this.Controls.Add(this.button39);
             this.Controls.Add(this.button38);
             this.Controls.Add(this.button37);
             this.Controls.Add(this.button36);
@@ -732,5 +747,6 @@ namespace ZenTester
         private System.Windows.Forms.Button button36;
         private System.Windows.Forms.Button button37;
         private System.Windows.Forms.Button button38;
+        private System.Windows.Forms.Button button39;
     }
 }

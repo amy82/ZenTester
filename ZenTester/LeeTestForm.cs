@@ -924,5 +924,81 @@ namespace ZenTester
             Globalo.visionManager.aoiSideTester.MilEdgeConeTest(VisionClass.AoiTester.SIDE_INDEX, 0, OffsetPos);
             Globalo.visionManager.milLibrary.DrawOverlayAll(VisionClass.AoiTester.SIDE_INDEX);
         }
+
+        private void button39_Click(object sender, EventArgs e)
+        {
+            bool rtn = true;
+            //parentDlg.manualConfig.checkBox_AllRelease();
+            Globalo.visionManager.milLibrary.ClearOverlay_Manual(VisionClass.AoiTester.SIDE_INDEX);
+
+            int sizeX = Globalo.visionManager.milLibrary.CAM_SIZE_X[VisionClass.AoiTester.SIDE_INDEX];
+            int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.SIDE_INDEX];
+            int dataSize = sizeX * sizeY;
+
+
+            //A ~ D: 2개씩
+            //E 타입만 1개
+            string keyType = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value;
+
+
+            int key1Rtn = 0;
+            int key2Rtn = 0;
+            double offsetx = 0.0;
+            double offsety = 0.0;
+            double dKeyScore = 0.0;
+
+            byte[] ImageBuffer = new byte[dataSize];
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, false);
+            Globalo.visionManager.milLibrary.GetSnapImage(VisionClass.AoiTester.TOP_INDEX);
+
+            MIL.MbufGet(Globalo.visionManager.milLibrary.MilProcImageChild[VisionClass.AoiTester.TOP_INDEX], ImageBuffer);
+            Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
+            Mat src = new Mat(sizeY, sizeX, MatType.CV_8UC1);
+            Marshal.Copy(ImageBuffer, 0, src.Data, dataSize);
+
+            double dScore = 0.0;
+            OpenCvSharp.Point TopCenterPos = new OpenCvSharp.Point();
+            //rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(VisionClass.AoiTester.TOP_INDEX, src, ref TopCenterPos[VisionClass.AoiTester.TOP_INDEX], true);     //가장 작은 원의 중심 찾기
+            rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(VisionClass.AoiTester.TOP_INDEX, VisionClass.eMarkList.TOP_CENTER, ref TopCenterPos, ref dScore);
+            if (rtn)
+            {
+                //offsetx = TopCenterPos.X - parentDlg.centerPos[parentDlg.CamIndex].X;
+                //offsety = TopCenterPos.Y - parentDlg.centerPos[parentDlg.CamIndex].Y;
+            }
+
+
+            //OpenCvSharp.Point markPos = new OpenCvSharp.Point();
+            //bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+
+            key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(VisionClass.AoiTester.TOP_INDEX, 0, keyType, offsetx, offsety);        //키검사
+            if (keyType != "E")
+            {
+                key2Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(VisionClass.AoiTester.TOP_INDEX, 1, keyType, offsetx, offsety);        //키검사
+            }
+
+
+
+            string str = string.Empty;
+            System.Drawing.Point clPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[VisionClass.AoiTester.TOP_INDEX] - 300);
+            //str = $"Key {keyType} - {key1Rtn} / {key2Rtn} ";
+
+
+
+            if (key1Rtn == 1 && key2Rtn == 1)
+            {
+                //성공
+                str = $"Key :{1}";
+                Globalo.visionManager.milLibrary.m_clMilDrawText[VisionClass.AoiTester.TOP_INDEX].AddList(clPoint, str, "나눔고딕", Color.GreenYellow, 13);
+            }
+            else
+            {
+                str = $"Key :{0}";
+                Globalo.visionManager.milLibrary.m_clMilDrawText[VisionClass.AoiTester.TOP_INDEX].AddList(clPoint, str, "나눔고딕", Color.Red, 13);
+            }
+
+
+
+            Globalo.visionManager.milLibrary.DrawOverlayAll(VisionClass.AoiTester.TOP_INDEX, 0);
+        }
     }
 }
