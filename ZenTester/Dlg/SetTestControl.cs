@@ -209,15 +209,31 @@ namespace ZenTester.Dlg
             Globalo.visionManager.milLibrary.SetGrabOn(index, true);
             if (index == 0)
             {
+
                 button_SetTest_TopCam.BackColor = Color.Black;
                 button_SetTest_SideCam.BackColor = Color.DarkGray;
-                label_SetTest_Title.Text = "Top Setting Camera";
+
+
+                label_SetTest_Top_Title.BackColor = Color.Black;
+                label_SetTest_Side_Title.BackColor = Color.DarkGray;
+
+                label_SetTest_Top_Title.ForeColor = Color.White;
+                label_SetTest_Side_Title.ForeColor = Color.Silver;
+                //label_SetTest_Top_Title.Text = "Top Setting Camera";
             }
             else
             {
                 button_SetTest_SideCam.BackColor = Color.Black;
                 button_SetTest_TopCam.BackColor = Color.DarkGray;
-                label_SetTest_Title.Text = "Side Setting Camera";
+
+
+                label_SetTest_Side_Title.BackColor = Color.Black;
+                label_SetTest_Top_Title.BackColor = Color.DarkGray;
+
+                label_SetTest_Side_Title.ForeColor = Color.White;
+                label_SetTest_Top_Title.ForeColor = Color.Silver;
+
+                //label_SetTest_Top_Title.Text = "Side Setting Camera";
             }
 
             manualTest.setManualView(index);
@@ -727,6 +743,18 @@ namespace ZenTester.Dlg
         private void btn_Set_Config_Control_Click(object sender, EventArgs e)
         {
             SetBtnChange(eManualBtn.ConfigTab);
+        }
+
+        private void label_SetTest_Title_Click(object sender, EventArgs e)
+        {
+            CamIndex = 0;
+            setTestView(CamIndex);
+        }
+
+        private void label_SetTest_Side_Title_Click(object sender, EventArgs e)
+        {
+            CamIndex = 1;
+            setTestView(CamIndex);
         }
     }
 }

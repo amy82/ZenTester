@@ -1285,7 +1285,9 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             var edges = new Mat();
-
+            // CLAHE로 명암대비 강화
+            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));
+            clahe.Apply(gray, gray);
             Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0, 1.0, BorderTypes.Default);// 0.7);
             //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0);// 0.7);
             //Cv2.MedianBlur(gray, blurred, 9);
@@ -1666,15 +1668,18 @@ namespace ZenTester.VisionClass
 
             Mat binary = new Mat();
             var blurred = new Mat();
-            //var edges = new Mat();
-            //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(5, 5), 0.0);
+            // CLAHE로 명암대비 강화
+            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));
+            clahe.Apply(gray, gray);
+
+            //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(1, 1), 0.1);
             Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(5, 5), 1.0, 1.0, BorderTypes.Default);// 0.7);
 
 
             //Cv2.NamedWindow("Detected blurred ", WindowFlags.Normal);  // 수동 크기 조정 가능 창 생성
             //Cv2.ImShow("Detected blurred ", blurred);
             //Cv2.WaitKey(0);
-
+            //var edges = new Mat();
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
 
             //int weakedge = 65;//40;      //<-- 이값보다 작으면 무시
@@ -1688,7 +1693,7 @@ namespace ZenTester.VisionClass
             //    Cv2.WaitKey(0);
             //}
 
-            
+
             //픽셀마다 기준 밝기를 계산할 때, 주변 영역 크기를 의미해요.
             //작을수록 세밀한 기준 밝기 계산 → 노이즈에 민감
             //클수록 넓은 영역 기준 → 밝기 변화 큰 영역에 안정적
@@ -1701,9 +1706,8 @@ namespace ZenTester.VisionClass
 #endif
             //작은원 30
             //큰원 18
-            int minThresh = Globalo.yamlManager.configData.CamSettings.ConThreshold;// 140;//150;
-            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);//Tozero);
-            //Cv2.Threshold(gray, binary, minThresh, 255, ThresholdTypes.Tozero);//Tozero);
+            int minThresh = Globalo.yamlManager.configData.CamSettings.ConThreshold;    // 140;//150;
+            Cv2.Threshold(blurred, binary, minThresh, 255, ThresholdTypes.Tozero);      //Tozero);
 
 
 
@@ -1715,7 +1719,7 @@ namespace ZenTester.VisionClass
             Mat kernel = Cv2.GetStructuringElement(MorphShapes.Ellipse, new OpenCvSharp.Size(1, 1));//(5, 5));
             //Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
             Cv2.MorphologyEx(binary, binary, MorphTypes.Close, kernel);     //끊어졌거나 희미한 외곽선을 연결
-            Cv2.Dilate(binary, binary, kernel);
+            //Cv2.Dilate(binary, binary, kernel);
 
             if (IMG_VIEW)
             {
