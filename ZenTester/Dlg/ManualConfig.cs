@@ -908,9 +908,9 @@ namespace ZenTester.Dlg
                 {
                     dNumData = 1;
                 }
-                if (dNumData > 100)
+                if (dNumData > 5000)
                 {
-                    dNumData = 100;
+                    dNumData = 5000;
                 }
                 label_Set_Rate_Oring_Val.Text = dNumData.ToString();
             }
@@ -932,9 +932,9 @@ namespace ZenTester.Dlg
                 {
                     dNumData = 1;
                 }
-                if (dNumData > 100)
+                if (dNumData > 5000)
                 {
-                    dNumData = 100;
+                    dNumData = 5000;
                 }
                 label_Set_Rate_Cone_Val.Text = dNumData.ToString();
             }

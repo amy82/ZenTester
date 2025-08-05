@@ -144,7 +144,7 @@ namespace ZenTester.VisionClass
             int maxIndex = 0;
             double CircleCx = 0.0;
             double CircleErr = 0.0;
-            double circleSpec = 500.0;// 350.0;
+            int circleSpec = Globalo.yamlManager.configData.CamSettings.ScoreOring;// 500.0;// 
             string str = ""; 
             Color OringColor;
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
@@ -183,8 +183,8 @@ namespace ZenTester.VisionClass
                 {
                     bRtn = true;
                 }
-                Console.WriteLine($"Circle Fit Center X : {CircleCx}");
-                Console.WriteLine($"Circle Fit Error : {CircleErr}");
+                Console.WriteLine($"[ORING] Circle Fit Center X : {CircleCx}");
+                Console.WriteLine($"[ORING] Circle Fit Error : {CircleErr}");
 
                 //Console.WriteLine($"Height : {(maxValue - minValue)}, {(maxValue - minValue) * Globalo.visionManager.CamResol.Y}");
                 //int OffsetX = 800;
@@ -212,7 +212,7 @@ namespace ZenTester.VisionClass
                 Globalo.visionManager.milLibrary.m_clMilDrawBox[index].AddList(m_clRect, 2, Color.Green, System.Drawing.Drawing2D.DashStyle.Solid);
                 System.Drawing.Point textPoint;
 
-                str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+                str = $"[O-RING] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.0")}";
                 Console.WriteLine(str);
                 Globalo.LogPrint("", str);
                 //textPoint = new System.Drawing.Point(100, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
@@ -399,7 +399,7 @@ namespace ZenTester.VisionClass
             string str = "";
             Rectangle m_clRect = new Rectangle((int)(OffsetX), (int)(OffsetY), OffsetWidth, OffsetHeight);
             // If the right number of edges were found.
-            double circleSpec = 900.0;
+            int conSpec = Globalo.yamlManager.configData.CamSettings.ScoreCone;// 900.0;
             Color ConeColor;
             if (NumResults <= CONTOUR_MAX_RESULTS)
             {
@@ -436,7 +436,7 @@ namespace ZenTester.VisionClass
                 CircleCx = EdgeCircleFitCx[0];
                 CircleErr = EdgeCircleFitErr[0];
 
-                if (CircleErr < circleSpec)      //CircleCx < circleSpec || 
+                if (CircleErr < conSpec)      //CircleCx < circleSpec || 
                 {
                     //오링 없음
                     bRtn = false;
@@ -483,8 +483,10 @@ namespace ZenTester.VisionClass
 
                 System.Drawing.Point textPoint;
 
-                str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{circleSpec.ToString("0.00#")}";
+                str = $"[CONE] Circle Fit:{CircleErr.ToString("0.000")}/{conSpec.ToString("0.0")}";
                 Console.WriteLine(str);
+                Globalo.LogPrint("", str);
+
                 //textPoint = new System.Drawing.Point(10, Globalo.visionManager.milLibrary.CAM_SIZE_Y[index] - 250);
                 //Globalo.visionManager.milLibrary.DrawOverlayText(index, textPoint, str, Color.Blue, 17);
 

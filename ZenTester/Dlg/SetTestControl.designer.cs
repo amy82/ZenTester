@@ -40,11 +40,11 @@ namespace ZenTester.Dlg
             // label_SetTest_Title
             // 
             this.label_SetTest_Title.BackColor = System.Drawing.Color.Black;
-            this.label_SetTest_Title.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Title.ForeColor = System.Drawing.Color.White;
             this.label_SetTest_Title.Location = new System.Drawing.Point(3, 10);
             this.label_SetTest_Title.Name = "label_SetTest_Title";
-            this.label_SetTest_Title.Size = new System.Drawing.Size(1020, 23);
+            this.label_SetTest_Title.Size = new System.Drawing.Size(1040, 23);
             this.label_SetTest_Title.TabIndex = 2;
             this.label_SetTest_Title.Text = "Top Setting Camera";
             this.label_SetTest_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -54,7 +54,7 @@ namespace ZenTester.Dlg
             this.Set_panelCam.BackColor = System.Drawing.Color.DarkKhaki;
             this.Set_panelCam.Location = new System.Drawing.Point(3, 35);
             this.Set_panelCam.Name = "Set_panelCam";
-            this.Set_panelCam.Size = new System.Drawing.Size(1020, 730);
+            this.Set_panelCam.Size = new System.Drawing.Size(1040, 760);
             this.Set_panelCam.TabIndex = 4;
             this.Set_panelCam.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseDown);
             this.Set_panelCam.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Set_panelCam_MouseMove);
@@ -90,7 +90,7 @@ namespace ZenTester.Dlg
             // 
             this.btn_Set_Config_Control.BackColor = System.Drawing.Color.Tan;
             this.btn_Set_Config_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Set_Config_Control.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_Set_Config_Control.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_Set_Config_Control.ForeColor = System.Drawing.Color.White;
             this.btn_Set_Config_Control.Location = new System.Drawing.Point(1643, 10);
             this.btn_Set_Config_Control.Name = "btn_Set_Config_Control";
@@ -104,7 +104,7 @@ namespace ZenTester.Dlg
             // 
             this.btn_Set_Test_Control.BackColor = System.Drawing.Color.Tan;
             this.btn_Set_Test_Control.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Set_Test_Control.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_Set_Test_Control.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_Set_Test_Control.ForeColor = System.Drawing.Color.White;
             this.btn_Set_Test_Control.Location = new System.Drawing.Point(1554, 10);
             this.btn_Set_Test_Control.Name = "btn_Set_Test_Control";
