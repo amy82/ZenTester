@@ -1288,7 +1288,7 @@ namespace ZenTester.VisionClass
             // CLAHE로 명암대비 강화
             var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(50, 50));//(40, 40));
             clahe.Apply(gray, gray);
-            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0, 1.0, BorderTypes.Default);
+            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(1, 1), 1.0, 1.0, BorderTypes.Default);
 
             //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0);// 0.7);
             //Cv2.MedianBlur(gray, blurred, 9);
