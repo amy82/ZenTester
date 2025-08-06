@@ -42,18 +42,18 @@ namespace ZenTester.Dlg
         {
             if (index == VisionClass.AoiTester.TOP_INDEX)
             {
-                label_SetTest_Manual_Top_Test.Text = "Top Cam Manual Test";
-                button_Set_Housing_Test.Text = "HOUSING TEST";
-                button_Set_Gasket_Test.Text = "GASKET TEST";
-                button_Set_Dent_Test.Text = "DENT TEST";
+                label_SetTest_Manual_Top_Test.Text = "TOP CAM TEST";
+                button_Set_Housing_Test.Text = "Housing Test";
+                button_Set_Gasket_Test.Text = "Gasket Test";
+                button_Set_Dent_Test.Text = "Dent Test";
                 button_Set_Key_Test.Visible = true;
             }
             else
-            {
-                label_SetTest_Manual_Top_Test.Text = "Side Cam Manual Test";
-                button_Set_Housing_Test.Text = "ORING TEST";
-                button_Set_Gasket_Test.Text = "CONE TEST";
-                button_Set_Dent_Test.Text = "HEIGHT TEST";
+            { 
+                label_SetTest_Manual_Top_Test.Text = "SIDE CAM TEST";
+                button_Set_Housing_Test.Text = "Oring Test";
+                button_Set_Gasket_Test.Text = "Cone Test";
+                button_Set_Dent_Test.Text = "Height Test";
                 button_Set_Key_Test.Visible = false;
             }
         }
@@ -445,7 +445,7 @@ namespace ZenTester.Dlg
             //----------------------------------------------------------------------------------------------------------------------------------------------
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
             double score = 0.0;
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, true);
+            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, false);
 
 
 

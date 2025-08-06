@@ -1286,9 +1286,10 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             var edges = new Mat();
             // CLAHE로 명암대비 강화
-            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));
+            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));//(40, 40));
             clahe.Apply(gray, gray);
-            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0, 1.0, BorderTypes.Default);// 0.7);
+            Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0, 1.0, BorderTypes.Default);
+
             //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0);// 0.7);
             //Cv2.MedianBlur(gray, blurred, 9);
             //Cv2.Canny(blurred, edges, 190, 75);  // 윤곽 강화
@@ -1669,7 +1670,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             // CLAHE로 명암대비 강화
-            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));
+            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));//(40, 40));
             clahe.Apply(gray, gray);
 
             //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(1, 1), 0.1);

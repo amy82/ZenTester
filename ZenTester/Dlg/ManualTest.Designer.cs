@@ -116,10 +116,10 @@ namespace ZenTester.Dlg
             // 
             this.label_SetTest_Manual_Image_Load.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Image_Load.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(29, 624);
+            this.label_SetTest_Manual_Image_Load.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_SetTest_Manual_Image_Load.Location = new System.Drawing.Point(29, 628);
             this.label_SetTest_Manual_Image_Load.Name = "label_SetTest_Manual_Image_Load";
-            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(180, 38);
+            this.label_SetTest_Manual_Image_Load.Size = new System.Drawing.Size(180, 42);
             this.label_SetTest_Manual_Image_Load.TabIndex = 99;
             this.label_SetTest_Manual_Image_Load.Text = "Bmp Load";
             this.label_SetTest_Manual_Image_Load.UseVisualStyleBackColor = false;
@@ -129,10 +129,10 @@ namespace ZenTester.Dlg
             // 
             this.label_SetTest_Manual_Image_Save.BackColor = System.Drawing.Color.Tan;
             this.label_SetTest_Manual_Image_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Image_Save.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Image_Save.Location = new System.Drawing.Point(29, 586);
             this.label_SetTest_Manual_Image_Save.Name = "label_SetTest_Manual_Image_Save";
-            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(180, 38);
+            this.label_SetTest_Manual_Image_Save.Size = new System.Drawing.Size(180, 42);
             this.label_SetTest_Manual_Image_Save.TabIndex = 98;
             this.label_SetTest_Manual_Image_Save.Text = "Bmp Save";
             this.label_SetTest_Manual_Image_Save.UseVisualStyleBackColor = false;
@@ -248,7 +248,7 @@ namespace ZenTester.Dlg
             this.button_Set_Dent_Test.Name = "button_Set_Dent_Test";
             this.button_Set_Dent_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Dent_Test.TabIndex = 109;
-            this.button_Set_Dent_Test.Text = "DENT/Height TEST";
+            this.button_Set_Dent_Test.Text = "DENT / HEIGHT";
             this.button_Set_Dent_Test.UseVisualStyleBackColor = false;
             this.button_Set_Dent_Test.Click += new System.EventHandler(this.button_Set_Dent_Test_Click);
             // 
@@ -261,7 +261,7 @@ namespace ZenTester.Dlg
             this.button_Set_Gasket_Test.Name = "button_Set_Gasket_Test";
             this.button_Set_Gasket_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Gasket_Test.TabIndex = 108;
-            this.button_Set_Gasket_Test.Text = "GASKET/cone TEST";
+            this.button_Set_Gasket_Test.Text = "GASKET / CONE";
             this.button_Set_Gasket_Test.UseVisualStyleBackColor = false;
             this.button_Set_Gasket_Test.Click += new System.EventHandler(this.button_Set_Gasket_Test_Click);
             // 
@@ -274,7 +274,7 @@ namespace ZenTester.Dlg
             this.button_Set_Housing_Test.Name = "button_Set_Housing_Test";
             this.button_Set_Housing_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Housing_Test.TabIndex = 107;
-            this.button_Set_Housing_Test.Text = "HOUSING/oring TEST";
+            this.button_Set_Housing_Test.Text = "HOUSING / ORING";
             this.button_Set_Housing_Test.UseVisualStyleBackColor = false;
             this.button_Set_Housing_Test.Click += new System.EventHandler(this.button_Set_Housing_Test_Click);
             // 
@@ -287,7 +287,7 @@ namespace ZenTester.Dlg
             this.button_Set_Key_Test.Name = "button_Set_Key_Test";
             this.button_Set_Key_Test.Size = new System.Drawing.Size(180, 70);
             this.button_Set_Key_Test.TabIndex = 106;
-            this.button_Set_Key_Test.Text = "KEY TEST";
+            this.button_Set_Key_Test.Text = "KEY";
             this.button_Set_Key_Test.UseVisualStyleBackColor = false;
             this.button_Set_Key_Test.Click += new System.EventHandler(this.button_Set_Key_Test_Click);
             // 
@@ -308,7 +308,7 @@ namespace ZenTester.Dlg
             // 
             // label_SetTest_Manual_Top_Test
             // 
-            this.label_SetTest_Manual_Top_Test.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label_SetTest_Manual_Top_Test.BackColor = System.Drawing.Color.SandyBrown;
             this.label_SetTest_Manual_Top_Test.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Top_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -317,7 +317,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Test.Name = "label_SetTest_Manual_Top_Test";
             this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(180, 38);
             this.label_SetTest_Manual_Top_Test.TabIndex = 104;
-            this.label_SetTest_Manual_Top_Test.Text = "Top Cam Manual Test";
+            this.label_SetTest_Manual_Top_Test.Text = "TOP CAM TEST";
             this.label_SetTest_Manual_Top_Test.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button_Pogo_Find_Test
@@ -350,12 +350,12 @@ namespace ZenTester.Dlg
             // 
             this.button_Top_Manual_Auto.BackColor = System.Drawing.Color.Tan;
             this.button_Top_Manual_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Top_Manual_Auto.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Top_Manual_Auto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Top_Manual_Auto.Location = new System.Drawing.Point(29, 413);
             this.button_Top_Manual_Auto.Name = "button_Top_Manual_Auto";
             this.button_Top_Manual_Auto.Size = new System.Drawing.Size(180, 51);
             this.button_Top_Manual_Auto.TabIndex = 116;
-            this.button_Top_Manual_Auto.Text = "MANUAL TOP AUTO";
+            this.button_Top_Manual_Auto.Text = "MANUAL TOP TEST";
             this.button_Top_Manual_Auto.UseVisualStyleBackColor = false;
             this.button_Top_Manual_Auto.Click += new System.EventHandler(this.button_Top_Manual_Auto_Click);
             // 
@@ -363,12 +363,12 @@ namespace ZenTester.Dlg
             // 
             this.button_Side_Manual_Auto.BackColor = System.Drawing.Color.Tan;
             this.button_Side_Manual_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Side_Manual_Auto.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_Side_Manual_Auto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Side_Manual_Auto.Location = new System.Drawing.Point(29, 464);
             this.button_Side_Manual_Auto.Name = "button_Side_Manual_Auto";
             this.button_Side_Manual_Auto.Size = new System.Drawing.Size(180, 51);
             this.button_Side_Manual_Auto.TabIndex = 117;
-            this.button_Side_Manual_Auto.Text = "MANUAL SIDE AUTO";
+            this.button_Side_Manual_Auto.Text = "MANUAL SIDE TEST";
             this.button_Side_Manual_Auto.UseVisualStyleBackColor = false;
             this.button_Side_Manual_Auto.Click += new System.EventHandler(this.button_Side_Manual_Auto_Click);
             // 
@@ -396,16 +396,16 @@ namespace ZenTester.Dlg
             // 
             // label_SetTest_Manual_Image
             // 
-            this.label_SetTest_Manual_Image.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label_SetTest_Manual_Image.BackColor = System.Drawing.Color.SandyBrown;
             this.label_SetTest_Manual_Image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Image.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_SetTest_Manual_Image.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_SetTest_Manual_Image.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Image.ForeColor = System.Drawing.Color.Black;
             this.label_SetTest_Manual_Image.Location = new System.Drawing.Point(29, 548);
             this.label_SetTest_Manual_Image.Name = "label_SetTest_Manual_Image";
             this.label_SetTest_Manual_Image.Size = new System.Drawing.Size(180, 38);
             this.label_SetTest_Manual_Image.TabIndex = 119;
-            this.label_SetTest_Manual_Image.Text = "Image Set";
+            this.label_SetTest_Manual_Image.Text = "IMAGE SET";
             this.label_SetTest_Manual_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ManualTest
