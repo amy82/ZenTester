@@ -170,7 +170,7 @@ namespace ZenTester.VisionClass
 
                 Point2f center = new Point2f();
                 float radius = 0.0f;
-                if (contour.Length >= 5)
+                if (contour.Length >= 500)
                 {
                     try
                     {
@@ -291,7 +291,7 @@ namespace ZenTester.VisionClass
                 // 외접 원 그리기
                 Point2f center = new Point2f();
                 float radius = 0.0f;
-                if (contour.Length >= 5)
+                if (contour.Length >= 500)
                 {
                     try
                     {
@@ -320,7 +320,7 @@ namespace ZenTester.VisionClass
 
                     Rectangle m_clRect = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
 
-                    if (contour.Length >= 5)
+                    if (contour.Length >= 500)
                     {
                         pogoFindFlag = true;
                         RotatedRect ellipse = Cv2.FitEllipse(contour);
@@ -1406,13 +1406,13 @@ namespace ZenTester.VisionClass
 
                 //if (perimeter == 0) continue; // 나누기 에러 방지
 
-                double minArea = 1841053.5;
-                double maxArea = 2136083.5;
+                //double minArea = 1841053.5;
+                //double maxArea = 2136083.5;
 
-                if (area > minArea && area < maxArea)
-                {
-                    //continue;
-                }
+                //if (area > minArea && area < maxArea)
+                //{
+                //    //continue;
+                //}
 
 
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
@@ -1420,11 +1420,22 @@ namespace ZenTester.VisionClass
                 Point2f center = new Point2f();
                 float radius = 0.0f;
 
-                if (contour.Length >= 3)//5)
+                if (contour.Length >= 100)//5)      //Fakra
                 {
                     try
                     {
-                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                        //Cv2.MinEnclosingCircle(contour, out center, out radius);
+
+                        RotatedRect ellipse = Cv2.FitEllipse(contour);
+
+                        center = ellipse.Center;
+                        Size2f axes = ellipse.Size; // 가로/세로 축 길이
+                        float angle = ellipse.Angle;
+
+                        // 원으로 근사한 반지름 (가로 세로 평균의 절반)
+                        radius = (axes.Width + axes.Height) / 4f;
+
+                        Cv2.Ellipse(colorView, ellipse, Scalar.Red, 3); // 결과 시각화
                     }
                     catch (Exception ex)
                     {
@@ -1494,8 +1505,16 @@ namespace ZenTester.VisionClass
                 Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 3);   // 내경
                 Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 3);  // 외경
 
-                Console.Write($"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n");
-                Console.Write($"[maxCircle] {maxCircle.center.X},{maxCircle.center.Y}, radius: {maxCircle.radius}\n");
+                //Console.Write($"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n");
+                //Console.Write($"[maxCircle] {maxCircle.center.X},{maxCircle.center.Y}, radius: {maxCircle.radius}\n");
+
+                str = $"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n";
+                Console.Write(str);
+                Globalo.LogPrint("ManualControl", str);
+                str = $"[maxCircle] {maxCircle.center.X},{maxCircle.center.Y}, radius: {maxCircle.radius}\n";
+                Console.Write(str);
+                Globalo.LogPrint("ManualControl", str);
+
                 System.Drawing.Point clPoint;
 
                 //Rectangle m_clRect2 = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
@@ -1796,7 +1815,7 @@ namespace ZenTester.VisionClass
                 Point2f center = new Point2f();
                 float radius = 0.0f;
 
-                if (contour.Length >= 3)//5)
+                if (contour.Length >= 100)//5)      //Dent
                 {
                     try
                     {

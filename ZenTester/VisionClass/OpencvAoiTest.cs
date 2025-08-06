@@ -392,7 +392,7 @@ namespace ZenTester.VisionClass
                 // 외접 원 그리기
                 Point2f center = new Point2f();
                 float radius = 0.0f;
-                if (contour.Length >= 5)
+                if (contour.Length >= 500)
                 {
                     try
                     {
@@ -420,7 +420,7 @@ namespace ZenTester.VisionClass
 
                     //Rectangle m_clRect = new Rectangle((int)(center.X - (radius)), (int)(center.Y - (radius)), (int)(radius * 2), (int)(radius * 2));
 
-                    if (contour.Length >= 5)
+                    if (contour.Length >= 500)
                     {
                         RotatedRect ellipse = Cv2.FitEllipse(contour);
                         double axisRatio = Math.Min(ellipse.Size.Width, ellipse.Size.Height) / Math.Max(ellipse.Size.Width, ellipse.Size.Height);

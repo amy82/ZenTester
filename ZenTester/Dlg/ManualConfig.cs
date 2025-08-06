@@ -412,23 +412,26 @@ namespace ZenTester.Dlg
                 CamResolX = Globalo.yamlManager.configData.CamSettings.SideResolution.X;   // 0.02026f;
                 CamResolY = Globalo.yamlManager.configData.CamSettings.SideResolution.Y;   //0.02026f;//0.0288f;
             }
-            
 
+            string str = "";
+            double tempPix = 0.0;
             Console.WriteLine($"CamResolX:{CamResolX}");
             Console.WriteLine($"CamResolY:{CamResolY}");
             //
             System.Drawing.Point textPoint;
+            tempPix = Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].X - parentDlg.DistLineX[parentDlg.CamIndex, 1].X);
             currentLengx = Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].X - parentDlg.DistLineX[parentDlg.CamIndex, 1].X) * CamResolX;
-            string str = $"[Distance x:{currentLengx}";
+            str = $"[Distance x:{currentLengx}(mm), {tempPix}(pixel)";
             Console.WriteLine($"{str}");
             textPoint = new System.Drawing.Point(10, parentDlg.CamH[parentDlg.CamIndex] - 250);
-            Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Blue, 15);
+            Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Cyan, 16);
 
+            tempPix = Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y - parentDlg.DistLineX[parentDlg.CamIndex, 1].Y);
             currentLengy = Math.Abs(parentDlg.DistLineX[parentDlg.CamIndex, 0].Y - parentDlg.DistLineX[parentDlg.CamIndex, 1].Y) * CamResolY;
-            str = $"[Distance y:{currentLengy}";
+            str = $"[Distance y:{currentLengy}(mm), {tempPix}(pixel)";
             Console.WriteLine($"{str}");
             textPoint = new System.Drawing.Point(10, parentDlg.CamH[parentDlg.CamIndex] - 150);
-            Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Blue, 15);
+            Globalo.visionManager.milLibrary.DrawOverlayText(parentDlg.CamIndex, textPoint, str, Color.Cyan, 16);
 
 
 
