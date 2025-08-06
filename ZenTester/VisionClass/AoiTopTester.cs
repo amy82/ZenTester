@@ -1427,15 +1427,12 @@ namespace ZenTester.VisionClass
                         //Cv2.MinEnclosingCircle(contour, out center, out radius);
 
                         RotatedRect ellipse = Cv2.FitEllipse(contour);
-
                         center = ellipse.Center;
                         Size2f axes = ellipse.Size; // 가로/세로 축 길이
                         float angle = ellipse.Angle;
-
                         // 원으로 근사한 반지름 (가로 세로 평균의 절반)
                         radius = (axes.Width + axes.Height) / 4f;
-
-                        Cv2.Ellipse(colorView, ellipse, Scalar.Red, 3); // 결과 시각화
+                        //Cv2.Ellipse(colorView, ellipse, Scalar.Red, 3); // 결과 시각화
                     }
                     catch (Exception ex)
                     {
@@ -1815,11 +1812,18 @@ namespace ZenTester.VisionClass
                 Point2f center = new Point2f();
                 float radius = 0.0f;
 
-                if (contour.Length >= 100)//5)      //Dent
+                if (contour.Length >= 50)//5)      //Dent
                 {
                     try
                     {
-                        Cv2.MinEnclosingCircle(contour, out center, out radius);
+                        //Cv2.MinEnclosingCircle(contour, out center, out radius);
+                        RotatedRect ellipse = Cv2.FitEllipse(contour);
+                        center = ellipse.Center;
+                        Size2f axes = ellipse.Size; // 가로/세로 축 길이
+                        float angle = ellipse.Angle;
+                        // 원으로 근사한 반지름 (가로 세로 평균의 절반)
+                        radius = (axes.Width + axes.Height) / 4f;
+                        //Cv2.Ellipse(colorView, ellipse, Scalar.Red, 3); // 결과 시각화
                     }
                     catch (Exception ex)
                     {
