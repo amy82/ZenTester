@@ -98,6 +98,8 @@ namespace ZenTester.Dlg
             this.textBox_calTarget = new System.Windows.Forms.TextBox();
             this.label_Set_SideCam_Height_Threshold_Val = new System.Windows.Forms.Label();
             this.label_Set_SideCam_Height_Threshold = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Con_Distance_Val = new System.Windows.Forms.Label();
+            this.label_Set_TopCam_Con_Distance = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Top_Light)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Side_Light)).BeginInit();
             this.SuspendLayout();
@@ -108,7 +110,7 @@ namespace ZenTester.Dlg
             this.button_Set_Top_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Top_Resol_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Top_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(261, 335);
+            this.button_Set_Top_Resol_Save.Location = new System.Drawing.Point(261, 346);
             this.button_Set_Top_Resol_Save.Name = "button_Set_Top_Resol_Save";
             this.button_Set_Top_Resol_Save.Size = new System.Drawing.Size(85, 33);
             this.button_Set_Top_Resol_Save.TabIndex = 85;
@@ -124,7 +126,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_ResolY_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(237, 72);
+            this.label_Set_TopCam_ResolY_Val.Location = new System.Drawing.Point(237, 59);
             this.label_Set_TopCam_ResolY_Val.Name = "label_Set_TopCam_ResolY_Val";
             this.label_Set_TopCam_ResolY_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_ResolY_Val.TabIndex = 84;
@@ -140,7 +142,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_ResolX_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_ResolX_Val.Location = new System.Drawing.Point(237, 43);
+            this.label_Set_TopCam_ResolX_Val.Location = new System.Drawing.Point(237, 30);
             this.label_Set_TopCam_ResolX_Val.Name = "label_Set_TopCam_ResolX_Val";
             this.label_Set_TopCam_ResolX_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_ResolX_Val.TabIndex = 82;
@@ -153,7 +155,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolY.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_ResolY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolY.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(4, 73);
+            this.label_Set_TopCam_ResolY.Location = new System.Drawing.Point(4, 60);
             this.label_Set_TopCam_ResolY.Name = "label_Set_TopCam_ResolY";
             this.label_Set_TopCam_ResolY.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_ResolY.TabIndex = 83;
@@ -165,7 +167,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_ResolX.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_ResolX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_ResolX.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_ResolX.Location = new System.Drawing.Point(4, 44);
+            this.label_Set_TopCam_ResolX.Location = new System.Drawing.Point(4, 31);
             this.label_Set_TopCam_ResolX.Name = "label_Set_TopCam_ResolX";
             this.label_Set_TopCam_ResolX.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_ResolX.TabIndex = 81;
@@ -178,7 +180,7 @@ namespace ZenTester.Dlg
             this.button_Set_Side_Resol_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Side_Resol_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Side_Resol_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(261, 518);
+            this.button_Set_Side_Resol_Save.Location = new System.Drawing.Point(261, 530);
             this.button_Set_Side_Resol_Save.Name = "button_Set_Side_Resol_Save";
             this.button_Set_Side_Resol_Save.Size = new System.Drawing.Size(85, 33);
             this.button_Set_Side_Resol_Save.TabIndex = 90;
@@ -194,7 +196,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolY_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(237, 430);
+            this.label_Set_SideCam_ResolY_Val.Location = new System.Drawing.Point(237, 442);
             this.label_Set_SideCam_ResolY_Val.Name = "label_Set_SideCam_ResolY_Val";
             this.label_Set_SideCam_ResolY_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_SideCam_ResolY_Val.TabIndex = 89;
@@ -210,7 +212,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_ResolX_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(237, 402);
+            this.label_Set_SideCam_ResolX_Val.Location = new System.Drawing.Point(237, 414);
             this.label_Set_SideCam_ResolX_Val.Name = "label_Set_SideCam_ResolX_Val";
             this.label_Set_SideCam_ResolX_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_SideCam_ResolX_Val.TabIndex = 87;
@@ -223,7 +225,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolY.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_SideCam_ResolY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolY.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(4, 431);
+            this.label_Set_SideCam_ResolY.Location = new System.Drawing.Point(4, 443);
             this.label_Set_SideCam_ResolY.Name = "label_Set_SideCam_ResolY";
             this.label_Set_SideCam_ResolY.Size = new System.Drawing.Size(232, 27);
             this.label_Set_SideCam_ResolY.TabIndex = 88;
@@ -235,7 +237,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_ResolX.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_SideCam_ResolX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_ResolX.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(4, 403);
+            this.label_Set_SideCam_ResolX.Location = new System.Drawing.Point(4, 415);
             this.label_Set_SideCam_ResolX.Name = "label_Set_SideCam_ResolX";
             this.label_Set_SideCam_ResolX.Size = new System.Drawing.Size(232, 27);
             this.label_Set_SideCam_ResolX.TabIndex = 86;
@@ -249,7 +251,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(3, 14);
+            this.label_SetTest_Manual_Top_Test.Location = new System.Drawing.Point(3, 1);
             this.label_SetTest_Manual_Top_Test.Name = "label_SetTest_Manual_Top_Test";
             this.label_SetTest_Manual_Top_Test.Size = new System.Drawing.Size(343, 29);
             this.label_SetTest_Manual_Top_Test.TabIndex = 91;
@@ -263,7 +265,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Test.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(3, 371);
+            this.label_SetTest_Manual_Side_Test.Location = new System.Drawing.Point(3, 383);
             this.label_SetTest_Manual_Side_Test.Name = "label_SetTest_Manual_Side_Test";
             this.label_SetTest_Manual_Side_Test.Size = new System.Drawing.Size(343, 29);
             this.label_SetTest_Manual_Side_Test.TabIndex = 92;
@@ -276,7 +278,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Cam_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Cam_Save.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Cam_Save.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Cam_Save.Location = new System.Drawing.Point(632, 86);
+            this.label_SetTest_Manual_Top_Cam_Save.Location = new System.Drawing.Point(632, 72);
             this.label_SetTest_Manual_Top_Cam_Save.Name = "label_SetTest_Manual_Top_Cam_Save";
             this.label_SetTest_Manual_Top_Cam_Save.Size = new System.Drawing.Size(72, 39);
             this.label_SetTest_Manual_Top_Cam_Save.TabIndex = 115;
@@ -289,7 +291,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Data.BackColor = System.Drawing.Color.White;
             this.label_SetTest_Manual_Top_Light_Data.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Top_Light_Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Top_Light_Data.Location = new System.Drawing.Point(632, 45);
+            this.label_SetTest_Manual_Top_Light_Data.Location = new System.Drawing.Point(632, 31);
             this.label_SetTest_Manual_Top_Light_Data.Name = "label_SetTest_Manual_Top_Light_Data";
             this.label_SetTest_Manual_Top_Light_Data.Size = new System.Drawing.Size(72, 40);
             this.label_SetTest_Manual_Top_Light_Data.TabIndex = 114;
@@ -299,7 +301,7 @@ namespace ZenTester.Dlg
             // 
             // trackBar_Top_Light
             // 
-            this.trackBar_Top_Light.Location = new System.Drawing.Point(388, 91);
+            this.trackBar_Top_Light.Location = new System.Drawing.Point(388, 77);
             this.trackBar_Top_Light.Name = "trackBar_Top_Light";
             this.trackBar_Top_Light.Size = new System.Drawing.Size(242, 45);
             this.trackBar_Top_Light.TabIndex = 113;
@@ -325,7 +327,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Val2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Light_Val2.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Light_Val2.ForeColor = System.Drawing.Color.White;
-            this.label_SetTest_Manual_Top_Light_Val2.Location = new System.Drawing.Point(472, 45);
+            this.label_SetTest_Manual_Top_Light_Val2.Location = new System.Drawing.Point(472, 31);
             this.label_SetTest_Manual_Top_Light_Val2.Name = "label_SetTest_Manual_Top_Light_Val2";
             this.label_SetTest_Manual_Top_Light_Val2.Size = new System.Drawing.Size(80, 36);
             this.label_SetTest_Manual_Top_Light_Val2.TabIndex = 111;
@@ -339,7 +341,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Light_Val1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Light_Val1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Top_Light_Val1.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Light_Val1.Location = new System.Drawing.Point(388, 45);
+            this.label_SetTest_Manual_Top_Light_Val1.Location = new System.Drawing.Point(388, 31);
             this.label_SetTest_Manual_Top_Light_Val1.Name = "label_SetTest_Manual_Top_Light_Val1";
             this.label_SetTest_Manual_Top_Light_Val1.Size = new System.Drawing.Size(80, 36);
             this.label_SetTest_Manual_Top_Light_Val1.TabIndex = 110;
@@ -354,7 +356,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Top_Cam_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Top_Cam_Light.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Top_Cam_Light.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Top_Cam_Light.Location = new System.Drawing.Point(388, 15);
+            this.label_SetTest_Manual_Top_Cam_Light.Location = new System.Drawing.Point(388, 1);
             this.label_SetTest_Manual_Top_Cam_Light.Name = "label_SetTest_Manual_Top_Cam_Light";
             this.label_SetTest_Manual_Top_Cam_Light.Size = new System.Drawing.Size(316, 29);
             this.label_SetTest_Manual_Top_Cam_Light.TabIndex = 109;
@@ -367,7 +369,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Light_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Light_Save.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Side_Light_Save.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Light_Save.Location = new System.Drawing.Point(632, 224);
+            this.label_SetTest_Manual_Side_Light_Save.Location = new System.Drawing.Point(632, 210);
             this.label_SetTest_Manual_Side_Light_Save.Name = "label_SetTest_Manual_Side_Light_Save";
             this.label_SetTest_Manual_Side_Light_Save.Size = new System.Drawing.Size(72, 39);
             this.label_SetTest_Manual_Side_Light_Save.TabIndex = 120;
@@ -377,7 +379,7 @@ namespace ZenTester.Dlg
             // 
             // trackBar_Side_Light
             // 
-            this.trackBar_Side_Light.Location = new System.Drawing.Point(388, 224);
+            this.trackBar_Side_Light.Location = new System.Drawing.Point(388, 210);
             this.trackBar_Side_Light.Name = "trackBar_Side_Light";
             this.trackBar_Side_Light.Size = new System.Drawing.Size(248, 45);
             this.trackBar_Side_Light.TabIndex = 119;
@@ -387,7 +389,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Light_Data.BackColor = System.Drawing.Color.White;
             this.label_SetTest_Manual_Side_Light_Data.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_SetTest_Manual_Side_Light_Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_SetTest_Manual_Side_Light_Data.Location = new System.Drawing.Point(632, 181);
+            this.label_SetTest_Manual_Side_Light_Data.Location = new System.Drawing.Point(632, 167);
             this.label_SetTest_Manual_Side_Light_Data.Name = "label_SetTest_Manual_Side_Light_Data";
             this.label_SetTest_Manual_Side_Light_Data.Size = new System.Drawing.Size(72, 40);
             this.label_SetTest_Manual_Side_Light_Data.TabIndex = 118;
@@ -401,7 +403,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Light_Val1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Light_Val1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SetTest_Manual_Side_Light_Val1.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Light_Val1.Location = new System.Drawing.Point(388, 181);
+            this.label_SetTest_Manual_Side_Light_Val1.Location = new System.Drawing.Point(388, 167);
             this.label_SetTest_Manual_Side_Light_Val1.Name = "label_SetTest_Manual_Side_Light_Val1";
             this.label_SetTest_Manual_Side_Light_Val1.Size = new System.Drawing.Size(80, 36);
             this.label_SetTest_Manual_Side_Light_Val1.TabIndex = 117;
@@ -416,7 +418,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Side_Cam_Light.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Side_Cam_Light.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Side_Cam_Light.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Side_Cam_Light.Location = new System.Drawing.Point(388, 151);
+            this.label_SetTest_Manual_Side_Cam_Light.Location = new System.Drawing.Point(388, 137);
             this.label_SetTest_Manual_Side_Cam_Light.Name = "label_SetTest_Manual_Side_Cam_Light";
             this.label_SetTest_Manual_Side_Cam_Light.Size = new System.Drawing.Size(316, 29);
             this.label_SetTest_Manual_Side_Cam_Light.TabIndex = 116;
@@ -550,7 +552,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Limit_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Dent_Limit_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Limit_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Limit_Val.Location = new System.Drawing.Point(237, 101);
+            this.label_Set_TopCam_Dent_Limit_Val.Location = new System.Drawing.Point(237, 88);
             this.label_Set_TopCam_Dent_Limit_Val.Name = "label_Set_TopCam_Dent_Limit_Val";
             this.label_Set_TopCam_Dent_Limit_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Dent_Limit_Val.TabIndex = 131;
@@ -563,7 +565,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Limit.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Dent_Limit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Limit.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Limit.Location = new System.Drawing.Point(4, 102);
+            this.label_Set_TopCam_Dent_Limit.Location = new System.Drawing.Point(4, 89);
             this.label_Set_TopCam_Dent_Limit.Name = "label_Set_TopCam_Dent_Limit";
             this.label_Set_TopCam_Dent_Limit.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Dent_Limit.TabIndex = 130;
@@ -578,7 +580,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Count_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Dent_Count_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Count_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Count_Val.Location = new System.Drawing.Point(237, 130);
+            this.label_Set_TopCam_Dent_Count_Val.Location = new System.Drawing.Point(237, 117);
             this.label_Set_TopCam_Dent_Count_Val.Name = "label_Set_TopCam_Dent_Count_Val";
             this.label_Set_TopCam_Dent_Count_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Dent_Count_Val.TabIndex = 133;
@@ -591,7 +593,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Dent_Count.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Dent_Count.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Dent_Count.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Dent_Count.Location = new System.Drawing.Point(4, 131);
+            this.label_Set_TopCam_Dent_Count.Location = new System.Drawing.Point(4, 118);
             this.label_Set_TopCam_Dent_Count.Name = "label_Set_TopCam_Dent_Count";
             this.label_Set_TopCam_Dent_Count.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Dent_Count.TabIndex = 132;
@@ -606,7 +608,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Test_Retry_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Test_Retry_Val.Location = new System.Drawing.Point(237, 274);
+            this.label_Set_TopCam_Test_Retry_Val.Location = new System.Drawing.Point(237, 261);
             this.label_Set_TopCam_Test_Retry_Val.Name = "label_Set_TopCam_Test_Retry_Val";
             this.label_Set_TopCam_Test_Retry_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Test_Retry_Val.TabIndex = 135;
@@ -619,7 +621,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Test_Retry.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Test_Retry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Test_Retry.Location = new System.Drawing.Point(4, 274);
+            this.label_Set_TopCam_Test_Retry.Location = new System.Drawing.Point(4, 261);
             this.label_Set_TopCam_Test_Retry.Name = "label_Set_TopCam_Test_Retry";
             this.label_Set_TopCam_Test_Retry.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Test_Retry.TabIndex = 134;
@@ -634,7 +636,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Test_Retry_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_Test_Retry_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Test_Retry_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_Test_Retry_Val.Location = new System.Drawing.Point(237, 458);
+            this.label_Set_SideCam_Test_Retry_Val.Location = new System.Drawing.Point(237, 470);
             this.label_Set_SideCam_Test_Retry_Val.Name = "label_Set_SideCam_Test_Retry_Val";
             this.label_Set_SideCam_Test_Retry_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_SideCam_Test_Retry_Val.TabIndex = 137;
@@ -647,7 +649,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Test_Retry.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_SideCam_Test_Retry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Test_Retry.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_Test_Retry.Location = new System.Drawing.Point(4, 459);
+            this.label_Set_SideCam_Test_Retry.Location = new System.Drawing.Point(4, 471);
             this.label_Set_SideCam_Test_Retry.Name = "label_Set_SideCam_Test_Retry";
             this.label_Set_SideCam_Test_Retry.Size = new System.Drawing.Size(232, 27);
             this.label_Set_SideCam_Test_Retry.TabIndex = 136;
@@ -662,7 +664,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Small_Min_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Small_Min_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Min_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Small_Min_Val.Location = new System.Drawing.Point(237, 159);
+            this.label_Set_TopCam_Small_Min_Val.Location = new System.Drawing.Point(237, 146);
             this.label_Set_TopCam_Small_Min_Val.Name = "label_Set_TopCam_Small_Min_Val";
             this.label_Set_TopCam_Small_Min_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Small_Min_Val.TabIndex = 139;
@@ -675,7 +677,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Small_Min.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Small_Min.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Min.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Small_Min.Location = new System.Drawing.Point(4, 160);
+            this.label_Set_TopCam_Small_Min.Location = new System.Drawing.Point(4, 147);
             this.label_Set_TopCam_Small_Min.Name = "label_Set_TopCam_Small_Min";
             this.label_Set_TopCam_Small_Min.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Small_Min.TabIndex = 138;
@@ -690,7 +692,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Small_Max_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Small_Max_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Max_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Small_Max_Val.Location = new System.Drawing.Point(237, 188);
+            this.label_Set_TopCam_Small_Max_Val.Location = new System.Drawing.Point(237, 175);
             this.label_Set_TopCam_Small_Max_Val.Name = "label_Set_TopCam_Small_Max_Val";
             this.label_Set_TopCam_Small_Max_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Small_Max_Val.TabIndex = 141;
@@ -703,7 +705,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Small_Max.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Small_Max.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Small_Max.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Small_Max.Location = new System.Drawing.Point(4, 188);
+            this.label_Set_TopCam_Small_Max.Location = new System.Drawing.Point(4, 175);
             this.label_Set_TopCam_Small_Max.Name = "label_Set_TopCam_Small_Max";
             this.label_Set_TopCam_Small_Max.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Small_Max.TabIndex = 140;
@@ -718,7 +720,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Big_Max_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Big_Max_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Max_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Big_Max_Val.Location = new System.Drawing.Point(237, 245);
+            this.label_Set_TopCam_Big_Max_Val.Location = new System.Drawing.Point(237, 232);
             this.label_Set_TopCam_Big_Max_Val.Name = "label_Set_TopCam_Big_Max_Val";
             this.label_Set_TopCam_Big_Max_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Big_Max_Val.TabIndex = 145;
@@ -731,7 +733,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Big_Max.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Big_Max.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Max.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Big_Max.Location = new System.Drawing.Point(4, 245);
+            this.label_Set_TopCam_Big_Max.Location = new System.Drawing.Point(4, 232);
             this.label_Set_TopCam_Big_Max.Name = "label_Set_TopCam_Big_Max";
             this.label_Set_TopCam_Big_Max.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Big_Max.TabIndex = 144;
@@ -746,7 +748,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Big_Min_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Big_Min_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Min_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Big_Min_Val.Location = new System.Drawing.Point(237, 216);
+            this.label_Set_TopCam_Big_Min_Val.Location = new System.Drawing.Point(237, 203);
             this.label_Set_TopCam_Big_Min_Val.Name = "label_Set_TopCam_Big_Min_Val";
             this.label_Set_TopCam_Big_Min_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Big_Min_Val.TabIndex = 143;
@@ -759,7 +761,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Big_Min.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Big_Min.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Big_Min.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Big_Min.Location = new System.Drawing.Point(4, 216);
+            this.label_Set_TopCam_Big_Min.Location = new System.Drawing.Point(4, 203);
             this.label_Set_TopCam_Big_Min.Name = "label_Set_TopCam_Big_Min";
             this.label_Set_TopCam_Big_Min.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Big_Min.TabIndex = 142;
@@ -774,7 +776,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Con_Threshold_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_TopCam_Con_Threshold_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Con_Threshold_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Con_Threshold_Val.Location = new System.Drawing.Point(237, 302);
+            this.label_Set_TopCam_Con_Threshold_Val.Location = new System.Drawing.Point(237, 289);
             this.label_Set_TopCam_Con_Threshold_Val.Name = "label_Set_TopCam_Con_Threshold_Val";
             this.label_Set_TopCam_Con_Threshold_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_TopCam_Con_Threshold_Val.TabIndex = 147;
@@ -787,7 +789,7 @@ namespace ZenTester.Dlg
             this.label_Set_TopCam_Con_Threshold.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_TopCam_Con_Threshold.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_TopCam_Con_Threshold.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_TopCam_Con_Threshold.Location = new System.Drawing.Point(4, 302);
+            this.label_Set_TopCam_Con_Threshold.Location = new System.Drawing.Point(4, 289);
             this.label_Set_TopCam_Con_Threshold.Name = "label_Set_TopCam_Con_Threshold";
             this.label_Set_TopCam_Con_Threshold.Size = new System.Drawing.Size(232, 27);
             this.label_Set_TopCam_Con_Threshold.TabIndex = 146;
@@ -801,7 +803,7 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Maching.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_SetTest_Manual_Maching.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_SetTest_Manual_Maching.ForeColor = System.Drawing.Color.Black;
-            this.label_SetTest_Manual_Maching.Location = new System.Drawing.Point(3, 555);
+            this.label_SetTest_Manual_Maching.Location = new System.Drawing.Point(3, 565);
             this.label_SetTest_Manual_Maching.Name = "label_SetTest_Manual_Maching";
             this.label_SetTest_Manual_Maching.Size = new System.Drawing.Size(343, 29);
             this.label_SetTest_Manual_Maching.TabIndex = 148;
@@ -816,7 +818,7 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Oring_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_Rate_Oring_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_Rate_Oring_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_Rate_Oring_Val.Location = new System.Drawing.Point(237, 586);
+            this.label_Set_Rate_Oring_Val.Location = new System.Drawing.Point(237, 596);
             this.label_Set_Rate_Oring_Val.Name = "label_Set_Rate_Oring_Val";
             this.label_Set_Rate_Oring_Val.Size = new System.Drawing.Size(109, 27);
             this.label_Set_Rate_Oring_Val.TabIndex = 150;
@@ -829,7 +831,7 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Oring.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_Rate_Oring.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_Rate_Oring.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_Rate_Oring.Location = new System.Drawing.Point(4, 586);
+            this.label_Set_Rate_Oring.Location = new System.Drawing.Point(4, 596);
             this.label_Set_Rate_Oring.Name = "label_Set_Rate_Oring";
             this.label_Set_Rate_Oring.Size = new System.Drawing.Size(232, 27);
             this.label_Set_Rate_Oring.TabIndex = 149;
@@ -844,7 +846,7 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Cone_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_Rate_Cone_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_Rate_Cone_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_Rate_Cone_Val.Location = new System.Drawing.Point(237, 614);
+            this.label_Set_Rate_Cone_Val.Location = new System.Drawing.Point(237, 624);
             this.label_Set_Rate_Cone_Val.Name = "label_Set_Rate_Cone_Val";
             this.label_Set_Rate_Cone_Val.Size = new System.Drawing.Size(109, 27);
             this.label_Set_Rate_Cone_Val.TabIndex = 152;
@@ -857,7 +859,7 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Cone.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_Rate_Cone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_Rate_Cone.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_Rate_Cone.Location = new System.Drawing.Point(4, 614);
+            this.label_Set_Rate_Cone.Location = new System.Drawing.Point(4, 624);
             this.label_Set_Rate_Cone.Name = "label_Set_Rate_Cone";
             this.label_Set_Rate_Cone.Size = new System.Drawing.Size(232, 27);
             this.label_Set_Rate_Cone.TabIndex = 151;
@@ -872,7 +874,7 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Key_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_Rate_Key_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_Rate_Key_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_Rate_Key_Val.Location = new System.Drawing.Point(237, 642);
+            this.label_Set_Rate_Key_Val.Location = new System.Drawing.Point(237, 652);
             this.label_Set_Rate_Key_Val.Name = "label_Set_Rate_Key_Val";
             this.label_Set_Rate_Key_Val.Size = new System.Drawing.Size(109, 27);
             this.label_Set_Rate_Key_Val.TabIndex = 154;
@@ -885,7 +887,7 @@ namespace ZenTester.Dlg
             this.label_Set_Rate_Key.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_Rate_Key.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_Rate_Key.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_Rate_Key.Location = new System.Drawing.Point(4, 642);
+            this.label_Set_Rate_Key.Location = new System.Drawing.Point(4, 652);
             this.label_Set_Rate_Key.Name = "label_Set_Rate_Key";
             this.label_Set_Rate_Key.Size = new System.Drawing.Size(232, 27);
             this.label_Set_Rate_Key.TabIndex = 153;
@@ -898,7 +900,7 @@ namespace ZenTester.Dlg
             this.button_Set_Rate_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Set_Rate_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_Set_Rate_Save.ForeColor = System.Drawing.Color.Black;
-            this.button_Set_Rate_Save.Location = new System.Drawing.Point(261, 672);
+            this.button_Set_Rate_Save.Location = new System.Drawing.Point(261, 682);
             this.button_Set_Rate_Save.Name = "button_Set_Rate_Save";
             this.button_Set_Rate_Save.Size = new System.Drawing.Size(85, 33);
             this.button_Set_Rate_Save.TabIndex = 155;
@@ -1005,7 +1007,7 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Height_Threshold_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label_Set_SideCam_Height_Threshold_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label_Set_SideCam_Height_Threshold_Val.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_Height_Threshold_Val.Location = new System.Drawing.Point(237, 487);
+            this.label_Set_SideCam_Height_Threshold_Val.Location = new System.Drawing.Point(237, 499);
             this.label_Set_SideCam_Height_Threshold_Val.Name = "label_Set_SideCam_Height_Threshold_Val";
             this.label_Set_SideCam_Height_Threshold_Val.Size = new System.Drawing.Size(109, 28);
             this.label_Set_SideCam_Height_Threshold_Val.TabIndex = 165;
@@ -1018,18 +1020,48 @@ namespace ZenTester.Dlg
             this.label_Set_SideCam_Height_Threshold.BackColor = System.Drawing.Color.AntiqueWhite;
             this.label_Set_SideCam_Height_Threshold.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Set_SideCam_Height_Threshold.ForeColor = System.Drawing.Color.Black;
-            this.label_Set_SideCam_Height_Threshold.Location = new System.Drawing.Point(4, 487);
+            this.label_Set_SideCam_Height_Threshold.Location = new System.Drawing.Point(4, 499);
             this.label_Set_SideCam_Height_Threshold.Name = "label_Set_SideCam_Height_Threshold";
             this.label_Set_SideCam_Height_Threshold.Size = new System.Drawing.Size(232, 27);
             this.label_Set_SideCam_Height_Threshold.TabIndex = 164;
             this.label_Set_SideCam_Height_Threshold.Text = "Height Threshold";
             this.label_Set_SideCam_Height_Threshold.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label_Set_TopCam_Con_Distance_Val
+            // 
+            this.label_Set_TopCam_Con_Distance_Val.BackColor = System.Drawing.SystemColors.Window;
+            this.label_Set_TopCam_Con_Distance_Val.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_TopCam_Con_Distance_Val.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_Set_TopCam_Con_Distance_Val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Set_TopCam_Con_Distance_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Con_Distance_Val.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Con_Distance_Val.Location = new System.Drawing.Point(237, 317);
+            this.label_Set_TopCam_Con_Distance_Val.Name = "label_Set_TopCam_Con_Distance_Val";
+            this.label_Set_TopCam_Con_Distance_Val.Size = new System.Drawing.Size(109, 28);
+            this.label_Set_TopCam_Con_Distance_Val.TabIndex = 167;
+            this.label_Set_TopCam_Con_Distance_Val.Text = "0";
+            this.label_Set_TopCam_Con_Distance_Val.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_Set_TopCam_Con_Distance_Val.Click += new System.EventHandler(this.label_Set_TopCam_Con_Distance_Val_Click);
+            // 
+            // label_Set_TopCam_Con_Distance
+            // 
+            this.label_Set_TopCam_Con_Distance.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.label_Set_TopCam_Con_Distance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_TopCam_Con_Distance.ForeColor = System.Drawing.Color.Black;
+            this.label_Set_TopCam_Con_Distance.Location = new System.Drawing.Point(4, 317);
+            this.label_Set_TopCam_Con_Distance.Name = "label_Set_TopCam_Con_Distance";
+            this.label_Set_TopCam_Con_Distance.Size = new System.Drawing.Size(232, 27);
+            this.label_Set_TopCam_Con_Distance.TabIndex = 166;
+            this.label_Set_TopCam_Con_Distance.Text = "Distance";
+            this.label_Set_TopCam_Con_Distance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ManualConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_Set_TopCam_Con_Distance_Val);
+            this.Controls.Add(this.label_Set_TopCam_Con_Distance);
             this.Controls.Add(this.label_Set_SideCam_Height_Threshold_Val);
             this.Controls.Add(this.label_Set_SideCam_Height_Threshold);
             this.Controls.Add(this.textBox_calTarget);
@@ -1180,5 +1212,7 @@ namespace ZenTester.Dlg
         private System.Windows.Forms.TextBox textBox_calTarget;
         public System.Windows.Forms.Label label_Set_SideCam_Height_Threshold_Val;
         private System.Windows.Forms.Label label_Set_SideCam_Height_Threshold;
+        public System.Windows.Forms.Label label_Set_TopCam_Con_Distance_Val;
+        private System.Windows.Forms.Label label_Set_TopCam_Con_Distance;
     }
 }

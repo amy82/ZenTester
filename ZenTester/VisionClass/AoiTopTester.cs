@@ -1286,7 +1286,7 @@ namespace ZenTester.VisionClass
             var blurred = new Mat();
             var edges = new Mat();
             // CLAHE로 명암대비 강화
-            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));//(40, 40));
+            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(50, 50));//(40, 40));
             clahe.Apply(gray, gray);
             Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(3, 3), 1.0, 1.0, BorderTypes.Default);
 
@@ -1394,28 +1394,11 @@ namespace ZenTester.VisionClass
                 float dx = contourCenterX - imageCenterX;
                 float dy = contourCenterY - imageCenterY;
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
-
-                // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 100)//350)
+                if (distance > 750)
                 {
-                    //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
                 }
-                double area = Cv2.ContourArea(contour);
-                double perimeter = Cv2.ArcLength(contour, true);
 
-                //if (perimeter == 0) continue; // 나누기 에러 방지
-
-                //double minArea = 1841053.5;
-                //double maxArea = 2136083.5;
-
-                //if (area > minArea && area < maxArea)
-                //{
-                //    //continue;
-                //}
-
-
-                double circularity = 4 * Math.PI * area / (perimeter * perimeter);
                 // 외접 원 그리기
                 Point2f center = new Point2f();
                 float radius = 0.0f;
@@ -1432,7 +1415,7 @@ namespace ZenTester.VisionClass
                         float angle = ellipse.Angle;
                         // 원으로 근사한 반지름 (가로 세로 평균의 절반)
                         radius = (axes.Width + axes.Height) / 4f;
-                        //Cv2.Ellipse(colorView, ellipse, Scalar.Red, 3); // 결과 시각화
+                        Cv2.Ellipse(colorView, ellipse, Scalar.Red, 2); // 결과 시각화
                     }
                     catch (Exception ex)
                     {
@@ -1446,14 +1429,36 @@ namespace ZenTester.VisionClass
                 }
 
 #if _BIG_IMAGE      //Fakra
-                if (radius < 300 || radius > 500)   //안쪽원 377정도나옴
+                //if (radius < 300 || radius > 500)   //안쪽원 377정도나옴
 #else
                 //if (radius < 200 || radius > 270)//if (radius < 120 || radius > 280)
-                if (radius < Globalo.yamlManager.configData.CamSettings.smallCircle.min || radius > Globalo.yamlManager.configData.CamSettings.smallCircle.max)
 #endif
+                if (radius < Globalo.yamlManager.configData.CamSettings.smallCircle.min || radius > Globalo.yamlManager.configData.CamSettings.smallCircle.max)
                 {
                     continue;
                 }
+                // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
+                if (distance > Globalo.yamlManager.configData.CamSettings.ConDistance)  //160)//350)
+                {
+                    //Console.WriteLine($"del distance:{distance}");
+                    continue; // contour 무시
+                }
+
+                double area = Cv2.ContourArea(contour);
+                double perimeter = Cv2.ArcLength(contour, true);
+
+                //if (perimeter == 0) continue; // 나누기 에러 방지
+
+                //double minArea = 1841053.5;
+                //double maxArea = 2136083.5;
+
+                //if (area > minArea && area < maxArea)
+                //{
+                //    //continue;
+                //}
+
+
+                double circularity = 4 * Math.PI * area / (perimeter * perimeter);
                 Console.Write($"[small Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
                 if (circularity < 0.00001)//0.01)
                 {
@@ -1499,7 +1504,7 @@ namespace ZenTester.VisionClass
                 //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
-                Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 3);   // 내경
+                Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Yellow, 3);   // 내경
                 Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 3);  // 외경
 
                 //Console.Write($"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n");
@@ -1686,7 +1691,7 @@ namespace ZenTester.VisionClass
             Mat binary = new Mat();
             var blurred = new Mat();
             // CLAHE로 명암대비 강화
-            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(40, 40));//(40, 40));
+            var clahe = Cv2.CreateCLAHE(clipLimit: 1.0, tileGridSize: new OpenCvSharp.Size(50, 50));//(40, 40));
             clahe.Apply(gray, gray);
 
             //Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(1, 1), 0.1);
@@ -1786,9 +1791,51 @@ namespace ZenTester.VisionClass
                 float dx = contourCenterX - imageCenterX;
                 float dy = contourCenterY - imageCenterY;
                 float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+                if (distance > 750)
+                {
+                    continue; // contour 무시
+                }
 
+
+                // 외접 원 그리기
+                Point2f center = new Point2f();
+                float radius = 0.0f;
+
+                if (contour.Length >= 100)//5)      //Dent
+                {
+                    try
+                    {
+                        //Cv2.MinEnclosingCircle(contour, out center, out radius);
+                        RotatedRect ellipse = Cv2.FitEllipse(contour);
+                        center = ellipse.Center;
+                        Size2f axes = ellipse.Size; // 가로/세로 축 길이
+                        float angle = ellipse.Angle;
+                        // 원으로 근사한 반지름 (가로 세로 평균의 절반)
+                        radius = (axes.Width + axes.Height) / 4f;
+                        Cv2.Ellipse(colorView, ellipse, Scalar.Red, 2); // 결과 시각화
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
+#if _BIG_IMAGE      ////Out Housing
+                //if (radius < 550 || radius > 1000)  //890)
+#else
+                //if (radius < 350 || radius > 560)   //890)
+#endif
+                if (radius < Globalo.yamlManager.configData.CamSettings.bigCircle.min || radius > Globalo.yamlManager.configData.CamSettings.bigCircle.max)
+                {
+                    continue;
+                }
                 // 거리 임계값, 예: 중심에서 200픽셀 이상 벗어나면 제외
-                if (distance > 100)//200)100
+                if (distance > Globalo.yamlManager.configData.CamSettings.ConDistance)//300)//200)100
                 {
                     //Console.WriteLine($"del distance:{distance}");
                     continue; // contour 무시
@@ -1805,50 +1852,13 @@ namespace ZenTester.VisionClass
                 //{
                 //    //continue;
                 //}
-                
+
 
                 double circularity = 4 * Math.PI * area / (perimeter * perimeter);
-                // 외접 원 그리기
-                Point2f center = new Point2f();
-                float radius = 0.0f;
-
-                if (contour.Length >= 50)//5)      //Dent
-                {
-                    try
-                    {
-                        //Cv2.MinEnclosingCircle(contour, out center, out radius);
-                        RotatedRect ellipse = Cv2.FitEllipse(contour);
-                        center = ellipse.Center;
-                        Size2f axes = ellipse.Size; // 가로/세로 축 길이
-                        float angle = ellipse.Angle;
-                        // 원으로 근사한 반지름 (가로 세로 평균의 절반)
-                        radius = (axes.Width + axes.Height) / 4f;
-                        //Cv2.Ellipse(colorView, ellipse, Scalar.Red, 3); // 결과 시각화
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"MinEnclosingCircle Error: {ex.Message}");
-                        continue;
-                    }
-                }
-                else
-                {
-                    continue;
-                }
-
-#if _BIG_IMAGE      ////Out Housing
-                if (radius < 550 || radius > 1000)  //890)
-#else
-                if (radius < Globalo.yamlManager.configData.CamSettings.bigCircle.min || radius > Globalo.yamlManager.configData.CamSettings.bigCircle.max)
-                //if (radius < 350 || radius > 560)   //890)
-#endif
-                {
-                    continue;
-                }
-                Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}\n");
+                Console.Write($"[Housing] radius: {radius}, area: {area}, circularity: {circularity}, distance: {distance}\n");
                 if (circularity < 0.0001)
                 {
-                    continue;
+                    //continue;
                 }
 
                 if (radius > maxRadius)
@@ -1858,6 +1868,7 @@ namespace ZenTester.VisionClass
                     maxContour = contour;
                 }
                 circles.Add((center, radius));
+
                 ///centers.Add(new Point2d(center.X, center.Y));
                 //Console.Write("[CenterFind] measured circle: x = {0:0.00}, y = {1:0.00}, circularity = {2:0.00}, radius = {3:0.00}, area = {4:0.00}\n", center.X, center.Y, circularity, radius, area);
             }
@@ -1882,8 +1893,8 @@ namespace ZenTester.VisionClass
                 //centerPos.Y = (int)maxCircle.center.Y;
 
                 // 그리기 예시
-                Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Red, 2);   // 내경
-                Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 2);  // 외경
+                Cv2.Circle(colorView, (OpenCvSharp.Point)minCircle.center, (int)minCircle.radius, Scalar.Yellow, 3);   // 내경
+                Cv2.Circle(colorView, (OpenCvSharp.Point)maxCircle.center, (int)maxCircle.radius, Scalar.Blue, 3);  // 외경
 
                 Console.Write($"[minCircle] {minCircle.center.X},{minCircle.center.Y}, radius: {minCircle.radius}\n");
                 Console.Write($"[maxCircle] {maxCircle.center.X},{maxCircle.center.Y}, radius: {maxCircle.radius}\n");
@@ -1923,9 +1934,6 @@ namespace ZenTester.VisionClass
                     //Globalo.visionManager.milLibrary.DrawOverlayText(index, HousingPoint, str, Color.GreenYellow, 13);
                     Globalo.visionManager.milLibrary.m_clMilDrawText[index].AddList(HousingPoint, str, "나눔고딕", Color.GreenYellow, 13);
                 }
-                
-                    
-
 
                 HousingPoints.Add((OpenCvSharp.Point)minCircle.center);
                 HousingPoints.Add((OpenCvSharp.Point)maxCircle.center);

@@ -94,6 +94,8 @@ namespace ZenTester.Dlg
             Globalo.yamlManager.configData.CamSettings.bigCircle.max = int.Parse(label_Set_TopCam_Big_Max_Val.Text);
 
             Globalo.yamlManager.configData.CamSettings.ConThreshold = int.Parse(label_Set_TopCam_Con_Threshold_Val.Text);
+            Globalo.yamlManager.configData.CamSettings.ConDistance = int.Parse(label_Set_TopCam_Con_Distance_Val.Text);
+
 
             Globalo.yamlManager.configDataSave();
 
@@ -136,7 +138,8 @@ namespace ZenTester.Dlg
 
 
             label_Set_TopCam_Con_Threshold_Val.Text = Globalo.yamlManager.configData.CamSettings.ConThreshold.ToString();
-
+            label_Set_TopCam_Con_Distance_Val.Text = Globalo.yamlManager.configData.CamSettings.ConDistance.ToString();
+            
             label_Set_Rate_Oring_Val.Text = Globalo.yamlManager.configData.CamSettings.ScoreOring.ToString();
             label_Set_Rate_Cone_Val.Text = Globalo.yamlManager.configData.CamSettings.ScoreCone.ToString();
             label_Set_Rate_Key_Val.Text = Globalo.yamlManager.configData.CamSettings.ScoreKey.ToString();
@@ -1040,6 +1043,29 @@ namespace ZenTester.Dlg
                     dNumData = 255;
                 }
                 label_Set_SideCam_Height_Threshold_Val.Text = dNumData.ToString();
+            }
+        }
+
+        private void label_Set_TopCam_Con_Distance_Val_Click(object sender, EventArgs e)
+        {
+            string formattedValue = label_Set_TopCam_Con_Distance_Val.Text;
+            NumPadForm popupForm = new NumPadForm(formattedValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+
+
+            if (dialogResult == DialogResult.OK)
+            {
+                int dNumData = int.Parse(popupForm.NumPadResult);
+                if (dNumData < 1)
+                {
+                    dNumData = 1;
+                }
+                if (dNumData > 1000)
+                {
+                    dNumData = 1000;
+                }
+                label_Set_TopCam_Con_Distance_Val.Text = dNumData.ToString();
             }
         }
     }
