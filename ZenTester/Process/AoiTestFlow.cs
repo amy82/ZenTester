@@ -314,6 +314,7 @@ namespace ZenTester.Process
 
                     EqipData.Data = sendEqipData;
                     Globalo.tcpManager.nRecv_Ack = -1;
+                    Globalo.taskWork.bRecv_Client_ApdReport = -1;
                     Globalo.tcpManager.SendMessage_To_SecsGem(EqipData);
                     nTimeTick = Environment.TickCount;
 
@@ -338,7 +339,27 @@ namespace ZenTester.Process
                     }, null);
 
 
-                    nRetStep = 220;    //1000이상이면 종료
+                    nRetStep = 210;    //1000이상이면 종료
+                    nTimeTick = Environment.TickCount;
+                    break;
+                case 210:
+                    //착공 확인 대기
+                    if (Globalo.taskWork.bRecv_Client_ApdReport == 0)
+                    {
+                        nRetStep = 220;
+                    }
+                    else if (Globalo.taskWork.bRecv_Client_ApdReport == 1)
+                    {
+                        m_nTestFinalResult = -1;
+                        Console.WriteLine($"APD REPORT FAIL - {Globalo.taskWork.bRecv_Client_ApdReport}");
+                        nRetStep = 220;
+                    }
+                    else if (Environment.TickCount - nTimeTick > 5000)
+                    {
+                        m_nTestFinalResult = -2;
+                        Console.WriteLine($"Timeout {nRetStep}");
+                        nRetStep = 220;
+                    }
                     break;
                 case 220:
                     //Verify 공정은 Secsgem으로 apd보고해야된다 . 나머지는 Handler로
