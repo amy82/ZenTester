@@ -1612,11 +1612,16 @@ namespace ZenTester.VisionClass
         {
             bool brtn = true;
             dScore = 0.0;
-            dScore = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, 0, bAutorun);
+            dScore = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, 0, bAutorun);    //첫번재 패턴 찾기
 
-            if (dScore < 1.0)
+            if (dScore < 10.0)
             {
-                brtn = false;
+                dScore = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, 1, bAutorun);    //실패시 두번재 패턴 찾기
+
+                if (dScore < 10.0)
+                {
+                    brtn = false;
+                }
             }
 
             return brtn;

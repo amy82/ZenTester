@@ -894,8 +894,15 @@ namespace ZenTester.Dlg
         private void label_SetTest_Manual_Pat_Find_Click(object sender, EventArgs e)
         {
             //패턴 찾기
+            double dScore = 0.0;
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
-            Globalo.visionManager.milLibrary.FindPattern(parentDlg.CamIndex, PatIndex);
+            dScore = Globalo.visionManager.milLibrary.FindPattern(parentDlg.CamIndex, 0);
+            Console.WriteLine("Key #1 Find");
+            if (dScore < 20.0)
+            {
+                Console.WriteLine("Key #2 Find");
+                dScore = Globalo.visionManager.milLibrary.FindPattern(parentDlg.CamIndex, 1);
+            }
         }
 
         private void label_SetTest_Manual_Pat_Regist_Click(object sender, EventArgs e)
