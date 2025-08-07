@@ -180,7 +180,7 @@ namespace ZenTester.VisionClass
             string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key-{nPatNo + 1}.bmp");       //LOT DATA
             //MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
 
-            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[0], 100);      //작은 마크 이미지
+            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[0], 0);      //작은 마크 이미지
 
             if (File.Exists(filePath))
             {
@@ -190,13 +190,15 @@ namespace ZenTester.VisionClass
                 //    Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width, Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, 
                 //    (8 + MIL.M_UNSIGNED), MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage); // MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP
 
-                MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem,
-                Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width,
-                Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, (8 + MIL.M_UNSIGNED),
-                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage);
+                //MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem,
+                //Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width,
+                //Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height, (8 + MIL.M_UNSIGNED),
+                //MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref tempPatimage);
 
                 ////MIL.MbufImport(filePath, MIL.M_BMP, MIL.M_LOAD, MIL.M_NULL, ref tempPatimage);
                 MIL.MbufRestore(filePath, Globalo.visionManager.milLibrary.MilSystem, ref tempPatimage);
+
+
                 double dZoomX = 0.0;
                 double dZoomY = 0.0;
                 dZoomX = PatSmallDispSize.X / (double)Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Width;

@@ -910,10 +910,7 @@ namespace ZenTester.Dlg
                 Globalo.visionManager.milLibrary.AddPattern(parentDlg.CamIndex, PatIndex);        // VisionClass.AoiTester.TOP_INDEX);
                 Data.TaskDataYaml.Save_AoiConfig();
 
-                Globalo.visionManager.markUtil.DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, PatIndex);//, (double)panel_Pat.Width, (double)panel_Pat.Height);     //Mask Popup Save
-
-
-
+                Globalo.visionManager.markUtil.DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, PatIndex);
             }
         }
 
