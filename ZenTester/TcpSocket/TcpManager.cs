@@ -317,8 +317,6 @@ namespace ZenTester.TcpSocket
             //Console.WriteLine($"장비 ID: {data.EQPID}, 레시피 ID: {data.RECIPEID}");
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //
-            
-            
             if (data.Command == "LOT_START_CMD")
             {
                 //착공 진행 신호
