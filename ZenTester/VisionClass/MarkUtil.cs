@@ -27,7 +27,7 @@ namespace ZenTester.VisionClass
     
     public enum eMarkList
     {
-        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, TOP_KEY, MAX_MARK_LIST
+        SIDE_HEIGHT = 0, SIDE_CONE, SIDE_ORING, TOP_CENTER, TOP_CENTER_2, MAX_MARK_LIST  //TOP_KEY
     }
     public enum eCamType
     {
@@ -144,11 +144,13 @@ namespace ZenTester.VisionClass
         }
         public void InitPatViewDlg()
         {
-            //MIL.MbufAllocColor(Globalo.visionManager.milLibrary.MilSystem, 1L, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED), Attribute, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
-
-            MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem,
-                PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED),
-                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.milLibrary.m_MilPatImage[0]);
+            int i = 0;
+            for (i = 0; i < 1; i++)
+            {
+                MIL.MbufAlloc2d(Globalo.visionManager.milLibrary.MilSystem, PatSmallDispSize.X, PatSmallDispSize.Y, (8 + MIL.M_UNSIGNED),
+                MIL.M_IMAGE + MIL.M_PROC + MIL.M_DISP, ref Globalo.visionManager.milLibrary.m_MilPatImage[i]);
+            }
+            
 
             if (Globalo.visionManager.milLibrary.m_MilPatImage[0] != MIL.M_NULL)
             {
@@ -171,14 +173,14 @@ namespace ZenTester.VisionClass
             }
             DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, 0);
         }
-        public void DisplaySmallPatView(string ModelName, int nPatNo)//, double dZoomMarkWidth, double dZoomMarkHeight)
+        public void DisplaySmallPatView(string ModelName, int nPatNo)
         {
             string szPath = "";
             //string filePath = Path.Combine(CPath.BASE_AOI_DATA_PATH, markName, $"Mark-{nMarkNo + 1}.bmp");       //LOT DATA
-            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.bmp");       //LOT DATA
+            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key-{nPatNo + 1}.bmp");       //LOT DATA
             //MIL.MbufClear(m_MilMarkOverlay[0], m_lTransparentColor);
 
-            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[nPatNo], 100);      //작은 마크 이미지
+            MIL.MbufClear(Globalo.visionManager.milLibrary.m_MilPatImage[0], 100);      //작은 마크 이미지
 
             if (File.Exists(filePath))
             {
@@ -201,7 +203,7 @@ namespace ZenTester.VisionClass
                 dZoomY = PatSmallDispSize.Y / (double)Globalo.yamlManager.aoiRoiConfig.patData[nPatNo].Height;
 
                 //MIL.MimResize(m_MilMarkImage[1], m_MilMarkImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
-                MIL.MimResize(tempPatimage, Globalo.visionManager.milLibrary.m_MilPatImage[nPatNo], dZoomX, dZoomY, MIL.M_DEFAULT);
+                MIL.MimResize(tempPatimage, Globalo.visionManager.milLibrary.m_MilPatImage[0], dZoomX, dZoomY, MIL.M_DEFAULT);
             }
         }
         public void ShowMarkNo()
@@ -229,14 +231,6 @@ namespace ZenTester.VisionClass
 
                 m_clPtMarkSize.X = (int)dSizeX;
                 m_clPtMarkSize.Y = (int)dSizeY;
-
-                //double dCenterX = 0.0;
-                //double dCenterY = 0.0;
-                //MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_X, ref dCenterX);
-                //MIL.MmodInquire(m_MilModModel[nMarkNo], MIL.M_DEFAULT, MIL.M_REFERENCE_Y, ref dCenterY);
-
-                //m_clPtMarkCenterPos.X = (int)dCenterX;        //필요없는듯
-                //m_clPtMarkCenterPos.Y = (int)dCenterY;
 
                 double dZoomX = 0.0;
                 double dZoomY = 0.0;
@@ -581,15 +575,15 @@ namespace ZenTester.VisionClass
                 MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_RED);
                 //_stprintf_s(szTemp, SIZE_OF_100BYTE, _T("[ FIND FAIL!]"));
                 //this->DrawMOverlayText(m_nUnit, CCD1_CAM_SIZE_X / 2 - 500, CCD1_CAM_SIZE_Y / 2 - 200, szTemp, M_COLOR_RED, _T("Arial"), 100, 40, FALSE, VIDEO_CAM);
-                if (MarkNo == (int)VisionClass.eMarkList.TOP_KEY)
-                {
-                    str = $"KEY FIND FAIL!";
-                }
-                else
-                {
-                    str = $"FIND FAIL!";
-                }
-
+                //if (MarkNo == (int)VisionClass.eMarkList.TOP_KEY)
+                //{
+                //    str = $"KEY FIND FAIL!";
+                //}
+                //else
+                //{
+                //    str = $"FIND FAIL!";
+                //}
+                str = $"FIND FAIL!";
                 if (MarkDraw)
                 {
                     textPoint = new System.Drawing.Point(Globalo.visionManager.milLibrary.CAM_SIZE_X[index] / 2 - 600, 500);

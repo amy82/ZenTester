@@ -56,6 +56,9 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Pat_Image = new System.Windows.Forms.Label();
             this.panel_Pat = new System.Windows.Forms.Panel();
             this.label_SetTest_Manual_Image = new System.Windows.Forms.Label();
+            this.label_Set_Pat_Model = new System.Windows.Forms.Label();
+            this.button_Set_Pat_Next = new System.Windows.Forms.Button();
+            this.button_Set_Pat_Prev = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_SetTest_Manual_Mark_Roi_Save
@@ -408,11 +411,54 @@ namespace ZenTester.Dlg
             this.label_SetTest_Manual_Image.Text = "IMAGE SET";
             this.label_SetTest_Manual_Image.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label_Set_Pat_Model
+            // 
+            this.label_Set_Pat_Model.BackColor = System.Drawing.Color.White;
+            this.label_Set_Pat_Model.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Set_Pat_Model.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Set_Pat_Model.Location = new System.Drawing.Point(309, 313);
+            this.label_Set_Pat_Model.Name = "label_Set_Pat_Model";
+            this.label_Set_Pat_Model.Size = new System.Drawing.Size(195, 34);
+            this.label_Set_Pat_Model.TabIndex = 122;
+            this.label_Set_Pat_Model.Text = "Key #1";
+            this.label_Set_Pat_Model.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button_Set_Pat_Next
+            // 
+            this.button_Set_Pat_Next.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Pat_Next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Pat_Next.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Set_Pat_Next.ForeColor = System.Drawing.Color.White;
+            this.button_Set_Pat_Next.Location = new System.Drawing.Point(507, 313);
+            this.button_Set_Pat_Next.Name = "button_Set_Pat_Next";
+            this.button_Set_Pat_Next.Size = new System.Drawing.Size(56, 34);
+            this.button_Set_Pat_Next.TabIndex = 121;
+            this.button_Set_Pat_Next.Text = "▶";
+            this.button_Set_Pat_Next.UseVisualStyleBackColor = false;
+            this.button_Set_Pat_Next.Click += new System.EventHandler(this.button_Set_Pat_Next_Click);
+            // 
+            // button_Set_Pat_Prev
+            // 
+            this.button_Set_Pat_Prev.BackColor = System.Drawing.Color.Tan;
+            this.button_Set_Pat_Prev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Set_Pat_Prev.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Set_Pat_Prev.ForeColor = System.Drawing.Color.White;
+            this.button_Set_Pat_Prev.Location = new System.Drawing.Point(250, 313);
+            this.button_Set_Pat_Prev.Name = "button_Set_Pat_Prev";
+            this.button_Set_Pat_Prev.Size = new System.Drawing.Size(56, 34);
+            this.button_Set_Pat_Prev.TabIndex = 120;
+            this.button_Set_Pat_Prev.Text = "◀";
+            this.button_Set_Pat_Prev.UseVisualStyleBackColor = false;
+            this.button_Set_Pat_Prev.Click += new System.EventHandler(this.button_Set_Pat_Prev_Click);
+            // 
             // ManualTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
+            this.Controls.Add(this.label_Set_Pat_Model);
+            this.Controls.Add(this.button_Set_Pat_Next);
+            this.Controls.Add(this.button_Set_Pat_Prev);
             this.Controls.Add(this.label_SetTest_Manual_Image);
             this.Controls.Add(this.panel_Pat);
             this.Controls.Add(this.label_SetTest_Manual_Pat_Image);
@@ -476,5 +522,8 @@ namespace ZenTester.Dlg
         public System.Windows.Forms.Label label_SetTest_Manual_Pat_Image;
         public System.Windows.Forms.Panel panel_Pat;
         public System.Windows.Forms.Label label_SetTest_Manual_Image;
+        private System.Windows.Forms.Label label_Set_Pat_Model;
+        private System.Windows.Forms.Button button_Set_Pat_Next;
+        private System.Windows.Forms.Button button_Set_Pat_Prev;
     }
 }

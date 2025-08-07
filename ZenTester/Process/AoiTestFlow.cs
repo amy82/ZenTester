@@ -507,7 +507,12 @@ namespace ZenTester.Process
                         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
                         //bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(topCamIndex, src, ref aoiCenterPos[topCamIndex], true);
+
                         bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER, ref aoiCenterPos[topCamIndex], ref dScore);
+                        if (rtn == false)
+                        {
+                            rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(topCamIndex, VisionClass.eMarkList.TOP_CENTER_2, ref aoiCenterPos[topCamIndex], ref dScore);
+                        }
                         if (rtn)
                         {
                             szLog = $"[TOP CAM] CENTER FIND OK ({aoiCenterPos[topCamIndex].X},{aoiCenterPos[topCamIndex].Y})";

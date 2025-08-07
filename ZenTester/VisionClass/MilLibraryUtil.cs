@@ -81,8 +81,9 @@ namespace ZenTester.VisionClass
             MilDigitizerList[0] = MIL.M_NULL;
             MilDigitizerList[1] = MIL.M_NULL;
 
-            m_MilPatModel = new MIL_ID[1];
+            m_MilPatModel = new MIL_ID[2];
             m_MilPatModel[0] = MIL.M_NULL;
+            m_MilPatModel[1] = MIL.M_NULL;
 
             m_MilPatImage = new MIL_ID[1];
             m_MilPatImage[0] = MIL.M_NULL;
@@ -111,15 +112,15 @@ namespace ZenTester.VisionClass
 
             
         }
-        public bool Save_pat(string ModelName)
+        public bool Save_pat(string ModelName, int index)
         {
             string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName);       //LOT DATA
             if (!Directory.Exists(filePath)) // 폴더가 존재하지 않으면
             {
                 Directory.CreateDirectory(filePath); // 폴더 생성
             }
-            string bmpPath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.bmp");       //LOT DATA
-            filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key.pat");       //LOT DATA
+            string bmpPath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key-{index + 1}.bmp");       //LOT DATA
+            filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"Key-{index + 1}.pat");       //LOT DATA
 
 
             MIL_ID MilTempPat = MIL.M_NULL;
@@ -137,23 +138,27 @@ namespace ZenTester.VisionClass
             MIL.MbufSave(bmpPath, MilTempPat);// MIL.M_BMP,
             return true;
         }
-        public bool Load_pat(string ModelName)
+        public bool Load_pat(string ModelName, int index)
         {
-            string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"key.pat");       //LOT DATA
+            int i = 0;
+            for (i = 0; i < 2; i++)
+            {
+                string filePath = Path.Combine(Data.CPath.BASE_AOI_DATA_PATH, ModelName, $"key-{i + 1}.pat");       //LOT DATA
 
-            if (File.Exists(filePath))
-            {
-                Console.WriteLine($"{filePath} Load Complete");
-                MIL.MpatRestore(filePath, MilSystem, MIL.M_DEFAULT, ref m_MilPatModel[0]);
+                if (File.Exists(filePath))
+                {
+                    Console.WriteLine($"{filePath} Load Complete");
+                    MIL.MpatRestore(filePath, MilSystem, MIL.M_DEFAULT, ref m_MilPatModel[i]);
+                }
+                else
+                {
+                    Console.WriteLine($"{filePath} Load Fail");
+                }
             }
-            else
-            {
-                Console.WriteLine($"{filePath} Load Fail");
-                return false;
-            }
+            
             return true;
         }
-        public double FindPattern(int camIndex, bool bAutoRun = false)
+        public double FindPattern(int camIndex, int index, bool bAutoRun = false)
         {
             //패턴 등록
             MIL_ID MilImage = MIL.M_NULL;               // Image buffer identifier.
@@ -178,10 +183,10 @@ namespace ZenTester.VisionClass
             int sizeY = Globalo.visionManager.milLibrary.CAM_SIZE_Y[camIndex];
             int dataSize = sizeX * sizeY;
             Rectangle m_clRectRoi = new Rectangle();
-            m_clRectRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[0].roix;
-            m_clRectRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[0].roiy;
-            m_clRectRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth;
-            m_clRectRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].roiHeight;
+            m_clRectRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[index].roix;
+            m_clRectRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[index].roiy;
+            m_clRectRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[index].roiWidth;
+            m_clRectRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[index].roiHeight;
 
 
             MIL_ID MilPat = MIL.M_NULL;
@@ -190,25 +195,31 @@ namespace ZenTester.VisionClass
 
             // Allocate a graphic list to hold the subpixel annotations to draw.
             MIL.MgraAllocList(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref GraphicList);
-            
+
+            //M_HIGH
+            //M_MEDIUM
+            //M_LOW
             // Set the search accuracy to high.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_LOW);//MIL.M_HIGH);
+
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_ACCEPTANCE, 50.0);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_CERTAINTY, 50.0);
 
             // Set the search model speed to high.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);//MIL.M_MEDIUM);
 
             // Activate the search model angle mode.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_MODE, MIL.M_ENABLE);
 
             // Set the search model range angle.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 10);
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 10);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_NEG, 10);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_DELTA_POS, 10);
 
             // Set the search model angle accuracy.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 0.5);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_SEARCH_ANGLE_ACCURACY, 1.0);//0.5);
 
             // Preprocess the model.
-            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MilPat);// Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
+            MIL.MpatPreprocess(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MilPat);// Globalo.visionManager.milLibrary.MilProcImageChild[camIndex]);
 
             // Draw a box around the model in the model image.
             MIL.MgraControl(MIL.M_DEFAULT, MIL.M_COLOR, MIL.M_COLOR_GREEN);
@@ -217,11 +228,11 @@ namespace ZenTester.VisionClass
             MIL.MpatAllocResult(Globalo.visionManager.milLibrary.MilSystem, MIL.M_DEFAULT, ref Result);
 
             // Dummy first call for bench measure purpose only (bench stabilization, cache effect, etc...). This first call is NOT required by the application.
-            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], MilPat, Result);
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[index], MilPat, Result);
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_RESET + MIL.M_SYNCHRONOUS, MIL.M_NULL);
 
             // Find the model in the target buffer.
-            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[0], MilPat, Result);
+            MIL.MpatFind(Globalo.visionManager.milLibrary.m_MilPatModel[index], MilPat, Result);
 
             // Read the time spent in MpatFindModel.
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_READ + MIL.M_SYNCHRONOUS, ref Time);
@@ -238,10 +249,10 @@ namespace ZenTester.VisionClass
             Color roiColor = new Color();
             Rectangle m_clRoi = new Rectangle();
             System.Drawing.Point textPoint = new System.Drawing.Point();
-            m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[0].roix;
-            m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[0].roiy;
-            m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth;
-            m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].roiHeight;
+            m_clRoi.X = Globalo.yamlManager.aoiRoiConfig.patData[index].roix;
+            m_clRoi.Y = Globalo.yamlManager.aoiRoiConfig.patData[index].roiy;
+            m_clRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[index].roiWidth;
+            m_clRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[index].roiHeight;
             if (NumResults == 1)
             {
                 // Read results and draw a box around the model occurrence.
@@ -259,8 +270,8 @@ namespace ZenTester.VisionClass
                 // Calculate the position errors in X and Y and inquire original model position.
                 //ErrX = Math.Abs((FIND_MODEL_X_CENTER + FIND_SHIFT_X) - x);
                 //ErrY = Math.Abs((FIND_MODEL_Y_CENTER + FIND_SHIFT_Y) - y);
-                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ORIGINAL_X, ref XOrg);
-                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ORIGINAL_Y, ref YOrg);
+                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_ORIGINAL_X, ref XOrg);
+                MIL.MpatInquire(Globalo.visionManager.milLibrary.m_MilPatModel[index], MIL.M_DEFAULT, MIL.M_ORIGINAL_Y, ref YOrg);
 
                 // Print out the search result of the model in the original image.
                 Console.Write("Search results:\n");
@@ -271,8 +282,8 @@ namespace ZenTester.VisionClass
                 //Console.Write("The search time is \t\t\t{0:0.000} ms\n\n", Time * 1000.0);
 
 
-                m_clPatRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[0].Width;
-                m_clPatRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[0].Height;
+                m_clPatRoi.Width = Globalo.yamlManager.aoiRoiConfig.patData[index].Width;
+                m_clPatRoi.Height = Globalo.yamlManager.aoiRoiConfig.patData[index].Height;
                 m_clPatRoi.X = (int)x + m_clRectRoi.X - (m_clPatRoi.Width / 2);
                 m_clPatRoi.Y = (int)y + m_clRectRoi.Y - (m_clPatRoi.Height / 2);
 
@@ -310,7 +321,7 @@ namespace ZenTester.VisionClass
 
             return Score;
         }
-        public bool AddPattern(int camIndex)
+        public bool AddPattern(int camIndex, int index)
         {
             MIL_ID Result = MIL.M_NULL;                 // Result identifier.
             int FIND_MODEL_X_POS = 0;
@@ -376,11 +387,18 @@ namespace ZenTester.VisionClass
             // Allocate a normalized pattern matching context.
             MIL.MpatAlloc(Globalo.visionManager.milLibrary.MilSystem, MIL.M_NORMALIZED, MIL.M_DEFAULT, ref Globalo.visionManager.milLibrary.m_MilPatModel[0]);
 
-            // Define a regular model. - M_AUTO_MODEL / M_REGULAR_MODEL
+            //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], MIL.M_BIMODAL + MIL.M_GREATER, MIL.M_NULL, MIL.M_NULL);
+            //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], MIL.M_FIXED + MIL.M_GREATER, 40, MIL.M_NULL);
+            //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], MIL.M_PERCENTILE_VALUE + MIL.M_GREATER, 50, MIL.M_NULL); 
+            //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], MIL.M_TRIANGLE_BISECTION_DARK, MIL.M_NULL, MIL.M_NULL); 
+            //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], MIL.M_PERCENTILE_VALUE, MIL.M_NULL, MIL.M_NULL); 
+            //MIL.MimBinarize(Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], MIL.M_FIXED + MIL.M_GREATER, 50, MIL.M_NULL);
+
+            // Define a regular model. - M_AUTO_MODEL / M_REGULAR_MODEL 
             MIL.MpatDefine(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_REGULAR_MODEL, Globalo.visionManager.milLibrary.MilProcImageChild[camIndex], FIND_MODEL_X_POS, FIND_MODEL_Y_POS, FIND_MODEL_WIDTH, FIND_MODEL_HEIGHT, MIL.M_DEFAULT);
 
             // Set the search accuracy to high.
-            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_HIGH);
+            MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_ACCURACY, MIL.M_MEDIUM);//MIL.M_HIGH);
 
             // Set the search model speed to high.
             MIL.MpatControl(Globalo.visionManager.milLibrary.m_MilPatModel[0], MIL.M_DEFAULT, MIL.M_SPEED, MIL.M_MEDIUM);
@@ -406,7 +424,7 @@ namespace ZenTester.VisionClass
 
             //MIL.MpatDraw(MIL.M_DEFAULT, Globalo.visionManager.milLibrary.m_MilPatModel[0], GraphicList, MIL.M_DRAW_BOX + MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_ORIGINAL);
 
-            Globalo.visionManager.milLibrary.Save_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid);
+            Globalo.visionManager.milLibrary.Save_pat(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, index);
             return true;
         }
         public void RunModeChange(bool flag)

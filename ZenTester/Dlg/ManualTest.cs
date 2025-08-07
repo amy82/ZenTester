@@ -20,6 +20,9 @@ namespace ZenTester.Dlg
         private SetTestControl parentDlg;
         public int MarkIndex = 0;
         public int MaxMarkCount = 0;
+
+        public int PatIndex = 0;
+        public int MaxPatCount = 0;
         //public int CamIndex = 0;
         ///private OpenCvSharp.Point[] centerPos = new OpenCvSharp.Point[2];
         ///
@@ -37,6 +40,7 @@ namespace ZenTester.Dlg
             InitializeComponent();
             parentDlg = _parent;
             MaxMarkCount = Globalo.yamlManager.aoiRoiConfig.markData.Count;
+            MaxPatCount = 2;
         }
         public void setManualView(int index)
         {
@@ -71,6 +75,7 @@ namespace ZenTester.Dlg
             Globalo.visionManager.markUtil.DisplaySmallMarkView(model, MarkIndex, sizeX, sizeY);    //Prev Click
         }
 
+        
         private void button_Set_Mark_Prev_Click(object sender, EventArgs e)
         {
             //Prev
@@ -88,7 +93,6 @@ namespace ZenTester.Dlg
         private void button_Set_Mark_Next_Click(object sender, EventArgs e)
         {
             //Next
-            //public enum eMarkList{SIDE_CONTACT = 0, SIDE_CONE, SIDE_ORING, TOP_KEY, MAX_MARK_LIST}
             int kk = (int)VisionClass.eMarkList.MAX_MARK_LIST;
 
             if (MarkIndex < MaxMarkCount - 1)
@@ -226,7 +230,9 @@ namespace ZenTester.Dlg
 
 
             OpenCvSharp.Point markPos = new OpenCvSharp.Point();
-            bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
+            bool bRtn = false;
+
+            //bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_KEY, ref markPos, ref dKeyScore);
 
             //key1Rtn = Globalo.visionManager.aoiTopTester.MilEdgeKeytest(parentDlg.CamIndex, 0, keyType, offsetx, offsety);        //키검사
             //if (keyType != "E")
@@ -295,7 +301,10 @@ namespace ZenTester.Dlg
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
             double score = 0.0;
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score);
-
+            if (bRtn == false)
+            {
+                bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER_2, ref markPos, ref score);
+            }
 
             //----------------------------------------------------------------------------------------------------------------------------------------------
             //
@@ -303,7 +312,7 @@ namespace ZenTester.Dlg
             //
             //
             //----------------------------------------------------------------------------------------------------------------------------------------------
-            FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src, markPos, true);     //Fakra 안쪽 원 찾기
+                FakraCenter = Globalo.visionManager.aoiTopTester.Housing_Fakra_Test(parentDlg.CamIndex, src, markPos, true);     //Fakra 안쪽 원 찾기
             HousingCenter = Globalo.visionManager.aoiTopTester.Housing_Dent_Test(parentDlg.CamIndex, src, markPos, false, true);    //Con1,2(동심도)  / Dent (찌그러짐) 검사 
 
             if (FakraCenter.Count < 2)
@@ -405,6 +414,10 @@ namespace ZenTester.Dlg
             double dScore = 0.0;
             //bool rtn = Globalo.visionManager.aoiTopTester.FindCircleCenter(parentDlg.CamIndex, src, ref TopCenterPos[parentDlg.CamIndex]);     //가장 작은 원의 중심 찾기
             bool rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref TopCenterPos[parentDlg.CamIndex], ref dScore);
+            if (rtn == false)
+            {
+                rtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER_2, ref TopCenterPos[parentDlg.CamIndex], ref dScore);
+            }
             if (rtn)
             {
                 Globalo.visionManager.aoiTopTester.GasketTest(parentDlg.CamIndex, src, TopCenterPos[parentDlg.CamIndex]);     //가스켓 검사
@@ -446,7 +459,10 @@ namespace ZenTester.Dlg
             OpenCvSharp.Point markPos = new OpenCvSharp.Point(0, 0);
             double score = 0.0;
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, false);
-
+            if (bRtn == false)
+            {
+                bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER_2, ref markPos, ref score, false);
+            }
 
 
             List<OpenCvSharp.Point> HousingCenter = new List<OpenCvSharp.Point>();
@@ -773,6 +789,10 @@ namespace ZenTester.Dlg
             double score = 0.0;
             bool bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER, ref markPos, ref score, true);
 
+            if (bRtn == false)
+            {
+                bRtn = Globalo.visionManager.aoiSideTester.Mark_Pos_Standard(parentDlg.CamIndex, VisionClass.eMarkList.TOP_CENTER_2, ref markPos, ref score, false);
+            }
         }
 
         private void button_Top_Manual_Auto_Click(object sender, EventArgs e)
@@ -875,7 +895,7 @@ namespace ZenTester.Dlg
         {
             //패턴 찾기
             Globalo.visionManager.milLibrary.GetSnapImage(parentDlg.CamIndex);
-            Globalo.visionManager.milLibrary.FindPattern(parentDlg.CamIndex);
+            Globalo.visionManager.milLibrary.FindPattern(parentDlg.CamIndex, PatIndex);
         }
 
         private void label_SetTest_Manual_Pat_Regist_Click(object sender, EventArgs e)
@@ -884,14 +904,13 @@ namespace ZenTester.Dlg
             Rectangle DrawRoiBox = parentDlg.GetRoiRect();
             if (Globalo.yamlManager.aoiRoiConfig.patData.Count > 0)
             {
-                Globalo.yamlManager.aoiRoiConfig.patData[0].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
-                Globalo.yamlManager.aoiRoiConfig.patData[0].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.patData[PatIndex].Width = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
+                Globalo.yamlManager.aoiRoiConfig.patData[PatIndex].Height = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
 
-                Globalo.visionManager.milLibrary.AddPattern(parentDlg.CamIndex);// VisionClass.AoiTester.TOP_INDEX);
+                Globalo.visionManager.milLibrary.AddPattern(parentDlg.CamIndex, PatIndex);        // VisionClass.AoiTester.TOP_INDEX);
                 Data.TaskDataYaml.Save_AoiConfig();
 
-                int CurrentMarkNo = 0;
-                Globalo.visionManager.markUtil.DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, CurrentMarkNo);//, (double)panel_Pat.Width, (double)panel_Pat.Height);     //Mask Popup Save
+                Globalo.visionManager.markUtil.DisplaySmallPatView(Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid, PatIndex);//, (double)panel_Pat.Width, (double)panel_Pat.Height);     //Mask Popup Save
 
 
 
@@ -910,14 +929,52 @@ namespace ZenTester.Dlg
                 Rectangle DrawRoiBox = parentDlg.GetRoiRect();
                 if (Globalo.yamlManager.aoiRoiConfig.patData.Count > 0)
                 {
-                    Globalo.yamlManager.aoiRoiConfig.patData[0].roix = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
-                    Globalo.yamlManager.aoiRoiConfig.patData[0].roiy = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
-                    Globalo.yamlManager.aoiRoiConfig.patData[0].roiWidth = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
-                    Globalo.yamlManager.aoiRoiConfig.patData[0].roiHeight = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[PatIndex].roix = (int)(DrawRoiBox.X * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[PatIndex].roiy = (int)(DrawRoiBox.Y * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[PatIndex].roiWidth = (int)(DrawRoiBox.Width * Globalo.visionManager.milLibrary.xExpand[parentDlg.CamIndex] + 0.5);
+                    Globalo.yamlManager.aoiRoiConfig.patData[PatIndex].roiHeight = (int)(DrawRoiBox.Height * Globalo.visionManager.milLibrary.yExpand[parentDlg.CamIndex] + 0.5);
 
                     Data.TaskDataYaml.Save_AoiConfig();
                 }
                 
+            }
+        }
+        public void SetSmallPat()
+        {
+            //VisionClass.eMarkList mark = (VisionClass.eMarkList)MarkIndex;
+            //string markName = mark.ToString();
+
+            label_Set_Pat_Model.Text = $"Key-{PatIndex+1}";
+            string model = Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.Ppid;
+
+            Globalo.visionManager.markUtil.DisplaySmallPatView(model, PatIndex);    //Prev Click
+        }
+        private void button_Set_Pat_Prev_Click(object sender, EventArgs e)
+        {
+            //Pattern Prev
+            if (PatIndex > 0)
+            {
+                PatIndex--;
+                SetSmallPat();
+            }
+            else
+            {
+                PatIndex = 0;
+            }
+        }
+
+        private void button_Set_Pat_Next_Click(object sender, EventArgs e)
+        {
+            //Pattern Next
+
+            if (PatIndex < MaxPatCount - 1)
+            {
+                PatIndex++;
+                SetSmallPat();
+            }
+            else
+            {
+                PatIndex = MaxPatCount - 1;
             }
         }
     }

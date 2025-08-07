@@ -1612,7 +1612,7 @@ namespace ZenTester.VisionClass
         {
             bool brtn = true;
             dScore = 0.0;
-            dScore = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, bAutorun);
+            dScore = Globalo.visionManager.milLibrary.FindPattern(VisionClass.AoiTester.TOP_INDEX, 0, bAutorun);
 
             if (dScore < 1.0)
             {
