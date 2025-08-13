@@ -98,7 +98,7 @@ namespace ZenTester.TcpSocket
                 {
                     _cancellationTokenSource.Cancel();
                 }
-
+                Globalo.MainForm.SecsGemDriverConnected(false);
                 _stream?.Close();
                 _client?.Close();
                 OnDisconnected?.Invoke();
@@ -185,7 +185,6 @@ namespace ZenTester.TcpSocket
                         // ⚠️ 서버가 연결을 끊었을 때
                         //Console.WriteLine("서버에서 연결을 끊었습니다.");
 
-                        Globalo.MainForm.SecsGemDriverConnected(false);
                         Disconnect(true);
                         break;
                     }

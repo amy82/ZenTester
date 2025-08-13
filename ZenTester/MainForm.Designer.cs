@@ -145,7 +145,7 @@ namespace ZenTester
             this.BTN_TOP_CLIENT.Name = "BTN_TOP_CLIENT";
             this.BTN_TOP_CLIENT.Size = new System.Drawing.Size(101, 27);
             this.BTN_TOP_CLIENT.TabIndex = 12;
-            this.BTN_TOP_CLIENT.Text = "CLIENT";
+            this.BTN_TOP_CLIENT.Text = "Handler";
             this.BTN_TOP_CLIENT.UseVisualStyleBackColor = false;
             this.BTN_TOP_CLIENT.Click += new System.EventHandler(this.BTN_TOP_CLIENT_Click);
             // 
