@@ -582,7 +582,7 @@ namespace ZenTester
         {
             
         }
-        public void ClientConnected(bool state)
+        public void HandlerConnected(bool state)
         {
             if (state == true)
             {
@@ -594,7 +594,7 @@ namespace ZenTester
             }
             ProgramState.STATE_CLINET_CONNECT = state;
         }
-        public void DriverConnected(bool state)
+        public void SecsGemDriverConnected(bool state)
         {
             if (state == true)
             {

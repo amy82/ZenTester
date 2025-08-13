@@ -99,7 +99,7 @@ namespace ZenTester.TcpSocket
 
                         logData = $"[tcp] Client Connected";
                         Globalo.LogPrint("CCdControl", logData);
-                        Globalo.MainForm.ClientConnected(true);
+                        Globalo.MainForm.HandlerConnected(true);
                         _ = HandleClientAsync(client, cancellationToken); // 클라이언트 연결 처리
                     }
                     await Task.Delay(100); // CPU 점유율을 낮추기 위해 약간의 대기
@@ -161,7 +161,7 @@ namespace ZenTester.TcpSocket
             bConnected = false;
             string logData = $"[tcp] Client DisConnected";
             Globalo.LogPrint("CCdControl", logData);
-            Globalo.MainForm.ClientConnected(false);
+            Globalo.MainForm.HandlerConnected(false);
             Console.WriteLine("클라이언트 연결이 종료되었습니다.");
         }
 

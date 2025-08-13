@@ -65,11 +65,6 @@ namespace ZenTester.Data
 
 
 
-        
-
-
-
-
         public const string yamlTeachingData = "teachingData.yaml";
         public const string yamlFilePathTask = "taskData.yaml";
         public const string yamlFilePathTray = "trayData.yaml";

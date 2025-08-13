@@ -79,7 +79,8 @@ namespace ZenTester.TcpSocket
 
 
                 //_tcpManager.CmdPPid();      //사용중인 레시피 Send
-                
+
+                Globalo.MainForm.SecsGemDriverConnected(true);
                 return true;
             }
             catch (Exception ex)
@@ -182,7 +183,9 @@ namespace ZenTester.TcpSocket
                     else
                     {
                         // ⚠️ 서버가 연결을 끊었을 때
-                        Console.WriteLine("서버에서 연결을 끊었습니다.");
+                        //Console.WriteLine("서버에서 연결을 끊었습니다.");
+
+                        Globalo.MainForm.SecsGemDriverConnected(false);
                         Disconnect(true);
                         break;
                     }

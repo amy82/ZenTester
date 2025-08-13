@@ -61,6 +61,7 @@ namespace ZenTester.Process
                     Globalo.LogPrint("ManualControl", szLog);
                     m_nTestFinalResult = 1;
                     aoiDefectCode = "";
+
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.SIDE_INDEX, true);
                     Globalo.visionManager.milLibrary.SetGrabOn(VisionClass.AoiTester.TOP_INDEX, true);
                     waitTopCam = -1;
@@ -463,6 +464,17 @@ namespace ZenTester.Process
                         Cv2.CvtColor(TopMatImage, TopMatImage, ColorConversionCodes.GRAY2BGR);
 
 
+
+                        string txtstr = $"Lot:{aoiApdData.Barcode}";
+
+                        OpenCvSharp.Point position = new OpenCvSharp.Point(10, 100); // 텍스트 위치
+                        Scalar color = new Scalar(0, 255, 0); // 빨간색 (B, G, R)
+                        HersheyFonts fontFace = HersheyFonts.HersheySimplex;
+                        double fontScale = 3.5;
+                        int thickness = 10;
+
+                        // 이미지에 텍스트 추가
+                        Cv2.PutText(TopMatImage, txtstr, position, fontFace, fontScale, color, thickness);
                         //Globalo.visionManager.milLibrary.SetGrabOn(topCamIndex, true);
                         //Gasket - 유무 검사
                         //Dent - 찌그러짐
@@ -1054,6 +1066,17 @@ namespace ZenTester.Process
                         // 3채널로 변환
                         Cv2.CvtColor(SideMatImage, SideMatImage, ColorConversionCodes.GRAY2BGR);
 
+
+                        string txtstr = $"Lot:{aoiApdData.Barcode}";
+
+                        OpenCvSharp.Point position = new OpenCvSharp.Point(10,100); // 텍스트 위치
+                        Scalar color = new Scalar(0, 255, 0); // 빨간색 (B, G, R)
+                        HersheyFonts fontFace = HersheyFonts.HersheySimplex;
+                        double fontScale = 3.5;
+                        int thickness = 10;
+
+                        // 이미지에 텍스트 추가
+                        Cv2.PutText(SideMatImage, txtstr, position, fontFace, fontScale, color, thickness);
                         //Left Height
                         //Center Height
                         //Right Height

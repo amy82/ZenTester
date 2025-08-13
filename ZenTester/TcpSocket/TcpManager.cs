@@ -346,18 +346,18 @@ namespace ZenTester.TcpSocket
                    
                 }, null);
             }
-            if (data.Command == "APS_DRIVER_CMD")
+            if (data.Command == "APS_DRIVER_CMD")//"APS_DRIVER_CMD")
             {
                 //UbiGem Drive 연결 상태 받기
                 if (data.Judge == 1)
                 {
                     //연결 완료
-                    Globalo.MainForm.DriverConnected(true);
+                    //Globalo.MainForm.SecsGemDriverConnected(true);
                 }
                 else
                 {
                     //연결 끊어짐
-                    Globalo.MainForm.DriverConnected(false);
+                    //Globalo.MainForm.SecsGemDriverConnected(false);
                 }
             }
             if (data.Command == "CT_TIMEOUT")
